@@ -3,7 +3,6 @@
 import { CalculatorType, seoContent } from "@/data/calculators";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import PageHeader from "@/components/common/PageHeader";
-import AdSlot from "@/components/common/AdSlot";
 import FAQSection from "@/components/common/FAQSection";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
@@ -51,11 +50,7 @@ export default function CalculatorWrapper({ calculator }: CalculatorWrapperProps
           iconBg={calculator.bg}
         />
 
-        <AdSlot format="horizontal" className="mb-8" />
-
         {renderCalculator()}
-
-        <AdSlot format="rectangle" className="my-8" />
 
         {/* SEO Content */}
         <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
