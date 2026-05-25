@@ -66,8 +66,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">© 2025 Numrexo. All rights reserved.</p>
-          {/* <p className="text-xs text-gray-500">Built with Next.js · Tailwind CSS</p> */}
+          <p className="text-xs text-gray-500">© 2026 Numrexo. All rights reserved.</p>
         </div>
       </div>
     </footer>

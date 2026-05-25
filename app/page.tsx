@@ -3,20 +3,23 @@
 import { useRouter } from "next/navigation";
 import { Calculator, Zap, Smartphone, Lock, TrendingUp } from "lucide-react";
 import CalculatorCard from "@/components/common/CalculatorCard";
-import { CALCULATORS } from "@/data/calculators";
+import { CALCULATORS_REGISTRY, getPopularCalculators } from "@/data/calculatorsRegistry";
 
 export default function HomePage() {
   const router = useRouter();
 
+  // Get top 6 popular calculators for the homepage
+  const popularCalculators = getPopularCalculators(6);
+
   const benefits = [
     { icon: Zap, title: "Lightning Fast", desc: "Instant results without page reloads. No waiting, no lag." },
-    { icon: Smartphone, title: "Mobile First", desc: "Optimized for all screen sizes — phone, tablet, or desktop." },
+    // { icon: Smartphone, title: "Mobile First", desc: "Optimized for all screen sizes — phone, tablet, or desktop." },
     { icon: Lock, title: "Privacy Safe", desc: "All calculations happen in your browser. We never store your data." },
-    { icon: TrendingUp, title: "SEO Optimized", desc: "Content-rich pages with structured data for better discoverability." },
+    // { icon: TrendingUp, title: "SEO Optimized", desc: "Content-rich pages with structured data for better discoverability." },
   ];
 
   const stats = [
-    { value: "10+", label: "Calculators" },
+    { value: `${CALCULATORS_REGISTRY.length}+`, label: "Calculators" },
     { value: "100%", label: "Free Forever" },
     { value: "0", label: "Sign-up Required" },
   ];
@@ -55,7 +58,7 @@ export default function HomePage() {
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-2xl md:text-3xl font-bold font-mono">
-                  {stat.value}<span className="text-blue-500">{stat.value.includes("+") ? "+" : stat.value.includes("%") ? "%" : ""}</span>
+                  {stat.value}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
               </div>
@@ -74,7 +77,7 @@ export default function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CALCULATORS.map((calc) => (
+            {popularCalculators.map((calc) => (
               <CalculatorCard key={calc.id} calculator={calc} onClick={() => router.push(calc.path)} />
             ))}
           </div>
