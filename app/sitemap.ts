@@ -46,8 +46,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ]
 
     // Category pages (automatically from CATEGORIES object)
-    const categoryPages = Object.entries(CATEGORIES).map(([key, category]) => ({
-        url: `${baseUrl}/calculators/${key}`,
+    // Using Object.keys(CATEGORIES) to get all category names
+    const categoryPages = Object.keys(CATEGORIES).map((categoryKey) => ({
+        url: `${baseUrl}/calculators/${categoryKey}`,
         lastModified: currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
@@ -58,7 +59,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${baseUrl}${calculator.path}`,
         lastModified: currentDate,
         changeFrequency: 'weekly' as const,
-        priority: calculator.isNew ? 0.9 : 0.7, // Give higher priority to new calculators
+        priority: calculator.isNew ? 0.9 : calculator.popularity ? 0.85 : 0.7,
+        // isNew: gives 0.9 priority (highest)
+        // popular: gives 0.85 priority
+        // regular: gives 0.7 priority
     }))
 
     // Combine all pages
