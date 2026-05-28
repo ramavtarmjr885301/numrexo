@@ -59,7 +59,12 @@ export default function Footer() {
             <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Legal</h5>
             <div className="space-y-2">
               <a href="#" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Privacy Policy</a>
-              <a href="#" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Terms of Use</a>
+              <button
+                onClick={() => router.push("/terms")}
+                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              >
+                Terms of Use
+              </button>
               <a href="#" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Disclaimer</a>
             </div>
           </div>
