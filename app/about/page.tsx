@@ -701,13 +701,13 @@ export default function AboutPage() {
 
                                 <div>
                                     <p className="text-white font-semibold text-base mb-0.5">
-                                        Sanjay Singh
+                                        Mr. Singh
                                     </p>
                                     <p className="text-gray-500 text-sm mb-3">
                                         Founder & Entrepreneur
                                     </p>
                                     <p className="text-gray-300 text-sm leading-relaxed">
-                                        Sanjay Singh is an energetic entrepreneur focused on
+                                        Mr Singh is an energetic entrepreneur focused on
                                         building practical digital tools that simplify everyday
                                         tasks. With Numrexo, his mission is to make accurate
                                         calculations accessible to everyone — students, working
