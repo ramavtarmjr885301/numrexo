@@ -14,7 +14,7 @@ export default function CalculatorsPage() {
   const filteredCalculators = useMemo(() => {
     return CALCULATORS_REGISTRY.filter((calc) => {
       const matchesSearch = calc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           calc.desc.toLowerCase().includes(searchTerm.toLowerCase());
+        calc.desc.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === "all" || calc.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -47,11 +47,10 @@ export default function CalculatorsPage() {
         <div className="mb-8 flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              selectedCategory === "all"
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === "all"
                 ? "bg-blue-500 text-white"
                 : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
-            }`}
+              }`}
           >
             All
           </button>
@@ -59,11 +58,10 @@ export default function CalculatorsPage() {
             <button
               key={key}
               onClick={() => setSelectedCategory(key)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                selectedCategory === key
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === key
                   ? "bg-blue-500 text-white"
                   : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
-              }`}
+                }`}
             >
               {cat.icon} {cat.name}
             </button>
@@ -95,74 +93,3 @@ export default function CalculatorsPage() {
     </section>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client";
-
-// import { useRouter } from "next/navigation";
-// import CalculatorCard from "@/components/common/CalculatorCard";
-// import { CALCULATORS } from "@/data/calculators";
-
-// export default function CalculatorsPage() {
-//   const router = useRouter();
-
-//   return (
-//     <section className="px-6 py-12 md:py-16">
-//       <div className="max-w-6xl mx-auto">
-//         <div className="text-center mb-10">
-//           <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">All Tools</span>
-//           <h1 className="text-3xl md:text-4xl font-bold mt-2 mb-3">Browse All Calculators</h1>
-//           <p className="text-gray-400">Free, accurate calculators for health, finance, tax, and everyday math.</p>
-//         </div>
-        
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {CALCULATORS.map((calc) => (
-//             <CalculatorCard key={calc.id} calculator={calc} onClick={() => router.push(calc.path)} />
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
