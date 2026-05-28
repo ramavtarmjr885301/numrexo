@@ -70,7 +70,12 @@ export default function Footer() {
               >
                 Terms of Use
               </button>
-              <a href="#" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Disclaimer</a>
+              <button
+                onClick={() => router.push("/disclaimer")}
+                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              >
+                Disclaimer
+              </button>
             </div>
           </div>
         </div>
