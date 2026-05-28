@@ -1,70 +1,88 @@
 import { MetadataRoute } from 'next'
 import { CALCULATORS_REGISTRY, CATEGORIES } from '@/data/calculatorsRegistry'
 
+const baseUrl = 'https://www.numrexo.com'
+
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.numrexo.com'
     const currentDate = new Date()
 
-    // Static pages (manually maintained - add new static pages here)
-    const staticPages = [
+    // ─────────────────────────────────────────────────────────
+    // Static pages
+    // ─────────────────────────────────────────────────────────
+    const staticPages: MetadataRoute.Sitemap = [
         {
             url: baseUrl,
             lastModified: currentDate,
-            changeFrequency: 'daily' as const,
+            changeFrequency: 'daily',
             priority: 1.0,
-        },
-        {
-            url: `${baseUrl}/about`,
-            lastModified: currentDate,
-            changeFrequency: 'monthly' as const,
-            priority: 0.8,
         },
         {
             url: `${baseUrl}/calculators`,
             lastModified: currentDate,
-            changeFrequency: 'daily' as const,
+            changeFrequency: 'daily',
             priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/about`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.6,
         },
         {
             url: `${baseUrl}/privacy`,
             lastModified: currentDate,
-            changeFrequency: 'yearly' as const,
+            changeFrequency: 'yearly',
             priority: 0.3,
         },
         {
             url: `${baseUrl}/terms`,
             lastModified: currentDate,
-            changeFrequency: 'yearly' as const,
+            changeFrequency: 'yearly',
             priority: 0.3,
         },
         {
             url: `${baseUrl}/disclaimer`,
             lastModified: currentDate,
-            changeFrequency: 'yearly' as const,
+            changeFrequency: 'yearly',
             priority: 0.3,
         },
     ]
 
-    // Category pages (automatically from CATEGORIES object)
-    // Using Object.keys(CATEGORIES) to get all category names
-    const categoryPages = Object.keys(CATEGORIES).map((categoryKey) => ({
-        url: `${baseUrl}/calculators/${categoryKey}`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-    }))
+    // ─────────────────────────────────────────────────────────
+    // Category pages — auto from CATEGORIES
+    // ─────────────────────────────────────────────────────────
+    const categoryPages: MetadataRoute.Sitemap = Object.keys(CATEGORIES).map(
+        (categoryKey) => ({
+            url: `${baseUrl}/calculators/${categoryKey}`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.75,
+        })
+    )
 
-    // Individual calculator pages (automatically from CALCULATORS_REGISTRY)
-    const calculatorPages = CALCULATORS_REGISTRY.map((calculator) => ({
-        url: `${baseUrl}${calculator.path}`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: calculator.isNew ? 0.9 : calculator.popularity ? 0.85 : 0.7,
-        // isNew: gives 0.9 priority (highest)
-        // popular: gives 0.85 priority
-        // regular: gives 0.7 priority
-    }))
+    // ─────────────────────────────────────────────────────────
+    // Individual calculator pages — auto from CALCULATORS_REGISTRY
+    // Priority logic:
+    //   isNew + popular = 0.95  (boost for fresh popular pages)
+    //   isNew only      = 0.90  (new pages get crawled fast)
+    //   popular only    = 0.85  (proven traffic pages)
+    //   default         = 0.70
+    // ─────────────────────────────────────────────────────────
+    const calculatorPages: MetadataRoute.Sitemap = CALCULATORS_REGISTRY.map(
+        (calculator) => {
+            let priority = 0.7
+            if (calculator.isNew && calculator.popularity) priority = 0.95
+            else if (calculator.isNew) priority = 0.9
+            else if (calculator.popularity) priority = 0.85
 
-    // Combine all pages
+            return {
+                url: `${baseUrl}${calculator.path}`,
+                lastModified: currentDate,
+                changeFrequency: 'weekly' as const,
+                priority,
+            }
+        }
+    )
+
     return [...staticPages, ...categoryPages, ...calculatorPages]
 }
