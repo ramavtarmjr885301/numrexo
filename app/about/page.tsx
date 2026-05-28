@@ -470,7 +470,7 @@ const organizationSchema = {
         {
             "@type": "Person",
             "@id": "https://www.numrexo.com/about#sanjay-singh",
-            name: "Sanjay Singh",
+            name: "Mr. Singh",
             jobTitle: "Founder",
             description:
                 "Sanjay Singh is an entrepreneur focused on building practical digital tools that simplify everyday tasks and make information accessible through technology.",
