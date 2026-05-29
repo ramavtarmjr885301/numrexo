@@ -28,16 +28,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${sora.variable} ${jetbrainsMono.variable} font-sans bg-[#0a0e1a] text-[#e2e8f0] antialiased`}>
-        {/* Google Analytics */}
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body
+        className={`${sora.variable} ${jetbrainsMono.variable} font-sans bg-[#0a0e1a] text-[#e2e8f0] antialiased`}
+        suppressHydrationWarning
+      >
+        {/* Google Analytics - Fixed preload warning */}
         <Script
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
         />
         <Script
           id="google-analytics"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -47,7 +50,6 @@ export default function RootLayout({
             `,
           }}
         />
-
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

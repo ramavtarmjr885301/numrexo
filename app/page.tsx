@@ -55,18 +55,19 @@ export default function HomePageClient() {
     },
   ];
 
+  // Updated calculator links with correct paths from your registry
   const calculatorLinks = [
-    { label: "BMI Calculator", href: "/calculators/bmi-calculator" },
-    { label: "EMI Calculator", href: "/calculators/emi-calculator" },
-    { label: "Percentage Calculator", href: "/calculators/percentage-calculator" },
-    { label: "Age Calculator", href: "/calculators/age-calculator" },
-    { label: "GST Calculator", href: "/calculators/gst-calculator" },
-    { label: "SIP Calculator", href: "/calculators/sip-calculator" },
+    { label: "BMI Calculator", href: "/health/bmi-calculator" },
+    { label: "EMI Calculator", href: "/finance/emi-calculator" },
+    { label: "Percentage Calculator", href: "/math/percentage-calculator" },
+    { label: "Age Calculator", href: "/math/age-calculator" },
+    { label: "GST Calculator", href: "/tax/gst-calculator" },
+    { label: "SIP Calculator", href: "/finance/sip-calculator" },
   ];
 
   return (
     <>
-      {/* ── HERO SECTION — Design unchanged, H1 + subtitle SEO-optimized ── */}
+      {/* ── HERO SECTION ── */}
       <section className="relative px-6 py-16 md:py-20 lg:py-24 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[radial-gradient(ellipse,rgba(59,130,246,0.12)_0%,transparent_70%)]" />
@@ -79,10 +80,6 @@ export default function HomePageClient() {
             </span>
           </div>
 
-          {/* 
-            SEO FIX: H1 now contains primary keyword "Free Online Calculators"
-            Visual design is 100% identical to before — same classes, same gradient span
-          */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
             Free Online Calculators
             <br />
@@ -92,7 +89,6 @@ export default function HomePageClient() {
             </span>
           </h1>
 
-          {/* SEO FIX: Subtitle now includes target keywords */}
           <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
             Accurate, free online calculators for BMI, EMI, percentage, age,
             GST, and SIP — designed for instant results, zero sign-up.
@@ -120,7 +116,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* ── CALCULATORS GRID — Unchanged, aria-labels added for SEO ── */}
+      {/* ── CALCULATORS GRID ── */}
       <section
         className="px-6 py-12 md:py-16"
         aria-labelledby="calculators-heading"
@@ -153,50 +149,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/*
-<section
-  className="px-6 py-12 md:py-16 bg-[#0f1525]"
-  aria-labelledby="benefits-heading"
->
-  <div className="max-w-6xl mx-auto">
-    <div className="text-center mb-10">
-      <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">
-        Why Numrexo
-      </span>
-
-      <h2
-        id="benefits-heading"
-        className="text-3xl md:text-4xl font-bold mt-2"
-      >
-        Built for Everyone
-      </h2>
-    </div>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {benefits.map((benefit, i) => (
-        <div
-          key={i}
-          className="bg-[#111827] border border-gray-800 rounded-xl p-6 hover:border-blue-500/50 transition-all"
-        >
-          <benefit.icon
-            className="w-10 h-10 text-blue-400 mb-4"
-            aria-hidden="true"
-          />
-
-          <h3 className="text-lg font-bold mb-2">
-            {benefit.title}
-          </h3>
-
-          <p className="text-sm text-gray-400 leading-relaxed">
-            {benefit.desc}
-          </p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-*/}
-      {/* ── SEO CONTENT SECTION — NEW (below fold, design matches site theme) ── */}
+      {/* ── SEO CONTENT SECTION ── */}
       <section
         className="px-6 py-14 md:py-20"
         aria-labelledby="about-calculators-heading"
@@ -214,37 +167,56 @@ export default function HomePageClient() {
               <strong className="text-white">Numrexo</strong> is a free online
               calculator platform built for speed, accuracy, and simplicity.
               Whether you need to calculate your{" "}
-              <strong className="text-white">Body Mass Index (BMI)</strong>,
-              figure out your monthly{" "}
-              <strong className="text-white">
+              <a href="/health/bmi-calculator" className="text-white hover:text-blue-400 transition-colors">
+                Body Mass Index (BMI)
+              </a>
+              , figure out your monthly{" "}
+              <a href="/finance/emi-calculator" className="text-white hover:text-blue-400 transition-colors">
                 loan EMI (Equated Monthly Installment)
-              </strong>
+              </a>
               , work out a{" "}
-              <strong className="text-white">percentage change</strong>, or
-              estimate your{" "}
-              <strong className="text-white">GST or SIP returns</strong> —
-              Numrexo has a dedicated, purpose-built calculator for every need.
+              <a href="/math/percentage-calculator" className="text-white hover:text-blue-400 transition-colors">
+                percentage change
+              </a>
+              , or estimate your{" "}
+              <a href="/tax/gst-calculator" className="text-white hover:text-blue-400 transition-colors">
+                GST
+              </a>{" "}
+              or{" "}
+              <a href="/finance/sip-calculator" className="text-white hover:text-blue-400 transition-colors">
+                SIP returns
+              </a>{" "}
+              — Numrexo has a dedicated, purpose-built calculator for every need.
             </p>
 
             <p>
-              Our <strong className="text-white">BMI Calculator</strong> uses
-              the World Health Organization (WHO) standard formula, giving you
+              Our{" "}
+              <a href="/health/bmi-calculator" className="text-white hover:text-blue-400 transition-colors">
+                BMI Calculator
+              </a>{" "}
+              uses the World Health Organization (WHO) standard formula, giving you
               instant insight into whether your weight falls in the healthy
               range. The{" "}
-              <strong className="text-white">EMI Calculator</strong> applies the
-              standard amortization formula used by banks globally, helping you
+              <a href="/finance/emi-calculator" className="text-white hover:text-blue-400 transition-colors">
+                EMI Calculator
+              </a>{" "}
+              applies the standard amortization formula used by banks globally, helping you
               plan home loans, car loans, or personal loans with complete
               transparency.
             </p>
 
             <p>
               The{" "}
-              <strong className="text-white">Percentage Calculator</strong>{" "}
+              <a href="/math/percentage-calculator" className="text-white hover:text-blue-400 transition-colors">
+                Percentage Calculator
+              </a>{" "}
               handles percentage increase, decrease, and difference in
               seconds — perfect for students, teachers, shoppers, and business
               professionals. The{" "}
-              <strong className="text-white">Age Calculator</strong> gives your
-              exact age in years, months, and days — useful for official
+              <a href="/math/age-calculator" className="text-white hover:text-blue-400 transition-colors">
+                Age Calculator
+              </a>{" "}
+              gives your exact age in years, months, and days — useful for official
               documents, medical records, or just satisfying curiosity.
             </p>
 
@@ -265,7 +237,7 @@ export default function HomePageClient() {
             </p>
           </div>
 
-          {/* Internal links grid — SEO crawlability + UX */}
+          {/* Internal links grid - NOW WITH WORKING LINKS */}
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {calculatorLinks.map((link) => (
               <a
@@ -282,7 +254,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* ── FAQ SECTION — NEW (matches FAQPage JSON-LD schema in page.tsx) ── */}
+      {/* ── FAQ SECTION ── */}
       <section
         className="px-6 py-14 md:py-20 bg-[#0f1525]"
         aria-labelledby="faq-heading"
