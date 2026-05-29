@@ -103,13 +103,14 @@ export default function HomePageClient() {
             Browse Calculators →
           </button>
 
+          {/* Stats Section - Updated with Light/Bright Colors */}
           <div className="flex justify-center gap-8 md:gap-12 mt-12 pt-8 border-t border-gray-800">
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold font-mono">
+                <div className="text-3xl md:text-4xl font-bold font-mono bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   {stat.value}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+                <div className="text-sm text-gray-300 mt-2 font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
