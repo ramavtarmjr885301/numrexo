@@ -1,353 +1,3 @@
-// // data/calculatorsRegistry.ts
-
-// export interface CalculatorType {
-//   id: string;
-//   slug: string;
-//   name: string;
-//   icon: string;
-//   color: string;
-//   bg: string;
-//   desc: string;
-//   description: string;
-//   tags: string[];
-//   category: 'health' | 'finance' | 'tax' | 'math' | 'conversion' | 'education' | 'construction' | 'fitness';
-//   subcategory?: string;
-//   shortName?: string;
-//   shortDescription?: string;
-//   isPremium?: boolean;
-//   isNew?: boolean;
-//   popularity?: number;
-//   seoTitle?: string;
-//   seoKeywords?: string[];
-//   path: string;
-// }
-
-// export const CATEGORIES = {
-//   health: { name: 'Health & Wellness', icon: '❤️', order: 1, basePath: '/health' },
-//   fitness: { name: 'Fitness', icon: '💪', order: 2, basePath: '/fitness' },
-//   finance: { name: 'Finance & Investment', icon: '💰', order: 3, basePath: '/finance' },
-//   tax: { name: 'Tax', icon: '📋', order: 4, basePath: '/tax' },
-//   math: { name: 'Mathematics', icon: '📐', order: 5, basePath: '/math' },
-//   conversion: { name: 'Converters', icon: '🔄', order: 6, basePath: '/conversion' },
-//   education: { name: 'Education', icon: '📚', order: 7, basePath: '/education' },
-//   construction: { name: 'Construction', icon: '🏗️', order: 8, basePath: '/construction' },
-// };
-
-// // Helper function to generate path
-// const generatePath = (category: string, slug: string) => `/${category}/${slug}`;
-
-// export const CALCULATORS_REGISTRY: CalculatorType[] = [
-//   // Existing calculators
-//   {
-//     id: "bmi",
-//     slug: "bmi-calculator",
-//     name: "BMI Calculator",
-//     icon: "⚖️",
-//     color: "#3b82f6",
-//     bg: "rgba(59,130,246,0.1)",
-//     desc: "Calculate your Body Mass Index and understand your healthy weight range",
-//     description: "Calculate your Body Mass Index and understand your healthy weight range",
-//     tags: ["Health", "Free", "Popular"],
-//     category: "health",
-//     path: generatePath("health", "bmi-calculator"),
-//     popularity: 98,
-//   },
-//   {
-//     id: "emi",
-//     slug: "emi-calculator",
-//     name: "EMI Calculator",
-//     icon: "🏦",
-//     color: "#a78bfa",
-//     bg: "rgba(167,139,250,0.1)",
-//     desc: "Calculate monthly EMI for home, car, or personal loans instantly",
-//     description: "Calculate monthly EMI for home, car, or personal loans instantly",
-//     tags: ["Finance", "Free", "Popular"],
-//     category: "finance",
-//     path: generatePath("finance", "emi-calculator"),
-//     popularity: 95,
-//   },
-//   {
-//     id: "gst",
-//     slug: "gst-calculator",
-//     name: "GST Calculator",
-//     icon: "🧾",
-//     color: "#22c55e",
-//     bg: "rgba(34,197,94,0.1)",
-//     desc: "Add or remove GST from any amount. Supports all Indian GST slabs",
-//     description: "Add or remove GST from any amount. Supports all Indian GST slabs",
-//     tags: ["Tax", "India", "Free", "Popular"],
-//     category: "tax",
-//     path: generatePath("tax", "gst-calculator"),
-//     popularity: 90,
-//   },
-
-//   // New Fitness Calculators
-//   {
-//     id: "bmr",
-//     slug: "bmr-calculator",
-//     name: "BMR Calculator",
-//     icon: "🔥",
-//     color: "#ef4444",
-//     bg: "rgba(239,68,68,0.1)",
-//     desc: "Calculate your Basal Metabolic Rate to understand daily calorie needs",
-//     description: "Calculate your Basal Metabolic Rate to understand daily calorie needs",
-//     tags: ["Fitness", "Health", "New"],
-//     category: "fitness",
-//     path: generatePath("fitness", "bmr-calculator"),
-//     popularity: 85,
-//     isNew: true,
-//   },
-//   {
-//     id: "body-fat",
-//     slug: "body-fat-calculator",
-//     name: "Body Fat Calculator",
-//     icon: "📏",
-//     color: "#10b981",
-//     bg: "rgba(16,185,129,0.1)",
-//     desc: "Estimate your body fat percentage using various methods",
-//     description: "Estimate your body fat percentage using various methods",
-//     tags: ["Fitness", "Health", "New"],
-//     category: "fitness",
-//     path: generatePath("fitness", "body-fat-calculator"),
-//     popularity: 75,
-//     isNew: true,
-//   },
-//   {
-//     id: "calorie-burn",
-//     slug: "calorie-burn-calculator",
-//     name: "Calorie Burn Calculator",
-//     icon: "🏃",
-//     color: "#f59e0b",
-//     bg: "rgba(245,158,11,0.1)",
-//     desc: "Calculate calories burned during various activities",
-//     description: "Calculate calories burned during various activities",
-//     tags: ["Fitness", "Health", "New"],
-//     category: "fitness",
-//     path: generatePath("fitness", "calorie-burn-calculator"),
-//     popularity: 80,
-//     isNew: true,
-//   },
-
-//   // New Finance Calculators
-//   {
-//     id: "sip",
-//     slug: "sip-calculator",
-//     name: "SIP Calculator",
-//     icon: "📈",
-//     color: "#8b5cf6",
-//     bg: "rgba(139,92,246,0.1)",
-//     desc: "Calculate returns on your systematic investment plans",
-//     description: "Calculate returns on your systematic investment plans",
-//     tags: ["Finance", "Investment", "New"],
-//     category: "finance",
-//     path: generatePath("finance", "sip-calculator"),
-//     popularity: 90,
-//     isNew: true,
-//   },
-//   {
-//     id: "fd",
-//     slug: "fd-calculator",
-//     name: "Fixed Deposit Calculator",
-//     icon: "🏦",
-//     color: "#3b82f6",
-//     bg: "rgba(59,130,246,0.1)",
-//     desc: "Calculate maturity amount and interest on fixed deposits",
-//     description: "Calculate maturity amount and interest on fixed deposits",
-//     tags: ["Finance", "Banking", "New"],
-//     category: "finance",
-//     path: generatePath("finance", "fd-calculator"),
-//     popularity: 85,
-//     isNew: true,
-//   },
-//   {
-//     id: "ppf",
-//     slug: "ppf-calculator",
-//     name: "PPF Calculator",
-//     icon: "💰",
-//     color: "#06b6d4",
-//     bg: "rgba(6,182,212,0.1)",
-//     desc: "Calculate returns on Public Provident Fund investments",
-//     description: "Calculate returns on Public Provident Fund investments",
-//     tags: ["Finance", "Tax Saving", "New"],
-//     category: "finance",
-//     path: generatePath("finance", "ppf-calculator"),
-//     popularity: 75,
-//     isNew: true,
-//   },
-
-//   // New Math Calculators
-//   {
-//     id: "percentage",
-//     slug: "percentage-calculator",
-//     name: "Percentage Calculator",
-//     icon: "%",
-//     color: "#ec4899",
-//     bg: "rgba(236,72,153,0.1)",
-//     desc: "Calculate percentages, discounts, and percentage changes",
-//     description: "Calculate percentages, discounts, and percentage changes",
-//     tags: ["Math", "Everyday", "New"],
-//     category: "math",
-//     path: generatePath("math", "percentage-calculator"),
-//     popularity: 95,
-//     isNew: true,
-//   },
-//   {
-//     id: "age",
-//     slug: "age-calculator",
-//     name: "Age Calculator",
-//     icon: "🎂",
-//     color: "#f43f5e",
-//     bg: "rgba(244,63,94,0.1)",
-//     desc: "Calculate exact age in years, months, and days",
-//     description: "Calculate exact age in years, months, and days",
-//     tags: ["Math", "Everyday", "Popular", "New"],
-//     category: "math",
-//     path: generatePath("math", "age-calculator"),
-//     popularity: 92,
-//     isNew: true,
-//   },
-
-//   // New Converters
-//   {
-//     id: "unit-converter",
-//     slug: "unit-converter",
-//     name: "Unit Converter",
-//     icon: "📐",
-//     color: "#14b8a6",
-//     bg: "rgba(20,184,166,0.1)",
-//     desc: "Convert between different units of length, weight, volume, and more",
-//     description: "Convert between different units of length, weight, volume, and more",
-//     tags: ["Converter", "Everyday", "New"],
-//     category: "conversion",
-//     path: generatePath("conversion", "unit-converter"),
-//     popularity: 88,
-//     isNew: true,
-//   },
-//   {
-//     id: "currency-converter",
-//     slug: "currency-converter",
-//     name: "Currency Converter",
-//     icon: "💱",
-//     color: "#8b5cf6",
-//     bg: "rgba(139,92,246,0.1)",
-//     desc: "Convert between world currencies with live exchange rates",
-//     description: "Convert between world currencies with live exchange rates",
-//     tags: ["Converter", "Finance", "New"],
-//     category: "conversion",
-//     path: generatePath("conversion", "currency-converter"),
-//     popularity: 82,
-//     isNew: true,
-//   },
-// ];
-
-// // Helper function to get calculators by category
-// export const getCalculatorsByCategory = (category: string) => {
-//   return CALCULATORS_REGISTRY.filter(calc => calc.category === category);
-// };
-
-// // Helper function to get popular calculators
-// export const getPopularCalculators = (limit: number = 6) => {
-//   return [...CALCULATORS_REGISTRY]
-//     .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
-//     .slice(0, limit);
-// };
-
-// // Helper function to get new calculators
-// export const getNewCalculators = (limit: number = 4) => {
-//   return CALCULATORS_REGISTRY.filter(calc => calc.isNew).slice(0, limit);
-// };
-
-// // Helper function to search calculators
-// export const searchCalculators = (searchTerm: string) => {
-//   const term = searchTerm.toLowerCase();
-//   return CALCULATORS_REGISTRY.filter(calc => 
-//     calc.name.toLowerCase().includes(term) ||
-//     calc.desc.toLowerCase().includes(term) ||
-//     calc.tags.some(tag => tag.toLowerCase().includes(term))
-//   );
-// };
-
-
-// // SEO Content for all calculators
-// export const seoContent: Record<string, any> = {
-//   bmi: {
-//     intro: "The Body Mass Index (BMI) is one of the most widely used tools for assessing whether an individual has a healthy body weight relative to their height. While it isn't a perfect measure, it provides a quick and easy screening tool.",
-//     formula: "BMI (kg/m²) = Weight (kg) ÷ Height² (m)",
-//     formulaUS: "BMI = 703 × Weight (lbs) ÷ Height² (inches)",
-//     table: [
-//       ["Severe Thinness", "< 16"],
-//       ["Moderate Thinness", "16 – 17"],
-//       ["Mild Thinness", "17 – 18.5"],
-//       ["Normal", "18.5 – 25"],
-//       ["Overweight", "25 – 30"],
-//       ["Obese Class I", "30 – 35"],
-//       ["Obese Class II", "35 – 40"],
-//       ["Obese Class III", "> 40"],
-//     ],
-//     faqs: [
-//       { q: "What is a healthy BMI range for adults?", a: "For adults (20 years and older), a BMI between 18.5 and 24.9 is considered normal and healthy." },
-//       { q: "Is BMI accurate for athletes?", a: "BMI can overestimate fatness in people with high muscle mass." },
-//       { q: "Is BMI the same for men and women?", a: "The BMI formula is the same, but body fat distribution differs." },
-//       { q: "What should I do if my BMI is high?", a: "Consult a healthcare professional. A balanced diet and regular exercise can help." },
-//     ],
-//   },
-//   emi: {
-//     intro: "EMI (Equated Monthly Instalment) is the fixed monthly payment made to a bank or lender for a loan.",
-//     formula: "EMI = P × r × (1+r)ⁿ / ((1+r)ⁿ – 1)",
-//     table: [
-//       ["P", "Principal Loan Amount"],
-//       ["r", "Monthly Interest Rate"],
-//       ["n", "Number of Monthly Installments"],
-//     ],
-//     faqs: [
-//       { q: "What factors affect my EMI?", a: "Loan amount, interest rate, and tenure affect your EMI." },
-//       { q: "Can I reduce my EMI?", a: "Yes, by making partial prepayments or refinancing." },
-//     ],
-//   },
-//   gst: {
-//     intro: "GST (Goods and Services Tax) is a unified indirect tax levied on the supply of goods and services across India.",
-//     formula: "GST Amount = Original Price × (GST Rate / 100)",
-//     table: [
-//       ["0%", "Essential items"],
-//       ["5%", "Household necessities"],
-//       ["12%", "Processed foods"],
-//       ["18%", "Most services"],
-//       ["28%", "Luxury goods"],
-//     ],
-//     faqs: [
-//       { q: "What is CGST and SGST?", a: "In intra-state transactions, GST is split equally into CGST and SGST." },
-//       { q: "How to calculate GST?", a: "Multiply the original price by GST rate divided by 100." },
-//     ],
-//   },
-//   // Add SEO for new calculators (you can expand these later)
-//   bmr: {
-//     intro: "Basal Metabolic Rate (BMR) is the number of calories your body burns while at rest.",
-//     formula: "For Men: BMR = 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)",
-//     formulaUS: "For Women: BMR = 447.593 + (9.247 × weight in kg) + (3.098 × height in cm) - (4.330 × age in years)",
-//     table: [],
-//     faqs: [],
-//   },
-//   sip: {
-//     intro: "SIP (Systematic Investment Plan) allows you to invest a fixed amount regularly in mutual funds.",
-//     formula: "FV = P × ((1 + r)ⁿ - 1) / r × (1 + r)",
-//     table: [],
-//     faqs: [],
-//   },
-//   percentage: {
-//     intro: "Percentage calculator helps you find what percent one number is of another, or calculate percentage increase/decrease.",
-//     formula: "Percentage = (Value / Total) × 100",
-//     table: [],
-//     faqs: [],
-//   },
-//   age: {
-//     intro: "Age calculator tells you exactly how old you are in years, months, and days.",
-//     formula: "Age = Current Date - Birth Date",
-//     table: [],
-//     faqs: [],
-//   },
-// };
-
-
 // data/calculatorsRegistry.ts - EXPANDED VERSION
 
 export interface CalculatorType {
@@ -732,5 +382,339 @@ export const seoContent: Record<string, any> = {
     formula: "Please refer to the specific formula for this calculation.",
     table: [],
     faqs: [],
+  },
+
+
+  // Add these missing SEO content entries to your existing seoContent object
+
+  // Health & Wellness
+  "water-intake": {
+    intro: "Proper hydration is essential for energy, brain function, and overall health. This calculator provides personalized water intake recommendations based on your weight and activity level.",
+    formula: "Daily Water (liters) = (Weight in kg × 0.033) + Activity Adjustment",
+    table: [
+      ["Sedentary", "Base water only", "~2.3L for 70kg"],
+      ["Moderately Active", "Base + 0.5L", "~2.8L for 70kg"],
+      ["Very Active", "Base + 1.0L", "~3.3L for 70kg"],
+    ],
+    faqs: [
+      { q: "How much water should I drink daily?", a: "General recommendation is 2.7-3.7 liters, but individual needs vary by weight and activity." },
+      { q: "Does coffee count as water?", a: "Yes, moderate caffeine contributes to hydration, but water should be your primary source." },
+      { q: "What are signs of dehydration?", a: "Dry mouth, dark urine, headache, fatigue, and dizziness are common signs." },
+    ],
+  },
+
+  "sleep": {
+    intro: "Waking up refreshed isn't just about total sleep time - it's about timing. This calculator uses the 90-minute sleep cycle method to find your optimal bedtime.",
+    formula: "Bedtime = Wake Time - (90 minutes × Number of Cycles)",
+    table: [
+      ["4.5 hours", "3 cycles", "Short nap-like sleep"],
+      ["6 hours", "4 cycles", "Minimum for function"],
+      ["7.5 hours", "5 cycles", "⭐ Recommended"],
+      ["9 hours", "6 cycles", "Optimal for most"],
+    ],
+    faqs: [
+      { q: "How much sleep do I need?", a: "Most adults need 7-9 hours. Teens need 8-10 hours, school children 9-11 hours." },
+      { q: "What is a sleep cycle?", a: "A 90-minute cycle including light sleep, deep sleep, and REM sleep." },
+      { q: "Is 6 hours of sleep enough?", a: "Only 1% of people have a gene allowing 6 hours without impairment. Most need 7-9 hours." },
+    ],
+  },
+
+  "ideal-weight": {
+    intro: "Find your ideal body weight using multiple medical formulas. The Robinson formula is recommended for general use, while Devine remains the medical standard.",
+    formula: "Men: 52 kg + 1.9 kg per inch over 5 feet | Women: 49 kg + 1.7 kg per inch over 5 feet",
+    table: [
+      ["Devine (Medical)", "50kg + 2.3kg/inch", "45.5kg + 2.3kg/inch"],
+      ["Robinson (Recommended)", "52kg + 1.9kg/inch", "49kg + 1.7kg/inch"],
+      ["Miller (Nutrition)", "56.2kg + 1.41kg/inch", "53.1kg + 1.36kg/inch"],
+    ],
+    faqs: [
+      { q: "What is ideal body weight?", a: "An estimate of optimal weight based on height and gender, originally for medical dosing." },
+      { q: "Does body frame affect ideal weight?", a: "Yes, larger frames weigh about 10% more than smaller frames." },
+      { q: "Which formula is most accurate?", a: "The Robinson formula is recommended for general population use." },
+    ],
+  },
+
+  "ovulation": {
+    intro: "Track your fertile days and predict ovulation based on your cycle length. Most women ovulate about 14 days before their next period.",
+    formula: "Ovulation Day = Cycle Length - 14 | Fertile Window = Ovulation Day - 5 to Ovulation Day + 1",
+    table: [
+      ["28 days", "Day 14", "Days 9-15"],
+      ["30 days", "Day 16", "Days 11-17"],
+      ["32 days", "Day 18", "Days 13-19"],
+      ["35 days", "Day 21", "Days 16-22"],
+    ],
+    faqs: [
+      { q: "How do I know when I'm ovulating?", a: "Look for changes in cervical mucus, slight temperature rise, or mild cramping." },
+      { q: "Can I get pregnant outside my fertile window?", a: "No - you need a live egg. Sperm can survive up to 5 days, so the window is about 6 days total." },
+      { q: "What if my cycles are irregular?", a: "Track physical signs like cervical mucus or use ovulation test strips for more accuracy." },
+    ],
+  },
+
+  "body-type": {
+    intro: "Determine your body shape based on measurements. Knowing your body type helps with fitness goals and clothing choices.",
+    formula: "Based on shoulder, bust, waist, and hip measurements ratio",
+    table: [
+      ["Pear", "Hips wider than shoulders", "Store weight in lower body"],
+      ["Apple", "Waist wider than hips", "Store weight around midsection"],
+      ["Hourglass", "Bust and hips balanced", "Waist significantly narrower"],
+      ["Rectangle", "All measurements similar", "Straight up and down"],
+    ],
+    faqs: [
+      { q: "Why does body type matter?", a: "It helps tailor fitness and nutrition plans for your specific body shape." },
+      { q: "Can body type change?", a: "Yes, weight loss/gain and muscle building can change your proportions over time." },
+    ],
+  },
+
+  "pregnancy-due": {
+    intro: "Calculate your expected due date based on your last menstrual period or conception date. This is an estimate - only 5% of babies arrive exactly on their due date.",
+    formula: "Due Date = LMP + 280 days (40 weeks)",
+    table: [
+      ["First day of LMP", "Due date (40 weeks)", "Early term (37 weeks)", "Full term (39 weeks)"],
+      ["Jan 1", "Oct 8", "Sep 24", "Oct 8"],
+      ["Feb 1", "Nov 8", "Oct 25", "Nov 8"],
+    ],
+    faqs: [
+      { q: "How accurate is the due date?", a: "Due dates are estimates. Only 5% of babies arrive exactly on their due date." },
+      { q: "What's the difference between LMP and conception date?", a: "LMP is easier to know. Conception happens about 2 weeks after LMP." },
+    ],
+  },
+
+  // Investment Calculators
+  lumpsum: {
+    intro: "Lumpsum investment means putting a large amount all at once. Perfect for bonuses, inheritances, or any lump sum you want to grow over time.",
+    formula: "A = P × (1 + r)^n",
+    table: [
+      ["Investment", "10 Years @10%", "15 Years @12%", "20 Years @12%"],
+      ["₹1,00,000", "₹2.59L", "₹5.47L", "₹9.65L"],
+      ["₹5,00,000", "₹12.97L", "₹27.37L", "₹48.25L"],
+      ["₹10,00,000", "₹25.94L", "₹54.74L", "₹96.50L"],
+    ],
+    faqs: [
+      { q: "What is a lumpsum investment?", a: "A one-time investment of a large amount, ideal for bonuses or inheritances." },
+      { q: "Lumpsum vs SIP?", a: "Lumpsum works well in bull markets. SIP is better for rupee cost averaging in volatile markets." },
+    ],
+  },
+
+  rd: {
+    intro: "Recurring Deposit (RD) is perfect for regular savers. You deposit a fixed amount monthly and earn guaranteed returns with quarterly compounding.",
+    formula: "Maturity = P × ((1 + r/4)^n - 1) / (r/4) × (1 + r/4)",
+    table: [
+      ["Monthly", "5 Years @7.2%", "7 Years @7.2%", "10 Years @7.2%"],
+      ["₹5,000", "₹3.62L", "₹5.4L", "₹8.9L"],
+      ["₹10,000", "₹7.24L", "₹10.8L", "₹17.8L"],
+      ["₹15,000", "₹10.86L", "₹16.2L", "₹26.7L"],
+    ],
+    faqs: [
+      { q: "What is the minimum RD amount?", a: "Most banks allow RD starting from ₹500-₹1000 per month." },
+      { q: "Can I withdraw RD before maturity?", a: "Yes, but with penalty (0.5-1% lower interest)." },
+    ],
+  },
+
+  cagr: {
+    intro: "CAGR (Compound Annual Growth Rate) measures investment performance over time, smoothing out volatility to show true annual returns.",
+    formula: "CAGR = (End Value ÷ Start Value)^(1/years) - 1 × 100",
+    table: [
+      ["Investment Type", "Expected CAGR", "Risk Level"],
+      ["Equity Mutual Funds", "12-15%", "High"],
+      ["Debt Funds", "7-8%", "Low"],
+      ["Fixed Deposits", "6-7%", "Very Low"],
+    ],
+    faqs: [
+      { q: "What is a good CAGR?", a: "Equity: 12-15%, Debt: 7-8%, FD: 6-7% are considered good." },
+      { q: "CAGR vs absolute return?", a: "CAGR accounts for time, absolute return doesn't." },
+    ],
+  },
+
+  nps: {
+    intro: "NPS is a government-backed retirement scheme with low costs and tax benefits. 60% is tax-free lump sum at retirement, 40% buys a monthly pension.",
+    formula: "Corpus grows with monthly contributions and compounding returns",
+    table: [
+      ["Monthly", "30 Years @10%", "30 Years @12%"],
+      ["₹5,000", "₹1.14Cr", "₹1.76Cr"],
+      ["₹10,000", "₹2.28Cr", "₹3.52Cr"],
+      ["₹15,000", "₹3.42Cr", "₹5.28Cr"],
+    ],
+    faqs: [
+      { q: "What are NPS tax benefits?", a: "Employee contribution up to 10% of salary, plus additional ₹50,000 deduction under 80CCD(1B)." },
+      { q: "Can I withdraw NPS before retirement?", a: "Partial withdrawal up to 25% after 3 years for specific needs like home, education, or medical treatment." },
+    ],
+  },
+
+  swp: {
+    intro: "SWP lets you turn your retirement corpus into regular monthly income. Withdraw a fixed amount each month while the rest keeps growing.",
+    formula: "Based on 4% rule - designed to make money last 30+ years",
+    table: [
+      ["Corpus", "Monthly (4%)", "Monthly (5%)", "Monthly (6%)"],
+      ["₹50L", "₹16,667", "₹20,833", "₹25,000"],
+      ["₹1Cr", "₹33,333", "₹41,667", "₹50,000"],
+      ["₹2Cr", "₹66,667", "₹83,333", "₹1,00,000"],
+    ],
+    faqs: [
+      { q: "What is the 4% rule?", a: "Withdraw 4% of corpus in year 1, adjust for inflation. Designed to last 30+ years." },
+      { q: "How long will my SWP last?", a: "Depends on withdrawal rate and investment returns. Lower withdrawal = longer lasting." },
+    ],
+  },
+
+  "loan-eligibility": {
+    intro: "Wondering how much loan you can get? Banks typically allow your total EMIs to be 40-50% of your monthly income.",
+    formula: "Max EMI = Monthly Income × 0.45 - Existing EMIs",
+    table: [
+      ["Monthly Income", "Max Loan (20 yrs @9%)", "Max Loan (25 yrs @9%)"],
+      ["₹50,000", "₹45 Lakhs", "₹54 Lakhs"],
+      ["₹75,000", "₹68 Lakhs", "₹81 Lakhs"],
+      ["₹1,00,000", "₹90 Lakhs", "₹1.08 Cr"],
+    ],
+    faqs: [
+      { q: "How do banks decide eligibility?", a: "Income, existing EMIs, credit score, and loan tenure affect your eligibility." },
+      { q: "Does credit score matter?", a: "Yes, a score above 750 can increase eligible amount by 10-15%." },
+    ],
+  },
+
+  gratuity: {
+    intro: "Gratuity is your employer's way of saying thanks for long service. You get it after 5+ years with the same company.",
+    formula: "Gratuity = (Last drawn salary × 15 × Years of service) ÷ 26",
+    table: [
+      ["Years", "₹50,000 Salary", "₹75,000 Salary", "₹1,00,000 Salary"],
+      ["10 years", "₹2.88L", "₹4.33L", "₹5.77L"],
+      ["15 years", "₹4.33L", "₹6.49L", "₹8.65L"],
+      ["20 years", "₹5.77L", "₹8.65L", "₹11.5L"],
+    ],
+    faqs: [
+      { q: "Who is eligible for gratuity?", a: "Anyone with 5+ continuous years with the same employer." },
+      { q: "What is the maximum gratuity?", a: "Tax-free limit is ₹20 lakhs. Anything above is taxable." },
+    ],
+  },
+
+  epf: {
+    intro: "EPF is the 'silent wealth builder' - you barely notice money leaving your salary, but over decades it grows into a massive government-guaranteed corpus.",
+    formula: "12% employee + 3.67% employer contribution with quarterly compounding",
+    table: [
+      ["Basic Salary", "30 Years @8.1%", "35 Years @8.1%"],
+      ["₹25,000", "₹3.7 Cr", "₹5.8 Cr"],
+      ["₹50,000", "₹7.4 Cr", "₹11.6 Cr"],
+      ["₹1,00,000", "₹14.8 Cr", "₹23.2 Cr"],
+    ],
+    faqs: [
+      { q: "How does EPF work?", a: "You contribute 12%, employer contributes 12% (3.67% to EPF, 8.33% to pension)." },
+      { q: "Can I withdraw EPF early?", a: "Yes for home purchase, medical emergency, marriage, or higher education after certain years." },
+    ],
+  },
+
+  // Math Calculators
+  fraction: {
+    intro: "Add, subtract, multiply, or divide fractions with step-by-step results. Perfect for recipes, homework, or measurements.",
+    formula: "a/b + c/d = (a×d + b×c) / (b×d)",
+    table: [
+      ["1/2 + 1/3", "5/6"],
+      ["3/4 × 2/5", "3/10"],
+      ["2/3 ÷ 1/4", "8/3 = 2 2/3"],
+    ],
+    faqs: [
+      { q: "How to add fractions?", a: "Find common denominator, add numerators, then simplify." },
+      { q: "How to simplify fractions?", a: "Divide numerator and denominator by their greatest common divisor (GCD)." },
+    ],
+  },
+
+  quadratic: {
+    intro: "Solve quadratic equations ax² + bx + c = 0. Get real and complex roots with step-by-step solutions.",
+    formula: "x = [-b ± √(b² - 4ac)] / (2a)",
+    table: [
+      ["x² - 3x + 2 = 0", "x = 2, x = 1"],
+      ["x² + 2x - 8 = 0", "x = 2, x = -4"],
+      ["x² - 4 = 0", "x = 2, x = -2"],
+    ],
+    faqs: [
+      { q: "What is a quadratic equation?", a: "ax² + bx + c = 0 where a isn't zero." },
+      { q: "What does discriminant tell me?", a: "Positive = 2 real solutions, Zero = 1 solution, Negative = complex numbers." },
+    ],
+  },
+
+  // Business Calculators
+  "profit-margin": {
+    intro: "Know your business numbers. Calculate profit margin, markup, and profit amount to optimize pricing strategy.",
+    formula: "Profit Margin = (Revenue - Cost) ÷ Revenue × 100",
+    table: [
+      ["Software/Apps", "70-80%", "High margin"],
+      ["Retail", "20-30%", "Medium margin"],
+      ["Restaurants", "10-15%", "Lower margin"],
+    ],
+    faqs: [
+      { q: "What is a good profit margin?", a: "Depends on industry. Software: 70-80%, Retail: 20-30%, Food: 10-15%." },
+      { q: "Markup vs margin?", a: "Margin = Profit ÷ Revenue, Markup = Profit ÷ Cost." },
+    ],
+  },
+
+  discount: {
+    intro: "Calculate sale prices instantly. Find final price after percentage off or fixed amount discount. Perfect for shopping and budgeting.",
+    formula: "Final Price = Original Price × (1 - Discount % ÷ 100)",
+    table: [
+      ["20% off ₹1000", "₹800 (Save ₹200)"],
+      ["₹200 off ₹1000", "₹800 (Save ₹200)"],
+      ["Buy 1 Get 1", "50% off on total"],
+    ],
+    faqs: [
+      { q: "How to calculate discounted price?", a: "Multiply original price by (100 - discount%) ÷ 100." },
+      { q: "What is a good discount?", a: "Clearance: 40-70%, Seasonal: 20-40%, Flash sales: 30-50%." },
+    ],
+  },
+
+  // Education Calculators
+  gpa: {
+    intro: "Calculate your Grade Point Average (GPA) easily. Add courses with letter grades and credit hours to get your semester GPA.",
+    formula: "GPA = Total Grade Points ÷ Total Credit Hours",
+    table: [
+      ["A/A+", "4.0", "Excellent"],
+      ["B+/B", "3.0-3.3", "Good"],
+      ["C+/C", "2.0-2.3", "Average"],
+      ["D/F", "0.0-1.0", "Poor"],
+    ],
+    faqs: [
+      { q: "What is a good GPA?", a: "3.5-4.0 = Excellent, 3.0-3.4 = Good, 2.5-2.9 = Average." },
+      { q: "How to calculate GPA from percentage?", a: "Convert to grade points using your institution's scale." },
+    ],
+  },
+
+  // Construction Calculators
+  concrete: {
+    intro: "Don't run out of concrete mid-pour. Calculate exact volume needed plus cement, sand, and aggregate quantities for M20 grade.",
+    formula: "Volume = Length × Width × Thickness (add 10% waste)",
+    table: [
+      ["10'×10'×4\" slab", "1.23 m³", "10 cement bags"],
+      ["Column 1' dia × 10'", "0.22 m³", "2 cement bags"],
+      ["Footing 3'×3'×1'", "0.25 m³", "2 cement bags"],
+    ],
+    faqs: [
+      { q: "How much concrete for a slab?", a: "Length × Width × Thickness. Always add 10% extra for waste." },
+      { q: "How many cement bags per m³?", a: "For M20 grade, about 8 bags of 50kg cement per cubic meter." },
+    ],
+  },
+
+  // Travel Calculators
+  "fuel-cost": {
+    intro: "Plan your road trips better! Calculate total fuel cost based on distance, fuel price, and your vehicle's mileage.",
+    formula: "Fuel Cost = Distance × Fuel Price ÷ Mileage (km/l)",
+    table: [
+      ["500 km", "₹105/l, 18 km/l", "₹2,917"],
+      ["1000 km", "₹105/l, 15 km/l", "₹7,000"],
+      ["200 km", "₹95/l, 20 km/l", "₹950"],
+    ],
+    faqs: [
+      { q: "How to calculate fuel cost?", a: "Distance × Fuel Price ÷ Mileage = Total fuel cost for the trip." },
+      { q: "What is good fuel economy?", a: "Cars: 15-20 km/l good, 20-25+ excellent. SUVs: 10-15 km/l." },
+    ],
+  },
+
+  // Time Calculators
+  "date-difference": {
+    intro: "Calculate the exact difference between any two dates. Perfect for age calculation, project planning, or countdown to events.",
+    formula: "Days Difference = |Date2 - Date1| / (1000 × 60 × 60 × 24)",
+    table: [
+      ["Jan 1 to Dec 31", "364-365 days", "52 weeks"],
+      ["Birth to 18 years", "6,570 days", "~18 years"],
+    ],
+    faqs: [
+      { q: "How to calculate days between dates?", a: "Simply subtract the earlier date from the later date. Our calculator handles leap years automatically." },
+      { q: "How to calculate age in years?", a: "Subtract birth year from current year, then adjust based on birthday passed or not." },
+    ],
   },
 };

@@ -7,6 +7,8 @@ import {
 } from "@/data/calculatorsRegistry";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import PageHeader from "@/components/common/PageHeader";
+import { useRouter } from "next/navigation";
+
 // import FAQSection from "@/components/common/FAQSection";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
@@ -21,7 +23,6 @@ import PercentageCalculator from "./PercentageCalculator";
 import CurrencyConverter from "./CurrencyConverter";
 import UnitConverter from "./UnitConverter";
 import PPFCalculator from "./PPFCalculator";
-import { useRouter } from "next/navigation";
 import DiscountCalculator from "./DiscountCalculator";
 import GPACalculator from "./GPACalculator";
 import FuelCostCalculator from "./FuelCostCalculator";
@@ -32,6 +33,16 @@ import CAGRCalculator from "./CAGRCalculator";
 import WaterIntakeCalculator from "./WaterIntakeCalculator";
 import SleepCalculator from "./SleepCalculator";
 import RDCalculator from "./RDCalculator";
+import IdealWeightCalculator from "./IdealWeightCalculator";
+import OvulationCalculator from "./OvulationCalculator";
+import NPSCalculator from "./NPSCalculator";
+import SWPCalculator from "./SWPCalculator";
+import LoanEligibilityCalculator from "./LoanEligibilityCalculator";
+import GratuityCalculator from "./GratuityCalculator";
+import EPFCalculator from "./EPFCalculator";
+import FractionCalculator from "./FractionCalculator";
+import QuadraticSolver from "./QuadraticSolver";
+import ConcreteCalculator from "./ConcreteCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -116,6 +127,28 @@ export default function CalculatorWrapper({
         return <SleepCalculator />;
       case "rd":
         return <RDCalculator />;
+      case "ideal-weight":
+        return <IdealWeightCalculator />;
+      case "ovulation":
+        return <OvulationCalculator />;
+      case "nps":
+        return <NPSCalculator />;
+      case "swp":
+        return <SWPCalculator />;
+      case "loan-eligibility":
+        return <LoanEligibilityCalculator />;
+      case "gratuity":
+        return <GratuityCalculator />;
+      case "epf":
+        return <EPFCalculator />;
+      case "fraction":
+        return <FractionCalculator />;
+      case "quadratic-solver":
+        return <QuadraticSolver />;
+      case "concrete":
+        return <ConcreteCalculator />;
+      case "quadratic":
+        return <QuadraticSolver />;
       // Add more cases for other calculators
       default:
         return (
@@ -169,48 +202,68 @@ export default function CalculatorWrapper({
                 </div>
               )}
 
-              <h3 className="text-lg font-semibold mb-4">
-                {calculator.id === "bmi"
-                  ? "BMI Classification Table"
-                  : calculator.id === "emi"
-                    ? "Formula Variables"
-                    : "GST Rate Slabs in India"}
-              </h3>
+              {/* Table Section - Only show for calculators that have table data */}
+              {seo.table && seo.table.length > 0 && (
+                <>
+                  <h3 className="text-lg font-semibold mb-4">
+                    {calculator.id === "bmi" && "BMI Classification Table"}
+                    {calculator.id === "emi" && "Formula Variables"}
+                    {calculator.id === "gst" && "GST Rate Slabs in India"}
+                    {calculator.id === "percentage" && "Percentage Reference Table"}
+                    {calculator.id === "bmr" && "Activity Level Multipliers"}
+                    {calculator.id === "body-fat" && "Body Fat Classification"}
+                    {calculator.id === "calorie-burn" && "Activity MET Values"}
+                    {calculator.id === "sip" && "SIP Return Projections"}
+                    {calculator.id === "fd" && "FD Interest Rates by Bank"}
+                    {calculator.id === "ppf" && "PPF Returns by Investment"}
+                    {calculator.id === "rd" && "RD Returns by Tenure"}
+                    {calculator.id === "cagr" && "Expected CAGR by Investment Type"}
+                    {calculator.id === "water-intake" && "Hydration Guidelines"}
+                    {calculator.id === "sleep" && "Sleep Recommendations by Age"}
+                    {calculator.id === "ideal-weight" && "Ideal Weight Formulas"}
+                    {calculator.id === "ovulation" && "Ovulation Timing by Cycle"}
+                    {!["bmi", "emi", "gst", "percentage", "bmr", "body-fat", "calorie-burn", "sip", "fd", "ppf", "rd", "cagr", "water-intake", "sleep", "ideal-weight", "ovulation"].includes(calculator.id) && "Reference Table"}
+                  </h3>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-800">
-                      <th className="text-left py-3 px-4 text-gray-500 font-semibold">
-                        {calculator.id === "bmi"
-                          ? "Classification"
-                          : calculator.id === "emi"
-                            ? "Variable"
-                            : "GST Rate"}
-                      </th>
-                      <th className="text-left py-3 px-4 text-gray-500 font-semibold">
-                        {calculator.id === "bmi"
-                          ? "BMI Range (kg/m²)"
-                          : calculator.id === "emi"
-                            ? "Description"
-                            : "Category / Items"}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {seo.table &&
-                      seo.table.map((row: TableRow, index: number) => (
-                        <tr
-                          key={index}
-                          className="border-b border-gray-800/50 hover:bg-gray-800/30"
-                        >
-                          <td className="py-2 px-4 text-gray-300">{row[0]}</td>
-                          <td className="py-2 px-4 text-gray-400">{row[1]}</td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-800">
+                          <th className="text-left py-3 px-4 text-gray-500 font-semibold">
+                            {calculator.id === "bmi"
+                              ? "Classification"
+                              : calculator.id === "emi"
+                                ? "Variable"
+                                : calculator.id === "gst"
+                                  ? "GST Rate"
+                                  : "Category"}
+                          </th>
+                          <th className="text-left py-3 px-4 text-gray-500 font-semibold">
+                            {calculator.id === "bmi"
+                              ? "BMI Range (kg/m²)"
+                              : calculator.id === "emi"
+                                ? "Description"
+                                : calculator.id === "gst"
+                                  ? "Category / Items"
+                                  : "Value"}
+                          </th>
                         </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+                      </thead>
+                      <tbody>
+                        {seo.table.map((row: TableRow, index: number) => (
+                          <tr
+                            key={index}
+                            className="border-b border-gray-800/50 hover:bg-gray-800/30"
+                          >
+                            <td className="py-2 px-4 text-gray-300">{row[0]}</td>
+                            <td className="py-2 px-4 text-gray-400">{row[1]}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* FAQ */}
