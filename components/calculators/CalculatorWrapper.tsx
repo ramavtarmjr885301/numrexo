@@ -22,6 +22,16 @@ import CurrencyConverter from "./CurrencyConverter";
 import UnitConverter from "./UnitConverter";
 import PPFCalculator from "./PPFCalculator";
 import { useRouter } from "next/navigation";
+import DiscountCalculator from "./DiscountCalculator";
+import GPACalculator from "./GPACalculator";
+import FuelCostCalculator from "./FuelCostCalculator";
+import DateDifferenceCalculator from "./DateDifferenceCalculator";
+import ProfitMarginCalculator from "./ProfitMarginCalculator";
+import LumpsumCalculator from "./LumpsumCalculator";
+import CAGRCalculator from "./CAGRCalculator";
+import WaterIntakeCalculator from "./WaterIntakeCalculator";
+import SleepCalculator from "./SleepCalculator";
+import RDCalculator from "./RDCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -86,6 +96,26 @@ export default function CalculatorWrapper({
         return <UnitConverter />;
       case "ppf":
         return <PPFCalculator />
+      case "discount":
+        return <DiscountCalculator />;
+      case "gpa":
+        return <GPACalculator />;
+      case "fuel-cost":
+        return <FuelCostCalculator />;
+      case "date-difference":
+        return <DateDifferenceCalculator />;
+      case "profit-margin":
+        return <ProfitMarginCalculator />;
+      case "lumpsum":
+        return <LumpsumCalculator />;
+      case "cagr":
+        return <CAGRCalculator />;
+      case "water-intake":
+        return <WaterIntakeCalculator />;
+      case "sleep":
+        return <SleepCalculator />;
+      case "rd":
+        return <RDCalculator />;
       // Add more cases for other calculators
       default:
         return (
