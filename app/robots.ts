@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
                 '/_next/',    // Disable Next.js internal files
             ],
         },
-        sitemap: 'https://www.numrexo.com/sitemap.xml',
+        sitemap: 'https://numrexo.com/sitemap.xml',
     }
 }

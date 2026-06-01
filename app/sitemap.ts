@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { CALCULATORS_REGISTRY, CATEGORIES } from '@/data/calculatorsRegistry'
 
-const baseUrl = 'https://www.numrexo.com'
+const baseUrl = 'https://numrexo.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const currentDate = new Date()
