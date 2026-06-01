@@ -7,7 +7,7 @@ import {
 } from "@/data/calculatorsRegistry";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import PageHeader from "@/components/common/PageHeader";
-import FAQSection from "@/components/common/FAQSection";
+// import FAQSection from "@/components/common/FAQSection";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
 import GSTCalculator from "./GSTCalculator";
@@ -84,8 +84,8 @@ export default function CalculatorWrapper({
         return <CurrencyConverter />;
       case "unit-converter":
         return <UnitConverter />;
-        case "ppf":
-          return <PPFCalculator/>
+      case "ppf":
+        return <PPFCalculator />
       // Add more cases for other calculators
       default:
         return (
@@ -184,14 +184,14 @@ export default function CalculatorWrapper({
             </div>
 
             {/* FAQ */}
-            {seo.faqs && (
+            {/* {seo.faqs && (
               <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-8 mb-8">
                 <h2 className="text-xl font-bold mb-6">
                   Frequently Asked Questions
                 </h2>
                 <FAQSection items={seo.faqs} />
               </div>
-            )}
+            )} */}
           </>
         )}
 
