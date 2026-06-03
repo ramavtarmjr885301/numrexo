@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Head from "next/head";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Natural, Human-Written FAQ Content ──────────────────────────────────────
@@ -41,7 +42,7 @@ const OVULATION_TABLE = [
     { cycleLength: "35 days", ovulationDay: "Day 21", fertileWindow: "Day 18-23", chance: "Less common" },
 ];
 
-// ─── JSON-LD Schema ──────────────────────────────────────────────────────────
+// ─── JSON-LD Schema ───────────────────────────────────────────────────────────
 
 const FAQ_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
@@ -62,7 +63,9 @@ const WEBAPP_SCHEMA = JSON.stringify({
     applicationCategory: "HealthApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
+    inLanguage: "en-US",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    featureList: ["Ovulation day prediction", "Fertile window calculation", "Predicted dates with calendar input", "Next period estimate"],
     author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
 });
 
@@ -73,6 +76,37 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
         { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
         { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://www.numrexo.com/health" },
         { "@type": "ListItem", position: 3, name: "Ovulation Calculator", item: "https://www.numrexo.com/health/ovulation-calculator" },
+    ],
+});
+
+const HOWTO_SCHEMA = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Calculate Your Ovulation and Fertile Window",
+    description: "Step-by-step guide to estimate your ovulation day and most fertile days using your average cycle length.",
+    totalTime: "PT1M",
+    step: [
+        {
+            "@type": "HowToStep",
+            position: 1,
+            name: "Enter your average cycle length",
+            text: "Count the days from the first day of your period to the day before your next period starts. Enter this number (usually 21–35 days).",
+        },
+        {
+            "@type": "HowToStep",
+            position: 2,
+            name: "Enter first day of last period (optional)",
+            text: "Add the date your last period started to get predicted calendar dates for your fertile window and next period.",
+        },
+        {
+            "@type": "HowToStep",
+            position: 3,
+            name: "Click Calculate",
+            text: "Press the Calculate Fertile Window button to see your estimated ovulation day, fertile window, best days to try, and next expected period.",
+        },
+    ],
+    tool: [
+        { "@type": "HowToTool", name: "Ovulation Calculator at Numrexo" },
     ],
 });
 
@@ -132,17 +166,66 @@ export default function OvulationCalculator() {
 
     return (
         <>
+            {/* ── Meta Tags ── */}
+            <Head>
+                <title>Ovulation Calculator – Predict Your Fertile Window & Ovulation Day (2025)</title>
+                <meta
+                    name="description"
+                    content="Free ovulation calculator to predict your most fertile days and ovulation date. Enter your cycle length to find your fertility window instantly. Great for pregnancy planning."
+                />
+                <meta name="keywords" content="ovulation calculator, fertile window calculator, ovulation predictor, when do I ovulate, fertility calculator, best days to conceive, cycle tracker" />
+                <link rel="canonical" href="https://www.numrexo.com/health/ovulation-calculator" />
+
+                {/* Open Graph */}
+                <meta property="og:title" content="Ovulation Calculator – Predict Your Fertile Window" />
+                <meta property="og:description" content="Find your most fertile days and predicted ovulation date based on your cycle. Free, instant, and accurate." />
+                <meta property="og:url" content="https://www.numrexo.com/health/ovulation-calculator" />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="Numrexo" />
+
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content="Ovulation Calculator – Numrexo" />
+                <meta name="twitter:description" content="Predict your ovulation day and fertile window. Free calculator for pregnancy planning." />
+
+                {/* Robots */}
+                <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+            </Head>
+
+            {/* ── JSON-LD Schemas ── */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: HOWTO_SCHEMA }} />
 
-            <nav className="mb-5">
+            {/* ────────────────────────────────────────────────────────────
+                BREADCRUMB NAV — FIXED
+                Added <span itemProp="name"> inside each <a> tag.
+                Google requires BOTH itemProp="item" (URL) AND itemProp="name"
+                (label) on each ListItem. Previously only "item" was present,
+                causing the GSC error: "Either name or item.name should be
+                specified in itemListElement".
+            ──────────────────────────────────────────────────────────── */}
+            <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                            <span itemProp="name">Home</span>
+                        </a>
+                        <meta itemProp="position" content="1" />
+                    </li>
                     <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://www.numrexo.com/health" itemProp="item" className="hover:text-gray-300">Health Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+                        <a href="https://www.numrexo.com/health" itemProp="item" className="hover:text-gray-300">
+                            <span itemProp="name">Health Calculators</span>
+                        </a>
+                        <meta itemProp="position" content="2" />
+                    </li>
                     <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Ovulation Calculator</span><meta itemProp="position" content="3" /></li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+                        <span itemProp="name" className="text-gray-300">Ovulation Calculator</span>
+                        <meta itemProp="position" content="3" />
+                    </li>
                 </ol>
             </nav>
 
@@ -191,8 +274,8 @@ export default function OvulationCalculator() {
 
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About This Ovulation Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">Trying to conceive? Or maybe you're just trying to understand your body better. This tool helps you figure out when you're most likely to ovulate based on your cycle length. The math is pretty simple - most women ovulate about 14 days before their next period starts.</p>
-                <p className="text-gray-400 text-sm leading-relaxed">Keep in mind that every body is different. Stress, illness, travel, and lots of other things can shift your ovulation day. This calculator gives you a solid estimate, but paying attention to your body's natural signs (like changes in cervical mucus) gives you even better information.</p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">Trying to conceive? Or maybe you&apos;re just trying to understand your body better. This tool helps you figure out when you&apos;re most likely to ovulate based on your cycle length. The math is pretty simple - most women ovulate about 14 days before their next period starts.</p>
+                <p className="text-gray-400 text-sm leading-relaxed">Keep in mind that every body is different. Stress, illness, travel, and lots of other things can shift your ovulation day. This calculator gives you a solid estimate, but paying attention to your body&apos;s natural signs (like changes in cervical mucus) gives you even better information.</p>
             </section>
 
             <section className="mb-8">
@@ -212,34 +295,43 @@ export default function OvulationCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🥚</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Egg White Discharge</h3><p className="text-xs text-gray-400">Clear, stretchy, slippery - looks like raw egg whites. This is your most fertile sign.</p></div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🌡️</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Temperature Rise</h3><p className="text-xs text-gray-400">Your basal body temperature jumps about half a degree after ovulation (good for confirming it happened).</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">💕</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Higher Sex Drive</h3><p className="text-xs text-gray-400">Many women notice they're more interested in sex around ovulation (nature's way of helping things along).</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">📍</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Mild Cramping</h3><p className="text-xs text-gray-400">Some women feel a small ache on one side - that's the egg being released.</p></div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">💕</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Higher Sex Drive</h3><p className="text-xs text-gray-400">Many women notice they&apos;re more interested in sex around ovulation (nature&apos;s way of helping things along).</p></div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">📍</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Mild Cramping</h3><p className="text-xs text-gray-400">Some women feel a small ache on one side - that&apos;s the egg being released.</p></div>
                 </div>
             </section>
 
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">A Few Things to Keep in Mind</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">This calculator works great for women with regular cycles, but it's not perfect for everyone:</p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">This calculator works great for women with regular cycles, but it&apos;s not perfect for everyone:</p>
                 <ul className="space-y-3">
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Irregular cycles?</strong> — If your cycle length changes by more than a few days each month, your ovulation day probably shifts too. Consider tracking physical signs or using ovulation test strips.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Recent pregnancy or birth control?</strong> — Your cycles might need a few months to regulate after stopping birth control or having a baby.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Not a birth control method</strong> — If you're trying to avoid pregnancy, don't rely on this calculator alone. Use actual fertility awareness methods or other contraception.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Not a birth control method</strong> — If you&apos;re trying to avoid pregnancy, don&apos;t rely on this calculator alone. Use actual fertility awareness methods or other contraception.</span></li>
                 </ul>
             </section>
 
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">
+                <div className="space-y-2" itemScope itemType="https://schema.org/FAQPage">
                     {FAQ_DATA.map((item, i) => (
                         <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                                 <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
                                 <span className={`text-gray-500 text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            <div className={`transition-all duration-300 overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
+                            <div
+                                className={`transition-all duration-300 overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}
+                                itemScope
+                                itemProp="acceptedAnswer"
+                                itemType="https://schema.org/Answer"
+                            >
                                 <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
-                            {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
+                            {openFaq !== i && (
+                                <div className="sr-only" itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                                    <span itemProp="text">{item.a}</span>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
