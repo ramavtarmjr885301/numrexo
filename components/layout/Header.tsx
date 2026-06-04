@@ -36,8 +36,8 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${pathname === link.href
-                    ? "text-blue-400 bg-blue-500/10"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                  ? "text-blue-400 bg-blue-500/10"
+                  : "text-gray-400 hover:text-white hover:bg-gray-800"
                   }`}
               >
                 {link.label}
@@ -63,8 +63,8 @@ export default function Header() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${pathname === link.href
-                    ? "text-blue-400 bg-blue-500/10"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                  ? "text-blue-400 bg-blue-500/10"
+                  : "text-gray-400 hover:text-white hover:bg-gray-800"
                   }`}
               >
                 {link.label}
