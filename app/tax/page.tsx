@@ -1,3 +1,5 @@
+"use client";
+
 import { getCalculatorsByCategory } from '@/data/calculatorsRegistry';
 import CalculatorCard from '@/components/common/CalculatorCard';
 

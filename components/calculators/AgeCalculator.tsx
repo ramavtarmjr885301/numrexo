@@ -86,7 +86,6 @@ export default function AgeCalculator() {
       <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Age Calculation Formula</h2><div className="bg-[#111827] border border-gray-800 rounded-xl p-5"><p className="text-white font-mono text-sm">Age = Current Date - Birth Date</p><p className="text-gray-500 text-xs mt-2">The calculation accounts for leap years (February 29) and varying month lengths (28-31 days).</p></div></section>
 
       <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div></section>
-      <section><h1>How Are you?</h1></section>
     </>
   );
 }
