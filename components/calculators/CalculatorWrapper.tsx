@@ -69,6 +69,18 @@ import VolumeCalculator from "./VolumeCalculator";
 import SlopeCalculator from "./SlopeCalculator";
 import StatisticsCalculator from "./StatisticsCalculator";
 import DistanceCalculator from "./DistanceCalculator";
+import LengthConverter from "./LengthConverter";
+import WeightConverter from "./WeightConverter";
+import TemperatureConverter from "./TemperatureConverter";
+import AreaConverter from "./AreaConverter";
+import VolumeConverter from "./VolumeConverter";
+import SpeedConverter from "./SpeedConverter";
+import TimeConverter from "./TimeConverter";
+import DataConverter from "./DataConverter";
+import PressureConverter from "./PressureConverter";
+import EnergyConverter from "./EnergyConverter";
+import PowerConverter from "./PowerConverter";
+import AngleConverter from "./AngleConverter";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -228,6 +240,31 @@ export default function CalculatorWrapper({
         return <StatisticsCalculator />;
       case "distance":
         return <DistanceCalculator />;
+      // Conversion Category - Batch 7
+      case "length-converter":
+        return <LengthConverter />;
+      case "weight-converter":
+        return <WeightConverter />;
+      case "temperature-converter":
+        return <TemperatureConverter />;
+      case "area-converter":
+        return <AreaConverter />;
+      case "volume-converter":
+        return <VolumeConverter />;
+      case "speed-converter":
+        return <SpeedConverter />;
+      case "time-converter":
+        return <TimeConverter />;
+      case "data-converter":
+        return <DataConverter />;
+      case "pressure-converter":
+        return <PressureConverter />;
+      case "energy-converter":
+        return <EnergyConverter />;
+      case "power-converter":
+        return <PowerConverter />;
+      case "angle-converter":
+        return <AngleConverter />;
       // Add more cases for other calculators
       default:
         return (

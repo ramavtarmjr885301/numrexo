@@ -992,6 +992,126 @@ export const seoContent: Record<string, any> = {
     ],
     faqs: [],
   },
+  "length-converter": {
+    intro: "Convert between millimeters, centimeters, meters, kilometers, inches, feet, yards, and miles.",
+    formula: "Value in meters = Value × conversion factor",
+    table: [
+      ["1 inch", "2.54 cm", "0.0254 m"],
+      ["1 foot", "30.48 cm", "0.3048 m"],
+      ["1 mile", "1.609 km", "1609 m"],
+    ],
+    faqs: [],
+  },
+  "weight-converter": {
+    intro: "Convert between milligrams, grams, kilograms, tonnes, ounces, pounds, and stones.",
+    formula: "Value in kg = Value × conversion factor",
+    table: [
+      ["1 kg", "2.20462 lbs", "35.274 oz"],
+      ["1 lb", "0.4536 kg", "16 oz"],
+      ["1 oz", "28.3495 g", "0.02835 kg"],
+    ],
+    faqs: [],
+  },
+  "temperature-converter": {
+    intro: "Convert between Celsius, Fahrenheit, and Kelvin.",
+    formula: "°F = (°C × 9/5) + 32 | K = °C + 273.15",
+    table: [
+      ["0°C", "32°F", "273.15 K"],
+      ["100°C", "212°F", "373.15 K"],
+      ["37°C", "98.6°F", "310.15 K"],
+    ],
+    faqs: [],
+  },
+  "area-converter": {
+    intro: "Convert between square meters, square feet, acres, hectares, and more.",
+    formula: "Value in m² = Value × conversion factor",
+    table: [
+      ["1 m²", "10.7639 ft²", "0.000247 acres"],
+      ["1 acre", "43,560 ft²", "4046.86 m²"],
+      ["1 hectare", "2.471 acres", "10,000 m²"],
+    ],
+    faqs: [],
+  },
+  "volume-converter": {
+    intro: "Convert between liters, milliliters, gallons, quarts, pints, cups, and fluid ounces.",
+    formula: "Value in liters = Value × conversion factor",
+    table: [
+      ["1 L", "0.264 gal", "33.814 fl oz"],
+      ["1 gal", "3.785 L", "128 fl oz"],
+      ["1 cup", "236.588 ml", "8 fl oz"],
+    ],
+    faqs: [],
+  },
+  "speed-converter": {
+    intro: "Convert between km/h, mph, m/s, knots, and ft/s.",
+    formula: "Value in km/h = Value × conversion factor",
+    table: [
+      ["100 km/h", "62.14 mph", "27.78 m/s"],
+      ["60 mph", "96.56 km/h", "26.82 m/s"],
+      ["1 knot", "1.852 km/h", "1.151 mph"],
+    ],
+    faqs: [],
+  },
+  "time-converter": {
+    intro: "Convert between milliseconds, seconds, minutes, hours, days, weeks, months, and years.",
+    formula: "Value in seconds = Value × conversion factor",
+    table: [
+      ["1 hour", "60 min", "3600 sec"],
+      ["1 day", "24 hours", "1440 min"],
+      ["1 year", "365 days", "8760 hours"],
+    ],
+    faqs: [],
+  },
+  "data-converter": {
+    intro: "Convert between bits, bytes, KB, MB, GB, TB, and PB.",
+    formula: "Value in bytes = Value × conversion factor (using 1024)",
+    table: [
+      ["1 KB", "1024 bytes", "0.00098 MB"],
+      ["1 MB", "1024 KB", "0.00098 GB"],
+      ["1 GB", "1024 MB", "0.00098 TB"],
+    ],
+    faqs: [],
+  },
+  "pressure-converter": {
+    intro: "Convert between Pascal, kPa, MPa, bar, PSI, atmosphere, and torr.",
+    formula: "Value in Pascal = Value × conversion factor",
+    table: [
+      ["1 bar", "14.5 PSI", "100 kPa"],
+      ["1 atm", "14.7 PSI", "101.325 kPa"],
+      ["1 PSI", "6894.76 Pa", "0.06895 bar"],
+    ],
+    faqs: [],
+  },
+  "energy-converter": {
+    intro: "Convert between joules, calories, kilocalories, watt-hours, kilowatt-hours, and electronvolts.",
+    formula: "Value in joules = Value × conversion factor",
+    table: [
+      ["1 cal", "4.184 J", "0.001 kcal"],
+      ["1 kWh", "3.6 MJ", "860 kcal"],
+      ["1 eV", "1.602 × 10⁻¹⁹ J", "3.83 × 10⁻²⁰ cal"],
+    ],
+    faqs: [],
+  },
+  "power-converter": {
+    intro: "Convert between watts, kilowatts, megawatts, horsepower, and BTU per hour.",
+    formula: "Value in watts = Value × conversion factor",
+    table: [
+      ["1 kW", "1.341 HP", "1000 W"],
+      ["1 HP", "745.7 W", "0.7457 kW"],
+      ["1 MW", "1000 kW", "1341 HP"],
+    ],
+    faqs: [],
+  },
+  "angle-converter": {
+    intro: "Convert between degrees, radians, gradians, arcminutes, and arcseconds.",
+    formula: "Value in degrees = Value × conversion factor",
+    table: [
+      ["180°", "π rad", "200 gon"],
+      ["90°", "π/2 rad", "100 gon"],
+      ["1 rad", "57.2958°", "63.662 gon"],
+    ],
+    faqs: [],
+  },
   // Default for any calculator without specific SEO
   default: {
     intro: "This calculator provides accurate results for your needs. Enter your values and press calculate to get instant results.",
