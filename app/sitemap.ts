@@ -50,10 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // ─────────────────────────────────────────────────────────
     // Category pages — auto from CATEGORIES
+    // FIXED: Direct category URLs (not /calculators/health)
     // ─────────────────────────────────────────────────────────
     const categoryPages: MetadataRoute.Sitemap = Object.keys(CATEGORIES).map(
         (categoryKey) => ({
-            url: `${baseUrl}/calculators/${categoryKey}`,
+            url: `${baseUrl}/${categoryKey}`,  // ← FIXED: removed /calculators/
             lastModified: currentDate,
             changeFrequency: 'weekly' as const,
             priority: 0.75,
