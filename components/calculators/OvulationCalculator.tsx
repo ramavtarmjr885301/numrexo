@@ -168,25 +168,25 @@ export default function OvulationCalculator() {
         <>
             {/* ── Meta Tags ── */}
             <Head>
-                <title>Ovulation Calculator – Predict Your Fertile Window & Ovulation Day (2025)</title>
+                <title>Ovulation Calculator – Find Your Fertile Window & Most Fertile Days</title>
                 <meta
                     name="description"
-                    content="Free ovulation calculator to predict your most fertile days and ovulation date. Enter your cycle length to find your fertility window instantly. Great for pregnancy planning."
+                    content="Use our free Ovulation Calculator to predict your ovulation date, fertile window, and most fertile days. Plan pregnancy, track fertility, and improve your chances of conception with accurate results."
                 />
                 <meta name="keywords" content="ovulation calculator, fertile window calculator, ovulation predictor, when do I ovulate, fertility calculator, best days to conceive, cycle tracker" />
                 <link rel="canonical" href="https://www.numrexo.com/health/ovulation-calculator" />
 
                 {/* Open Graph */}
-                <meta property="og:title" content="Ovulation Calculator – Predict Your Fertile Window" />
-                <meta property="og:description" content="Find your most fertile days and predicted ovulation date based on your cycle. Free, instant, and accurate." />
+                <meta property="og:title" content="Ovulation Calculator – Find Your Fertile Window & Most Fertile Days" />
+                <meta property="og:description" content="Use our free Ovulation Calculator to predict your ovulation date, fertile window, and most fertile days. Plan pregnancy, track fertility, and improve your chances of conception with accurate results." />
                 <meta property="og:url" content="https://www.numrexo.com/health/ovulation-calculator" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="Numrexo" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary" />
-                <meta name="twitter:title" content="Ovulation Calculator – Numrexo" />
-                <meta name="twitter:description" content="Predict your ovulation day and fertile window. Free calculator for pregnancy planning." />
+                <meta name="twitter:title" content="Ovulation Calculator – Find Your Fertile Window & Most Fertile Days" />
+                <meta name="twitter:description" content="Use our free Ovulation Calculator to predict your ovulation date, fertile window, and most fertile days. Plan pregnancy, track fertility, and improve your chances of conception with accurate results." />
 
                 {/* Robots */}
                 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
@@ -198,14 +198,7 @@ export default function OvulationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: HOWTO_SCHEMA }} />
 
-            {/* ────────────────────────────────────────────────────────────
-                BREADCRUMB NAV — FIXED
-                Added <span itemProp="name"> inside each <a> tag.
-                Google requires BOTH itemProp="item" (URL) AND itemProp="name"
-                (label) on each ListItem. Previously only "item" was present,
-                causing the GSC error: "Either name or item.name should be
-                specified in itemListElement".
-            ──────────────────────────────────────────────────────────── */}
+            {/* ── Breadcrumb Nav ── */}
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
@@ -310,28 +303,19 @@ export default function OvulationCalculator() {
                 </ul>
             </section>
 
+            {/* ── FAQ Section — FIXED: microdata removed, JSON-LD handles schema ── */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2" itemScope itemType="https://schema.org/FAQPage">
+                <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                             <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
+                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
                                 <span className={`text-gray-500 text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            <div
-                                className={`transition-all duration-300 overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}
-                                itemScope
-                                itemProp="acceptedAnswer"
-                                itemType="https://schema.org/Answer"
-                            >
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                            <div className={`transition-all duration-300 overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
+                                <p className="px-5 text-sm text-gray-400 leading-relaxed">{item.a}</p>
                             </div>
-                            {openFaq !== i && (
-                                <div className="sr-only" itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                                    <span itemProp="text">{item.a}</span>
-                                </div>
-                            )}
                         </div>
                     ))}
                 </div>
