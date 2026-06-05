@@ -55,6 +55,20 @@ import WeightedGradeCalculator from "./WeightedGradeCalculator";
 import FinalGradeCalculator from "./FinalGradeCalculator";
 import APYCalculator from "./APYCalculator";
 import LoanComparisonCalculator from "./LoanComparisonCalculator";
+import TipCalculator from "./TipCalculator";
+import SalesCommissionCalculator from "./SalesCommissionCalculator";
+import BodyTypeCalculator from "./BodyTypeCalculator";
+import PregnancyDueDateCalculator from "./PregnancyDueDateCalculator";
+import NutritionLabelGenerator from "./NutritionLabelGenerator";
+import CalorieCounter from "./CalorieCounter";
+import DecimalToFractionCalculator from "./DecimalToFractionCalculator";
+import RatioCalculator from "./RatioCalculator";
+import PythagoreanCalculator from "./PythagoreanCalculator";
+import AreaCalculator from "./AreaCalculator";
+import VolumeCalculator from "./VolumeCalculator";
+import SlopeCalculator from "./SlopeCalculator";
+import StatisticsCalculator from "./StatisticsCalculator";
+import DistanceCalculator from "./DistanceCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -186,6 +200,34 @@ export default function CalculatorWrapper({
         return <APYCalculator />;
       case "loan-comparison":
         return <LoanComparisonCalculator />;
+      case "tip":
+        return <TipCalculator />;
+      case "sales-commission":
+        return <SalesCommissionCalculator />;
+      case "body-type":
+        return <BodyTypeCalculator />;
+      case "pregnancy-due":
+        return <PregnancyDueDateCalculator />;
+      case "nutrition-label":
+        return <NutritionLabelGenerator />;
+      case "calorie-counter":
+        return <CalorieCounter />;
+      case "decimal":
+        return <DecimalToFractionCalculator />;
+      case "ratio":
+        return <RatioCalculator />;
+      case "pythagorean":
+        return <PythagoreanCalculator />;
+      case "area":
+        return <AreaCalculator />;
+      case "volume":
+        return <VolumeCalculator />;
+      case "slope":
+        return <SlopeCalculator />;
+      case "mean-median-mode":
+        return <StatisticsCalculator />;
+      case "distance":
+        return <DistanceCalculator />;
       // Add more cases for other calculators
       default:
         return (

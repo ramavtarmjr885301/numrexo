@@ -159,6 +159,8 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "invoice", slug: "invoice-generator", name: "Invoice Generator", icon: "📄", color: "#14b8a6", bg: "rgba(20,184,166,0.1)", desc: "Create professional invoice", tags: ["Business", "New"], category: "business", path: generatePath("business", "invoice-generator"), popularity: 70, isNew: true },
   { id: "apy", slug: "apy-calculator", name: "APY Calculator", icon: "📈", color: "#3b82f6", bg: "rgba(59,130,246,0.1)", desc: "Calculate Annual Percentage Yield with compound interest", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "apy-calculator"), popularity: 75, isNew: true },
   { id: "loan-comparison", slug: "loan-comparison-calculator", name: "Loan Comparison Calculator", icon: "⚖️", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Compare two loans side by side", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "loan-comparison-calculator"), popularity: 78, isNew: true },
+  { id: "tip", slug: "tip-calculator", name: "Tip Calculator", icon: "💰", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate tips and split bills", tags: ["Business", "New"], category: "business", path: generatePath("business", "tip-calculator"), popularity: 92, isNew: true },
+  { id: "sales-commission", slug: "sales-commission-calculator", name: "Sales Commission Calculator", icon: "💰", color: "#f97316", bg: "rgba(249,115,22,0.1)", desc: "Calculate sales commission with tiered rates and splits", tags: ["Business", "New"], category: "business", path: generatePath("business", "sales-commission-calculator"), popularity: 85, isNew: true },
 ];
 
 // Helper functions
@@ -857,6 +859,136 @@ export const seoContent: Record<string, any> = {
       ["Check prepayment penalties", "Some loans charge 2-3% for early payment"],
       ["Compare processing fees", "Fees can range from 0.5% to 2%"],
       ["Look at foreclosure charges", "Floating rate loans have no foreclosure charges"],
+    ],
+    faqs: [],
+  },
+  "tip": {
+    intro: "Calculate the perfect tip for restaurants, delivery, or any service. Split bills easily among friends.",
+    formula: "Tip Amount = Bill Amount × (Tip % ÷ 100)",
+    table: [
+      ["10%", "Poor Service", "Slow or inattentive"],
+      ["15%", "Standard Service", "Average decent service"],
+      ["18%", "Good Service", "Attentive and friendly"],
+      ["20%", "Excellent Service", "Went above and beyond"],
+    ],
+    faqs: [],
+  },
+  "sales-commission": {
+    intro: "Calculate sales commissions for simple rates, tiered structures, or split commissions.",
+    formula: "Commission = Sale Amount × Rate ÷ 100",
+    table: [
+      ["₹50,000", "5%", "₹2,500"],
+      ["₹1,00,000", "8%", "₹8,000"],
+      ["₹2,00,000", "10%", "₹20,000"],
+    ],
+    faqs: [],
+  },
+  "nutrition-label": {
+    intro: "Create a professional nutrition facts label for your food products. Enter serving size, macros, and get % Daily Values.",
+    formula: "% Daily Value = (Amount in serving ÷ Daily Value) × 100",
+    table: [
+      ["Total Fat", "78g", "Limit to 20% DV"],
+      ["Sodium", "2300mg", "Limit to 5-20% DV"],
+      ["Fiber", "28g", "Aim for 100% DV"],
+      ["Protein", "50g", "Aim for 100% DV"],
+    ],
+    faqs: [],
+  },
+  "calorie-counter": {
+    intro: "Track your daily calorie and macronutrient intake. Add foods manually or use our quick-add database.",
+    formula: "Total Calories = Sum of all food calories | Carbs/Protein = 4 cal/g | Fat = 9 cal/g",
+    table: [
+      ["Apple (medium)", "95 cal", "0.5g protein", "25g carbs"],
+      ["Chicken Breast (100g)", "165 cal", "31g protein", "0g carbs"],
+      ["Egg (large)", "72 cal", "6g protein", "0.4g carbs"],
+      ["Olive Oil (1 tbsp)", "119 cal", "0g protein", "0g carbs"],
+    ],
+    faqs: [],
+  },
+  "decimal": {
+    intro: "Convert any decimal number to its fraction form instantly. Get simplified fractions and mixed numbers.",
+    formula: "Write decimal as fraction over power of 10, then simplify",
+    table: [
+      ["0.5", "5/10", "1/2"],
+      ["0.75", "75/100", "3/4"],
+      ["0.333...", "333/1000", "1/3"],
+      ["1.25", "125/100", "5/4 = 1 1/4"],
+    ],
+    faqs: [],
+  },
+  "ratio": {
+    intro: "Simplify ratios, find missing values in proportions, and calculate aspect ratios. Perfect for students and designers.",
+    formula: "a:b = c:d → ad = bc",
+    table: [
+      ["2:3", "4:6, 6:9, 8:12", "Photography"],
+      ["16:9", "32:18, 48:27", "Widescreen"],
+      ["4:3", "8:6, 12:9", "Standard TV"],
+      ["1:1", "2:2, 3:3", "Square"],
+    ],
+    faqs: [],
+  },
+  "pythagorean": {
+    intro: "Calculate the hypotenuse or missing leg of any right triangle using the Pythagorean theorem (a² + b² = c²).",
+    formula: "a² + b² = c²",
+    table: [
+      ["3", "4", "5"],
+      ["5", "12", "13"],
+      ["6", "8", "10"],
+      ["7", "24", "25"],
+      ["8", "15", "17"],
+    ],
+    faqs: [],
+  },
+  "area": {
+    intro: "Calculate the area of squares, rectangles, circles, triangles, parallelograms, and trapezoids.",
+    formula: "Varies by shape",
+    table: [
+      ["Square", "side²", "side 5cm = 25cm²"],
+      ["Rectangle", "length × width", "10×5 = 50cm²"],
+      ["Circle", "π × r²", "r=5cm = 78.5cm²"],
+      ["Triangle", "½ × base × height", "10×6 = 30cm²"],
+    ],
+    faqs: [],
+  },
+  "volume": {
+    intro: "Calculate the volume of cubes, rectangular prisms, cylinders, spheres, and cones.",
+    formula: "Varies by shape",
+    table: [
+      ["Cube", "side³", "side 5cm = 125cm³"],
+      ["Rectangular Prism", "l × w × h", "10×5×4 = 200cm³"],
+      ["Cylinder", "π × r² × h", "r=5,h=10 = 785cm³"],
+      ["Sphere", "4/3 × π × r³", "r=6cm = 904cm³"],
+    ],
+    faqs: [],
+  },
+  "slope": {
+    intro: "Calculate the slope between any two points, find the line equation, y-intercept, and angle of inclination.",
+    formula: "m = (y₂ - y₁) / (x₂ - x₁)",
+    table: [
+      ["(1,2) and (4,8)", "2", "Positive slope"],
+      ["(1,8) and (4,2)", "-2", "Negative slope"],
+      ["(1,5) and (4,5)", "0", "Horizontal line"],
+      ["(2,1) and (2,5)", "Undefined", "Vertical line"],
+    ],
+    faqs: [],
+  },
+  "mean-median-mode": {
+    intro: "Calculate mean, median, mode, range, sum, min, max, and count for any dataset.",
+    formula: "Mean = Σx / n | Median = middle value | Mode = most frequent",
+    table: [
+      ["2,4,6,8,10", "6", "6", "No mode"],
+      ["1,2,2,3,3,3,4", "2.57", "3", "3"],
+      ["10,20,30,40,50", "30", "30", "No mode"],
+    ],
+    faqs: [],
+  },
+  "distance": {
+    intro: "Calculate the straight-line distance between any two points in 2D space.",
+    formula: "d = √[(x₂ - x₁)² + (y₂ - y₁)²]",
+    table: [
+      ["(0,0) and (3,4)", "5", "3-4-5 triangle"],
+      ["(1,1) and (4,5)", "5", "3-4-5 triangle"],
+      ["(0,0) and (0,5)", "5", "Vertical line"],
     ],
     faqs: [],
   },
