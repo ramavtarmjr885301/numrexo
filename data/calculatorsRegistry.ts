@@ -157,6 +157,8 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "roi", slug: "roi-calculator", name: "ROI Calculator", icon: "📈", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Return on investment", tags: ["Business", "New"], category: "business", path: generatePath("business", "roi-calculator"), popularity: 78, isNew: true },
   { id: "break-even", slug: "break-even-calculator", name: "Break-even", icon: "⚖️", color: "#06b6d4", bg: "rgba(6,182,212,0.1)", desc: "Find break-even point", tags: ["Business", "New"], category: "business", path: generatePath("business", "break-even-calculator"), popularity: 75, isNew: true },
   { id: "invoice", slug: "invoice-generator", name: "Invoice Generator", icon: "📄", color: "#14b8a6", bg: "rgba(20,184,166,0.1)", desc: "Create professional invoice", tags: ["Business", "New"], category: "business", path: generatePath("business", "invoice-generator"), popularity: 70, isNew: true },
+  { id: "apy", slug: "apy-calculator", name: "APY Calculator", icon: "📈", color: "#3b82f6", bg: "rgba(59,130,246,0.1)", desc: "Calculate Annual Percentage Yield with compound interest", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "apy-calculator"), popularity: 75, isNew: true },
+  { id: "loan-comparison", slug: "loan-comparison-calculator", name: "Loan Comparison Calculator", icon: "⚖️", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Compare two loans side by side", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "loan-comparison-calculator"), popularity: 78, isNew: true },
 ];
 
 // Helper functions
@@ -833,6 +835,28 @@ export const seoContent: Record<string, any> = {
       ["Current 80%", "Desired 85%", "Weight 20%", "Need 100%"],
       ["Current 85%", "Desired 90%", "Weight 40%", "Need 97.5%"],
       ["Current 50%", "Desired 60%", "Weight 35%", "Need 78.6%"],
+    ],
+    faqs: [],
+  },
+  "apy": {
+    intro: "The Annual Percentage Yield (APY) Calculator helps you calculate the true return on your savings or investments, including the effect of compound interest. Unlike simple interest rates, APY shows what you'll actually earn.",
+    formula: "APY = (1 + r/n)^n - 1",
+    table: [
+      ["4%", "4.07%", "4.08%", "4.08%"],
+      ["5%", "5.12%", "5.13%", "5.13%"],
+      ["6%", "6.17%", "6.18%", "6.18%"],
+      ["7%", "7.23%", "7.25%", "7.25%"],
+      ["8%", "8.30%", "8.33%", "8.33%"],
+    ],
+    faqs: [],
+  },
+  "loan-comparison": {
+    intro: "Compare two loans side by side to find the better deal. See EMI, total interest, and total payment including processing fees.",
+    formula: "EMI = P × r × (1+r)^n / ((1+r)^n - 1)",
+    table: [
+      ["Check prepayment penalties", "Some loans charge 2-3% for early payment"],
+      ["Compare processing fees", "Fees can range from 0.5% to 2%"],
+      ["Look at foreclosure charges", "Floating rate loans have no foreclosure charges"],
     ],
     faqs: [],
   },

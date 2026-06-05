@@ -53,6 +53,8 @@ import CGPACalculator from "./CGPACalculator";
 import GradeCalculator from "./GradeCalculator";
 import WeightedGradeCalculator from "./WeightedGradeCalculator";
 import FinalGradeCalculator from "./FinalGradeCalculator";
+import APYCalculator from "./APYCalculator";
+import LoanComparisonCalculator from "./LoanComparisonCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -180,6 +182,10 @@ export default function CalculatorWrapper({
         return <WeightedGradeCalculator />;
       case "final-grade":
         return <FinalGradeCalculator />;
+      case "apy":
+        return <APYCalculator />;
+      case "loan-comparison":
+        return <LoanComparisonCalculator />;
       // Add more cases for other calculators
       default:
         return (
