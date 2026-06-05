@@ -43,6 +43,16 @@ import EPFCalculator from "./EPFCalculator";
 import FractionCalculator from "./FractionCalculator";
 import QuadraticSolver from "./QuadraticSolver";
 import ConcreteCalculator from "./ConcreteCalculator";
+import SalesTaxCalculator from "./SalesTaxCalculator";
+import LTCGCalculator from "./LTCGCalculator";
+import VATCalculator from "./VATCalculator";
+import ROICalculator from "./ROICalculator";
+import BreakEvenCalculator from "./BreakEvenCalculator";
+import MarkupCalculator from "./MarkupCalculator";
+import CGPACalculator from "./CGPACalculator";
+import GradeCalculator from "./GradeCalculator";
+import WeightedGradeCalculator from "./WeightedGradeCalculator";
+import FinalGradeCalculator from "./FinalGradeCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -149,6 +159,27 @@ export default function CalculatorWrapper({
         return <ConcreteCalculator />;
       case "quadratic":
         return <QuadraticSolver />;
+      case "sales-tax":
+        return <SalesTaxCalculator />;
+      case "ltcg":
+        return <LTCGCalculator />;
+      case "vat":
+        return <VATCalculator />;
+      /////
+      case "roi":
+        return <ROICalculator />;
+      case "break-even":
+        return <BreakEvenCalculator />;
+      case "markup":
+        return <MarkupCalculator />;
+      case "cgpa":
+        return <CGPACalculator />;
+      case "grade":
+        return <GradeCalculator />;
+      case "weighted-grade":
+        return <WeightedGradeCalculator />;
+      case "final-grade":
+        return <FinalGradeCalculator />;
       // Add more cases for other calculators
       default:
         return (

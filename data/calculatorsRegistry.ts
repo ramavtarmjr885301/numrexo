@@ -376,16 +376,6 @@ export const seoContent: Record<string, any> = {
     ],
   },
 
-  // Default for any calculator without specific SEO
-  default: {
-    intro: "This calculator provides accurate results for your needs. Enter your values and press calculate to get instant results.",
-    formula: "Please refer to the specific formula for this calculation.",
-    table: [],
-    faqs: [],
-  },
-
-
-  // Add these missing SEO content entries to your existing seoContent object
 
   // Health & Wellness
   "water-intake": {
@@ -716,5 +706,141 @@ export const seoContent: Record<string, any> = {
       { q: "How to calculate days between dates?", a: "Simply subtract the earlier date from the later date. Our calculator handles leap years automatically." },
       { q: "How to calculate age in years?", a: "Subtract birth year from current year, then adjust based on birthday passed or not." },
     ],
+  },
+
+  "ltcg": {
+    intro: "The Long Term Capital Gains (LTCG) Tax Calculator helps you estimate the tax you need to pay when selling assets held for the long term. Whether you're selling shares, property, gold, or mutual funds, this calculator gives you accurate tax liability.",
+    formula: "For shares: Tax = (Gain - ₹1,00,000) × 10% | For property/debt/gold: Tax = (Sale - Indexed Cost) × 20%",
+    table: [
+      ["Shares/Equity Funds", ">1 year", "10%", "₹1 lakh exemption"],
+      ["Real Estate", ">3 years", "20%", "Indexation benefit"],
+      ["Debt Funds/Bonds", ">3 years", "20%", "Indexation benefit"],
+      ["Gold/Jewellery", ">3 years", "20%", "Indexation benefit"],
+    ],
+    faqs: [],
+  },
+  "vat": {
+    intro: "The VAT Calculator helps you calculate Value Added Tax for the UK, Europe, Canada, and Australia. Add or remove VAT from any amount instantly.",
+    formula: "With VAT = Amount × (1 + Rate/100) | Without VAT = Amount ÷ (1 + Rate/100)",
+    table: [
+      ["United Kingdom", "20%", "5%", "0%"],
+      ["Germany", "19%", "7%", "0%"],
+      ["France", "20%", "5.5%", "0%"],
+      ["Italy", "22%", "10%", "0%"],
+      ["Canada (GST)", "5%", "0%", "0%"],
+    ],
+    faqs: [],
+  },
+  "sales-tax": {
+    intro: "The Sales Tax Calculator helps you calculate sales tax for purchases in the United States. Includes state-by-state rates and local tax adjustments.",
+    formula: "Total = Amount × (1 + Tax Rate/100) | Pre-Tax = Total ÷ (1 + Tax Rate/100)",
+    table: [
+      ["California", "7.25%", "10.25%", "Highest combined rate"],
+      ["Texas", "6.25%", "8.25%", "No tax on groceries"],
+      ["New York", "4%", "8.875%", "NYC adds 4.5%"],
+      ["Florida", "6%", "7.5%", "No tax on groceries"],
+      ["Illinois", "6.25%", "10.25%", "Home rule communities"],
+    ],
+    faqs: [],
+  },
+
+  "roi": {
+    intro: "The Return on Investment (ROI) Calculator helps you measure the profitability of your investments. Whether you're investing in stocks, real estate, business, or marketing campaigns, this calculator gives you instant ROI calculations.",
+    formula: "ROI = (Net Profit ÷ Cost of Investment) × 100 | CAGR = (Final ÷ Initial)^(1/years) - 1 × 100",
+    table: [
+      ["Stock Market", "10-15%", "High", "3-5 years"],
+      ["Real Estate", "8-12%", "Medium", "5-10 years"],
+      ["Mutual Funds", "10-12%", "Medium", "3-5 years"],
+      ["Fixed Deposits", "6-7%", "Low", "1-5 years"],
+      ["Business", "20-30%", "High", "2-5 years"],
+    ],
+    faqs: [],
+  },
+  "break-even": {
+    intro: "The Break-even Calculator helps you determine the point where your business becomes profitable. Whether you're starting a new business, launching a product, or analyzing existing operations, knowing your break-even point is essential.",
+    formula: "Break-even (units) = Fixed Costs ÷ (Price - Variable Cost) | Break-even (₹) = Fixed Costs ÷ Contribution Margin Ratio",
+    table: [
+      ["Coffee Shop", "₹2,00,000", "₹150", "₹50", "2,000 cups"],
+      ["T-Shirt Brand", "₹50,000", "₹500", "₹200", "167 shirts"],
+      ["Software SaaS", "₹5,00,000", "₹1,000", "₹100", "556 customers"],
+      ["Restaurant", "₹3,00,000", "₹400", "₹150", "1,200 meals"],
+    ],
+    faqs: [],
+  },
+  "markup": {
+    intro: "The Markup Calculator helps you set the right prices for your products. Whether you're a retailer, manufacturer, or service provider, knowing your markup is essential for profitability.",
+    formula: "Markup % = (SP - CP) ÷ CP × 100 | SP = CP × (1 + Markup/100) | CP = SP ÷ (1 + Markup/100)",
+    table: [
+      ["Retail Clothing", "50-100%", "33-50%", "Fashion has high markups"],
+      ["Electronics", "20-40%", "17-29%", "Competitive pricing"],
+      ["Restaurants", "60-80%", "38-44%", "Food cost is key"],
+      ["Professional Services", "100-300%", "50-75%", "Labor-based pricing"],
+      ["Jewelry", "200-400%", "67-80%", "Very high markup"],
+    ],
+    faqs: [],
+  },
+
+  "cgpa": {
+    intro: "The CGPA Calculator helps you calculate your Cumulative Grade Point Average across all semesters. Perfect for university students who need to track their overall academic performance.",
+    formula: "CGPA = Σ (GPA × Credits) ÷ Σ Credits | Percentage ≈ CGPA × 9.5",
+    table: [
+      ["A+", "10", "90-100%", "Outstanding"],
+      ["A", "9", "80-89%", "Excellent"],
+      ["B+", "8", "70-79%", "Very Good"],
+      ["B", "7", "60-69%", "Good"],
+      ["C+", "6", "55-59%", "Above Average"],
+      ["C", "5", "50-54%", "Average"],
+      ["D", "4", "40-49%", "Pass"],
+      ["F", "0", "Below 40%", "Fail"],
+    ],
+    faqs: [],
+  },
+  "grade": {
+    intro: "The Grade Calculator helps you calculate your weighted course grade and determine what you need on your final exam. Perfect for students who want to track their progress.",
+    formula: "Weighted Grade = Σ (Score × Weight ÷ 100) | Final Needed = (Desired - Current × (1 - Weight/100)) ÷ (Weight/100)",
+    table: [
+      ["A+", "97-100%", "4.0", "Excellent"],
+      ["A", "93-96%", "4.0", "Excellent"],
+      ["A-", "90-92%", "3.7", "Excellent"],
+      ["B+", "87-89%", "3.3", "Very Good"],
+      ["B", "83-86%", "3.0", "Good"],
+      ["B-", "80-82%", "2.7", "Good"],
+      ["C+", "77-79%", "2.3", "Satisfactory"],
+      ["C", "73-76%", "2.0", "Satisfactory"],
+      ["D", "60-69%", "1.0", "Poor"],
+      ["F", "0-59%", "0.0", "Fail"],
+    ],
+    faqs: [],
+  },
+  "weighted-grade": {
+    intro: "The Weighted Grade Calculator helps you calculate your overall course grade when different categories have different weights. Perfect for students tracking homework, quizzes, tests, and finals.",
+    formula: "Weighted Grade = Σ (Category Grade × Category Weight ÷ 100)",
+    table: [
+      ["Homework", "10-15%", "Do all assignments"],
+      ["Quizzes", "15-20%", "Study weekly"],
+      ["Projects", "15-25%", "Start early"],
+      ["Midterm", "20-25%", "Review all material"],
+      ["Final Exam", "25-40%", "Start 2 weeks early"],
+    ],
+    faqs: [],
+  },
+  "final-grade": {
+    intro: "The Final Grade Calculator helps you plan your final exam strategy. Find out exactly what score you need on your final to achieve your desired grade.",
+    formula: "Needed = (Desired - Current × (1 - Weight/100)) ÷ (Weight/100)",
+    table: [
+      ["Current 65%", "Desired 70%", "Weight 30%", "Need 81.7%"],
+      ["Current 75%", "Desired 80%", "Weight 25%", "Need 95.0%"],
+      ["Current 80%", "Desired 85%", "Weight 20%", "Need 100%"],
+      ["Current 85%", "Desired 90%", "Weight 40%", "Need 97.5%"],
+      ["Current 50%", "Desired 60%", "Weight 35%", "Need 78.6%"],
+    ],
+    faqs: [],
+  },
+  // Default for any calculator without specific SEO
+  default: {
+    intro: "This calculator provides accurate results for your needs. Enter your values and press calculate to get instant results.",
+    formula: "Please refer to the specific formula for this calculation.",
+    table: [],
+    faqs: [],
   },
 };
