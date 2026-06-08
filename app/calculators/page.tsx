@@ -28,8 +28,8 @@ export default function CalculatorsPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">All Tools</span>
-          <h1 className="text-3xl md:text-4xl font-bold mt-2 mb-3">Browse All Calculators</h1>
-          <p className="text-gray-400">Free, accurate calculators for every need</p>
+          <h1 className="text-3xl md:text-4xl font-bold mt-2 mb-3">150+ Free Online Calculators for Every Need</h1>
+          <p className="text-gray-400">Free, Accurate Calculators for BMI, EMI, GST, Age & More</p>
         </div>
 
         {/* Search Bar */}
