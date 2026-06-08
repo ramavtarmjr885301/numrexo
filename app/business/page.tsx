@@ -108,7 +108,7 @@ export default function BusinessCategoryPage() {
                             calculator={calc} 
                             onClick={() => window.location.href = calc.path}
                             // Optional: Add priority to first 3 calculators for LCP
-                            priority={index < 3}
+                            
                         />
                     ))}
                 </div>

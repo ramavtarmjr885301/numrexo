@@ -113,7 +113,7 @@ export default function CookingCategoryPage() {
                                 key={calc.id} 
                                 calculator={calc} 
                                 onClick={() => window.location.href = calc.path}
-                                priority={index < 3}
+                                
                             />
                         ))}
                     </div>
