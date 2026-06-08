@@ -1377,7 +1377,7 @@ export const seoContent: Record<string, any> = {
     faqs: [],
   },
 
-  "capm-calculator": {
+  "capm": {
     intro: "Calculate the expected return of a security using the Capital Asset Pricing Model (CAPM). Essential for investors to assess risk vs. reward.",
     formula: "Expected Return = Risk-Free Rate + Beta × (Market Return – Risk-Free Rate)",
     table: [
@@ -1386,14 +1386,10 @@ export const seoContent: Record<string, any> = {
       ["Stock B", "0.8", "3%", "8%", "7.0%"],
       ["Stock C", "1.5", "3%", "8%", "10.5%"],
     ],
-    faqs: [
-      "What is a good Beta value? – Beta >1 means higher volatility than the market.",
-      "How to find the risk-free rate? – Use 10-year government bond yield.",
-      "Can CAPM be used for private companies? – Yes, with estimated Beta from public peers.",
-    ],
+    faqs: [],
   },
 
-  "xirr-calculator": {
+  "xirr": {
     intro: "Compute the annualized return on irregular cash flows (e.g., SIPs, dividends, redemptions). XIRR is the most accurate metric for real-world investments.",
     formula: "XIRR = Discount rate that makes net present value of all cash flows equal to zero. Σ (Cash flowᵢ / (1+XIRR)^((dateᵢ – start_date)/365)) = 0",
     table: [
@@ -1402,14 +1398,10 @@ export const seoContent: Record<string, any> = {
       ["15-Jun-2023", "-5,000", "Additional purchase"],
       ["10-Jan-2024", "18,000", "Redemption"],
     ],
-    faqs: [
-      "What is the difference between IRR and XIRR? – XIRR handles irregular dates; IRR assumes fixed intervals.",
-      "Can XIRR be negative? – Yes, if total outflows exceed inflows.",
-      "What Excel function calculates XIRR? – =XIRR(values, dates, guess)",
-    ],
+    faqs: [],
   },
 
-  "property-tax-calculator": {
+  "property-tax": {
     intro: "Estimate annual property tax based on property type, location (municipal zone), built‑up area, and applicable rates. Avoid penalties with accurate tax planning.",
     formula: "Property Tax = (Base Value × Area × Age Factor × Usage Factor × Structure Factor) + Cess + Surcharge",
     table: [
@@ -1418,14 +1410,10 @@ export const seoContent: Record<string, any> = {
       ["Delhi", "₹9", "₹9,000", "1.5% per month"],
       ["Bangalore", "₹7", "₹7,000", "1% per month"],
     ],
-    faqs: [
-      "How to reduce property tax? – Claim self‑occupancy or green building rebates.",
-      "Who is exempt? – Senior citizens, ex‑servicemen (varies by state).",
-      "Is GST applicable on property tax? – No, it's a state/local levy.",
-    ],
+    faqs: [],
   },
 
-  "rental-yield-calculator": {
+  "rental-yield": {
     intro: "Measure the annual return on a rental property as a percentage of its market value. Compare properties and decide if an investment makes sense.",
     formula: "Rental Yield (%) = (Annual Rental Income ÷ Property Value) × 100",
     table: [
@@ -1434,11 +1422,103 @@ export const seoContent: Record<string, any> = {
       ["Chennai", "₹60 Lakh", "₹25,000", "5.0%"],
       ["Pune", "₹80 Lakh", "₹30,000", "4.5%"],
     ],
-    faqs: [
-      "What is a good rental yield? – 4–6% is decent; >7% is excellent.",
-      "Gross vs Net yield? – Net yield deducts maintenance, taxes, and vacancy costs.",
-      "How to increase yield? – Add amenities, furnish the property, or rent short‑term (Airbnb).",
+    faqs: [],
+  },
+  "college-cost": {
+    intro: "Plan your education budget by calculating total college expenses including tuition, housing, books, and other fees. Adjust for inflation to see the real cost over multiple years.",
+    formula: "Total College Cost = Σ (Annual Cost × (1 + Inflation Rate)^Year) for Year = 0 to N-1",
+    table: [
+      ["College Type", "Avg Annual Tuition", "Room & Board", "Total (4 Years)"],
+      ["Government College", "₹30,000", "₹50,000", "₹3.2 Lakh"],
+      ["Private College", "₹2,00,000", "₹1,00,000", "₹12 Lakh"],
+      ["Professional Course", "₹5,00,000", "₹1,20,000", "₹25 Lakh"],
+      ["Medical College", "₹8,00,000", "₹1,50,000", "₹38 Lakh"],
     ],
+    faqs: [],
+  },
+  "student-loan": {
+    intro: "Calculate monthly student loan payments, total interest cost, and see how extra payments can save you money and reduce your loan term significantly.",
+    formula: "EMI = P × r × (1 + r)^n / ((1 + r)^n - 1) where P = Principal, r = Monthly Interest Rate, n = Months",
+    table: [
+      ["Loan Amount", "Interest Rate", "Term (Years)", "Monthly EMI", "Total Interest"],
+      ["₹5,00,000", "8%", "10", "₹6,066", "₹2,28,000"],
+      ["₹10,00,000", "8%", "10", "₹12,132", "₹4,56,000"],
+      ["₹15,00,000", "8.5%", "15", "₹14,765", "₹11,57,700"],
+      ["₹25,00,000", "9%", "20", "₹22,493", "₹28,98,320"],
+    ],
+    faqs: [],
+  },
+  "scholarship": {
+    intro: "Track all your scholarships, grants, and financial aid to understand your true out-of-pocket college costs. Identify funding gaps and plan accordingly.",
+    formula: "Remaining Cost = Total College Cost - (Total Scholarships + Grants + Work Study + Family Contribution)",
+    table: [
+      ["Scholarship Type", "Average Amount", "Eligibility", "Renewable"],
+      ["Merit-Based", "₹50,000 - ₹2,00,000", "85%+ Academics", "Yes"],
+      ["Need-Based", "₹25,000 - ₹1,00,000", "Family Income < ₹8 Lakh", "Yes"],
+      ["Sports Quota", "₹30,000 - ₹1,50,000", "State/National Level", "Yes"],
+      ["Minority Scholarship", "₹20,000 - ₹60,000", "SC/ST/OBC Category", "Yes"],
+    ],
+    faqs: [],
+  },
+  "attendance": {
+    intro: "Track your attendance percentage, find out how many more classes you need to meet requirements, and plan your attendance strategy for exams.",
+    formula: "Attendance % = (Total Classes Attended ÷ Total Classes Held) × 100",
+    table: [
+      ["Classes Held", "Classes Attended", "Current %", "Need to Reach 75%"],
+      ["30", "20", "66.7%", "10 more classes"],
+      ["45", "35", "77.8%", "Already above 75%"],
+      ["60", "40", "66.7%", "20 more classes"],
+      ["80", "55", "68.8%", "25 more classes"],
+    ],
+    faqs: [],
+  },
+  "percentage-marks": {
+    intro: "Calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.",
+    formula: "Percentage = (Marks Obtained ÷ Total Marks) × 100 | CGPA to % = CGPA × 9.5",
+    table: [
+      ["Marks Obtained", "Total Marks", "Percentage", "Grade"],
+      ["450", "500", "90%", "A+ (Outstanding)"],
+      ["400", "500", "80%", "A (Excellent)"],
+      ["350", "500", "70%", "B+ (Very Good)"],
+      ["300", "500", "60%", "B (Good)"],
+    ],
+    faqs: [],
+  },
+  "pace": {
+    intro: "Calculate running pace, race time, or distance for your workouts. Perfect for runners, cyclists, and walkers to plan training and predict race times.",
+    formula: "Pace = Time ÷ Distance | Time = Distance × Pace | Distance = Time ÷ Pace",
+    table: [
+      ["Distance", "Time (Beginner)", "Time (Intermediate)", "Time (Advanced)"],
+      ["5 km", "40-45 min", "25-30 min", "18-22 min"],
+      ["10 km", "80-90 min", "50-60 min", "35-45 min"],
+      ["Half Marathon", "2:45-3:00 hr", "1:45-2:00 hr", "1:20-1:35 hr"],
+      ["Marathon", "5:30-6:00 hr", "3:30-4:00 hr", "2:45-3:15 hr"],
+    ],
+    faqs: [],
+  },
+  "distance-speed-time": {
+    intro: "Calculate speed, distance, or time using the fundamental physics formula. Perfect for travel planning, running, cycling, driving, and physics problems.",
+    formula: "Speed = Distance ÷ Time | Distance = Speed × Time | Time = Distance ÷ Speed",
+    table: [
+      ["Mode", "Avg Speed", "Distance", "Time"],
+      ["Walking", "4 km/h", "10 km", "2 hr 30 min"],
+      ["Cycling", "18 km/h", "50 km", "2 hr 47 min"],
+      ["Car (City)", "35 km/h", "100 km", "2 hr 51 min"],
+      ["Car (Highway)", "80 km/h", "300 km", "3 hr 45 min"],
+    ],
+    faqs: [],
+  },
+  "invoice": {
+    intro: "Create professional invoices for your business. Add items, apply discounts and taxes, and print or download as PDF. Perfect for freelancers and small businesses.",
+    formula: "Total = Subtotal - Discount + Tax | Tax = (Subtotal - Discount) × Tax Rate | Discount = Subtotal × (Discount% / 100) or Fixed Amount",
+    table: [
+      ["Service", "Typical Rate", "GST", "Common Terms"],
+      ["Freelance Writing", "₹500-2000/page", "18%", "Net 15"],
+      ["Web Development", "₹20,000-1,00,000", "18%", "50% Advance"],
+      ["Consulting", "₹2,000-5,000/hr", "18%", "Net 30"],
+      ["Design Services", "₹5,000-50,000", "18%", "Net 15"],
+    ],
+    faqs: [],
   },
   // Default for any calculator without specific SEO
   default: {

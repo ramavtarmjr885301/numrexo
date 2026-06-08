@@ -108,6 +108,14 @@ import CAPMCalculator from "./CAPMCalculator";
 import XIRRCalculator from "./XIRRCalculator";
 import PropertyTaxCalculator from "./PropertyTaxCalculator";
 import RentalYieldCalculator from "./RentalYieldCalculator";
+import CollegeCostCalculator from "./CollegeCostCalculator";
+import StudentLoanCalculator from "./StudentLoanCalculator";
+import ScholarshipCalculator from "./ScholarshipCalculator";
+import AttendanceCalculator from "./AttendanceCalculator";
+import PercentageMarksCalculator from "./PercentageMarksCalculator";
+import PaceCalculator from "./PaceCalculator";
+import DistanceSpeedTimeCalculator from "./DistanceSpeedTimeCalculator";
+import InvoiceGenerator from "./InvoiceGenerator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -342,6 +350,23 @@ export default function CalculatorWrapper({
         return <PropertyTaxCalculator />
       case "rental-yield":
         return <RentalYieldCalculator />
+      case "college-cost":
+        return <CollegeCostCalculator />
+      case "student-loan":
+        return <StudentLoanCalculator />
+      case "scholarship":
+        return <ScholarshipCalculator />
+      case "attendance":
+        return <AttendanceCalculator />
+      case "pace":
+        return <PaceCalculator />
+      case "distance-speed-time":
+        return <DistanceSpeedTimeCalculator />
+      case "invoice":
+        return <InvoiceGenerator />
+      case "percentage-marks":
+        return <PercentageMarksCalculator />
+
 
       // Add more cases for other calculators
       default:
