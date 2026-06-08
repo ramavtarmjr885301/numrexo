@@ -116,7 +116,6 @@ export default function EducationCategoryPage() {
                                 key={calc.id} 
                                 calculator={calc} 
                                 onClick={() => window.location.href = calc.path}
-                                priority={index < 3}
                             />
                         ))}
                     </div>
