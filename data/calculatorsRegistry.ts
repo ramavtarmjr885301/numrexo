@@ -19,7 +19,7 @@ export interface CalculatorType {
 export const CATEGORIES = {
   health: { name: 'Health & Wellness', icon: '❤️', order: 1, basePath: '/health' },
   fitness: { name: 'Fitness', icon: '💪', order: 2, basePath: '/fitness' },
-  finance: { name: 'Finance & Investment', icon: '💰', order: 3, basePath: '/finance' },
+  finance: { name: 'Finance', icon: '💰', order: 3, basePath: '/finance' },
   tax: { name: 'Tax', icon: '📋', order: 4, basePath: '/tax' },
   math: { name: 'Mathematics', icon: '📐', order: 5, basePath: '/math' },
   conversion: { name: 'Converters', icon: '🔄', order: 6, basePath: '/conversion' },
@@ -103,7 +103,6 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "birthday-countdown", slug: "birthday-countdown", name: "Birthday Countdown", icon: "🎂", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "Days until next birthday", tags: ["Time", "New"], category: "time", path: generatePath("time", "birthday-countdown"), popularity: 78, isNew: true },
   { id: "stopwatch", slug: "stopwatch", name: "Stopwatch", icon: "⏱️", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Online stopwatch", tags: ["Time", "New"], category: "time", path: generatePath("time", "stopwatch"), popularity: 70, isNew: true },
   { id: "timer", slug: "timer", name: "Timer", icon: "⏲️", color: "#06b6d4", bg: "rgba(6,182,212,0.1)", desc: "Countdown timer", tags: ["Time", "New"], category: "time", path: generatePath("time", "timer"), popularity: 72, isNew: true },
-  { id: "clock", slug: "clock", name: "World Clock", icon: "🌍", color: "#14b8a6", bg: "rgba(20,184,166,0.1)", desc: "Time zones converter", tags: ["Time", "New"], category: "time", path: generatePath("time", "clock"), popularity: 65, isNew: true },
 
   // ============ CONSTRUCTION CATEGORY (10 calculators) ============
   { id: "carpet-area", slug: "carpet-area-calculator", name: "Carpet Area", icon: "🏠", color: "#3b82f6", bg: "rgba(59,130,246,0.1)", desc: "Calculate carpet area", tags: ["Real Estate", "New"], category: "construction", path: generatePath("construction", "carpet-area-calculator"), popularity: 75, isNew: true },
@@ -161,6 +160,7 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "loan-comparison", slug: "loan-comparison-calculator", name: "Loan Comparison Calculator", icon: "⚖️", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Compare two loans side by side", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "loan-comparison-calculator"), popularity: 78, isNew: true },
   { id: "tip", slug: "tip-calculator", name: "Tip Calculator", icon: "💰", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate tips and split bills", tags: ["Business", "New"], category: "business", path: generatePath("business", "tip-calculator"), popularity: 92, isNew: true },
   { id: "sales-commission", slug: "sales-commission-calculator", name: "Sales Commission Calculator", icon: "💰", color: "#f97316", bg: "rgba(249,115,22,0.1)", desc: "Calculate sales commission with tiered rates and splits", tags: ["Business", "New"], category: "business", path: generatePath("business", "sales-commission-calculator"), popularity: 85, isNew: true },
+  { id: "gst", slug: "gst-calculator", name: "GST Calculator", icon: "🧾", color: "#22c55e", bg: "rgba(34,197,94,0.1)", desc: "Add or remove GST from any amount. Supports all Indian GST slabs", tags: ["Tax", "India", "Free", "Popular"], category: "tax", path: generatePath("tax", "gst-calculator"), popularity: 90 },
 ];
 
 // Helper functions
@@ -1109,6 +1109,230 @@ export const seoContent: Record<string, any> = {
       ["180°", "π rad", "200 gon"],
       ["90°", "π/2 rad", "100 gon"],
       ["1 rad", "57.2958°", "63.662 gon"],
+    ],
+    faqs: [],
+  },
+  "gst": {
+    intro: "GST (Goods and Services Tax) is a unified indirect tax levied on the supply of goods and services across India. It replaced multiple taxes like VAT, service tax, and excise duty.",
+    formula: "GST Amount = Original Price × (GST Rate / 100)",
+    formulaUS: "Total Price = Original Price + GST Amount",
+    table: [
+      ["0%", "Essential items – rice, wheat, vegetables"],
+      ["5%", "Household necessities – sugar, edible oil"],
+      ["12%", "Processed foods, smartphones, computers"],
+      ["18%", "Most services, electronics, FMCG products"],
+      ["28%", "Luxury goods, automobiles, tobacco"],
+    ],
+    faqs: [
+      { q: "What is CGST and SGST?", a: "In intra-state transactions, GST is split equally into CGST (Central GST) collected by the central government and SGST (State GST) collected by the state. For inter-state, IGST applies." },
+      { q: "How do I calculate GST exclusive price?", a: "If you have the pre-GST price, multiply it by (1 + GST rate/100). For example, ₹10,000 with 18% GST = ₹10,000 × 1.18 = ₹11,800." },
+      { q: "How to calculate original price from GST inclusive amount?", a: "Divide the GST-inclusive amount by (1 + GST rate/100). For example, ₹11,800 ÷ 1.18 = ₹10,000 original price." },
+      { q: "Who needs to register for GST?", a: "Any business with annual turnover exceeding ₹40 lakhs (goods) or ₹20 lakhs (services) must register for GST in India." },
+    ],
+  },
+  "add-days": {
+    intro: "Calculate future or past dates by adding or subtracting days. Perfect for deadlines, project planning, and due dates.",
+    formula: "New Date = Start Date ± Days",
+    table: [
+      ["Today + 30 days", "One month from now"],
+      ["Today + 90 days", "Three months from now"],
+      ["Today + 365 days", "One year from now"],
+    ],
+    faqs: [],
+  },
+  "work-days": {
+    intro: "Calculate the number of working days (Monday-Friday) between any two dates. Perfect for project planning and delivery estimates.",
+    formula: "Working Days = Total Days - Weekends",
+    table: [
+      ["Monday to Friday", "5 working days"],
+      ["Monday to next Monday", "6 working days"],
+      ["January 2024", "23 working days"],
+    ],
+    faqs: [],
+  },
+  "time-duration": {
+    intro: "Calculate duration between two times, or add/subtract hours and minutes from a base time.",
+    formula: "Duration = End Time - Start Time",
+    table: [
+      ["9:00 AM to 5:00 PM", "8 hours"],
+      ["10:00 PM to 6:00 AM", "8 hours (overnight)"],
+      ["9:00 AM + 3h30m", "12:30 PM"],
+    ],
+    faqs: [],
+  },
+  "birthday-countdown": {
+    intro: "Count down the days until your next birthday. Also find your exact age and zodiac sign.",
+    formula: "Days Until = Next Birthday - Today",
+    table: [
+      ["Today to birthday", "Countdown days"],
+      ["Age calculation", "Years, months, days"],
+      ["Zodiac signs", "Based on birth date"],
+    ],
+    faqs: [],
+  },
+  "stopwatch": {
+    intro: "Free online stopwatch with lap timing. Accurate to 10 milliseconds. Perfect for workouts and timing events.",
+    formula: "Elapsed Time = Current Time - Start Time",
+    table: [
+      ["Start/Pause/Reset", "Basic controls"],
+      ["Lap timing", "Record split times"],
+      ["Millisecond accuracy", "0.01 second precision"],
+    ],
+    faqs: [],
+  },
+  "timer": {
+    intro: "Free online countdown timer. Set hours, minutes, and seconds. Get alerts when time is up.",
+    formula: "Time Remaining = Set Time - Elapsed Time",
+    table: [
+      ["1 minute", "60 seconds"],
+      ["5 minutes", "300 seconds"],
+      ["1 hour", "3600 seconds"],
+    ],
+    faqs: [],
+  },
+  "time-zone-converter": {
+    intro: "Convert time between any two time zones. Perfect for international meetings and travel planning.",
+    formula: "Converted Time = Original Time ± Time Zone Difference",
+    table: [
+      ["New York to London", "+5 hours"],
+      ["London to New York", "-5 hours"],
+      ["India (IST) to New York", "-9.5 hours"],
+    ],
+    faqs: [],
+  },
+  "carpet-area": {
+    intro: "Calculate the actual usable carpet area of your property. Essential for home buyers to verify builder claims.",
+    formula: "Carpet Area = Length × Width (sum of all rooms)",
+    table: [
+      ["Living Room", "15×12 = 180 sq ft"],
+      ["Bedroom 1", "12×10 = 120 sq ft"],
+      ["Bedroom 2", "12×10 = 120 sq ft"],
+      ["Total Carpet Area", "420 sq ft"],
+    ],
+    faqs: [],
+  },
+  "built-up-area": {
+    intro: "Calculate built-up area from carpet area including wall thickness and balcony.",
+    formula: "Built-up Area = Carpet Area × (1 + Wall Factor) + Balcony",
+    table: [
+      ["Carpet Area", "Wall Factor (18%)", "Built-up Area"],
+      ["1000 sq ft", "1.18", "1180 sq ft"],
+      ["1500 sq ft", "1.18", "1770 sq ft"],
+    ],
+    faqs: [],
+  },
+  "paint": {
+    intro: "Estimate how much paint you need for your room. Includes walls, ceiling, doors, and windows.",
+    formula: "Paint (liters) = Area × Coats ÷ Coverage",
+    table: [
+      ["Room Size", "Wall Area", "Paint Needed (2 coats)"],
+      ["10×12 ft", "~350 sq ft", "~7 liters"],
+      ["12×15 ft", "~450 sq ft", "~9 liters"],
+    ],
+    faqs: [],
+  },
+  "flooring": {
+    intro: "Calculate how many tiles or flooring planks you need for any room.",
+    formula: "Tiles Needed = Room Area ÷ Tile Area × (1 + Waste%)",
+    table: [
+      ["Room Size", "Tile Size", "Tiles Needed (with waste)"],
+      ["10×10 ft", "12×12 in", "110 tiles"],
+      ["12×15 ft", "18×18 in", "100 tiles"],
+    ],
+    faqs: [],
+  },
+  "wallpaper": {
+    intro: "Estimate how many wallpaper rolls you need for your room.",
+    formula: "Rolls Needed = Wall Area ÷ Roll Coverage × (1 + Waste%)",
+    table: [
+      ["Room Size", "Wall Area", "Rolls Needed"],
+      ["10×10×8 ft", "~320 sq ft", "~7 rolls"],
+      ["12×12×8 ft", "~380 sq ft", "~8 rolls"],
+    ],
+    faqs: [],
+  },
+  "roofing": {
+    intro: "Calculate roof area including pitch factor. Estimate roofing sheets needed.",
+    formula: "Sloped Area = Flat Area × Pitch Factor",
+    table: [
+      ["Pitch", "Factor", "Example (1000 sq ft flat)"],
+      ["4/12", "1.05", "1050 sq ft"],
+      ["6/12", "1.12", "1120 sq ft"],
+      ["8/12", "1.20", "1200 sq ft"],
+    ],
+    faqs: [],
+  },
+  "land-area": {
+    intro: "Calculate land area for rectangular, triangular, or circular plots. Convert between multiple units.",
+    formula: "Rectangle: L × W | Triangle: ½ × B × H | Circle: π × r²",
+    table: [
+      ["Unit", "Square Feet", "Square Yards"],
+      ["1 Acre", "43,560", "4,840"],
+      ["1 Ground", "2,400", "266.67"],
+      ["1 Cent", "435.6", "48.4"],
+    ],
+    faqs: [],
+  },
+  "recipe-converter": {
+    intro: "Scale recipes up or down for any number of servings. Convert between measurement units like cups to ml, grams to ounces.",
+    formula: "Scaling Factor = New Servings ÷ Original Servings",
+    table: [
+      ["Double recipe", "×2 all ingredients", "2x servings"],
+      ["Half recipe", "÷2 all ingredients", "0.5x servings"],
+      ["1 cup = 240 ml", "1 tbsp = 15 ml", "1 tsp = 5 ml"],
+    ],
+    faqs: [],
+  },
+  "cooking-time": {
+    intro: "Adjust cooking times for temperature changes, quantity scaling, pan size, and altitude.",
+    formula: "New Time = Original Time × (Original Temp ÷ New Temp)",
+    table: [
+      ["350°F to 375°F", "30 min → 28 min", "-7% time"],
+      ["350°F to 325°F", "30 min → 32 min", "+7% time"],
+      ["Double recipe", "+15-20% time", "Baked goods"],
+    ],
+    faqs: [],
+  },
+  "oven-temperature": {
+    intro: "Convert oven temperatures between Celsius, Fahrenheit, and Gas Mark.",
+    formula: "°F = (°C × 9/5) + 32 | °C = (°F - 32) × 5/9",
+    table: [
+      ["Cakes", "180°C", "350°F", "Gas 4"],
+      ["Bread", "200°C", "400°F", "Gas 6"],
+      ["Roast Meat", "190°C", "375°F", "Gas 5"],
+    ],
+    faqs: [],
+  },
+  "baking-converter": {
+    intro: "Convert common baking ingredients from cups to grams and grams to cups.",
+    formula: "Grams = Cups × Ingredient Density | Cups = Grams ÷ Ingredient Density",
+    table: [
+      ["All-Purpose Flour", "1 cup = 125g", "125g = 1 cup"],
+      ["Granulated Sugar", "1 cup = 200g", "200g = 1 cup"],
+      ["Butter", "1 cup = 227g", "227g = 1 cup"],
+      ["Cocoa Powder", "1 cup = 100g", "100g = 1 cup"],
+    ],
+    faqs: [],
+  },
+  "food-expiry": {
+    intro: "Check how long different foods last in the refrigerator or freezer.",
+    formula: "Based on FDA and USDA food safety guidelines",
+    table: [
+      ["Cooked Leftovers", "3-4 days", "2-3 months"],
+      ["Raw Chicken", "1-2 days", "9-12 months"],
+      ["Eggs", "3-5 weeks", "Not recommended"],
+      ["Milk", "5-7 days", "3 months"],
+    ],
+    faqs: [],
+  },
+  "water-bill": {
+    intro: "Estimate your monthly water bill based on consumption, tiered rates, and service charges.",
+    formula: "Total Bill = (Usage × Rate) + Fixed Charge + Sewer Charge",
+    table: [
+      ["1 person", "3,600 gal", "$35-50"],
+      ["2 persons", "6,000 gal", "$50-70"],
+      ["3 persons", "9,000 gal", "$70-95"],
+      ["4 persons", "12,000 gal", "$90-120"],
     ],
     faqs: [],
   },

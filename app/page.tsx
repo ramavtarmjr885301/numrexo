@@ -62,7 +62,7 @@ export default function HomePageClient() {
     { label: "Percentage Calculator", href: "/math/percentage-calculator" },
     { label: "Age Calculator", href: "/math/age-calculator" },
     { label: "GST Calculator", href: "/tax/gst-calculator" },
-    { label: "SIP Calculator", href: "/finance/sip-calculator" },
+    { label: "SIP Calculator", href: "/investment/sip-calculator" },
   ];
 
   return (

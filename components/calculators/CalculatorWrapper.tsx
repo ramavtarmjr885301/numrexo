@@ -81,6 +81,25 @@ import PressureConverter from "./PressureConverter";
 import EnergyConverter from "./EnergyConverter";
 import PowerConverter from "./PowerConverter";
 import AngleConverter from "./AngleConverter";
+import AddDaysCalculator from "./AddDaysCalculator";
+import WorkingDaysCalculator from "./WorkingDaysCalculator";
+import TimeDurationCalculator from "./TimeDurationCalculator";
+import BirthdayCountdown from "./BirthdayCountdown";
+import Stopwatch from "./Stopwatch";
+import Timer from "./Timer";
+import CarpetAreaCalculator from "./CarpetAreaCalculator";
+import BuiltUpAreaCalculator from "./BuiltUpAreaCalculator";
+import PaintCalculator from "./PaintCalculator";
+import FlooringCalculator from "./FlooringCalculator";
+import WallpaperCalculator from "./WallpaperCalculator";
+import RoofingCalculator from "./RoofingCalculator";
+import LandAreaCalculator from "./LandAreaCalculator";
+import RecipeConverter from "./RecipeConverter";
+import CookingTimeCalculator from "./CookingTimeCalculator";
+import OvenTemperatureConverter from "./OvenTemperatureConverter";
+import BakingConverter from "./BakingConverter";
+import FoodExpiryCalculator from "./FoodExpiryCalculator";
+import WaterBillCalculator from "./WaterBillCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -240,7 +259,6 @@ export default function CalculatorWrapper({
         return <StatisticsCalculator />;
       case "distance":
         return <DistanceCalculator />;
-      // Conversion Category - Batch 7
       case "length-converter":
         return <LengthConverter />;
       case "weight-converter":
@@ -265,6 +283,45 @@ export default function CalculatorWrapper({
         return <PowerConverter />;
       case "angle-converter":
         return <AngleConverter />;
+      case "add-days":
+        return <AddDaysCalculator />;
+      case "work-days":
+        return <WorkingDaysCalculator />;
+      case "time-duration":
+        return <TimeDurationCalculator />;
+      case "birthday-countdown":
+        return <BirthdayCountdown />;
+      case "stopwatch":
+        return <Stopwatch />;
+      case "timer":
+        return <Timer />;
+      case "carpet-area":
+        return <CarpetAreaCalculator />;
+      case "built-up-area":
+        return <BuiltUpAreaCalculator />;
+      case "paint":
+        return <PaintCalculator />;
+      case "flooring":
+        return <FlooringCalculator />;
+      case "wallpaper":
+        return <WallpaperCalculator />;
+      case "roofing":
+        return <RoofingCalculator />;
+      case "land-area":
+        return <LandAreaCalculator />;
+      case "recipe-converter":
+        return <RecipeConverter />;
+      case "cooking-time":
+        return <CookingTimeCalculator />;
+      case "oven-temperature":
+        return <OvenTemperatureConverter />;
+      case "baking-converter":
+        return <BakingConverter />;
+      case "food-expiry":
+        return <FoodExpiryCalculator />;
+      case "water-bill":
+        return <WaterBillCalculator />;
+
       // Add more cases for other calculators
       default:
         return (
