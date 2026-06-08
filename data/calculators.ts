@@ -7,7 +7,7 @@ export interface CalculatorType {
   bg: string;
   desc: string;
   tags: string[];
-  category: "health" | "finance" | "tax";
+  category: "health" | "finance" | "tax" | "business";
   path: string;
 }
 
@@ -48,6 +48,18 @@ export const CALCULATORS: CalculatorType[] = [
     category: "tax",
     path: "/tax/gst-calculator",
   },
+  // {
+  //   id: "invoice",
+  //   slug: "invoice-generator",
+  //   name: "Invoice Generator",
+  //   icon: "🧾",
+  //   color: "#22c55e",
+  //   bg: "rgba(34,197,94,0.1)",
+  //   desc: "Add or remove GST from any amount. Supports all Indian GST slabs.",
+  //   tags: ["Business", "India", "Free"],
+  //   category: "business",
+  //   path: "/business/invoice-generator",
+  // },
 ];
 
 export const seoContent = {

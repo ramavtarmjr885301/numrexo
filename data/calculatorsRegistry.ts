@@ -197,12 +197,7 @@ export const seoContent: Record<string, any> = {
       ["Obese Class II", "35 – 40"],
       ["Obese Class III", "> 40"],
     ],
-    faqs: [
-      { q: "What is a healthy BMI range for adults?", a: "For adults (20 years and older), a BMI between 18.5 and 24.9 is considered normal and healthy by the WHO and CDC." },
-      { q: "Is BMI accurate for athletes and muscular individuals?", a: "BMI can overestimate fatness in people with high muscle mass, like athletes and bodybuilders." },
-      { q: "Is BMI the same for men and women?", a: "The BMI formula is the same, but body fat distribution differs." },
-      { q: "What should I do if my BMI is high?", a: "Consult a healthcare professional. A combination of balanced diet and regular physical activity can help." },
-    ],
+
   },
 
   // Fitness Calculators
@@ -217,11 +212,7 @@ export const seoContent: Record<string, any> = {
       ["Very Active", "Hard exercise 6-7 days/week", "BMR × 1.725"],
       ["Extra Active", "Physical job + intense training", "BMR × 1.9"],
     ],
-    faqs: [
-      { q: "What is BMR and why is it important?", a: "BMR represents the minimum calories your body needs at rest. It's the foundation for weight management." },
-      { q: "How accurate is the BMR formula?", a: "The Mifflin-St Jeor equation is 90-95% accurate for most people." },
-      { q: "Can I increase my BMR?", a: "Yes! Building muscle mass through strength training increases BMR." },
-    ],
+
   },
 
   "body-fat": {
@@ -235,10 +226,7 @@ export const seoContent: Record<string, any> = {
       ["Average", "18-24%", "25-31%"],
       ["Obese", "25%+", "32%+"],
     ],
-    faqs: [
-      { q: "What is a healthy body fat percentage?", a: "For men: 18-24%, For women: 25-31% is considered average/healthy." },
-      { q: "How accurate is the US Navy method?", a: "95-98% accurate compared to hydrostatic weighing when measured correctly." },
-    ],
+
   },
 
   "calorie-burn": {
@@ -251,10 +239,7 @@ export const seoContent: Record<string, any> = {
       ["Weight Training", "6.0", "~450 cal/hour"],
       ["Yoga", "3.0", "~200 cal/hour"],
     ],
-    faqs: [
-      { q: "How accurate is calorie burn calculation?", a: "Within 85-95% accuracy using MET values." },
-      { q: "What exercises burn the most calories?", a: "Running, jumping rope, HIIT, and swimming burn the most." },
-    ],
+
   },
 
   // Finance Calculators
@@ -266,10 +251,6 @@ export const seoContent: Record<string, any> = {
       ["r", "Monthly Interest Rate (Annual Rate ÷ 12 ÷ 100)"],
       ["n", "Number of Monthly Installments"],
     ],
-    faqs: [
-      { q: "What factors affect my EMI?", a: "Loan amount, interest rate, and tenure affect your EMI." },
-      { q: "Can I reduce my EMI?", a: "Yes, by making partial prepayments or refinancing at lower rates." },
-    ],
   },
 
   sip: {
@@ -280,10 +261,6 @@ export const seoContent: Record<string, any> = {
       ["10 Years @12%", "₹11.6L", "₹23.2L", "₹46.4L"],
       ["15 Years @12%", "₹25.2L", "₹50.4L", "₹1.01Cr"],
       ["20 Years @12%", "₹49.8L", "₹99.6L", "₹1.99Cr"],
-    ],
-    faqs: [
-      { q: "What is the minimum SIP amount?", a: "Most mutual funds allow SIPs starting from just ₹500 per month." },
-      { q: "Is SIP good for long-term wealth creation?", a: "Yes! SIPs are excellent for long-term wealth creation through compounding." },
     ],
   },
 

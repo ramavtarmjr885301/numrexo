@@ -209,8 +209,8 @@ export default function BMICalculator() {
           <div className="flex border-b border-gray-800">
             <button
               className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "metric"
-                  ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
-                  : "text-gray-500 hover:text-gray-300"
+                ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
+                : "text-gray-500 hover:text-gray-300"
                 }`}
               onClick={() => setUnit("metric")}
             >
@@ -218,8 +218,8 @@ export default function BMICalculator() {
             </button>
             <button
               className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "imperial"
-                  ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
-                  : "text-gray-500 hover:text-gray-300"
+                ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
+                : "text-gray-500 hover:text-gray-300"
                 }`}
               onClick={() => setUnit("imperial")}
             >
