@@ -75,7 +75,7 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "area", slug: "area-calculator", name: "Area Calculator", icon: "📏", color: "#f59e0b", bg: "rgba(245,158,11,0.1)", desc: "Calculate area of shapes", tags: ["Geometry", "New"], category: "math", path: generatePath("math", "area-calculator"), popularity: 85, isNew: true },
   { id: "volume", slug: "volume-calculator", name: "Volume Calculator", icon: "🧊", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "Calculate volume of 3D shapes", tags: ["Geometry", "New"], category: "math", path: generatePath("math", "volume-calculator"), popularity: 78, isNew: true },
   { id: "slope", slug: "slope-calculator", name: "Slope Calculator", icon: "📈", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Find line slope", tags: ["Algebra", "New"], category: "math", path: generatePath("math", "slope-calculator"), popularity: 68, isNew: true },
-  { id: "quadratic", slug: "quadratic-calculator", name: "Quadratic Solver", icon: "✖️", color: "#ef4444", bg: "rgba(239,68,68,0.1)", desc: "Solve quadratic equations", tags: ["Algebra", "New"], category: "math", path: generatePath("math", "quadratic-calculator"), popularity: 72, isNew: true },
+  { id: "quadratic", slug: "quadratic-solver", name: "Quadratic Solver", icon: "✖️", color: "#ef4444", bg: "rgba(239,68,68,0.1)", desc: "Solve quadratic equations", tags: ["Algebra", "New"], category: "math", path: generatePath("math", "quadratic-solver"), popularity: 72, isNew: true },
   { id: "mean-median-mode", slug: "statistics-calculator", name: "Statistics Calculator", icon: "📊", color: "#06b6d4", bg: "rgba(6,182,212,0.1)", desc: "Mean, median, mode", tags: ["Statistics", "New"], category: "math", path: generatePath("math", "statistics-calculator"), popularity: 75, isNew: true },
   { id: "distance", slug: "distance-calculator", name: "Distance Formula", icon: "📍", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate distance between points", tags: ["Geometry", "New"], category: "math", path: generatePath("math", "distance-calculator"), popularity: 70, isNew: true },
 
@@ -144,8 +144,8 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "flight-time", slug: "flight-time-calculator", name: "Flight Time", icon: "🛫", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate flight duration", tags: ["Travel", "New"], category: "travel", path: generatePath("travel", "flight-time-calculator"), popularity: 75, isNew: true },
   { id: "pace", slug: "pace-calculator", name: "Pace Calculator", icon: "🏃", color: "#ef4444", bg: "rgba(239,68,68,0.1)", desc: "Running/walking pace", tags: ["Fitness", "New"], category: "fitness", path: generatePath("fitness", "pace-calculator"), popularity: 70, isNew: true },
   { id: "distance-speed-time", slug: "dst-calculator", name: "Distance/Speed/Time", icon: "📊", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "D = S × T calculator", tags: ["Physics", "New"], category: "science", path: generatePath("science", "dst-calculator"), popularity: 78, isNew: true },
-  { id: "accommodation-cost", slug: "accommodation-cost-calculator", name: "Hotel Cost", icon: "🏨", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Calculate hotel expense", tags: ["Travel", "New"], category: "travel", path: generatePath("travel", "accommodation-cost-calculator"), popularity: 72, isNew: true },
-  { id: "luggage", slug: "luggage-allowance-calculator", name: "Luggage Allowance", icon: "🧳", color: "#06b6d4", bg: "rgba(6,182,212,0.1)", desc: "Check baggage limits", tags: ["Travel", "New"], category: "travel", path: generatePath("travel", "luggage-allowance-calculator"), popularity: 68, isNew: true },
+  { id: "hotel-cost", slug: "hotel-cost-calculator", name: "Hotel Cost", icon: "🏨", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Calculate hotel expense", tags: ["Travel", "New"], category: "travel", path: generatePath("travel", "hotel-cost-calculator"), popularity: 72, isNew: true },
+  { id: "luggage-allowance", slug: "luggage-allowance-calculator", name: "Luggage Allowance", icon: "🧳", color: "#f59e0b", bg: "rgba(245,158,11,0.1)", desc: "Check baggage limits", tags: ["Travel", "New"], category: "travel", path: generatePath("travel", "luggage-allowance-calculator"), popularity: 68, isNew: true },
 
   // ============ BUSINESS CATEGORY (8 calculators) ============
   { id: "profit-margin", slug: "profit-margin-calculator", name: "Profit Margin", icon: "📊", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate profit percentage", tags: ["Business", "New"], category: "business", path: generatePath("business", "profit-margin-calculator"), popularity: 85, isNew: true },
@@ -1335,6 +1335,110 @@ export const seoContent: Record<string, any> = {
       ["4 persons", "12,000 gal", "$90-120"],
     ],
     faqs: [],
+  },
+  "travel-budget": {
+    intro: "Plan your trip budget by estimating costs for flights, accommodation, food, activities, and more. Get per day and per person breakdowns.",
+    formula: "Total Budget = Sum of all expenses | Per Day = Total ÷ Days",
+    table: [
+      ["Southeast Asia", "$20-40", "$40-80", "$100-200"],
+      ["Europe", "$50-80", "$80-150", "$200-400"],
+      ["USA/Canada", "$50-80", "$100-200", "$250-500"],
+    ],
+    faqs: [],
+  },
+  "flight-time": {
+    intro: "Estimate flight duration based on distance and aircraft speed. Includes extra time for takeoff, landing, and taxiing.",
+    formula: "Flight Time = Distance ÷ Speed + Extra Time",
+    table: [
+      ["New York → London", "3450 miles", "7h 15m"],
+      ["Los Angeles → Tokyo", "5470 miles", "11h 30m"],
+      ["Mumbai → London", "4470 miles", "9h 15m"],
+    ],
+    faqs: [],
+  },
+  "hotel-cost": {
+    intro: "Calculate total hotel stay cost including taxes and fees. Split costs between travelers easily.",
+    formula: "Total = (Price/Night × Nights) + Taxes + Fees",
+    table: [
+      ["New York", "$150-250", "$250-400", "$500+"],
+      ["London", "$100-200", "$200-350", "$400+"],
+      ["Tokyo", "$80-150", "$150-250", "$350+"],
+    ],
+    faqs: [],
+  },
+  "luggage-allowance": {
+    intro: "Check baggage allowances for major airlines and calculate excess baggage fees before you fly.",
+    formula: "Excess Fee = (Extra Weight × Rate) + (Extra Bags × Bag Fee)",
+    table: [
+      ["Emirates", "2x23kg", "1x7kg", "Personal item"],
+      ["American Airlines", "1x23kg", "1 bag + personal", "22x14x9 in"],
+      ["Ryanair", "Paid only", "1 small bag", "40x20x25 cm"],
+    ],
+    faqs: [],
+  },
+
+  "capm-calculator": {
+    intro: "Calculate the expected return of a security using the Capital Asset Pricing Model (CAPM). Essential for investors to assess risk vs. reward.",
+    formula: "Expected Return = Risk-Free Rate + Beta × (Market Return – Risk-Free Rate)",
+    table: [
+      ["Asset", "Beta", "Risk-Free Rate", "Market Return", "Expected Return"],
+      ["Stock A", "1.2", "3%", "8%", "9.0%"],
+      ["Stock B", "0.8", "3%", "8%", "7.0%"],
+      ["Stock C", "1.5", "3%", "8%", "10.5%"],
+    ],
+    faqs: [
+      "What is a good Beta value? – Beta >1 means higher volatility than the market.",
+      "How to find the risk-free rate? – Use 10-year government bond yield.",
+      "Can CAPM be used for private companies? – Yes, with estimated Beta from public peers.",
+    ],
+  },
+
+  "xirr-calculator": {
+    intro: "Compute the annualized return on irregular cash flows (e.g., SIPs, dividends, redemptions). XIRR is the most accurate metric for real-world investments.",
+    formula: "XIRR = Discount rate that makes net present value of all cash flows equal to zero. Σ (Cash flowᵢ / (1+XIRR)^((dateᵢ – start_date)/365)) = 0",
+    table: [
+      ["Date", "Cash Flow (₹)", "Description"],
+      ["01-Apr-2023", "-10,000", "Initial investment"],
+      ["15-Jun-2023", "-5,000", "Additional purchase"],
+      ["10-Jan-2024", "18,000", "Redemption"],
+    ],
+    faqs: [
+      "What is the difference between IRR and XIRR? – XIRR handles irregular dates; IRR assumes fixed intervals.",
+      "Can XIRR be negative? – Yes, if total outflows exceed inflows.",
+      "What Excel function calculates XIRR? – =XIRR(values, dates, guess)",
+    ],
+  },
+
+  "property-tax-calculator": {
+    intro: "Estimate annual property tax based on property type, location (municipal zone), built‑up area, and applicable rates. Avoid penalties with accurate tax planning.",
+    formula: "Property Tax = (Base Value × Area × Age Factor × Usage Factor × Structure Factor) + Cess + Surcharge",
+    table: [
+      ["City", "Rate per sq.ft", "Annual Tax (1000 sq.ft)", "Late Fee"],
+      ["Mumbai", "₹12", "₹12,000", "2% per month"],
+      ["Delhi", "₹9", "₹9,000", "1.5% per month"],
+      ["Bangalore", "₹7", "₹7,000", "1% per month"],
+    ],
+    faqs: [
+      "How to reduce property tax? – Claim self‑occupancy or green building rebates.",
+      "Who is exempt? – Senior citizens, ex‑servicemen (varies by state).",
+      "Is GST applicable on property tax? – No, it's a state/local levy.",
+    ],
+  },
+
+  "rental-yield-calculator": {
+    intro: "Measure the annual return on a rental property as a percentage of its market value. Compare properties and decide if an investment makes sense.",
+    formula: "Rental Yield (%) = (Annual Rental Income ÷ Property Value) × 100",
+    table: [
+      ["City", "Avg Property Price", "Monthly Rent", "Gross Rental Yield"],
+      ["Mumbai", "₹1.2 Cr", "₹40,000", "4.0%"],
+      ["Chennai", "₹60 Lakh", "₹25,000", "5.0%"],
+      ["Pune", "₹80 Lakh", "₹30,000", "4.5%"],
+    ],
+    faqs: [
+      "What is a good rental yield? – 4–6% is decent; >7% is excellent.",
+      "Gross vs Net yield? – Net yield deducts maintenance, taxes, and vacancy costs.",
+      "How to increase yield? – Add amenities, furnish the property, or rent short‑term (Airbnb).",
+    ],
   },
   // Default for any calculator without specific SEO
   default: {

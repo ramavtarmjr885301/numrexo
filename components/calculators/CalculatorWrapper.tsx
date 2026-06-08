@@ -100,6 +100,14 @@ import OvenTemperatureConverter from "./OvenTemperatureConverter";
 import BakingConverter from "./BakingConverter";
 import FoodExpiryCalculator from "./FoodExpiryCalculator";
 import WaterBillCalculator from "./WaterBillCalculator";
+import TravelBudgetCalculator from "./TravelBudgetCalculator";
+import FlightTimeCalculator from "./FlightTimeCalculator";
+import HotelCostCalculator from "./HotelCostCalculator";
+import LuggageAllowanceCalculator from "./LuggageAllowanceCalculator";
+import CAPMCalculator from "./CAPMCalculator";
+import XIRRCalculator from "./XIRRCalculator";
+import PropertyTaxCalculator from "./PropertyTaxCalculator";
+import RentalYieldCalculator from "./RentalYieldCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -200,8 +208,6 @@ export default function CalculatorWrapper({
         return <EPFCalculator />;
       case "fraction":
         return <FractionCalculator />;
-      case "quadratic-solver":
-        return <QuadraticSolver />;
       case "concrete":
         return <ConcreteCalculator />;
       case "quadratic":
@@ -212,7 +218,6 @@ export default function CalculatorWrapper({
         return <LTCGCalculator />;
       case "vat":
         return <VATCalculator />;
-      /////
       case "roi":
         return <ROICalculator />;
       case "break-even":
@@ -321,6 +326,22 @@ export default function CalculatorWrapper({
         return <FoodExpiryCalculator />;
       case "water-bill":
         return <WaterBillCalculator />;
+      case "travel-budget":
+        return <TravelBudgetCalculator />;
+      case "flight-time":
+        return <FlightTimeCalculator />;
+      case "hotel-cost":
+        return <HotelCostCalculator />;
+      case "luggage-allowance":
+        return <LuggageAllowanceCalculator />;
+      case "capm":
+        return <CAPMCalculator />
+      case "xirr":
+        return <XIRRCalculator />
+      case "property-tax":
+        return <PropertyTaxCalculator />
+      case "rental-yield":
+        return <RentalYieldCalculator />
 
       // Add more cases for other calculators
       default:
