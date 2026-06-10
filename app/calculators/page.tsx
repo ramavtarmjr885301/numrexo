@@ -97,63 +97,63 @@ export default function CalculatorsPage() {
         {/* ✅ SIRF YEH CONTENT ADD KIYA HAI - SEO Content Section (No Footer - Sirf Content) */}
         <div className="mt-16 pt-8 border-t border-gray-800">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
+
             {/* Left Column */}
             <div className="text-sm text-gray-400 space-y-3">
               <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Free Online Calculators?</h2>
               <p>
-                Numrexo is a <strong className="text-white">free online calculator platform</strong> built for speed, accuracy, and simplicity. 
-                Whether you need to calculate your <strong className="text-white">Body Mass Index (BMI)</strong>, figure out your monthly loan 
-                <strong className="text-white">EMI (Equated Monthly Installment)</strong>, work out a percentage change, or estimate your GST or SIP returns — 
+                Numrexo is a <strong className="text-white">free online calculator platform</strong> built for speed, accuracy, and simplicity.
+                Whether you need to calculate your <strong className="text-white">Body Mass Index (BMI)</strong>, figure out your monthly loan
+                <strong className="text-white">EMI (Equated Monthly Installment)</strong>, work out a percentage change, or estimate your GST or SIP returns —
                 Numrexo has a dedicated, purpose-built calculator for every need.
               </p>
               <p>
-                Our <strong className="text-white">BMI Calculator</strong> uses the World Health Organization (WHO) standard formula, giving you 
-                instant insight into whether your weight falls in the healthy range. The <strong className="text-white">EMI Calculator</strong> 
-                applies the standard amortization formula used by banks globally, helping you plan home loans, car loans, or personal loans 
+                Our <strong className="text-white">BMI Calculator</strong> uses the World Health Organization (WHO) standard formula, giving you
+                instant insight into whether your weight falls in the healthy range. The <strong className="text-white">EMI Calculator</strong>
+                applies the standard amortization formula used by banks globally, helping you plan home loans, car loans, or personal loans
                 with complete transparency.
               </p>
               <p>
-                The <strong className="text-white">Percentage Calculator</strong> handles percentage increase, decrease, and difference in seconds — 
-                perfect for students, teachers, shoppers, and business professionals. The <strong className="text-white">Age Calculator</strong> 
+                The <strong className="text-white">Percentage Calculator</strong> handles percentage increase, decrease, and difference in seconds —
+                perfect for students, teachers, shoppers, and business professionals. The <strong className="text-white">Age Calculator</strong>
                 gives your exact age in years, months, and days — useful for official documents, medical records, or just satisfying curiosity.
               </p>
             </div>
-            
+
             {/* Right Column */}
             <div className="text-sm text-gray-400 space-y-3">
               <h2 className="text-lg font-semibold text-white mb-3">Privacy First & Global Access</h2>
               <p>
-                <strong className="text-white">Privacy first:</strong> every calculation happens entirely inside your browser. 
+                <strong className="text-white">Privacy first:</strong> every calculation happens entirely inside your browser.
                 Numrexo never stores, logs, or shares your input data. No account, no email, no tracking — just instant answers.
               </p>
               <p>
-                Numrexo works seamlessly on all devices — desktop, tablet, and mobile. There is no app to download. 
+                Numrexo works seamlessly on all devices — desktop, tablet, and mobile. There is no app to download.
                 Open your browser, pick a calculator, enter your values, and get results in under a second.
               </p>
               <p>
-                <strong className="text-white">100% free, no registration, no data collection.</strong> All calculations 
+                <strong className="text-white">100% free, no registration, no data collection.</strong> All calculations
                 happen in your browser — your data stays private and secure.
               </p>
-              
+
               <div className="mt-4 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
                 <p className="text-xs text-blue-300/80">
-                  💡 <strong className="text-blue-300">Pro Tip:</strong> Use the search bar above to find any calculator quickly — just type 
+                  💡 <strong className="text-blue-300">Pro Tip:</strong> Use the search bar above to find any calculator quickly — just type
                   "BMI", "EMI", "GST", or any calculator name. Bookmark this page for instant access to all tools!
                 </p>
               </div>
             </div>
           </div>
-          
+
           {/* Internal Links */}
           <div className="mt-8 pt-6 border-t border-gray-800/50 text-xs text-gray-500 text-center">
-            <p>Popular Calculators: 
-              <a href="/bmi-calculator" className="text-blue-400 hover:underline mx-1">BMI Calculator</a> • 
-              <a href="/emi-calculator" className="text-blue-400 hover:underline mx-1">EMI Calculator</a> • 
-              <a href="/gst-calculator" className="text-blue-400 hover:underline mx-1">GST Calculator</a> • 
-              <a href="/age-calculator" className="text-blue-400 hover:underline mx-1">Age Calculator</a> • 
-              <a href="/percentage-calculator" className="text-blue-400 hover:underline mx-1">Percentage Calculator</a> • 
-              <a href="/sip-calculator" className="text-blue-400 hover:underline mx-1">SIP Calculator</a>
+            <p>Popular Calculators:
+              <a href="/health/bmi-calculator" className="text-blue-400 hover:underline mx-1">BMI Calculator</a> •
+              <a href="/finance/emi-calculator" className="text-blue-400 hover:underline mx-1">EMI Calculator</a> •
+              <a href="/tax/gst-calculator" className="text-blue-400 hover:underline mx-1">GST Calculator</a> •
+              <a href="/math/age-calculator" className="text-blue-400 hover:underline mx-1">Age Calculator</a> •
+              <a href="/math/percentage-calculator" className="text-blue-400 hover:underline mx-1">Percentage Calculator</a> •
+              <a href="/investment/sip-calculator" className="text-blue-400 hover:underline mx-1">SIP Calculator</a>
             </p>
             <p className="mt-2 text-gray-600 text-[11px]">
               <span className="text-gray-500">🧮 Free online calculators for every need | </span>
@@ -162,7 +162,7 @@ export default function CalculatorsPage() {
             </p>
           </div>
         </div>
-        
+
       </div>
     </section>
   );
