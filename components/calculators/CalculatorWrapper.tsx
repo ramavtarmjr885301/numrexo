@@ -116,6 +116,7 @@ import PercentageMarksCalculator from "./PercentageMarksCalculator";
 import PaceCalculator from "./PaceCalculator";
 import DistanceSpeedTimeCalculator from "./DistanceSpeedTimeCalculator";
 import InvoiceGenerator from "./InvoiceGenerator";
+import MortgageCalculator from "./MortgageCalculator";
 
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
@@ -366,6 +367,8 @@ export default function CalculatorWrapper({
         return <InvoiceGenerator />
       case "percentage-marks":
         return <PercentageMarksCalculator />
+      case "mortgage":
+        return <MortgageCalculator />
 
 
       // Add more cases for other calculators

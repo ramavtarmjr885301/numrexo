@@ -60,6 +60,7 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "capm", slug: "capm-calculator", name: "CAPM Calculator", icon: "📊", color: "#3b82f6", bg: "rgba(59,130,246,0.1)", desc: "Expected return on stock", tags: ["Investment", "New"], category: "investment", path: generatePath("investment", "capm-calculator"), popularity: 65, isNew: true },
   { id: "cagr", slug: "cagr-calculator", name: "CAGR Calculator", icon: "📈", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Compound annual growth rate", tags: ["Finance", "Popular"], category: "finance", path: generatePath("finance", "cagr-calculator"), popularity: 88, isNew: true },
   { id: "xirr", slug: "xirr-calculator", name: "XIRR Calculator", icon: "🔄", color: "#f59e0b", bg: "rgba(245,158,11,0.1)", desc: "Irregular investment returns", tags: ["Investment", "New"], category: "investment", path: generatePath("investment", "xirr-calculator"), popularity: 68, isNew: true },
+  { id: "mortgage", slug: "mortgage-calculator", name: "Mortgage Calculator", icon: "🏠", color: "#3b82f6", bg: "rgba(59,130,246,0.1)", desc: "Calculate monthly mortgage payments with taxes & insurance", tags: ["Finance", "Loan", "Popular"], category: "finance", path: generatePath("finance", "mortgage-calculator"), popularity: 95, isNew: true },
   { id: "loan-eligibility", slug: "loan-eligibility-calculator", name: "Loan Eligibility", icon: "✅", color: "#06b6d4", bg: "rgba(6,182,212,0.1)", desc: "Check your loan eligibility", tags: ["Finance", "New"], category: "finance", path: generatePath("finance", "loan-eligibility-calculator"), popularity: 82, isNew: true },
   { id: "gratuity", slug: "gratuity-calculator", name: "Gratuity Calculator", icon: "🎁", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "Calculate gratuity amount", tags: ["HR", "New"], category: "finance", path: generatePath("finance", "gratuity-calculator"), popularity: 70, isNew: true },
   { id: "epf", slug: "epf-calculator", name: "EPF Calculator", icon: "🏦", color: "#f43f5e", bg: "rgba(244,63,94,0.1)", desc: "Employee provident fund", tags: ["Retirement", "New"], category: "finance", path: generatePath("finance", "epf-calculator"), popularity: 75, isNew: true },
@@ -1403,6 +1404,18 @@ export const seoContent: Record<string, any> = {
       ["Design Services", "₹5,000-50,000", "18%", "Net 15"],
     ],
     faqs: [],
+  },
+  "mortgage": {
+    intro: "Calculate your monthly mortgage payments including principal, interest, property taxes, home insurance, and PMI. Plan your home purchase budget with our free mortgage calculator.",
+    formula: "Monthly Payment = P × [r(1+r)^n] / [(1+r)^n - 1] + Tax + Insurance + PMI | P = Principal, r = Monthly Interest Rate, n = Total Payments",
+    table: [
+      ["Loan Term", "Monthly Payment", "Total Interest", "Best For"],
+      ["30 Years", "Lowest", "Highest", "Lower monthly budget"],
+      ["20 Years", "Moderate", "Moderate", "Balance of both"],
+      ["15 Years", "Highest", "Lowest", "Save on interest"],
+      ["10 Years", "Highest", "Lowest", "Quick payoff"],
+    ],
+    faqs: [],  // Empty as requested
   },
   // Default for any calculator without specific SEO
   default: {

@@ -134,8 +134,8 @@ export default function Footer() {
               <button onClick={() => router.push("/construction/concrete-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Concrete Calculator
               </button>
-              <button onClick={() => router.push("/business/roi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                ROI Calculator
+              <button onClick={() => router.push("/finance/mortgage-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Mortgage Calculator
               </button>
               <button onClick={() => router.push("/travel/travel-budget-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Travel Budget Cal..
