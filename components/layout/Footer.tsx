@@ -140,6 +140,19 @@ export default function Footer() {
               <button onClick={() => router.push("/travel/travel-budget-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Travel Budget Cal..
               </button>
+              <button onClick={() => router.push("/education/college-cost-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                College Cost Cal..
+              </button>
+              <button onClick={() => router.push("/health/nutrition-label-generator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Nutition Level Gen.
+              </button>
+              <button onClick={() => router.push("/health/calorie-counter")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Calorie Counter
+              </button>
+              <button onClick={() => router.push("/math/pythagorean-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Pythagorean Theorem
+              </button>
+
 
 
             </div>
