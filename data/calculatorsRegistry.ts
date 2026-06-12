@@ -273,10 +273,7 @@ export const seoContent: Record<string, any> = {
       ["HDFC", "6.9%", "7.1%", "7.2%"],
       ["ICICI", "7.0%", "7.2%", "7.25%"],
     ],
-    faqs: [
-      { q: "Is FD interest taxable?", a: "Yes, FD interest is fully taxable as per your income slab." },
-      { q: "What is the difference between cumulative and non-cumulative FD?", a: "Cumulative reinvests interest, non-cumulative pays out periodically." },
-    ],
+    faqs: [],
   },
 
   ppf: {
@@ -288,10 +285,7 @@ export const seoContent: Record<string, any> = {
       ["₹1,00,000", "₹27.2L", "₹43.8L"],
       ["₹1,50,000", "₹40.8L", "₹65.7L"],
     ],
-    faqs: [
-      { q: "What is the current PPF interest rate?", a: "Current rate is 7.1% per annum (compounded annually)." },
-      { q: "What is the PPF lock-in period?", a: "15-year lock-in period with partial withdrawals allowed from year 7." },
-    ],
+    faqs: [],
   },
 
   // Math Calculators
@@ -304,10 +298,7 @@ export const seoContent: Record<string, any> = {
       ["Increase 100 by 20%", "120"],
       ["Decrease 100 by 20%", "80"],
     ],
-    faqs: [
-      { q: "How to calculate percentage of a number?", a: "Multiply the number by the percentage divided by 100." },
-      { q: "How to calculate percentage increase?", a: "((New - Original) ÷ Original) × 100" },
-    ],
+    faqs: [],
   },
 
   age: {
@@ -319,10 +310,7 @@ export const seoContent: Record<string, any> = {
       ["Days", "Total days lived"],
       ["Next Birthday", "Days until next birthday"],
     ],
-    faqs: [
-      { q: "Does the calculator account for leap years?", a: "Yes, our age calculator automatically accounts for leap years." },
-      { q: "How is my exact age calculated?", a: "By subtracting your birth date from the current date." },
-    ],
+    faqs: [],
   },
 
   // Converters
@@ -335,10 +323,7 @@ export const seoContent: Record<string, any> = {
       ["USD to INR", "1 USD = 83.50 INR"],
       ["EUR to GBP", "1 EUR = 0.86 GBP"],
     ],
-    faqs: [
-      { q: "How accurate are the exchange rates?", a: "Our rates are updated daily from leading financial institutions." },
-      { q: "What affects currency exchange rates?", a: "Interest rates, inflation, political stability, and economic growth." },
-    ],
+    faqs: [],
   },
 
   "unit-converter": {
@@ -351,10 +336,7 @@ export const seoContent: Record<string, any> = {
       ["1 pound", "0.4536 kg"],
       ["1 gallon", "3.785 liters"],
     ],
-    faqs: [
-      { q: "How do I convert between metric and imperial?", a: "Our unit converter handles all metric-imperial conversions automatically." },
-      { q: "What's the difference between mass and weight?", a: "Mass measures matter, weight measures gravitational force." },
-    ],
+    faqs: [],
   },
 
 
@@ -367,11 +349,7 @@ export const seoContent: Record<string, any> = {
       ["Moderately Active", "Base + 0.5L", "~2.8L for 70kg"],
       ["Very Active", "Base + 1.0L", "~3.3L for 70kg"],
     ],
-    faqs: [
-      { q: "How much water should I drink daily?", a: "General recommendation is 2.7-3.7 liters, but individual needs vary by weight and activity." },
-      { q: "Does coffee count as water?", a: "Yes, moderate caffeine contributes to hydration, but water should be your primary source." },
-      { q: "What are signs of dehydration?", a: "Dry mouth, dark urine, headache, fatigue, and dizziness are common signs." },
-    ],
+    faqs: [],
   },
 
   "sleep": {
@@ -383,11 +361,7 @@ export const seoContent: Record<string, any> = {
       ["7.5 hours", "5 cycles", "⭐ Recommended"],
       ["9 hours", "6 cycles", "Optimal for most"],
     ],
-    faqs: [
-      { q: "How much sleep do I need?", a: "Most adults need 7-9 hours. Teens need 8-10 hours, school children 9-11 hours." },
-      { q: "What is a sleep cycle?", a: "A 90-minute cycle including light sleep, deep sleep, and REM sleep." },
-      { q: "Is 6 hours of sleep enough?", a: "Only 1% of people have a gene allowing 6 hours without impairment. Most need 7-9 hours." },
-    ],
+    faqs: [],
   },
 
   "ideal-weight": {
@@ -398,11 +372,7 @@ export const seoContent: Record<string, any> = {
       ["Robinson (Recommended)", "52kg + 1.9kg/inch", "49kg + 1.7kg/inch"],
       ["Miller (Nutrition)", "56.2kg + 1.41kg/inch", "53.1kg + 1.36kg/inch"],
     ],
-    faqs: [
-      { q: "What is ideal body weight?", a: "An estimate of optimal weight based on height and gender, originally for medical dosing." },
-      { q: "Does body frame affect ideal weight?", a: "Yes, larger frames weigh about 10% more than smaller frames." },
-      { q: "Which formula is most accurate?", a: "The Robinson formula is recommended for general population use." },
-    ],
+    faqs: [],
   },
 
   "ovulation": {
@@ -414,11 +384,7 @@ export const seoContent: Record<string, any> = {
       ["32 days", "Day 18", "Days 13-19"],
       ["35 days", "Day 21", "Days 16-22"],
     ],
-    faqs: [
-      { q: "How do I know when I'm ovulating?", a: "Look for changes in cervical mucus, slight temperature rise, or mild cramping." },
-      { q: "Can I get pregnant outside my fertile window?", a: "No - you need a live egg. Sperm can survive up to 5 days, so the window is about 6 days total." },
-      { q: "What if my cycles are irregular?", a: "Track physical signs like cervical mucus or use ovulation test strips for more accuracy." },
-    ],
+    faqs: [],
   },
 
   "body-type": {
@@ -430,10 +396,7 @@ export const seoContent: Record<string, any> = {
       ["Hourglass", "Bust and hips balanced", "Waist significantly narrower"],
       ["Rectangle", "All measurements similar", "Straight up and down"],
     ],
-    faqs: [
-      { q: "Why does body type matter?", a: "It helps tailor fitness and nutrition plans for your specific body shape." },
-      { q: "Can body type change?", a: "Yes, weight loss/gain and muscle building can change your proportions over time." },
-    ],
+    faqs: [],
   },
 
   "pregnancy-due": {
@@ -444,10 +407,7 @@ export const seoContent: Record<string, any> = {
       ["Jan 1", "Oct 8", "Sep 24", "Oct 8"],
       ["Feb 1", "Nov 8", "Oct 25", "Nov 8"],
     ],
-    faqs: [
-      { q: "How accurate is the due date?", a: "Due dates are estimates. Only 5% of babies arrive exactly on their due date." },
-      { q: "What's the difference between LMP and conception date?", a: "LMP is easier to know. Conception happens about 2 weeks after LMP." },
-    ],
+    faqs: [],
   },
 
   // Investment Calculators
@@ -460,10 +420,7 @@ export const seoContent: Record<string, any> = {
       ["₹5,00,000", "₹12.97L", "₹27.37L", "₹48.25L"],
       ["₹10,00,000", "₹25.94L", "₹54.74L", "₹96.50L"],
     ],
-    faqs: [
-      { q: "What is a lumpsum investment?", a: "A one-time investment of a large amount, ideal for bonuses or inheritances." },
-      { q: "Lumpsum vs SIP?", a: "Lumpsum works well in bull markets. SIP is better for rupee cost averaging in volatile markets." },
-    ],
+    faqs: [],
   },
 
   rd: {
@@ -475,10 +432,7 @@ export const seoContent: Record<string, any> = {
       ["₹10,000", "₹7.24L", "₹10.8L", "₹17.8L"],
       ["₹15,000", "₹10.86L", "₹16.2L", "₹26.7L"],
     ],
-    faqs: [
-      { q: "What is the minimum RD amount?", a: "Most banks allow RD starting from ₹500-₹1000 per month." },
-      { q: "Can I withdraw RD before maturity?", a: "Yes, but with penalty (0.5-1% lower interest)." },
-    ],
+    faqs: [],
   },
 
   cagr: {
@@ -490,10 +444,7 @@ export const seoContent: Record<string, any> = {
       ["Debt Funds", "7-8%", "Low"],
       ["Fixed Deposits", "6-7%", "Very Low"],
     ],
-    faqs: [
-      { q: "What is a good CAGR?", a: "Equity: 12-15%, Debt: 7-8%, FD: 6-7% are considered good." },
-      { q: "CAGR vs absolute return?", a: "CAGR accounts for time, absolute return doesn't." },
-    ],
+    faqs: [],
   },
 
   nps: {
@@ -505,10 +456,7 @@ export const seoContent: Record<string, any> = {
       ["₹10,000", "₹2.28Cr", "₹3.52Cr"],
       ["₹15,000", "₹3.42Cr", "₹5.28Cr"],
     ],
-    faqs: [
-      { q: "What are NPS tax benefits?", a: "Employee contribution up to 10% of salary, plus additional ₹50,000 deduction under 80CCD(1B)." },
-      { q: "Can I withdraw NPS before retirement?", a: "Partial withdrawal up to 25% after 3 years for specific needs like home, education, or medical treatment." },
-    ],
+    faqs: [],
   },
 
   swp: {
@@ -520,10 +468,7 @@ export const seoContent: Record<string, any> = {
       ["₹1Cr", "₹33,333", "₹41,667", "₹50,000"],
       ["₹2Cr", "₹66,667", "₹83,333", "₹1,00,000"],
     ],
-    faqs: [
-      { q: "What is the 4% rule?", a: "Withdraw 4% of corpus in year 1, adjust for inflation. Designed to last 30+ years." },
-      { q: "How long will my SWP last?", a: "Depends on withdrawal rate and investment returns. Lower withdrawal = longer lasting." },
-    ],
+    faqs: [],
   },
 
   "loan-eligibility": {
@@ -535,10 +480,7 @@ export const seoContent: Record<string, any> = {
       ["₹75,000", "₹68 Lakhs", "₹81 Lakhs"],
       ["₹1,00,000", "₹90 Lakhs", "₹1.08 Cr"],
     ],
-    faqs: [
-      { q: "How do banks decide eligibility?", a: "Income, existing EMIs, credit score, and loan tenure affect your eligibility." },
-      { q: "Does credit score matter?", a: "Yes, a score above 750 can increase eligible amount by 10-15%." },
-    ],
+    faqs: [],
   },
 
   gratuity: {
@@ -550,10 +492,7 @@ export const seoContent: Record<string, any> = {
       ["15 years", "₹4.33L", "₹6.49L", "₹8.65L"],
       ["20 years", "₹5.77L", "₹8.65L", "₹11.5L"],
     ],
-    faqs: [
-      { q: "Who is eligible for gratuity?", a: "Anyone with 5+ continuous years with the same employer." },
-      { q: "What is the maximum gratuity?", a: "Tax-free limit is ₹20 lakhs. Anything above is taxable." },
-    ],
+    faqs: [],
   },
 
   epf: {
@@ -565,10 +504,7 @@ export const seoContent: Record<string, any> = {
       ["₹50,000", "₹7.4 Cr", "₹11.6 Cr"],
       ["₹1,00,000", "₹14.8 Cr", "₹23.2 Cr"],
     ],
-    faqs: [
-      { q: "How does EPF work?", a: "You contribute 12%, employer contributes 12% (3.67% to EPF, 8.33% to pension)." },
-      { q: "Can I withdraw EPF early?", a: "Yes for home purchase, medical emergency, marriage, or higher education after certain years." },
-    ],
+    faqs: [],
   },
 
   // Math Calculators
@@ -580,10 +516,7 @@ export const seoContent: Record<string, any> = {
       ["3/4 × 2/5", "3/10"],
       ["2/3 ÷ 1/4", "8/3 = 2 2/3"],
     ],
-    faqs: [
-      { q: "How to add fractions?", a: "Find common denominator, add numerators, then simplify." },
-      { q: "How to simplify fractions?", a: "Divide numerator and denominator by their greatest common divisor (GCD)." },
-    ],
+    faqs: [],
   },
 
   quadratic: {
@@ -594,10 +527,7 @@ export const seoContent: Record<string, any> = {
       ["x² + 2x - 8 = 0", "x = 2, x = -4"],
       ["x² - 4 = 0", "x = 2, x = -2"],
     ],
-    faqs: [
-      { q: "What is a quadratic equation?", a: "ax² + bx + c = 0 where a isn't zero." },
-      { q: "What does discriminant tell me?", a: "Positive = 2 real solutions, Zero = 1 solution, Negative = complex numbers." },
-    ],
+    faqs: [],
   },
 
   // Business Calculators
@@ -609,10 +539,7 @@ export const seoContent: Record<string, any> = {
       ["Retail", "20-30%", "Medium margin"],
       ["Restaurants", "10-15%", "Lower margin"],
     ],
-    faqs: [
-      { q: "What is a good profit margin?", a: "Depends on industry. Software: 70-80%, Retail: 20-30%, Food: 10-15%." },
-      { q: "Markup vs margin?", a: "Margin = Profit ÷ Revenue, Markup = Profit ÷ Cost." },
-    ],
+    faqs: [],
   },
 
   discount: {
@@ -623,10 +550,7 @@ export const seoContent: Record<string, any> = {
       ["₹200 off ₹1000", "₹800 (Save ₹200)"],
       ["Buy 1 Get 1", "50% off on total"],
     ],
-    faqs: [
-      { q: "How to calculate discounted price?", a: "Multiply original price by (100 - discount%) ÷ 100." },
-      { q: "What is a good discount?", a: "Clearance: 40-70%, Seasonal: 20-40%, Flash sales: 30-50%." },
-    ],
+    faqs: [],
   },
 
   // Education Calculators
@@ -639,10 +563,7 @@ export const seoContent: Record<string, any> = {
       ["C+/C", "2.0-2.3", "Average"],
       ["D/F", "0.0-1.0", "Poor"],
     ],
-    faqs: [
-      { q: "What is a good GPA?", a: "3.5-4.0 = Excellent, 3.0-3.4 = Good, 2.5-2.9 = Average." },
-      { q: "How to calculate GPA from percentage?", a: "Convert to grade points using your institution's scale." },
-    ],
+    faqs: [],
   },
 
   // Construction Calculators
@@ -654,10 +575,7 @@ export const seoContent: Record<string, any> = {
       ["Column 1' dia × 10'", "0.22 m³", "2 cement bags"],
       ["Footing 3'×3'×1'", "0.25 m³", "2 cement bags"],
     ],
-    faqs: [
-      { q: "How much concrete for a slab?", a: "Length × Width × Thickness. Always add 10% extra for waste." },
-      { q: "How many cement bags per m³?", a: "For M20 grade, about 8 bags of 50kg cement per cubic meter." },
-    ],
+    faqs: [],
   },
 
   // Travel Calculators
@@ -669,10 +587,7 @@ export const seoContent: Record<string, any> = {
       ["1000 km", "₹105/l, 15 km/l", "₹7,000"],
       ["200 km", "₹95/l, 20 km/l", "₹950"],
     ],
-    faqs: [
-      { q: "How to calculate fuel cost?", a: "Distance × Fuel Price ÷ Mileage = Total fuel cost for the trip." },
-      { q: "What is good fuel economy?", a: "Cars: 15-20 km/l good, 20-25+ excellent. SUVs: 10-15 km/l." },
-    ],
+    faqs: [],
   },
 
   // Time Calculators
@@ -683,10 +598,7 @@ export const seoContent: Record<string, any> = {
       ["Jan 1 to Dec 31", "364-365 days", "52 weeks"],
       ["Birth to 18 years", "6,570 days", "~18 years"],
     ],
-    faqs: [
-      { q: "How to calculate days between dates?", a: "Simply subtract the earlier date from the later date. Our calculator handles leap years automatically." },
-      { q: "How to calculate age in years?", a: "Subtract birth year from current year, then adjust based on birthday passed or not." },
-    ],
+    faqs: [],
   },
 
   "ltcg": {
@@ -1100,12 +1012,7 @@ export const seoContent: Record<string, any> = {
       ["18%", "Most services, electronics, FMCG products"],
       ["28%", "Luxury goods, automobiles, tobacco"],
     ],
-    faqs: [
-      { q: "What is CGST and SGST?", a: "In intra-state transactions, GST is split equally into CGST (Central GST) collected by the central government and SGST (State GST) collected by the state. For inter-state, IGST applies." },
-      { q: "How do I calculate GST exclusive price?", a: "If you have the pre-GST price, multiply it by (1 + GST rate/100). For example, ₹10,000 with 18% GST = ₹10,000 × 1.18 = ₹11,800." },
-      { q: "How to calculate original price from GST inclusive amount?", a: "Divide the GST-inclusive amount by (1 + GST rate/100). For example, ₹11,800 ÷ 1.18 = ₹10,000 original price." },
-      { q: "Who needs to register for GST?", a: "Any business with annual turnover exceeding ₹40 lakhs (goods) or ₹20 lakhs (services) must register for GST in India." },
-    ],
+    faqs: [],
   },
   "add-days": {
     intro: "Calculate future or past dates by adding or subtracting days. Perfect for deadlines, project planning, and due dates.",
