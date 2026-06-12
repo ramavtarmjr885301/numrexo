@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CALCULATORS } from "@/data/calculators";
 
 // Social Media Icons as components
 const InstagramIcon = () => (
@@ -42,7 +41,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0f1525] border-t border-gray-800 mt-auto">
       <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -58,19 +57,91 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Calculators */}
+          {/* Categories */}
+          <div>
+            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Categories</h5>
+            <div className="space-y-2">
+              <button onClick={() => router.push("/health")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Health
+              </button>
+              <button onClick={() => router.push("/fitness")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Fitness
+              </button>
+              <button onClick={() => router.push("/finance")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Finance
+              </button>
+              <button onClick={() => router.push("/math")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Mathematics
+              </button>
+              <button onClick={() => router.push("/tax")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Tax
+              </button>
+              <button onClick={() => router.push("/conversion")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Conversions
+              </button>
+              <button onClick={() => router.push("/education")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Education
+              </button>
+              <button onClick={() => router.push("/construction")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Construction
+              </button>
+              <button onClick={() => router.push("/business")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Businsee
+              </button>
+              <button onClick={() => router.push("/science")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Science
+              </button>
+              <button onClick={() => router.push("/time")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Time & Date
+              </button>
+              <button onClick={() => router.push("/cooking")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Cooking
+              </button>
+              <button onClick={() => router.push("/travel")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Travel
+              </button>
+              <button onClick={() => router.push("/investment")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Investment
+              </button>
+
+            </div>
+            {/* Famous Calculators */}
+          </div>
           <div>
             <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Calculators</h5>
             <div className="space-y-2">
-              {CALCULATORS.map((calc) => (
-                <button
-                  key={calc.id}
-                  onClick={() => router.push(calc.path)}
-                  className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
-                >
-                  {calc.name}
-                </button>
-              ))}
+              <button onClick={() => router.push("/health/bmi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                BMI Calculator
+              </button>
+              <button onClick={() => router.push("/fitness/bmr-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                BMR Calculator
+              </button>
+              <button onClick={() => router.push("/tax/gst-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                GST Calculator
+              </button>
+              <button onClick={() => router.push("/business/invoice-generator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Invoice Generator
+              </button>
+              <button onClick={() => router.push("/finance/emi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                EMI Calculator
+              </button>
+              <button onClick={() => router.push("/fitness/body-fat-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Body Fat Calculator
+              </button>
+              <button onClick={() => router.push("/health/pregnancy-due-date-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Pregnancy Due Date
+              </button>
+              <button onClick={() => router.push("/construction/concrete-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Concrete Calculator
+              </button>
+              <button onClick={() => router.push("/business/roi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                ROI Calculator
+              </button>
+              <button onClick={() => router.push("/travel/travel-budget-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Travel Budget Cal..
+              </button>
+
+
             </div>
           </div>
 
