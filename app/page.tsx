@@ -62,7 +62,7 @@ const SEO_CONTENT = [
     or estimate your{" "}
     <a href="/tax/gst-calculator" className="text-white hover:text-blue-400 transition-colors">GST</a>{" "}
     or{" "}
-    <a href="/finance/sip-calculator" className="text-white hover:text-blue-400 transition-colors">SIP returns</a>{" "}
+    <a href="/investment/sip-calculator" className="text-white hover:text-blue-400 transition-colors">SIP returns</a>{" "}
     — Numrexo has a purpose-built calculator for every need.
   </>,
   <>
