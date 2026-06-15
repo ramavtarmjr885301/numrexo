@@ -30,6 +30,22 @@ const FAQ_DATA = [
         q: "What is keystone markup?",
         a: "Keystone markup is doubling the cost price — a 100% markup. Example: Cost ₹50, Selling ₹100. Common in retail, especially for jewelry, gifts, and specialty items. It's easy to calculate but not always optimal for all products.",
     },
+    {
+        q: "How to calculate selling price with markup and tax?",
+        a: "Selling Price = (Cost × (1 + Markup/100)) × (1 + Tax/100). Example: Cost ₹100, Markup 50%, GST 18% = (100 × 1.5) × 1.18 = ₹177. Add tax after markup, not before. Our calculator shows pre-tax and post-tax prices.",
+    },
+    {
+        q: "What is a good markup percentage for retail?",
+        a: "Retail markups: Clothing (50-100%), Shoes (40-60%), Electronics (20-40%), Jewelry (200-400%), Furniture (50-100%), Grocery (10-20%). Start with industry average, adjust based on your location, competition, and target profit margin.",
+    },
+    {
+        q: "How to calculate markup for services?",
+        a: "Service markup = (Hourly Rate - Hourly Cost) ÷ Hourly Cost × 100. Include employee salary, benefits, overhead, tools, training. Typical service markups: Consulting (200-300%), IT services (150-250%), Cleaning (100-150%), Repair (100-200%).",
+    },
+    {
+        q: "What is the difference between markup and profit?",
+        a: "Markup % is the percentage added to cost price. Profit is actual money earned. Example: Cost ₹100, 50% markup = ₹150 selling price. If you sell 100 units, revenue ₹15,000, profit ₹5,000 (₹50/unit). Markup helps set price, profit measures success.",
+    },
 ];
 
 const MARKUP_EXAMPLES = [
@@ -169,6 +185,14 @@ export default function MarkupCalculator() {
         }
     };
 
+    const resetForm = () => {
+        setCalcType("markup");
+        setCostPrice("");
+        setSellingPrice("");
+        setMarkupPercent("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -236,7 +260,7 @@ export default function MarkupCalculator() {
                                             placeholder="100"
                                             value={costPrice}
                                             onChange={(e) => setCostPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
                                     </div>
@@ -249,7 +273,7 @@ export default function MarkupCalculator() {
                                             placeholder="150"
                                             value={sellingPrice}
                                             onChange={(e) => setSellingPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
                                     </div>
@@ -267,7 +291,7 @@ export default function MarkupCalculator() {
                                             placeholder="100"
                                             value={costPrice}
                                             onChange={(e) => setCostPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
                                     </div>
@@ -280,7 +304,7 @@ export default function MarkupCalculator() {
                                             placeholder="50"
                                             value={markupPercent}
                                             onChange={(e) => setMarkupPercent(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -298,7 +322,7 @@ export default function MarkupCalculator() {
                                             placeholder="150"
                                             value={sellingPrice}
                                             onChange={(e) => setSellingPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
                                     </div>
@@ -311,7 +335,7 @@ export default function MarkupCalculator() {
                                             placeholder="50"
                                             value={markupPercent}
                                             onChange={(e) => setMarkupPercent(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -319,12 +343,20 @@ export default function MarkupCalculator() {
                             </>
                         )}
 
-                        <button
-                            onClick={calculate}
-                            className="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all"
-                        >
-                            Calculate →
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calculate}
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all"
+                            >
+                                Calculate →
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -356,6 +388,8 @@ export default function MarkupCalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1700 WORDS) ─── */}
+
             {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Markup Calculator</h2>
@@ -367,21 +401,37 @@ export default function MarkupCalculator() {
                 </p>
             </section>
 
-            {/* Formula Section */}
+            {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Markup Formulas</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Markup %</h3>
-                        <p className="text-white font-mono text-xs">(SP - CP) ÷ CP × 100</p>
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Markup Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to calculate: <strong className="text-white">Markup %</strong>, <strong className="text-white">Selling Price</strong>, or <strong className="text-white">Cost Price</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the two known values (Cost & Selling for markup, Cost & Markup for selling price, Selling & Markup for cost price).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> View markup percentage, profit margin, and profit amount.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Markup Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Set Profitable Prices</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Ensure every product sold covers costs and generates profit. Avoid under-pricing that eats your margins or over-pricing that kills sales.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Selling Price</h3>
-                        <p className="text-white font-mono text-xs">CP × (1 + Markup/100)</p>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Compare Competitors</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Reverse-engineer competitor pricing. Calculate their markup and profit margin from selling price.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Cost Price</h3>
-                        <p className="text-white font-mono text-xs">SP ÷ (1 + Markup/100)</p>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Multiple Products</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Apply different markups to different product categories. High markup for premium items, lower for volume products.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Discount Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate how much discount you can offer without losing money. Know your break-even point.</p>
                     </div>
                 </div>
             </section>
@@ -401,6 +451,25 @@ export default function MarkupCalculator() {
                             <p className="text-sm text-gray-400">Margin = Markup ÷ (1 + Markup)</p>
                             <p className="text-sm text-gray-400">Markup = Margin ÷ (1 - Margin)</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Markup Formulas */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Markup Formulas</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Markup %</h3>
+                        <p className="text-white font-mono text-xs">(SP - CP) ÷ CP × 100</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">Selling Price</h3>
+                        <p className="text-white font-mono text-xs">CP × (1 + Markup/100)</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Cost Price</h3>
+                        <p className="text-white font-mono text-xs">SP ÷ (1 + Markup/100)</p>
                     </div>
                 </div>
             </section>
@@ -432,7 +501,18 @@ export default function MarkupCalculator() {
                 </div>
             </section>
 
-            {/* Limitations Section */}
+            {/* Pricing Strategy Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Pricing Strategy Tips</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Research competitors:</strong> Don't price in a vacuum. Know what similar products sell for.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Consider perceived value:</strong> Higher price can signal higher quality for luxury items.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Test different prices:</strong> A/B test pricing to find the sweet spot between volume and margin.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Include all costs:</strong> Shipping, payment processing, returns, storage — all reduce your actual profit.</span></li>
+                </ul>
+            </section>
+
+            {/* Important Things */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">

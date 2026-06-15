@@ -114,6 +114,15 @@ export default function FDCalculator() {
     });
   };
 
+  const resetForm = () => {
+    setPrincipal("");
+    setRate("7.2");
+    setYears("5");
+    setPayoutType("cumulative");
+    setSeniorCitizen(false);
+    setResult(null);
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FD_SCHEMA }} />
@@ -142,7 +151,7 @@ export default function FDCalculator() {
                   placeholder="100000"
                   value={principal}
                   onChange={(e) => setPrincipal(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
               </div>
@@ -156,7 +165,7 @@ export default function FDCalculator() {
                   step="0.1"
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
               </div>
@@ -171,7 +180,7 @@ export default function FDCalculator() {
                   step="0.5"
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
               </div>
@@ -203,12 +212,20 @@ export default function FDCalculator() {
               />
               <label htmlFor="seniorCitizen" className="text-sm text-gray-300">Senior Citizen (60+ years)</label>
             </div>
-            <button
-              onClick={calculate}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
-            >
-              Calculate FD Returns →
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={calculate}
+                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+              >
+                Calculate FD Returns →
+              </button>
+              <button
+                onClick={resetForm}
+                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 
@@ -233,6 +250,9 @@ export default function FDCalculator() {
         />
       </div>
 
+      {/* ─── EXPANDED SEO CONTENT (~1700 WORDS) ─── */}
+
+      {/* About Section */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-3">About Fixed Deposit Calculator</h2>
         <p className="text-gray-400 text-sm leading-relaxed mb-3">
@@ -243,6 +263,104 @@ export default function FDCalculator() {
         </p>
       </section>
 
+      {/* How to Use Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">How to Use This FD Calculator</h2>
+        <div className="space-y-3">
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">principal amount</strong> you wish to invest in FD.</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">interest rate</strong> offered by your bank (senior citizens get +0.5%).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select the <strong className="text-white">tenure</strong> in years (1-10 years typical).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Choose <strong className="text-white">payout type</strong> — Cumulative (interest at maturity) or Non-Cumulative (regular income).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate FD Returns"</strong> to see maturity amount and interest.</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">Why Invest in Fixed Deposits?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Guaranteed Returns</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">FDs offer fixed, predictable returns unaffected by market fluctuations. Perfect for conservative investors and retirement planning.</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Capital Protection</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Principal amount is fully protected. DICGC insures up to ₹5 lakh per bank, making FDs one of the safest investments in India.</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Flexible Tenures</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Choose from 7 days to 10 years. Match investment horizon with financial goals - short-term (1-2 years) or long-term (5-10 years).</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Regular Income Option</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Non-cumulative FDs provide monthly/quarterly interest payouts. Ideal for retirees seeking regular cash flow without touching principal.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Cumulative vs Non-Cumulative */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">Cumulative vs Non-Cumulative FD - Which is Better?</h2>
+        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Feature</th><th className="text-left py-3 px-4 text-gray-400">Cumulative FD</th><th className="text-left py-3 px-4 text-gray-400">Non-Cumulative FD</th></tr></thead>
+            <tbody>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Interest Payout</td><td className="py-2 px-4">At maturity only</td><td className="py-2 px-4">Monthly/Quarterly/Half-yearly</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Total Returns</td><td className="py-2 px-4 text-green-400">Higher (compounded)</td><td className="py-2 px-4 text-yellow-400">Lower (simple interest)</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Best For</td><td className="py-2 px-4">Long-term wealth creation</td><td className="py-2 px-4">Regular income needs</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Ideal Investor</td><td className="py-2 px-4">Young professionals</td><td className="py-2 px-4">Senior citizens, retirees</td></tr>
+              <tr><td className="py-2 px-4">Example (₹5L, 7% for 5 years)</td><td className="py-2 px-4 text-green-400">₹7.05L (₹2.05L interest)</td><td className="py-2 px-4 text-yellow-400">₹5L + ₹1.75L interest (₹2,917/month)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* FD Laddering Strategy */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">FD Laddering Strategy - Maximize Returns & Liquidity</h2>
+        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+          <p className="text-gray-400 text-sm leading-relaxed mb-3">
+            <strong className="text-white">FD laddering</strong> spreads your investment across multiple FDs with different maturities instead of putting all money in one FD.
+          </p>
+          <p className="text-gray-400 text-sm leading-relaxed mb-3">
+            <strong className="text-white">Example with ₹5,00,000:</strong>
+          </p>
+          <ul className="space-y-2 text-sm text-gray-400 list-disc list-inside">
+            <li>₹1,00,000 in 1-year FD @ 6.8%</li>
+            <li>₹1,00,000 in 2-year FD @ 7.0%</li>
+            <li>₹1,00,000 in 3-year FD @ 7.2%</li>
+            <li>₹1,00,000 in 4-year FD @ 7.3%</li>
+            <li>₹1,00,000 in 5-year FD @ 7.4%</li>
+          </ul>
+          <p className="text-gray-400 text-sm leading-relaxed mt-3">
+            <strong className="text-white">Benefits:</strong> One FD matures every year providing liquidity. Reinvest matured FD at potentially higher rates. Avoids locking all money at a single interest rate.
+          </p>
+        </div>
+      </section>
+
+      {/* Tax-Saving FD */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">Tax-Saving Fixed Deposit (5-Year Lock-in)</h2>
+        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+          <p className="text-gray-400 text-sm leading-relaxed mb-2">
+            <strong className="text-white">Key Features:</strong>
+          </p>
+          <ul className="space-y-2 text-sm text-gray-400 list-disc list-inside">
+            <li>Lock-in period: 5 years (cannot withdraw early)</li>
+            <li>Tax deduction up to ₹1.5 lakh under Section 80C</li>
+            <li>Maximum investment: ₹1.5 lakh per financial year</li>
+            <li>Interest rate: 6.5-7.5% (similar to regular FDs)</li>
+            <li>Interest earned is taxable (added to income)</li>
+            <li>No TDS if interest is below ₹40,000 (₹50,000 for seniors)</li>
+          </ul>
+          <p className="text-gray-400 text-sm leading-relaxed mt-3">
+            <strong className="text-white">Best for:</strong> Salaried individuals in 20-30% tax bracket wanting to save tax while earning guaranteed returns.
+          </p>
+        </div>
+      </section>
+
+      {/* FD Interest Formula */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">FD Interest Formula</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -259,6 +377,7 @@ export default function FDCalculator() {
         </div>
       </section>
 
+      {/* FD Interest Rates Table */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">FD Interest Rates by Bank (2025-26)</h2>
         <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
@@ -284,6 +403,7 @@ export default function FDCalculator() {
         <p className="text-xs text-gray-500 mt-2">Rates updated quarterly. Small finance banks offer 0.5-1.5% higher rates.</p>
       </section>
 
+      {/* FAQ Section */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">

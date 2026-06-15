@@ -30,6 +30,26 @@ const FAQ_DATA = [
         q: "Should I study for the final or focus on other assignments?",
         a: "Prioritize the highest weighted items. Use our calculator to see what score you need. If you need 95%+ on the final, consider asking for extra credit or focusing on improving other categories instead.",
     },
+    {
+        q: "What is the minimum grade needed to pass the class?",
+        a: "Standard passing grades: 60% (D-) for most undergraduate courses, 70% (C-) for graduate courses, 50% for some professional courses. Always check your syllabus as requirements vary by institution and department.",
+    },
+    {
+        q: "How do I calculate my grade with different assignment weights?",
+        a: "Use weighted average formula: (Score1 × Weight1) + (Score2 × Weight2) + ... ÷ Total Weight. Example: Homework (30% weight, 85% score) + Midterm (30% weight, 75% score) + Final (40% weight, ?) = Final grade. Our Weighted Grade Calculator does this automatically.",
+    },
+    {
+        q: "What is a good final exam score to aim for?",
+        a: "Aim for 85%+ to maintain or improve your grade. If you need less than 70% to pass, you can reduce study time and focus on other exams. If you need 95%+, start studying early or consider extra credit options.",
+    },
+    {
+        q: "How to calculate my grade if the final is optional?",
+        a: "If final is optional, your grade is based on completed work. Calculate your current weighted grade excluding final. If that meets your target, you can skip final. If not, include final in calculation using our calculator.",
+    },
+    {
+        q: "What if my teacher curves the final exam?",
+        a: "Curved exams adjust raw scores upward. Estimate your curved score: If class average is 60% and you scored 70%, curve might add 10-15 points. Use conservative estimate (add 5-10 points) in our calculator.",
+    },
 ];
 
 const SCENARIO_EXAMPLES = [
@@ -179,6 +199,15 @@ export default function FinalGradeCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setCalcType("needed");
+        setCurrentGrade("");
+        setDesiredGrade("");
+        setFinalWeight("");
+        setFinalScore("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -239,7 +268,7 @@ export default function FinalGradeCalculator() {
                                     placeholder="75"
                                     value={currentGrade}
                                     onChange={(e) => setCurrentGrade(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                             </div>
@@ -256,7 +285,7 @@ export default function FinalGradeCalculator() {
                                             placeholder="85"
                                             value={desiredGrade}
                                             onChange={(e) => setDesiredGrade(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -270,7 +299,7 @@ export default function FinalGradeCalculator() {
                                             placeholder="30"
                                             value={finalWeight}
                                             onChange={(e) => setFinalWeight(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -288,7 +317,7 @@ export default function FinalGradeCalculator() {
                                             placeholder="85"
                                             value={finalScore}
                                             onChange={(e) => setFinalScore(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -302,7 +331,7 @@ export default function FinalGradeCalculator() {
                                             placeholder="30"
                                             value={finalWeight}
                                             onChange={(e) => setFinalWeight(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -310,12 +339,20 @@ export default function FinalGradeCalculator() {
                             </>
                         )}
 
-                        <button
-                            onClick={calcType === "needed" ? calculateNeeded : calculateWhatIf}
-                            className="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold hover:shadow-lg transition-all"
-                        >
-                            {calcType === "needed" ? "Calculate Needed Score →" : "Calculate Final Grade →"}
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calcType === "needed" ? calculateNeeded : calculateWhatIf}
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold hover:shadow-lg transition-all"
+                            >
+                                {calcType === "needed" ? "Calculate Needed Score →" : "Calculate Final Grade →"}
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -350,6 +387,8 @@ export default function FinalGradeCalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
+
             {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Final Grade Calculator</h2>
@@ -359,6 +398,87 @@ export default function FinalGradeCalculator() {
                 <p className="text-gray-400 text-sm leading-relaxed">
                     Use the "Score Needed" mode to set a goal and see if it's achievable. Use the "What If" mode to estimate your final grade based on how you think you'll do on the final.
                 </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Final Grade Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to calculate: <strong className="text-white">"Score Needed on Final"</strong> or <strong className="text-white">"What If Scenario"</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">current grade</strong> in the class (before the final).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For "Score Needed": Enter your <strong className="text-white">desired final grade</strong> and <strong className="text-white">final exam weight</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> For "What If": Enter your <strong className="text-white">expected final exam score</strong> and <strong className="text-white">final exam weight</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results and personalized advice.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Final Grade Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Strategic Study Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how much effort to put into the final. If you need 95%+, start studying early. If you need 60%-, you can reduce study time.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Grade Goal Setting</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Set realistic grade goals based on your current performance. Adjust your target if the required score is impossible.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Stress Reduction</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Remove uncertainty about final exam expectations. Know exactly what you need to achieve your target grade.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Priority Management</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Decide whether to focus on the final or other assignments. Allocate study time where it matters most.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Grade Scale Reference */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Grade Scale Reference (Standard)</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Letter Grade</th><th className="text-left py-3 px-4 text-gray-400">Percentage Range</th><th className="text-left py-3 px-4 text-gray-400">GPA Value</th><th className="text-left py-3 px-4 text-gray-400">Performance Level</th></tr></thead>
+                        <tbody>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-green-400">A+</td><td className="py-2 px-4">97-100%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Outstanding</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-green-400">A</td><td className="py-2 px-4">93-96%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Excellent</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-green-400">A-</td><td className="py-2 px-4">90-92%</td><td className="py-2 px-4">3.7</td><td className="py-2 px-4">Very Good</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-blue-400">B+</td><td className="py-2 px-4">87-89%</td><td className="py-2 px-4">3.3</td><td className="py-2 px-4">Good Plus</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-blue-400">B</td><td className="py-2 px-4">83-86%</td><td className="py-2 px-4">3.0</td><td className="py-2 px-4">Good</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-blue-400">B-</td><td className="py-2 px-4">80-82%</td><td className="py-2 px-4">2.7</td><td className="py-2 px-4">Satisfactory</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-yellow-400">C+</td><td className="py-2 px-4">77-79%</td><td className="py-2 px-4">2.3</td><td className="py-2 px-4">Average Plus</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-yellow-400">C</td><td className="py-2 px-4">73-76%</td><td className="py-2 px-4">2.0</td><td className="py-2 px-4">Average</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-yellow-400">C-</td><td className="py-2 px-4">70-72%</td><td className="py-2 px-4">1.7</td><td className="py-2 px-4">Below Average</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-red-400">D</td><td className="py-2 px-4">60-69%</td><td className="py-2 px-4">1.0</td><td className="py-2 px-4">Passing</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4 text-red-400">F</td><td className="py-2 px-4">Below 60%</td><td className="py-2 px-4">0.0</td><td className="py-2 px-4">Failing</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            {/* Study Planning Strategies */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Study Planning Strategies Based on Results</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">If you need &lt;60%:</strong> Basic review is sufficient. Focus on high-yield topics and past exam patterns.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">If you need 60-80%:</strong> Moderate preparation required. Create study schedule 1-2 weeks before exam.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">If you need 80-95%:</strong> Intensive preparation needed. Study daily, form study groups, get tutoring if available.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">If you need &gt;95%:</strong> Consider extra credit options. Ask teacher for curve or assignment to boost grade.</p>
+                </div>
+            </section>
+
+            {/* Grade Improvement Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Grade Improvement Tips Before Final Exam</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Attend review sessions:</strong> Teachers often hint at exam topics. Don't miss these.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Submit missing assignments:</strong> Even late submissions can improve current grade significantly.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Ask for extra credit:</strong> Many teachers offer extra assignments to borderline students.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Meet with teacher during office hours:</strong> Clarify difficult topics and show initiative.</span></li>
+                </ul>
             </section>
 
             {/* Formula Section */}
@@ -409,26 +529,11 @@ export default function FinalGradeCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Final Exam Study Tips</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Start early</strong> — Don't cram. Start studying at least 2 weeks before the final.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Focus on weak areas</strong> — Spend more time on topics you struggled with during the semester.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Practice past exams</strong> — Get previous years' finals from your teacher or upperclassmen.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Study in groups</strong> — Explaining concepts to others helps you learn better.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Get enough sleep</strong> — A tired brain performs worse. Sleep at least 7-8 hours before the exam.</span>
-                    </li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">•</span><span><strong className="text-gray-300">Start early</strong> — Don't cram. Start studying at least 2 weeks before the final.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">•</span><span><strong className="text-gray-300">Focus on weak areas</strong> — Spend more time on topics you struggled with during the semester.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">•</span><span><strong className="text-gray-300">Practice past exams</strong> — Get previous years' finals from your teacher or upperclassmen.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">•</span><span><strong className="text-gray-300">Study in groups</strong> — Explaining concepts to others helps you learn better.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">•</span><span><strong className="text-gray-300">Get enough sleep</strong> — A tired brain performs worse. Sleep at least 7-8 hours before the exam.</span></li>
                 </ul>
             </section>
 

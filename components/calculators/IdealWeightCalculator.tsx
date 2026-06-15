@@ -40,6 +40,14 @@ const FAQ_DATA = [
         q: "How to calculate adjusted body weight for obesity?",
         a: "Adjusted Body Weight (ABW) = IBW + 0.4 × (Actual Weight - IBW). Used for calculating nutritional needs in overweight/obese patients. Example: 5'10\" man, IBW 160 lbs, actual 220 lbs = 160 + 0.4 × (220-160) = 160 + 24 = 184 lbs adjusted weight.",
     },
+    {
+        q: "How to calculate ideal weight for children?",
+        a: "Ideal weight formulas (Devine, Robinson) are designed for adults only. For children (2-20 years), use CDC growth charts which track percentile curves. Ideal weight for children varies significantly by age, sex, and height percentile. Consult your pediatrician for accurate assessment.",
+    },
+    {
+        q: "What is the difference between ideal weight and goal weight?",
+        a: "Ideal weight is based on height and gender formulas (medical standard). Goal weight is personal target for weight loss/gain (may be higher or lower than ideal). For health, goal weight should be within ±10-15% of ideal weight. Rapid weight changes beyond 20% of ideal may require medical supervision.",
+    },
 ];
 
 const IDEAL_WEIGHT_FORMULAS = [
@@ -206,6 +214,16 @@ export default function IdealWeightCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setGender("male");
+        setUnit("imperial");
+        setHeightFt("");
+        setHeightIn("");
+        setHeightCm("");
+        setFrameSize("medium");
+        setResult(null);
+    };
+
     return (
         <>
             {/* ── Meta Tags ── */}
@@ -240,14 +258,7 @@ export default function IdealWeightCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: HOWTO_SCHEMA }} />
 
-            {/* ────────────────────────────────────────────────────────────
-                BREADCRUMB NAV — FIXED
-                Added <span itemProp="name"> inside each <a> tag.
-                Google requires BOTH itemProp="item" (URL) AND itemProp="name"
-                (label) on each ListItem. Previously only "item" was present,
-                causing the GSC error: "Either name or item.name should be
-                specified in itemListElement".
-            ──────────────────────────────────────────────────────────── */}
+            {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
@@ -287,17 +298,17 @@ export default function IdealWeightCalculator() {
                             {unit === "imperial" ? (
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="relative">
-                                        <input type="number" placeholder="5" value={heightFt} onChange={(e) => setHeightFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                        <input type="number" placeholder="5" value={heightFt} onChange={(e) => setHeightFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">ft</span>
                                     </div>
                                     <div className="relative">
-                                        <input type="number" placeholder="10" value={heightIn} onChange={(e) => setHeightIn(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                        <input type="number" placeholder="10" value={heightIn} onChange={(e) => setHeightIn(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">in</span>
                                     </div>
                                 </div>
                             ) : (
                                 <div className="relative">
-                                    <input type="number" placeholder="170" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                    <input type="number" placeholder="170" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span>
                                 </div>
                             )}
@@ -311,7 +322,10 @@ export default function IdealWeightCalculator() {
                             </div>
                             <p className="text-xs text-gray-500 mt-1">Wrist measurement: Small = &lt;6.5&quot;(M)/&lt;5.5&quot;(F), Large = &gt;7.5&quot;(M)/&gt;6.5&quot;(F)</p>
                         </div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Ideal Weight →</button>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Ideal Weight →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -326,16 +340,56 @@ export default function IdealWeightCalculator() {
                         { label: "Miller Formula", value: `${result.miller} ${result.unit}` },
                         { label: "Hamwi Formula", value: `${result.hamwi} ${result.unit}` },
                         { label: "Healthy Range", value: `${result.healthyMin} – ${result.healthyMax} ${result.unit}`, valueColor: "text-blue-400" },
-                    ] : undefined}
+                    ] : []}
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1750 WORDS) ─── */}
+
+            {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Ideal Weight Calculator</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-3">The <strong className="text-gray-300">Ideal Body Weight (IBW)</strong> calculator helps you find your optimal weight range based on height, gender, and body frame size. Multiple formulas provide a range of recommendations.</p>
                 <p className="text-gray-400 text-sm leading-relaxed">The Robinson formula is currently recommended for general population, while the Devine formula remains the medical standard for drug dosing calculations. Frame size adjustment adds or subtracts 10% for accuracy.</p>
             </section>
 
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Ideal Weight Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select your <strong className="text-white">gender</strong> (Male or Female).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Choose <strong className="text-white">unit system</strong> — Imperial (feet/inches) or Metric (centimeters).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter your <strong className="text-white">height</strong> — feet & inches or centimeters.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Select your <strong className="text-white">body frame size</strong> (Small, Medium, or Large).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Ideal Weight"</strong> to see results from all 4 formulas.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use an Ideal Weight Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Medical Dosing Reference</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Doctors and pharmacists use IBW for medication dosing, especially for chemotherapy, anesthesia, and critical care drugs.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Health Goal Setting</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Set realistic weight loss or weight gain targets based on medical standards rather than aesthetic preferences.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Nutritional Assessment</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Dietitians use IBW to calculate daily calorie and protein needs for hospitalized patients.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Insurance & Employment</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Some life insurance and employment physicals use IBW ranges for health risk assessment.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Ideal Weight Formulas Table */}
             <section className="mb-8">
                 <h2 id="ideal-weight-formula" className="text-xl font-semibold text-white mb-4">Ideal Weight Formulas</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
@@ -348,6 +402,7 @@ export default function IdealWeightCalculator() {
                 </div>
             </section>
 
+            {/* Body Frame Size Reference */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Body Frame Size Reference</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
@@ -360,6 +415,7 @@ export default function IdealWeightCalculator() {
                 </div>
             </section>
 
+            {/* Healthy Weight Ranges */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Healthy Weight Ranges by Height</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -388,6 +444,7 @@ export default function IdealWeightCalculator() {
                 </div>
             </section>
 
+            {/* Limitations Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Limitations of Ideal Weight Formulas</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-4">While ideal weight calculators are helpful guides, they have important limitations:</p>
@@ -399,6 +456,7 @@ export default function IdealWeightCalculator() {
                 </ul>
             </section>
 
+            {/* FAQ Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2" itemScope itemType="https://schema.org/FAQPage">
@@ -427,5 +485,4 @@ export default function IdealWeightCalculator() {
             </section>
         </>
     );
-    /////
 }

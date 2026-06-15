@@ -22,6 +22,30 @@ const FAQ_DATA = [
         q: "How to calculate cost per square foot?",
         a: "Cost = Total cost of material ÷ total area. Add installation cost if applicable. Compare different materials to find best value.",
     },
+    {
+        q: "What is the difference between ceramic and vitrified tiles?",
+        a: "Ceramic tiles: Lower cost (₹30-100/sq ft), lower water absorption (3-5%), suitable for walls and light traffic areas. Vitrified tiles: Higher cost (₹40-200/sq ft), very low water absorption (0.1-0.5%), suitable for high traffic areas, more durable, and stain-resistant.",
+    },
+    {
+        q: "How to calculate flooring for irregular-shaped rooms?",
+        a: "Break irregular rooms into rectangles. Example: L-shaped room = Rectangle A + Rectangle B. Calculate each rectangle separately, sum areas, then add 15% waste. For circular areas, use πr² formula.",
+    },
+    {
+        q: "What is the best flooring for bathrooms?",
+        a: "Best bathroom flooring: Ceramic tile (water-resistant, ₹30-100/sq ft), Vitrified tile (very low water absorption, ₹40-200/sq ft), Vinyl flooring (completely waterproof, ₹40-150/sq ft). Avoid wooden flooring in bathrooms (absorbs moisture, warps).",
+    },
+    {
+        q: "How to calculate flooring for diagonal installation?",
+        a: "Diagonal installation wastes 15-20% extra material (vs 10-15% for straight). Increase waste percentage to 15-20% in our calculator. Example: 200 sq ft room + 20% waste = 240 sq ft material needed.",
+    },
+    {
+        q: "What is the labor cost for flooring installation?",
+        a: "Labor costs (India): Tile installation ₹25-50/sq ft, Wooden flooring ₹30-60/sq ft, Laminate ₹15-30/sq ft, Vinyl ₹10-25/sq ft. Add 50% for small rooms. Get multiple quotes before hiring.",
+    },
+    {
+        q: "How to calculate flooring for multiple rooms?",
+        a: "Calculate each room separately, then sum material quantities. Add 10-15% waste per room (not total). Keep 5% extra for future repairs. Our calculator works for one room at a time; repeat for multiple rooms.",
+    },
 ];
 
 const FLOORING_TYPES = [
@@ -133,6 +157,17 @@ export default function FlooringCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setRoomLength("");
+        setRoomWidth("");
+        setTileLength("");
+        setTileWidth("");
+        setWastePercent("10");
+        setPricePerTile("");
+        setPricePerSqFt("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -157,19 +192,22 @@ export default function FlooringCalculator() {
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label><input type="number" step="0.5" placeholder="12" value={roomLength} onChange={(e) => setRoomLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Width (ft)</label><input type="number" step="0.5" placeholder="10" value={roomWidth} onChange={(e) => setRoomWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label><input type="number" step="0.5" placeholder="12" value={roomLength} onChange={(e) => setRoomLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Width (ft)</label><input type="number" step="0.5" placeholder="10" value={roomWidth} onChange={(e) => setRoomWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tile/Plank Length (inches)</label><input type="number" step="0.5" placeholder="12" value={tileLength} onChange={(e) => setTileLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tile/Plank Width (inches)</label><input type="number" step="0.5" placeholder="12" value={tileWidth} onChange={(e) => setTileWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tile/Plank Length (inches)</label><input type="number" step="0.5" placeholder="12" value={tileLength} onChange={(e) => setTileLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tile/Plank Width (inches)</label><input type="number" step="0.5" placeholder="12" value={tileWidth} onChange={(e) => setTileWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waste Percentage (%)</label><div className="relative"><input type="number" step="1" placeholder="10" value={wastePercent} onChange={(e) => setWastePercent(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div><p className="text-xs text-gray-500 mt-1">Recommended: 10-15% for standard installation</p></div>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waste Percentage (%)</label><div className="relative"><input type="number" step="1" placeholder="10" value={wastePercent} onChange={(e) => setWastePercent(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div><p className="text-xs text-gray-500 mt-1">Recommended: 10-15% for standard installation</p></div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Tile (₹)</label><input type="number" step="5" placeholder="50" value={pricePerTile} onChange={(e) => setPricePerTile(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per sq ft (₹)</label><input type="number" step="5" placeholder="25" value={pricePerSqFt} onChange={(e) => setPricePerSqFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Tile (₹)</label><input type="number" step="5" placeholder="50" value={pricePerTile} onChange={(e) => setPricePerTile(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per sq ft (₹)</label><input type="number" step="5" placeholder="25" value={pricePerSqFt} onChange={(e) => setPricePerSqFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg">Calculate Flooring →</button>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Flooring →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -190,9 +228,91 @@ export default function FlooringCalculator() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Flooring Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Calculate how many tiles or flooring planks you need for any room. Includes waste percentage for cutting and breakage.</p></section>
+            {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Flooring Material Guide</h2>
+            {/* About Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About Flooring Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    The <strong className="text-gray-300">Flooring Calculator</strong> helps homeowners, contractors, and DIY enthusiasts calculate exactly how many tiles or flooring planks are needed for any room. Save money by buying the right quantity - no more, no less.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Our calculator accounts for room dimensions, tile size, waste percentage (cutting and breakage), and cost estimation. Perfect for ceramic tiles, vitrified tiles, wooden flooring, laminate, vinyl, and marble.
+                </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Flooring Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">room dimensions</strong> — length and width in feet.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">tile/plank dimensions</strong> — length and width in inches.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Set <strong className="text-white">waste percentage</strong> (10% standard, 15-20% for diagonal).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> (Optional) Enter <strong className="text-white">price per tile or price per sq ft</strong> for cost estimate.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Flooring"</strong> to see tiles needed and cost.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different room.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Flooring Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Avoid Overbuying</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Buy exactly what you need plus standard waste. No extra material sitting unused in storage. Save money on unnecessary purchases.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Prevent Shortages</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Nothing's worse than running out of tiles mid-project. Our calculator ensures you have enough with waste included.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Budget Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Get accurate cost estimates before starting. Compare different flooring materials and prices to fit your budget.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Material Comparison</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate quantity needed for different tile sizes. Compare total cost across multiple flooring options.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Waste Percentage Guide */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Waste Percentage Guide by Installation Type</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Installation Type</th><th className="text-left py-3 px-4 text-gray-400">Waste Percentage</th><th className="text-left py-3 px-4 text-gray-400">When to Use</th></tr></thead>
+                        <tbody>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Standard/Straight</td><td className="py-2 px-4 text-yellow-400">10%</td><td className="py-2 px-4">Large rooms, rectangular shape, simple layout</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Small/Complex Rooms</td><td className="py-2 px-4 text-yellow-400">15%</td><td className="py-2 px-4">Small bathrooms, many corners, L-shaped rooms</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Diagonal Installation</td><td className="py-2 px-4 text-yellow-400">15-20%</td><td className="py-2 px-4">Flooring placed at 45-degree angle</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Pattern/Herringbone</td><td className="py-2 px-4 text-yellow-400">20-25%</td><td className="py-2 px-4">Complex patterns, many cuts required</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            {/* Cost Saving Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Cost Saving Tips for Flooring Installation</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Buy in bulk:</strong> Larger quantities often get wholesale discounts. Ask supplier for bulk pricing.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Compare material costs:</strong> Ceramic (₹30-100/sq ft) vs Vitrified (₹40-200/sq ft) vs Wood (₹150-600/sq ft).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">DIY installation:</strong> Save ₹25-50/sq ft by installing yourself. Watch YouTube tutorials for guidance.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Negotiate with multiple vendors:</strong> Get at least 3 quotes. Prices vary significantly between suppliers.</span></li>
+                </ul>
+            </section>
+
+            {/* About Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About Flooring Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed">Calculate how many tiles or flooring planks you need for any room. Includes waste percentage for cutting and breakage.</p>
+            </section>
+
+            {/* Flooring Material Guide */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Flooring Material Guide</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Material</th><th className="text-left py-3 px-4 text-gray-400">Price Range (sq ft)</th><th className="text-left py-3 px-4 text-gray-400">Durability</th><th className="text-left py-3 px-4 text-gray-400">Water Resistant</th></tr></thead>
@@ -203,8 +323,23 @@ export default function FlooringCalculator() {
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            {/* FAQ Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">
+                    {FAQ_DATA.map((item, i) => (
+                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
+                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                            </button>
+                            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
+                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                            </div>
+                            {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
+                        </div>
+                    ))}
+                </div>
             </section>
         </>
     );

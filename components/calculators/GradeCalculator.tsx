@@ -30,6 +30,22 @@ const FAQ_DATA = [
         q: "How do I convert percentage to GPA?",
         a: "Common conversion: 90-100% = 4.0, 80-89% = 3.0, 70-79% = 2.0, 60-69% = 1.0, Below 60% = 0.0. Some schools use plus/minus system (A- = 3.7, B+ = 3.3). Check your institution's specific conversion chart.",
     },
+    {
+        q: "What is the difference between weighted and unweighted grades?",
+        a: "Weighted grades assign different importance to assignments. Example: Final exam 50% of grade, homework 20%, quizzes 30%. Unweighted treats everything equally. Most college courses use weighted grading.",
+    },
+    {
+        q: "How to calculate what I need on my final exam?",
+        a: "Formula: Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100). Example: Desired 85%, Current 80%, Final 30% → Need 96.7% on final. If result >100%, goal impossible.",
+    },
+    {
+        q: "What is a good GPA?",
+        a: "3.5-4.0 = Excellent, 3.0-3.4 = Good, 2.5-2.9 = Average, Below 2.5 = Needs improvement. Top graduate schools expect 3.5+. Scholarships often require 3.0+.",
+    },
+    {
+        q: "How to convert percentage to GPA?",
+        a: "Common 4.0 scale: 90-100% = 4.0, 80-89% = 3.0, 70-79% = 2.0, 60-69% = 1.0. Some use plus/minus: A- = 3.7, B+ = 3.3. Check your school's scale.",
+    },
 ];
 
 const GRADE_LETTERS = [
@@ -202,6 +218,15 @@ export default function GradeCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setCalcType("weighted");
+        setAssignments([{ name: "Assignment 1", score: "", weight: "" }]);
+        setDesiredGrade("");
+        setCurrentGrade("");
+        setFinalWeight("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -280,7 +305,7 @@ export default function GradeCalculator() {
                                                     placeholder="Score"
                                                     value={assignment.score}
                                                     onChange={(e) => updateAssignment(i, "score", e.target.value)}
-                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
                                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                             </div>
@@ -290,7 +315,7 @@ export default function GradeCalculator() {
                                                     placeholder="Weight"
                                                     value={assignment.weight}
                                                     onChange={(e) => updateAssignment(i, "weight", e.target.value)}
-                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
                                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                             </div>
@@ -316,7 +341,7 @@ export default function GradeCalculator() {
                                             placeholder="85"
                                             value={desiredGrade}
                                             onChange={(e) => setDesiredGrade(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -329,7 +354,7 @@ export default function GradeCalculator() {
                                             placeholder="75"
                                             value={currentGrade}
                                             onChange={(e) => setCurrentGrade(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -342,7 +367,7 @@ export default function GradeCalculator() {
                                             placeholder="30"
                                             value={finalWeight}
                                             onChange={(e) => setFinalWeight(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                     </div>
@@ -350,12 +375,20 @@ export default function GradeCalculator() {
                             </div>
                         )}
 
-                        <button
-                            onClick={calcType === "weighted" ? calculateWeighted : calculateFinal}
-                            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
-                        >
-                            {calcType === "weighted" ? "Calculate Grade →" : "Calculate Final Needed →"}
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calcType === "weighted" ? calculateWeighted : calculateFinal}
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                            >
+                                {calcType === "weighted" ? "Calculate Grade →" : "Calculate Final Needed →"}
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -390,6 +423,8 @@ export default function GradeCalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1700 WORDS) ─── */}
+
             {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Grade Calculator</h2>
@@ -401,19 +436,37 @@ export default function GradeCalculator() {
                 </p>
             </section>
 
-            {/* Formula Section */}
+            {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Grade Calculation Formulas</h2>
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Grade Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to calculate: <strong className="text-white">"Current Grade"</strong> or <strong className="text-white">"Final Exam Needed"</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> For Current Grade: Add assignments with their scores and weight percentages.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Final Exam Needed: Enter desired grade, current grade, and final exam weight.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Grade Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Weighted Grade</h3>
-                        <p className="text-white font-mono text-sm mb-2">Grade = Σ (Score × Weight ÷ 100)</p>
-                        <p className="text-gray-500 text-xs">Example: HW (85×20%) + Mid (78×30%) + Final (82×50%) = 81.4%</p>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Track Academic Progress</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Know your exact standing at any point in the semester. Identify which assignments are dragging down your grade.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Final Exam Needed</h3>
-                        <p className="text-white font-mono text-sm mb-2">Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100)</p>
-                        <p className="text-gray-500 text-xs">Example: Desired 85%, Current 80%, Final 30% → Need 96.7%</p>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Set Realistic Goals</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate what score you need on the final to achieve your target grade. Adjust goals based on feasibility.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Reduce Exam Stress</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Knowing exactly what you need on the final removes uncertainty. Focus study time effectively.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Scholarship Eligibility</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Track your GPA to ensure you maintain scholarship requirements. Plan ahead for grade improvement.</p>
                     </div>
                 </div>
             </section>
@@ -445,7 +498,24 @@ export default function GradeCalculator() {
                 </div>
             </section>
 
-            {/* Study Tips Section */}
+            {/* Grade Calculation Formulas */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Grade Calculation Formulas</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Weighted Grade</h3>
+                        <p className="text-white font-mono text-sm mb-2">Grade = Σ (Score × Weight ÷ 100)</p>
+                        <p className="text-gray-500 text-xs">Example: HW (85×20%) + Mid (78×30%) + Final (82×50%) = 81.4%</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">Final Exam Needed</h3>
+                        <p className="text-white font-mono text-sm mb-2">Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100)</p>
+                        <p className="text-gray-500 text-xs">Example: Desired 85%, Current 80%, Final 30% → Need 96.7%</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Study Tips */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Tips to Improve Your Grade</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -472,7 +542,7 @@ export default function GradeCalculator() {
                 </div>
             </section>
 
-            {/* Limitations Section */}
+            {/* Important Things */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">
