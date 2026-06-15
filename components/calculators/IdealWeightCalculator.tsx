@@ -401,7 +401,7 @@ export default function IdealWeightCalculator() {
 
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2" >
+                <div className="space-y-2" itemScope itemType="https://schema.org/FAQPage">
                     {FAQ_DATA.map((item, i) => (
                         <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
@@ -416,6 +416,11 @@ export default function IdealWeightCalculator() {
                             >
                                 <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
+                            {openFaq !== i && (
+                                <div className="sr-only" itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                                    <span itemProp="text">{item.a}</span>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
