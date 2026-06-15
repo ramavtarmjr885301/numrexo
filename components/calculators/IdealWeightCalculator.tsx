@@ -427,4 +427,5 @@ export default function IdealWeightCalculator() {
             </section>
         </>
     );
+    /////
 }
