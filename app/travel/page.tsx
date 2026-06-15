@@ -218,8 +218,8 @@ export default function TravelCategoryPage() {
                     <div className="mt-8 pt-6 border-t border-gray-800/50 text-xs text-gray-500 text-center">
                         <p>Related:
                             <a href="/calculators" className="text-blue-400 hover:underline mx-1">All Calculators</a> •
-                            <a href="/time" className="text-blue-400 hover:underline mx-1">Time & Date Tools</a> •
-                            <a href="/conversion/currency-converter" className="text-blue-400 hover:underline mx-1">Currency Converter</a>
+                            <a href="/time" className="text-blue-400 hover:underline mx-1">Time & Date Tools</a>
+                            {/* <a href="/conversion/currency-converter" className="text-blue-400 hover:underline mx-1">Currency Converter</a> */}
                         </p>
                         <p className="mt-2 text-gray-600 text-[11px]">
                             <span className="text-gray-500">✈️ Real-time exchange rates & fuel efficiency formulas | </span>

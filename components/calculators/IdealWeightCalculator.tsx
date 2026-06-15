@@ -416,7 +416,6 @@ export default function IdealWeightCalculator() {
                             >
                                 <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
-                            
                         </div>
                     ))}
                 </div>

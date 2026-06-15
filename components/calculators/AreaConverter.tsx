@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
@@ -93,6 +93,13 @@ export default function AreaConverter() {
 
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
+    const resetForm = () => {
+        setValue("");
+        setFromUnit("sq_meter");
+        setToUnit("sq_foot");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -113,13 +120,16 @@ export default function AreaConverter() {
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Area Converter</h3><p className="text-xs text-gray-500 mt-1">Convert between area measurement units</p></div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex items-center gap-3">
                             <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
                             <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600">🔄</button>
                             <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
                         </div>
-                        <button onClick={convert} className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg">Convert →</button>
+                        <div className="flex gap-3">
+                            <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -132,12 +142,13 @@ export default function AreaConverter() {
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm"><thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">From</th><th className="text-left py-3 px-4 text-gray-400">To</th><th className="text-left py-3 px-4 text-gray-400">Multiply By</th></tr></thead>
                         <tbody>
-                            <tr><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">10.7639</td></tr>
-                            <tr><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">43,560</td></tr>
-                            <tr><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-400">4,046.86</td></tr>
-                            <tr><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">2.471</td></tr>
-                            <tr><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">640</td></tr>
-                        </tbody></table>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">10.7639</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">43,560</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-400">4,046.86</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">2.471</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">640</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 

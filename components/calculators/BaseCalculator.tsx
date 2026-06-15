@@ -41,6 +41,11 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
     setResult(calculated);
   };
 
+  const resetForm = () => {
+    setValues({});
+    setResult(null);
+  };
+
   const isFormValid = () => {
     return inputs.every(input => {
       if (input.required && !values[input.id]) return false;
@@ -71,7 +76,7 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
                     min={input.min}
                     max={input.max}
                     step={input.step || "any"}
-                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                   {input.suffix && (
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
@@ -98,11 +103,10 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
                   {input.options.map((opt) => (
                     <button
                       key={opt.value}
-                      className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                        values[input.id] === opt.value
-                          ? "bg-blue-500 text-white"
-                          : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
-                      }`}
+                      className={`py-2 rounded-lg text-sm font-medium transition-all ${values[input.id] === opt.value
+                        ? "bg-blue-500 text-white"
+                        : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                        }`}
                       onClick={() => handleInputChange(input.id, opt.value)}
                     >
                       {opt.label}
@@ -112,14 +116,22 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
               )}
             </div>
           ))}
-          
-          <button
-            onClick={handleCalculate}
-            disabled={!isFormValid()}
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Calculate →
-          </button>
+
+          <div className="flex gap-3">
+            <button
+              onClick={handleCalculate}
+              disabled={!isFormValid()}
+              className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Calculate →
+            </button>
+            <button
+              onClick={resetForm}
+              className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </div>
 

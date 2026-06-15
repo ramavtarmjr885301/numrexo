@@ -141,11 +141,11 @@ export default function AttendanceCalculator() {
                     <div className="p-6 space-y-4">
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Total Classes Attended</label>
-                            <input type="number" step="1" placeholder="e.g., 45" value={classesAttended} onChange={(e) => setClassesAttended(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                            <input type="number" step="1" placeholder="e.g., 45" value={classesAttended} onChange={(e) => setClassesAttended(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Total Classes Held</label>
-                            <input type="number" step="1" placeholder="e.g., 60" value={classesHeld} onChange={(e) => setClassesHeld(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                            <input type="number" step="1" placeholder="e.g., 60" value={classesHeld} onChange={(e) => setClassesHeld(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Target Attendance Percentage (%)</label>
@@ -160,8 +160,8 @@ export default function AttendanceCalculator() {
                             </select>
                         </div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>

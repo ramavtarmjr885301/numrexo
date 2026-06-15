@@ -134,6 +134,14 @@ export default function APYCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setPrincipal("");
+        setRate("");
+        setYears("1");
+        setCompoundFrequency("monthly");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -198,7 +206,10 @@ export default function APYCalculator() {
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
                             </div>
                         </div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate APY →</button>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate APY →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 

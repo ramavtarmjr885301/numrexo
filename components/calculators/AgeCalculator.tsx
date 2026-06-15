@@ -41,6 +41,13 @@ export default function AgeCalculator() {
     setResult({ years, months, days, totalDays, totalWeeks, totalMonths, daysToNextBirthday });
   };
 
+  const resetForm = () => {
+    setDay("");
+    setMonth("");
+    setYear("");
+    setResult(null);
+  };
+
   return (
     <>
       <nav aria-label="Breadcrumb" className="mb-5">
@@ -62,7 +69,10 @@ export default function AgeCalculator() {
               <div><label className="block text-xs font-semibold text-gray-400 mb-2">Month</label><input type="number" placeholder="6" min="1" max="12" value={month} onChange={(e) => setMonth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /></div>
               <div><label className="block text-xs font-semibold text-gray-400 mb-2">Year</label><input type="number" placeholder="1990" min="1900" max={new Date().getFullYear()} value={year} onChange={(e) => setYear(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /></div>
             </div>
-            <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-pink-500 to-pink-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Age →</button>
+            <div className="flex gap-3">
+              <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-pink-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Age →</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+            </div>
           </div>
         </div>
 

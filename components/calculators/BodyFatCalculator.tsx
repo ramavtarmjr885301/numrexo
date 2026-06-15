@@ -127,6 +127,17 @@ export default function BodyFatCalculator() {
     });
   };
 
+  const resetForm = () => {
+    setGender("male");
+    setAge("");
+    setWeight("");
+    setHeight("");
+    setNeck("");
+    setWaist("");
+    setHip("");
+    setResult(null);
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BODY_FAT_SCHEMA }} />
@@ -154,13 +165,16 @@ export default function BodyFatCalculator() {
                 <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female" ? "bg-pink-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("female")}>Female</button>
               </div>
             </div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Age</label><input type="number" placeholder="30" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Weight</label><div className="relative"><input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><div className="relative"><input type="number" placeholder="170" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Neck Circumference</label><div className="relative"><input type="number" placeholder="38" step="0.5" value={neck} onChange={(e) => setNeck(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist Circumference</label><div className="relative"><input type="number" placeholder="82" step="0.5" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at belly button level, relaxed</p></div></div>
-            {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip Circumference</label><div className="relative"><input type="number" placeholder="95" step="0.5" value={hip} onChange={(e) => setHip(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at widest part of hips/buttocks</p></div></div>)}
-            <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Body Fat →</button>
+            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Age</label><input type="number" placeholder="30" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Weight</label><div className="relative"><input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span></div></div>
+            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><div className="relative"><input type="number" placeholder="170" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Neck Circumference</label><div className="relative"><input type="number" placeholder="38" step="0.5" value={neck} onChange={(e) => setNeck(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist Circumference</label><div className="relative"><input type="number" placeholder="82" step="0.5" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at belly button level, relaxed</p></div></div>
+            {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip Circumference</label><div className="relative"><input type="number" placeholder="95" step="0.5" value={hip} onChange={(e) => setHip(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at widest part of hips/buttocks</p></div></div>)}
+            <div className="flex gap-3">
+              <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Body Fat →</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+            </div>
           </div>
         </div>
 

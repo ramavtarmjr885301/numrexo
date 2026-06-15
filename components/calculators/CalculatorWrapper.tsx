@@ -20,7 +20,7 @@ import BodyFatCalculator from "./BodyFatCalculator";
 import CalorieBurnCalculator from "./CalorieBurnCalculator";
 import AgeCalculator from "./AgeCalculator";
 import PercentageCalculator from "./PercentageCalculator";
-import CurrencyConverter from "./CurrencyConverter";
+// import CurrencyConverter from "./CurrencyConverter";
 import UnitConverter from "./UnitConverter";
 import PPFCalculator from "./PPFCalculator";
 import DiscountCalculator from "./DiscountCalculator";
@@ -175,8 +175,8 @@ export default function CalculatorWrapper({
         return <AgeCalculator />;
       case "percentage":
         return <PercentageCalculator />;
-      case "currency-converter":
-        return <CurrencyConverter />;
+      // case "currency-converter":
+      //   return <CurrencyConverter />;
       case "unit-converter":
         return <UnitConverter />;
       case "ppf":

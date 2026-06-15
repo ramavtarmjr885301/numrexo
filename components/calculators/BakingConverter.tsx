@@ -128,6 +128,13 @@ export default function BakingConverter() {
         });
     };
 
+    const resetForm = () => {
+        setIngredient(INGREDIENTS[0].name);
+        setConversionType("cupsToGrams");
+        setValue("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -163,8 +170,11 @@ export default function BakingConverter() {
                                 <button className={`py-2 rounded-lg text-sm font-medium transition-all ${conversionType === "gramsToCups" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setConversionType("gramsToCups")}>Grams → Cups</button>
                             </div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">{conversionType === "cupsToGrams" ? "Cups" : "Grams"}</label><input type="number" step="0.1" placeholder="1" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                        <button onClick={convert} className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-semibold hover:shadow-lg">Convert →</button>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">{conversionType === "cupsToGrams" ? "Cups" : "Grams"}</label><input type="number" step="0.1" placeholder="1" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div className="flex gap-3">
+                            <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 

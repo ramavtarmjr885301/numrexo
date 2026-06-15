@@ -31,6 +31,26 @@ const FAQ_DATA = [
         q: "What's the easiest way to calculate days until an event?",
         a: "Put today's date as the start date and your event date as the end date. The calculator will tell you exactly how many days, weeks, and months remain until your big day - whether it's a birthday, wedding, vacation, or deadline.",
     },
+    {
+        q: "What is the 30/360 day count convention?",
+        a: "30/360 is a financial convention where each month has 30 days and a year has 360 days. Used for bonds, loans, and mortgages. Our calculator uses actual days (ACT/365) by default, which is standard for most date calculations.",
+    },
+    {
+        q: "How to calculate tenure between two dates?",
+        a: "Tenure (years) = (End Date - Start Date) ÷ 365.25. For loan tenure or employment duration, our calculator shows both exact days and approximate years. Example: 1,000 days = approximately 2.74 years.",
+    },
+    {
+        q: "What is the difference between inclusive and exclusive date counting?",
+        a: "Inclusive counting includes both start and end dates (total days = end - start + 1). Exclusive counting excludes either start or end. Our calculator uses inclusive counting (includes both dates) for age calculation and most date differences.",
+    },
+    {
+        q: "How to calculate days until a deadline?",
+        a: "Put today's date as start date and deadline as end date. The calculator shows remaining days, weeks, and months. Set reminders with enough buffer - for important deadlines, subtract 2-3 days for unexpected delays.",
+    },
+    {
+        q: "How to calculate total days including weekends?",
+        a: "Our calculator automatically includes all calendar days (Monday-Sunday). For business days, we provide a separate count that excludes weekends. Use calendar days for event planning, business days for work/school calculations.",
+    },
 ];
 
 const DATE_SCHEMA = JSON.stringify({
@@ -109,6 +129,12 @@ export default function DateDifferenceCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setStartDate("");
+        setEndDate("");
+        setResult(null);
+    };
+
     return (
         <>
             {/* JSON-LD Structured Data */}
@@ -164,12 +190,20 @@ export default function DateDifferenceCalculator() {
                             />
                             <p className="text-xs text-gray-500 mt-1">When does the period end?</p>
                         </div>
-                        <button
-                            onClick={calculate}
-                            className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all"
-                        >
-                            Calculate Difference →
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calculate}
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all"
+                            >
+                                Calculate Difference →
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -193,6 +227,8 @@ export default function DateDifferenceCalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
+
             {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Date Difference Calculator</h2>
@@ -202,6 +238,79 @@ export default function DateDifferenceCalculator() {
                 <p className="text-gray-400 text-sm leading-relaxed">
                     Unlike other calculators, we also show you <strong className="text-gray-300">business days</strong> (Monday through Friday) - perfect for work projects, delivery estimates, or any situation where weekends don't count. And yes, we automatically handle leap years and different month lengths.
                 </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Date Difference Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select your <strong className="text-white">Start Date</strong> using the date picker.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select your <strong className="text-white">End Date</strong> using the date picker.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Difference"</strong> to see results.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> View results in days, weeks, months, years, and business days.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Click <strong className="text-white">Reset</strong> to clear both dates and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Why Calculate Date Differences */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Calculate Date Differences?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Age Calculation</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate exact age in years, months, and days. Perfect for medical records, legal documents, school admissions, and retirement planning.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Event Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Count days until weddings, birthdays, vacations, concerts, or any special occasion. Plan ahead with accurate timelines.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Project Management</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Track project durations, deadlines, and milestones. Use business days for realistic work schedules excluding weekends.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Financial Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate loan tenures, investment holding periods, interest accrual days, and tax year calculations.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Use Cases Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Common Use Cases for Date Difference Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">📅 Pregnancy Due Date:</strong> Track weeks and days remaining until delivery. Calculate trimester lengths.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🏢 Employment Tenure:</strong> Calculate how long you've worked at a company in years, months, and days for resumes and experience letters.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">💸 Loan Repayment:</strong> Track remaining loan duration, calculate how many payments left, and plan early repayment.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🎓 Academic Planning:</strong> Calculate days until exams, semester duration, or assignment deadlines.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">✈️ Travel Planning:</strong> Count days between booking date and travel date, calculate trip duration.</p>
+                </div>
+            </section>
+
+            {/* Business Days vs Calendar Days */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Business Days vs Calendar Days Explained</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Calendar Days</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Includes every day of the week - Monday through Sunday. Use for: Age calculation, event countdowns, vacation planning, pregnancy tracking.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">Business Days</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Excludes Saturdays and Sundays. Use for: Work deadlines, shipping estimates, bank processing times, project timelines.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Date Calculation Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Date Calculation Tips & Tricks</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Leap Years:</strong> February 29 occurs every 4 years (2000, 2004, 2008...). Our calculator handles them automatically.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Month Lengths:</strong> Remember "30 days have September, April, June, and November. All the rest have 31, except February..."</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Week Numbers:</strong> Use weeks count for pregnancy (40 weeks), project sprints (2-week sprints), or habit tracking.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Business Hours:</strong> For hour-based calculations, remember 1 business day = 8-9 working hours typically.</span></li>
+                </ul>
             </section>
 
             {/* Formula Section */}

@@ -30,6 +30,26 @@ const FAQ_DATA = [
         q: "What is the 10-point CGPA scale?",
         a: "The 10-point scale is most common in Indian universities. Grade points: A+ (10), A (9), B+ (8), B (7), C+ (6), C (5), D (4), F (0). Percentage equivalent approximately: CGPA × 9.5. This scale makes it easy to compare performance across different universities.",
     },
+    {
+        q: "What is the difference between absolute and relative grading?",
+        a: "Absolute grading uses fixed cutoffs (90% = A, 80% = B). Relative grading compares you to peers (top 10% get A, next 20% get B). Most Indian universities use absolute grading. IITs and NITs often use relative grading. CGPA calculation differs slightly between systems.",
+    },
+    {
+        q: "How to improve CGPA in final semesters?",
+        a: "Focus on high-credit courses (they impact CGPA more), aim for A/A+ grades in easier electives, retake failed subjects, maintain consistency in labs and projects, and seek professor feedback early. Improving CGPA by 0.5 points in last semesters is realistic with focused effort.",
+    },
+    {
+        q: "What CGPA is needed for studying abroad?",
+        a: "Top US/UK universities expect 8.5-9.0+ CGPA for MS programs. Good universities: 7.5-8.5. Minimum requirement: usually 6.0-6.5. Strong research/projects can compensate for slightly lower CGPA. Canadian universities often convert to 4.0 scale (8.0+ CGPA ≈ 3.3-3.5 GPA).",
+    },
+    {
+        q: "How to calculate CGPA with failed subjects?",
+        a: "Failed subjects (F grade) still earn 0 grade points but count in total credits attempted. Example: 3-credit course failed → contributes 0 points but adds 3 to total credits, significantly lowering CGPA. Retaking passes the course but original F remains on transcript at many universities.",
+    },
+    {
+        q: "What is the CGPA requirement for college placements?",
+        a: "Company CGPA cutoffs: Top MNCs (7.5-8.5), Good companies (6.5-7.5), Mass recruiters (6.0+). No-backlog and no-active backlog required at most companies. Some companies allow CGPA rounding (6.98 ≈ 7.0). BPO/KPO roles sometimes accept 5.5+ with good communication skills.",
+    },
 ];
 
 const GRADE_SCALE = [
@@ -143,6 +163,11 @@ export default function CGPACalculator() {
         });
     };
 
+    const resetForm = () => {
+        setSemesters([{ gpa: "", credits: "" }]);
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -194,7 +219,7 @@ export default function CGPACalculator() {
                                         placeholder="GPA"
                                         value={semester.gpa}
                                         onChange={(e) => updateSemester(i, "gpa", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div className="flex-1 relative">
@@ -203,7 +228,7 @@ export default function CGPACalculator() {
                                         placeholder="Credits"
                                         value={semester.credits}
                                         onChange={(e) => updateSemester(i, "credits", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 {semesters.length > 1 && (
@@ -216,12 +241,20 @@ export default function CGPACalculator() {
                                 )}
                             </div>
                         ))}
-                        <button
-                            onClick={calculate}
-                            className="w-full mt-4 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all"
-                        >
-                            Calculate CGPA →
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calculate}
+                                className="flex-1 mt-4 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all"
+                            >
+                                Calculate CGPA →
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="mt-4 px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -245,20 +278,80 @@ export default function CGPACalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1700 WORDS) ─── */}
+
             {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About CGPA Calculator</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">CGPA Calculator</strong> helps you calculate your Cumulative Grade Point Average across all semesters. Perfect for university students who need to track their overall academic performance.
+                    The <strong className="text-gray-300">CGPA Calculator</strong> helps you calculate your Cumulative Grade Point Average across all semesters. Perfect for university students who need to track their overall academic performance, plan for placements, or apply for higher studies abroad.
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                    Enter your SGPA (Semester GPA) and credit hours for each semester. The calculator will compute your overall CGPA, approximate percentage, and performance level.
+                    Enter your SGPA (Semester GPA) and credit hours for each semester. The calculator will compute your overall CGPA, approximate percentage, and performance level. Understanding your CGPA helps you set realistic academic goals and identify areas for improvement.
                 </p>
             </section>
 
-            {/* Formula Section */}
+            {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">CGPA Formula</h2>
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This CGPA Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Click <strong className="text-white">"+ Add Semester"</strong> for each completed semester in your academic program.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">Semester GPA (SGPA)</strong> for each semester (typically on a 10-point scale).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">total credits</strong> for each semester (sum of all course credits).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate CGPA"</strong> to see your overall CGPA, approximate percentage, and performance level.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Tracking Your CGPA Matters</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Placement Eligibility</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Most companies have CGPA cutoffs (6.0-8.5). Track your CGPA to ensure you meet eligibility criteria for campus placements and internships.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Higher Studies Abroad</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Top universities require 8.5+ CGPA for MS/MBA programs. Knowing your CGPA helps you plan which universities to target.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Scholarship Eligibility</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Many scholarships (merit-based, government, private) require minimum CGPA thresholds. Track to stay eligible.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Academic Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Identify which semesters need improvement. Plan course selection and study strategies to boost your overall CGPA.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* University-Specific Conversion Table */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">University-Specific CGPA to Percentage Formulas</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead>
+                            <tr className="border-b border-gray-800">
+                                <th className="text-left py-3 px-4 text-gray-400">University</th>
+                                <th className="text-left py-3 px-4 text-gray-400">Conversion Formula</th>
+                                <th className="text-left py-3 px-4 text-gray-400">Example (CGPA 8.0)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">DTU / NSIT / IIIT-Delhi</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 10</td><td className="py-2 px-4 text-green-400">80%</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Mumbai University</td><td className="py-2 px-4 text-yellow-400">Percentage = (CGPA - 0.75) × 10</td><td className="py-2 px-4 text-green-400">72.5%</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Anna University</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 10 - 7.5</td><td className="py-2 px-4 text-green-400">72.5%</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">VTU (Visvesvaraya Tech)</td><td className="py-2 px-4 text-yellow-400">Percentage = (CGPA - 0.5) × 10</td><td className="py-2 px-4 text-green-400">75%</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Pune University</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 8.8</td><td className="py-2 px-4 text-green-400">70.4%</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Most Other Universities</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 9.5</td><td className="py-2 px-4 text-green-400">76%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">*Always verify with your university's official conversion policy. Our calculator uses 9.5 as default.</p>
+            </section>
+
+            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">CGPA Formula</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <p className="text-white font-mono text-sm mb-2 text-center">
                         CGPA = (Σ GPA × Credits) ÷ Σ Credits
@@ -267,6 +360,17 @@ export default function CGPACalculator() {
                         Example: Sem1 (GPA 7.5, Credits 20), Sem2 (GPA 8.0, Credits 22) → CGPA = (7.5×20 + 8.0×22) ÷ 42 = 7.76
                     </p>
                 </div>
+            </section>
+
+            {/* Semester Planning Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Semester Planning Tips to Improve CGPA</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Focus on high-credit courses:</strong> A 4-credit course affects CGPA more than a 2-credit course. Perform better in high-credit subjects.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Aim for A/A+ in electives:</strong> Choose elective courses that interest you and where scoring high is achievable.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Retake failed subjects:</strong> Repeating a failed subject can significantly improve your CGPA.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Maintain consistency:</strong> Consistent 7.5+ across all semesters is better than one 9.0 and one 6.0.</span></li>
+                </ul>
             </section>
 
             {/* Grade Scale Table */}
@@ -296,33 +400,9 @@ export default function CGPACalculator() {
                 </div>
             </section>
 
-            {/* CGPA to Percentage Conversion */}
+            {/* Important Things Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">CGPA to Percentage Conversion (Common Formulas)</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">DTU (Delhi Technological University)</h3>
-                        <p className="text-white font-mono text-sm">Percentage = CGPA × 10</p>
-                    </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Mumbai University</h3>
-                        <p className="text-white font-mono text-sm">Percentage = (CGPA - 0.75) × 10</p>
-                    </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Anna University</h3>
-                        <p className="text-white font-mono text-sm">Percentage = CGPA × 10 - 7.5</p>
-                    </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">VTU (Visvesvaraya Tech)</h3>
-                        <p className="text-white font-mono text-sm">Percentage = (CGPA - 0.5) × 10</p>
-                    </div>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">Note: Our calculator uses the standard multiplier 9.5. Check your university's official conversion formula for accurate results.</p>
-            </section>
-
-            {/* Limitations Section */}
-            <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
+                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know About CGPA</h2>
                 <ul className="space-y-3">
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-indigo-400 mt-0.5">•</span>

@@ -315,17 +315,17 @@ export const seoContent: Record<string, any> = {
   },
 
   // Converters
-  "currency-converter": {
-    intro: "Currency converter helps you convert between different world currencies using real-time exchange rates.",
-    formula: "Converted Amount = (Amount ÷ From Rate) × To Rate",
-    table: [
-      ["USD to EUR", "1 USD = 0.92 EUR"],
-      ["USD to GBP", "1 USD = 0.79 GBP"],
-      ["USD to INR", "1 USD = 83.50 INR"],
-      ["EUR to GBP", "1 EUR = 0.86 GBP"],
-    ],
-    faqs: [],
-  },
+  // "currency-converter": {
+  //   intro: "Currency converter helps you convert between different world currencies using real-time exchange rates.",
+  //   formula: "Converted Amount = (Amount ÷ From Rate) × To Rate",
+  //   table: [
+  //     ["USD to EUR", "1 USD = 0.92 EUR"],
+  //     ["USD to GBP", "1 USD = 0.79 GBP"],
+  //     ["USD to INR", "1 USD = 83.50 INR"],
+  //     ["EUR to GBP", "1 EUR = 0.86 GBP"],
+  //   ],
+  //   faqs: [],
+  // },
 
   "unit-converter": {
     intro: "Unit converter helps you convert between metric and imperial units for length, weight, volume, temperature, and more.",

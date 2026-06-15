@@ -166,6 +166,15 @@ export default function BodyTypeCalculator() {
         });
     };
 
+    const resetForm = () => {
+        setGender("female");
+        setShoulders("");
+        setBust("");
+        setWaist("");
+        setHips("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -196,11 +205,14 @@ export default function BodyTypeCalculator() {
                                 <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("male")}>Male</button>
                             </div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Shoulder Width (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={shoulders} onChange={(e) => setShoulders(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-                        {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Bust / Chest (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="90" value={bust} onChange={(e) => setBust(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>)}
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="75" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={hips} onChange={(e) => setHips(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all">Find My Body Type →</button>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Shoulder Width (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={shoulders} onChange={(e) => setShoulders(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+                        {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Bust / Chest (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="90" value={bust} onChange={(e) => setBust(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>)}
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="75" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={hips} onChange={(e) => setHips(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all">Find My Body Type →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 

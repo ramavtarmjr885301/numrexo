@@ -75,7 +75,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── Helper Functions ─────────────────────────────────────────────────────────
 
 function getZodiacSign(month: number, day: number): string {
     const date = `${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
@@ -97,6 +97,8 @@ function getZodiacSign(month: number, day: number): string {
 function getZodiacDetails(sign: string) {
     return ZODIAC_SIGNS.find(z => z.sign === sign) || ZODIAC_SIGNS[0];
 }
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BirthdayCountdown() {
     const [birthDate, setBirthDate] = useState("");
@@ -161,6 +163,11 @@ export default function BirthdayCountdown() {
         });
     };
 
+    const resetForm = () => {
+        setBirthDate("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -184,8 +191,29 @@ export default function BirthdayCountdown() {
                         <p className="text-xs text-gray-500 mt-1">Count days until your next birthday</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Your Birth Date</label><input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg">Calculate Countdown →</button>
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Your Birth Date</label>
+                            <input
+                                type="date"
+                                value={birthDate}
+                                onChange={(e) => setBirthDate(e.target.value)}
+                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                            />
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={calculate}
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all"
+                            >
+                                Calculate Countdown →
+                            </button>
+                            <button
+                                onClick={resetForm}
+                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
 
