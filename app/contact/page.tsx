@@ -372,24 +372,22 @@
 
 
 
-
-
 "use client";
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactPage() {
+    // Initialize Formspree with your endpoint
+    const [state, handleSubmit] = useForm('xbdeedog');
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         subject: "",
         message: "",
     });
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [error, setError] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({
@@ -398,50 +396,14 @@ export default function ContactPage() {
         });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setError("");
-
-        try {
-            // Send email using a service like EmailJS, Formspree, or your own API
-            // Option 1: Using Formspree (free for up to 50 submissions/month)
-            const response = await fetch("https://formspree.io/f/your-form-id", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    subject: formData.subject,
-                    message: formData.message,
-                    _to: "numrexo@gmail.com",
-                }),
-            });
-
-            if (response.ok) {
-                setIsSubmitted(true);
-                setFormData({ name: "", email: "", subject: "", message: "" });
-                setTimeout(() => setIsSubmitted(false), 5000);
-            } else {
-                throw new Error("Failed to send message");
-            }
-        } catch (err) {
-            setError("Something went wrong. Please try again or email us directly at numrexo@gmail.com");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    // Alternative: Direct mailto fallback
+    // Direct email fallback
     const handleDirectEmail = () => {
-        const subject = encodeURIComponent(`Contact from ${formData.name || 'Visitor'} - ${formData.subject || 'General Inquiry'}`);
+        const subject = encodeURIComponent(`${formData.subject || 'Contact from Numrexo'} - ${formData.name || 'Visitor'}`);
         const body = encodeURIComponent(
-            `Name: ${formData.name}\n` +
-            `Email: ${formData.email}\n` +
-            `Subject: ${formData.subject}\n\n` +
-            `Message:\n${formData.message}`
+            `Name: ${formData.name || 'Not provided'}\n` +
+            `Email: ${formData.email || 'Not provided'}\n` +
+            `Subject: ${formData.subject || 'General Inquiry'}\n\n` +
+            `Message:\n${formData.message || 'No message provided'}`
         );
         window.location.href = `mailto:numrexo@gmail.com?subject=${subject}&body=${body}`;
     };
@@ -453,13 +415,6 @@ export default function ContactPage() {
             details: ["numrexo@gmail.com", "support@numrexo.com"],
             link: "mailto:numrexo@gmail.com",
         },
-        // Call Us Section - Commented out (will be enabled when phone support is available)
-        // {
-        //     icon: Phone,
-        //     title: "Call Us",
-        //     details: ["+91 12345 67890", "+91 98765 43210"],
-        //     link: "tel:+911234567890",
-        // },
         {
             icon: MapPin,
             title: "Visit Us",
@@ -551,23 +506,19 @@ export default function ContactPage() {
                             Fill out the form below and we'll get back to you as soon as possible.
                         </p>
 
-                        {isSubmitted && (
+                        {state.succeeded && (
                             <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-3">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
                                 <p className="text-green-400 text-sm">Thank you! Your message has been sent successfully.</p>
                             </div>
                         )}
 
-                        {error && (
+                        {state.errors && state.errors.getFormErrors().length > 0 && (
                             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center gap-3">
                                 <AlertCircle className="w-5 h-5 text-red-400" />
-                                <p className="text-red-400 text-sm">{error}</p>
-                                <button
-                                    onClick={handleDirectEmail}
-                                    className="ml-auto px-4 py-1.5 text-sm bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors"
-                                >
-                                    Send via Email
-                                </button>
+                                <p className="text-red-400 text-sm">
+                                    {state.errors.getFormErrors().map((err: any) => err.message).join(', ')}
+                                </p>
                             </div>
                         )}
 
@@ -586,6 +537,12 @@ export default function ContactPage() {
                                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
                                     placeholder="John Doe"
                                 />
+                                <ValidationError
+                                    field="name"
+                                    prefix="Name"
+                                    errors={state.errors}
+                                    className="mt-1 text-sm text-red-400"
+                                />
                             </div>
 
                             <div>
@@ -601,6 +558,12 @@ export default function ContactPage() {
                                     onChange={handleChange}
                                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
                                     placeholder="john@example.com"
+                                />
+                                <ValidationError
+                                    field="email"
+                                    prefix="Email"
+                                    errors={state.errors}
+                                    className="mt-1 text-sm text-red-400"
                                 />
                             </div>
 
@@ -624,6 +587,12 @@ export default function ContactPage() {
                                     <option value="Business Collaboration">Business Collaboration</option>
                                     <option value="Report an Issue">Report an Issue</option>
                                 </select>
+                                <ValidationError
+                                    field="subject"
+                                    prefix="Subject"
+                                    errors={state.errors}
+                                    className="mt-1 text-sm text-red-400"
+                                />
                             </div>
 
                             <div>
@@ -640,15 +609,21 @@ export default function ContactPage() {
                                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors resize-none"
                                     placeholder="Tell us how we can help you..."
                                 />
+                                <ValidationError
+                                    field="message"
+                                    prefix="Message"
+                                    errors={state.errors}
+                                    className="mt-1 text-sm text-red-400"
+                                />
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting}
+                                    disabled={state.submitting}
                                     className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {isSubmitting ? (
+                                    {state.submitting ? (
                                         <>Sending...</>
                                     ) : (
                                         <>
