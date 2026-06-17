@@ -20,6 +20,30 @@ const FAQ_DATA = [
         q: "How to calculate percentage of 6 subjects?",
         a: "Add marks of all 6 subjects, add total marks (usually 600 if each subject is 100), divide obtained by total and multiply by 100. Use the multi-subject mode above.",
     },
+    {
+        q: "How to convert CGPA to percentage for CBSE?",
+        a: "CBSE formula: Percentage = CGPA × 9.5. This is the standard conversion used by CBSE for classes 9-12. Example: 8.5 CGPA = 80.75%. For other boards, conversion factor may be 10 or 9. Check your board's official conversion formula.",
+    },
+    {
+        q: "What is the difference between CGPA and GPA?",
+        a: "GPA (Grade Point Average) is for a single semester/term. CGPA (Cumulative GPA) is the average of all semesters combined. CGPA gives your overall academic performance. Example: Semester 1 GPA 7.5, Semester 2 GPA 8.0 → CGPA = 7.75.",
+    },
+    {
+        q: "How is percentage calculated from marks?",
+        a: "Formula: (Marks Obtained ÷ Total Marks) × 100. Example: 85 out of 100 = 85%. For multiple subjects: Sum of obtained marks ÷ Sum of total marks × 100. Our calculator handles both single and multiple subjects automatically.",
+    },
+    {
+        q: "What is CGPA and how to convert to percentage?",
+        a: "CGPA is on a 0-10 scale. Multiply by 9.5 (CBSE standard) to get percentage. Example: CGPA 7.8 × 9.5 = 74.1%. Some universities use 10 as conversion factor. Check your institution's official formula.",
+    },
+    {
+        q: "What is a good percentage in exams?",
+        a: "90%+ = Outstanding (A+), 80-89% = Excellent (A), 70-79% = Very Good (B+), 60-69% = Good (B), 50-59% = Average (C), 40-49% = Pass (D). Competitive exams like JEE/NEET require 95%+ for top colleges.",
+    },
+    {
+        q: "How to calculate percentage of 6 subjects?",
+        a: "Add marks of all 6 subjects, add total marks (usually 600 if each subject is 100), divide obtained by total and multiply by 100. Example: 450/600 × 100 = 75%. Use our multi-subject mode for quick calculation.",
+    },
 ];
 
 export default function PercentageMarksCalculator() {
@@ -208,11 +232,11 @@ export default function PercentageMarksCalculator() {
                             <>
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-400 mb-2">Marks Obtained</label>
-                                    <input type="number" step="0.5" placeholder="e.g., 85" value={obtainedMarks} onChange={(e) => setObtainedMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                    <input type="number" step="0.5" placeholder="e.g., 85" value={obtainedMarks} onChange={(e) => setObtainedMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-400 mb-2">Total Marks</label>
-                                    <input type="number" step="1" placeholder="e.g., 100" value={totalMarks} onChange={(e) => setTotalMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                    <input type="number" step="1" placeholder="e.g., 100" value={totalMarks} onChange={(e) => setTotalMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                             </>
                         )}
@@ -227,8 +251,8 @@ export default function PercentageMarksCalculator() {
                                     {subjects.map((sub, idx) => (
                                         <div key={sub.id} className="flex gap-2 items-center">
                                             <div className="w-7 text-xs text-gray-500">{idx + 1}</div>
-                                            <div className="flex-1"><input type="number" step="0.5" placeholder="Obtained" value={sub.obtained} onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm" /></div>
-                                            <div className="flex-1"><input type="number" step="1" placeholder="Total" value={sub.total} onChange={(e) => updateSubject(sub.id, "total", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm" /></div>
+                                            <div className="flex-1"><input type="number" step="0.5" placeholder="Obtained" value={sub.obtained} onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                            <div className="flex-1"><input type="number" step="1" placeholder="Total" value={sub.total} onChange={(e) => updateSubject(sub.id, "total", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                                             {subjects.length > 1 && <button onClick={() => removeSubject(sub.id)} className="px-2 py-2 text-red-400">✕</button>}
                                         </div>
                                     ))}
@@ -240,11 +264,11 @@ export default function PercentageMarksCalculator() {
                             <>
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-400 mb-2">CGPA (0-10 scale)</label>
-                                    <input type="number" step="0.01" placeholder="e.g., 8.5" value={cgpa} onChange={(e) => setCgpa(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" />
+                                    <input type="number" step="0.01" placeholder="e.g., 8.5" value={cgpa} onChange={(e) => setCgpa(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-semibold text-gray-400 mb-2">Conversion Factor</label>
-                                    <select value={conversionFactor} onChange={(e) => setConversionFactor(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">
+                                    <select value={conversionFactor} onChange={(e) => setConversionFactor(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">
                                         <option value="9.5">9.5 (Standard CBSE)</option>
                                         <option value="10">10 (Some Universities)</option>
                                         <option value="9">9 (Other Boards)</option>
@@ -254,8 +278,8 @@ export default function PercentageMarksCalculator() {
                         )}
 
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -301,11 +325,55 @@ export default function PercentageMarksCalculator() {
                 </div>
             )}
 
+            {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
+
+            {/* About Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Percentage Marks Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.</p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    The <strong className="text-gray-300">Percentage Marks Calculator</strong> helps students, teachers, and parents calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Whether you're calculating exam scores, board results, or semester grades, our calculator provides accurate results with grade classification.
+                </p>
             </section>
 
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Percentage Marks Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">calculation mode</strong> — Single Subject, Multiple Subjects, or CGPA to %.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your marks or CGPA value in the input fields.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For multiple subjects, click <strong className="text-white">"+ Add Subject"</strong> to add more subjects.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate"</strong> to see your percentage and grade.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Percentage Marks Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Exam Results</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate your exam percentage instantly. Know your exact score without manual math errors.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Board Results</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate CBSE, ICSE, or state board percentages. Convert CGPA to percentage using official formulas.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Multiple Subjects</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Handle any number of subjects. Perfect for semester results, annual exams, and competitive exams.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Grade Classification</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">See your letter grade along with percentage. Understand your performance level clearly.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Grading Scale Reference */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Grading Scale Reference</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -318,6 +386,40 @@ export default function PercentageMarksCalculator() {
                 </div>
             </section>
 
+            {/* Marks to Percentage Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Marks to Percentage Conversion Tips</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Quick mental math:</strong> For exams out of 100, percentage is simply your marks. For others, use division.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Multiple subjects:</strong> Always sum obtained marks and total marks separately, then apply formula.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">CGPA conversion:</strong> CBSE standard is 9.5. Some universities use 10 or 9. Check official notification.</span></li>
+                </ul>
+            </section>
+
+            {/* CGPA to Percentage Guide */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">CGPA to Percentage Conversion Guide</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">CGPA</th><th className="text-left py-3 px-4 text-gray-400">CBSE (×9.5)</th><th className="text-left py-3 px-4 text-gray-400">Some Univ (×10)</th><th className="text-left py-3 px-4 text-gray-400">Grade</th></tr></thead>
+                        <tbody>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10.0</td><td className="py-2 px-4 text-yellow-400">95%</td><td className="py-2 px-4">100%</td><td className="py-2 px-4 text-purple-400">A+</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">9.0</td><td className="py-2 px-4 text-yellow-400">85.5%</td><td className="py-2 px-4">90%</td><td className="py-2 px-4 text-green-400">A</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">8.0</td><td className="py-2 px-4 text-yellow-400">76%</td><td className="py-2 px-4">80%</td><td className="py-2 px-4 text-teal-400">B+</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">7.0</td><td className="py-2 px-4 text-yellow-400">66.5%</td><td className="py-2 px-4">70%</td><td className="py-2 px-4 text-blue-400">B</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">6.0</td><td className="py-2 px-4 text-yellow-400">57%</td><td className="py-2 px-4">60%</td><td className="py-2 px-4 text-yellow-400">C</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            {/* About Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About Percentage Marks Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed">Calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.</p>
+            </section>
+
+            {/* FAQ Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">

@@ -30,6 +30,30 @@ const FAQ_DATA = [
         q: "How to calculate calories from macros?",
         a: "Carbs and protein provide 4 calories per gram. Fat provides 9 calories per gram. Example: 10g fat = 90 calories, 20g carbs = 80 calories, 10g protein = 40 calories, total = 210 calories. This helps verify label accuracy.",
     },
+    {
+        q: "How to calculate % Daily Value?",
+        a: "% DV = (Amount in serving ÷ Daily Value) × 100. Example: 10g fat ÷ 78g (DV) × 100 = 12.8% DV. FDA sets Daily Values based on 2,000 calorie diet. Use our calculator to automatically calculate % DV for all nutrients.",
+    },
+    {
+        q: "What is the difference between total and added sugar?",
+        a: "Total sugar = natural sugars (fructose in fruit, lactose in milk) + added sugars (sugar, corn syrup, honey added during processing). Added sugars are linked to obesity, diabetes, and heart disease. Limit added sugar to <25g/day for women, <36g/day for men.",
+    },
+    {
+        q: "How to calculate calories from macros?",
+        a: "Calories from macros: Carbs (4 cal/g) × g + Protein (4 cal/g) × g + Fat (9 cal/g) × g. Example: 30g carbs = 120 cal, 20g protein = 80 cal, 10g fat = 90 cal, total = 290 cal. Our calculator auto-calculates if calories not entered.",
+    },
+    {
+        q: "What are macros and micros?",
+        a: "Macros (macronutrients): Carbohydrates (4 cal/g) - main energy source. Protein (4 cal/g) - muscle repair, growth. Fat (9 cal/g) - hormone production, energy storage. Micros (micronutrients): Vitamins (A, C, D, E, K) and Minerals (calcium, iron, potassium, magnesium). Both essential for health.",
+    },
+    {
+        q: "What is a good % Daily Value?",
+        a: "5% DV or less = Low (good for sodium, saturated fat, added sugar). 20% DV or more = High (good for fiber, vitamins, calcium, iron). Aim for low % DV in 'Limit' nutrients and high % DV in 'Get Enough' nutrients.",
+    },
+    {
+        q: "How to read a nutrition label?",
+        a: "1) Check serving size & servings per container. 2) Look at calories per serving. 3) Limit saturated fat, trans fat, cholesterol, sodium, added sugar. 4) Get enough dietary fiber, vitamin D, calcium, iron, potassium. 5) Use % DV: <5% = low, >20% = high.",
+    },
 ];
 
 const DAILY_VALUES = [
@@ -117,7 +141,6 @@ export default function NutritionLabelGenerator() {
             return;
         }
 
-        // Calculate % Daily Values (based on 2000 calorie diet)
         const fatDV = fat ? ((fat / 78) * 100).toFixed(0) : "0";
         const satFatDV = satFat ? ((satFat / 20) * 100).toFixed(0) : "0";
         const cholDV = chol ? ((chol / 300) * 100).toFixed(0) : "0";
@@ -126,7 +149,6 @@ export default function NutritionLabelGenerator() {
         const fiberDV = fib ? ((fib / 28) * 100).toFixed(0) : "0";
         const proteinDV = prot ? ((prot / 50) * 100).toFixed(0) : "0";
 
-        // Calculate calories from macros if not provided
         let calculatedCalories = cal;
         if (!cal && (fat || carbs || prot)) {
             calculatedCalories = (fat || 0) * 9 + (carbs || 0) * 4 + (prot || 0) * 4;
@@ -154,6 +176,21 @@ export default function NutritionLabelGenerator() {
         });
     };
 
+    const resetForm = () => {
+        setServingSize("");
+        setServingsPerContainer("");
+        setCalories("");
+        setTotalFat("");
+        setSaturatedFat("");
+        setCholesterol("");
+        setSodium("");
+        setTotalCarbs("");
+        setFiber("");
+        setSugar("");
+        setProtein("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -178,15 +215,18 @@ export default function NutritionLabelGenerator() {
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Serving Size (g)</label><input type="number" placeholder="100" value={servingSize} onChange={(e) => setServingSize(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Servings Per Container</label><input type="number" placeholder="1" value={servingsPerContainer} onChange={(e) => setServingsPerContainer(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Serving Size (g)</label><input type="number" placeholder="100" value={servingSize} onChange={(e) => setServingSize(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Servings Per Container</label><input type="number" placeholder="1" value={servingsPerContainer} onChange={(e) => setServingsPerContainer(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Calories (optional)</label><input type="number" placeholder="Auto-calculated from macros" value={calories} onChange={(e) => setCalories(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Fat (g)</label><input type="number" step="0.1" placeholder="0" value={totalFat} onChange={(e) => setTotalFat(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Saturated Fat (g)</label><input type="number" step="0.1" placeholder="0" value={saturatedFat} onChange={(e) => setSaturatedFat(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Cholesterol (mg)</label><input type="number" placeholder="0" value={cholesterol} onChange={(e) => setCholesterol(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Sodium (mg)</label><input type="number" placeholder="0" value={sodium} onChange={(e) => setSodium(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Carbs (g)</label><input type="number" step="0.1" placeholder="0" value={totalCarbs} onChange={(e) => setTotalCarbs(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Dietary Fiber (g)</label><input type="number" step="0.1" placeholder="0" value={fiber} onChange={(e) => setFiber(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Sugar (g)</label><input type="number" step="0.1" placeholder="0" value={sugar} onChange={(e) => setSugar(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Protein (g)</label><input type="number" step="0.1" placeholder="0" value={protein} onChange={(e) => setProtein(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Generate Label →</button>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Calories (optional)</label><input type="number" placeholder="Auto-calculated from macros" value={calories} onChange={(e) => setCalories(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Fat (g)</label><input type="number" step="0.1" placeholder="0" value={totalFat} onChange={(e) => setTotalFat(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Saturated Fat (g)</label><input type="number" step="0.1" placeholder="0" value={saturatedFat} onChange={(e) => setSaturatedFat(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></div>
+                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Cholesterol (mg)</label><input type="number" placeholder="0" value={cholesterol} onChange={(e) => setCholesterol(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Sodium (mg)</label><input type="number" placeholder="0" value={sodium} onChange={(e) => setSodium(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></div>
+                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Carbs (g)</label><input type="number" step="0.1" placeholder="0" value={totalCarbs} onChange={(e) => setTotalCarbs(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Dietary Fiber (g)</label><input type="number" step="0.1" placeholder="0" value={fiber} onChange={(e) => setFiber(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></div>
+                        <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Total Sugar (g)</label><input type="number" step="0.1" placeholder="0" value={sugar} onChange={(e) => setSugar(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Protein (g)</label><input type="number" step="0.1" placeholder="0" value={protein} onChange={(e) => setProtein(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></div>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Generate Label →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -210,9 +250,91 @@ export default function NutritionLabelGenerator() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Nutrition Label Generator</h2><p className="text-gray-400 text-sm leading-relaxed">Create a professional nutrition facts label for your food products. Enter serving size, macros, and get % Daily Values based on a 2,000 calorie diet.</p></section>
+            {/* ─── EXPANDED SEO CONTENT (~1700 WORDS) ─── */}
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">% Daily Value Reference (2,000 Calorie Diet)</h2>
+            {/* About Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About Nutrition Label Generator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    The <strong className="text-gray-300">Nutrition Label Generator</strong> helps you create professional nutrition facts labels for food products. Enter serving size, macros, and get % Daily Values based on a 2,000 calorie diet. Perfect for food businesses, recipe developers, and health-conscious consumers.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Understanding nutrition labels is essential for making healthier food choices. Our generator follows FDA guidelines and shows calories, macronutrients, and % Daily Values for all key nutrients.
+                </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Nutrition Label Generator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">serving size</strong> (in grams) and <strong className="text-white">servings per container</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> (Optional) Enter <strong className="text-white">calories</strong> — if left blank, calculator auto-calculates from macros.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">macronutrients</strong> — Total Fat, Saturated Fat, Cholesterol, Sodium, Total Carbs, Fiber, Sugar, Protein.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Generate Label"</strong> to see your nutrition facts.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> View calories per serving, macro breakdown, and % Daily Values.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and create a new label.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Nutrition Label Generator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Food Business Compliance</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Create FDA-compliant nutrition labels for packaged foods. Essential for selling products in retail stores or online.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Recipe Nutrition Analysis</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Analyze nutritional content of your recipes. Understand calories, macros, and nutrients in your meals.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Healthy Eating</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Understand what's in your food. Make informed choices about nutrition. Track your daily intake.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Meal Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Compare different products side by side. Plan meals that meet your nutritional goals.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Understanding % Daily Value */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Understanding % Daily Value (DV)</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✅ Get Enough</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Aim for <strong className="text-white">20% DV or more</strong> of: Dietary Fiber, Vitamin D, Calcium, Iron, Potassium. These nutrients support bone health, immune function, and overall wellness.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-red-400 mb-2">⚠️ Limit</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Choose foods with <strong className="text-white">5% DV or less</strong> of: Saturated Fat, Sodium, Added Sugars. These nutrients are linked to heart disease, high blood pressure, and diabetes when consumed in excess.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Calories from Macros */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Calculate Calories from Macros</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                        Each macronutrient provides a specific number of calories per gram:
+                    </p>
+                    <ul className="space-y-2 text-sm text-gray-400">
+                        <li><strong className="text-white">Carbohydrates:</strong> 4 calories per gram</li>
+                        <li><strong className="text-white">Protein:</strong> 4 calories per gram</li>
+                        <li><strong className="text-white">Fat:</strong> 9 calories per gram</li>
+                    </ul>
+                    <p className="text-gray-400 text-sm leading-relaxed mt-3">
+                        <strong className="text-white">Example:</strong> 20g carbs = 80 cal, 10g protein = 40 cal, 10g fat = 90 cal → <strong className="text-green-400">Total = 210 calories</strong>
+                    </p>
+                </div>
+            </section>
+
+            {/* % Daily Value Reference Table */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">% Daily Value Reference (2,000 Calorie Diet)</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
@@ -235,9 +357,44 @@ export default function NutritionLabelGenerator() {
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">How to Read % Daily Value</h2><ul className="space-y-3"><li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li><li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li><li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li></ul></section>
+            {/* Nutrition Label Tips */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Read % Daily Value</h2>
+                <ul className="space-y-3">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
+                </ul>
+            </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span><span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
+            {/* How to Read % Daily Value */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Read % Daily Value</h2>
+                <ul className="space-y-3">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
+                </ul>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">
+                    {FAQ_DATA.map((item, i) => (
+                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
+                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                            </button>
+                            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
+                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                            </div>
+                            {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
+                        </div>
+                    ))}
+                </div>
+            </section>
         </>
     );
 }

@@ -46,6 +46,26 @@ const FAQ_DATA = [
         q: "What are closing costs?",
         a: "Closing costs are fees paid at settlement, typically 2-5% of loan amount. They include appraisal, title insurance, origination fees, and prepaid taxes/insurance.",
     },
+    {
+        q: "What is the difference between fixed and adjustable-rate mortgages?",
+        a: "Fixed-rate mortgage: Interest rate stays same for entire loan term (30-year fixed popular). Predictable payments. Adjustable-rate mortgage (ARM): Rate changes after initial fixed period (usually 5/7/10 years). Lower initial rate but can increase. Choose fixed for long-term stability, ARM if you plan to move within 5-7 years.",
+    },
+    {
+        q: "How to get pre-approved for a mortgage?",
+        a: "Steps: 1) Check credit score (740+ for best rates), 2) Gather documents (pay stubs, tax returns, bank statements, W-2s), 3) Compare 3-5 lenders, 4) Submit application with lender, 5) Get pre-approval letter (valid 60-90 days). Pre-approval shows sellers you're serious and gives exact loan amount.",
+    },
+    {
+        q: "What is the debt-to-income ratio for mortgages?",
+        a: "Front-end DTI = Housing costs ÷ Gross monthly income (should be ≤28%). Back-end DTI = Total debt payments ÷ Gross monthly income (should be ≤36%). For FHA loans: up to 31% front-end, 43% back-end. Higher DTI = harder to qualify. Pay down debts before applying to improve DTI.",
+    },
+    {
+        q: "What are FHA loans and who qualifies?",
+        a: "FHA loans: Government-backed, 3.5% down payment (580+ credit score), 10% down (500-579 score). Easier qualification than conventional. Mortgage insurance required (upfront + monthly). Loan limits vary by county ($420k-$970k). Best for first-time buyers with moderate income.",
+    },
+    {
+        q: "How to refinance a mortgage?",
+        a: "Rate-and-term refinance: Lower interest rate or change loan term. Cash-out refinance: Borrow extra equity for home improvements, debt consolidation, education. Costs: 2-5% of loan amount in closing costs. Refinance if new rate is 1-2% lower than current. Break-even period = closing costs ÷ monthly savings.",
+    },
 ];
 
 const LOAN_TERMS = [
@@ -268,7 +288,7 @@ export default function MortgageCalculator() {
                                     placeholder="300000"
                                     value={homePrice}
                                     onChange={(e) => handleHomePriceChange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
                             </div>
@@ -302,7 +322,7 @@ export default function MortgageCalculator() {
                                         placeholder="20"
                                         value={downPaymentPercent}
                                         onChange={(e) => handleDownPaymentPercentChange(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                                 </div>
@@ -313,7 +333,7 @@ export default function MortgageCalculator() {
                                         placeholder="60000"
                                         value={downPayment}
                                         onChange={(e) => setDownPayment(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
                                 </div>
@@ -349,7 +369,7 @@ export default function MortgageCalculator() {
                                     placeholder="6.5"
                                     value={interestRate}
                                     onChange={(e) => setInterestRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
                             </div>
@@ -365,7 +385,7 @@ export default function MortgageCalculator() {
                                         placeholder="3000"
                                         value={propertyTax}
                                         onChange={(e) => setPropertyTax(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
                                 </div>
@@ -378,7 +398,7 @@ export default function MortgageCalculator() {
                                         placeholder="1200"
                                         value={homeInsurance}
                                         onChange={(e) => setHomeInsurance(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
                                 </div>
@@ -394,7 +414,7 @@ export default function MortgageCalculator() {
                                     placeholder="0"
                                     value={pmi}
                                     onChange={(e) => setPmi(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
                             </div>
@@ -447,12 +467,92 @@ export default function MortgageCalculator() {
                 />
             </div>
 
+            {/* ─── EXPANDED SEO CONTENT (~1750 WORDS) ─── */}
+
             {/* About Mortgage Calculator */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Mortgage Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                    This mortgage calculator helps you estimate your monthly home loan payments including principal, interest, property taxes, home insurance, and PMI. Use it to plan your home purchase budget, compare different loan terms, and understand how much house you can afford.
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    The <strong className="text-gray-300">Mortgage Calculator</strong> helps you estimate your monthly home loan payments including principal, interest, property taxes, home insurance, and PMI. Whether you're a first-time homebuyer or looking to refinance, this tool provides accurate payment estimates.
                 </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Use it to plan your home purchase budget, compare different loan terms (10, 15, 20, or 30 years), and understand how much house you can afford. The calculator also shows your total interest paid over the life of the loan and your loan-to-value ratio.
+                </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Mortgage Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">home price</strong> you're considering.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">down payment</strong> (as amount or percentage).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select <strong className="text-white">loan term</strong> (10, 15, 20, or 30 years).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter the <strong className="text-white">interest rate</strong> offered by your lender.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> (Optional) Enter <strong className="text-white">property tax, home insurance, and PMI</strong> for accurate total payment.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Click <strong className="text-white">"Calculate Mortgage"</strong> to see your monthly payment breakdown.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Mortgage Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Budget Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly what your monthly payment will be before you buy. Plan your household budget with confidence.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Loan Offers</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Compare different interest rates and loan terms from multiple lenders. Find the most affordable option.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Down Payment Planning</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">See how different down payment amounts affect your monthly payment. Find the sweet spot between upfront cost and monthly payment.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Total Cost Visibility</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">See total interest paid over the life of the loan. Understand the true cost of homeownership.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Mortgage Rate by Credit Score */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Mortgage Rates by Credit Score (2025-26)</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead>
+                            <tr className="border-b border-gray-800">
+                                <th className="text-left py-3 px-4 text-gray-400">Credit Score</th>
+                                <th className="text-left py-3 px-4 text-gray-400">Avg. Interest Rate</th>
+                                <th className="text-left py-3 px-4 text-gray-400">Monthly Payment ($300K loan)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-b border-gray-800/50">
+                                <td className="py-2 px-4 text-green-400">760+</td>
+                                <td className="py-2 px-4 text-yellow-400">6.5%</td>
+                                <td className="py-2 px-4">$1,896</td>
+                            </tr>
+                            <tr className="border-b border-gray-800/50">
+                                <td className="py-2 px-4 text-blue-400">700-759</td>
+                                <td className="py-2 px-4 text-yellow-400">6.9%</td>
+                                <td className="py-2 px-4">$1,975</td>
+                            </tr>
+                            <tr className="border-b border-gray-800/50">
+                                <td className="py-2 px-4 text-orange-400">660-699</td>
+                                <td className="py-2 px-4 text-yellow-400">7.4%</td>
+                                <td className="py-2 px-4">$2,075</td>
+                            </tr>
+                            <tr className="border-b border-gray-800/50">
+                                <td className="py-2 px-4 text-red-400">620-659</td>
+                                <td className="py-2 px-4 text-yellow-400">8.0%</td>
+                                <td className="py-2 px-4">$2,200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             {/* Loan Term Comparison */}
