@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 type ConversionType = "length" | "weight" | "volume" | "temperature" | "area" | "speed";
@@ -201,29 +201,35 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 export default function UnitConverter() {
   const [conversionType, setConversionType] = useState<ConversionType>("length");
   const [value, setValue] = useState("");
-  const [fromUnit, setFromUnit] = useState("");
-  const [toUnit, setToUnit] = useState("");
+  const [fromUnit, setFromUnit] = useState<string>("");
+  const [toUnit, setToUnit] = useState<string>("");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const conversion = CONVERSIONS[conversionType];
   const units = conversion.units;
 
+  // Initialize default units on mount and when conversion type changes
+  useEffect(() => {
+    const defaultFrom = units[0];
+    const defaultTo = units.length > 1 ? units[1] : units[0];
+    setFromUnit(defaultFrom);
+    setToUnit(defaultTo);
+  }, [conversionType, units]);
+
   // Set default units when conversion type changes
   const handleTypeChange = (type: ConversionType) => {
     setConversionType(type);
-    setFromUnit(units[0]);
-    setToUnit(units.length > 1 ? units[1] : units[0]);
     setResult(null);
     setValue("");
+    // Units will be set by useEffect
   };
 
   const resetForm = () => {
     setConversionType("length");
     setValue("");
-    setFromUnit(CONVERSIONS.length.units[0]);
-    setToUnit(CONVERSIONS.length.units[1]);
     setResult(null);
+    // Units will be set by useEffect
   };
 
   const convert = () => {
@@ -233,8 +239,20 @@ export default function UnitConverter() {
       return;
     }
 
+    if (!fromUnit || !toUnit) {
+      alert("Please select units");
+      return;
+    }
+
     try {
       const convertedValue = conversion.convert(val, fromUnit, toUnit);
+
+      // Check if result is NaN or Infinity
+      if (!isFinite(convertedValue) || isNaN(convertedValue)) {
+        alert("Invalid conversion result. Please check your inputs.");
+        return;
+      }
+
       setResult({
         value: val,
         convertedValue: convertedValue.toFixed(6),
@@ -248,8 +266,9 @@ export default function UnitConverter() {
   };
 
   const swapUnits = () => {
+    const temp = fromUnit;
     setFromUnit(toUnit);
-    setToUnit(fromUnit);
+    setToUnit(temp);
     if (value) {
       setTimeout(() => convert(), 10);
     }
