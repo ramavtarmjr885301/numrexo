@@ -169,23 +169,34 @@ export default function VATCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">VAT Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
+    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+        
+        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+            <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                <span itemProp="name">Home</span> {/* ✅ Error Fixed Here */}
+            </a>
+            <meta itemProp="position" content="1" />
+        </li>
+        
+        <li className="text-gray-700">/</li>
+        
+        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+            <a href="https://www.numrexo.com/tax" itemProp="item" className="hover:text-gray-300">
+                <span itemProp="name">Tax Calculators</span> {/* ✅ Error Fixed Here */}
+            </a>
+            <meta itemProp="position" content="2" />
+        </li>
+        
+        <li className="text-gray-700">/</li>
+        
+        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+            <span itemProp="name" className="text-gray-300">VAT Calculator</span> {/* ✅ Error Fixed Here */}
+            {/* Last item par URL nahi hota isliye itemProp="item" hataya gaya hai */}
+            <meta itemProp="position" content="3" />
+        </li>
+        
+    </ol>
+</nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
