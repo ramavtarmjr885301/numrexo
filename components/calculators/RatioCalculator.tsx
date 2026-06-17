@@ -22,6 +22,30 @@ const FAQ_DATA = [
         q: "What is aspect ratio?",
         a: "Aspect ratio is the proportional relationship between width and height. Common ratios: 16:9 (widescreen), 4:3 (standard), 1:1 (square). Used for screens, images, and videos.",
     },
+    {
+        q: "How to convert ratio to percentage?",
+        a: "To convert a:b to percentage, use: (a ÷ (a+b)) × 100. Example: 2:3 → (2÷5) × 100 = 40% and 60%. Useful for understanding proportions in data and statistics.",
+    },
+    {
+        q: "What is the difference between ratio and proportion?",
+        a: "A ratio compares two quantities (2:3). A proportion states that two ratios are equal (2:3 = 4:6). Proportions are used to find missing values. Our calculator handles both.",
+    },
+    {
+        q: "How to simplify a ratio?",
+        a: "Find GCD of both numbers, divide both by GCD. Example: 15:25 → GCD=5 → 15÷5=3, 25÷5=5 → 3:5. For 3 numbers, find GCD of all three.",
+    },
+    {
+        q: "How to calculate ratio of three numbers?",
+        a: "Find GCD of all three numbers: 6:9:12 → GCD=3 → 2:3:4. If no common divisor, ratio is already in simplest form. Our calculator handles both 2-number and 3-number ratios.",
+    },
+    {
+        q: "How to find missing value in a ratio?",
+        a: "Use cross multiplication: a:b = c:x → x = (b × c) ÷ a. Example: 3:4 = 9:x → x = (4×9)÷3 = 12. Our missing value mode does this instantly.",
+    },
+    {
+        q: "What is aspect ratio?",
+        a: "Aspect ratio is width:height. Common: 16:9 (HD TV/YouTube), 4:3 (old TV), 1:1 (Instagram), 21:9 (ultrawide). Use our aspect ratio mode to find matching dimensions.",
+    },
 ];
 
 const RATIO_EXAMPLES = [
@@ -100,7 +124,6 @@ export default function RatioCalculator() {
         }
 
         if (c !== null && !isNaN(c)) {
-            // Three-term ratio
             const divisor = gcdThree(a, b, c);
             const simplified = `${a / divisor}:${b / divisor}:${c / divisor}`;
             setResult({
@@ -110,7 +133,6 @@ export default function RatioCalculator() {
                 type: "three",
             });
         } else {
-            // Two-term ratio
             const divisor = gcd(a, b);
             const simplified = `${a / divisor}:${b / divisor}`;
             setResult({
@@ -172,6 +194,20 @@ export default function RatioCalculator() {
         else calculateAspect();
     };
 
+    const resetForm = () => {
+        setCalcType("simplify");
+        setRatioA("");
+        setRatioB("");
+        setRatioC("");
+        setKnownA("");
+        setKnownB("");
+        setMissingX("");
+        setWidth("");
+        setHeight("");
+        setTargetWidth("");
+        setResult(null);
+    };
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -206,26 +242,38 @@ export default function RatioCalculator() {
 
                         {calcType === "simplify" && (
                             <>
-                                <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">First Number</label><input type="number" placeholder="12" value={ratioA} onChange={(e) => setRatioA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Second Number</label><input type="number" placeholder="18" value={ratioB} onChange={(e) => setRatioB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Third Number (Optional)</label><input type="number" placeholder="Leave empty for 2-number ratio" value={ratioC} onChange={(e) => setRatioC(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">First Number</label><input type="number" placeholder="12" value={ratioA} onChange={(e) => setRatioA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Second Number</label><input type="number" placeholder="18" value={ratioB} onChange={(e) => setRatioB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                </div>
+                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Third Number (Optional)</label><input type="number" placeholder="Leave empty for 2-number ratio" value={ratioC} onChange={(e) => setRatioC(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             </>
                         )}
 
                         {calcType === "missing" && (
                             <>
-                                <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">First Number (a)</label><input type="number" placeholder="2" value={knownA} onChange={(e) => setKnownA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Second Number (b)</label><input type="number" placeholder="3" value={knownB} onChange={(e) => setKnownB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Third Number (c) - Find d</label><input type="number" placeholder="4" value={missingX} onChange={(e) => setMissingX(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /><p className="text-xs text-gray-500 mt-1">a:b = c:d, find d</p></div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">First Number (a)</label><input type="number" placeholder="2" value={knownA} onChange={(e) => setKnownA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Second Number (b)</label><input type="number" placeholder="3" value={knownB} onChange={(e) => setKnownB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                </div>
+                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Third Number (c) - Find d</label><input type="number" placeholder="4" value={missingX} onChange={(e) => setMissingX(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><p className="text-xs text-gray-500 mt-1">a:b = c:d, find d</p></div>
                             </>
                         )}
 
                         {calcType === "aspect" && (
                             <>
-                                <div className="grid grid-cols-2 gap-3"><div><label className="block text-xs font-semibold text-gray-400 mb-2">Width</label><input type="number" placeholder="1920" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><input type="number" placeholder="1080" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Target Width (Optional)</label><input type="number" placeholder="Enter to calculate matching height" value={targetWidth} onChange={(e) => setTargetWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Width</label><input type="number" placeholder="1920" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><input type="number" placeholder="1080" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                </div>
+                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Target Width (Optional)</label><input type="number" placeholder="Enter to calculate matching height" value={targetWidth} onChange={(e) => setTargetWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             </>
                         )}
 
-                        <button onClick={calculate} className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
+                        <div className="flex gap-3">
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -250,9 +298,84 @@ export default function RatioCalculator() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Ratio Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Simplify ratios, find missing values in proportions, and calculate aspect ratios. Perfect for students, designers, and anyone working with proportions.</p></section>
+            {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Ratio Examples</h2>
+            {/* About Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About Ratio Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    The <strong className="text-gray-300">Ratio Calculator</strong> helps you simplify ratios, find missing values in proportions, and calculate aspect ratios. Perfect for students, designers, photographers, and anyone working with proportions.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Whether you're scaling recipes, resizing images, or solving math problems, our calculator provides instant, accurate results.
+                </p>
+            </section>
+
+            {/* How to Use Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Ratio Calculator</h2>
+                <div className="space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select calculation type: <strong className="text-white">Simplify</strong>, <strong className="text-white">Find Missing</strong>, or <strong className="text-white">Aspect Ratio</strong>.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> For Simplify: Enter 2 or 3 numbers to get the simplified ratio.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Missing: Enter a:b = c:x to find the missing value x.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> For Aspect: Enter width and height to get the aspect ratio.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different values.</p>
+                </div>
+            </section>
+
+            {/* Benefits Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Ratio Calculator?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Simplify Ratios</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Reduce ratios to simplest form instantly. Perfect for math homework and everyday calculations.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Find Missing Values</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Solve proportions quickly. Great for recipe scaling, map distances, and financial ratios.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Aspect Ratio</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Calculate screen ratios, image dimensions, and video resolutions. Essential for designers and photographers.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Multiple Modes</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Three calculators in one. Simplify, find missing values, and calculate aspect ratios.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Real-World Applications */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Ratios</h2>
+                <ul className="space-y-2">
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">📐</span><span><strong className="text-gray-300">Cooking & Baking:</strong> Scaling recipes up or down. 2:1 ratio of flour to water for bread.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">📐</span><span><strong className="text-gray-300">Photography & Design:</strong> Aspect ratios for images (16:9, 4:3, 1:1). Maintaining proportions when resizing.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">📐</span><span><strong className="text-gray-300">Finance:</strong> Financial ratios (debt-to-equity, price-to-earnings). Analyzing company performance.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">📐</span><span><strong className="text-gray-300">Construction:</strong> Concrete mix ratios (1:2:4 for cement:sand:aggregate). Proportions in blueprints.</span></li>
+                </ul>
+            </section>
+
+            {/* Ratio Formulas */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">Ratio Formulas & Methods</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Simplifying Ratios</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Find GCD of all numbers, divide each by GCD. Example: 12:18 → GCD=6 → 2:3.</p>
+                    </div>
+                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-400 mb-2">Cross Multiplication</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">a:b = c:x → x = (b × c) ÷ a. Example: 2:3 = 4:x → x = (3×4)÷2 = 6.</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Common Ratio Examples */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Common Ratio Examples</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Ratio</th><th className="text-left py-3 px-4 text-gray-400">Use Case</th><th className="text-left py-3 px-4 text-gray-400">Equivalent Ratios</th></tr></thead>
@@ -263,8 +386,23 @@ export default function RatioCalculator() {
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span><span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div>
+            {/* FAQ Section */}
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">
+                    {FAQ_DATA.map((item, i) => (
+                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
+                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                            </button>
+                            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
+                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                            </div>
+                            {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
+                        </div>
+                    ))}
+                </div>
             </section>
         </>
     );

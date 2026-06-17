@@ -25,25 +25,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
         {
             url: `${baseUrl}/about`,
             lastModified: currentDate,
-            changeFrequency: 'monthly',
+            changeFrequency: 'daily',
             priority: 0.6,
         },
         {
             url: `${baseUrl}/privacy`,
             lastModified: currentDate,
-            changeFrequency: 'yearly',
+            changeFrequency: 'daily',
             priority: 0.3,
         },
         {
             url: `${baseUrl}/terms`,
             lastModified: currentDate,
-            changeFrequency: 'yearly',
+            changeFrequency: 'daily',
             priority: 0.3,
         },
         {
             url: `${baseUrl}/disclaimer`,
             lastModified: currentDate,
-            changeFrequency: 'yearly',
+            changeFrequency: 'daily',
             priority: 0.3,
         },
     ]
@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         (categoryKey) => ({
             url: `${baseUrl}/${categoryKey}`,  // ← FIXED: removed /calculators/
             lastModified: currentDate,
-            changeFrequency: 'weekly' as const,
+            changeFrequency: 'daily' as const,
             priority: 0.75,
         })
     )
@@ -79,7 +79,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             return {
                 url: `${baseUrl}${calculator.path}`,
                 lastModified: currentDate,
-                changeFrequency: 'weekly' as const,
+                changeFrequency: 'daily' as const,
                 priority,
             }
         }

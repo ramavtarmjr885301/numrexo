@@ -79,12 +79,10 @@ export default function PPFCalculator() {
       return;
     }
 
-    // PPF maturity calculation (annual compounding, interest credited annually)
-    // Formula: FV = P × ((1 + r)^n - 1) / r × (1 + r) for investments made at start of year
     const maturityAmount = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
     const totalInvestment = P * n;
     const totalInterest = maturityAmount - totalInvestment;
-    const taxSaving80C = Math.min(P, 150000) * 0.3; // Assuming 30% tax bracket
+    const taxSaving80C = Math.min(P, 150000) * 0.3;
     const effectiveReturn = ((maturityAmount / totalInvestment) * 100 / n).toFixed(2);
 
     setResult({
@@ -97,6 +95,13 @@ export default function PPFCalculator() {
       years: n,
       annualInvestment: P,
     });
+  };
+
+  const resetForm = () => {
+    setAnnualInvestment("");
+    setRate("7.1");
+    setYears("15");
+    setResult(null);
   };
 
   return (
@@ -132,7 +137,7 @@ export default function PPFCalculator() {
                   max="150000"
                   value={annualInvestment}
                   onChange={(e) => setAnnualInvestment(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹/year</span>
               </div>
@@ -149,7 +154,7 @@ export default function PPFCalculator() {
                   step="0.1"
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">% p.a.</span>
               </div>
@@ -167,18 +172,26 @@ export default function PPFCalculator() {
                   max="50"
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
               </div>
               <p className="text-xs text-gray-500 mt-1">15-year lock-in, extendable in 5-year blocks</p>
             </div>
-            <button
-              onClick={calculate}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all"
-            >
-              Calculate PPF Returns →
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={calculate}
+                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all"
+              >
+                Calculate PPF Returns →
+              </button>
+              <button
+                onClick={resetForm}
+                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 
@@ -202,6 +215,9 @@ export default function PPFCalculator() {
         />
       </div>
 
+      {/* ─── EXPANDED SEO CONTENT (~1750 WORDS) ─── */}
+
+      {/* About Section */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-3">About PPF Calculator</h2>
         <p className="text-gray-400 text-sm leading-relaxed mb-3">
@@ -212,6 +228,43 @@ export default function PPFCalculator() {
         </p>
       </section>
 
+      {/* How to Use Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">How to Use This PPF Calculator</h2>
+        <div className="space-y-3">
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">annual investment</strong> (₹500 to ₹1,50,000).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">current PPF interest rate</strong> (7.1% as of 2025-26).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">tenure</strong> (minimum 15 years).</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate PPF Returns"</strong> to see your maturity amount.</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> View total investment, interest earned, and tax savings.</p>
+          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">Why Use a PPF Calculator?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Retirement Planning</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Project your retirement corpus with tax-free PPF returns. Plan your golden years with confidence.</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Tax Saving</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Calculate your Section 80C tax savings. Understand the true post-tax return of PPF investment.</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Goal Planning</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Plan for children's education, wedding, or home purchase with a safe, guaranteed investment.</p>
+          </div>
+          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Compare Options</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">Compare PPF with FD, mutual funds, and other investment options. Choose the best for your goals.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PPF Formula */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">PPF Formula & Calculation</h2>
         <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
@@ -221,6 +274,7 @@ export default function PPFCalculator() {
         </div>
       </section>
 
+      {/* Year by Year Breakdown */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">PPF Investment Calculator - Year by Year</h2>
         <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
@@ -269,28 +323,7 @@ export default function PPFCalculator() {
         </div>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-        <div className="space-y-2">
-          {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-              <button
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              >
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
-              </button>
-              {openFaq === i && (
-                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
-                  {item.a}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
+      {/* PPF Key Benefits */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4">PPF Key Benefits</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -314,6 +347,45 @@ export default function PPFCalculator() {
             <h3 className="text-sm font-semibold text-green-400 mb-1">Easy Access</h3>
             <p className="text-xs text-gray-400">Open at any post office or authorized bank (SBI, HDFC, ICICI).</p>
           </div>
+        </div>
+      </section>
+
+      {/* PPF vs FD vs Mutual Funds */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-3">PPF vs FD vs Mutual Funds</h2>
+        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Feature</th><th className="text-left py-3 px-4 text-gray-400">PPF</th><th className="text-left py-3 px-4 text-gray-400">FD</th><th className="text-left py-3 px-4 text-gray-400">Mutual Funds</th></tr></thead>
+            <tbody>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Returns</td><td className="py-2 px-4 text-yellow-400">7-8%</td><td className="py-2 px-4 text-yellow-400">6-7%</td><td className="py-2 px-4 text-yellow-400">8-12%</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tax Status</td><td className="py-2 px-4 text-green-400">EEE (Tax-Free)</td><td className="py-2 px-4 text-red-400">Taxable</td><td className="py-2 px-4 text-yellow-400">LTCG/STCG</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Lock-in</td><td className="py-2 px-4">15 years</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">None</td></tr>
+              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Risk</td><td className="py-2 px-4 text-green-400">Very Low</td><td className="py-2 px-4 text-green-400">Very Low</td><td className="py-2 px-4 text-yellow-400">Moderate-High</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <div className="space-y-2">
+          {FAQ_DATA.map((item, i) => (
+            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+              <button
+                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
+                <span className="text-sm font-medium text-gray-200">{item.q}</span>
+                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+              </button>
+              {openFaq === i && (
+                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                  {item.a}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </>

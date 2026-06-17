@@ -424,7 +424,7 @@ export const seoContent: Record<string, any> = {
     faqs: [],
   },
 
-  rd: {
+  "rd": {
     intro: "Recurring Deposit (RD) is perfect for regular savers. You deposit a fixed amount monthly and earn guaranteed returns with quarterly compounding.",
     formula: "Maturity = P × ((1 + r/4)^n - 1) / (r/4) × (1 + r/4)",
     table: [
