@@ -152,6 +152,9 @@ export default function Footer() {
               <button onClick={() => router.push("/math/pythagorean-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Pythagorean Theorem
               </button>
+              <button onClick={() => router.push("/math/population-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Population Calculator
+              </button>
 
 
 

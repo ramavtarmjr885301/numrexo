@@ -117,7 +117,16 @@ import PaceCalculator from "./PaceCalculator";
 import DistanceSpeedTimeCalculator from "./DistanceSpeedTimeCalculator";
 import InvoiceGenerator from "./InvoiceGenerator";
 import MortgageCalculator from "./MortgageCalculator";
-
+import PopulationCalculator from "./PopulationCalculator";
+import PersonalLoanEMICalculator from "./PersonalLoanEMICalculator";
+import ConsumerLoanEMICalculator from "./ConsumerLoanEMICalculator";
+import HomeLoanEMICalculator from "./HomeLoaneEMICalculator";
+import CarLoanEMICalculator from "./CarLoanEMICalculator";
+import BikeLoanEMICalculator from "./BikeLoanEMICalculator";
+import HomeLoanEligibilityCalculator from "./HomeLoanEligibilityCalculator";
+import AmortizationCalculator from "./AmortizationCalculator";
+import CreditScoreEstimator from "./CreditScoreEstimatorCalculator";
+import LoanPrepaymentCalculator from "./LoanPrepaymentCalculator";
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
 }
@@ -369,8 +378,26 @@ export default function CalculatorWrapper({
         return <PercentageMarksCalculator />
       case "mortgage":
         return <MortgageCalculator />
-
-
+      case "population":
+        return <PopulationCalculator />
+      case "personal-loan-emi":
+        return <PersonalLoanEMICalculator />
+      case "consumer-loan-emi":
+        return <ConsumerLoanEMICalculator />
+      case "home-loan-emi":
+        return <HomeLoanEMICalculator />
+      case "car-loan-emi":
+        return <CarLoanEMICalculator />
+      case "bike-loan-emi":
+        return <BikeLoanEMICalculator />
+      case "home-loan-eligibility":
+        return <HomeLoanEligibilityCalculator />
+      case "amortization":
+        return <AmortizationCalculator />
+      case "credit-score-estimator":
+        return <CreditScoreEstimator />
+      case "loan-prepayment":
+        return <LoanPrepaymentCalculator />
       // Add more cases for other calculators
       default:
         return (
