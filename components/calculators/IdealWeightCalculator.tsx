@@ -228,7 +228,7 @@ export default function IdealWeightCalculator() {
         <>
             {/* ── Meta Tags ── */}
             <Head>
-                <title>Ideal Weight Calculator – Find Your Healthy Weight Range (2025)</title>
+                <title>Ideal Weight Calculator for men and women – Find Your Healthy Weight Range (2025)</title>
                 <meta
                     name="description"
                     content="Free ideal body weight calculator using Devine, Robinson, Miller & Hamwi formulas. Adjust for body frame size. Instantly find your healthy weight range in lbs or kg."
