@@ -50,6 +50,12 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+  async
+  strategy="afterInteractive"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2722324525359517"
+  crossOrigin="anonymous"
+/>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
