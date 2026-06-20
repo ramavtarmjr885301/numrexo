@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
 
-
 export const metadata: Metadata = {
     title: 'Blog – Numrexo Finance & Math Guides',
     description: 'Read our latest articles on personal finance, loans, investments, taxes, and mathematical calculations.',
@@ -22,14 +21,23 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-6xl">
-            {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-white">
-                    📝 Numrexo Blog
-                </h1>
-                <p className="text-gray-400 mt-2">
-                    Expert guides, tips, and insights on finance, loans, investments, and math
-                </p>
+            {/* Header with RSS Link */}
+            <div className="flex justify-between items-start mb-8">
+                <div>
+                    <h1 className="text-3xl md:text-4xl font-bold text-white">
+                        📝 Numrexo Blog
+                    </h1>
+                    <p className="text-gray-400 mt-2">
+                        Expert guides, tips, and insights on finance, loans, investments, and math
+                    </p>
+                </div>
+                <Link
+                    href="/rss"
+                    target="_blank"
+                    className="text-orange-400 hover:text-orange-300 text-sm flex items-center gap-1 bg-[#0f1525] px-3 py-2 rounded-lg border border-gray-700 whitespace-nowrap"
+                >
+                    📡 RSS Feed
+                </Link>
             </div>
 
             {/* Category Filter */}
