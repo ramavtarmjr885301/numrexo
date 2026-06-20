@@ -61,7 +61,7 @@ export default function CalculatorCard({ calculator, onClick }: CalculatorCardPr
 
 
 
-// import { CalculatorType } from "@/data/calculators";
+// import { CalculatorType } from "@/data/calculatorsRegistry";
 
 // interface CalculatorCardProps {
 //   calculator: CalculatorType;

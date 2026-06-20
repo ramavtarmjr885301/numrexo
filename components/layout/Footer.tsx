@@ -171,7 +171,7 @@ export default function Footer() {
               <button onClick={() => router.push("/contact")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Contact
               </button>
-              <a href="#" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Blog</a>
+              <a href="/blog" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Blog</a>
             </div>
           </div>
 
