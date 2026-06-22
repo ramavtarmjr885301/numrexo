@@ -1,6 +1,20 @@
 import axios, { AxiosResponse } from 'axios';
 import { CALCULATORS_REGISTRY, CalculatorType } from '@/data/calculatorsRegistry';
+import useSWR from 'swr';
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
+export function usePosts(page: number = 1, perPage: number = 9) {
+    const { data, error } = useSWR(
+        `${WP_API_URL}/posts?page=${page}&per_page=${perPage}&_embed=true`,
+        fetcher
+    );
+
+    return {
+        posts: data || [],
+        isLoading: !error && !data,
+        isError: error
+    };
+}
 // Types
 export interface WPPost {
     id: number;
