@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "npx nextjs-indexing-pack submit --urls https://www.numrexo.com/ --key 34fa63b2ed3d7ae2e4cba99a055e169e --indexnow",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +15,7 @@
     "graphql-request": "^7.4.0",
     "lucide-react": "^0.344.0",
     "next": "^14.2.5",
+    "nextjs-indexing-pack": "^0.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rss": "^1.2.2"

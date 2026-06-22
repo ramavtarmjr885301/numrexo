@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://www.numrexo.com",
+  "googleServiceAccountPath": "./google-service-account.json"
+}
