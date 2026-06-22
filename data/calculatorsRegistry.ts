@@ -1,4 +1,4 @@
-// data/calculatorsRegistry.ts - EXPANDED VERSION
+// data/calculatorsRegistry.ts
 
 export interface CalculatorType {
   id: string;
@@ -187,7 +187,7 @@ export const searchCalculators = (searchTerm: string) => {
   );
 };
 
-// Total: 10 + 15 + 12 + 15 + 8 + 10 + 8 + 10 + 7 + 8 = 103 calculators! 🎉
+
 
 
 // ============ SEO CONTENT FOR ALL CALCULATORS ============
