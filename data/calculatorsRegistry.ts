@@ -74,6 +74,19 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
   { id: "amortization", slug: "amortization-calculator", name: "Amortization Calculator", icon: "📊", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Generate complete loan amortization schedule with interest breakdown", tags: ["Loan", "Mortgage", "Schedule"], category: "finance", path: generatePath("finance", "amortization-calculator"), popularity: 79 },
   { id: "credit-score-estimator", slug: "credit-score-estimator", name: "Credit Score Estimator", icon: "📊", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", desc: "Estimate your credit score range based on key financial factors", tags: ["Credit", "Score", "Popular"], category: "finance", path: generatePath("finance", "credit-score-estimator"), popularity: 78 },
   { id: "loan-prepayment", slug: "loan-prepayment-calculator", name: "Loan Prepayment Calculator", icon: "💰", color: "#10b981", bg: "rgba(16,185,129,0.1)", desc: "Calculate interest savings from loan prepayment", tags: ["Loan", "Prepayment", "Savings"], category: "finance", path: generatePath("finance", "loan-prepayment-calculator"), popularity: 81 },
+  {
+    id: "salary-budgeting",
+    slug: "salary-budgeting-calculator",
+    name: "Salary Budgeting Calculator",
+    icon: "💰",
+    color: "#3b82f6",
+    bg: "rgba(59,130,246,0.1)",
+    desc: "Plan your monthly budget with 50/30/20 rule",
+    tags: ["Budget", "Finance", "Popular"],
+    category: "finance",
+    path: generatePath("finance", "salary-budgeting-calculator"),
+    popularity: 85
+  },
 
   // ============ MATH CATEGORY (12 calculators) ============
   { id: "percentage", slug: "percentage-calculator", name: "Percentage Calculator", icon: "%", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "Calculate percentages easily", tags: ["Math", "Popular"], category: "math", path: generatePath("math", "percentage-calculator"), popularity: 95 },
@@ -1557,6 +1570,17 @@ export const seoContent: Record<string, any> = {
       ["₹5,00,000", "₹7.5L", "28 months", "₹0"],
       ["₹10,00,000", "₹14.2L", "52 months", "₹0"],
     ]
+  },
+  "salary-budgeting": {
+    intro: "Plan your monthly budget with our free salary budgeting calculator. Follow the 50/30/20 rule to allocate your income to needs, wants, and savings.",
+    formula: "Needs (50%) + Wants (30%) + Savings (20%) = 100% of Income | Remaining = Salary - Total Expenses",
+    table: [
+      ["Category", "Recommended %", "Your %", "Rating"],
+      ["Needs", "50%", "Based on your input", "On Track / Too High"],
+      ["Wants", "30%", "Based on your input", "On Track / Too High"],
+      ["Savings", "20%", "Based on your input", "On Track / Below Target"],
+    ],
+    faqs: [],
   },
   // Default for any calculator without specific SEO
   default: {

@@ -155,6 +155,9 @@ export default function Footer() {
               <button onClick={() => router.push("/math/population-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Population Calculator
               </button>
+              <button onClick={() => router.push("/finance/salary-budgeting-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Salary Budgeting Cal..
+              </button>
 
 
 

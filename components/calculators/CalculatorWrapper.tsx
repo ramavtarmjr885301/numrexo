@@ -127,6 +127,7 @@ import HomeLoanEligibilityCalculator from "./HomeLoanEligibilityCalculator";
 import AmortizationCalculator from "./AmortizationCalculator";
 import CreditScoreEstimator from "./CreditScoreEstimatorCalculator";
 import LoanPrepaymentCalculator from "./LoanPrepaymentCalculator";
+import SalaryBudgetingCalculator from "./SalaryBudgetingCalculator";
 interface CalculatorWrapperProps {
   calculator: CalculatorType;
 }
@@ -398,6 +399,8 @@ export default function CalculatorWrapper({
         return <CreditScoreEstimator />
       case "loan-prepayment":
         return <LoanPrepaymentCalculator />
+      case "salary-budgeting":
+        return <SalaryBudgetingCalculator />
       // Add more cases for other calculators
       default:
         return (
