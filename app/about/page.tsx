@@ -150,7 +150,7 @@ const categories = [
     { name: "Finance Calculators", href: "/finance/emi-calculator", icon: "💰", desc: "EMI, SIP, compound interest" },
     { name: "Tax Calculators", href: "/tax/gst-calculator", icon: "🧾", desc: "GST, income tax, VAT" },
     { name: "Math Calculators", href: "/math/percentage-calculator", icon: "📐", desc: "Percentage, average, algebra" },
-    { name: "Business Calculators", href: "/finance/sip-calculator", icon: "📊", desc: "Profit margin, ROI, break-even" },
+    { name: "Investment Calculators", href: "/investment/sip-calculator", icon: "📊", desc: "Profit margin, ROI, break-even" },
     { name: "Fitness Calculators", href: "/fitness/bmr-calculator", icon: "🏋️", desc: "VO2 max, macros, pace" },
     { name: "Education Calculators", href: "/math/percentage-calculator", icon: "🎓", desc: "GPA, CGPA, grade point" },
     { name: "Real Estate Calculators", href: "/finance/emi-calculator", icon: "🏠", desc: "Home loan, stamp duty, rent" },
