@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -109,7 +110,22 @@ export default function SIPCalculator() {
     setYears("10");
     setResult(null);
   };
+useEffect(() => {
+    document.title = "SIP Calculator – Calculate Mutual Fund SIP Returns Online | Numrexo";
 
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const descriptionContent =
+      "Free SIP Calculator to estimate your mutual fund investment returns. Calculate future value, total investment & wealth gained through the power of compounding.";
+
+    if (metaDescription) {
+      metaDescription.setAttribute("content", descriptionContent);
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = descriptionContent;
+      document.head.appendChild(meta);
+    }
+  }, []);
   const calculate = () => {
     const P = parseFloat(monthlyInvestment);
     const r = parseFloat(annualReturn) / 100 / 12;
