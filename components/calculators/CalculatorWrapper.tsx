@@ -8,8 +8,6 @@ import {
 import Breadcrumb from "@/components/common/Breadcrumb";
 import PageHeader from "@/components/common/PageHeader";
 import { useRouter } from "next/navigation";
-
-// import FAQSection from "@/components/common/FAQSection";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
 import GSTCalculator from "./GSTCalculator";
@@ -20,7 +18,6 @@ import BodyFatCalculator from "./BodyFatCalculator";
 import CalorieBurnCalculator from "./CalorieBurnCalculator";
 import AgeCalculator from "./AgeCalculator";
 import PercentageCalculator from "./PercentageCalculator";
-// import CurrencyConverter from "./CurrencyConverter";
 import UnitConverter from "./UnitConverter";
 import PPFCalculator from "./PPFCalculator";
 import DiscountCalculator from "./DiscountCalculator";
