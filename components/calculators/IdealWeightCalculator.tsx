@@ -474,11 +474,7 @@ export default function IdealWeightCalculator() {
                             >
                                 <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
-                            {openFaq !== i && (
-                                <div className="sr-only" itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                                    <span itemProp="text">{item.a}</span>
-                                </div>
-                            )}
+
                         </div>
                     ))}
                 </div>

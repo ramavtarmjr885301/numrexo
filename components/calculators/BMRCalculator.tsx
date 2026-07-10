@@ -200,9 +200,9 @@ export default function BMRCalculator() {
     if (gender === "male") {
       const bodyFat =
         495 /
-          (1.0324 -
-            0.19077 * Math.log10(w / (h / 100)) +
-            0.15456 * Math.log10(a)) -
+        (1.0324 -
+          0.19077 * Math.log10(w / (h / 100)) +
+          0.15456 * Math.log10(a)) -
         450;
       if (bodyFat < 10) {
         bodyFatCategory = "Athlete / Very Low";
@@ -322,21 +322,19 @@ export default function BMRCalculator() {
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                    gender === "male"
+                  className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male"
                       ? "bg-blue-500 text-white"
                       : "bg-[#0f1525] border border-gray-700"
-                  }`}
+                    }`}
                   onClick={() => setGender("male")}
                 >
                   Male
                 </button>
                 <button
-                  className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                    gender === "female"
+                  className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female"
                       ? "bg-pink-500 text-white"
                       : "bg-[#0f1525] border border-gray-700"
-                  }`}
+                    }`}
                   onClick={() => setGender("female")}
                 >
                   Female
@@ -416,21 +414,19 @@ export default function BMRCalculator() {
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                    formula === "mifflin"
+                  className={`py-2 rounded-lg text-sm font-medium transition-all ${formula === "mifflin"
                       ? "bg-blue-500 text-white"
                       : "bg-[#0f1525] border border-gray-700"
-                  }`}
+                    }`}
                   onClick={() => setFormula("mifflin")}
                 >
                   Mifflin-St Jeor
                 </button>
                 <button
-                  className={`py-2 rounded-lg text-sm font-medium transition-all ${
-                    formula === "harris"
+                  className={`py-2 rounded-lg text-sm font-medium transition-all ${formula === "harris"
                       ? "bg-blue-500 text-white"
                       : "bg-[#0f1525] border border-gray-700"
-                  }`}
+                    }`}
                   onClick={() => setFormula("harris")}
                 >
                   Harris-Benedict
@@ -455,35 +451,35 @@ export default function BMRCalculator() {
           mainResult={
             result
               ? {
-                  label: "Basal Metabolic Rate",
-                  value: `${result.bmr} calories/day`,
-                  color: "text-red-400",
-                }
+                label: "Basal Metabolic Rate",
+                value: `${result.bmr} calories/day`,
+                color: "text-red-400",
+              }
               : undefined
           }
           extraRows={
             result
               ? [
-                  {
-                    label: "Total Daily Energy Expenditure",
-                    value: `${result.tdee} calories/day`,
-                    valueColor: "text-yellow-400",
-                  },
-                  {
-                    label: "For Weight Loss",
-                    value: `${result.weightLoss} calories/day`,
-                  },
-                  {
-                    label: "For Extreme Weight Loss",
-                    value: `${result.extremeWeightLoss} calories/day`,
-                    valueColor: "text-orange-400",
-                  },
-                  {
-                    label: "For Weight Gain",
-                    value: `${result.weightGain} calories/day`,
-                    valueColor: "text-green-400",
-                  },
-                ]
+                {
+                  label: "Total Daily Energy Expenditure",
+                  value: `${result.tdee} calories/day`,
+                  valueColor: "text-yellow-400",
+                },
+                {
+                  label: "For Weight Loss",
+                  value: `${result.weightLoss} calories/day`,
+                },
+                {
+                  label: "For Extreme Weight Loss",
+                  value: `${result.extremeWeightLoss} calories/day`,
+                  valueColor: "text-orange-400",
+                },
+                {
+                  label: "For Weight Gain",
+                  value: `${result.weightGain} calories/day`,
+                  valueColor: "text-green-400",
+                },
+              ]
               : undefined
           }
         />
@@ -935,17 +931,15 @@ export default function BMRCalculator() {
                   {item.q}
                 </span>
                 <span
-                  className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${
-                    openFaq === i ? "rotate-45" : ""
-                  }`}
+                  className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""
+                    }`}
                 >
                   +
                 </span>
               </button>
               <div
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  openFaq === i ? "max-h-[500px] pb-4" : "max-h-0"
-                }`}
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-[500px] pb-4" : "max-h-0"
+                  }`}
                 itemScope
                 itemProp="acceptedAnswer"
                 itemType="https://schema.org/Answer"
@@ -957,16 +951,6 @@ export default function BMRCalculator() {
                   {item.a}
                 </p>
               </div>
-              {openFaq !== i && (
-                <span
-                  className="sr-only"
-                  itemScope
-                  itemProp="acceptedAnswer"
-                  itemType="https://schema.org/Answer"
-                >
-                  <span itemProp="text">{item.a}</span>
-                </span>
-              )}
             </div>
           ))}
         </div>
