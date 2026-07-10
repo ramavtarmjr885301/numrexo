@@ -345,12 +345,6 @@ export default function LuggageAllowanceCalculator() {
                 </div>
             </section>
 
-            {/* About Section */}
-            <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Luggage Allowance Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Check baggage allowances for major airlines and calculate excess baggage fees before you fly.</p>
-            </section>
-
             {/* FAQ Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>

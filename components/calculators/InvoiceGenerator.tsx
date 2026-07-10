@@ -350,21 +350,210 @@ export default function InvoiceGenerator() {
         });
     };
 
+
     const handlePrint = () => {
-        if (!printRef.current || !result) return;
+        if (!result) return;
+        const r = result;
+        const gstCols =
+            r.gstType === "cgst_sgst" ? ["CGST", "SGST"]
+                : r.gstType === "igst" ? ["IGST"]
+                    : r.gstType === "utgst" ? ["CGST", "UTGST"]
+                        : ["GST"];
+
+        const gstBreakupRows = Array.from(new Set(r.items.map(i => i.gstRate))).map(rate => {
+            const rateItems = r.items.filter(i => i.gstRate === rate);
+            const taxable = rateItems.reduce((s, i) => {
+                const ratio = r.subtotal > 0 ? i.amount / r.subtotal : 0;
+                return s + i.amount - r.discountAmount * ratio;
+            }, 0);
+            const tax = rateItems.reduce((s, i) => s + i.gstAmount, 0);
+            const half = fmt(tax / 2);
+            const cells =
+                gstCols.length === 2
+                    ? `<td style="padding:6px 10px;text-align:right;color:#1d4ed8;">${half}</td><td style="padding:6px 10px;text-align:right;color:#1d4ed8;">${half}</td>`
+                    : `<td style="padding:6px 10px;text-align:right;color:#1d4ed8;">${fmt(tax)}</td>`;
+            return `<tr style="border-top:1px solid #e5e7eb;">
+            <td style="padding:6px 10px;font-weight:600;">${rate}%</td>
+            <td style="padding:6px 10px;text-align:right;">${fmt(taxable)}</td>
+            ${cells}
+        </tr>`;
+        }).join("");
+
+        const totalHalfCgst = fmt(r.totalCgst);
+        const totalHalfSgstUtgst = fmt(r.totalSgst || r.totalUtgst);
+        const gstTotalCells =
+            gstCols.length === 2
+                ? `<td style="padding:8px 10px;text-align:right;font-weight:700;color:#1e40af;">${totalHalfCgst}</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:#1e40af;">${totalHalfSgstUtgst}</td>`
+                : gstCols[0] === "IGST"
+                    ? `<td style="padding:8px 10px;text-align:right;font-weight:700;color:#1e40af;">${fmt(r.totalIgst)}</td>`
+                    : `<td style="padding:8px 10px;text-align:right;font-weight:700;color:#1e40af;">—</td>`;
+
+        const itemRows = r.items.map((item, idx) => `
+        <tr style="background:${idx % 2 === 0 ? "#fff" : "#f9fafb"};">
+            <td style="padding:8px;font-size:11px;color:#9ca3af;">${idx + 1}</td>
+            <td style="padding:8px;font-weight:500;color:#1f2937;">${item.description}</td>
+            <td style="padding:8px;text-align:center;font-size:11px;font-family:monospace;color:#6b7280;">${item.hsnSac || "—"}</td>
+            <td style="padding:8px;text-align:center;font-size:11px;color:#4b5563;">${item.quantity} ${item.unit}</td>
+            <td style="padding:8px;text-align:right;font-size:11px;color:#4b5563;">${fmt(item.rate)}</td>
+            <td style="padding:8px;text-align:right;font-size:11px;font-weight:500;color:#1f2937;">${fmt(item.amount)}</td>
+            <td style="padding:8px;text-align:right;font-size:11px;color:#6b7280;">${item.gstRate}%</td>
+            <td style="padding:8px;text-align:right;font-size:11px;font-weight:500;color:#1d4ed8;">${fmt(item.gstAmount)}</td>
+        </tr>
+    `).join("");
+
+        const gstColHeaders = gstCols.map(c => `<th style="padding:8px 10px;text-align:right;color:#4b5563;">${c}</th>`).join("");
+
+        const html = `<!DOCTYPE html><html><head><title>Invoice ${r.invoiceNumber}</title>
+    <meta charset="utf-8">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, Helvetica, sans-serif; color: #111; background: #fff; }
+        .page { max-width: 794px; margin: 0 auto; padding: 32px 40px; }
+        table { width: 100%; border-collapse: collapse; }
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { margin: 12mm; }
+        }
+    </style>
+    </head><body><div class="page">
+
+        <div style="background:#0f172a;color:#fff;padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-end;">
+            <div>
+                <h1 style="font-size:26px;font-weight:700;letter-spacing:3px;">INVOICE</h1>
+                ${r.reverseCharge ? `<span style="display:inline-block;margin-top:8px;background:rgba(250,204,21,0.15);border:1px solid rgba(250,204,21,0.4);color:#fde047;font-size:11px;padding:4px 10px;border-radius:4px;">Reverse Charge: YES</span>` : ""}
+            </div>
+            <div style="text-align:right;font-size:13px;">
+                <p style="color:#9ca3af;font-size:11px;">Invoice No.</p>
+                <p style="font-weight:700;font-size:16px;">${r.invoiceNumber}</p>
+                <p style="color:#9ca3af;font-size:11px;margin-top:4px;">Date: <span style="color:#fff;">${r.invoiceDate}</span></p>
+                <p style="color:#9ca3af;font-size:11px;">Due: <span style="color:#fde047;">${r.dueDate}</span></p>
+                ${r.poNumber ? `<p style="color:#9ca3af;font-size:11px;">PO: <span style="color:#fff;">${r.poNumber}</span></p>` : ""}
+            </div>
+        </div>
+
+        <div style="background:#f0fdf4;border-bottom:1px solid #bbf7d0;padding:8px 32px;display:flex;flex-wrap:wrap;gap:24px;font-size:11px;">
+            <span style="color:#166534;"><strong>GST Type:</strong> ${getGSTLabel(r.gstType)}</span>
+            ${r.placeOfSupply ? `<span style="color:#166534;"><strong>Place of Supply:</strong> ${r.placeOfSupply}</span>` : ""}
+            <span style="color:#166534;"><strong>Payment Terms:</strong> ${r.paymentTerms}</span>
+            ${r.reverseCharge ? `<span style="color:#c2410c;font-weight:600;">⚠ Reverse Charge Applicable</span>` : ""}
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;">
+            <div style="padding:20px 32px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:10px;">Bill From</p>
+                <p style="font-weight:700;color:#111827;font-size:15px;">${r.sellerName}</p>
+                ${r.sellerAddress ? `<p style="font-size:11px;color:#6b7280;margin-top:4px;line-height:1.5;">${r.sellerAddress}</p>` : ""}
+                ${r.sellerEmail ? `<p style="font-size:11px;color:#6b7280;margin-top:4px;">${r.sellerEmail}</p>` : ""}
+                ${r.sellerPhone ? `<p style="font-size:11px;color:#6b7280;">${r.sellerPhone}</p>` : ""}
+                ${r.sellerGstin ? `<span style="display:inline-block;margin-top:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;padding:2px 8px;border-radius:4px;font-family:monospace;">GSTIN: ${r.sellerGstin}</span>` : ""}
+                ${r.sellerPan ? `<p style="font-size:11px;color:#9ca3af;margin-top:4px;font-family:monospace;">PAN: ${r.sellerPan}</p>` : ""}
+            </div>
+            <div style="padding:20px 32px;border-bottom:1px solid #e5e7eb;">
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:10px;">Bill To</p>
+                <p style="font-weight:700;color:#111827;font-size:15px;">${r.buyerName}</p>
+                ${r.buyerAddress ? `<p style="font-size:11px;color:#6b7280;margin-top:4px;line-height:1.5;">${r.buyerAddress}</p>` : ""}
+                ${r.buyerEmail ? `<p style="font-size:11px;color:#6b7280;margin-top:4px;">${r.buyerEmail}</p>` : ""}
+                ${r.buyerPhone ? `<p style="font-size:11px;color:#6b7280;">${r.buyerPhone}</p>` : ""}
+                ${r.buyerGstin ? `<span style="display:inline-block;margin-top:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;padding:2px 8px;border-radius:4px;font-family:monospace;">GSTIN: ${r.buyerGstin}</span>` : ""}
+            </div>
+        </div>
+
+        <div style="padding:20px 32px;">
+            <table>
+                <thead>
+                    <tr style="background:#111827;color:#fff;">
+                        <th style="padding:9px;text-align:left;font-size:11px;">#</th>
+                        <th style="padding:9px;text-align:left;font-size:11px;">Description</th>
+                        <th style="padding:9px;text-align:center;font-size:11px;">HSN/SAC</th>
+                        <th style="padding:9px;text-align:center;font-size:11px;">Qty</th>
+                        <th style="padding:9px;text-align:right;font-size:11px;">Rate (₹)</th>
+                        <th style="padding:9px;text-align:right;font-size:11px;">Amount (₹)</th>
+                        <th style="padding:9px;text-align:right;font-size:11px;">GST%</th>
+                        <th style="padding:9px;text-align:right;font-size:11px;">Tax (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>${itemRows}</tbody>
+            </table>
+        </div>
+
+        <div style="padding:0 32px 20px;display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+            <div>
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:8px;">GST Breakup</p>
+                <table style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;font-size:11px;">
+                    <thead>
+                        <tr style="background:#f3f4f6;">
+                            <th style="padding:8px 10px;text-align:left;color:#4b5563;">Rate</th>
+                            <th style="padding:8px 10px;text-align:right;color:#4b5563;">Taxable</th>
+                            ${gstColHeaders}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${gstBreakupRows}
+                        <tr style="border-top:2px solid #d1d5db;background:#f9fafb;">
+                            <td style="padding:8px 10px;font-weight:700;">Total</td>
+                            <td style="padding:8px 10px;text-align:right;font-weight:700;">${fmt(r.taxableAmount)}</td>
+                            ${gstTotalCells}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:8px;">Summary</p>
+                <div style="font-size:13px;">
+                    <div style="display:flex;justify-content:space-between;color:#4b5563;padding:3px 0;"><span>Subtotal</span><span>₹${fmt(r.subtotal)}</span></div>
+                    ${r.discountAmount > 0 ? `<div style="display:flex;justify-content:space-between;color:#15803d;padding:3px 0;"><span>Discount (${r.discountType === "percentage" ? r.discountValue + "%" : "₹" + r.discountValue})</span><span>-₹${fmt(r.discountAmount)}</span></div>` : ""}
+                    <div style="display:flex;justify-content:space-between;color:#4b5563;border-top:1px solid #e5e7eb;padding:6px 0 3px;"><span>Taxable Amount</span><span style="font-weight:600;">₹${fmt(r.taxableAmount)}</span></div>
+                    ${gstCols.map((label, idx) => {
+            const val = gstCols.length === 2 ? (idx === 0 ? r.totalCgst : (r.totalSgst || r.totalUtgst)) : (r.totalIgst || 0);
+            return `<div style="display:flex;justify-content:space-between;color:#1d4ed8;padding:3px 0;"><span>${label}</span><span>₹${fmt(val)}</span></div>`;
+        }).join("")}
+                    ${r.roundOff !== 0 ? `<div style="display:flex;justify-content:space-between;color:#9ca3af;font-size:11px;padding:3px 0;"><span>Round Off</span><span>${r.roundOff >= 0 ? "+" : ""}${fmt(r.roundOff)}</span></div>` : ""}
+                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#111827;border-top:2px solid #111827;padding-top:8px;margin-top:8px;">
+                        <span>Grand Total</span><span>₹${fmt(r.grandTotal)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin:0 32px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 16px;">
+            <p style="font-size:10px;color:#9ca3af;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">Amount in Words</p>
+            <p style="font-size:13px;font-weight:600;color:#1f2937;">${r.amountInWords}</p>
+        </div>
+
+        <div style="padding:0 32px 24px;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+            ${r.bankName ? `
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;">
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:10px;">Bank Details</p>
+                <div style="font-size:11px;color:#4b5563;line-height:1.8;">
+                    <div><span style="display:inline-block;width:100px;color:#9ca3af;">Account Name</span><span style="font-weight:600;color:#1f2937;">${r.accountName || r.sellerName}</span></div>
+                    <div><span style="display:inline-block;width:100px;color:#9ca3af;">Bank</span><span style="font-weight:600;color:#1f2937;">${r.bankName}</span></div>
+                    <div><span style="display:inline-block;width:100px;color:#9ca3af;">Account No.</span><span style="font-family:monospace;font-weight:600;color:#1f2937;">${r.accountNumber}</span></div>
+                    <div><span style="display:inline-block;width:100px;color:#9ca3af;">IFSC</span><span style="font-family:monospace;font-weight:600;color:#1f2937;">${r.ifscCode}</span></div>
+                </div>
+            </div>` : "<div></div>"}
+            ${r.notes ? `
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;">
+                <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#9ca3af;text-transform:uppercase;margin-bottom:8px;">Notes</p>
+                <p style="font-size:11px;color:#4b5563;line-height:1.6;">${r.notes}</p>
+            </div>` : ""}
+        </div>
+
+        <div style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:16px 32px;display:flex;justify-content:space-between;align-items:flex-end;">
+            <div style="font-size:10px;color:#9ca3af;">
+                <p>This is a computer-generated invoice.</p>
+                ${r.reverseCharge ? `<p style="color:#c2410c;font-weight:600;margin-top:4px;">Tax payable on reverse charge basis.</p>` : ""}
+            </div>
+            <div style="text-align:right;">
+                <div style="width:140px;border-top:1px solid #9ca3af;padding-top:4px;font-size:11px;color:#6b7280;">Authorised Signatory</div>
+                <p style="font-size:11px;font-weight:600;color:#374151;margin-top:2px;">${r.sellerName}</p>
+            </div>
+        </div>
+
+    </div><script>window.onload=()=>{window.print();}<\/script></body></html>`;
+
         const w = window.open("", "_blank");
         if (!w) return;
-        w.document.write(`<!DOCTYPE html><html><head><title>Invoice ${result.invoiceNumber}</title>
-        <style>
-            *{box-sizing:border-box;margin:0;padding:0}
-            body{font-family:'Arial',sans-serif;color:#111;background:#fff;padding:0}
-            .page{max-width:794px;margin:0 auto;padding:32px 40px}
-            table{width:100%;border-collapse:collapse}
-            th,td{padding:7px 10px}
-            @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-        </style>
-        </head><body><div class="page">${printRef.current.innerHTML}</div>
-        <script>window.onload=()=>{window.print();}<\/script></body></html>`);
+        w.document.write(html);
         w.document.close();
     };
 
