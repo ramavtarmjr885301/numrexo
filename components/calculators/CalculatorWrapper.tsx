@@ -136,10 +136,13 @@ export default function CalculatorWrapper({
   const router = useRouter();
 
 
-  // Use CALCULATORS_REGISTRY instead of CALCULATORS
-  const relatedCalcs = CALCULATORS_REGISTRY.filter(
-    (c: CalculatorType) => c.id !== calculator.id,
+  const sameCategoryCalcs = CALCULATORS_REGISTRY.filter(
+    (c: CalculatorType) => c.id !== calculator.id && c.category === calculator.category,
   );
+  const otherCalcs = CALCULATORS_REGISTRY.filter(
+    (c: CalculatorType) => c.id !== calculator.id && c.category !== calculator.category,
+  );
+  const relatedCalcs = [...sameCategoryCalcs, ...otherCalcs];
 
   const renderCalculator = () => {
     switch (calculator.id) {
