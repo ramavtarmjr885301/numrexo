@@ -85,7 +85,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Credit Score Estimator – Check Your Credit Score Range",
     description: "Estimate your credit score range with our free calculator. Understand your creditworthiness based on payment history, credit utilization, and other factors.",
-    url: "https://www.numrexo.com/finance/credit-score-estimator",
+    url: "https://numrexo.com/finance/credit-score-estimator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -97,16 +97,16 @@ const WEBAPP_SCHEMA = JSON.stringify({
         "Improvement suggestions",
         "Creditworthiness assessment",
     ],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://www.numrexo.com/finance" },
-        { "@type": "ListItem", position: 3, name: "Credit Score Estimator", item: "https://www.numrexo.com/finance/credit-score-estimator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://numrexo.com/finance" },
+        { "@type": "ListItem", position: 3, name: "Credit Score Estimator", item: "https://numrexo.com/finance/credit-score-estimator" },
     ],
 });
 
@@ -313,14 +313,14 @@ export default function CreditScoreEstimator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

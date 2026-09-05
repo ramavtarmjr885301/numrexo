@@ -85,7 +85,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Loan Prepayment Calculator – Calculate Your Interest Savings",
     description: "Calculate how much you can save by prepaying your loan. See the impact of extra payments on your total interest and loan tenure.",
-    url: "https://www.numrexo.com/finance/loan-prepayment-calculator",
+    url: "https://numrexo.com/finance/loan-prepayment-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -97,16 +97,16 @@ const WEBAPP_SCHEMA = JSON.stringify({
         "EMI vs Tenure comparison",
         "Prepayment penalty analysis",
     ],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://www.numrexo.com/finance" },
-        { "@type": "ListItem", position: 3, name: "Loan Prepayment Calculator", item: "https://www.numrexo.com/finance/loan-prepayment-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://numrexo.com/finance" },
+        { "@type": "ListItem", position: 3, name: "Loan Prepayment Calculator", item: "https://numrexo.com/finance/loan-prepayment-calculator" },
     ],
 });
 
@@ -278,14 +278,14 @@ export default function LoanPrepaymentCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

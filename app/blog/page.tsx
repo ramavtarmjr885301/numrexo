@@ -4,8 +4,10 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 export const revalidate = 3600;
 export const metadata: Metadata = {
-    title: 'Blog – Numrexo Finance & Math Guides',
-    description: 'Read our latest articles on personal finance, loans, investments, taxes, and mathematical calculations.',
+    title: 'Blog: Guides on Money, Loans and Everyday Math',
+    description:
+        'Practical guides on mortgages and loans, saving and investing, taxes, health metrics and the maths behind our calculators. Written by the Numrexo team.',
+    alternates: { canonical: 'https://numrexo.com/blog' },
 };
 
 interface BlogPageProps {

@@ -1,14 +1,13 @@
-import { notFound } from "next/navigation";
-import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
-import CalculatorWrapper from "@/components/calculators/CalculatorWrapper";
+// app/business/[slug]/page.tsx
+//
+// Metadata, static params and rendering all come from one shared factory so
+// every calculator page gets a unique title, description and canonical URL.
+// See lib/calculatorRoute.tsx.
 
-export async function generateStaticParams() {
-    const businessCalcs = CALCULATORS_REGISTRY.filter(c => c.category === "business");
-    return businessCalcs.map((calc) => ({ slug: calc.slug }));
-}
+import { createCalculatorRoute } from "@/lib/calculatorRoute";
 
-export default function BusinessCalculatorPage({ params }: { params: { slug: string } }) {
-    const calculator = CALCULATORS_REGISTRY.find(c => c.slug === params.slug && c.category === "business");
-    if (!calculator) notFound();
-    return <CalculatorWrapper calculator={calculator} />;
-}
+const route = createCalculatorRoute("business");
+
+export const generateStaticParams = route.generateStaticParams;
+export const generateMetadata = route.generateMetadata;
+export default route.Page;

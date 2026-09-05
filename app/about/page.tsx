@@ -16,18 +16,18 @@ export const metadata: Metadata = {
         "Sanjay Singh numrexo",
     ],
     alternates: {
-        canonical: "https://www.numrexo.com/about",
+        canonical: "https://numrexo.com/about",
     },
     openGraph: {
         type: "website",
-        url: "https://www.numrexo.com/about",
+        url: "https://numrexo.com/about",
         title: "About Numrexo | Free Online Calculator Platform for Everyone",
         description:
             "Numrexo offers 1000+ free online calculators for health, finance, math, and more. No login, no fees. Fast, accurate, and privacy-first.",
         siteName: "Numrexo",
         images: [
             {
-                url: "https://www.numrexo.com/og-about.png",
+                url: "https://numrexo.com/og-about.png",
                 width: 1200,
                 height: 630,
                 alt: "Numrexo — Free Online Calculator Platform",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         title: "About Numrexo | Free Online Calculator Platform for Everyone",
         description:
             "1000+ free calculators for health, finance, math, and more. No login needed.",
-        images: ["https://www.numrexo.com/og-about.png"],
+        images: ["https://numrexo.com/og-about.png"],
     },
     robots: {
         index: true,
@@ -54,12 +54,12 @@ const organizationSchema = {
     "@graph": [
         {
             "@type": "Organization",
-            "@id": "https://www.numrexo.com/#organization",
+            "@id": "https://numrexo.com/#organization",
             name: "Numrexo",
-            url: "https://www.numrexo.com",
+            url: "https://numrexo.com",
             logo: {
                 "@type": "ImageObject",
-                url: "https://www.numrexo.com/logo.png",
+                url: "https://numrexo.com/logo.png",
                 width: 200,
                 height: 60,
             },
@@ -68,7 +68,7 @@ const organizationSchema = {
             foundingDate: "2026",
             founder: {
                 "@type": "Person",
-                "@id": "https://www.numrexo.com/about#sanjay-singh",
+                "@id": "https://numrexo.com/about#sanjay-singh",
                 name: "Sanjay Singh",
                 jobTitle: "Founder & Entrepreneur",
             },
@@ -97,23 +97,23 @@ const organizationSchema = {
         },
         {
             "@type": "Person",
-            "@id": "https://www.numrexo.com/about#sanjay-singh",
+            "@id": "https://numrexo.com/about#sanjay-singh",
             name: "Sanjay Singh",
             jobTitle: "Founder",
             description:
                 "Sanjay Singh is an entrepreneur focused on building practical digital tools that simplify everyday tasks and make information accessible through technology.",
-            worksFor: { "@id": "https://www.numrexo.com/#organization" },
-            url: "https://www.numrexo.com/about",
+            worksFor: { "@id": "https://numrexo.com/#organization" },
+            url: "https://numrexo.com/about",
         },
         {
             "@type": "WebPage",
-            "@id": "https://www.numrexo.com/about#webpage",
-            url: "https://www.numrexo.com/about",
+            "@id": "https://numrexo.com/about#webpage",
+            url: "https://numrexo.com/about",
             name: "About Numrexo | Free Online Calculator Platform for Everyone",
             description:
                 "Learn about Numrexo, a free online calculator platform with 1000+ tools for health, finance, math, and more.",
-            isPartOf: { "@id": "https://www.numrexo.com/#website" },
-            about: { "@id": "https://www.numrexo.com/#organization" },
+            isPartOf: { "@id": "https://numrexo.com/#website" },
+            about: { "@id": "https://numrexo.com/#organization" },
             breadcrumb: {
                 "@type": "BreadcrumbList",
                 itemListElement: [
@@ -121,25 +121,25 @@ const organizationSchema = {
                         "@type": "ListItem",
                         position: 1,
                         name: "Home",
-                        item: "https://www.numrexo.com",
+                        item: "https://numrexo.com",
                     },
                     {
                         "@type": "ListItem",
                         position: 2,
                         name: "About",
-                        item: "https://www.numrexo.com/about",
+                        item: "https://numrexo.com/about",
                     },
                 ],
             },
         },
         {
             "@type": "WebSite",
-            "@id": "https://www.numrexo.com/#website",
-            url: "https://www.numrexo.com",
+            "@id": "https://numrexo.com/#website",
+            url: "https://numrexo.com",
             name: "Numrexo",
             description:
                 "Free online calculators for health, finance, math, business, and everyday use.",
-            publisher: { "@id": "https://www.numrexo.com/#organization" },
+            publisher: { "@id": "https://numrexo.com/#organization" },
         },
     ],
 };

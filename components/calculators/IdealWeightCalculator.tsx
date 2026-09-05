@@ -80,23 +80,23 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Ideal Weight Calculator – Healthy Weight Range Calculator",
     description: "Calculate your ideal body weight using Devine, Robinson, Miller, and Hamwi formulas. Includes frame size adjustment for personalized results.",
-    url: "https://www.numrexo.com/health/ideal-weight-calculator",
+    url: "https://numrexo.com/health/ideal-weight-calculator",
     applicationCategory: "HealthApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     inLanguage: "en-US",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Multiple formulas", "Frame size adjustment", "Height in feet/inches or cm", "Healthy weight range"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://www.numrexo.com/health" },
-        { "@type": "ListItem", position: 3, name: "Ideal Weight Calculator", item: "https://www.numrexo.com/health/ideal-weight-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://numrexo.com/health" },
+        { "@type": "ListItem", position: 3, name: "Ideal Weight Calculator", item: "https://numrexo.com/health/ideal-weight-calculator" },
     ],
 });
 
@@ -234,12 +234,12 @@ export default function IdealWeightCalculator() {
                     content="Free ideal body weight calculator using Devine, Robinson, Miller & Hamwi formulas. Adjust for body frame size. Instantly find your healthy weight range in lbs or kg."
                 />
                 <meta name="keywords" content="ideal weight calculator, healthy weight calculator, ideal body weight, IBW calculator, Devine formula, Robinson formula, healthy weight range" />
-                <link rel="canonical" href="https://www.numrexo.com/health/ideal-weight-calculator" />
+                <link rel="canonical" href="https://numrexo.com/health/ideal-weight-calculator" />
 
                 {/* Open Graph */}
                 <meta property="og:title" content="Ideal Weight Calculator – Find Your Healthy Weight Range" />
                 <meta property="og:description" content="Calculate your ideal body weight using 4 proven medical formulas. Free, instant, and accurate." />
-                <meta property="og:url" content="https://www.numrexo.com/health/ideal-weight-calculator" />
+                <meta property="og:url" content="https://numrexo.com/health/ideal-weight-calculator" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="Numrexo" />
 
@@ -262,14 +262,14 @@ export default function IdealWeightCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/health" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Health Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

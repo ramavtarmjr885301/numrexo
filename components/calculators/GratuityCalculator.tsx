@@ -52,7 +52,7 @@ const GRATUITY_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Gratuity Calculator – Calculate Your Retirement Benefit",
     description: "Calculate your gratuity amount based on last drawn salary and years of service. Know what you're entitled to when leaving a job.",
-    url: "https://www.numrexo.com/finance/gratuity-calculator",
+    url: "https://numrexo.com/finance/gratuity-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

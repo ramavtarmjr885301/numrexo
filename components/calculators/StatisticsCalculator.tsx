@@ -65,22 +65,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Statistics Calculator – Mean, Median, Mode, Range",
     description: "Calculate mean, median, mode, range, and sum of any dataset. Free online statistics calculator.",
-    url: "https://www.numrexo.com/math/statistics-calculator",
+    url: "https://numrexo.com/math/statistics-calculator",
     applicationCategory: "MathApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Mean (average)", "Median (middle value)", "Mode (most frequent)", "Range and sum"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Math Calculators", item: "https://www.numrexo.com/math" },
-        { "@type": "ListItem", position: 3, name: "Statistics Calculator", item: "https://www.numrexo.com/math/statistics-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Math Calculators", item: "https://numrexo.com/math" },
+        { "@type": "ListItem", position: 3, name: "Statistics Calculator", item: "https://numrexo.com/math/statistics-calculator" },
     ],
 });
 
@@ -204,12 +204,12 @@ export default function StatisticsCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a>
+                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

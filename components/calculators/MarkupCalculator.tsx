@@ -74,22 +74,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Markup Calculator – Profit Margin and Markup Calculator",
     description: "Calculate markup percentage, selling price, and profit margin for your products. Perfect for retail and business pricing.",
-    url: "https://www.numrexo.com/business/markup-calculator",
+    url: "https://numrexo.com/business/markup-calculator",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Markup calculation", "Selling price from cost", "Cost price from selling price", "Margin conversion"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Business Calculators", item: "https://www.numrexo.com/business" },
-        { "@type": "ListItem", position: 3, name: "Markup Calculator", item: "https://www.numrexo.com/business/markup-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Business Calculators", item: "https://numrexo.com/business" },
+        { "@type": "ListItem", position: 3, name: "Markup Calculator", item: "https://numrexo.com/business/markup-calculator" },
     ],
 });
 
@@ -202,12 +202,12 @@ export default function MarkupCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
+                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

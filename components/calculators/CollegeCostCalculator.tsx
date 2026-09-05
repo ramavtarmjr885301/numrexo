@@ -104,7 +104,7 @@ export default function CollegeCostCalculator() {
                     "@type": "WebApplication",
                     name: "College Cost Calculator – Plan Your Education Budget",
                     description: "Calculate total college costs including tuition, housing, books, and inflation. Plan your education budget and savings strategy.",
-                    url: "https://www.numrexo.com/education/college-cost-calculator",
+                    url: "https://numrexo.com/education/college-cost-calculator",
                     applicationCategory: "EducationApplication",
                     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
                     featureList: ["Tuition calculation", "Inflation adjustment", "Year-by-year breakdown", "Cost planning"],
@@ -113,9 +113,9 @@ export default function CollegeCostCalculator() {
 
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+                    <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
                     <li className="text-gray-700">/</li>
-                    <li><a href="https://www.numrexo.com/education" className="hover:text-gray-300">Education Calculators</a></li>
+                    <li><a href="https://numrexo.com/education" className="hover:text-gray-300">Education Calculators</a></li>
                     <li className="text-gray-700">/</li>
                     <li><span className="text-gray-300">College Cost Calculator</span></li>
                 </ol>

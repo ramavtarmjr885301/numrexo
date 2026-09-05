@@ -65,22 +65,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Travel Budget Calculator – Plan Your Trip Budget",
     description: "Calculate your travel budget including flights, accommodation, food, activities, and more.",
-    url: "https://www.numrexo.com/travel/travel-budget-calculator",
+    url: "https://numrexo.com/travel/travel-budget-calculator",
     applicationCategory: "TravelApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Budget planning", "Expense tracking", "Daily budget", "Trip cost estimator"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Travel Calculators", item: "https://www.numrexo.com/travel" },
-        { "@type": "ListItem", position: 3, name: "Travel Budget Calculator", item: "https://www.numrexo.com/travel/travel-budget-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Travel Calculators", item: "https://numrexo.com/travel" },
+        { "@type": "ListItem", position: 3, name: "Travel Budget Calculator", item: "https://numrexo.com/travel/travel-budget-calculator" },
     ],
 });
 
@@ -199,12 +199,12 @@ export default function TravelBudgetCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a>
+                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

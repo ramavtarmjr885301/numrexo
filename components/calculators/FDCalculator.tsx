@@ -51,7 +51,7 @@ const FD_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "FD Calculator – Fixed Deposit Calculator",
   description: "Calculate fixed deposit maturity amount, total interest earned, and compare cumulative vs non-cumulative options. Plan your bank FD investment strategy.",
-  url: "https://www.numrexo.com/finance/fd-calculator",
+  url: "https://numrexo.com/finance/fd-calculator",
   applicationCategory: "FinanceApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   author: { "@type": "Organization", name: "Numrexo" },
@@ -129,9 +129,9 @@ export default function FDCalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
           <li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
+          <li><a href="https://numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
           <li className="text-gray-700">/</li>
           <li><span className="text-gray-300">FD Calculator</span></li>
         </ol>

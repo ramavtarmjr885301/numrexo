@@ -75,23 +75,23 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Ovulation Calculator – Fertility Window Predictor",
     description: "Estimate your ovulation day and fertile window based on your cycle length. Helps with pregnancy planning or natural family planning.",
-    url: "https://www.numrexo.com/health/ovulation-calculator",
+    url: "https://numrexo.com/health/ovulation-calculator",
     applicationCategory: "HealthApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     inLanguage: "en-US",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Ovulation day prediction", "Fertile window calculation", "Predicted dates with calendar input", "Next period estimate"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://www.numrexo.com/health" },
-        { "@type": "ListItem", position: 3, name: "Ovulation Calculator", item: "https://www.numrexo.com/health/ovulation-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://numrexo.com/health" },
+        { "@type": "ListItem", position: 3, name: "Ovulation Calculator", item: "https://numrexo.com/health/ovulation-calculator" },
     ],
 });
 
@@ -196,12 +196,12 @@ export default function OvulationCalculator() {
                     content="Use our free Ovulation Calculator to predict your ovulation date, fertile window, and most fertile days. Plan pregnancy, track fertility, and improve your chances of conception with accurate results."
                 />
                 <meta name="keywords" content="ovulation calculator, fertile window calculator, ovulation predictor, when do I ovulate, fertility calculator, best days to conceive, cycle tracker" />
-                <link rel="canonical" href="https://www.numrexo.com/health/ovulation-calculator" />
+                <link rel="canonical" href="https://numrexo.com/health/ovulation-calculator" />
 
                 {/* Open Graph */}
                 <meta property="og:title" content="Ovulation Calculator – Find Your Fertile Window & Most Fertile Days" />
                 <meta property="og:description" content="Use our free Ovulation Calculator to predict your ovulation date, fertile window, and most fertile days. Plan pregnancy, track fertility, and improve your chances of conception with accurate results." />
-                <meta property="og:url" content="https://www.numrexo.com/health/ovulation-calculator" />
+                <meta property="og:url" content="https://numrexo.com/health/ovulation-calculator" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="Numrexo" />
 
@@ -224,14 +224,14 @@ export default function OvulationCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/health" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Health Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

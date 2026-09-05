@@ -52,7 +52,7 @@ const FRACTION_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Fraction Calculator – Add, Subtract, Multiply, Divide Fractions",
     description: "Perform fraction operations with step-by-step results. Add, subtract, multiply, and divide fractions easily.",
-    url: "https://www.numrexo.com/math/fraction-calculator",
+    url: "https://numrexo.com/math/fraction-calculator",
     applicationCategory: "MathApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

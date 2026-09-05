@@ -52,7 +52,7 @@ const DISCOUNT_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Discount Calculator – Sale Price Calculator",
     description: "Calculate discounted prices, savings, and final price after percentage or fixed discounts. Perfect for shopping and sales.",
-    url: "https://www.numrexo.com/business/discount-calculator",
+    url: "https://numrexo.com/business/discount-calculator",
     applicationCategory: "BusinessApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

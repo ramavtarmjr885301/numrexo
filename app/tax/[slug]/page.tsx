@@ -1,60 +1,13 @@
-import { notFound } from "next/navigation";
-import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
-import CalculatorWrapper from "@/components/calculators/CalculatorWrapper";
+// app/tax/[slug]/page.tsx
+//
+// Metadata, static params and rendering all come from one shared factory so
+// every calculator page gets a unique title, description and canonical URL.
+// See lib/calculatorRoute.tsx.
 
-export async function generateStaticParams() {
-  const taxCalcs = CALCULATORS_REGISTRY.filter(c => c.category === "tax");
-  return taxCalcs.map((calc) => ({
-    slug: calc.slug,
-  }));
-}
+import { createCalculatorRoute } from "@/lib/calculatorRoute";
 
-export default function TaxCalculatorPage({ params }: { params: { slug: string } }) {
-  const calculator = CALCULATORS_REGISTRY.find(
-    (c) => c.slug === params.slug && c.category === "tax"
-  );
+const route = createCalculatorRoute("tax");
 
-  if (!calculator) {
-    notFound();
-  }
-
-  return <CalculatorWrapper calculator={calculator} />;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { notFound } from "next/navigation";
-// import { CALCULATORS } from "@/data/calculators";
-// import CalculatorWrapper from "@/components/calculators/CalculatorWrapper";
-
-// export async function generateStaticParams() {
-//   const taxCalcs = CALCULATORS.filter(c => c.category === "tax");
-//   return taxCalcs.map((calc) => ({
-//     slug: calc.slug,
-//   }));
-// }
-
-// export default function TaxCalculatorPage({ params }: { params: { slug: string } }) {
-//   const calculator = CALCULATORS.find(
-//     (c) => c.slug === params.slug && c.category === "tax"
-//   );
-
-//   if (!calculator) {
-//     notFound();
-//   }
-
-//   return <CalculatorWrapper calculator={calculator} />;
-// }
+export const generateStaticParams = route.generateStaticParams;
+export const generateMetadata = route.generateMetadata;
+export default route.Page;

@@ -77,7 +77,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
   name: "BMI Calculator – Free Body Mass Index Calculator",
   description:
     "Calculate your Body Mass Index (BMI) instantly. Free online BMI calculator supporting metric and imperial units for men, women, children, and seniors.",
-  url: "https://www.numrexo.com/health/bmi-calculator",
+  url: "https://numrexo.com/health/bmi-calculator",
   applicationCategory: "HealthApplication",
   operatingSystem: "Any",
   browserRequirements: "Requires JavaScript",
@@ -92,7 +92,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
   author: {
     "@type": "Organization",
     name: "Numrexo",
-    url: "https://www.numrexo.com",
+    url: "https://numrexo.com",
   },
 });
 
@@ -100,9 +100,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-    { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://www.numrexo.com/health" },
-    { "@type": "ListItem", position: 3, name: "BMI Calculator", item: "https://www.numrexo.com/health/bmi-calculator" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+    { "@type": "ListItem", position: 2, name: "Health Calculators", item: "https://numrexo.com/health" },
+    { "@type": "ListItem", position: 3, name: "BMI Calculator", item: "https://numrexo.com/health/bmi-calculator" },
   ],
 });
 
@@ -183,14 +183,14 @@ export default function BMICalculator() {
           itemType="https://schema.org/BreadcrumbList"
         >
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300 transition-colors">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300 transition-colors">
               <span itemProp="name">Home</span>
             </a>
             <meta itemProp="position" content="1" />
           </li>
           <li className="text-gray-700" aria-hidden="true">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com/health" itemProp="item" className="hover:text-gray-300 transition-colors">
+            <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300 transition-colors">
               <span itemProp="name">Health Calculators</span>
             </a>
             <meta itemProp="position" content="2" />

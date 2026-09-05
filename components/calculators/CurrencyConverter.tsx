@@ -98,7 +98,7 @@
 //   "@type": "WebApplication",
 //   name: "Currency Converter – Live Exchange Rate Calculator",
 //   description: "Convert between 20+ world currencies with real-time exchange rates. Free currency converter for USD, EUR, GBP, INR, JPY, and more.",
-//   url: "https://www.numrexo.com/conversion/currency-converter",
+//   url: "https://numrexo.com/conversion/currency-converter",
 //   applicationCategory: "FinanceApplication",
 //   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 //   author: { "@type": "Organization", name: "Numrexo" },
@@ -170,9 +170,9 @@
 
 //       <nav aria-label="Breadcrumb" className="mb-5">
 //         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-//           <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+//           <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
 //           <li className="text-gray-700">/</li>
-//           <li><a href="https://www.numrexo.com/conversion" className="hover:text-gray-300">Converters</a></li>
+//           <li><a href="https://numrexo.com/conversion" className="hover:text-gray-300">Converters</a></li>
 //           <li className="text-gray-700">/</li>
 //           <li><span className="text-gray-300">Currency Converter</span></li>
 //         </ol>

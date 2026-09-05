@@ -1,3 +1,15 @@
+// app/terms/page.tsx
+
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Terms of Use for Numrexo Calculators",
+  description:
+    "The terms that apply when you use Numrexo. Covers acceptable use, the accuracy limits of our calculators, intellectual property and liability.",
+  path: "/terms",
+});
+
 export default function TermsPage() {
     return (
         <div className="px-6 py-12 md:py-16">

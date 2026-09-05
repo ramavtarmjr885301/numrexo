@@ -65,22 +65,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Time Converter – Convert Time Units",
     description: "Convert between milliseconds, seconds, minutes, hours, days, weeks, months, and years.",
-    url: "https://www.numrexo.com/conversion/time-converter",
+    url: "https://numrexo.com/conversion/time-converter",
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["8 time units", "Seconds to hours", "Days to years", "Precise conversion"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Converters", item: "https://www.numrexo.com/conversion" },
-        { "@type": "ListItem", position: 3, name: "Time Converter", item: "https://www.numrexo.com/conversion/time-converter" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Converters", item: "https://numrexo.com/conversion" },
+        { "@type": "ListItem", position: 3, name: "Time Converter", item: "https://numrexo.com/conversion/time-converter" },
     ],
 });
 
@@ -161,7 +161,7 @@ export default function TimeConverter() {
     <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Home</span> {/* ✅ Span added */}
             </a>
             <meta itemProp="position" content="1" />
@@ -170,7 +170,7 @@ export default function TimeConverter() {
         <li className="text-gray-700">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Conversion Calculators</span> {/* ✅ Span added */}
             </a>
             <meta itemProp="position" content="2" />

@@ -85,7 +85,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Home Loan EMI Calculator – Calculate Your Monthly Mortgage Payments",
     description: "Calculate your home loan EMI with our free calculator. Plan your home purchase, compare interest rates, and find the best loan tenure for your dream home.",
-    url: "https://www.numrexo.com/finance/home-loan-emi-calculator",
+    url: "https://numrexo.com/finance/home-loan-emi-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -97,16 +97,16 @@ const WEBAPP_SCHEMA = JSON.stringify({
         "Total interest payment",
         "Loan tenure comparison",
     ],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://www.numrexo.com/finance" },
-        { "@type": "ListItem", position: 3, name: "Home Loan EMI Calculator", item: "https://www.numrexo.com/finance/home-loan-emi-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://numrexo.com/finance" },
+        { "@type": "ListItem", position: 3, name: "Home Loan EMI Calculator", item: "https://numrexo.com/finance/home-loan-emi-calculator" },
     ],
 });
 
@@ -243,14 +243,14 @@ export default function HomeLoanEMICalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

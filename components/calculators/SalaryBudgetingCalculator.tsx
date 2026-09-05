@@ -65,7 +65,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Salary Budgeting Calculator – Plan Your Monthly Budget",
     description: "Plan your monthly budget with our free salary budgeting calculator. Follow the 50/30/20 rule to allocate your income to needs, wants, and savings.",
-    url: "https://www.numrexo.com/finance/salary-budgeting-calculator",
+    url: "https://numrexo.com/finance/salary-budgeting-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -77,16 +77,16 @@ const WEBAPP_SCHEMA = JSON.stringify({
         "Savings goal planning",
         "Emergency fund calculator",
     ],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://www.numrexo.com/finance" },
-        { "@type": "ListItem", position: 3, name: "Salary Budgeting Calculator", item: "https://www.numrexo.com/finance/salary-budgeting-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://numrexo.com/finance" },
+        { "@type": "ListItem", position: 3, name: "Salary Budgeting Calculator", item: "https://numrexo.com/finance/salary-budgeting-calculator" },
     ],
 });
 
@@ -373,14 +373,14 @@ export default function SalaryBudgetingCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />

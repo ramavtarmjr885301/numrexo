@@ -56,7 +56,7 @@ const NPS_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "NPS Calculator – National Pension System Calculator",
     description: "Estimate your NPS retirement corpus, monthly pension, and tax benefits. Plan your retirement savings with India's government pension scheme.",
-    url: "https://www.numrexo.com/investment/nps-calculator",
+    url: "https://numrexo.com/investment/nps-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: { "@type": "Organization", name: "Numrexo" },

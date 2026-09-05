@@ -65,22 +65,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "VAT Calculator – Value Added Tax Calculator",
     description: "Calculate VAT for UK, Europe, Canada, and Australia. Add or remove VAT from any amount. Instant and accurate.",
-    url: "https://www.numrexo.com/tax/vat-calculator",
+    url: "https://numrexo.com/tax/vat-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Add VAT", "Remove VAT", "Multiple country rates", "Instant calculation"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Tax Calculators", item: "https://www.numrexo.com/tax" },
-        { "@type": "ListItem", position: 3, name: "VAT Calculator", item: "https://www.numrexo.com/tax/vat-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Tax Calculators", item: "https://numrexo.com/tax" },
+        { "@type": "ListItem", position: 3, name: "VAT Calculator", item: "https://numrexo.com/tax/vat-calculator" },
     ],
 });
 
@@ -172,7 +172,7 @@ export default function VATCalculator() {
     <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Home</span> {/* ✅ Error Fixed Here */}
             </a>
             <meta itemProp="position" content="1" />
@@ -181,7 +181,7 @@ export default function VATCalculator() {
         <li className="text-gray-700">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com/tax" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Tax Calculators</span> {/* ✅ Error Fixed Here */}
             </a>
             <meta itemProp="position" content="2" />

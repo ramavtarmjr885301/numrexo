@@ -22,7 +22,7 @@ const PROFIT_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Profit Margin Calculator – Business Profit Calculator",
     description: "Calculate profit margin, markup percentage, and profit amount for your business.",
-    url: "https://www.numrexo.com/business/profit-margin-calculator",
+    url: "https://numrexo.com/business/profit-margin-calculator",
     applicationCategory: "BusinessApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
