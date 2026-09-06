@@ -72,31 +72,67 @@ export interface FeaturedImage {
 // Environment variable
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'https://blog.numrexo.com/wp-json/wp/v2';
 
+/**
+ * WHY THIS EXISTS
+ *
+ * Every call below used bare `axios.get(...)` with no timeout. Axios waits
+ * forever by default, so whenever blog.numrexo.com was slow or down, the
+ * Next.js static-generation worker hung, Next killed it after 60 seconds,
+ * retried three times, and the whole production build failed with:
+ *
+ *   "Static page generation for /blog/... is still timing out after 3 attempts"
+ *
+ * The blog is a nice-to-have; it must never be able to take the calculators
+ * offline. So: every request gets a hard timeout, and every method returns a
+ * safe empty value instead of throwing. A blog outage now means the blog pages
+ * are empty for that build, not a failed deploy.
+ */
+const WP_TIMEOUT_MS = Number(process.env.WP_API_TIMEOUT_MS || 8000);
+
+const wpApi = axios.create({
+    baseURL: WP_API_URL,
+    timeout: WP_TIMEOUT_MS,
+    headers: { Accept: 'application/json' },
+});
+
+/** Runs a WordPress request and falls back to `fallback` on any failure. */
+async function safeWp<T>(label: string, run: () => Promise<T>, fallback: T): Promise<T> {
+    try {
+        return await run();
+    } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        console.warn(`[wordpress] ${label} failed (${reason}) - continuing without blog data.`);
+        return fallback;
+    }
+}
+
 // WordPress API Client
 export const wpClient = {
-    getPosts: async (params: any = {}): Promise<WPPost[]> => {
-        const response: AxiosResponse<WPPost[]> = await axios.get(`${WP_API_URL}/posts`, {
-            params: {
-                _embed: true,
-                status: 'publish',
-                ...params,
-            },
-        });
-        return response.data;
-    },
+    getPosts: async (params: any = {}): Promise<WPPost[]> =>
+        safeWp('getPosts', async () => {
+            const response: AxiosResponse<WPPost[]> = await wpApi.get('/posts', {
+                params: {
+                    _embed: true,
+                    status: 'publish',
+                    ...params,
+                },
+            });
+            return response.data;
+        }, []),
 
-    getPostBySlug: async (slug: string): Promise<WPPost | null> => {
-        const response: AxiosResponse<WPPost[]> = await axios.get(`${WP_API_URL}/posts`, {
-            params: {
-                slug: slug,
-                _embed: true,
-            },
-        });
-        return response.data[0] || null;
-    },
+    getPostBySlug: async (slug: string): Promise<WPPost | null> =>
+        safeWp(`getPostBySlug(${slug})`, async () => {
+            const response: AxiosResponse<WPPost[]> = await wpApi.get('/posts', {
+                params: {
+                    slug: slug,
+                    _embed: true,
+                },
+            });
+            return response.data[0] || null;
+        }, null),
 
     getPostById: async (id: number): Promise<WPPost> => {
-        const response: AxiosResponse<WPPost> = await axios.get(`${WP_API_URL}/posts/${id}`, {
+        const response: AxiosResponse<WPPost> = await wpApi.get(`/posts/${id}`, {
             params: {
                 _embed: true,
             },
@@ -104,50 +140,54 @@ export const wpClient = {
         return response.data;
     },
 
-    getCategories: async (): Promise<WPCategory[]> => {
-        const response: AxiosResponse<WPCategory[]> = await axios.get(`${WP_API_URL}/categories`);
-        return response.data;
-    },
+    getCategories: async (): Promise<WPCategory[]> =>
+        safeWp('getCategories', async () => {
+            const response: AxiosResponse<WPCategory[]> = await wpApi.get('/categories');
+            return response.data;
+        }, []),
 
-    getPostsByCategory: async (categoryId: number): Promise<WPPost[]> => {
-        const response: AxiosResponse<WPPost[]> = await axios.get(`${WP_API_URL}/posts`, {
-            params: {
-                categories: categoryId,
-                _embed: true,
-            },
-        });
-        return response.data;
-    },
+    getPostsByCategory: async (categoryId: number): Promise<WPPost[]> =>
+        safeWp(`getPostsByCategory(${categoryId})`, async () => {
+            const response: AxiosResponse<WPPost[]> = await wpApi.get('/posts', {
+                params: {
+                    categories: categoryId,
+                    _embed: true,
+                },
+            });
+            return response.data;
+        }, []),
 
-    getFeaturedPosts: async (limit: number = 3): Promise<WPPost[]> => {
-        const response: AxiosResponse<WPPost[]> = await axios.get(`${WP_API_URL}/posts`, {
-            params: {
-                per_page: limit,
-                _embed: true,
-                order: 'desc',
-                orderby: 'date',
-            },
-        });
-        return response.data;
-    },
+    getFeaturedPosts: async (limit: number = 3): Promise<WPPost[]> =>
+        safeWp('getFeaturedPosts', async () => {
+            const response: AxiosResponse<WPPost[]> = await wpApi.get('/posts', {
+                params: {
+                    per_page: limit,
+                    _embed: true,
+                    order: 'desc',
+                    orderby: 'date',
+                },
+            });
+            return response.data;
+        }, []),
 
-    getPostsWithPagination: async (page: number = 1, perPage: number = 9): Promise<WPPostsResponse> => {
-        const response: AxiosResponse<WPPost[]> = await axios.get(`${WP_API_URL}/posts`, {
-            params: {
-                page: page,
-                per_page: perPage,
-                _embed: true,
-                status: 'publish',
-            },
-        });
+    getPostsWithPagination: async (page: number = 1, perPage: number = 9): Promise<WPPostsResponse> =>
+        safeWp('getPostsWithPagination', async () => {
+            const response: AxiosResponse<WPPost[]> = await wpApi.get('/posts', {
+                params: {
+                    page: page,
+                    per_page: perPage,
+                    _embed: true,
+                    status: 'publish',
+                },
+            });
 
-        return {
-            posts: response.data,
-            total: parseInt(response.headers['x-wp-total'] as string),
-            totalPages: parseInt(response.headers['x-wp-totalpages'] as string),
-            currentPage: page,
-        };
-    },
+            return {
+                posts: response.data,
+                total: parseInt(response.headers['x-wp-total'] as string) || 0,
+                totalPages: parseInt(response.headers['x-wp-totalpages'] as string) || 0,
+                currentPage: page,
+            };
+        }, { posts: [], total: 0, totalPages: 0, currentPage: page }),
 };
 
 // ✅ Helper function to get featured image
