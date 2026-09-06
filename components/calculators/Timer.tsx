@@ -65,22 +65,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Timer – Online Countdown Timer",
     description: "Free online countdown timer. Set hours, minutes, and seconds. Get alerts when time is up. Perfect for cooking, studying, and workouts.",
-    url: "https://www.numrexo.com/time/timer",
+    url: "https://numrexo.com/time/timer",
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Countdown timer", "Hours/Minutes/Seconds", "Pause/Resume", "Time's up alert"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Time Calculators", item: "https://www.numrexo.com/time" },
-        { "@type": "ListItem", position: 3, name: "Timer", item: "https://www.numrexo.com/time/timer" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Time Calculators", item: "https://numrexo.com/time" },
+        { "@type": "ListItem", position: 3, name: "Timer", item: "https://numrexo.com/time/timer" },
     ],
 });
 
@@ -254,12 +254,12 @@ export default function Timer() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
+                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

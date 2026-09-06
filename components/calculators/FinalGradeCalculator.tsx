@@ -77,22 +77,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Final Grade Calculator – What Do I Need on My Final Exam?",
     description: "Calculate exactly what score you need on your final exam to achieve your desired grade. Plan your study strategy effectively.",
-    url: "https://www.numrexo.com/education/final-grade-calculator",
+    url: "https://numrexo.com/education/final-grade-calculator",
     applicationCategory: "EducationApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Final exam needed calculation", "Grade scenario planning", "Pass/fail analysis", "Study priority guide"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Education Calculators", item: "https://www.numrexo.com/education" },
-        { "@type": "ListItem", position: 3, name: "Final Grade Calculator", item: "https://www.numrexo.com/education/final-grade-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Education Calculators", item: "https://numrexo.com/education" },
+        { "@type": "ListItem", position: 3, name: "Final Grade Calculator", item: "https://numrexo.com/education/final-grade-calculator" },
     ],
 });
 
@@ -217,12 +217,12 @@ export default function FinalGradeCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/education" itemProp="item" className="hover:text-gray-300">Education Calculators</a>
+                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-gray-300">Education Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

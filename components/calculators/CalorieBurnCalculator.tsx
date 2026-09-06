@@ -45,7 +45,7 @@ const CALORIE_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "Calorie Burn Calculator – Exercise Calorie Counter",
   description: "Calculate calories burned during any activity. Uses MET values from sports medicine research. Track running, cycling, swimming, gym workouts and more.",
-  url: "https://www.numrexo.com/fitness/calorie-burn-calculator",
+  url: "https://numrexo.com/fitness/calorie-burn-calculator",
   applicationCategory: "HealthApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
@@ -108,9 +108,9 @@ export default function CalorieBurnCalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
           <li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
+          <li><a href="https://numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
           <li className="text-gray-700">/</li>
           <li><span className="text-gray-300">Calorie Burn Calculator</span></li>
         </ol>

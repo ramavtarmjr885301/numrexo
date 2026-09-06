@@ -58,7 +58,7 @@ const DATE_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Date Difference Calculator – Days Between Dates",
     description: "Calculate days, weeks, months, and years between any two dates. Find age, countdown to events, or track project durations. Free and accurate.",
-    url: "https://www.numrexo.com/time/date-difference-calculator",
+    url: "https://numrexo.com/time/date-difference-calculator",
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
@@ -69,16 +69,16 @@ const DATE_SCHEMA = JSON.stringify({
         "Business days calculation",
         "Leap year support",
     ],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Time Calculators", item: "https://www.numrexo.com/time" },
-        { "@type": "ListItem", position: 3, name: "Date Difference Calculator", item: "https://www.numrexo.com/time/date-difference-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Time Calculators", item: "https://numrexo.com/time" },
+        { "@type": "ListItem", position: 3, name: "Date Difference Calculator", item: "https://numrexo.com/time/date-difference-calculator" },
     ],
 });
 
@@ -145,12 +145,12 @@ export default function DateDifferenceCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
+                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

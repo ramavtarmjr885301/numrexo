@@ -30,10 +30,25 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         };
     }
 
+    const canonical = `https://numrexo.com/blog/${post.slug}`;
+
     return {
         title: getMetaTitle(post),
         description: getMetaDescription(post),
+        // Blog posts had unique titles but no canonical URL and no article
+        // metadata, so search engines had nothing tying a post to one address.
+        alternates: { canonical },
         openGraph: {
+            title: getMetaTitle(post),
+            description: getMetaDescription(post),
+            url: canonical,
+            type: 'article',
+            publishedTime: post.date,
+            modifiedTime: post.modified,
+            images: getFeaturedImage(post) ? [getFeaturedImage(post)!.url] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
             title: getMetaTitle(post),
             description: getMetaDescription(post),
             images: getFeaturedImage(post) ? [getFeaturedImage(post)!.url] : [],
@@ -179,7 +194,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                     <p className="text-sm text-gray-400 mb-3">Share this article:</p>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         <a
-                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title.rendered)}&url=${encodeURIComponent(`https://www.numrexo.com/blog/${post.slug}`)}`}
+                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title.rendered)}&url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1DA1F2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1a8cd8] transition-colors"
@@ -187,7 +202,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                             Twitter
                         </a>
                         <a
-                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://www.numrexo.com/blog/${post.slug}`)}`}
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#0A66C2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#0958a8] transition-colors"
@@ -195,7 +210,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                             LinkedIn
                         </a>
                         <a
-                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title.rendered} - https://www.numrexo.com/blog/${post.slug}`)}`}
+                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title.rendered} - https://numrexo.com/blog/${post.slug}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#25D366] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1da851] transition-colors"

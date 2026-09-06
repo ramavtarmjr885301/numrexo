@@ -588,9 +588,9 @@ export default function InvoiceGenerator() {
         <div className="space-y-6">
             <nav aria-label="Breadcrumb">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-600">
-                    <li><a href="https://www.numrexo.com" className="hover:text-gray-300 transition-colors">Home</a></li>
+                    <li><a href="https://numrexo.com" className="hover:text-gray-300 transition-colors">Home</a></li>
                     <li className="text-gray-700">/</li>
-                    <li><a href="https://www.numrexo.com/business" className="hover:text-gray-300 transition-colors">Business Tools</a></li>
+                    <li><a href="https://numrexo.com/business" className="hover:text-gray-300 transition-colors">Business Tools</a></li>
                     <li className="text-gray-700">/</li>
                     <li className="text-gray-300">GST Invoice Generator</li>
                 </ol>

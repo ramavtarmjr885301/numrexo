@@ -51,7 +51,7 @@ const PPF_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "PPF Calculator – Public Provident Fund Calculator",
   description: "Calculate PPF maturity amount, total interest earned, and tax benefits. Plan your 15-year PPF investment strategy for retirement and tax saving.",
-  url: "https://www.numrexo.com/finance/ppf-calculator",
+  url: "https://numrexo.com/finance/ppf-calculator",
   applicationCategory: "FinanceApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   author: { "@type": "Organization", name: "Numrexo" },
@@ -110,9 +110,9 @@ export default function PPFCalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
           <li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
+          <li><a href="https://numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
           <li className="text-gray-700">/</li>
           <li><span className="text-gray-300">PPF Calculator</span></li>
         </ol>

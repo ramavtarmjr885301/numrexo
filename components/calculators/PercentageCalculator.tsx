@@ -23,7 +23,7 @@ const PERCENTAGE_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "Percentage Calculator – Free Online Percent Tool",
   description: "Calculate percentages, percentage increase/decrease, percentage of a number, and more. Fast, accurate, and free.",
-  url: "https://www.numrexo.com/math/percentage-calculator",
+  url: "https://numrexo.com/math/percentage-calculator",
   applicationCategory: "MathApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
@@ -89,8 +89,8 @@ export default function PercentageCalculator() {
 
       <nav className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li><li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/math" className="hover:text-gray-300">Math Calculators</a></li><li className="text-gray-700">/</li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li><li className="text-gray-700">/</li>
+          <li><a href="https://numrexo.com/math" className="hover:text-gray-300">Math Calculators</a></li><li className="text-gray-700">/</li>
           <li><span className="text-gray-300">Percentage Calculator</span></li>
         </ol>
       </nav>

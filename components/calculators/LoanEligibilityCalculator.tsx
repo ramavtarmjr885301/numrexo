@@ -52,7 +52,7 @@ const LOAN_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Loan Eligibility Calculator – Check How Much You Can Borrow",
     description: "Find out your home loan, personal loan, or car loan eligibility based on your income and existing EMIs.",
-    url: "https://www.numrexo.com/finance/loan-eligibility-calculator",
+    url: "https://numrexo.com/finance/loan-eligibility-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

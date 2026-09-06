@@ -76,22 +76,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "SIP Calculator – Systematic Investment Plan Calculator",
   description: "Calculate returns on your mutual fund SIP investments. Estimate future value, total investment, and wealth gained with power of compounding.",
-  url: "https://www.numrexo.com/finance/sip-calculator",
+  url: "https://numrexo.com/finance/sip-calculator",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Any",
   browserRequirements: "Requires JavaScript",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: ["SIP return calculation", "Wealth multiplier", "Investment projection", "Compounding analysis"],
-  author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+  author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-    { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://www.numrexo.com/finance" },
-    { "@type": "ListItem", position: 3, name: "SIP Calculator", item: "https://www.numrexo.com/finance/sip-calculator" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+    { "@type": "ListItem", position: 2, name: "Finance Calculators", item: "https://numrexo.com/finance" },
+    { "@type": "ListItem", position: 3, name: "SIP Calculator", item: "https://numrexo.com/finance/sip-calculator" },
   ],
 });
 
@@ -162,7 +162,7 @@ useEffect(() => {
     <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Home</span> {/* ✅ Span added */}
             </a>
             <meta itemProp="position" content="1" />
@@ -172,7 +172,7 @@ useEffect(() => {
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
             {/* ✅ URL aur Span dono fix kar diye hain */}
-            <a href="https://www.numrexo.com/investment" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-gray-300">
                 <span itemProp="name">Investment Calculators</span> 
             </a>
             <meta itemProp="position" content="2" />

@@ -22,7 +22,7 @@ const FUEL_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Fuel Cost Calculator – Trip Fuel Cost Estimator",
     description: "Calculate fuel cost for your trip based on distance, fuel price, and vehicle mileage. Plan your travel budget accurately.",
-    url: "https://www.numrexo.com/travel/fuel-cost-calculator",
+    url: "https://numrexo.com/travel/fuel-cost-calculator",
     applicationCategory: "TravelApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

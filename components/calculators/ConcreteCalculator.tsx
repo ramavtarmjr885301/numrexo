@@ -52,7 +52,7 @@ const CONCRETE_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Concrete Calculator – Estimate Concrete Volume",
     description: "Calculate concrete volume for slabs, footings, columns, and walls. Estimate cement bags, sand, and aggregate needed.",
-    url: "https://www.numrexo.com/construction/concrete-calculator",
+    url: "https://numrexo.com/construction/concrete-calculator",
     applicationCategory: "ConstructionApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

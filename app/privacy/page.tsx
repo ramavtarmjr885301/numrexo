@@ -1,3 +1,15 @@
+// app/privacy/page.tsx
+
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Privacy Policy: How Numrexo Handles Your Data",
+  description:
+    "How Numrexo handles cookies, analytics and advertising data, what Google AdSense and its vendors collect, and your rights under GDPR and CCPA.",
+  path: "/privacy",
+});
+
 export default function PrivacyPage() {
     return (
         <div className="px-6 py-12 md:py-16">

@@ -52,7 +52,7 @@ const CAGR_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "CAGR Calculator – Compound Annual Growth Rate Calculator",
     description: "Calculate Compound Annual Growth Rate (CAGR) for your investments. Compare mutual fund, stock, and business performance over time.",
-    url: "https://www.numrexo.com/finance/cagr-calculator",
+    url: "https://numrexo.com/finance/cagr-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

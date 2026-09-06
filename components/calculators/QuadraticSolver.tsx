@@ -52,7 +52,7 @@ const QUADRATIC_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Quadratic Equation Solver – ax² + bx + c = 0",
     description: "Solve quadratic equations instantly. Get real and complex roots, discriminant, and step-by-step solutions.",
-    url: "https://www.numrexo.com/math/quadratic-solver",
+    url: "https://numrexo.com/math/quadratic-solver",
     applicationCategory: "MathApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

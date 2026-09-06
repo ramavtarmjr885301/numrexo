@@ -83,22 +83,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "LTCG Calculator – Long Term Capital Gains Tax Calculator",
     description: "Calculate Long Term Capital Gains tax on shares, real estate, gold, and mutual funds. Includes indexation benefit for non-equity assets.",
-    url: "https://www.numrexo.com/tax/ltcg-calculator",
+    url: "https://numrexo.com/tax/ltcg-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Multiple asset types", "Indexation benefit", "₹1 lakh exemption for shares", "Tax calculation"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Tax Calculators", item: "https://www.numrexo.com/tax" },
-        { "@type": "ListItem", position: 3, name: "LTCG Calculator", item: "https://www.numrexo.com/tax/ltcg-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Tax Calculators", item: "https://numrexo.com/tax" },
+        { "@type": "ListItem", position: 3, name: "LTCG Calculator", item: "https://numrexo.com/tax/ltcg-calculator" },
     ],
 });
 
@@ -223,12 +223,12 @@ export default function LTCGCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a>
+                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

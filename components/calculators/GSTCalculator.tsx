@@ -51,7 +51,7 @@ const GST_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "GST Calculator – Goods and Services Tax Calculator",
   description: "Calculate GST for any amount. Add or remove GST, split into CGST/SGST/IGST. Supports all Indian GST slabs (0%, 3%, 5%, 12%, 18%, 28%).",
-  url: "https://www.numrexo.com/tax/gst-calculator",
+  url: "https://numrexo.com/tax/gst-calculator",
   applicationCategory: "FinanceApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   author: { "@type": "Organization", name: "Numrexo" },
@@ -119,9 +119,9 @@ export default function GSTCalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
           <li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/tax" className="hover:text-gray-300">Tax Calculators</a></li>
+          <li><a href="https://numrexo.com/tax" className="hover:text-gray-300">Tax Calculators</a></li>
           <li className="text-gray-700">/</li>
           <li><span className="text-gray-300">GST Calculator</span></li>
         </ol>

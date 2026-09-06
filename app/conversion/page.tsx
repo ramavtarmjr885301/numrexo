@@ -1,21 +1,15 @@
-"use client";
+// app/conversion/page.tsx
+//
+// Server component. Its only job is to export real metadata (title, description,
+// canonical, Open Graph, Twitter) and render the client UI.
+// Do NOT add "use client" here — metadata stops working the moment you do.
 
-import { getCalculatorsByCategory } from '@/data/calculatorsRegistry';
-import CalculatorCard from '@/components/common/CalculatorCard';
+import type { Metadata } from "next";
+import { categoryMetadata } from "@/lib/seo";
+import ConversionCategoryClient from "./ConversionCategoryClient";
+
+export const metadata: Metadata = categoryMetadata("conversion");
 
 export default function ConversionCategoryPage() {
-    const calculators = getCalculatorsByCategory('conversion');
-    return (
-        <div className="px-6 py-12 max-w-6xl mx-auto">
-            <div className="text-center mb-10">
-                <h1 className="text-3xl md:text-4xl font-bold mb-3">Unit Converters</h1>
-                <p className="text-gray-400 max-w-2xl mx-auto">Convert currencies, length, weight, temperature, and more. Fast and accurate conversions.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {calculators.map((calc) => (
-                    <CalculatorCard key={calc.id} calculator={calc} onClick={() => window.location.href = calc.path} />
-                ))}
-            </div>
-        </div>
-    );
+  return <ConversionCategoryClient />;
 }

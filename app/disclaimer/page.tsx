@@ -15,17 +15,17 @@ export const metadata: Metadata = {
     ],
     robots: "index, follow",
     alternates: {
-        canonical: "https://www.numrexo.com/disclaimer",
+        canonical: "https://numrexo.com/disclaimer",
     },
     openGraph: {
         type: "website",
-        url: "https://www.numrexo.com/disclaimer",
+        url: "https://numrexo.com/disclaimer",
         title: "Disclaimer | Numrexo – Free Online Calculators",
         description: "Read the official disclaimer for Numrexo.com. Our calculators provide informational results only. No user data is stored. Consult a qualified professional before making decisions.",
         siteName: "Numrexo",
         images: [
             {
-                url: "https://www.numrexo.com/og-image.png",
+                url: "https://numrexo.com/og-image.png",
                 width: 1200,
                 height: 630,
                 alt: "Numrexo — Free Online Calculators Disclaimer",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Disclaimer | Numrexo – Free Online Calculators",
         description: "Numrexo calculator results are for informational purposes only. No medical, financial, or legal advice. No data stored.",
-        images: ["https://www.numrexo.com/og-image.png"],
+        images: ["https://numrexo.com/og-image.png"],
     },
 };
 
@@ -45,13 +45,13 @@ const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Disclaimer",
-    "url": "https://www.numrexo.com/disclaimer",
+    "url": "https://numrexo.com/disclaimer",
     "description": "Official disclaimer for Numrexo.com. Calculator results are informational only. No user data is stored.",
     "inLanguage": "en",
     "isPartOf": {
         "@type": "WebSite",
         "name": "Numrexo",
-        "url": "https://www.numrexo.com"
+        "url": "https://numrexo.com"
     },
     "dateModified": "2026-05-28",
     "breadcrumb": {
@@ -61,13 +61,13 @@ const webPageSchema = {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.numrexo.com"
+                "item": "https://numrexo.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Disclaimer",
-                "item": "https://www.numrexo.com/disclaimer"
+                "item": "https://numrexo.com/disclaimer"
             }
         ]
     }
@@ -408,7 +408,7 @@ export default function DisclaimerPage() {
                             </p>
                             <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-5 flex flex-col sm:flex-row justify-between items-center gap-4">
                                 <p className="text-gray-300 text-sm">
-                                    <strong>Website:</strong> www.numrexo.com<br />
+                                    <strong>Website:</strong> numrexo.com<br />
                                     We typically respond within 2–3 business days.
                                 </p>
                                 <a href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors text-sm">

@@ -66,22 +66,22 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "SWP Calculator – Systematic Withdrawal Plan Calculator",
     description: "Calculate how long your retirement corpus will last with regular monthly withdrawals. Plan your retirement income strategy.",
-    url: "https://www.numrexo.com/investment/swp-calculator",
+    url: "https://numrexo.com/investment/swp-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: ["Withdrawal duration", "Monthly income planning", "Corpus sustainability", "Retirement planning"],
-    author: { "@type": "Organization", name: "Numrexo", url: "https://www.numrexo.com" },
+    author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
 });
 
 const BREADCRUMB_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.numrexo.com" },
-        { "@type": "ListItem", position: 2, name: "Investment Calculators", item: "https://www.numrexo.com/investment" },
-        { "@type": "ListItem", position: 3, name: "SWP Calculator", item: "https://www.numrexo.com/investment/swp-calculator" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
+        { "@type": "ListItem", position: 2, name: "Investment Calculators", item: "https://numrexo.com/investment" },
+        { "@type": "ListItem", position: 3, name: "SWP Calculator", item: "https://numrexo.com/investment/swp-calculator" },
     ],
 });
 
@@ -158,12 +158,12 @@ export default function SWPCalculator() {
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
                     <li className="text-gray-700">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://www.numrexo.com/investment" itemProp="item" className="hover:text-gray-300">Investment Calculators</a>
+                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-gray-300">Investment Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
                     <li className="text-gray-700">/</li>

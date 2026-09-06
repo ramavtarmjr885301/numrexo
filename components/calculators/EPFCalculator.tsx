@@ -52,7 +52,7 @@ const EPF_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "EPF Calculator – Employee Provident Fund Calculator",
     description: "Calculate your EPF corpus at retirement including employee and employer contributions with compound interest.",
-    url: "https://www.numrexo.com/finance/epf-calculator",
+    url: "https://numrexo.com/finance/epf-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

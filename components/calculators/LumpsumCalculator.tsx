@@ -52,7 +52,7 @@ const LUMPSUM_SCHEMA = JSON.stringify({
     "@type": "WebApplication",
     name: "Lumpsum Calculator – One-time Investment Calculator",
     description: "Calculate returns on your one-time investment. Estimate future value, total profit, and CAGR for lumpsum investments.",
-    url: "https://www.numrexo.com/investment/lumpsum-calculator",
+    url: "https://numrexo.com/investment/lumpsum-calculator",
     applicationCategory: "FinanceApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });

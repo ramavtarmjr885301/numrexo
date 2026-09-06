@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "npx nextjs-indexing-pack submit --urls https://www.numrexo.com/ --key 34fa63b2ed3d7ae2e4cba99a055e169e --indexnow",
+    "postbuild": "npx nextjs-indexing-pack submit --sitemap https://numrexo.com/sitemap.xml --key 34fa63b2ed3d7ae2e4cba99a055e169e --indexnow",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify:seo": "node scripts/verify-seo.mjs",
+    "prebuild": "node scripts/verify-seo.mjs"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

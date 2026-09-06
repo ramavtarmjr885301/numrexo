@@ -59,7 +59,7 @@ const BODY_FAT_SCHEMA = JSON.stringify({
   "@type": "WebApplication",
   name: "Body Fat Calculator – US Navy Method",
   description: "Calculate your body fat percentage using the US Navy tape measure method. Get accurate results with circumference measurements for men and women.",
-  url: "https://www.numrexo.com/fitness/body-fat-calculator",
+  url: "https://numrexo.com/fitness/body-fat-calculator",
   applicationCategory: "HealthApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   author: { "@type": "Organization", name: "Numrexo" },
@@ -144,9 +144,9 @@ export default function BodyFatCalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://www.numrexo.com" className="hover:text-gray-300">Home</a></li>
+          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
           <li className="text-gray-700">/</li>
-          <li><a href="https://www.numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
+          <li><a href="https://numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
           <li className="text-gray-700">/</li>
           <li><span className="text-gray-300">Body Fat Calculator</span></li>
         </ol>
