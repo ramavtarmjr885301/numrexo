@@ -73,8 +73,8 @@ export default function FitnessCategoryClient() {
                     
                     {/* Trust Badges - Theme colored */}
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">✓ Trusted by 100,000+ fitness enthusiasts</span>
-                        <span className="flex items-center gap-1">✓ Used in 70+ countries</span>
+                        <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                        <span className="flex items-center gap-1">✓ Works on any device</span>
                         <span className="flex items-center gap-1">✓ WHO & ACSM standard formulas</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                     </div>

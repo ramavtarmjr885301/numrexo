@@ -38,26 +38,26 @@ export default function ContactClient() {
             `Subject: ${formData.subject || 'General Inquiry'}\n\n` +
             `Message:\n${formData.message || 'No message provided'}`
         );
-        window.location.href = `mailto:numrexo@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:support@numrexo.com?subject=${subject}&body=${body}`;
     };
 
     const contactInfo = [
         {
             icon: Mail,
             title: "Email Us",
-            details: ["numrexo@gmail.com", "support@numrexo.com"],
-            link: "mailto:numrexo@gmail.com",
+            details: ["support@numrexo.com"],
+            link: "mailto:support@numrexo.com",
         },
         {
             icon: MapPin,
             title: "Visit Us",
             details: ["Numrexo HQ", "Noida, Uttar Pradesh", "India - 201309"],
-            link: "https://maps.google.com",
+            link: "https://www.google.com/maps/search/?api=1&query=Noida%2C+Uttar+Pradesh+201309%2C+India",
         },
         {
             icon: Clock,
             title: "Business Hours",
-            details: ["Our support team is available 24 hours a day.", "7 days a week via email.", "We typically respond within 2-4 hours."],
+            details: ["Email support, Monday to Saturday.", "We aim to reply within 24-48 hours", "on business days."],
         },
     ];
 
@@ -72,7 +72,7 @@ export default function ContactClient() {
         },
         {
             q: "Is there a direct email?",
-            a: "Yes! You can email us directly at numrexo@gmail.com for any inquiries.",
+            a: "Yes! You can email us directly at support@numrexo.com for any inquiries.",
         },
     ];
 
@@ -276,7 +276,7 @@ export default function ContactClient() {
                             </div>
 
                             <p className="text-xs text-gray-500 text-center mt-2">
-                                Or email us directly at: <a href="mailto:numrexo@gmail.com" className="text-blue-400 hover:underline">numrexo@gmail.com</a>
+                                Or email us directly at: <a href="mailto:support@numrexo.com" className="text-blue-400 hover:underline">support@numrexo.com</a>
                             </p>
                         </form>
                     </div>
@@ -288,7 +288,7 @@ export default function ContactClient() {
                             <h3 className="text-lg font-semibold text-white mb-3">Our Location</h3>
                             <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64329960238!2d72.74110159128612!3d19.08252233880275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1698765432109!5m2!1sen!2sin"
+                                    src="https://www.google.com/maps?q=Noida,+Uttar+Pradesh+201309,+India&output=embed"
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}

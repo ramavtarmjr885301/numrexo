@@ -92,7 +92,16 @@ export function buildMetadata({
   };
 }
 
-/** Metadata for a single calculator page. */
+/**
+ * Metadata for a single calculator page.
+ *
+ * NOTE ON `noIndex`: a handful of pages are genuinely too thin to deserve search
+ * traffic today (see the audit). Setting `noIndex: true` on an entry in
+ * calculatorsSeo.ts keeps that page live and linked but out of the index, which is
+ * what Google's "valuable inventory" policy asks for. Nothing is flagged yet —
+ * removing a page from the index also removes whatever traffic it earns, so that
+ * is a business call, not a default.
+ */
 export function calculatorMetadata(calc: CalculatorType): Metadata {
   const seo = getCalculatorSeo(calc);
   return buildMetadata({
@@ -100,6 +109,7 @@ export function calculatorMetadata(calc: CalculatorType): Metadata {
     description: seo.description,
     keywords: seo.keywords,
     path: `/${calc.category}/${calc.slug}`,
+    noIndex: seo.noIndex === true,
   });
 }
 

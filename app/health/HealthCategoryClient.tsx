@@ -73,8 +73,8 @@ export default function HealthCategoryClient() {
                     
                     {/* Trust Badges - Theme colored (Blue) */}
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">✓ Trusted by 200,000+ users</span>
-                        <span className="flex items-center gap-1">✓ Used in 80+ countries</span>
+                        <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                        <span className="flex items-center gap-1">✓ Works on any device</span>
                         <span className="flex items-center gap-1">✓ WHO standard formulas</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                     </div>

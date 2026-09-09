@@ -120,19 +120,105 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 7. Advertising & Affiliate Disclosure */}
+                    {/* 7. Advertising, Google AdSense and Advertising Cookies */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">7. Advertising & Affiliate Disclosure</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">7. Advertising, Google AdSense &amp; Advertising Cookies</h2>
+                        <p className="text-gray-300 leading-relaxed mb-3">
+                            Numrexo is a free service supported by advertising. We display advertisements
+                            through Google AdSense and may participate in affiliate programs.
+                        </p>
+                        <ul className="list-disc list-inside text-gray-300 space-y-2 mb-3">
+                            <li>Third party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to this website or other websites.</li>
+                            <li>Google&apos;s use of advertising cookies enables it and its partners to serve ads to users based on their visit to numrexo.com and/or other sites on the Internet.</li>
+                            <li>
+                                Users may opt out of personalised advertising by visiting{" "}
+                                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Google Ads Settings</a>.
+                            </li>
+                            <li>
+                                Users may opt out of a third-party vendor&apos;s use of cookies for personalised advertising at{" "}
+                                <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">aboutads.info/choices</a>.
+                            </li>
+                        </ul>
                         <p className="text-gray-300 leading-relaxed">
-                            To support platform growth and operations, Numrexo may display advertisements and participate in affiliate marketing programs.
-                            Third-party advertising networks may use cookies or tracking technologies to deliver personalized advertisements based on browsing behavior.
-                            Some links on our website may be affiliate links, meaning we may earn a commission if users interact with or purchase through those links at no additional cost to users.
+                            Some links on this website may be affiliate links, meaning we may earn a
+                            commission if you purchase through them, at no additional cost to you.
+                            Advertising never influences the formulas or results our calculators produce.
                         </p>
                     </div>
 
-                    {/* 8. Data Security */}
+                    {/* 8. Consent (EEA, UK and Switzerland) */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">8. Data Security</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">8. Consent (EEA, UK &amp; Switzerland)</h2>
+                        <p className="text-gray-300 leading-relaxed">
+                            If you visit Numrexo from the European Economic Area, the United Kingdom or
+                            Switzerland, we ask for your consent before any advertising or analytics
+                            cookies are set. You can change or withdraw that consent at any time using
+                            the privacy settings link in the site footer. If you decline, you can still
+                            use every calculator on this site; you will simply see non-personalised ads.
+                        </p>
+                    </div>
+
+                    {/* 9. Your rights under the GDPR */}
+                    <div>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">9. Your Rights Under the GDPR</h2>
+                        <p className="text-gray-300 leading-relaxed mb-3">
+                            If you are in the European Economic Area or the United Kingdom, the General
+                            Data Protection Regulation gives you rights over your personal data. Numrexo
+                            is the data controller for this website and can be reached at{" "}
+                            <a href="mailto:support@numrexo.com" className="text-blue-400 hover:underline">support@numrexo.com</a>.
+                        </p>
+                        <p className="text-gray-300 leading-relaxed mb-3">
+                            We process data on two legal bases: your consent, for advertising and
+                            analytics cookies; and our legitimate interest in operating and securing the
+                            website, for basic server logs.
+                        </p>
+                        <ul className="list-disc list-inside text-gray-300 space-y-2 mb-3">
+                            <li><span className="text-white font-medium">Access</span> — ask what personal data we hold about you.</li>
+                            <li><span className="text-white font-medium">Rectification</span> — ask us to correct inaccurate data.</li>
+                            <li><span className="text-white font-medium">Erasure</span> — ask us to delete your data.</li>
+                            <li><span className="text-white font-medium">Restriction</span> — ask us to limit how we process it.</li>
+                            <li><span className="text-white font-medium">Portability</span> — receive your data in a portable format.</li>
+                            <li><span className="text-white font-medium">Objection</span> — object to processing based on legitimate interest.</li>
+                            <li><span className="text-white font-medium">Withdraw consent</span> — at any time, without affecting prior processing.</li>
+                        </ul>
+                        <p className="text-gray-300 leading-relaxed">
+                            Email <a href="mailto:support@numrexo.com" className="text-blue-400 hover:underline">support@numrexo.com</a> to
+                            exercise any of these rights. We respond within 30 days. You also have the
+                            right to complain to your national data protection authority.
+                        </p>
+                    </div>
+
+                    {/* 10. Your rights under the CCPA / CPRA */}
+                    <div>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">10. Your Rights Under the CCPA / CPRA</h2>
+                        <p className="text-gray-300 leading-relaxed mb-3">
+                            If you are a California resident, the California Consumer Privacy Act, as
+                            amended by the CPRA, gives you the following rights:
+                        </p>
+                        <ul className="list-disc list-inside text-gray-300 space-y-2 mb-3">
+                            <li><span className="text-white font-medium">Right to know</span> — what personal information we collect and how it is used.</li>
+                            <li><span className="text-white font-medium">Right to delete</span> — request deletion of personal information we hold.</li>
+                            <li><span className="text-white font-medium">Right to correct</span> — request correction of inaccurate personal information.</li>
+                            <li><span className="text-white font-medium">Right to opt out</span> — opt out of the sale or sharing of personal information.</li>
+                            <li><span className="text-white font-medium">Right to non-discrimination</span> — we will not treat you differently for exercising these rights.</li>
+                        </ul>
+                        <p className="text-gray-300 leading-relaxed mb-3">
+                            <span className="text-white font-medium">Do Not Sell or Share My Personal Information.</span>{" "}
+                            Numrexo does not sell your personal information for money. Advertising
+                            cookies used for personalised ads may qualify as &quot;sharing&quot; under the CPRA.
+                            To opt out, use the privacy settings link in the site footer, or email{" "}
+                            <a href="mailto:support@numrexo.com" className="text-blue-400 hover:underline">support@numrexo.com</a> with
+                            the subject line &quot;CCPA Opt-Out&quot;.
+                        </p>
+                        <p className="text-gray-300 leading-relaxed">
+                            We verify requests by replying to the email address they are sent from, and
+                            respond within 45 days.
+                        </p>
+                    </div>
+
+                    {/* 11. Data Security */}
+                    <div>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">11. Data Security</h2>
                         <p className="text-gray-300 leading-relaxed">
                             We take reasonable measures to help protect website systems and user information from unauthorized access, misuse, or security threats.
                             However, no online platform or internet transmission method can guarantee complete security.
@@ -140,9 +226,9 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 9. External Links */}
+                    {/* 12. External Links */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">9. External Links</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">12. External Links</h2>
                         <p className="text-gray-300 leading-relaxed">
                             Numrexo may contain links to third-party websites or services.
                             We are not responsible for:
@@ -158,9 +244,9 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 10. Children's Privacy */}
+                    {/* 13. Children's Privacy */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">10. Children's Privacy</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">13. Children's Privacy</h2>
                         <p className="text-gray-300 leading-relaxed">
                             Numrexo is not specifically directed toward children under the age of 13.
                             We do not knowingly collect personal information from children.
@@ -168,9 +254,9 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 11. Your Privacy Choices */}
+                    {/* 14. Your Privacy Choices */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">11. Your Privacy Choices</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">14. Your Privacy Choices</h2>
                         <p className="text-gray-300 leading-relaxed">
                             Users may:
                         </p>
@@ -184,9 +270,9 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 12. Changes to This Privacy Policy */}
+                    {/* 15. Changes to This Privacy Policy */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">12. Changes to This Privacy Policy</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">15. Changes to This Privacy Policy</h2>
                         <p className="text-gray-300 leading-relaxed">
                             We may update or modify this Privacy Policy periodically to reflect:
                         </p>
@@ -202,18 +288,18 @@ export default function PrivacyPage() {
                         </p>
                     </div>
 
-                    {/* 13. Contact Us */}
+                    {/* 16. Contact Us */}
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">13. Contact Us</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-blue-400">16. Contact Us</h2>
                         <p className="text-gray-300 leading-relaxed">
-                            If you have questions about this Privacy Policy or your privacy while using Numrexo, please contact us through the official Contact page available on our website.
+                            If you have questions about this Privacy Policy, or wish to exercise any of the rights described above, email us at support@numrexo.com or use the Contact page on this website.
                         </p>
                     </div>
 
                     {/* Last Updated */}
                     <div className="pt-4 border-t border-gray-800">
                         <p className="text-sm text-gray-500">
-                            <span className="font-semibold">Last Updated:</span> May 2026
+                            <span className="font-semibold">Last Updated:</span> 9 September 2026
                         </p>
                     </div>
                 </div>

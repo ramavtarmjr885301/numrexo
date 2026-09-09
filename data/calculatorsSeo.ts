@@ -25,7 +25,20 @@ export interface CalculatorSeo {
   title: string;
   description: string;
   keywords?: string[];
+  /** YYYY-MM-DD. Feeds <lastmod> in sitemap.xml AND the "Last updated" line in AuthorBox. */
   updatedAt?: string;
+  /**
+   * Where the formula or reference data comes from. Rendered under the calculator
+   * by components/common/AuthorBox.tsx. `url` is optional — a named standard with
+   * no link is still better than nothing, and better than a link that might rot.
+   */
+  sources?: { label: string; url?: string }[];
+  /**
+   * Set true to keep a page out of the search index while it is too thin to
+   * deserve traffic. It stays reachable and linked; it just is not indexed.
+   * Nothing is set here yet — see the note in lib/seo.ts before flipping any.
+   */
+  noIndex?: boolean;
 }
 
 export const SITE_DEFAULT_UPDATED_AT = "2026-09-05";
@@ -33,6 +46,10 @@ export const SITE_DEFAULT_UPDATED_AT = "2026-09-05";
 export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
   // ───────────────────────── HEALTH ─────────────────────────
   "health/bmi-calculator": {
+    sources: [
+      { label: "WHO — Body mass index classification", url: "https://www.who.int/health-topics/obesity" },
+      { label: "Formula: weight (kg) ÷ height (m)²" },
+    ],
     title: "BMI Calculator: Body Mass Index in Metric or Imperial",
     description:
       "Calculate your Body Mass Index from height and weight in metric or US units, then see where you fall on the WHO classification chart and what it means.",
@@ -45,6 +62,10 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["ideal weight calculator", "ideal body weight", "healthy weight range"],
   },
   "health/water-intake-calculator": {
+    sources: [
+      { label: "Baseline guidance: US National Academies of Sciences adequate-intake values" },
+      { label: "Adjust for climate, activity and medical advice" },
+    ],
     title: "Water Intake Calculator: Daily Hydration Needs",
     description:
       "Work out how much water to drink each day based on your body weight, activity level and climate, with a breakdown of what counts toward the total.",
@@ -57,6 +78,10 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["body type calculator", "body shape calculator", "somatotype"],
   },
   "health/pregnancy-due-date-calculator": {
+    sources: [
+      { label: "Method: Naegele's rule — LMP + 280 days" },
+      { label: "An estimate only. Confirm with your doctor or midwife." },
+    ],
     title: "Pregnancy Due Date Calculator: Week by Week",
     description:
       "Estimate your delivery date from your last menstrual period or conception date, with your current gestational week and each trimester milestone.",
@@ -89,12 +114,20 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
 
   // ───────────────────────── FITNESS ─────────────────────────
   "fitness/bmr-calculator": {
+    sources: [
+      { label: "Formula: Mifflin-St Jeor equation (1990), the current clinical standard" },
+      { label: "Activity multipliers: Harris-Benedict activity factors" },
+    ],
     title: "BMR Calculator: Basal Metabolic Rate and TDEE",
     description:
       "Calculate the calories your body burns at rest using the Mifflin-St Jeor equation, then scale it by activity level to get your daily maintenance calories.",
     keywords: ["bmr calculator", "basal metabolic rate", "tdee calculator"],
   },
   "fitness/body-fat-calculator": {
+    sources: [
+      { label: "Method: US Navy circumference formula (Hodgdon & Beckett)" },
+      { label: "Body fat categories: American Council on Exercise ranges" },
+    ],
     title: "Body Fat Calculator: US Navy Tape Method",
     description:
       "Estimate your body fat percentage from neck, waist and hip measurements using the US Navy formula, with fat mass, lean mass and category ranges.",
@@ -115,12 +148,20 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
 
   // ───────────────────────── FINANCE ─────────────────────────
   "finance/mortgage-calculator": {
+    sources: [
+      { label: "Consumer Financial Protection Bureau — mortgage basics", url: "https://www.consumerfinance.gov" },
+      { label: "Formula: standard amortising payment, M = P·r(1+r)ⁿ / ((1+r)ⁿ−1)" },
+    ],
     title: "Mortgage Calculator: Payment with Taxes, PMI and HOA",
     description:
       "Calculate your full monthly mortgage payment including principal, interest, property tax, homeowners insurance and PMI, plus total interest over the loan.",
     keywords: ["mortgage calculator", "monthly mortgage payment", "piti calculator", "home loan payment"],
   },
   "finance/amortization-calculator": {
+    sources: [
+      { label: "Formula: standard amortisation schedule, interest computed on the declining balance" },
+      { label: "Consumer Financial Protection Bureau — loan terms", url: "https://www.consumerfinance.gov" },
+    ],
     title: "Amortization Calculator: Full Payment Schedule",
     description:
       "Generate a complete month-by-month amortization schedule showing how each payment splits between principal and interest and what balance is left.",
@@ -193,6 +234,10 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["home loan eligibility", "how much home loan", "mortgage affordability"],
   },
   "finance/student-loan-calculator": {
+    sources: [
+      { label: "US Department of Education — Federal Student Aid", url: "https://studentaid.gov" },
+      { label: "Formula: standard amortising repayment over the chosen term" },
+    ],
     title: "Student Loan Calculator: Repayment and Total Cost",
     description:
       "Calculate monthly repayments on an education loan across standard and extended terms, including the moratorium period and total interest you will pay.",
@@ -299,6 +344,10 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
 
   // ───────────────────────── TAX ─────────────────────────
   "tax/sales-tax-calculator": {
+    sources: [
+      { label: "Rates are indicative — always confirm with the state or local revenue authority" },
+      { label: "IRS — sales tax overview", url: "https://www.irs.gov" },
+    ],
     title: "Sales Tax Calculator: Add or Remove Tax from a Price",
     description:
       "Add sales tax to a price or strip it back out of a tax-inclusive total, with a reference table of standard rates across major countries.",
@@ -331,6 +380,9 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
 
   // ───────────────────────── MATH ─────────────────────────
   "math/percentage-calculator": {
+    sources: [
+      { label: "Formulas shown on the page for each of the three calculation types" },
+    ],
     title: "Percentage Calculator: Increase, Decrease and Of",
     description:
       "Solve every common percentage question in one place: X percent of Y, what percent X is of Y, and the percentage increase or decrease between two numbers.",
@@ -417,18 +469,30 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["unit converter", "measurement converter", "metric imperial converter"],
   },
   "conversion/length-converter": {
+    sources: [
+      { label: "NIST — International System of Units and conversion factors", url: "https://www.nist.gov" },
+      { label: "Exact: 1 inch = 25.4 mm (international agreement, 1959)" },
+    ],
     title: "Length Converter: Feet, Metres, Inches, Miles",
     description:
       "Convert between inches, feet, yards, miles, millimetres, centimetres, metres and kilometres instantly, with the exact factor for each pair.",
     keywords: ["length converter", "feet to meters", "inches to cm"],
   },
   "conversion/weight-converter": {
+    sources: [
+      { label: "NIST — International System of Units and conversion factors", url: "https://www.nist.gov" },
+      { label: "Exact: 1 pound = 0.45359237 kg" },
+    ],
     title: "Weight Converter: Pounds, Kilograms, Ounces, Stone",
     description:
       "Convert weight between pounds, ounces, stone, kilograms, grams, tonnes and US tons, with results for every unit shown at once.",
     keywords: ["weight converter", "kg to lbs", "pounds to kilograms"],
   },
   "conversion/temperature-converter": {
+    sources: [
+      { label: "NIST — temperature scales and definitions", url: "https://www.nist.gov" },
+      { label: "Formula: °F = °C × 9/5 + 32 · K = °C + 273.15" },
+    ],
     title: "Temperature Converter: Celsius, Fahrenheit, Kelvin",
     description:
       "Convert between Celsius, Fahrenheit, Kelvin and Rankine, with the conversion formula shown and common reference points for each scale.",
@@ -591,6 +655,10 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
 
   // ───────────────────────── EDUCATION ─────────────────────────
   "education/gpa-calculator": {
+    sources: [
+      { label: "Scale: standard US 4.0 grade point scale" },
+      { label: "Your institution's own scale takes precedence — check its handbook" },
+    ],
     title: "GPA Calculator: Semester and Cumulative GPA",
     description:
       "Calculate semester and cumulative GPA on the 4.0 scale from your course grades and credit hours, with an international conversion reference table.",
@@ -677,6 +745,9 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["break even calculator", "break even point", "contribution margin"],
   },
   "business/tip-calculator": {
+    sources: [
+      { label: "US customary tipping ranges: 15% adequate, 18-20% standard, 25% exceptional" },
+    ],
     title: "Tip Calculator: Split the Bill by Person",
     description:
       "Calculate the tip at any percentage and split the total between any number of people, with rounding options and per-person amounts.",

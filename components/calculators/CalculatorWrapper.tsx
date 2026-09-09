@@ -5,6 +5,7 @@ import {
   CALCULATORS_REGISTRY,
 } from "@/data/calculatorsRegistry";
 import Breadcrumb from "@/components/common/Breadcrumb";
+import AuthorBox from "@/components/common/AuthorBox";
 import PageHeader from "@/components/common/PageHeader";
 import { useRouter } from "next/navigation";
 import BMICalculator from "./BMICalculator";
@@ -414,6 +415,9 @@ export default function CalculatorWrapper({
         />
 
         {renderCalculator()}
+
+        {/* Who made this, when it was last checked, and where the method comes from. */}
+        <AuthorBox calculator={calculator} />
 
         {/* Related Calculators */}
         <div>

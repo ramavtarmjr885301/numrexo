@@ -23,7 +23,7 @@
 import { MetadataRoute } from 'next'
 import { CALCULATORS_REGISTRY, CATEGORIES } from '@/data/calculatorsRegistry'
 import { SITE_URL, calculatorLastModified } from '@/lib/seo'
-import { SITE_DEFAULT_UPDATED_AT } from '@/data/calculatorsSeo'
+import { SITE_DEFAULT_UPDATED_AT, CALCULATOR_SEO } from '@/data/calculatorsSeo'
 import { wpClient } from '@/app/wordpress'
 
 const baseUrl = SITE_URL
@@ -63,6 +63,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ─────────────────────────────────────────────────────────
     const calculatorPages: MetadataRoute.Sitemap = CALCULATORS_REGISTRY
         .filter((calculator) => !calculator.comingSoon)
+        // A page we deliberately keep out of the index must not be advertised in the sitemap.
+        .filter((calculator) => !CALCULATOR_SEO[`${calculator.category}/${calculator.slug}`]?.noIndex)
         .map((calculator) => {
             let priority = 0.7
             if (calculator.isNew && calculator.popularity) priority = 0.95

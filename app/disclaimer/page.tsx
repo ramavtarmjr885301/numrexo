@@ -315,10 +315,30 @@ export default function DisclaimerPage() {
                             </p>
                         </section>
 
-                        {/* SECTION 7: Limitation of Liability */}
+                        {/* SECTION 6b: Advertising and Affiliate Disclosure */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
                                 <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">07</div>
+                                <h2 className="text-xl font-semibold text-white">Advertising and Affiliate Disclosure</h2>
+                            </div>
+                            <p className="text-gray-400 leading-relaxed text-sm mb-3">
+                                Numrexo is free to use and is funded by advertising. We display ads through
+                                Google AdSense, and some outbound links may be affiliate links, which means we
+                                may earn a commission if you make a purchase — at no extra cost to you.
+                            </p>
+                            <p className="text-gray-400 leading-relaxed text-sm">
+                                <strong className="text-white">Advertising has no influence on our calculators.</strong> No
+                                advertiser can change a formula, a default value, or a result. We do not accept
+                                payment to recommend a lender, insurer, fund or any other product. Details of the
+                                cookies used for advertising, and how to opt out, are in our{" "}
+                                <a href="/privacy" className="text-orange-400 hover:underline">Privacy Policy</a>.
+                            </p>
+                        </section>
+
+                        {/* SECTION 8: Limitation of Liability */}
+                        <section>
+                            <div className="flex items-start gap-3 mb-3">
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">08</div>
                                 <h2 className="text-xl font-semibold text-white">Limitation of Liability</h2>
                             </div>
                             <p className="text-gray-400 leading-relaxed mb-3 text-sm">
@@ -335,10 +355,10 @@ export default function DisclaimerPage() {
                             </p>
                         </section>
 
-                        {/* SECTION 8: Intellectual Property */}
+                        {/* SECTION 9: Intellectual Property */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
-                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">08</div>
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">09</div>
                                 <h2 className="text-xl font-semibold text-white">Intellectual Property</h2>
                             </div>
                             <p className="text-gray-400 leading-relaxed text-sm">
@@ -347,10 +367,10 @@ export default function DisclaimerPage() {
                             </p>
                         </section>
 
-                        {/* SECTION 9: Changes to Disclaimer */}
+                        {/* SECTION 10: Changes to Disclaimer */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
-                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">09</div>
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">10</div>
                                 <h2 className="text-xl font-semibold text-white">Changes to This Disclaimer</h2>
                             </div>
                             <p className="text-gray-400 leading-relaxed text-sm">
@@ -359,10 +379,10 @@ export default function DisclaimerPage() {
                             </p>
                         </section>
 
-                        {/* SECTION 10: Governing Law */}
+                        {/* SECTION 11: Governing Law */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
-                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">10</div>
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">11</div>
                                 <h2 className="text-xl font-semibold text-white">Governing Law and Jurisdiction</h2>
                             </div>
                             <p className="text-gray-400 leading-relaxed text-sm">
@@ -374,7 +394,7 @@ export default function DisclaimerPage() {
                         {/* FAQ Section */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
-                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">11</div>
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">12</div>
                                 <h2 className="text-xl font-semibold text-white">Frequently Asked Questions</h2>
                             </div>
                             <div className="space-y-3">
@@ -400,7 +420,7 @@ export default function DisclaimerPage() {
                         {/* Contact Section */}
                         <section>
                             <div className="flex items-start gap-3 mb-3">
-                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">12</div>
+                                <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs flex-shrink-0">13</div>
                                 <h2 className="text-xl font-semibold text-white">Contact Us</h2>
                             </div>
                             <p className="text-gray-400 leading-relaxed mb-3 text-sm">

@@ -70,7 +70,7 @@ export default function BusinessCategoryClient() {
                     {/* Trust Badge - Social Proof */}
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
                         <span className="flex items-center gap-1">✓ 10,000+ business owners</span>
-                        <span className="flex items-center gap-1">✓ Used in 50+ countries</span>
+                        <span className="flex items-center gap-1">✓ Works on any device</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                         <span className="flex items-center gap-1">✓ Instant results</span>
                     </div>

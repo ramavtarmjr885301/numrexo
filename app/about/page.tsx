@@ -4,7 +4,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
     title: "About Numrexo | Free Online Calculator Platform for Everyone",
     description:
-        "Learn about Numrexo — a free online calculator platform with 1000+ tools for health, finance, math, business, and more. No login needed. Fast, accurate, and privacy-first.",
+        "Learn about Numrexo — a free online calculator platform with 117 tools for health, finance, math, business, and more. No login needed. Fast, accurate, and privacy-first.",
     keywords: [
         "about numrexo",
         "free online calculator platform",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: "https://numrexo.com/about",
         title: "About Numrexo | Free Online Calculator Platform for Everyone",
         description:
-            "Numrexo offers 1000+ free online calculators for health, finance, math, and more. No login, no fees. Fast, accurate, and privacy-first.",
+            "Numrexo offers 117 free online calculators for health, finance, math, and more. No login, no fees. Fast, accurate, and privacy-first.",
         siteName: "Numrexo",
         images: [
             {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "About Numrexo | Free Online Calculator Platform for Everyone",
         description:
-            "1000+ free calculators for health, finance, math, and more. No login needed.",
+            "117 free calculators for health, finance, math, and more. No login needed.",
         images: ["https://numrexo.com/og-about.png"],
     },
     robots: {
@@ -64,7 +64,7 @@ const organizationSchema = {
                 height: 60,
             },
             description:
-                "Numrexo is a free online calculator platform offering 1000+ calculators for health, finance, math, business, fitness, education, and real estate — designed for students, professionals, and everyday users worldwide.",
+                "Numrexo is a free online calculator platform offering 117 calculators for health, finance, math, business, fitness, education, and real estate — designed for students, professionals, and everyday users worldwide.",
             foundingDate: "2026",
             founder: {
                 "@type": "Person",
@@ -111,7 +111,7 @@ const organizationSchema = {
             url: "https://numrexo.com/about",
             name: "About Numrexo | Free Online Calculator Platform for Everyone",
             description:
-                "Learn about Numrexo, a free online calculator platform with 1000+ tools for health, finance, math, and more.",
+                "Learn about Numrexo, a free online calculator platform with 117 tools for health, finance, math, and more.",
             isPartOf: { "@id": "https://numrexo.com/#website" },
             about: { "@id": "https://numrexo.com/#organization" },
             breadcrumb: {
@@ -209,8 +209,9 @@ export default function AboutPage() {
                                 everyday calculations. Most calculator websites feel outdated,
                                 overloaded, or difficult to navigate. Numrexo focuses on
                                 <strong className="text-white"> speed, accuracy, mobile-friendly design,</strong> and
-                                user simplicity — without ads, distractions, or complicated
-                                interfaces.
+                                user simplicity — a clean, fast interface with no sign-up and no
+                                intrusive pop-ups. Numrexo is supported by advertising,
+                                which is what keeps every calculator free to use.
                             </p>
                             <p className="text-gray-300 leading-relaxed">
                                 Whether you are a student solving math problems, a professional
@@ -228,7 +229,7 @@ export default function AboutPage() {
                                 What We Offer
                             </h2>
                             <p className="text-gray-400 text-sm mb-6">
-                                Numrexo covers 8 major categories with 100+ calculators and
+                                Numrexo covers 14 categories with 117 calculators and
                                 growing. Click any category to start calculating!
                             </p>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -298,8 +299,9 @@ export default function AboutPage() {
                                 Our Vision
                             </h2>
                             <p className="text-gray-300 leading-relaxed mb-4">
-                                Our long-term vision is to build one of the world's largest and
-                                most trusted free online calculator platforms — with{" "}
+                                Our long-term vision is to grow Numrexo into one of the world's
+                                largest and most trusted free calculator platforms. We are at
+                                117 today and the goal is{" "}
                                 <strong className="text-white">1,000+ calculators</strong> covering
                                 real-world needs for students, professionals, businesses, and
                                 everyday users globally.
