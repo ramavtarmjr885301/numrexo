@@ -1,7 +1,7 @@
 // components/calculators/FuelCostCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -43,7 +43,7 @@ export default function FuelCostCalculator() {
         const p = parseFloat(fuelPrice);
         const m = parseFloat(mileage);
 
-        if (!d || !p || !m || d <= 0 || p <= 0 || m <= 0) { alert("Please enter valid values"); return; }
+        if (!d || !p || !m || d <= 0 || p <= 0 || m <= 0) { setResult(null); return; }
 
         let fuelNeeded, totalCost;
         if (unit === "kml") { fuelNeeded = d / m; totalCost = fuelNeeded * p; }
@@ -51,6 +51,10 @@ export default function FuelCostCalculator() {
 
         setResult({ totalCost: Math.round(totalCost).toLocaleString(locale), fuelNeeded: fuelNeeded.toFixed(1), distance: d, costPerKm: (totalCost / d).toFixed(2) });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [distance, fuelPrice, mileage, unit]);
 
     const resetForm = () => {
         setDistance("");

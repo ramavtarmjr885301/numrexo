@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -134,7 +134,7 @@ export default function VolumeCalculator() {
         switch (shape) {
             case "cube": {
                 const s = parseFloat(side);
-                if (!s || s <= 0) { alert("Please enter side length"); return; }
+                if (!s || s <= 0) { setResult(null); return; }
                 volume = s * s * s;
                 formula = "side × side × side (s³)";
                 calculation = `${s} × ${s} × ${s} = ${volume.toFixed(4)}`;
@@ -146,7 +146,7 @@ export default function VolumeCalculator() {
                 const w = parseFloat(width);
                 const h = parseFloat(height);
                 if (!l || !w || !h || l <= 0 || w <= 0 || h <= 0) {
-                    alert("Please enter length, width, and height");
+                    setResult(null);
                     return;
                 }
                 volume = l * w * h;
@@ -159,7 +159,7 @@ export default function VolumeCalculator() {
                 const r = parseFloat(radius);
                 const h = parseFloat(height);
                 if (!r || !h || r <= 0 || h <= 0) {
-                    alert("Please enter radius and height");
+                    setResult(null);
                     return;
                 }
                 volume = Math.PI * r * r * h;
@@ -170,7 +170,7 @@ export default function VolumeCalculator() {
             }
             case "sphere": {
                 const r = parseFloat(radius);
-                if (!r || r <= 0) { alert("Please enter radius"); return; }
+                if (!r || r <= 0) { setResult(null); return; }
                 volume = (4 / 3) * Math.PI * r * r * r;
                 formula = "4/3 × π × r³";
                 calculation = `4/3 × π × ${r}³ = ${volume.toFixed(4)}`;
@@ -181,7 +181,7 @@ export default function VolumeCalculator() {
                 const r = parseFloat(radius);
                 const h = parseFloat(height);
                 if (!r || !h || r <= 0 || h <= 0) {
-                    alert("Please enter radius and height");
+                    setResult(null);
                     return;
                 }
                 volume = (1 / 3) * Math.PI * r * r * h;
@@ -200,6 +200,10 @@ export default function VolumeCalculator() {
             unit: "cubic units",
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [shape, side, length, width, height, radius]);
 
     const getShapeName = () => {
         const names = { cube: "Cube", prism: "Rectangular Prism", cylinder: "Cylinder", sphere: "Sphere", cone: "Cone" };

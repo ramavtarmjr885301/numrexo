@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -18,11 +18,11 @@ const FAQ_DATA = [
     },
     {
         q: "What is tiered commission?",
-        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on $0-$1L, 7% on $1L-$2L, 10% on $2L+. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
+        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on the first $50,000, 7% from $50,000 to $150,000, and 10% above that. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
     },
     {
         q: "How to calculate commission with bonus?",
-        a: "Add bonus to commission. Example: 10% commission on $1L sale = $10,000 + $5,000 bonus = $15,000 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition ($5,000-$10,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
+        a: "Add bonus to commission. Example: 10% commission on a $50,000 sale = $5,000, plus a $1,500 bonus = $6,500 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition ($500-$2,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
     },
     {
         q: "What is draw against commission?",
@@ -52,10 +52,10 @@ const FAQ_DATA = [
 
 const COMMISSION_EXAMPLES = [
     { sales: "$50,000", rate: "5%", commission: "$2,500", industry: "Retail" },
-    { sales: "$1,00,000", rate: "8%", commission: "$8,000", industry: "Real Estate" },
-    { sales: "$2,00,000", rate: "10%", commission: "$20,000", industry: "SaaS" },
-    { sales: "$5,00,000", rate: "12%", commission: "$60,000", industry: "Insurance" },
-    { sales: "$10,00,000", rate: "15%", commission: "$1,50,000", industry: "Medical Devices" },
+    { sales: "$100,000", rate: "8%", commission: "$8,000", industry: "Real Estate" },
+    { sales: "$200,000", rate: "10%", commission: "$20,000", industry: "SaaS" },
+    { sales: "$500,000", rate: "12%", commission: "$60,000", industry: "Insurance" },
+    { sales: "$1,000,000", rate: "15%", commission: "$150,000", industry: "Medical Devices" },
 ];
 
 const INDUSTRY_COMMISSION_RATES = [
@@ -142,7 +142,7 @@ export default function SalesCommissionCalculator() {
         const extraBonus = parseFloat(bonus) || 0;
 
         if (!sale || sale <= 0 || !rate || rate <= 0) {
-            alert("Please enter valid sale amount and commission rate");
+            setResult(null);
             return;
         }
 
@@ -168,7 +168,7 @@ export default function SalesCommissionCalculator() {
         const t3Rate = parseFloat(tier3Rate) || 0;
 
         if (!sale || sale <= 0) {
-            alert("Please enter valid sale amount");
+            setResult(null);
             return;
         }
 
@@ -212,12 +212,12 @@ export default function SalesCommissionCalculator() {
         const split = parseFloat(splitPercent);
 
         if (!sale || sale <= 0 || !rate || rate <= 0) {
-            alert("Please enter valid sale amount and commission rate");
+            setResult(null);
             return;
         }
 
         if (!split || split <= 0 || split >= 100) {
-            alert("Please enter a valid split percentage (1-99)");
+            setResult(null);
             return;
         }
 
@@ -241,6 +241,10 @@ export default function SalesCommissionCalculator() {
         else if (calcType === "tiered") calculateTiered();
         else calculateSplit();
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, saleAmount, commissionRate, bonus, tier1Limit, tier1Rate, tier2Limit, tier2Rate, tier3Rate, splitPercent]);
 
     return (
         <>
@@ -578,7 +582,7 @@ export default function SalesCommissionCalculator() {
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Simple Commission</h3>
                         <p className="text-white font-mono text-sm mb-2">Commission = Sale × Rate ÷ 100</p>
-                        <p className="text-gray-500 text-xs">Example: $1,00,000 × 10% = $10,000</p>
+                        <p className="text-gray-500 text-xs">Example: $100,000 × 10% = $10,000</p>
                         <p className="text-gray-500 text-xs mt-1">With Bonus: Commission + Bonus</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
@@ -603,7 +607,7 @@ export default function SalesCommissionCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">Tiered Commission Example</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $2,50,000 total sales.
+                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $250,000 total sales.
                     </p>
                     <div className="space-y-2">
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
@@ -611,11 +615,11 @@ export default function SalesCommissionCalculator() {
                             <span className="text-green-400 text-sm">$2,500</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 2: Next $1,00,000 @ 7%</span>
+                            <span className="text-gray-400 text-sm">Tier 2: Next $100,000 @ 7%</span>
                             <span className="text-green-400 text-sm">$7,000</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 3: Remaining $1,00,000 @ 10%</span>
+                            <span className="text-gray-400 text-sm">Tier 3: Remaining $100,000 @ 10%</span>
                             <span className="text-green-400 text-sm">$10,000</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">

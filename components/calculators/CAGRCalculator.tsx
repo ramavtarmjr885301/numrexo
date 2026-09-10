@@ -271,11 +271,11 @@ export default function CAGRCalculator() {
                 <div className="space-y-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Example 1: Mutual Fund Performance</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $1,20,000 | CAGR = (1,20,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $120,000 | CAGR = (120,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Example 2: Stock Market Investment</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $2,00,000 in blue-chip stocks | After 10 years: $5,00,000 | CAGR = (5,00,000/2,00,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $200,000 in blue-chip stocks | After 10 years: $500,000 | CAGR = (500,000/200,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">Example 3: Business Growth</h3>

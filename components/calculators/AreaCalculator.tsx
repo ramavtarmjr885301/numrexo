@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ export default function AreaCalculator() {
         switch (shape) {
             case "square":
                 const s = parseFloat(side);
-                if (!s || s <= 0) { alert("Please enter side length"); return; }
+                if (!s || s <= 0) { setResult(null); return; }
                 area = s * s;
                 formula = "Side × Side";
                 calculation = `${s} × ${s} = ${area}`;
@@ -104,14 +104,14 @@ export default function AreaCalculator() {
             case "rectangle":
                 const l = parseFloat(length);
                 const w = parseFloat(width);
-                if (!l || !w || l <= 0 || w <= 0) { alert("Please enter length and width"); return; }
+                if (!l || !w || l <= 0 || w <= 0) { setResult(null); return; }
                 area = l * w;
                 formula = "Length × Width";
                 calculation = `${l} × ${w} = ${area}`;
                 break;
             case "circle":
                 const r = parseFloat(radius);
-                if (!r || r <= 0) { alert("Please enter radius"); return; }
+                if (!r || r <= 0) { setResult(null); return; }
                 area = Math.PI * r * r;
                 formula = "π × r²";
                 calculation = `π × ${r}² = ${area.toFixed(4)}`;
@@ -119,7 +119,7 @@ export default function AreaCalculator() {
             case "triangle":
                 const b = parseFloat(base);
                 const h = parseFloat(height);
-                if (!b || !h || b <= 0 || h <= 0) { alert("Please enter base and height"); return; }
+                if (!b || !h || b <= 0 || h <= 0) { setResult(null); return; }
                 area = 0.5 * b * h;
                 formula = "½ × Base × Height";
                 calculation = `½ × ${b} × ${h} = ${area}`;
@@ -127,7 +127,7 @@ export default function AreaCalculator() {
             case "parallelogram":
                 const baseP = parseFloat(base);
                 const heightP = parseFloat(height);
-                if (!baseP || !heightP || baseP <= 0 || heightP <= 0) { alert("Please enter base and height"); return; }
+                if (!baseP || !heightP || baseP <= 0 || heightP <= 0) { setResult(null); return; }
                 area = baseP * heightP;
                 formula = "Base × Height";
                 calculation = `${baseP} × ${heightP} = ${area}`;
@@ -136,7 +136,7 @@ export default function AreaCalculator() {
                 const a = parseFloat(baseA);
                 const bT = parseFloat(baseB);
                 const hT = parseFloat(height);
-                if (!a || !bT || !hT || a <= 0 || bT <= 0 || hT <= 0) { alert("Please enter both bases and height"); return; }
+                if (!a || !bT || !hT || a <= 0 || bT <= 0 || hT <= 0) { setResult(null); return; }
                 area = 0.5 * (a + bT) * hT;
                 formula = "½ × (a + b) × h";
                 calculation = `½ × (${a} + ${bT}) × ${hT} = ${area}`;
@@ -151,6 +151,10 @@ export default function AreaCalculator() {
             unit: "square units",
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [shape, side, length, width, radius, base, height, baseA, baseB]);
 
     const resetForm = () => {
         setShape("square");

@@ -14,11 +14,11 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate break-even point in units?",
-        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs $1,00,000, selling price $500, variable cost $300 → Contribution = $200 → Break-even = 1,00,000 ÷ 200 = 500 units.",
+        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs $100,000, selling price $500, variable cost $300 → Contribution = $200 → Break-even = 100,000 ÷ 200 = 500 units.",
     },
     {
         q: "How to calculate break-even point in revenue?",
-        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs $1,00,000, margin 40% → Break-even revenue = $2,50,000.",
+        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs $100,000, margin 40% → Break-even revenue = $250,000.",
     },
     {
         q: "What is contribution margin?",
@@ -35,10 +35,10 @@ const FAQ_DATA = [
 ];
 
 const BREAK_EVEN_EXAMPLES = [
-    { business: "Coffee Shop", fixedCosts: "$2,00,000", pricePerUnit: "$150", variableCost: "$50", breakEven: "2,000 cups" },
+    { business: "Coffee Shop", fixedCosts: "$200,000", pricePerUnit: "$150", variableCost: "$50", breakEven: "2,000 cups" },
     { business: "T-Shirt Brand", fixedCosts: "$50,000", pricePerUnit: "$500", variableCost: "$200", breakEven: "167 shirts" },
-    { business: "Software SaaS", fixedCosts: "$5,00,000", pricePerUnit: "$1,000", variableCost: "$100", breakEven: "556 customers" },
-    { business: "Restaurant", fixedCosts: "$3,00,000", pricePerUnit: "$400", variableCost: "$150", breakEven: "1,200 meals" },
+    { business: "Software SaaS", fixedCosts: "$500,000", pricePerUnit: "$1,000", variableCost: "$100", breakEven: "556 customers" },
+    { business: "Restaurant", fixedCosts: "$300,000", pricePerUnit: "$400", variableCost: "$150", breakEven: "1,200 meals" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -425,7 +425,7 @@ export default function BreakEvenCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Break-even Analysis</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with $3,00,000 fixed costs, $400 average meal price, and $150 variable cost needs 1,200 meals to break even.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with $300,000 fixed costs, $400 average meal price, and $150 variable cost needs 1,200 meals to break even.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">E-commerce Brands:</strong> Determine how many products you must sell monthly to cover website hosting, marketing, inventory storage, and payment gateway fees. Break-even analysis helps plan ad spend and discount strategies.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">SaaS Companies:</strong> Calculate how many customers at $1,000/month are needed to cover development costs, server expenses, customer support, and sales team salaries. This guides pricing and customer acquisition goals.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Freelancers & Consultants:</strong> Determine how many billable hours or projects per month are needed to cover business expenses, software subscriptions, marketing, and personal salary requirements.</p>
@@ -440,12 +440,12 @@ export default function BreakEvenCalculator() {
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Break-even in Units</h3>
                         <p className="text-white font-mono text-sm mb-2">BE (units) = Fixed Costs ÷ (Price - Variable Cost)</p>
-                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ $200 = 500 units</p>
+                        <p className="text-gray-500 text-xs">Example: $100,000 ÷ $200 = 500 units</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Break-even in Revenue</h3>
                         <p className="text-white font-mono text-sm mb-2">BE ({symbol}) = Fixed Costs ÷ Contribution Margin Ratio</p>
-                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ 40% = $2,50,000</p>
+                        <p className="text-gray-500 text-xs">Example: $100,000 ÷ 40% = $250,000</p>
                     </div>
                 </div>
             </section>

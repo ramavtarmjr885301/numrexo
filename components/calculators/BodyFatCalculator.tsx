@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -85,7 +85,7 @@ export default function BodyFatCalculator() {
     const a = parseFloat(age);
 
     if (!w || !h || !n || !wa || !a) {
-      alert("Please enter all required values (age, weight, height, neck, waist)");
+      setResult(null);
       return;
     }
 
@@ -102,7 +102,7 @@ export default function BodyFatCalculator() {
       else if (bodyFatPercentage < 25) { category = "Average"; colorClass = "text-yellow-400"; }
       else { category = "Obese (High Risk)"; colorClass = "text-red-400"; }
     } else {
-      if (!hi) { alert("Please enter hip measurement for women"); return; }
+      if (!hi) { setResult(null); return; }
       bodyFatPercentage = 163.205 * Math.log10(wa + hi - n) - 97.684 * Math.log10(h) - 78.387;
 
       if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-400"; }
@@ -126,6 +126,10 @@ export default function BodyFatCalculator() {
       bmi: bmi.toFixed(1),
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [gender, age, weight, height, neck, waist, hip]);
 
   const resetForm = () => {
     setGender("male");

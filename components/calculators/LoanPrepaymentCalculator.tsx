@@ -642,16 +642,16 @@ export default function LoanPrepaymentCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-[#0f1525] border border-gray-700 rounded-lg p-3">
                             <p className="text-xs text-gray-500">Without Prepayment</p>
-                            <p className="text-sm text-white mt-1">Principal: $50,00,000</p>
+                            <p className="text-sm text-white mt-1">Principal: $5,000,000</p>
                             <p className="text-sm text-white">Rate: 9% p.a.</p>
                             <p className="text-sm text-white">Tenure: 20 years</p>
-                            <p className="text-sm text-orange-400 mt-1">Total Interest: $57,97,000</p>
+                            <p className="text-sm text-orange-400 mt-1">Total Interest: $5,797,000</p>
                         </div>
                         <div className="bg-[#0f1525] border border-green-500/30 rounded-lg p-3">
-                            <p className="text-xs text-gray-500">With Prepayment ($5L at month 24)</p>
-                            <p className="text-sm text-white mt-1">Principal Reduced by: $5,00,000</p>
-                            <p className="text-sm text-white">New Balance: $45,00,000</p>
-                            <p className="text-sm text-green-400 mt-1">Interest Saved: $7,50,000</p>
+                            <p className="text-xs text-gray-500">With Prepayment ($50,000 at month 24)</p>
+                            <p className="text-sm text-white mt-1">Principal Reduced by: $500,000</p>
+                            <p className="text-sm text-white">New Balance: $4,500,000</p>
+                            <p className="text-sm text-green-400 mt-1">Interest Saved: $179,614</p>
                             <p className="text-sm text-green-400">Tenure Reduced: 3 years</p>
                         </div>
                     </div>
@@ -673,27 +673,27 @@ export default function LoanPrepaymentCalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$1,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$1.5L</td>
-                                <td className="py-2 px-4 text-right text-gray-300">6 months</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$10,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$47,369</td>
+                                <td className="py-2 px-4 text-right text-gray-300">2 years 1 month</td>
                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$2,50,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$3.8L</td>
-                                <td className="py-2 px-4 text-right text-gray-300">14 months</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$25,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$105,693</td>
+                                <td className="py-2 px-4 text-right text-gray-300">4 years 11 months</td>
                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$5,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$7.5L</td>
-                                <td className="py-2 px-4 text-right text-gray-300">28 months</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$50,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$179,614</td>
+                                <td className="py-2 px-4 text-right text-gray-300">8 years 7 months</td>
                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$10,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$14.2L</td>
-                                <td className="py-2 px-4 text-right text-gray-300">52 months</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$100,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$275,855</td>
+                                <td className="py-2 px-4 text-right text-gray-300">14 years 1 month</td>
                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                         </tbody>

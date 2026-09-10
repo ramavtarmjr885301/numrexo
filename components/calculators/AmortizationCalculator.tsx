@@ -115,7 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AmortizationCalculator() {
-    const { symbol } = useCurrency();
+    const { symbol, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -272,10 +272,10 @@ export default function AmortizationCalculator() {
     useEffect(() => { calculateAmortization(); }, [loanAmount, interestRate, tenure, extraPayment]);
 
     // Preset values
-    const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
-    const presetRates = [7, 8, 9, 10, 11];
+    const presetAmounts = [150000, 250000, 350000, 500000, 750000];
+    const presetRates = [5.5, 6, 6.5, 7, 7.5];
     const presetTenures = [60, 120, 180, 240, 300, 360];
-    const presetExtraPayments = [0, 1000, 2000, 5000, 10000];
+    const presetExtraPayments = [0, 100, 250, 500, 1000];
 
     return (
         <>
@@ -325,8 +325,8 @@ export default function AmortizationCalculator() {
                             <div className="relative">
                                 <input
                                     type="number"
-                                    step="100000"
-                                    placeholder="e.g., 5000000"
+                                    step="10000"
+                                    placeholder="e.g., 350000"
                                     value={loanAmount}
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -340,7 +340,7 @@ export default function AmortizationCalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
                                     >
-                                        {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>

@@ -40,11 +40,11 @@ const FAQ_DATA = [
     },
     {
         q: "What is the 4-4-4-4 cost breakdown?",
-        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save 4 times your annual college cost before starting. Example: $4L/year college → save $16L before enrolling.",
+        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save roughly four times one year's cost before the first semester. Example: a college that runs $29,000 a year → aim for about $116,000 saved.",
     },
     {
         q: "When to start saving for college?",
-        a: "Start saving when child is born. Monthly saving targets: $2,000/month for 18 years at 8% = $9.6L corpus. $5,000/month = $24L corpus. $10,000/month = $48L corpus. Earlier start means lower monthly burden.",
+        a: "Start saving when child is born. Monthly saving targets, at a 7% average return over 18 years: $200/month grows to about $86,000; $400/month to about $172,000; $700/month to about $300,000. Earlier start means lower monthly burden.",
     },
 ];
 
@@ -223,8 +223,8 @@ export default function CollegeCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This College Cost Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost ($2L-$25L/year depending on course).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — hostel/mess costs ($50k-$2L/year).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost, roughly $9,000 a year in-state and up to $60,000 at a private college.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — housing and a meal plan, typically $12,000-$14,000 a year on campus.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">books & supplies</strong> — textbooks, stationery ($10k-$30k/year).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">transportation</strong> — commute costs ($5k-$20k/year).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter <strong className="text-white">personal/miscellaneous</strong> — pocket money, clothes, entertainment ($20k-$50k/year).</p>
@@ -299,8 +299,8 @@ export default function CollegeCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Smart Savings Strategies for College</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start early with SIP:</strong> $5,000/month from child's birth at 12% returns = $48L after 18 years ($10.8L invested, $37.2L gains).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use 529-equivalent plans:</strong> SSY (Sukanya Samriddhi for girls), PPF (up to $1.5L/year), NPS (for parents, tax-saving).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
                 </ul>

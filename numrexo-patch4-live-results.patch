@@ -1,0 +1,3594 @@
+From 00c9190a2c6437b459be748bbc0ad56871e1fa17 Mon Sep 17 00:00:00 2001
+From: Sanjay Singh <sanjay@namsconsulting.com>
+Date: Thu, 10 Sep 2026 18:23:39 +0000
+Subject: [PATCH] Show the answer without a button press, on 76 calculators
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+110 of 117 calculators kept their result hidden until you pressed
+Calculate — even when the inputs were already filled in. The FD page
+opened with 100000 / 7.2% / 5 years sitting there and an empty result
+panel beside it. That is one click between a visitor and the only thing
+they came for, on nearly every page of the site.
+
+This wires the existing calculate() into a useEffect on its own inputs,
+so the result appears immediately and follows what you type. No formula
+is touched anywhere: the same function that ran on the button press now
+also runs as you type, and the button still works.
+
+Two things fall out of that:
+
+- The alert() popups inside those functions had to go. An alert on every
+  keystroke would be unusable, and it was a poor way to say "that number
+  is not valid" anyway — the result panel simply stays empty now.
+- 56 files opened with empty inputs, so there was nothing to show. Each
+  now starts from the example value the author had already written into
+  the field's placeholder, which means the page opens on a worked
+  example rather than a blank form.
+
+Left alone deliberately: 9 calculators with several independent modes,
+where recomputing one mode would overwrite the mode the visitor picked,
+and files whose validation could not be made silent mechanically. Those
+are hand work, in a later patch.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PHRT6vhhyEyck1uNY7XC3G
+---
+ components/calculators/APYCalculator.tsx      | 12 ++++---
+ .../calculators/AmortizationCalculator.tsx    | 12 ++++---
+ .../calculators/AttendanceCalculator.tsx      |  8 +++--
+ components/calculators/BMICalculator.tsx      | 16 +++++----
+ components/calculators/BMRCalculator.tsx      | 14 +++++---
+ components/calculators/BakingConverter.tsx    | 10 ++++--
+ components/calculators/BaseCalculator.tsx     |  6 +++-
+ .../calculators/BikeLoanEMICalculator.tsx     | 12 ++++---
+ components/calculators/BirthdayCountdown.tsx  |  8 +++--
+ components/calculators/BodyTypeCalculator.tsx | 16 +++++----
+ .../calculators/BreakEvenCalculator.tsx       | 22 +++++++-----
+ .../calculators/BuiltUpAreaCalculator.tsx     | 14 +++++---
+ components/calculators/CAGRCalculator.tsx     | 14 +++++---
+ components/calculators/CAPMCalculator.tsx     | 14 +++++---
+ components/calculators/CGPACalculator.tsx     |  8 +++--
+ .../calculators/CalorieBurnCalculator.tsx     | 12 ++++---
+ components/calculators/CalorieCounter.tsx     |  8 +++--
+ .../calculators/CarLoanEMICalculator.tsx      | 12 ++++---
+ .../calculators/CarpetAreaCalculator.tsx      |  8 +++--
+ .../calculators/CollegeCostCalculator.tsx     |  6 +++-
+ components/calculators/ConcreteCalculator.tsx | 18 ++++++----
+ .../calculators/ConsumerLoanEMICalculator.tsx | 12 ++++---
+ .../CreditScoreEstimatorCalculator.tsx        | 16 +++++----
+ .../DecimalToFractionCalculator.tsx           | 10 ++++--
+ components/calculators/DistanceCalculator.tsx | 16 +++++----
+ components/calculators/EMICalculator.tsx      | 16 +++++----
+ components/calculators/EPFCalculator.tsx      | 10 ++++--
+ components/calculators/FDCalculator.tsx       | 10 ++++--
+ .../calculators/FlightTimeCalculator.tsx      | 10 ++++--
+ components/calculators/FlooringCalculator.tsx | 22 +++++++-----
+ .../calculators/FoodExpiryCalculator.tsx      |  6 +++-
+ components/calculators/FractionCalculator.tsx | 16 +++++----
+ components/calculators/GPACalculator.tsx      |  6 +++-
+ components/calculators/GSTCalculator.tsx      | 10 ++++--
+ .../HomeLoanEligibilityCalculator.tsx         | 18 ++++++----
+ .../calculators/HomeLoaneEMICalculator.tsx    | 12 ++++---
+ .../calculators/HotelCostCalculator.tsx       | 16 +++++----
+ .../calculators/IdealWeightCalculator.tsx     | 16 +++++----
+ components/calculators/LandAreaCalculator.tsx | 22 +++++++-----
+ components/calculators/LengthConverter.tsx    | 10 ++++--
+ .../calculators/LoanComparisonCalculator.tsx  | 24 +++++++------
+ .../calculators/LoanEligibilityCalculator.tsx | 10 ++++--
+ .../calculators/LoanPrepaymentCalculator.tsx  | 16 +++++----
+ components/calculators/LumpsumCalculator.tsx  | 10 ++++--
+ components/calculators/MortgageCalculator.tsx | 26 ++++++++------
+ components/calculators/NPSCalculator.tsx      | 10 ++++--
+ .../calculators/NutritionLabelGenerator.tsx   | 28 ++++++++-------
+ .../calculators/OvenTemperatureConverter.tsx  | 10 ++++--
+ components/calculators/PPFCalculator.tsx      | 12 ++++---
+ components/calculators/PaintCalculator.tsx    | 20 ++++++-----
+ .../calculators/PercentageCalculator.tsx      |  8 +++--
+ .../calculators/PersonalLoanEMICalculator.tsx | 12 ++++---
+ .../calculators/ProfitMarginCalculator.tsx    | 14 +++++---
+ .../calculators/PropertyTaxCalculator.tsx     | 16 +++++----
+ components/calculators/QuadraticSolver.tsx    | 12 ++++---
+ components/calculators/RDCalculator.tsx       | 10 ++++--
+ components/calculators/ROICalculator.tsx      | 14 +++++---
+ .../calculators/RentalYieldCalculator.tsx     | 20 ++++++-----
+ components/calculators/RoofingCalculator.tsx  | 16 +++++----
+ components/calculators/SWPCalculator.tsx      | 14 +++++---
+ .../calculators/SalaryBudgetingCalculator.tsx | 34 +++++++++++--------
+ components/calculators/SalesTaxCalculator.tsx | 10 ++++--
+ .../calculators/ScholarshipCalculator.tsx     | 20 ++++++-----
+ components/calculators/SlopeCalculator.tsx    | 16 +++++----
+ components/calculators/SpeedConverter.tsx     | 10 ++++--
+ .../calculators/StatisticsCalculator.tsx      | 10 ++++--
+ .../calculators/TemperatureConverter.tsx      | 10 ++++--
+ components/calculators/TimeConverter.tsx      | 10 ++++--
+ .../calculators/TravelBudgetCalculator.tsx    | 14 +++++---
+ components/calculators/VATCalculator.tsx      | 12 ++++---
+ components/calculators/VolumeConverter.tsx    | 10 ++++--
+ .../calculators/WallpaperCalculator.tsx       | 20 ++++++-----
+ .../calculators/WaterBillCalculator.tsx       | 12 ++++---
+ .../calculators/WaterIntakeCalculator.tsx     | 10 ++++--
+ components/calculators/WeightConverter.tsx    | 10 ++++--
+ components/calculators/XIRRCalculator.tsx     | 14 +++++---
+ data/calculatorsSeo.ts                        |  2 +-
+ 77 files changed, 667 insertions(+), 363 deletions(-)
+
+diff --git a/components/calculators/APYCalculator.tsx b/components/calculators/APYCalculator.tsx
+index 9b1b675..1fbddf9 100644
+--- a/components/calculators/APYCalculator.tsx
++++ b/components/calculators/APYCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -79,8 +79,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function APYCalculator() {
+-    const [principal, setPrincipal] = useState("");
+-    const [rate, setRate] = useState("");
++    const [principal, setPrincipal] = useState("10000");
++    const [rate, setRate] = useState("5");
+     const [years, setYears] = useState("1");
+     const [compoundFrequency, setCompoundFrequency] = useState<"daily" | "monthly" | "quarterly" | "semi-annual" | "annual">("monthly");
+     const [result, setResult] = useState<any>(null);
+@@ -115,7 +115,7 @@ export default function APYCalculator() {
+         const n = getCompoundingPeriods();
+ 
+         if (!p || p <= 0 || !r || r <= 0 || !t || t <= 0) {
+-            alert("Please enter valid principal, rate, and years");
++            setResult(null);
+             return;
+         }
+ 
+@@ -134,6 +134,10 @@ export default function APYCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [principal, rate, years]);
++
+     const resetForm = () => {
+         setPrincipal("");
+         setRate("");
+diff --git a/components/calculators/AmortizationCalculator.tsx b/components/calculators/AmortizationCalculator.tsx
+index 9ded859..8b4e81e 100644
+--- a/components/calculators/AmortizationCalculator.tsx
++++ b/components/calculators/AmortizationCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -135,17 +135,17 @@ export default function AmortizationCalculator() {
+         const extra = parseFloat(extraPayment) || 0;
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid loan amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -264,6 +264,10 @@ export default function AmortizationCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateAmortization(); }, [loanAmount, interestRate, tenure, extraPayment]);
++
+     // Preset values
+     const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
+     const presetRates = [7, 8, 9, 10, 11];
+diff --git a/components/calculators/AttendanceCalculator.tsx b/components/calculators/AttendanceCalculator.tsx
+index a4efb93..f1ca66e 100644
+--- a/components/calculators/AttendanceCalculator.tsx
++++ b/components/calculators/AttendanceCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -34,7 +34,7 @@ export default function AttendanceCalculator() {
+         const held = parseFloat(classesHeld) || 0;
+ 
+         if (held <= 0) {
+-            alert("Please enter total classes held");
++            setResult(null);
+             return;
+         }
+ 
+@@ -113,6 +113,10 @@ export default function AttendanceCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [classesAttended, classesHeld, targetPercentage]);
++
+     const reset = () => {
+         setClassesAttended("");
+         setClassesHeld("");
+diff --git a/components/calculators/BMICalculator.tsx b/components/calculators/BMICalculator.tsx
+index 15d9162..5970ae8 100644
+--- a/components/calculators/BMICalculator.tsx
++++ b/components/calculators/BMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -110,10 +110,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function BMICalculator() {
+   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+-  const [heightCm, setHeightCm] = useState("");
+-  const [heightFt, setHeightFt] = useState("");
+-  const [heightIn, setHeightIn] = useState("");
+-  const [weight, setWeight] = useState("");
++  const [heightCm, setHeightCm] = useState("170");
++  const [heightFt, setHeightFt] = useState("5");
++  const [heightIn, setHeightIn] = useState("7");
++  const [weight, setWeight] = useState("65");
+   const [result, setResult] = useState<any>(null);
+   const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -130,7 +130,7 @@ export default function BMICalculator() {
+     }
+ 
+     if (!h || !w || h <= 0 || w <= 0 || isNaN(h) || isNaN(w)) {
+-      alert("Please enter valid height and weight values");
++      setResult(null);
+       return;
+     }
+ 
+@@ -161,6 +161,10 @@ export default function BMICalculator() {
+     setResult({ bmi: bmi.toFixed(1), category, colorClass, healthyRange, gaugePos });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [unit, heightCm, heightFt, heightIn, weight]);
++
+   const resetForm = () => {
+     setUnit("metric");
+     setHeightCm("");
+diff --git a/components/calculators/BMRCalculator.tsx b/components/calculators/BMRCalculator.tsx
+index 659eb38..c3410f2 100644
+--- a/components/calculators/BMRCalculator.tsx
++++ b/components/calculators/BMRCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -147,9 +147,9 @@ const ARTICLE_SCHEMA = JSON.stringify({
+ 
+ export default function BMRCalculator() {
+   const [gender, setGender] = useState<"male" | "female">("male");
+-  const [age, setAge] = useState("");
+-  const [weight, setWeight] = useState("");
+-  const [height, setHeight] = useState("");
++  const [age, setAge] = useState("30");
++  const [weight, setWeight] = useState("70");
++  const [height, setHeight] = useState("170");
+   const [activityLevel, setActivityLevel] = useState("sedentary");
+   const [result, setResult] = useState<any>(null);
+   const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -171,7 +171,7 @@ export default function BMRCalculator() {
+       h <= 0 ||
+       a <= 0
+     ) {
+-      alert("Please enter valid age, weight, and height values");
++      setResult(null);
+       return;
+     }
+ 
+@@ -238,6 +238,10 @@ export default function BMRCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [gender, age, weight, height, activityLevel, formula]);
++
+   return (
+     <>
+       {/* ── JSON-LD Schemas ── */}
+diff --git a/components/calculators/BakingConverter.tsx b/components/calculators/BakingConverter.tsx
+index 0fe495a..8d82fff 100644
+--- a/components/calculators/BakingConverter.tsx
++++ b/components/calculators/BakingConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -90,14 +90,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ export default function BakingConverter() {
+     const [ingredient, setIngredient] = useState(INGREDIENTS[0].name);
+     const [conversionType, setConversionType] = useState<"cupsToGrams" | "gramsToCups">("cupsToGrams");
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("1");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val) || val <= 0) {
+-            alert("Please enter a valid value");
++            setResult(null);
+             return;
+         }
+ 
+@@ -128,6 +128,10 @@ export default function BakingConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [ingredient, conversionType, value]);
++
+     const resetForm = () => {
+         setIngredient(INGREDIENTS[0].name);
+         setConversionType("cupsToGrams");
+diff --git a/components/calculators/BaseCalculator.tsx b/components/calculators/BaseCalculator.tsx
+index 0b2334d..1cb0176 100644
+--- a/components/calculators/BaseCalculator.tsx
++++ b/components/calculators/BaseCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/BaseCalculator.tsx
+ "use client";
+ 
+-import { useState, ReactNode } from "react";
++import { useEffect, useState, ReactNode } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ interface InputField {
+@@ -41,6 +41,10 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
+     setResult(calculated);
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { handleCalculate(); }, [values]);
++
+   const resetForm = () => {
+     setValues({});
+     setResult(null);
+diff --git a/components/calculators/BikeLoanEMICalculator.tsx b/components/calculators/BikeLoanEMICalculator.tsx
+index 67c61fc..25c2de6 100644
+--- a/components/calculators/BikeLoanEMICalculator.tsx
++++ b/components/calculators/BikeLoanEMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -142,17 +142,17 @@ export default function BikeLoanEMICalculator() {
+         }
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid bike price greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -237,6 +237,10 @@ export default function BikeLoanEMICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, bikeType, downPayment]);
++
+     // Preset values
+     const presetAmounts = [50000, 80000, 100000, 150000, 200000];
+     const presetRates = [8, 9, 10, 11, 12, 14];
+diff --git a/components/calculators/BirthdayCountdown.tsx b/components/calculators/BirthdayCountdown.tsx
+index 4dd6578..568210b 100644
+--- a/components/calculators/BirthdayCountdown.tsx
++++ b/components/calculators/BirthdayCountdown.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -107,7 +107,7 @@ export default function BirthdayCountdown() {
+ 
+     const calculate = () => {
+         if (!birthDate) {
+-            alert("Please select your birth date");
++            setResult(null);
+             return;
+         }
+ 
+@@ -163,6 +163,10 @@ export default function BirthdayCountdown() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [birthDate]);
++
+     const resetForm = () => {
+         setBirthDate("");
+         setResult(null);
+diff --git a/components/calculators/BodyTypeCalculator.tsx b/components/calculators/BodyTypeCalculator.tsx
+index 4653f9b..ceaae4a 100644
+--- a/components/calculators/BodyTypeCalculator.tsx
++++ b/components/calculators/BodyTypeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -80,10 +80,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function BodyTypeCalculator() {
+     const [gender, setGender] = useState<"male" | "female">("female");
+-    const [shoulders, setShoulders] = useState("");
+-    const [bust, setBust] = useState("");
+-    const [waist, setWaist] = useState("");
+-    const [hips, setHips] = useState("");
++    const [shoulders, setShoulders] = useState("100");
++    const [bust, setBust] = useState("90");
++    const [waist, setWaist] = useState("75");
++    const [hips, setHips] = useState("100");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -94,7 +94,7 @@ export default function BodyTypeCalculator() {
+         const h = parseFloat(hips);
+ 
+         if (!s || !w || !h || s <= 0 || w <= 0 || h <= 0) {
+-            alert("Please enter at least shoulder, waist, and hip measurements");
++            setResult(null);
+             return;
+         }
+ 
+@@ -166,6 +166,10 @@ export default function BodyTypeCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [gender, shoulders, bust, waist, hips]);
++
+     const resetForm = () => {
+         setGender("female");
+         setShoulders("");
+diff --git a/components/calculators/BreakEvenCalculator.tsx b/components/calculators/BreakEvenCalculator.tsx
+index b8c2377..80dbb5b 100644
+--- a/components/calculators/BreakEvenCalculator.tsx
++++ b/components/calculators/BreakEvenCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -79,10 +79,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function BreakEvenCalculator() {
+     const [calcType, setCalcType] = useState<"units" | "revenue">("units");
+-    const [fixedCosts, setFixedCosts] = useState("");
+-    const [sellingPrice, setSellingPrice] = useState("");
+-    const [variableCost, setVariableCost] = useState("");
+-    const [contributionMargin, setContributionMargin] = useState("");
++    const [fixedCosts, setFixedCosts] = useState("100000");
++    const [sellingPrice, setSellingPrice] = useState("500");
++    const [variableCost, setVariableCost] = useState("300");
++    const [contributionMargin, setContributionMargin] = useState("40");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -90,7 +90,7 @@ export default function BreakEvenCalculator() {
+         const fixed = parseFloat(fixedCosts);
+ 
+         if (!fixed || fixed <= 0) {
+-            alert("Please enter valid fixed costs");
++            setResult(null);
+             return;
+         }
+ 
+@@ -104,12 +104,12 @@ export default function BreakEvenCalculator() {
+             const variable = parseFloat(variableCost);
+ 
+             if (!price || !variable || price <= 0 || variable <= 0) {
+-                alert("Please enter valid selling price and variable cost");
++                setResult(null);
+                 return;
+             }
+ 
+             if (price <= variable) {
+-                alert("Selling price must be greater than variable cost to break even");
++                setResult(null);
+                 return;
+             }
+ 
+@@ -133,7 +133,7 @@ export default function BreakEvenCalculator() {
+             const marginRate = parseFloat(contributionMargin);
+ 
+             if (!marginRate || marginRate <= 0 || marginRate >= 100) {
+-                alert("Please enter a valid contribution margin percentage (1-99%)");
++                setResult(null);
+                 return;
+             }
+ 
+@@ -157,6 +157,10 @@ export default function BreakEvenCalculator() {
+         }
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, fixedCosts, sellingPrice, variableCost, contributionMargin]);
++
+     const resetForm = () => {
+         setCalcType("units");
+         setFixedCosts("");
+diff --git a/components/calculators/BuiltUpAreaCalculator.tsx b/components/calculators/BuiltUpAreaCalculator.tsx
+index 7d3c10a..2152c4e 100644
+--- a/components/calculators/BuiltUpAreaCalculator.tsx
++++ b/components/calculators/BuiltUpAreaCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,17 +87,17 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function BuiltUpAreaCalculator() {
+-    const [carpetArea, setCarpetArea] = useState("");
++    const [carpetArea, setCarpetArea] = useState("1000");
+     const [wallFactor, setWallFactor] = useState("18");
+-    const [balconyArea, setBalconyArea] = useState("");
+-    const [pricePerSqFt, setPricePerSqFt] = useState("");
++    const [balconyArea, setBalconyArea] = useState("0");
++    const [pricePerSqFt, setPricePerSqFt] = useState("5000");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+     const calculate = () => {
+         const carpet = parseFloat(carpetArea);
+         if (!carpet || carpet <= 0) {
+-            alert("Please enter a valid carpet area");
++            setResult(null);
+             return;
+         }
+ 
+@@ -131,6 +131,10 @@ export default function BuiltUpAreaCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [carpetArea, wallFactor, balconyArea, pricePerSqFt]);
++
+     const resetForm = () => {
+         setCarpetArea("");
+         setWallFactor("18");
+diff --git a/components/calculators/CAGRCalculator.tsx b/components/calculators/CAGRCalculator.tsx
+index 9a71d65..e47d9a0 100644
+--- a/components/calculators/CAGRCalculator.tsx
++++ b/components/calculators/CAGRCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/CAGRCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,9 +58,9 @@ const CAGR_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function CAGRCalculator() {
+-    const [startValue, setStartValue] = useState("");
+-    const [endValue, setEndValue] = useState("");
+-    const [years, setYears] = useState("");
++    const [startValue, setStartValue] = useState("10000");
++    const [endValue, setEndValue] = useState("25000");
++    const [years, setYears] = useState("5");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -70,7 +70,7 @@ export default function CAGRCalculator() {
+         const n = parseFloat(years);
+ 
+         if (!sv || !ev || !n || sv <= 0 || ev <= 0 || n <= 0) {
+-            alert("Please enter valid values");
++            setResult(null);
+             return;
+         }
+ 
+@@ -88,6 +88,10 @@ export default function CAGRCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [startValue, endValue, years]);
++
+     const resetForm = () => {
+         setStartValue("");
+         setEndValue("");
+diff --git a/components/calculators/CAPMCalculator.tsx b/components/calculators/CAPMCalculator.tsx
+index 69bf45a..fce54c6 100644
+--- a/components/calculators/CAPMCalculator.tsx
++++ b/components/calculators/CAPMCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,9 +87,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function CAPMCalculator() {
+-    const [riskFreeRate, setRiskFreeRate] = useState("");
+-    const [marketReturn, setMarketReturn] = useState("");
+-    const [beta, setBeta] = useState("");
++    const [riskFreeRate, setRiskFreeRate] = useState("7");
++    const [marketReturn, setMarketReturn] = useState("12");
++    const [beta, setBeta] = useState("1.2");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -99,7 +99,7 @@ export default function CAPMCalculator() {
+         const b = parseFloat(beta);
+ 
+         if (isNaN(rf) || isNaN(mr) || isNaN(b)) {
+-            alert("Please enter valid values for all fields");
++            setResult(null);
+             return;
+         }
+ 
+@@ -125,6 +125,10 @@ export default function CAPMCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [riskFreeRate, marketReturn, beta]);
++
+     const resetForm = () => {
+         setRiskFreeRate("");
+         setMarketReturn("");
+diff --git a/components/calculators/CGPACalculator.tsx b/components/calculators/CGPACalculator.tsx
+index 2dd394d..887e274 100644
+--- a/components/calculators/CGPACalculator.tsx
++++ b/components/calculators/CGPACalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -139,7 +139,7 @@ export default function CGPACalculator() {
+         }
+ 
+         if (totalCredits === 0) {
+-            alert("Please enter at least one semester with valid GPA and credits");
++            setResult(null);
+             return;
+         }
+ 
+@@ -163,6 +163,10 @@ export default function CGPACalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [semesters]);
++
+     const resetForm = () => {
+         setSemesters([{ gpa: "", credits: "" }]);
+         setResult(null);
+diff --git a/components/calculators/CalorieBurnCalculator.tsx b/components/calculators/CalorieBurnCalculator.tsx
+index b795d8a..9ded9a3 100644
+--- a/components/calculators/CalorieBurnCalculator.tsx
++++ b/components/calculators/CalorieBurnCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const ACTIVITIES = [
+@@ -51,9 +51,9 @@ const CALORIE_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function CalorieBurnCalculator() {
+-  const [weight, setWeight] = useState("");
++  const [weight, setWeight] = useState("70");
+   const [activity, setActivity] = useState("running");
+-  const [duration, setDuration] = useState("");
++  const [duration, setDuration] = useState("30");
+   const [result, setResult] = useState<any>(null);
+   const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -63,7 +63,7 @@ export default function CalorieBurnCalculator() {
+     const selectedActivity = ACTIVITIES.find(a => a.value === activity);
+ 
+     if (!w || !d || !selectedActivity || isNaN(w) || isNaN(d) || w <= 0 || d <= 0) {
+-      alert("Please enter valid weight and duration values");
++      setResult(null);
+       return;
+     }
+ 
+@@ -95,6 +95,10 @@ export default function CalorieBurnCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [weight, activity, duration]);
++
+   const resetForm = () => {
+     setWeight("");
+     setActivity("running");
+diff --git a/components/calculators/CalorieCounter.tsx b/components/calculators/CalorieCounter.tsx
+index 362a33c..6637338 100644
+--- a/components/calculators/CalorieCounter.tsx
++++ b/components/calculators/CalorieCounter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -158,7 +158,7 @@ export default function CalorieCounter() {
+         }
+ 
+         if (validFoods === 0) {
+-            alert("Please add at least one food item with calories");
++            setResult(null);
+             return;
+         }
+ 
+@@ -171,6 +171,10 @@ export default function CalorieCounter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [foods]);
++
+     const resetForm = () => {
+         setFoods([{ name: "", calories: "", protein: "", carbs: "", fat: "" }]);
+         setResult(null);
+diff --git a/components/calculators/CarLoanEMICalculator.tsx b/components/calculators/CarLoanEMICalculator.tsx
+index a71c319..32f1b99 100644
+--- a/components/calculators/CarLoanEMICalculator.tsx
++++ b/components/calculators/CarLoanEMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -142,17 +142,17 @@ export default function CarLoanEMICalculator() {
+         }
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid car price greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -237,6 +237,10 @@ export default function CarLoanEMICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, carType, downPayment]);
++
+     // Preset values
+     const presetAmounts = [300000, 500000, 800000, 1000000, 1500000];
+     const presetRates = [7, 8, 9, 10, 11];
+diff --git a/components/calculators/CarpetAreaCalculator.tsx b/components/calculators/CarpetAreaCalculator.tsx
+index 79b612c..4f2fc8c 100644
+--- a/components/calculators/CarpetAreaCalculator.tsx
++++ b/components/calculators/CarpetAreaCalculator.tsx
+@@ -1,6 +1,6 @@
+ // "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -129,7 +129,7 @@ export default function CarpetAreaCalculator() {
+         }
+ 
+         if (totalArea === 0) {
+-            alert("Please enter valid dimensions for at least one room");
++            setResult(null);
+             return;
+         }
+ 
+@@ -159,6 +159,10 @@ export default function CarpetAreaCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [rooms, builtUpArea]);
++
+     const resetForm = () => {
+         setRooms([{ id: 1, length: "", width: "", name: "Living Room" }]);
+         setBuiltUpArea("");
+diff --git a/components/calculators/CollegeCostCalculator.tsx b/components/calculators/CollegeCostCalculator.tsx
+index 00c1c1c..5b6cd81 100644
+--- a/components/calculators/CollegeCostCalculator.tsx
++++ b/components/calculators/CollegeCostCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -85,6 +85,10 @@ export default function CollegeCostCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [tuition, roomBoard, books, transport, other, years, inflation]);
++
+     const reset = () => {
+         setTuition("");
+         setRoomBoard("");
+diff --git a/components/calculators/ConcreteCalculator.tsx b/components/calculators/ConcreteCalculator.tsx
+index 86077d3..d53d4f5 100644
+--- a/components/calculators/ConcreteCalculator.tsx
++++ b/components/calculators/ConcreteCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/ConcreteCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -59,10 +59,10 @@ const CONCRETE_SCHEMA = JSON.stringify({
+ 
+ export default function ConcreteCalculator() {
+     const [shape, setShape] = useState<"slab" | "column" | "footing">("slab");
+-    const [length, setLength] = useState("");
+-    const [width, setWidth] = useState("");
++    const [length, setLength] = useState("10");
++    const [width, setWidth] = useState("10");
+     const [height, setHeight] = useState("");
+-    const [diameter, setDiameter] = useState("");
++    const [diameter, setDiameter] = useState("1");
+     const [unit, setUnit] = useState<"feet" | "meters">("feet");
+     const [mixRatio, setMixRatio] = useState("1:1.5:3");
+     const [result, setResult] = useState<any>(null);
+@@ -76,15 +76,15 @@ export default function ConcreteCalculator() {
+         let diameterVal = parseFloat(diameter);
+ 
+         if (shape === "slab" && (!lengthVal || !widthVal || !heightVal)) {
+-            alert("Please enter length, width, and thickness");
++            setResult(null);
+             return;
+         }
+         if (shape === "column" && (!heightVal || !diameterVal)) {
+-            alert("Please enter height and diameter");
++            setResult(null);
+             return;
+         }
+         if (shape === "footing" && (!lengthVal || !widthVal || !heightVal)) {
+-            alert("Please enter length, width, and height");
++            setResult(null);
+             return;
+         }
+ 
+@@ -130,6 +130,10 @@ export default function ConcreteCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [shape, length, width, height, diameter, unit]);
++
+     const resetForm = () => {
+         setShape("slab");
+         setLength("");
+diff --git a/components/calculators/ConsumerLoanEMICalculator.tsx b/components/calculators/ConsumerLoanEMICalculator.tsx
+index 7128f35..355fae2 100644
+--- a/components/calculators/ConsumerLoanEMICalculator.tsx
++++ b/components/calculators/ConsumerLoanEMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -133,17 +133,17 @@ export default function ConsumerLoanEMICalculator() {
+         const months = parseFloat(tenure);
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid loan amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -261,6 +261,10 @@ export default function ConsumerLoanEMICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, loanType]);
++
+     // Preset values for different loan types
+     const getPresets = () => {
+         if (loanType === "durable") {
+diff --git a/components/calculators/CreditScoreEstimatorCalculator.tsx b/components/calculators/CreditScoreEstimatorCalculator.tsx
+index 8646514..bfe83ab 100644
+--- a/components/calculators/CreditScoreEstimatorCalculator.tsx
++++ b/components/calculators/CreditScoreEstimatorCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -143,27 +143,27 @@ export default function CreditScoreEstimator() {
+ 
+         // Validate inputs
+         if (isNaN(ph) || ph < 0 || ph > 100) {
+-            alert("Please enter a valid payment history score (0-100%)");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(cu) || cu < 0 || cu > 100) {
+-            alert("Please enter a valid credit utilization percentage (0-100%)");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(ch) || ch < 0 || ch > 10) {
+-            alert("Please enter valid credit history years (0-10+)");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(cm) || cm < 0 || cm > 100) {
+-            alert("Please enter a valid credit mix score (0-100%)");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(nc) || nc < 0 || nc > 100) {
+-            alert("Please enter a valid new credit score (0-100%)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -268,6 +268,10 @@ export default function CreditScoreEstimator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { estimateScore(); }, [paymentHistory, creditUtilization, creditHistory, creditMix, newCredit, existingScore]);
++
+     // Quick preset options
+     const paymentOptions = [
+         { label: "Excellent (98-100%)", value: 99 },
+diff --git a/components/calculators/DecimalToFractionCalculator.tsx b/components/calculators/DecimalToFractionCalculator.tsx
+index 4bcaf86..748acd3 100644
+--- a/components/calculators/DecimalToFractionCalculator.tsx
++++ b/components/calculators/DecimalToFractionCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -93,7 +93,7 @@ function gcd(a: number, b: number): number {
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function DecimalToFractionCalculator() {
+-    const [decimal, setDecimal] = useState("");
++    const [decimal, setDecimal] = useState("0.75");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -101,7 +101,7 @@ export default function DecimalToFractionCalculator() {
+         let d = parseFloat(decimal);
+ 
+         if (isNaN(d)) {
+-            alert("Please enter a valid decimal number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -162,6 +162,10 @@ export default function DecimalToFractionCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [decimal]);
++
+     const resetForm = () => {
+         setDecimal("");
+         setResult(null);
+diff --git a/components/calculators/DistanceCalculator.tsx b/components/calculators/DistanceCalculator.tsx
+index 78d1286..4d7b0c7 100644
+--- a/components/calculators/DistanceCalculator.tsx
++++ b/components/calculators/DistanceCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,10 +87,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function DistanceCalculator() {
+-    const [x1, setX1] = useState("");
+-    const [y1, setY1] = useState("");
+-    const [x2, setX2] = useState("");
+-    const [y2, setY2] = useState("");
++    const [x1, setX1] = useState("1");
++    const [y1, setY1] = useState("2");
++    const [x2, setX2] = useState("4");
++    const [y2, setY2] = useState("6");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -101,7 +101,7 @@ export default function DistanceCalculator() {
+         const d = parseFloat(y2);
+ 
+         if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
+-            alert("Please enter valid coordinates for both points");
++            setResult(null);
+             return;
+         }
+ 
+@@ -123,6 +123,10 @@ export default function DistanceCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [x1, y1, x2, y2]);
++
+     const resetForm = () => {
+         setX1("");
+         setY1("");
+diff --git a/components/calculators/EMICalculator.tsx b/components/calculators/EMICalculator.tsx
+index a69cb1a..2834974 100644
+--- a/components/calculators/EMICalculator.tsx
++++ b/components/calculators/EMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,11 +58,11 @@ const EMI_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function EMICalculator() {
+-  const [principal, setPrincipal] = useState("");
+-  const [rate, setRate] = useState("");
+-  const [tenure, setTenure] = useState("");
++  const [principal, setPrincipal] = useState("5000000");
++  const [rate, setRate] = useState("8.5");
++  const [tenure, setTenure] = useState("5");
+   const [tenureType, setTenureType] = useState<"years" | "months">("years");
+-  const [prepayment, setPrepayment] = useState("");
++  const [prepayment, setPrepayment] = useState("0");
+   const [result, setResult] = useState<any>(null);
+   const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -74,7 +74,7 @@ export default function EMICalculator() {
+ 
+     if (tenureType === "years") n = n * 12;
+     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || r <= 0 || n <= 0) {
+-      alert("Please enter valid loan amount, interest rate, and tenure");
++      setResult(null);
+       return;
+     }
+ 
+@@ -119,6 +119,10 @@ export default function EMICalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [principal, rate, tenure, tenureType, prepayment]);
++
+   const resetForm = () => {
+     setPrincipal("");
+     setRate("");
+diff --git a/components/calculators/EPFCalculator.tsx b/components/calculators/EPFCalculator.tsx
+index 06dd6f2..8be6af0 100644
+--- a/components/calculators/EPFCalculator.tsx
++++ b/components/calculators/EPFCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/EPFCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const EPF_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function EPFCalculator() {
+-    const [basicSalary, setBasicSalary] = useState("");
++    const [basicSalary, setBasicSalary] = useState("25000");
+     const [currentAge, setCurrentAge] = useState("25");
+     const [retirementAge, setRetirementAge] = useState("58");
+     const [employerContribution, setEmployerContribution] = useState("12");
+@@ -75,7 +75,7 @@ export default function EPFCalculator() {
+         const years = retire - current;
+ 
+         if (!basic || basic <= 0 || years <= 0) {
+-            alert("Please enter valid details");
++            setResult(null);
+             return;
+         }
+ 
+@@ -103,6 +103,10 @@ export default function EPFCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [basicSalary, currentAge, retirementAge, employerContribution, interestRate]);
++
+     const resetForm = () => {
+         setBasicSalary("");
+         setCurrentAge("25");
+diff --git a/components/calculators/FDCalculator.tsx b/components/calculators/FDCalculator.tsx
+index 9892222..0e707d6 100644
+--- a/components/calculators/FDCalculator.tsx
++++ b/components/calculators/FDCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const FD_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function FDCalculator() {
+-  const [principal, setPrincipal] = useState("");
++  const [principal, setPrincipal] = useState("100000");
+   const [rate, setRate] = useState("7.2");
+   const [years, setYears] = useState("5");
+   const [payoutType, setPayoutType] = useState<"cumulative" | "noncumulative">("cumulative");
+@@ -72,7 +72,7 @@ export default function FDCalculator() {
+     let n = parseFloat(years);
+ 
+     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || n <= 0) {
+-      alert("Please enter valid principal amount, rate, and tenure");
++      setResult(null);
+       return;
+     }
+ 
+@@ -114,6 +114,10 @@ export default function FDCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [principal, rate, years, payoutType, seniorCitizen]);
++
+   const resetForm = () => {
+     setPrincipal("");
+     setRate("7.2");
+diff --git a/components/calculators/FlightTimeCalculator.tsx b/components/calculators/FlightTimeCalculator.tsx
+index 47b2f1d..a249eb2 100644
+--- a/components/calculators/FlightTimeCalculator.tsx
++++ b/components/calculators/FlightTimeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -105,7 +105,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function FlightTimeCalculator() {
+-    const [distance, setDistance] = useState("");
++    const [distance, setDistance] = useState("3450");
+     const [unit, setUnit] = useState<"miles" | "km">("miles");
+     const [aircraft, setAircraft] = useState(AIRPLANE_SPEEDS[5].aircraft);
+     const [addTime, setAddTime] = useState("30");
+@@ -123,7 +123,7 @@ export default function FlightTimeCalculator() {
+         const extraMinutes = parseFloat(addTime) || 0;
+ 
+         if (!dist || dist <= 0) {
+-            alert("Please enter a valid distance");
++            setResult(null);
+             return;
+         }
+ 
+@@ -151,6 +151,10 @@ export default function FlightTimeCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [distance, unit, aircraft, addTime]);
++
+     const resetForm = () => {
+         setDistance("");
+         setUnit("miles");
+diff --git a/components/calculators/FlooringCalculator.tsx b/components/calculators/FlooringCalculator.tsx
+index ce3275e..c4b6fdf 100644
+--- a/components/calculators/FlooringCalculator.tsx
++++ b/components/calculators/FlooringCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -97,13 +97,13 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function FlooringCalculator() {
+-    const [roomLength, setRoomLength] = useState("");
+-    const [roomWidth, setRoomWidth] = useState("");
+-    const [tileLength, setTileLength] = useState("");
+-    const [tileWidth, setTileWidth] = useState("");
++    const [roomLength, setRoomLength] = useState("12");
++    const [roomWidth, setRoomWidth] = useState("10");
++    const [tileLength, setTileLength] = useState("12");
++    const [tileWidth, setTileWidth] = useState("12");
+     const [wastePercent, setWastePercent] = useState("10");
+-    const [pricePerTile, setPricePerTile] = useState("");
+-    const [pricePerSqFt, setPricePerSqFt] = useState("");
++    const [pricePerTile, setPricePerTile] = useState("50");
++    const [pricePerSqFt, setPricePerSqFt] = useState("25");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -114,12 +114,12 @@ export default function FlooringCalculator() {
+         const tileW = parseFloat(tileWidth);
+ 
+         if (!length || !width || length <= 0 || width <= 0) {
+-            alert("Please enter valid room dimensions");
++            setResult(null);
+             return;
+         }
+ 
+         if (!tileL || !tileW || tileL <= 0 || tileW <= 0) {
+-            alert("Please enter valid tile dimensions");
++            setResult(null);
+             return;
+         }
+ 
+@@ -157,6 +157,10 @@ export default function FlooringCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [roomLength, roomWidth, tileLength, tileWidth, wastePercent, pricePerTile, pricePerSqFt]);
++
+     const resetForm = () => {
+         setRoomLength("");
+         setRoomWidth("");
+diff --git a/components/calculators/FoodExpiryCalculator.tsx b/components/calculators/FoodExpiryCalculator.tsx
+index 29713bf..bb574ea 100644
+--- a/components/calculators/FoodExpiryCalculator.tsx
++++ b/components/calculators/FoodExpiryCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -131,6 +131,10 @@ export default function FoodExpiryCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [selectedFood, storageMethod]);
++
+     const resetForm = () => {
+         setSelectedFood(FOOD_STORAGE[0].name);
+         setStorageMethod("fridge");
+diff --git a/components/calculators/FractionCalculator.tsx b/components/calculators/FractionCalculator.tsx
+index 93aa841..7f6f572 100644
+--- a/components/calculators/FractionCalculator.tsx
++++ b/components/calculators/FractionCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/FractionCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,10 +58,10 @@ const FRACTION_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function FractionCalculator() {
+-    const [num1, setNum1] = useState("");
+-    const [den1, setDen1] = useState("");
+-    const [num2, setNum2] = useState("");
+-    const [den2, setDen2] = useState("");
++    const [num1, setNum1] = useState("1");
++    const [den1, setDen1] = useState("2");
++    const [num2, setNum2] = useState("1");
++    const [den2, setDen2] = useState("3");
+     const [operation, setOperation] = useState<"add" | "subtract" | "multiply" | "divide">("add");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -73,7 +73,7 @@ export default function FractionCalculator() {
+         let d2 = parseFloat(den2);
+ 
+         if (!n1 || !d1 || !n2 || !d2 || d1 === 0 || d2 === 0) {
+-            alert("Please enter valid fractions (denominators cannot be zero)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -126,6 +126,10 @@ export default function FractionCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [num1, den1, num2, den2, operation]);
++
+     const resetForm = () => {
+         setNum1("");
+         setDen1("");
+diff --git a/components/calculators/GPACalculator.tsx b/components/calculators/GPACalculator.tsx
+index 6bc4e29..70403b5 100644
+--- a/components/calculators/GPACalculator.tsx
++++ b/components/calculators/GPACalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/GPACalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const GRADE_POINTS: Record<string, number> = {
+@@ -62,6 +62,10 @@ export default function GPACalculator() {
+         setResult({ gpa: gpa.toFixed(2), letterGrade, totalCredits, totalPoints: totalPoints.toFixed(2) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [courses]);
++
+     const resetForm = () => {
+         setCourses([{ grade: "A", credits: "3" }]);
+         setResult(null);
+diff --git a/components/calculators/GSTCalculator.tsx b/components/calculators/GSTCalculator.tsx
+index 128fac0..994aabe 100644
+--- a/components/calculators/GSTCalculator.tsx
++++ b/components/calculators/GSTCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const GST_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function GSTCalculator() {
+-  const [amount, setAmount] = useState("");
++  const [amount, setAmount] = useState("10000");
+   const [gstRate, setGstRate] = useState("18");
+   const [calcType, setCalcType] = useState<"exclusive" | "inclusive">("exclusive");
+   const [transactionType, setTransactionType] = useState<"intrastate" | "interstate">("intrastate");
+@@ -69,7 +69,7 @@ export default function GSTCalculator() {
+     const a = parseFloat(amount);
+     const r = parseFloat(gstRate) / 100;
+     if (!a || isNaN(a) || a <= 0) {
+-      alert("Please enter a valid amount");
++      setResult(null);
+       return;
+     }
+ 
+@@ -101,6 +101,10 @@ export default function GSTCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [amount, gstRate, calcType, transactionType]);
++
+   const resetForm = () => {
+     setAmount("");
+     setGstRate("18");
+diff --git a/components/calculators/HomeLoanEligibilityCalculator.tsx b/components/calculators/HomeLoanEligibilityCalculator.tsx
+index 3b4e031..d9e819a 100644
+--- a/components/calculators/HomeLoanEligibilityCalculator.tsx
++++ b/components/calculators/HomeLoanEligibilityCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -146,22 +146,22 @@ export default function HomeLoanEligibilityCalculator() {
+         const coIncome = parseFloat(coApplicantIncome) || 0;
+ 
+         if (isNaN(income) || income <= 0) {
+-            alert("Please enter a valid monthly income");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(applicantAge) || applicantAge < 18) {
+-            alert("Please enter a valid age (minimum 18 years)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -179,7 +179,7 @@ export default function HomeLoanEligibilityCalculator() {
+         const maxEMI = (totalIncome * foir / 100) - existing;
+ 
+         if (maxEMI <= 0) {
+-            alert("Your existing EMIs already exceed the allowable limit. Consider clearing existing debts first.");
++            setResult(null);
+             return;
+         }
+ 
+@@ -210,7 +210,7 @@ export default function HomeLoanEligibilityCalculator() {
+ 
+         const maxTenureByAge = maxAge - applicantAge;
+         if (maxTenureByAge < 5) {
+-            alert(`Your age (${applicantAge}) is close to retirement (${maxAge} years). Maximum remaining tenure is ${maxTenureByAge} years.`);
++            setResult(null);
+             return;
+         }
+ 
+@@ -276,6 +276,10 @@ export default function HomeLoanEligibilityCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEligibility(); }, [monthlyIncome, existingEMI, interestRate, tenure, propertyValue, age, employmentType, hasCoApplicant, coApplicantIncome]);
++
+     // Preset values
+     const presetIncomes = [25000, 50000, 75000, 100000, 150000, 200000];
+     const presetRates = [7, 8, 9, 10, 11];
+diff --git a/components/calculators/HomeLoaneEMICalculator.tsx b/components/calculators/HomeLoaneEMICalculator.tsx
+index 0a71bb8..7520874 100644
+--- a/components/calculators/HomeLoaneEMICalculator.tsx
++++ b/components/calculators/HomeLoaneEMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -135,17 +135,17 @@ export default function HomeLoanEMICalculator() {
+         const fee = parseFloat(processingFee) || 0;
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid loan amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -229,6 +229,10 @@ export default function HomeLoanEMICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, processingFee]);
++
+     // Preset values
+     const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
+     const presetRates = [7, 8, 9, 10, 11];
+diff --git a/components/calculators/HotelCostCalculator.tsx b/components/calculators/HotelCostCalculator.tsx
+index 76d1662..ae7fc8c 100644
+--- a/components/calculators/HotelCostCalculator.tsx
++++ b/components/calculators/HotelCostCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,12 +87,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function HotelCostCalculator() {
+-    const [pricePerNight, setPricePerNight] = useState("");
+-    const [nights, setNights] = useState("");
++    const [pricePerNight, setPricePerNight] = useState("150");
++    const [nights, setNights] = useState("5");
+     const [rooms, setRooms] = useState("1");
+-    const [people, setPeople] = useState("");
++    const [people, setPeople] = useState("2");
+     const [taxRate, setTaxRate] = useState("15");
+-    const [extraFees, setExtraFees] = useState("");
++    const [extraFees, setExtraFees] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -105,7 +105,7 @@ export default function HotelCostCalculator() {
+         const fees = parseFloat(extraFees) || 0;
+ 
+         if (!perNight || perNight <= 0 || !numNights || numNights <= 0) {
+-            alert("Please enter valid price per night and number of nights");
++            setResult(null);
+             return;
+         }
+ 
+@@ -136,6 +136,10 @@ export default function HotelCostCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [pricePerNight, nights, rooms, people, taxRate, extraFees]);
++
+     const resetForm = () => {
+         setPricePerNight("");
+         setNights("");
+diff --git a/components/calculators/IdealWeightCalculator.tsx b/components/calculators/IdealWeightCalculator.tsx
+index 57d6428..70288ad 100644
+--- a/components/calculators/IdealWeightCalculator.tsx
++++ b/components/calculators/IdealWeightCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/IdealWeightCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import Head from "next/head";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+@@ -143,9 +143,9 @@ const HOWTO_SCHEMA = JSON.stringify({
+ export default function IdealWeightCalculator() {
+     const [gender, setGender] = useState<"male" | "female">("male");
+     const [unit, setUnit] = useState<"metric" | "imperial">("imperial");
+-    const [heightFt, setHeightFt] = useState("");
+-    const [heightIn, setHeightIn] = useState("");
+-    const [heightCm, setHeightCm] = useState("");
++    const [heightFt, setHeightFt] = useState("5");
++    const [heightIn, setHeightIn] = useState("10");
++    const [heightCm, setHeightCm] = useState("170");
+     const [frameSize, setFrameSize] = useState<"small" | "medium" | "large">("medium");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -158,13 +158,13 @@ export default function IdealWeightCalculator() {
+             const inches = parseFloat(heightIn) || 0;
+             heightInches = (ft * 12) + inches;
+             if (heightInches <= 0) {
+-                alert("Please enter a valid height");
++                setResult(null);
+                 return;
+             }
+         } else {
+             const cm = parseFloat(heightCm);
+             if (!cm || cm <= 0) {
+-                alert("Please enter a valid height");
++                setResult(null);
+                 return;
+             }
+             heightInches = cm / 2.54;
+@@ -214,6 +214,10 @@ export default function IdealWeightCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [gender, unit, heightFt, heightIn, heightCm, frameSize]);
++
+     const resetForm = () => {
+         setGender("male");
+         setUnit("imperial");
+diff --git a/components/calculators/LandAreaCalculator.tsx b/components/calculators/LandAreaCalculator.tsx
+index da7f280..ba8caf3 100644
+--- a/components/calculators/LandAreaCalculator.tsx
++++ b/components/calculators/LandAreaCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -99,11 +99,11 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function LandAreaCalculator() {
+     const [shape, setShape] = useState<"rectangle" | "triangle" | "circle">("rectangle");
+-    const [length, setLength] = useState("");
+-    const [width, setWidth] = useState("");
+-    const [base, setBase] = useState("");
+-    const [height, setHeight] = useState("");
+-    const [radius, setRadius] = useState("");
++    const [length, setLength] = useState("100");
++    const [width, setWidth] = useState("50");
++    const [base, setBase] = useState("100");
++    const [height, setHeight] = useState("80");
++    const [radius, setRadius] = useState("50");
+     const [fromUnit, setFromUnit] = useState("sqft");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -119,7 +119,7 @@ export default function LandAreaCalculator() {
+             const l = parseFloat(length);
+             const w = parseFloat(width);
+             if (!l || !w || l <= 0 || w <= 0) {
+-                alert("Please enter valid length and width");
++                setResult(null);
+                 return;
+             }
+             areaInSqFt = l * w * unitFactor;
+@@ -129,7 +129,7 @@ export default function LandAreaCalculator() {
+             const b = parseFloat(base);
+             const h = parseFloat(height);
+             if (!b || !h || b <= 0 || h <= 0) {
+-                alert("Please enter valid base and height");
++                setResult(null);
+                 return;
+             }
+             areaInSqFt = 0.5 * b * h * unitFactor;
+@@ -138,7 +138,7 @@ export default function LandAreaCalculator() {
+         else {
+             const r = parseFloat(radius);
+             if (!r || r <= 0) {
+-                alert("Please enter valid radius");
++                setResult(null);
+                 return;
+             }
+             areaInSqFt = Math.PI * r * r * unitFactor;
+@@ -168,6 +168,10 @@ export default function LandAreaCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [shape, length, width, base, height, radius, fromUnit]);
++
+     const resetForm = () => {
+         setShape("rectangle");
+         setLength("");
+diff --git a/components/calculators/LengthConverter.tsx b/components/calculators/LengthConverter.tsx
+index 1457c2e..6baf16d 100644
+--- a/components/calculators/LengthConverter.tsx
++++ b/components/calculators/LengthConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -98,7 +98,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function LengthConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState("meter");
+     const [toUnit, setToUnit] = useState("foot");
+     const [result, setResult] = useState<any>(null);
+@@ -107,7 +107,7 @@ export default function LengthConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -125,6 +125,10 @@ export default function LengthConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/LoanComparisonCalculator.tsx b/components/calculators/LoanComparisonCalculator.tsx
+index 7b76f30..3d31a41 100644
+--- a/components/calculators/LoanComparisonCalculator.tsx
++++ b/components/calculators/LoanComparisonCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -95,15 +95,15 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function LoanComparisonCalculator() {
+     // Loan 1
+-    const [loan1Amount, setLoan1Amount] = useState("");
+-    const [loan1Rate, setLoan1Rate] = useState("");
+-    const [loan1Tenure, setLoan1Tenure] = useState("");
+-    const [loan1Fees, setLoan1Fees] = useState("");
++    const [loan1Amount, setLoan1Amount] = useState("500000");
++    const [loan1Rate, setLoan1Rate] = useState("9");
++    const [loan1Tenure, setLoan1Tenure] = useState("5");
++    const [loan1Fees, setLoan1Fees] = useState("0");
+     // Loan 2
+-    const [loan2Amount, setLoan2Amount] = useState("");
+-    const [loan2Rate, setLoan2Rate] = useState("");
+-    const [loan2Tenure, setLoan2Tenure] = useState("");
+-    const [loan2Fees, setLoan2Fees] = useState("");
++    const [loan2Amount, setLoan2Amount] = useState("500000");
++    const [loan2Rate, setLoan2Rate] = useState("9");
++    const [loan2Tenure, setLoan2Tenure] = useState("5");
++    const [loan2Fees, setLoan2Fees] = useState("0");
+     // Result
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -129,7 +129,7 @@ export default function LoanComparisonCalculator() {
+         const f2 = parseFloat(loan2Fees) || 0;
+ 
+         if (!a1 || !r1 || !t1 || !a2 || !r2 || !t2) {
+-            alert("Please fill all required fields for both loans");
++            setResult(null);
+             return;
+         }
+ 
+@@ -167,6 +167,10 @@ export default function LoanComparisonCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [loan1Amount, loan1Rate, loan1Tenure, loan1Fees, loan2Amount, loan2Rate, loan2Tenure, loan2Fees]);
++
+     const resetForm = () => {
+         setLoan1Amount("");
+         setLoan1Rate("");
+diff --git a/components/calculators/LoanEligibilityCalculator.tsx b/components/calculators/LoanEligibilityCalculator.tsx
+index 4067d15..0fc4fae 100644
+--- a/components/calculators/LoanEligibilityCalculator.tsx
++++ b/components/calculators/LoanEligibilityCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/LoanEligibilityCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const LOAN_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function LoanEligibilityCalculator() {
+-    const [monthlyIncome, setMonthlyIncome] = useState("");
++    const [monthlyIncome, setMonthlyIncome] = useState("50000");
+     const [existingEMI, setExistingEMI] = useState("0");
+     const [interestRate, setInterestRate] = useState("9");
+     const [tenure, setTenure] = useState("20");
+@@ -72,7 +72,7 @@ export default function LoanEligibilityCalculator() {
+         const months = parseFloat(tenure) * 12;
+ 
+         if (!income || income <= 0) {
+-            alert("Please enter your monthly income");
++            setResult(null);
+             return;
+         }
+ 
+@@ -104,6 +104,10 @@ export default function LoanEligibilityCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [monthlyIncome, existingEMI, interestRate, tenure]);
++
+     const resetForm = () => {
+         setMonthlyIncome("");
+         setExistingEMI("0");
+diff --git a/components/calculators/LoanPrepaymentCalculator.tsx b/components/calculators/LoanPrepaymentCalculator.tsx
+index 13ce0a8..85dab09 100644
+--- a/components/calculators/LoanPrepaymentCalculator.tsx
++++ b/components/calculators/LoanPrepaymentCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -142,27 +142,27 @@ export default function LoanPrepaymentCalculator() {
+         const penaltyRate = parseFloat(prepaymentPenalty) || 0;
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid loan amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(prepay) || prepay <= 0) {
+-            alert("Please enter a valid prepayment amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(prepayMonth) || prepayMonth <= 0 || prepayMonth > months) {
+-            alert(`Please enter a valid prepayment month (1 to ${months})`);
++            setResult(null);
+             return;
+         }
+ 
+@@ -262,6 +262,10 @@ export default function LoanPrepaymentCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculatePrepayment(); }, [loanAmount, interestRate, tenure, prepaymentAmount, prepaymentMonth, prepaymentPenalty, prepaymentOption]);
++
+     // Preset values
+     const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
+     const presetRates = [7, 8, 9, 10, 11];
+diff --git a/components/calculators/LumpsumCalculator.tsx b/components/calculators/LumpsumCalculator.tsx
+index 965f74e..4db79cc 100644
+--- a/components/calculators/LumpsumCalculator.tsx
++++ b/components/calculators/LumpsumCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/LumpsumCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const LUMPSUM_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function LumpsumCalculator() {
+-    const [principal, setPrincipal] = useState("");
++    const [principal, setPrincipal] = useState("100000");
+     const [rate, setRate] = useState("12");
+     const [years, setYears] = useState("10");
+     const [result, setResult] = useState<any>(null);
+@@ -70,7 +70,7 @@ export default function LumpsumCalculator() {
+         const n = parseFloat(years);
+ 
+         if (!P || !r || !n || P <= 0 || r <= 0 || n <= 0) {
+-            alert("Please enter valid values");
++            setResult(null);
+             return;
+         }
+ 
+@@ -88,6 +88,10 @@ export default function LumpsumCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [principal, rate, years]);
++
+     const resetForm = () => {
+         setPrincipal("");
+         setRate("12");
+diff --git a/components/calculators/MortgageCalculator.tsx b/components/calculators/MortgageCalculator.tsx
+index 8fbf346..ee448b0 100644
+--- a/components/calculators/MortgageCalculator.tsx
++++ b/components/calculators/MortgageCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -124,14 +124,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function MortgageCalculator() {
+-    const [homePrice, setHomePrice] = useState("");
+-    const [downPayment, setDownPayment] = useState("");
++    const [homePrice, setHomePrice] = useState("300000");
++    const [downPayment, setDownPayment] = useState("60000");
+     const [downPaymentPercent, setDownPaymentPercent] = useState("20");
+     const [loanTerm, setLoanTerm] = useState(30);
+-    const [interestRate, setInterestRate] = useState("");
+-    const [propertyTax, setPropertyTax] = useState("");
+-    const [homeInsurance, setHomeInsurance] = useState("");
+-    const [pmi, setPmi] = useState("");
++    const [interestRate, setInterestRate] = useState("6.5");
++    const [propertyTax, setPropertyTax] = useState("3000");
++    const [homeInsurance, setHomeInsurance] = useState("1200");
++    const [pmi, setPmi] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+     const [inputMethod, setInputMethod] = useState<"amount" | "percent">("percent");
+@@ -150,24 +150,24 @@ export default function MortgageCalculator() {
+         }
+ 
+         if (isNaN(price) || price <= 0) {
+-            alert("Please enter a valid home price");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(down) || down < 0) {
+-            alert("Please enter a valid down payment");
++            setResult(null);
+             return;
+         }
+ 
+         const loanAmount = price - down;
+         if (loanAmount <= 0) {
+-            alert("Loan amount must be greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         const rate = parseFloat(interestRate);
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+@@ -207,6 +207,10 @@ export default function MortgageCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [homePrice, downPayment, downPaymentPercent, loanTerm, interestRate, propertyTax, homeInsurance, pmi, inputMethod]);
++
+     const resetForm = () => {
+         setHomePrice("");
+         setDownPayment("");
+diff --git a/components/calculators/NPSCalculator.tsx b/components/calculators/NPSCalculator.tsx
+index 758af9d..7173e1b 100644
+--- a/components/calculators/NPSCalculator.tsx
++++ b/components/calculators/NPSCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/NPSCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -63,7 +63,7 @@ const NPS_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function NPSCalculator() {
+-    const [monthlyContribution, setMonthlyContribution] = useState("");
++    const [monthlyContribution, setMonthlyContribution] = useState("5000");
+     const [currentAge, setCurrentAge] = useState("30");
+     const [retirementAge, setRetirementAge] = useState("60");
+     const [expectedReturn, setExpectedReturn] = useState("10");
+@@ -78,7 +78,7 @@ export default function NPSCalculator() {
+         const months = (retire - current) * 12;
+ 
+         if (!P || !current || !retire || !r || P <= 0 || months <= 0) {
+-            alert("Please fill all fields correctly");
++            setResult(null);
+             return;
+         }
+ 
+@@ -96,6 +96,10 @@ export default function NPSCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [monthlyContribution, currentAge, retirementAge, expectedReturn]);
++
+     const resetForm = () => {
+         setMonthlyContribution("");
+         setCurrentAge("30");
+diff --git a/components/calculators/NutritionLabelGenerator.tsx b/components/calculators/NutritionLabelGenerator.tsx
+index b2ac501..1b3da31 100644
+--- a/components/calculators/NutritionLabelGenerator.tsx
++++ b/components/calculators/NutritionLabelGenerator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -109,17 +109,17 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function NutritionLabelGenerator() {
+-    const [servingSize, setServingSize] = useState("");
+-    const [servingsPerContainer, setServingsPerContainer] = useState("");
++    const [servingSize, setServingSize] = useState("100");
++    const [servingsPerContainer, setServingsPerContainer] = useState("1");
+     const [calories, setCalories] = useState("");
+-    const [totalFat, setTotalFat] = useState("");
+-    const [saturatedFat, setSaturatedFat] = useState("");
+-    const [cholesterol, setCholesterol] = useState("");
+-    const [sodium, setSodium] = useState("");
+-    const [totalCarbs, setTotalCarbs] = useState("");
+-    const [fiber, setFiber] = useState("");
+-    const [sugar, setSugar] = useState("");
+-    const [protein, setProtein] = useState("");
++    const [totalFat, setTotalFat] = useState("0");
++    const [saturatedFat, setSaturatedFat] = useState("0");
++    const [cholesterol, setCholesterol] = useState("0");
++    const [sodium, setSodium] = useState("0");
++    const [totalCarbs, setTotalCarbs] = useState("0");
++    const [fiber, setFiber] = useState("0");
++    const [sugar, setSugar] = useState("0");
++    const [protein, setProtein] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -137,7 +137,7 @@ export default function NutritionLabelGenerator() {
+         const prot = parseFloat(protein);
+ 
+         if (!serving || serving <= 0) {
+-            alert("Please enter serving size");
++            setResult(null);
+             return;
+         }
+ 
+@@ -176,6 +176,10 @@ export default function NutritionLabelGenerator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [servingSize, servingsPerContainer, calories, totalFat, saturatedFat, cholesterol, sodium, totalCarbs, fiber, sugar, protein]);
++
+     const resetForm = () => {
+         setServingSize("");
+         setServingsPerContainer("");
+diff --git a/components/calculators/OvenTemperatureConverter.tsx b/components/calculators/OvenTemperatureConverter.tsx
+index 8500fba..e09114c 100644
+--- a/components/calculators/OvenTemperatureConverter.tsx
++++ b/components/calculators/OvenTemperatureConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -119,7 +119,7 @@ function gasMarkToCelsius(gasMark: number): number {
+ }
+ 
+ export default function OvenTemperatureConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("180");
+     const [fromUnit, setFromUnit] = useState("celsius");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -127,7 +127,7 @@ export default function OvenTemperatureConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid temperature");
++            setResult(null);
+             return;
+         }
+ 
+@@ -170,6 +170,10 @@ export default function OvenTemperatureConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit]);
++
+     const resetForm = () => {
+         setValue("");
+         setFromUnit("celsius");
+diff --git a/components/calculators/PPFCalculator.tsx b/components/calculators/PPFCalculator.tsx
+index ab1a7c9..89a7659 100644
+--- a/components/calculators/PPFCalculator.tsx
++++ b/components/calculators/PPFCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,7 +58,7 @@ const PPF_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function PPFCalculator() {
+-  const [annualInvestment, setAnnualInvestment] = useState("");
++  const [annualInvestment, setAnnualInvestment] = useState("50000");
+   const [rate, setRate] = useState("7.1");
+   const [years, setYears] = useState("15");
+   const [result, setResult] = useState<any>(null);
+@@ -70,12 +70,12 @@ export default function PPFCalculator() {
+     const n = parseFloat(years);
+ 
+     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P < 500 || P > 150000) {
+-      alert("Please enter valid values. Annual investment must be between ₹500 and ₹1,50,000");
++      setResult(null);
+       return;
+     }
+ 
+     if (n < 15) {
+-      alert("PPF has a minimum 15-year lock-in period. Please enter 15 years or more.");
++      setResult(null);
+       return;
+     }
+ 
+@@ -97,6 +97,10 @@ export default function PPFCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [annualInvestment, rate, years]);
++
+   const resetForm = () => {
+     setAnnualInvestment("");
+     setRate("7.1");
+diff --git a/components/calculators/PaintCalculator.tsx b/components/calculators/PaintCalculator.tsx
+index e2947fe..7e13dbc 100644
+--- a/components/calculators/PaintCalculator.tsx
++++ b/components/calculators/PaintCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -93,14 +93,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function PaintCalculator() {
+-    const [roomLength, setRoomLength] = useState("");
+-    const [roomWidth, setRoomWidth] = useState("");
+-    const [roomHeight, setRoomHeight] = useState("");
+-    const [doorCount, setDoorCount] = useState("");
+-    const [windowCount, setWindowCount] = useState("");
++    const [roomLength, setRoomLength] = useState("12");
++    const [roomWidth, setRoomWidth] = useState("10");
++    const [roomHeight, setRoomHeight] = useState("8");
++    const [doorCount, setDoorCount] = useState("1");
++    const [windowCount, setWindowCount] = useState("2");
+     const [paintType, setPaintType] = useState<"paint" | "primer" | "enamel">("paint");
+     const [coats, setCoats] = useState("2");
+-    const [pricePerLiter, setPricePerLiter] = useState("");
++    const [pricePerLiter, setPricePerLiter] = useState("250");
+     const [includeCeiling, setIncludeCeiling] = useState(false);
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -111,7 +111,7 @@ export default function PaintCalculator() {
+         const height = parseFloat(roomHeight);
+ 
+         if (!length || !width || !height || length <= 0 || width <= 0 || height <= 0) {
+-            alert("Please enter valid room dimensions");
++            setResult(null);
+             return;
+         }
+ 
+@@ -156,6 +156,10 @@ export default function PaintCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [roomLength, roomWidth, roomHeight, doorCount, windowCount, paintType, coats, pricePerLiter, includeCeiling]);
++
+     const resetForm = () => {
+         setRoomLength("");
+         setRoomWidth("");
+diff --git a/components/calculators/PercentageCalculator.tsx b/components/calculators/PercentageCalculator.tsx
+index c8536ae..0b89549 100644
+--- a/components/calculators/PercentageCalculator.tsx
++++ b/components/calculators/PercentageCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ type CalcType = "percentage" | "percentageOf" | "increase" | "decrease";
+@@ -40,7 +40,7 @@ export default function PercentageCalculator() {
+     const v2 = parseFloat(value2);
+ 
+     if (isNaN(v1) || (calcType !== "percentage" && isNaN(v2))) {
+-      alert("Please enter valid numbers");
++      setResult(null);
+       return;
+     }
+ 
+@@ -76,6 +76,10 @@ export default function PercentageCalculator() {
+     setResult({ mainResult, extraRows });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [calcType, value1, value2]);
++
+   const resetForm = () => {
+     setCalcType("percentage");
+     setValue1("");
+diff --git a/components/calculators/PersonalLoanEMICalculator.tsx b/components/calculators/PersonalLoanEMICalculator.tsx
+index 403ce28..1fedc34 100644
+--- a/components/calculators/PersonalLoanEMICalculator.tsx
++++ b/components/calculators/PersonalLoanEMICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -132,17 +132,17 @@ export default function PersonalLoanEMICalculator() {
+         const months = parseFloat(tenure);
+ 
+         if (isNaN(principal) || principal <= 0) {
+-            alert("Please enter a valid loan amount greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(rate) || rate < 0) {
+-            alert("Please enter a valid interest rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (isNaN(months) || months <= 0) {
+-            alert("Please enter a valid loan tenure greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -223,6 +223,10 @@ export default function PersonalLoanEMICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure]);
++
+     // Preset loan amounts
+     const presetAmounts = [100000, 250000, 500000, 1000000, 2000000];
+     const presetRates = [10, 12, 14, 16, 18, 20];
+diff --git a/components/calculators/ProfitMarginCalculator.tsx b/components/calculators/ProfitMarginCalculator.tsx
+index 54a90cd..fdd2b19 100644
+--- a/components/calculators/ProfitMarginCalculator.tsx
++++ b/components/calculators/ProfitMarginCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/ProfitMarginCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -28,8 +28,8 @@ const PROFIT_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function ProfitMarginCalculator() {
+-    const [cost, setCost] = useState("");
+-    const [revenue, setRevenue] = useState("");
++    const [cost, setCost] = useState("600");
++    const [revenue, setRevenue] = useState("1000");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -38,12 +38,12 @@ export default function ProfitMarginCalculator() {
+         const r = parseFloat(revenue);
+ 
+         if (!c || !r || c <= 0 || r <= 0) {
+-            alert("Please enter valid cost and revenue");
++            setResult(null);
+             return;
+         }
+ 
+         if (c >= r) {
+-            alert("Cost must be less than revenue to have profit");
++            setResult(null);
+             return;
+         }
+ 
+@@ -60,6 +60,10 @@ export default function ProfitMarginCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [cost, revenue]);
++
+     const resetForm = () => {
+         setCost("");
+         setRevenue("");
+diff --git a/components/calculators/PropertyTaxCalculator.tsx b/components/calculators/PropertyTaxCalculator.tsx
+index c33d3ff..dcc4fa6 100644
+--- a/components/calculators/PropertyTaxCalculator.tsx
++++ b/components/calculators/PropertyTaxCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -98,12 +98,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function PropertyTaxCalculator() {
+-    const [propertyValue, setPropertyValue] = useState("");
++    const [propertyValue, setPropertyValue] = useState("5000000");
+     const [city, setCity] = useState("Mumbai (MCGM)");
+     const [propertyType, setPropertyType] = useState<"residential" | "commercial">("residential");
+-    const [area, setArea] = useState("");
+-    const [age, setAge] = useState("");
+-    const [latePayment, setLatePayment] = useState("");
++    const [area, setArea] = useState("1000");
++    const [age, setAge] = useState("10");
++    const [latePayment, setLatePayment] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -125,7 +125,7 @@ export default function PropertyTaxCalculator() {
+         const lateMonths = parseFloat(latePayment) || 0;
+ 
+         if (!value || value <= 0) {
+-            alert("Please enter property value or area");
++            setResult(null);
+             return;
+         }
+ 
+@@ -161,6 +161,10 @@ export default function PropertyTaxCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [propertyValue, city, propertyType, area, age, latePayment]);
++
+     const resetForm = () => {
+         setPropertyValue("");
+         setCity("Mumbai (MCGM)");
+diff --git a/components/calculators/QuadraticSolver.tsx b/components/calculators/QuadraticSolver.tsx
+index a40c4a9..74c45ea 100644
+--- a/components/calculators/QuadraticSolver.tsx
++++ b/components/calculators/QuadraticSolver.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/QuadraticSolver.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -58,9 +58,9 @@ const QUADRATIC_SCHEMA = JSON.stringify({
+ });
+ 
+ export default function QuadraticSolver() {
+-    const [a, setA] = useState("");
++    const [a, setA] = useState("1");
+     const [b, setB] = useState("");
+-    const [c, setC] = useState("");
++    const [c, setC] = useState("2");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -70,7 +70,7 @@ export default function QuadraticSolver() {
+         const cVal = parseFloat(c);
+ 
+         if (isNaN(aVal) || aVal === 0) {
+-            alert("Please enter a non-zero value for 'a' (coefficient of x²)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -118,6 +118,10 @@ export default function QuadraticSolver() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [a, b, c]);
++
+     const resetForm = () => {
+         setA("");
+         setB("");
+diff --git a/components/calculators/RDCalculator.tsx b/components/calculators/RDCalculator.tsx
+index 69592d2..f6aa301 100644
+--- a/components/calculators/RDCalculator.tsx
++++ b/components/calculators/RDCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/RDCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -91,7 +91,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function RDCalculator() {
+-    const [monthlyAmount, setMonthlyAmount] = useState("");
++    const [monthlyAmount, setMonthlyAmount] = useState("5000");
+     const [rate, setRate] = useState("7.2");
+     const [years, setYears] = useState("5");
+     const [seniorCitizen, setSeniorCitizen] = useState(false);
+@@ -104,7 +104,7 @@ export default function RDCalculator() {
+         let n = parseFloat(years);
+ 
+         if (!P || !r || !n || P <= 0 || r <= 0 || n <= 0) {
+-            alert("Please enter valid values");
++            setResult(null);
+             return;
+         }
+ 
+@@ -134,6 +134,10 @@ export default function RDCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [monthlyAmount, rate, years, seniorCitizen]);
++
+     const resetForm = () => {
+         setMonthlyAmount("");
+         setRate("7.2");
+diff --git a/components/calculators/ROICalculator.tsx b/components/calculators/ROICalculator.tsx
+index 7c4b937..d98aee5 100644
+--- a/components/calculators/ROICalculator.tsx
++++ b/components/calculators/ROICalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -98,9 +98,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function ROICalculator() {
+-    const [investmentCost, setInvestmentCost] = useState("");
+-    const [finalValue, setFinalValue] = useState("");
+-    const [years, setYears] = useState("");
++    const [investmentCost, setInvestmentCost] = useState("100000");
++    const [finalValue, setFinalValue] = useState("150000");
++    const [years, setYears] = useState("5");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -110,7 +110,7 @@ export default function ROICalculator() {
+         const yearsInvested = parseFloat(years);
+ 
+         if (!cost || !final || cost <= 0 || final <= 0) {
+-            alert("Please enter valid investment cost and final value");
++            setResult(null);
+             return;
+         }
+ 
+@@ -142,6 +142,10 @@ export default function ROICalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [investmentCost, finalValue, years]);
++
+     const resetForm = () => {
+         setInvestmentCost("");
+         setFinalValue("");
+diff --git a/components/calculators/RentalYieldCalculator.tsx b/components/calculators/RentalYieldCalculator.tsx
+index 16b8b14..b9a8e27 100644
+--- a/components/calculators/RentalYieldCalculator.tsx
++++ b/components/calculators/RentalYieldCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,12 +87,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function RentalYieldCalculator() {
+-    const [propertyValue, setPropertyValue] = useState("");
+-    const [monthlyRent, setMonthlyRent] = useState("");
+-    const [propertyTax, setPropertyTax] = useState("");
+-    const [maintenance, setMaintenance] = useState("");
+-    const [insurance, setInsurance] = useState("");
+-    const [managementFee, setManagementFee] = useState("");
++    const [propertyValue, setPropertyValue] = useState("5000000");
++    const [monthlyRent, setMonthlyRent] = useState("25000");
++    const [propertyTax, setPropertyTax] = useState("0");
++    const [maintenance, setMaintenance] = useState("0");
++    const [insurance, setInsurance] = useState("0");
++    const [managementFee, setManagementFee] = useState("0");
+     const [vacancyRate, setVacancyRate] = useState("5");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -107,7 +107,7 @@ export default function RentalYieldCalculator() {
+         const vacancy = parseFloat(vacancyRate) / 100;
+ 
+         if (!value || value <= 0 || !monthly || monthly <= 0) {
+-            alert("Please enter property value and monthly rent");
++            setResult(null);
+             return;
+         }
+ 
+@@ -144,6 +144,10 @@ export default function RentalYieldCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [propertyValue, monthlyRent, propertyTax, maintenance, insurance, managementFee, vacancyRate]);
++
+     const resetForm = () => {
+         setPropertyValue("");
+         setMonthlyRent("");
+diff --git a/components/calculators/RoofingCalculator.tsx b/components/calculators/RoofingCalculator.tsx
+index 9df00ad..7c97f1d 100644
+--- a/components/calculators/RoofingCalculator.tsx
++++ b/components/calculators/RoofingCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -111,13 +111,13 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function RoofingCalculator() {
+-    const [roofLength, setRoofLength] = useState("");
+-    const [roofWidth, setRoofWidth] = useState("");
++    const [roofLength, setRoofLength] = useState("40");
++    const [roofWidth, setRoofWidth] = useState("20");
+     const [roofPitch, setRoofPitch] = useState("4/12 (Standard)");
+-    const [sheetLength, setSheetLength] = useState("");
++    const [sheetLength, setSheetLength] = useState("10");
+     const [sheetWidth, setSheetWidth] = useState("3");
+     const [wastePercent, setWastePercent] = useState("10");
+-    const [pricePerSheet, setPricePerSheet] = useState("");
++    const [pricePerSheet, setPricePerSheet] = useState("500");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -142,7 +142,7 @@ export default function RoofingCalculator() {
+         const width = parseFloat(roofWidth);
+ 
+         if (!length || !width || length <= 0 || width <= 0) {
+-            alert("Please enter valid roof dimensions");
++            setResult(null);
+             return;
+         }
+ 
+@@ -186,6 +186,10 @@ export default function RoofingCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [roofLength, roofWidth, roofPitch, sheetLength, sheetWidth, wastePercent, pricePerSheet]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SWPCalculator.tsx b/components/calculators/SWPCalculator.tsx
+index 7974ca4..055c9c3 100644
+--- a/components/calculators/SWPCalculator.tsx
++++ b/components/calculators/SWPCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/SWPCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -88,8 +88,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function SWPCalculator() {
+-    const [corpus, setCorpus] = useState("");
+-    const [monthlyWithdrawal, setMonthlyWithdrawal] = useState("");
++    const [corpus, setCorpus] = useState("5000000");
++    const [monthlyWithdrawal, setMonthlyWithdrawal] = useState("25000");
+     const [expectedReturn, setExpectedReturn] = useState("10");
+     const [inflationRate, setInflationRate] = useState("6");
+     const [result, setResult] = useState<any>(null);
+@@ -112,12 +112,12 @@ export default function SWPCalculator() {
+         let totalWithdrawn = 0;
+ 
+         if (!balance || !withdrawal || balance <= 0 || withdrawal <= 0) {
+-            alert("Please enter valid values");
++            setResult(null);
+             return;
+         }
+ 
+         if (withdrawal > balance) {
+-            alert("Monthly withdrawal cannot exceed your total corpus");
++            setResult(null);
+             return;
+         }
+ 
+@@ -149,6 +149,10 @@ export default function SWPCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [corpus, monthlyWithdrawal, expectedReturn, inflationRate]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SalaryBudgetingCalculator.tsx b/components/calculators/SalaryBudgetingCalculator.tsx
+index c39108b..efffcfa 100644
+--- a/components/calculators/SalaryBudgetingCalculator.tsx
++++ b/components/calculators/SalaryBudgetingCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -207,19 +207,19 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
+ 
+ export default function SalaryBudgetingCalculator() {
+     const [monthlySalary, setMonthlySalary] = useState("");
+-    const [rent, setRent] = useState("");
+-    const [groceries, setGroceries] = useState("");
+-    const [utilities, setUtilities] = useState("");
+-    const [transport, setTransport] = useState("");
+-    const [insurance, setInsurance] = useState("");
+-    const [emiPayments, setEmiPayments] = useState("");
+-    const [diningOut, setDiningOut] = useState("");
+-    const [entertainment, setEntertainment] = useState("");
+-    const [shopping, setShopping] = useState("");
+-    const [subscriptions, setSubscriptions] = useState("");
+-    const [emergencyFund, setEmergencyFund] = useState("");
+-    const [investments, setInvestments] = useState("");
+-    const [savingsGoal, setSavingsGoal] = useState("");
++    const [rent, setRent] = useState("0");
++    const [groceries, setGroceries] = useState("0");
++    const [utilities, setUtilities] = useState("0");
++    const [transport, setTransport] = useState("0");
++    const [insurance, setInsurance] = useState("0");
++    const [emiPayments, setEmiPayments] = useState("0");
++    const [diningOut, setDiningOut] = useState("0");
++    const [entertainment, setEntertainment] = useState("0");
++    const [shopping, setShopping] = useState("0");
++    const [subscriptions, setSubscriptions] = useState("0");
++    const [emergencyFund, setEmergencyFund] = useState("0");
++    const [investments, setInvestments] = useState("0");
++    const [savingsGoal, setSavingsGoal] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -245,7 +245,7 @@ export default function SalaryBudgetingCalculator() {
+         const salary = parseFloat(monthlySalary);
+ 
+         if (isNaN(salary) || salary <= 0) {
+-            alert("Please enter a valid monthly salary greater than zero");
++            setResult(null);
+             return;
+         }
+ 
+@@ -364,6 +364,10 @@ export default function SalaryBudgetingCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculateBudget(); }, [monthlySalary, rent, groceries, utilities, transport, insurance, emiPayments, diningOut, entertainment, shopping, subscriptions, emergencyFund, investments, savingsGoal]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SalesTaxCalculator.tsx b/components/calculators/SalesTaxCalculator.tsx
+index 623e15f..d249545 100644
+--- a/components/calculators/SalesTaxCalculator.tsx
++++ b/components/calculators/SalesTaxCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -115,7 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function SalesTaxCalculator() {
+-    const [amount, setAmount] = useState("");
++    const [amount, setAmount] = useState("100");
+     const [taxRate, setTaxRate] = useState("8");
+     const [calcType, setCalcType] = useState<"add" | "remove">("add");
+     const [selectedState, setSelectedState] = useState("");
+@@ -140,7 +140,7 @@ export default function SalesTaxCalculator() {
+         const r = parseFloat(taxRate) / 100;
+ 
+         if (!a || a <= 0 || isNaN(a)) {
+-            alert("Please enter a valid amount");
++            setResult(null);
+             return;
+         }
+ 
+@@ -166,6 +166,10 @@ export default function SalesTaxCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [amount, taxRate, calcType, selectedState]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/ScholarshipCalculator.tsx b/components/calculators/ScholarshipCalculator.tsx
+index 72f92cd..3053c86 100644
+--- a/components/calculators/ScholarshipCalculator.tsx
++++ b/components/calculators/ScholarshipCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -88,12 +88,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function ScholarshipCalculator() {
+     const [totalCost, setTotalCost] = useState("");
+-    const [meritScholarship, setMeritScholarship] = useState("");
+-    const [needScholarship, setNeedScholarship] = useState("");
+-    const [externalScholarship, setExternalScholarship] = useState("");
+-    const [grants, setGrants] = useState("");
+-    const [workStudy, setWorkStudy] = useState("");
+-    const [familyContribution, setFamilyContribution] = useState("");
++    const [meritScholarship, setMeritScholarship] = useState("0");
++    const [needScholarship, setNeedScholarship] = useState("0");
++    const [externalScholarship, setExternalScholarship] = useState("0");
++    const [grants, setGrants] = useState("0");
++    const [workStudy, setWorkStudy] = useState("0");
++    const [familyContribution, setFamilyContribution] = useState("0");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -118,7 +118,7 @@ export default function ScholarshipCalculator() {
+         const family = parseFloat(familyContribution) || 0;
+ 
+         if (total <= 0) {
+-            alert("Please enter total college cost");
++            setResult(null);
+             return;
+         }
+ 
+@@ -163,6 +163,10 @@ export default function ScholarshipCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [totalCost, meritScholarship, needScholarship, externalScholarship, grants, workStudy, familyContribution]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SlopeCalculator.tsx b/components/calculators/SlopeCalculator.tsx
+index 3e1f4e5..c2c7128 100644
+--- a/components/calculators/SlopeCalculator.tsx
++++ b/components/calculators/SlopeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,10 +87,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function SlopeCalculator() {
+-    const [x1, setX1] = useState("");
+-    const [y1, setY1] = useState("");
+-    const [x2, setX2] = useState("");
+-    const [y2, setY2] = useState("");
++    const [x1, setX1] = useState("1");
++    const [y1, setY1] = useState("2");
++    const [x2, setX2] = useState("4");
++    const [y2, setY2] = useState("8");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -109,7 +109,7 @@ export default function SlopeCalculator() {
+         const d = parseFloat(y2);
+ 
+         if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
+-            alert("Please enter valid coordinates for both points");
++            setResult(null);
+             return;
+         }
+ 
+@@ -161,6 +161,10 @@ export default function SlopeCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [x1, y1, x2, y2]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SpeedConverter.tsx b/components/calculators/SpeedConverter.tsx
+index ee9af6b..08a819d 100644
+--- a/components/calculators/SpeedConverter.tsx
++++ b/components/calculators/SpeedConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -106,7 +106,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function SpeedConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState("kmh");
+     const [toUnit, setToUnit] = useState("mph");
+     const [result, setResult] = useState<any>(null);
+@@ -122,7 +122,7 @@ export default function SpeedConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val) || val < 0) {
+-            alert("Please enter a valid positive number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -143,6 +143,10 @@ export default function SpeedConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/StatisticsCalculator.tsx b/components/calculators/StatisticsCalculator.tsx
+index 475d1f1..3f0ed45 100644
+--- a/components/calculators/StatisticsCalculator.tsx
++++ b/components/calculators/StatisticsCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -98,14 +98,14 @@ export default function StatisticsCalculator() {
+ 
+     const calculate = () => {
+         if (!dataInput.trim()) {
+-            alert("Please enter numbers separated by commas");
++            setResult(null);
+             return;
+         }
+ 
+         const numbers = dataInput.split(",").map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+ 
+         if (numbers.length === 0) {
+-            alert("Please enter valid numbers");
++            setResult(null);
+             return;
+         }
+ 
+@@ -195,6 +195,10 @@ export default function StatisticsCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [dataInput]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/TemperatureConverter.tsx b/components/calculators/TemperatureConverter.tsx
+index af8c7a2..188d0de 100644
+--- a/components/calculators/TemperatureConverter.tsx
++++ b/components/calculators/TemperatureConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -87,7 +87,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function TemperatureConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState<"celsius" | "fahrenheit" | "kelvin">("celsius");
+     const [toUnit, setToUnit] = useState<"celsius" | "fahrenheit" | "kelvin">("fahrenheit");
+     const [result, setResult] = useState<any>(null);
+@@ -103,7 +103,7 @@ export default function TemperatureConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid temperature");
++            setResult(null);
+             return;
+         }
+ 
+@@ -139,6 +139,10 @@ export default function TemperatureConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/TimeConverter.tsx b/components/calculators/TimeConverter.tsx
+index d730742..4c4cabc 100644
+--- a/components/calculators/TimeConverter.tsx
++++ b/components/calculators/TimeConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -109,7 +109,7 @@ const TIME_REFERENCES = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function TimeConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState("hour");
+     const [toUnit, setToUnit] = useState("minute");
+     const [result, setResult] = useState<any>(null);
+@@ -125,7 +125,7 @@ export default function TimeConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -144,6 +144,10 @@ export default function TimeConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/TravelBudgetCalculator.tsx b/components/calculators/TravelBudgetCalculator.tsx
+index 1e51fbb..7d86968 100644
+--- a/components/calculators/TravelBudgetCalculator.tsx
++++ b/components/calculators/TravelBudgetCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -106,7 +106,7 @@ const DESTINATION_BUDGETS = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function TravelBudgetCalculator() {
+-    const [tripDays, setTripDays] = useState("");
++    const [tripDays, setTripDays] = useState("7");
+     const [peopleCount, setPeopleCount] = useState("1");
+     const [budgetItems, setBudgetItems] = useState<BudgetItem[]>([
+         { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-400" },
+@@ -144,12 +144,12 @@ export default function TravelBudgetCalculator() {
+         const people = parseFloat(peopleCount);
+ 
+         if (!days || days <= 0) {
+-            alert("Please enter number of trip days");
++            setResult(null);
+             return;
+         }
+ 
+         if (people < 1) {
+-            alert("Number of people must be at least 1");
++            setResult(null);
+             return;
+         }
+ 
+@@ -165,7 +165,7 @@ export default function TravelBudgetCalculator() {
+         }
+ 
+         if (totalBudget === 0) {
+-            alert("Please enter at least one budget amount");
++            setResult(null);
+             return;
+         }
+ 
+@@ -190,6 +190,10 @@ export default function TravelBudgetCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [tripDays, peopleCount, budgetItems]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/VATCalculator.tsx b/components/calculators/VATCalculator.tsx
+index 23eb99a..0feaa43 100644
+--- a/components/calculators/VATCalculator.tsx
++++ b/components/calculators/VATCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -113,7 +113,7 @@ const VAT_THRESHOLDS = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function VATCalculator() {
+-    const [amount, setAmount] = useState("");
++    const [amount, setAmount] = useState("1000");
+     const [vatRate, setVatRate] = useState("20");
+     const [calcType, setCalcType] = useState<"add" | "remove">("add");
+     const [result, setResult] = useState<any>(null);
+@@ -131,7 +131,7 @@ export default function VATCalculator() {
+         const r = parseFloat(vatRate) / 100;
+ 
+         if (!a || a <= 0 || isNaN(a)) {
+-            alert("Please enter a valid amount");
++            setResult(null);
+             return;
+         }
+ 
+@@ -149,7 +149,7 @@ export default function VATCalculator() {
+ 
+         // Ensure amounts are valid
+         if (!isFinite(netAmount) || !isFinite(vatAmount) || !isFinite(grossAmount)) {
+-            alert("Invalid calculation result. Please check your inputs.");
++            setResult(null);
+             return;
+         }
+ 
+@@ -162,6 +162,10 @@ export default function VATCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [amount, vatRate, calcType]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/VolumeConverter.tsx b/components/calculators/VolumeConverter.tsx
+index 28b953c..57b6369 100644
+--- a/components/calculators/VolumeConverter.tsx
++++ b/components/calculators/VolumeConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -118,7 +118,7 @@ const COOKING_CONVERSIONS = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function VolumeConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState("liter");
+     const [toUnit, setToUnit] = useState("gallon_us");
+     const [result, setResult] = useState<any>(null);
+@@ -134,7 +134,7 @@ export default function VolumeConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -153,6 +153,10 @@ export default function VolumeConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/WallpaperCalculator.tsx b/components/calculators/WallpaperCalculator.tsx
+index b45f88a..c4d1683 100644
+--- a/components/calculators/WallpaperCalculator.tsx
++++ b/components/calculators/WallpaperCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -103,13 +103,13 @@ const WALLPAPER_TYPES = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function WallpaperCalculator() {
+-    const [roomLength, setRoomLength] = useState("");
+-    const [roomWidth, setRoomWidth] = useState("");
+-    const [roomHeight, setRoomHeight] = useState("");
+-    const [doorCount, setDoorCount] = useState("");
+-    const [windowCount, setWindowCount] = useState("");
++    const [roomLength, setRoomLength] = useState("12");
++    const [roomWidth, setRoomWidth] = useState("10");
++    const [roomHeight, setRoomHeight] = useState("8");
++    const [doorCount, setDoorCount] = useState("1");
++    const [windowCount, setWindowCount] = useState("2");
+     const [patternRepeat, setPatternRepeat] = useState("0");
+-    const [pricePerRoll, setPricePerRoll] = useState("");
++    const [pricePerRoll, setPricePerRoll] = useState("1500");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -130,7 +130,7 @@ export default function WallpaperCalculator() {
+         const height = parseFloat(roomHeight);
+ 
+         if (!length || !width || !height || length <= 0 || width <= 0 || height <= 0) {
+-            alert("Please enter valid room dimensions");
++            setResult(null);
+             return;
+         }
+ 
+@@ -168,6 +168,10 @@ export default function WallpaperCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [roomLength, roomWidth, roomHeight, doorCount, windowCount, patternRepeat, pricePerRoll]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/WaterBillCalculator.tsx b/components/calculators/WaterBillCalculator.tsx
+index cdfe2f5..7f4b00b 100644
+--- a/components/calculators/WaterBillCalculator.tsx
++++ b/components/calculators/WaterBillCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -88,8 +88,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ export default function WaterBillCalculator() {
+     const [unit, setUnit] = useState<"gallons" | "liters">("gallons");
+-    const [consumption, setConsumption] = useState("");
+-    const [peopleCount, setPeopleCount] = useState("");
++    const [consumption, setConsumption] = useState("8000");
++    const [peopleCount, setPeopleCount] = useState("4");
+     const [fixedCharge, setFixedCharge] = useState("15");
+     const [tieredRate, setTieredRate] = useState<"single" | "tiered">("single");
+     const [sewerRate, setSewerRate] = useState("80");
+@@ -150,7 +150,7 @@ export default function WaterBillCalculator() {
+                 const avgMonthly = people * avgDailyUsage * 30;
+                 usage = avgMonthly;
+             } else {
+-                alert("Please enter water consumption or number of people");
++                setResult(null);
+                 return;
+             }
+         }
+@@ -178,6 +178,10 @@ export default function WaterBillCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [unit, consumption, peopleCount, fixedCharge, tieredRate, sewerRate]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/WaterIntakeCalculator.tsx b/components/calculators/WaterIntakeCalculator.tsx
+index aacb5a4..c3263a0 100644
+--- a/components/calculators/WaterIntakeCalculator.tsx
++++ b/components/calculators/WaterIntakeCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/WaterIntakeCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -96,7 +96,7 @@ const activityMultipliers = {
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function WaterIntakeCalculator() {
+-    const [weight, setWeight] = useState("");
++    const [weight, setWeight] = useState("70");
+     const [activity, setActivity] = useState("moderate");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -110,7 +110,7 @@ export default function WaterIntakeCalculator() {
+     const calculate = () => {
+         const w = parseFloat(weight);
+         if (!w || w <= 0) {
+-            alert("Please enter a valid weight");
++            setResult(null);
+             return;
+         }
+ 
+@@ -132,6 +132,10 @@ export default function WaterIntakeCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [weight, activity]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/WeightConverter.tsx b/components/calculators/WeightConverter.tsx
+index 31ed4f1..03fe07c 100644
+--- a/components/calculators/WeightConverter.tsx
++++ b/components/calculators/WeightConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -119,7 +119,7 @@ const WEIGHT_REFERENCES = [
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function WeightConverter() {
+-    const [value, setValue] = useState("");
++    const [value, setValue] = useState("100");
+     const [fromUnit, setFromUnit] = useState("kilogram");
+     const [toUnit, setToUnit] = useState("pound");
+     const [result, setResult] = useState<any>(null);
+@@ -135,7 +135,7 @@ export default function WeightConverter() {
+     const convert = () => {
+         const val = parseFloat(value);
+         if (isNaN(val)) {
+-            alert("Please enter a valid number");
++            setResult(null);
+             return;
+         }
+ 
+@@ -154,6 +154,10 @@ export default function WeightConverter() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => {
+         const temp = fromUnit;
+         setFromUnit(toUnit);
+diff --git a/components/calculators/XIRRCalculator.tsx b/components/calculators/XIRRCalculator.tsx
+index c41c3e1..a81a8de 100644
+--- a/components/calculators/XIRRCalculator.tsx
++++ b/components/calculators/XIRRCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -105,7 +105,7 @@ export default function XIRRCalculator() {
+     const [cashFlows, setCashFlows] = useState<CashFlow[]>([
+         { id: 1, date: "", amount: "" },
+     ]);
+-    const [finalValue, setFinalValue] = useState("");
++    const [finalValue, setFinalValue] = useState("100000");
+     const [finalDate, setFinalDate] = useState("");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+@@ -198,19 +198,19 @@ export default function XIRRCalculator() {
+     const calculate = () => {
+         const hasValidFlows = cashFlows.some(cf => cf.date && cf.amount);
+         if (!hasValidFlows) {
+-            alert("Please add at least one investment with date and amount");
++            setResult(null);
+             return;
+         }
+ 
+         if (!finalValue || !finalDate) {
+-            alert("Please enter current/final value and date");
++            setResult(null);
+             return;
+         }
+ 
+         const xirr = calculateXIRR();
+ 
+         if (xirr === 0 || isNaN(xirr) || !isFinite(xirr)) {
+-            alert("Unable to calculate XIRR. Please check your inputs.");
++            setResult(null);
+             return;
+         }
+ 
+@@ -280,6 +280,10 @@ export default function XIRRCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [cashFlows, finalValue, finalDate]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/data/calculatorsSeo.ts b/data/calculatorsSeo.ts
+index 18e4672..d0b90ae 100644
+--- a/data/calculatorsSeo.ts
++++ b/data/calculatorsSeo.ts
+@@ -41,7 +41,7 @@ export interface CalculatorSeo {
+   noIndex?: boolean;
+ }
+ 
+-export const SITE_DEFAULT_UPDATED_AT = "2026-09-05";
++export const SITE_DEFAULT_UPDATED_AT = "2026-09-10";
+ 
+ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+   // ───────────────────────── HEALTH ─────────────────────────
+-- 
+2.43.0
+

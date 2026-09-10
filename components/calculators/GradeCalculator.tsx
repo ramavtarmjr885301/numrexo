@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -143,7 +143,7 @@ export default function GradeCalculator() {
         }
 
         if (totalWeight === 0) {
-            alert("Please enter at least one assignment with valid score and weight");
+            setResult(null);
             return;
         }
 
@@ -182,12 +182,12 @@ export default function GradeCalculator() {
         const finalWt = parseFloat(finalWeight);
 
         if (!desired || !current || !finalWt) {
-            alert("Please enter desired grade, current grade, and final exam weight");
+            setResult(null);
             return;
         }
 
         if (finalWt <= 0 || finalWt >= 100) {
-            alert("Final exam weight must be between 1 and 99");
+            setResult(null);
             return;
         }
 
@@ -226,6 +226,10 @@ export default function GradeCalculator() {
         setFinalWeight("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { if (calcType === "weighted") calculateWeighted(); else if (calcType === "final") calculateFinal(); }, [calcType, assignments, desiredGrade, currentGrade, finalWeight]);
 
     return (
         <>

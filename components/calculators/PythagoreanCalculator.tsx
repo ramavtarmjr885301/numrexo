@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ export default function PythagoreanCalculator() {
         const b = parseFloat(sideB);
 
         if (!a || !b || a <= 0 || b <= 0) {
-            alert("Please enter valid values for both legs");
+            setResult(null);
             return;
         }
 
@@ -131,12 +131,12 @@ export default function PythagoreanCalculator() {
         const a = parseFloat(sideA);
 
         if (!c || !a || c <= 0 || a <= 0) {
-            alert("Please enter valid values for hypotenuse and one leg");
+            setResult(null);
             return;
         }
 
         if (a >= c) {
-            alert("Leg cannot be greater than or equal to hypotenuse");
+            setResult(null);
             return;
         }
 
@@ -159,7 +159,7 @@ export default function PythagoreanCalculator() {
         const c = parseFloat(hypotenuse);
 
         if (!a || !b || !c || a <= 0 || b <= 0 || c <= 0) {
-            alert("Please enter valid values for all three sides");
+            setResult(null);
             return;
         }
 
@@ -187,6 +187,10 @@ export default function PythagoreanCalculator() {
         setHypotenuse("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, sideA, sideB, hypotenuse]);
 
     return (
         <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -126,13 +126,13 @@ export default function DistanceSpeedTimeCalculator() {
         const seconds = parseFloat(timeSeconds) || 0;
 
         if (dist <= 0) {
-            alert("Please enter a valid distance");
+            setResult(null);
             return;
         }
 
         const totalSeconds = getTotalSeconds(hours, minutes, seconds);
         if (totalSeconds <= 0) {
-            alert("Please enter valid time");
+            setResult(null);
             return;
         }
 
@@ -160,13 +160,13 @@ export default function DistanceSpeedTimeCalculator() {
         const seconds = parseFloat(distTimeSeconds) || 0;
 
         if (spd <= 0) {
-            alert("Please enter valid speed");
+            setResult(null);
             return;
         }
 
         const totalSeconds = getTotalSeconds(hours, minutes, seconds);
         if (totalSeconds <= 0) {
-            alert("Please enter valid time");
+            setResult(null);
             return;
         }
 
@@ -192,11 +192,11 @@ export default function DistanceSpeedTimeCalculator() {
         const spd = parseFloat(timeSpeed) || 0;
 
         if (dist <= 0) {
-            alert("Please enter valid distance");
+            setResult(null);
             return;
         }
         if (spd <= 0) {
-            alert("Please enter valid speed");
+            setResult(null);
             return;
         }
 
@@ -242,6 +242,10 @@ export default function DistanceSpeedTimeCalculator() {
         setTimeSpeed("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calculationType, distance, distanceUnit, timeHours, timeMinutes, timeSeconds, speed, speedUnit, distTimeHours, distTimeMinutes, distTimeSeconds, distOutputUnit, timeDistance, timeDistanceUnit, timeSpeed, timeSpeedUnit]);
 
     return (
         <>

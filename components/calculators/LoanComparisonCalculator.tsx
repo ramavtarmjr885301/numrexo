@@ -14,11 +14,11 @@ const FAQ_DATA = [
     },
     {
         q: "What is better: lower interest rate or shorter tenure?",
-        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: $10L loan at 9% for 5 years = $20,800 EMI, total $12.48L. Same loan at 10% for 3 years = $32,267 EMI, total $11.62L. Calculate both before deciding.",
+        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: a $30,000 loan at 9% over 5 years costs $623 a month and $37,365 in total. The same loan at 10% over 3 years costs $968 a month but only $34,857 in total. Calculate both before deciding.",
     },
     {
         q: "Should I choose a loan with processing fees?",
-        a: "Compare the effective interest rate including fees. Example: $10L loan at 8% with $10,000 fees vs 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
+        a: "Compare the effective interest rate including fees. Example: a $30,000 loan at 8% with $600 in fees, against 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
     },
     {
         q: "How does prepayment affect loan comparison?",
@@ -30,7 +30,7 @@ const FAQ_DATA = [
     },
     {
         q: "How does loan tenure affect total interest?",
-        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: $50L at 9%: 10 years = $63,333 EMI ($26L interest). 20 years = $44,986 EMI ($58L interest). Choose shortest tenure you can afford for maximum savings.",
+        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: $350,000 at 6.5%: over 15 years the payment is $3,049 and the interest $199,000; over 30 years the payment drops to $2,212 but the interest more than doubles to $446,000. Choose shortest tenure you can afford for maximum savings.",
     },
     {
         q: "What are hidden charges in loans?",
@@ -38,7 +38,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate effective interest rate including fees?",
-        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: $10L loan, $50,000 interest, $10,000 fees, 3 years = (60,000) ÷ (10,00,000 × 3) × 100 = 2% effective rate (much higher than stated rate!). Always compare effective rates.",
+        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: a $30,000 loan with $4,000 interest and $600 in fees over 3 years = 4,600 ÷ (30,000 × 3) × 100 = 5.1% a year in real cost. Always compare effective rates.",
     },
     {
         q: "What is the difference between secured and unsecured loans?",

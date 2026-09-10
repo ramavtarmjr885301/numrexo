@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -99,13 +99,13 @@ export default function PaceCalculator() {
         const dist = parseFloat(distance) || 0;
 
         if (dist <= 0) {
-            alert("Please enter a valid distance");
+            setResult(null);
             return;
         }
 
         const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
         if (totalSeconds <= 0) {
-            alert("Please enter valid time");
+            setResult(null);
             return;
         }
 
@@ -143,13 +143,13 @@ export default function PaceCalculator() {
         const dist = parseFloat(timeDistance) || 0;
 
         if (dist <= 0) {
-            alert("Please enter a valid distance");
+            setResult(null);
             return;
         }
 
         const totalPaceSeconds = (paceMin * 60) + paceSec;
         if (totalPaceSeconds <= 0) {
-            alert("Please enter valid pace");
+            setResult(null);
             return;
         }
 
@@ -187,11 +187,11 @@ export default function PaceCalculator() {
         const totalTimeSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
         if (totalPaceSeconds <= 0) {
-            alert("Please enter valid pace");
+            setResult(null);
             return;
         }
         if (totalTimeSeconds <= 0) {
-            alert("Please enter valid time");
+            setResult(null);
             return;
         }
 
@@ -233,6 +233,10 @@ export default function PaceCalculator() {
         setDistTimeSeconds("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calculationType, timeHours, timeMinutes, timeSeconds, distance, distanceUnit, paceMinutes, paceSeconds, paceUnit, timeDistance, distPaceMinutes, distPaceSeconds, distTimeHours, distTimeMinutes, distTimeSeconds]);
 
     return (
         <>

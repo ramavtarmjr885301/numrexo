@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@ export default function PowerConverter() {
 
     const convert = () => {
         const val = parseFloat(value);
-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
+        if (isNaN(val)) { setResult(null); return; }
 
         const from = POWER_UNITS.find(u => u.value === fromUnit)!;
         const to = POWER_UNITS.find(u => u.value === toUnit)!;
@@ -112,6 +112,10 @@ export default function PowerConverter() {
 
         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
 
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 

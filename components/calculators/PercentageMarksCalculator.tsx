@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -78,7 +78,7 @@ export default function PercentageMarksCalculator() {
         const total = parseFloat(totalMarks) || 0;
 
         if (total <= 0) {
-            alert("Please enter valid total marks");
+            setResult(null);
             return;
         }
 
@@ -128,7 +128,7 @@ export default function PercentageMarksCalculator() {
         }
 
         if (totalMax <= 0) {
-            alert("Please enter valid marks for at least one subject");
+            setResult(null);
             return;
         }
 
@@ -161,7 +161,7 @@ export default function PercentageMarksCalculator() {
         const factor = parseFloat(conversionFactor) || 9.5;
 
         if (cgpaValue <= 0 || cgpaValue > 10) {
-            alert("Please enter valid CGPA (0-10)");
+            setResult(null);
             return;
         }
 
@@ -201,6 +201,10 @@ export default function PercentageMarksCalculator() {
         setConversionFactor("9.5");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [mode, obtainedMarks, totalMarks, subjects, cgpa, conversionFactor]);
 
     return (
         <>

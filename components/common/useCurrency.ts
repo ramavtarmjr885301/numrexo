@@ -21,6 +21,7 @@ import {
   CURRENCY_STORAGE_KEY,
   DEFAULT_CURRENCY,
   currencyInfo,
+  compactMoney,
   currencySymbol,
   formatMoney,
   isCurrencyCode,
@@ -99,6 +100,8 @@ export interface UseCurrencyResult {
   locale: string;
   /** Format a number as money in the chosen currency. */
   money: (value: number, decimals?: number) => string;
+  /** Short form for preset buttons — "$350K" in en-US, "₹3.5L" in en-IN. */
+  compact: (value: number) => string;
 }
 
 export function useCurrency(): UseCurrencyResult {
@@ -114,11 +117,14 @@ export function useCurrency(): UseCurrencyResult {
     [currency],
   );
 
+  const compact = useCallback((value: number) => compactMoney(value, currency), [currency]);
+
   return {
     currency,
     setCurrency,
     symbol: currencySymbol(currency),
     locale: currencyInfo(currency).locale,
     money,
+    compact,
   };
 }

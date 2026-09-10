@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -172,6 +172,10 @@ export default function LuggageAllowanceCalculator() {
         setFeePerBag("75");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, airline, bagWeight, bagCount, excessWeight, excessBags, feePerKg, feePerBag]);
 
     return (
         <>

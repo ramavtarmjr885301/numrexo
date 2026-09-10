@@ -22,11 +22,11 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate ROI for marketing campaigns?",
-        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend $50,000 on ads, generate $2,00,000 in sales → ROI = (2,00,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
+        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend $50,000 on ads, generate $200,000 in sales → ROI = (200,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
     },
     {
         q: "What is negative ROI and what does it mean?",
-        a: "Negative ROI means you lost money on an investment. Example: Invest $1,00,000 and get back only $80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
+        a: "Negative ROI means you lost money on an investment. Example: Invest $100,000 and get back only $80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
     },
     {
         q: "How to calculate ROI for real estate?",
@@ -330,7 +330,7 @@ export default function ROICalculator() {
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Basic ROI Formula</h3>
                         <p className="text-white font-mono text-sm mb-2">ROI = (Net Profit ÷ Cost of Investment) × 100</p>
                         <p className="text-gray-500 text-xs mb-2">Where: Net Profit = Final Value - Initial Investment</p>
-                        <p className="text-gray-500 text-xs">Example: $1,00,000 to $1,50,000 → ROI = (50,000 ÷ 1,00,000) × 100 = 50%</p>
+                        <p className="text-gray-500 text-xs">Example: $100,000 to $150,000 → ROI = (50,000 ÷ 100,000) × 100 = 50%</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Annualized ROI (CAGR)</h3>

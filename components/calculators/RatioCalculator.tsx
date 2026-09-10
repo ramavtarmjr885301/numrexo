@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -119,7 +119,7 @@ export default function RatioCalculator() {
         const c = ratioC ? parseFloat(ratioC) : null;
 
         if (!a || !b || a <= 0 || b <= 0) {
-            alert("Please enter valid numbers for the ratio");
+            setResult(null);
             return;
         }
 
@@ -150,7 +150,7 @@ export default function RatioCalculator() {
         const x = parseFloat(missingX);
 
         if (!a || !b || !x || a <= 0 || b <= 0 || x <= 0) {
-            alert("Please enter valid numbers for the proportion");
+            setResult(null);
             return;
         }
 
@@ -168,7 +168,7 @@ export default function RatioCalculator() {
         const targetW = parseFloat(targetWidth);
 
         if (!w || !h || w <= 0 || h <= 0) {
-            alert("Please enter valid width and height");
+            setResult(null);
             return;
         }
 
@@ -207,6 +207,10 @@ export default function RatioCalculator() {
         setTargetWidth("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, ratioA, ratioB, ratioC, knownA, knownB, missingX, width, height, targetWidth]);
 
     return (
         <>

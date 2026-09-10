@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export default function CookingTimeCalculator() {
         const newTempVal = parseFloat(newTemp);
 
         if (!time || time <= 0 || !oldTemp || oldTemp <= 0 || !newTempVal || newTempVal <= 0) {
-            alert("Please enter valid time and temperatures");
+            setResult(null);
             return;
         }
 
@@ -138,7 +138,7 @@ export default function CookingTimeCalculator() {
         const newQty = parseFloat(newQuantity);
 
         if (!time || time <= 0 || !oldQty || oldQty <= 0 || !newQty || newQty <= 0) {
-            alert("Please enter valid time and quantities");
+            setResult(null);
             return;
         }
 
@@ -172,7 +172,7 @@ export default function CookingTimeCalculator() {
     const calculatePanAdjustment = () => {
         const time = parseFloat(originalTime);
         if (!time || time <= 0) {
-            alert("Please enter valid cooking time");
+            setResult(null);
             return;
         }
 
@@ -205,7 +205,7 @@ export default function CookingTimeCalculator() {
         const alt = parseFloat(altitude);
 
         if (!time || time <= 0 || !alt || alt <= 0) {
-            alert("Please enter valid cooking time and altitude");
+            setResult(null);
             return;
         }
 
@@ -254,6 +254,10 @@ export default function CookingTimeCalculator() {
         setAltitude("");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [adjustmentType, originalTime, originalTemp, newTemp, originalQuantity, newQuantity, panAdjustment, altitude]);
 
     return (
         <>

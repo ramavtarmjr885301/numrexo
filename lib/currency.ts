@@ -94,6 +94,22 @@ export function formatMoney(
   return `${info.symbol}${formatted}`;
 }
 
+/**
+ * Short form for preset buttons: "$350K" for an American reader, "₹3.5L" for an
+ * Indian one. Intl already knows each locale's own shorthand, so we do not have
+ * to hard-code "L" and "Cr" — which is what the amortization presets used to do,
+ * on a page that had just switched its default to dollars.
+ */
+export function compactMoney(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
+  if (!Number.isFinite(value)) return `${currencySymbol(code)}0`;
+  const info = currencyInfo(code);
+  const formatted = new Intl.NumberFormat(info.locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
+  return `${info.symbol}${formatted}`;
+}
+
 /** Plain number formatting (no symbol), locale-correct for the chosen currency. */
 export function formatNumber(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
   if (!Number.isFinite(value)) return "0";
