@@ -8,15 +8,15 @@ import ResultBox from "@/components/common/ResultBox";
 const FAQ_DATA = [
     {
         q: "What is a car loan EMI calculator?",
-        a: "A car loan EMI calculator helps you estimate your monthly payments for your car purchase. It uses the standard EMI formula to calculate equal monthly installments based on the loan amount, interest rate, and tenure, helping you plan your car purchase budget effectively.",
+        a: "It tells you the monthly cost of financing a car before the showroom does. A car loan sits between a home loan and a personal loan: it is secured against the vehicle, so rates are moderate, but the asset loses value far faster than the loan balance falls. That gap — owing more than the car is worth — is the thing worth understanding before you pick a tenure.",
     },
     {
         q: "How is car loan EMI calculated?",
-        a: "Car loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
+        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where r is the monthly rate and n the number of months. On ₹8,00,000 at 9.5%, three years costs ₹25,626 a month with ₹1,22,549 in interest; seven years drops the EMI to ₹13,075 but the interest climbs to ₹2,98,316. Same car, ₹1.75 lakh apart.",
     },
     {
         q: "What is the current car loan interest rate?",
-        a: "Car loan interest rates in India typically range from 7.5% to 12% per annum, depending on the lender, loan amount, tenure, and your credit score. Top lenders like SBI, HDFC, and ICICI offer rates between 7.5-9.5% for new cars and 9-12% for used cars.",
+        a: "New-car rates typically sit in the 8-12% band and used-car rates several points above it, with the exact number depending on your credit profile, the model, and whether the loan comes from your own bank or the dealership's tie-up. Dealer finance is quicker and frequently dearer; a written quote from your own bank is the cheapest half-hour of work in the whole purchase.",
     },
     {
         q: "What is the maximum tenure for a car loan?",
@@ -28,7 +28,7 @@ const FAQ_DATA = [
     },
     {
         q: "How does credit score affect car loan interest rate?",
-        a: "A good credit score (750+) helps you get lower interest rates on car loans. For example, a 1% lower interest rate on a ₹10 lakh car loan for 5 years can save you approximately ₹500 per month in EMI and over ₹30,000 in total interest.",
+        a: "On a secured car loan the score moves the rate less than it does on an unsecured one, but it still moves it. A single percentage point on ₹8,00,000 over five years is ₹394 a month and ₹23,618 over the term. Pull your report before applying — a stale, already-closed loan still showing as live is the most common reason a good file gets priced badly.",
     },
     {
         q: "What is the down payment required for a car loan?",
@@ -36,7 +36,7 @@ const FAQ_DATA = [
     },
     {
         q: "What documents are required for a car loan?",
-        a: "Common documents include: Identity proof (Aadhaar, PAN), Address proof, Income proof (salary slips, ITR, bank statements), Employment proof, Car invoice, and insurance documents. Salaried individuals need last 3 months' salary slips and 6 months' bank statements.",
+        a: "Aadhaar and PAN, address proof, three months of salary slips and six months of bank statements, and the dealer's proforma invoice, since the loan is sanctioned against a specific vehicle. Self-employed applicants add two years of ITR. The RC is issued with the lender's hypothecation on it, and removing that entry after the final EMI is a separate step people routinely forget.",
     },
     {
         q: "Can I prepay my car loan?",
@@ -48,7 +48,7 @@ const FAQ_DATA = [
     },
     {
         q: "How does loan tenure affect EMI and total interest?",
-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹10 lakh car loan at 9%: 3 years EMI ₹31,800 (total interest ₹1.45L); 5 years EMI ₹20,756 (total interest ₹2.45L). Choose based on your monthly budget.",
+        a: "A car is a depreciating asset, which makes the tenure choice sharper than on a home loan. On ₹8,00,000 at 9.5%: three years is ₹25,626 a month and ₹1,22,549 in interest; five is ₹16,801 and ₹2,08,089; seven is ₹13,075 and ₹2,98,316. Past about five years, many owners owe more than the car would fetch — awkward if you need to sell or the car is written off.",
     },
     {
         q: "What is the difference between fixed and floating rates for car loans?",
@@ -56,7 +56,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the processing fee for car loans?",
-        a: "Processing fees typically range from 0.5% to 1.5% of the loan amount plus GST. For a ₹10 lakh car loan, fees can be ₹5,000 to ₹15,000. Many lenders offer zero processing fees during promotional periods or for specific car models.",
+        a: "Usually 0.5-1.5% plus GST, and often waived or discounted at your own bank. Dealer-arranged finance may show a low rate and recover it in the fee, or in an insurance or extended-warranty package attached to the loan. Ask for the total amount financed and the total repayable, and compare those two numbers between lenders rather than the advertised rate.",
     },
     {
         q: "Can I get a car loan with a low CIBIL score?",
@@ -64,7 +64,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to reduce car loan EMI?",
-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find the optimal loan structure.",
+        a: "In order of effect: a larger down payment, since it cuts the financed amount directly; a quote from your own bank rather than the showroom; and skipping the add-ons the dealer wants to roll into the loan. Extending the tenure lowers the EMI too, but on a car that is a trade you are making against an asset that is losing value the whole time.",
     },
 ];
 
@@ -616,7 +616,7 @@ export default function CarLoanEMICalculator() {
                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
+                    <p className="text-gray-500 text-xs mt-4">Interest is charged on the balance outstanding, so the early EMIs are mostly interest and the car builds equity slowly.</p>
                 </div>
             </section>
 
@@ -717,7 +717,7 @@ export default function CarLoanEMICalculator() {
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
+                <p className="text-xs text-gray-600 mt-2">* Past roughly five years, the loan balance tends to outrun what the car is worth</p>
             </section>
 
             {/* Car Loan Eligibility */}
@@ -745,7 +745,7 @@ export default function CarLoanEMICalculator() {
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
+                <p className="text-xs text-gray-600 mt-3">* Your own bank will usually beat the showroom&apos;s tie-up. Get that quote before you sit down to sign.</p>
             </section>
 
             {/* Tips for Lower Car Loan EMI */}
@@ -758,7 +758,7 @@ export default function CarLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Improve Credit Score:</strong> A higher credit score (750+) qualifies you for lower interest rates. Check your score regularly and correct any errors.</span>
+                        <span><strong className="text-gray-300">Improve Credit Score:</strong> Check your credit report before you apply, not after. A closed loan still showing as active is the usual culprit behind an unexpectedly high quote.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
@@ -797,11 +797,11 @@ export default function CarLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
+                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Compare the total amount repayable, not the advertised rate. A low rate with a heavy fee and a bundled warranty can cost more than a plain higher rate.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
+                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Dealerships often push your file to several financiers at once. Every one of those is a hard enquiry — ask them to try a single lender first.</span>
                     </li>
                 </ul>
             </section>

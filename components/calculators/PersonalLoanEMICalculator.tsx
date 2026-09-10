@@ -8,11 +8,11 @@ import ResultBox from "@/components/common/ResultBox";
 const FAQ_DATA = [
     {
         q: "What is a personal loan EMI calculator?",
-        a: "A personal loan EMI calculator helps you estimate your monthly loan payments based on the loan amount, interest rate, and tenure. It uses the standard EMI formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is principal, r is monthly interest rate, and n is total number of payments.",
+        a: "It shows what an unsecured loan will actually cost you each month. A personal loan differs from a home or vehicle loan in one decisive way: there is no asset behind it, so the lender prices in the risk. That is why the rate is two to three times a home loan rate, why approval leans almost entirely on your income and credit record, and why the total interest deserves a hard look before you sign.",
     },
     {
         q: "How is personal loan EMI calculated?",
-        a: "Personal loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). Here P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
+        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), with r the monthly rate and n the number of months. The arithmetic is the same as any other loan; what makes a personal loan expensive is the rate that goes into it. ₹5,00,000 over 3 years costs ₹16,607 a month at 12% and ₹17,579 at 16% — a difference of under ₹1,000 a month, but ₹34,969 more in interest over the term.",
     },
     {
         q: "What is a good personal loan interest rate?",
@@ -36,19 +36,19 @@ const FAQ_DATA = [
     },
     {
         q: "What documents are required for a personal loan?",
-        a: "Common documents include: Identity proof (Aadhaar, PAN), Address proof, Income proof (salary slips, bank statements), Employment proof, and sometimes collateral documents. Salaried individuals need last 3 months' salary slips and bank statements.",
+        a: "Because nothing is pledged, the lender is underwriting you rather than an asset, so the file is about income stability: Aadhaar and PAN, address proof, three months of salary slips and six months of bank statements, plus Form 16 or the last two years' ITR if you are self-employed. Lenders look closely at how long you have been with your current employer and whether the salary credit is regular.",
     },
     {
         q: "How much personal loan can I get?",
-        a: "The loan amount depends on your income, credit score, existing loans, and lender's policies. Usually, you can get up to 10-20 times your monthly net income. For example, with a ₹50,000 monthly salary, you may qualify for ₹5-10 lakh loan. Use our calculator to check your EMI affordability.",
+        a: "Most lenders work from a multiple of monthly income — commonly 10 to 24 times net salary — and then cap it so that all your EMIs together stay under 40-50% of income. An existing car loan or a large credit card balance therefore reduces what you can borrow here, rupee for rupee. Improving that ratio before you apply raises the sanction more reliably than anything else.",
     },
     {
         q: "What are processing fees for personal loans?",
-        a: "Processing fees range from 0.5% to 3% of the loan amount plus GST. For a ₹5 lakh loan, fees can be ₹2,500 to ₹15,000. Some lenders offer zero processing fees during promotional periods. Always factor processing fees into your total loan cost.",
+        a: "Typically 1-3% of the loan plus GST, higher than on a secured loan, and usually deducted from the amount disbursed rather than billed separately. On ₹5,00,000 a 2.5% fee means ₹12,500 plus GST never reaches your account, so you repay interest on money you did not receive. Compare lenders on the amount that actually lands, not the headline rate.",
     },
     {
         q: "How does loan tenure affect EMI and total interest?",
-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹5 lakh loan at 12% interest: 3 years EMI ₹16,607, total interest ₹97,852; 5 years EMI ₹11,122, total interest ₹167,320. Balance affordability with total cost.",
+        a: "On ₹5,00,000 at 12%, one year costs ₹44,424 a month and ₹33,093 in interest; five years drops the EMI to ₹11,122 but the interest rises to ₹1,67,333 — five times as much. Unsecured rates make this trade far more punishing than it is on a home loan, so take the shortest term whose EMI you can actually sustain.",
     },
     {
         q: "What is the EMI for a ₹1 lakh personal loan?",
@@ -64,7 +64,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to reduce personal loan EMI?",
-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment if available, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find optimal loan structure.",
+        a: "Refinancing to a lower rate is usually the biggest single win on an unsecured loan, and a balance transfer to a bank you already have a relationship with is often cheaper than the NBFC that gave you the original. Beyond that: pay down a credit card first if it is running at a higher rate, prepay in part when a bonus arrives, and extend the tenure only as a last resort — on these rates it costs more than it looks.",
     },
 ];
 
@@ -505,7 +505,7 @@ export default function PersonalLoanEMICalculator() {
                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
+                    <p className="text-gray-500 text-xs mt-4">Interest accrues on the balance outstanding, so an early prepayment saves more than the same amount paid later.</p>
                 </div>
             </section>
 
@@ -606,7 +606,7 @@ export default function PersonalLoanEMICalculator() {
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
+                <p className="text-xs text-gray-600 mt-2">* At unsecured rates, each extra year of tenure costs far more than it does on a secured loan</p>
             </section>
 
             {/* Eligibility Criteria */}
@@ -634,7 +634,7 @@ export default function PersonalLoanEMICalculator() {
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
+                <p className="text-xs text-gray-600 mt-3">* Banks price unsecured lending lower than NBFCs but approve fewer files. If you hold a salary account, start there.</p>
             </section>
 
             {/* Tips for Lower EMI */}
@@ -643,11 +643,11 @@ export default function PersonalLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Improve Credit Score:</strong> A higher credit score (750+) qualifies you for lower interest rates. Check your score regularly and correct any errors.</span>
+                        <span><strong className="text-gray-300">Improve Credit Score:</strong> With no collateral, your credit score is effectively the security. The gap between a 700 and a 780 file is usually several percentage points here, far wider than on a secured loan.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose Longer Tenure:</strong> While total interest is higher, longer tenure significantly reduces monthly EMI. Ideal for tight monthly budgets.</span>
+                        <span><strong className="text-gray-300">Choose Longer Tenure:</strong> A longer term buys breathing room in the monthly budget and costs a great deal for it. Use it deliberately, not by default.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
@@ -674,11 +674,11 @@ export default function PersonalLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Over-borrowing:</strong> Borrow only what you need. Higher loan amount means higher EMI and more interest. Use our calculator to find your comfortable EMI.</span>
+                        <span><strong className="text-gray-300">Over-borrowing:</strong> Lenders often sanction more than you asked for, because a larger loan earns them more. Take the amount you came for.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Ignoring Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
+                        <span><strong className="text-gray-300">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow ₹5,00,000 and receive less. Ask for the net figure in writing.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
@@ -690,7 +690,7 @@ export default function PersonalLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
+                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Rate-shopping across aggregator sites can trigger several hard enquiries in a week, which reads as distress borrowing. Ask for a soft-check quote instead.</span>
                     </li>
                 </ul>
             </section>

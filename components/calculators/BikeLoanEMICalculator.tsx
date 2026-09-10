@@ -8,63 +8,63 @@ import ResultBox from "@/components/common/ResultBox";
 const FAQ_DATA = [
     {
         q: "What is a bike loan EMI calculator?",
-        a: "A bike loan EMI calculator helps you estimate your monthly payments for your two-wheeler purchase. It uses the standard EMI formula to calculate equal monthly installments based on the loan amount, interest rate, and tenure, helping you plan your bike purchase budget effectively.",
+        a: "It works out the monthly instalment on a two-wheeler loan before you sign anything at the showroom. Two-wheeler finance is a different market from car finance: the amounts are small (usually ₹50,000 to ₹1.5 lakh), most of the lending is done by NBFCs rather than banks, and the paperwork is often filled in at the dealership in under an hour. That speed is convenient, and it is also why people agree to a tenure and a rate they have not checked. Working out the EMI yourself first is the whole point.",
     },
     {
         q: "How is bike loan EMI calculated?",
-        a: "Bike loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
+        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the amount financed, r is the monthly rate (annual ÷ 12) and n is the number of months. On a small loan the percentage matters less than you would think in rupee terms: on ₹80,000 over 3 years, the difference between 11% and 12% is about ₹38 a month. What actually moves the number is how much you finance and for how long.",
     },
     {
-        q: "What is the current bike loan interest rate?",
-        a: "Bike loan interest rates in India typically range from 8% to 16% per annum, depending on the lender, loan amount, tenure, and your credit score. Top lenders like SBI, HDFC, and Bajaj Finance offer rates between 8-12% for new bikes and 10-16% for used bikes.",
+        q: "What interest rate should I expect on a bike loan?",
+        a: "Two-wheeler rates are typically higher than car rates because the ticket size is small and the asset depreciates fast. New bikes commonly fall in the 8-16% range and used bikes higher again, with NBFCs at the upper end and banks at the lower end if you already bank with them. Rates change often and vary by model, so treat any figure you read online as a starting point and ask two lenders for a written quote before you decide.",
     },
     {
-        q: "What is the maximum tenure for a bike loan?",
-        a: "Bike loan tenures typically range from 12 to 48 months (1-4 years). New bike loans usually offer up to 4 years, while used bike loans are typically limited to 2-3 years. Longer tenures mean lower EMIs but higher total interest payments.",
+        q: "How long should a bike loan run?",
+        a: "Lenders offer 12 to 48 months. Just because 48 is offered does not mean it is sensible. On ₹80,000 at 11%, a 1-year loan costs ₹7,071 a month and ₹4,846 in interest; stretching to 4 years drops the EMI to ₹2,068 but the interest nearly quadruples to ₹19,247 — on a bike that will be worth a fraction of its price by then. Two years is the usual sweet spot for a commuter bike.",
     },
     {
-        q: "What is the difference between new bike and used bike loan rates?",
-        a: "New bike loans typically have lower interest rates (8-12%) compared to used bike loans (10-16%). New bikes also get longer tenures (up to 4 years) while used bikes usually get 2-3 years. This is because new bikes have higher resale value and lower risk for lenders.",
+        q: "How much down payment should I make?",
+        a: "Lenders finance 80-90% of the on-road price, and dealerships push low or zero down payment hard because it makes the bike look affordable. It is the single most effective lever you have. On a ₹1,00,000 on-road bike at 12% over 3 years: pay nothing down and the EMI is ₹3,321 with ₹19,572 in interest; put ₹20,000 down and it is ₹2,657 with ₹15,657. Every rupee you pay upfront is a rupee you never pay interest on.",
     },
     {
-        q: "How does credit score affect bike loan interest rate?",
-        a: "A good credit score (700+) helps you get lower interest rates on bike loans. For example, a 1% lower interest rate on a ₹1 lakh bike loan for 3 years can save you approximately ₹150 per month in EMI and over ₹5,000 in total interest.",
+        q: "What does the on-road price include, and what gets financed?",
+        a: "Ex-showroom price is only the start. On-road adds RTO registration, road tax, and the first year of insurance, and dealerships routinely add accessories, extended warranty and a handling charge on top. All of it can be rolled into the loan, which is how a ₹85,000 bike becomes a ₹1,10,000 loan. Ask for the on-road breakup in writing, decide what you actually want, and enter only that amount here.",
     },
     {
-        q: "What is the down payment required for a bike loan?",
-        a: "Typically, banks finance 80-90% of the bike's on-road price. You need to pay 10-20% as down payment. For example, for a ₹1 lakh bike, you may need to pay ₹10,000-20,000 as down payment. Some lenders offer 100% financing with higher interest rates.",
+        q: "Can I get a loan on a used bike?",
+        a: "It is harder than for a used car. Many lenders will not finance two-wheelers older than 3-5 years at all, tenures are capped at 2-3 years, and rates run several points higher. You will also need the seller's RC with hypothecation already cleared, a valid insurance transfer and, in most states, an NOC if the bike is registered elsewhere. For older or cheaper bikes, a small personal loan is often the cheaper route.",
     },
     {
-        q: "What documents are required for a bike loan?",
-        a: "Common documents include: Identity proof (Aadhaar, PAN, Voter ID), Address proof, Income proof (salary slips, bank statements), Employment proof, Bike invoice, and insurance documents. Salaried individuals need last 3 months' salary slips and 6 months' bank statements.",
+        q: "What documents do I need?",
+        a: "Less than for a car loan. Identity and address proof (Aadhaar and PAN), a photograph, and proof that money comes in — three months of salary slips for a salaried applicant, or six months of bank statements for anyone self-employed. Many NBFCs approve small two-wheeler loans on Aadhaar and a bank statement alone. Keep the dealer's proforma invoice handy, since the loan is sanctioned against it.",
     },
     {
-        q: "Can I prepay my bike loan?",
-        a: "Yes, most lenders allow prepayment of bike loans. However, prepayment charges may apply (typically 2-5% of the outstanding amount). Some lenders allow prepayment after 6-12 months without penalty. Always check your loan agreement for prepayment terms.",
+        q: "What happens if I want to close the loan early?",
+        a: "Most lenders allow foreclosure after 6-12 EMIs, usually with a charge of 2-5% on the outstanding amount, and some add GST on that charge. On a small loan the charge can eat most of the interest you were trying to save, so check the figure before you pay off early — ask for a foreclosure statement, which the lender must give you, and compare it against the interest you would otherwise pay.",
     },
     {
-        q: "What is the EMI for a ₹50,000 bike loan?",
-        a: "For a ₹50,000 bike loan at 10% interest: 1 year EMI ₹4,395, total interest ₹2,740; 2 years EMI ₹2,307, total interest ₹5,368; 3 years EMI ₹1,613, total interest ₹8,068. Use our calculator to check EMIs for different loan amounts and tenures.",
+        q: "What is the EMI on a ₹80,000 bike loan?",
+        a: "At 11%: 1 year is ₹7,071 a month with ₹4,846 total interest; 2 years is ₹3,729 with ₹9,487; 3 years is ₹2,619 with ₹14,288. At 14% the same loan over 3 years costs ₹2,734 a month and ₹18,432 in interest. Change the figures above to match the quote you were actually given rather than relying on any of these.",
     },
     {
-        q: "How does loan tenure affect EMI and total interest?",
-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹1 lakh bike loan at 10%: 1 year EMI ₹8,790 (total interest ₹5,480); 3 years EMI ₹3,226 (total interest ₹16,136). Choose based on your monthly budget.",
+        q: "Why does the same bike cost more when I pay monthly?",
+        a: "Because you are buying money as well as a bike. A ₹1,20,000 loan at 11% over 4 years hands the lender ₹28,870 — roughly a quarter of the bike's price again — for the convenience of paying later. That is not an argument against financing; it is an argument for knowing the number. The total interest line in the result above is the price of the loan itself.",
     },
     {
-        q: "What is the difference between fixed and floating rates for bike loans?",
-        a: "Fixed rates remain constant throughout the loan tenure, offering predictability but usually higher rates. Floating rates change with market conditions, offering potentially lower rates but with uncertainty. Most bike loans in India are fixed rate.",
+        q: "Should I take the insurance the dealer offers?",
+        a: "The first year of insurance is usually bundled into the on-road price, and lenders are happy to finance it because it protects their asset. You are free to buy comprehensive cover elsewhere and often for less, but do it before delivery, not after — the bike cannot be registered or released without valid cover. From year two onward, renewing directly is almost always cheaper than whatever the dealer quotes.",
     },
     {
-        q: "What is the processing fee for bike loans?",
-        a: "Processing fees typically range from 0.5% to 2% of the loan amount plus GST. For a ₹1 lakh bike loan, fees can be ₹500 to ₹2,000. Many lenders offer zero processing fees during promotional periods or for specific bike models.",
+        q: "How much is the processing fee?",
+        a: "Usually 0.5-2% of the loan, plus GST, and often with a floor of ₹500-₹1,500. On a small two-wheeler loan a flat floor hurts disproportionately: ₹1,500 on a ₹60,000 loan is 2.5% before a single rupee of interest. Ask whether the fee is deducted from the disbursal or added to the loan — if it is added, you pay interest on the fee for the whole tenure.",
     },
     {
-        q: "Can I get a bike loan with a low CIBIL score?",
-        a: "While a low CIBIL score (below 650) makes approval difficult, some NBFCs and fintech lenders offer bike loans at higher interest rates. You can also improve approval chances by making a larger down payment, adding a co-applicant, or providing collateral.",
+        q: "Can I get a bike loan with a low or no credit score?",
+        a: "A two-wheeler loan is often a person's first credit product, so lenders are used to thin files and will look at income stability and address history instead. With a score below 650 expect a higher rate, a larger down payment, or a request for a co-applicant. If you do take it, treat it as a score-building exercise: 24 EMIs paid on time will do more for your credit record than anything else at that stage.",
     },
     {
-        q: "How to reduce bike loan EMI?",
-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find the optimal loan structure.",
+        q: "What actually reduces the EMI?",
+        a: "In order of how much they move the number: a bigger down payment, a shorter list of dealer add-ons, and a better rate — usually from the bank you already hold a salary account with. Extending the tenure also reduces the EMI, and it is the option dealerships suggest first, but it raises what you pay overall. Run both versions in the calculator above and compare the total interest, not just the monthly figure.",
     },
 ];
 
@@ -584,7 +584,7 @@ export default function BikeLoanEMICalculator() {
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Down Payment Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand how different down payment amounts affect your EMI and total interest. Find the optimal down payment for your budget.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra ₹10,000 upfront saves you over the full tenure.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ New vs Used Decision</h3>
@@ -616,7 +616,7 @@ export default function BikeLoanEMICalculator() {
                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
+                    <p className="text-gray-500 text-xs mt-4">Interest is charged on the balance still outstanding, so the interest share of each EMI falls a little every month.</p>
                 </div>
             </section>
 
@@ -717,7 +717,7 @@ export default function BikeLoanEMICalculator() {
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
+                <p className="text-xs text-gray-600 mt-2">* On a two-wheeler, a longer tenure often outlives the bike's useful resale value</p>
             </section>
 
             {/* Popular Bike Models with EMI */}
@@ -780,8 +780,8 @@ export default function BikeLoanEMICalculator() {
                             <li>• Age: 21-60 years</li>
                             <li>• Minimum monthly income: ₹15,000</li>
                             <li>• Work experience: 6+ months</li>
-                            <li>• CIBIL score: 700+ preferred</li>
-                            <li>• Valid identity and address proof</li>
+                            <li>• CIBIL score: 700+ preferred, though a thin file is common for a first bike</li>
+                            <li>• Aadhaar and PAN, plus address proof if the two differ</li>
                         </ul>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
@@ -791,11 +791,11 @@ export default function BikeLoanEMICalculator() {
                             <li>• ITR filing: 1+ years</li>
                             <li>• Business vintage: 2+ years</li>
                             <li>• Annual turnover: ₹2 lakhs+</li>
-                            <li>• Profitability track record</li>
+                            <li>• Six months of bank statements showing steady inflow</li>
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
+                <p className="text-xs text-gray-600 mt-3">* Two-wheeler lending is dominated by NBFCs, and their criteria are looser and their rates higher than a bank's. Check both.</p>
             </section>
 
             {/* Tips for Lower Bike Loan EMI */}
@@ -820,7 +820,7 @@ export default function BikeLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose Optimal Tenure:</strong> Choose a tenure that balances EMI affordability with total interest. Don't go for the longest tenure just for lower EMI.</span>
+                        <span><strong className="text-gray-300">Choose Optimal Tenure:</strong> Match the tenure to how long you will actually keep the bike. Paying for a commuter bike in year four of ownership is how people end up with an EMI on something they no longer ride.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-blue-400 mt-0.5">💡</span>
@@ -835,7 +835,7 @@ export default function BikeLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Ignoring On-Road Price:</strong> Always calculate EMI based on the on-road price (ex-showroom + RTO + insurance), not just the ex-showroom price.</span>
+                        <span><strong className="text-gray-300">Ignoring On-Road Price:</strong> Dealers quote ex-showroom. The loan is written against the on-road figure — RTO, road tax, insurance and any accessories they add — which is routinely 20-25% higher.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
@@ -843,15 +843,15 @@ export default function BikeLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Choosing Longest Tenure:</strong> While it reduces EMI, it significantly increases total interest. Only choose long tenure if you absolutely need lower EMI.</span>
+                        <span><strong className="text-gray-300">Choosing Longest Tenure:</strong> Stretching ₹80,000 from two years to four cuts the EMI by ₹1,661 and adds ₹9,760 in interest. Take that trade only if the shorter EMI genuinely does not fit.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
+                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> On small loans the flat minimum processing fee matters more than the percentage. Ask for the rupee figure, not the rate.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
+                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Each application leaves a hard enquiry. Dealerships often submit to several financiers at once to get you approved fast — ask them to apply to one first.</span>
                     </li>
                 </ul>
             </section>

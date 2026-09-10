@@ -1,0 +1,1446 @@
+From ca10e464cfbaddd719153773dfcc414e26b6bde3 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 10 Sep 2026 18:54:10 +0000
+Subject: [PATCH] Finish the currency pass, and stop hiding results on 21 more
+ calculators
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Two loose ends from the last patch, both found by reading the deployed
+pages rather than the diff.
+
+The lakh and crore figures were not all spelled out. Several files used
+the abbreviations — "$50L", "$1Cr", "$14.2L" — which my search for the
+words "lakh" and "crore" walked straight past, so a dollar sign ended up
+in front of an Indian magnitude. The amortization page was the worst of
+it: its preset buttons read $10L, $25L, $50L, $75L, $1Cr on a page whose
+default had just become dollars.
+
+Those presets are now $150K to $750K, at 5.5%-7.5%, with extra payments
+of $100-$1,000 a month — the shape of an American mortgage — and the
+label is formatted by Intl in compact notation, so the same button reads
+"$350K" for a reader in Ohio and "₹3.5L" for one in Pune without either
+being hard-coded. Loan Comparison, Loan Prepayment, Sales Commission and
+College Cost had their worked examples rebuilt at real US amounts, and
+38 numbers still carrying Indian digit grouping were reformatted.
+
+The 9 multi-mode calculators the last patch could not touch are done.
+Each has several independent modes, and recomputing one would have
+overwritten whichever the visitor had picked; seven already had a
+dispatcher that reads the mode, and Grade and Final Grade needed one
+written. With 12 more converted along the way, 103 of 117 calculators
+now answer as you type.
+
+The 14 still behind a button are date and time tools whose validation
+could not be made silent mechanically, plus the invoice generator, where
+a button is the right control anyway.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PHRT6vhhyEyck1uNY7XC3G
+---
+ .../calculators/AmortizationCalculator.tsx    | 14 ++++----
+ components/calculators/AngleConverter.tsx     |  8 +++--
+ components/calculators/AreaCalculator.tsx     | 18 ++++++----
+ components/calculators/AreaConverter.tsx      |  8 +++--
+ components/calculators/BodyFatCalculator.tsx  | 10 ++++--
+ .../calculators/BreakEvenCalculator.tsx       | 16 ++++-----
+ components/calculators/CAGRCalculator.tsx     |  4 +--
+ .../calculators/CollegeCostCalculator.tsx     | 12 +++----
+ .../calculators/CookingTimeCalculator.tsx     | 14 +++++---
+ components/calculators/DataConverter.tsx      |  8 +++--
+ .../DistanceSpeedTimeCalculator.tsx           | 18 ++++++----
+ components/calculators/EnergyConverter.tsx    |  8 +++--
+ .../calculators/FinalGradeCalculator.tsx      | 14 +++++---
+ components/calculators/FuelCostCalculator.tsx |  8 +++--
+ components/calculators/GradeCalculator.tsx    | 12 ++++---
+ .../calculators/LoanComparisonCalculator.tsx  |  8 ++---
+ .../calculators/LoanPrepaymentCalculator.tsx  | 36 +++++++++----------
+ .../LuggageAllowanceCalculator.tsx            |  6 +++-
+ components/calculators/PaceCalculator.tsx     | 18 ++++++----
+ .../calculators/PercentageMarksCalculator.tsx | 12 ++++---
+ components/calculators/PowerConverter.tsx     |  8 +++--
+ components/calculators/PressureConverter.tsx  |  8 +++--
+ .../calculators/ProfitMarginCalculator.tsx    |  2 +-
+ .../calculators/PythagoreanCalculator.tsx     | 14 +++++---
+ components/calculators/ROICalculator.tsx      |  6 ++--
+ components/calculators/RatioCalculator.tsx    | 12 ++++---
+ .../calculators/SalesCommissionCalculator.tsx | 34 ++++++++++--------
+ components/calculators/VolumeCalculator.tsx   | 16 +++++----
+ components/common/useCurrency.ts              |  6 ++++
+ lib/currency.ts                               | 16 +++++++++
+ 30 files changed, 238 insertions(+), 136 deletions(-)
+
+diff --git a/components/calculators/AmortizationCalculator.tsx b/components/calculators/AmortizationCalculator.tsx
+index 8c4ac70..b93f541 100644
+--- a/components/calculators/AmortizationCalculator.tsx
++++ b/components/calculators/AmortizationCalculator.tsx
+@@ -115,7 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function AmortizationCalculator() {
+-    const { symbol } = useCurrency();
++    const { symbol, compact } = useCurrency();
+     const [loanAmount, setLoanAmount] = useState("");
+     const [interestRate, setInterestRate] = useState("");
+     const [tenure, setTenure] = useState("");
+@@ -272,10 +272,10 @@ export default function AmortizationCalculator() {
+     useEffect(() => { calculateAmortization(); }, [loanAmount, interestRate, tenure, extraPayment]);
+ 
+     // Preset values
+-    const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
+-    const presetRates = [7, 8, 9, 10, 11];
++    const presetAmounts = [150000, 250000, 350000, 500000, 750000];
++    const presetRates = [5.5, 6, 6.5, 7, 7.5];
+     const presetTenures = [60, 120, 180, 240, 300, 360];
+-    const presetExtraPayments = [0, 1000, 2000, 5000, 10000];
++    const presetExtraPayments = [0, 100, 250, 500, 1000];
+ 
+     return (
+         <>
+@@ -325,8 +325,8 @@ export default function AmortizationCalculator() {
+                             <div className="relative">
+                                 <input
+                                     type="number"
+-                                    step="100000"
+-                                    placeholder="e.g., 5000000"
++                                    step="10000"
++                                    placeholder="e.g., 350000"
+                                     value={loanAmount}
+                                     onChange={(e) => setLoanAmount(e.target.value)}
+                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+@@ -340,7 +340,7 @@ export default function AmortizationCalculator() {
+                                         onClick={() => setLoanAmount(amount.toString())}
+                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                     >
+-                                        {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
++                                        {compact(amount)}
+                                     </button>
+                                 ))}
+                             </div>
+diff --git a/components/calculators/AngleConverter.tsx b/components/calculators/AngleConverter.tsx
+index 09a3dfe..af8ec61 100644
+--- a/components/calculators/AngleConverter.tsx
++++ b/components/calculators/AngleConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -79,7 +79,7 @@ export default function AngleConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = ANGLE_UNITS.find(u => u.value === fromUnit)!;
+         const to = ANGLE_UNITS.find(u => u.value === toUnit)!;
+@@ -89,6 +89,10 @@ export default function AngleConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/AreaCalculator.tsx b/components/calculators/AreaCalculator.tsx
+index 041ec93..ed8666f 100644
+--- a/components/calculators/AreaCalculator.tsx
++++ b/components/calculators/AreaCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -96,7 +96,7 @@ export default function AreaCalculator() {
+         switch (shape) {
+             case "square":
+                 const s = parseFloat(side);
+-                if (!s || s <= 0) { alert("Please enter side length"); return; }
++                if (!s || s <= 0) { setResult(null); return; }
+                 area = s * s;
+                 formula = "Side × Side";
+                 calculation = `${s} × ${s} = ${area}`;
+@@ -104,14 +104,14 @@ export default function AreaCalculator() {
+             case "rectangle":
+                 const l = parseFloat(length);
+                 const w = parseFloat(width);
+-                if (!l || !w || l <= 0 || w <= 0) { alert("Please enter length and width"); return; }
++                if (!l || !w || l <= 0 || w <= 0) { setResult(null); return; }
+                 area = l * w;
+                 formula = "Length × Width";
+                 calculation = `${l} × ${w} = ${area}`;
+                 break;
+             case "circle":
+                 const r = parseFloat(radius);
+-                if (!r || r <= 0) { alert("Please enter radius"); return; }
++                if (!r || r <= 0) { setResult(null); return; }
+                 area = Math.PI * r * r;
+                 formula = "π × r²";
+                 calculation = `π × ${r}² = ${area.toFixed(4)}`;
+@@ -119,7 +119,7 @@ export default function AreaCalculator() {
+             case "triangle":
+                 const b = parseFloat(base);
+                 const h = parseFloat(height);
+-                if (!b || !h || b <= 0 || h <= 0) { alert("Please enter base and height"); return; }
++                if (!b || !h || b <= 0 || h <= 0) { setResult(null); return; }
+                 area = 0.5 * b * h;
+                 formula = "½ × Base × Height";
+                 calculation = `½ × ${b} × ${h} = ${area}`;
+@@ -127,7 +127,7 @@ export default function AreaCalculator() {
+             case "parallelogram":
+                 const baseP = parseFloat(base);
+                 const heightP = parseFloat(height);
+-                if (!baseP || !heightP || baseP <= 0 || heightP <= 0) { alert("Please enter base and height"); return; }
++                if (!baseP || !heightP || baseP <= 0 || heightP <= 0) { setResult(null); return; }
+                 area = baseP * heightP;
+                 formula = "Base × Height";
+                 calculation = `${baseP} × ${heightP} = ${area}`;
+@@ -136,7 +136,7 @@ export default function AreaCalculator() {
+                 const a = parseFloat(baseA);
+                 const bT = parseFloat(baseB);
+                 const hT = parseFloat(height);
+-                if (!a || !bT || !hT || a <= 0 || bT <= 0 || hT <= 0) { alert("Please enter both bases and height"); return; }
++                if (!a || !bT || !hT || a <= 0 || bT <= 0 || hT <= 0) { setResult(null); return; }
+                 area = 0.5 * (a + bT) * hT;
+                 formula = "½ × (a + b) × h";
+                 calculation = `½ × (${a} + ${bT}) × ${hT} = ${area}`;
+@@ -152,6 +152,10 @@ export default function AreaCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [shape, side, length, width, radius, base, height, baseA, baseB]);
++
+     const resetForm = () => {
+         setShape("square");
+         setSide("");
+diff --git a/components/calculators/AreaConverter.tsx b/components/calculators/AreaConverter.tsx
+index 81c2f5e..7479f11 100644
+--- a/components/calculators/AreaConverter.tsx
++++ b/components/calculators/AreaConverter.tsx
+@@ -1,6 +1,6 @@
+ // // "use client";
+ 
+-// import { useState } from "react";
++// import { useEffect, useState } from "react";
+ // import ResultBox from "@/components/common/ResultBox";
+ 
+ // // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -260,7 +260,7 @@ export default function AreaConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = AREA_UNITS.find(u => u.value === fromUnit)!;
+         const to = AREA_UNITS.find(u => u.value === toUnit)!;
+@@ -270,6 +270,10 @@ export default function AreaConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit, value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/BodyFatCalculator.tsx b/components/calculators/BodyFatCalculator.tsx
+index 90c8609..6acdd0e 100644
+--- a/components/calculators/BodyFatCalculator.tsx
++++ b/components/calculators/BodyFatCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -85,7 +85,7 @@ export default function BodyFatCalculator() {
+     const a = parseFloat(age);
+ 
+     if (!w || !h || !n || !wa || !a) {
+-      alert("Please enter all required values (age, weight, height, neck, waist)");
++      setResult(null);
+       return;
+     }
+ 
+@@ -102,7 +102,7 @@ export default function BodyFatCalculator() {
+       else if (bodyFatPercentage < 25) { category = "Average"; colorClass = "text-yellow-400"; }
+       else { category = "Obese (High Risk)"; colorClass = "text-red-400"; }
+     } else {
+-      if (!hi) { alert("Please enter hip measurement for women"); return; }
++      if (!hi) { setResult(null); return; }
+       bodyFatPercentage = 163.205 * Math.log10(wa + hi - n) - 97.684 * Math.log10(h) - 78.387;
+ 
+       if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-400"; }
+@@ -127,6 +127,10 @@ export default function BodyFatCalculator() {
+     });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [gender, age, weight, height, neck, waist, hip]);
++
+   const resetForm = () => {
+     setGender("male");
+     setAge("");
+diff --git a/components/calculators/BreakEvenCalculator.tsx b/components/calculators/BreakEvenCalculator.tsx
+index 1dceeee..b83deb5 100644
+--- a/components/calculators/BreakEvenCalculator.tsx
++++ b/components/calculators/BreakEvenCalculator.tsx
+@@ -14,11 +14,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to calculate break-even point in units?",
+-        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs $1,00,000, selling price $500, variable cost $300 → Contribution = $200 → Break-even = 1,00,000 ÷ 200 = 500 units.",
++        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs $100,000, selling price $500, variable cost $300 → Contribution = $200 → Break-even = 100,000 ÷ 200 = 500 units.",
+     },
+     {
+         q: "How to calculate break-even point in revenue?",
+-        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs $1,00,000, margin 40% → Break-even revenue = $2,50,000.",
++        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs $100,000, margin 40% → Break-even revenue = $250,000.",
+     },
+     {
+         q: "What is contribution margin?",
+@@ -35,10 +35,10 @@ const FAQ_DATA = [
+ ];
+ 
+ const BREAK_EVEN_EXAMPLES = [
+-    { business: "Coffee Shop", fixedCosts: "$2,00,000", pricePerUnit: "$150", variableCost: "$50", breakEven: "2,000 cups" },
++    { business: "Coffee Shop", fixedCosts: "$200,000", pricePerUnit: "$150", variableCost: "$50", breakEven: "2,000 cups" },
+     { business: "T-Shirt Brand", fixedCosts: "$50,000", pricePerUnit: "$500", variableCost: "$200", breakEven: "167 shirts" },
+-    { business: "Software SaaS", fixedCosts: "$5,00,000", pricePerUnit: "$1,000", variableCost: "$100", breakEven: "556 customers" },
+-    { business: "Restaurant", fixedCosts: "$3,00,000", pricePerUnit: "$400", variableCost: "$150", breakEven: "1,200 meals" },
++    { business: "Software SaaS", fixedCosts: "$500,000", pricePerUnit: "$1,000", variableCost: "$100", breakEven: "556 customers" },
++    { business: "Restaurant", fixedCosts: "$300,000", pricePerUnit: "$400", variableCost: "$150", breakEven: "1,200 meals" },
+ ];
+ 
+ // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
+@@ -425,7 +425,7 @@ export default function BreakEvenCalculator() {
+             <section className="mb-8">
+                 <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Break-even Analysis</h2>
+                 <div className="space-y-3">
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with $3,00,000 fixed costs, $400 average meal price, and $150 variable cost needs 1,200 meals to break even.</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with $300,000 fixed costs, $400 average meal price, and $150 variable cost needs 1,200 meals to break even.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">E-commerce Brands:</strong> Determine how many products you must sell monthly to cover website hosting, marketing, inventory storage, and payment gateway fees. Break-even analysis helps plan ad spend and discount strategies.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">SaaS Companies:</strong> Calculate how many customers at $1,000/month are needed to cover development costs, server expenses, customer support, and sales team salaries. This guides pricing and customer acquisition goals.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Freelancers & Consultants:</strong> Determine how many billable hours or projects per month are needed to cover business expenses, software subscriptions, marketing, and personal salary requirements.</p>
+@@ -440,12 +440,12 @@ export default function BreakEvenCalculator() {
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Break-even in Units</h3>
+                         <p className="text-white font-mono text-sm mb-2">BE (units) = Fixed Costs ÷ (Price - Variable Cost)</p>
+-                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ $200 = 500 units</p>
++                        <p className="text-gray-500 text-xs">Example: $100,000 ÷ $200 = 500 units</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                         <h3 className="text-sm font-semibold text-green-400 mb-2">Break-even in Revenue</h3>
+                         <p className="text-white font-mono text-sm mb-2">BE ({symbol}) = Fixed Costs ÷ Contribution Margin Ratio</p>
+-                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ 40% = $2,50,000</p>
++                        <p className="text-gray-500 text-xs">Example: $100,000 ÷ 40% = $250,000</p>
+                     </div>
+                 </div>
+             </section>
+diff --git a/components/calculators/CAGRCalculator.tsx b/components/calculators/CAGRCalculator.tsx
+index 916197d..ab82769 100644
+--- a/components/calculators/CAGRCalculator.tsx
++++ b/components/calculators/CAGRCalculator.tsx
+@@ -271,11 +271,11 @@ export default function CAGRCalculator() {
+                 <div className="space-y-4">
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Example 1: Mutual Fund Performance</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $1,20,000 | CAGR = (1,20,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
++                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $120,000 | CAGR = (120,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-green-400 mb-2">Example 2: Stock Market Investment</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $2,00,000 in blue-chip stocks | After 10 years: $5,00,000 | CAGR = (5,00,000/2,00,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
++                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $200,000 in blue-chip stocks | After 10 years: $500,000 | CAGR = (500,000/200,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">Example 3: Business Growth</h3>
+diff --git a/components/calculators/CollegeCostCalculator.tsx b/components/calculators/CollegeCostCalculator.tsx
+index 6ed6103..d3794af 100644
+--- a/components/calculators/CollegeCostCalculator.tsx
++++ b/components/calculators/CollegeCostCalculator.tsx
+@@ -40,11 +40,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is the 4-4-4-4 cost breakdown?",
+-        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save 4 times your annual college cost before starting. Example: $4L/year college → save $16L before enrolling.",
++        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save roughly four times one year's cost before the first semester. Example: a college that runs $29,000 a year → aim for about $116,000 saved.",
+     },
+     {
+         q: "When to start saving for college?",
+-        a: "Start saving when child is born. Monthly saving targets: $2,000/month for 18 years at 8% = $9.6L corpus. $5,000/month = $24L corpus. $10,000/month = $48L corpus. Earlier start means lower monthly burden.",
++        a: "Start saving when child is born. Monthly saving targets, at a 7% average return over 18 years: $200/month grows to about $86,000; $400/month to about $172,000; $700/month to about $300,000. Earlier start means lower monthly burden.",
+     },
+ ];
+ 
+@@ -223,8 +223,8 @@ export default function CollegeCostCalculator() {
+             <section className="mb-8">
+                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This College Cost Calculator</h2>
+                 <div className="space-y-3">
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost ($2L-$25L/year depending on course).</p>
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — hostel/mess costs ($50k-$2L/year).</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost, roughly $9,000 a year in-state and up to $60,000 at a private college.</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — housing and a meal plan, typically $12,000-$14,000 a year on campus.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">books & supplies</strong> — textbooks, stationery ($10k-$30k/year).</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">transportation</strong> — commute costs ($5k-$20k/year).</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter <strong className="text-white">personal/miscellaneous</strong> — pocket money, clothes, entertainment ($20k-$50k/year).</p>
+@@ -299,8 +299,8 @@ export default function CollegeCostCalculator() {
+             <section className="mb-8">
+                 <h2 className="text-xl font-semibold text-white mb-3">Smart Savings Strategies for College</h2>
+                 <ul className="space-y-2">
+-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start early with SIP:</strong> $5,000/month from child's birth at 12% returns = $48L after 18 years ($10.8L invested, $37.2L gains).</span></li>
+-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use 529-equivalent plans:</strong> SSY (Sukanya Samriddhi for girls), PPF (up to $1.5L/year), NPS (for parents, tax-saving).</span></li>
++                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
++                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
+                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
+                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
+                 </ul>
+diff --git a/components/calculators/CookingTimeCalculator.tsx b/components/calculators/CookingTimeCalculator.tsx
+index 8e8c7b3..bf8c4f5 100644
+--- a/components/calculators/CookingTimeCalculator.tsx
++++ b/components/calculators/CookingTimeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -113,7 +113,7 @@ export default function CookingTimeCalculator() {
+         const newTempVal = parseFloat(newTemp);
+ 
+         if (!time || time <= 0 || !oldTemp || oldTemp <= 0 || !newTempVal || newTempVal <= 0) {
+-            alert("Please enter valid time and temperatures");
++            setResult(null);
+             return;
+         }
+ 
+@@ -138,7 +138,7 @@ export default function CookingTimeCalculator() {
+         const newQty = parseFloat(newQuantity);
+ 
+         if (!time || time <= 0 || !oldQty || oldQty <= 0 || !newQty || newQty <= 0) {
+-            alert("Please enter valid time and quantities");
++            setResult(null);
+             return;
+         }
+ 
+@@ -172,7 +172,7 @@ export default function CookingTimeCalculator() {
+     const calculatePanAdjustment = () => {
+         const time = parseFloat(originalTime);
+         if (!time || time <= 0) {
+-            alert("Please enter valid cooking time");
++            setResult(null);
+             return;
+         }
+ 
+@@ -205,7 +205,7 @@ export default function CookingTimeCalculator() {
+         const alt = parseFloat(altitude);
+ 
+         if (!time || time <= 0 || !alt || alt <= 0) {
+-            alert("Please enter valid cooking time and altitude");
++            setResult(null);
+             return;
+         }
+ 
+@@ -255,6 +255,10 @@ export default function CookingTimeCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [adjustmentType, originalTime, originalTemp, newTemp, originalQuantity, newQuantity, panAdjustment, altitude]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/DataConverter.tsx b/components/calculators/DataConverter.tsx
+index 8e5a8e3..30f80db 100644
+--- a/components/calculators/DataConverter.tsx
++++ b/components/calculators/DataConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -105,7 +105,7 @@ export default function DataConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = DATA_UNITS.find(u => u.value === fromUnit)!;
+         const to = DATA_UNITS.find(u => u.value === toUnit)!;
+@@ -115,6 +115,10 @@ export default function DataConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/DistanceSpeedTimeCalculator.tsx b/components/calculators/DistanceSpeedTimeCalculator.tsx
+index c3dbefc..5f41ef5 100644
+--- a/components/calculators/DistanceSpeedTimeCalculator.tsx
++++ b/components/calculators/DistanceSpeedTimeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -126,13 +126,13 @@ export default function DistanceSpeedTimeCalculator() {
+         const seconds = parseFloat(timeSeconds) || 0;
+ 
+         if (dist <= 0) {
+-            alert("Please enter a valid distance");
++            setResult(null);
+             return;
+         }
+ 
+         const totalSeconds = getTotalSeconds(hours, minutes, seconds);
+         if (totalSeconds <= 0) {
+-            alert("Please enter valid time");
++            setResult(null);
+             return;
+         }
+ 
+@@ -160,13 +160,13 @@ export default function DistanceSpeedTimeCalculator() {
+         const seconds = parseFloat(distTimeSeconds) || 0;
+ 
+         if (spd <= 0) {
+-            alert("Please enter valid speed");
++            setResult(null);
+             return;
+         }
+ 
+         const totalSeconds = getTotalSeconds(hours, minutes, seconds);
+         if (totalSeconds <= 0) {
+-            alert("Please enter valid time");
++            setResult(null);
+             return;
+         }
+ 
+@@ -192,11 +192,11 @@ export default function DistanceSpeedTimeCalculator() {
+         const spd = parseFloat(timeSpeed) || 0;
+ 
+         if (dist <= 0) {
+-            alert("Please enter valid distance");
++            setResult(null);
+             return;
+         }
+         if (spd <= 0) {
+-            alert("Please enter valid speed");
++            setResult(null);
+             return;
+         }
+ 
+@@ -243,6 +243,10 @@ export default function DistanceSpeedTimeCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calculationType, distance, distanceUnit, timeHours, timeMinutes, timeSeconds, speed, speedUnit, distTimeHours, distTimeMinutes, distTimeSeconds, distOutputUnit, timeDistance, timeDistanceUnit, timeSpeed, timeSpeedUnit]);
++
+     return (
+         <>
+             <nav aria-label="Breadcrumb" className="mb-5">
+diff --git a/components/calculators/EnergyConverter.tsx b/components/calculators/EnergyConverter.tsx
+index 289878a..10d8405 100644
+--- a/components/calculators/EnergyConverter.tsx
++++ b/components/calculators/EnergyConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -105,7 +105,7 @@ export default function EnergyConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = ENERGY_UNITS.find(u => u.value === fromUnit)!;
+         const to = ENERGY_UNITS.find(u => u.value === toUnit)!;
+@@ -115,6 +115,10 @@ export default function EnergyConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/FinalGradeCalculator.tsx b/components/calculators/FinalGradeCalculator.tsx
+index 421c66c..f531c45 100644
+--- a/components/calculators/FinalGradeCalculator.tsx
++++ b/components/calculators/FinalGradeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -113,17 +113,17 @@ export default function FinalGradeCalculator() {
+         const weight = parseFloat(finalWeight);
+ 
+         if (!current || !desired || !weight) {
+-            alert("Please enter current grade, desired grade, and final exam weight");
++            setResult(null);
+             return;
+         }
+ 
+         if (current < 0 || current > 100 || desired < 0 || desired > 100) {
+-            alert("Grades must be between 0 and 100");
++            setResult(null);
+             return;
+         }
+ 
+         if (weight <= 0 || weight >= 100) {
+-            alert("Final exam weight must be between 1 and 99");
++            setResult(null);
+             return;
+         }
+ 
+@@ -175,7 +175,7 @@ export default function FinalGradeCalculator() {
+         const weight = parseFloat(finalWeight);
+ 
+         if (!current || !score || !weight) {
+-            alert("Please enter current grade, final exam score, and final exam weight");
++            setResult(null);
+             return;
+         }
+ 
+@@ -208,6 +208,10 @@ export default function FinalGradeCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { if (calcType === "needed") calculateNeeded(); else if (calcType === "whatIf") calculateWhatIf(); }, [calcType, currentGrade, desiredGrade, finalWeight, finalScore]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/FuelCostCalculator.tsx b/components/calculators/FuelCostCalculator.tsx
+index cabdc13..d65be1a 100644
+--- a/components/calculators/FuelCostCalculator.tsx
++++ b/components/calculators/FuelCostCalculator.tsx
+@@ -1,7 +1,7 @@
+ // components/calculators/FuelCostCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+ import { useCurrency } from "@/components/common/useCurrency";
+@@ -43,7 +43,7 @@ export default function FuelCostCalculator() {
+         const p = parseFloat(fuelPrice);
+         const m = parseFloat(mileage);
+ 
+-        if (!d || !p || !m || d <= 0 || p <= 0 || m <= 0) { alert("Please enter valid values"); return; }
++        if (!d || !p || !m || d <= 0 || p <= 0 || m <= 0) { setResult(null); return; }
+ 
+         let fuelNeeded, totalCost;
+         if (unit === "kml") { fuelNeeded = d / m; totalCost = fuelNeeded * p; }
+@@ -52,6 +52,10 @@ export default function FuelCostCalculator() {
+         setResult({ totalCost: Math.round(totalCost).toLocaleString(locale), fuelNeeded: fuelNeeded.toFixed(1), distance: d, costPerKm: (totalCost / d).toFixed(2) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [distance, fuelPrice, mileage, unit]);
++
+     const resetForm = () => {
+         setDistance("");
+         setFuelPrice("105");
+diff --git a/components/calculators/GradeCalculator.tsx b/components/calculators/GradeCalculator.tsx
+index e7f9e58..3b6c543 100644
+--- a/components/calculators/GradeCalculator.tsx
++++ b/components/calculators/GradeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -143,7 +143,7 @@ export default function GradeCalculator() {
+         }
+ 
+         if (totalWeight === 0) {
+-            alert("Please enter at least one assignment with valid score and weight");
++            setResult(null);
+             return;
+         }
+ 
+@@ -182,12 +182,12 @@ export default function GradeCalculator() {
+         const finalWt = parseFloat(finalWeight);
+ 
+         if (!desired || !current || !finalWt) {
+-            alert("Please enter desired grade, current grade, and final exam weight");
++            setResult(null);
+             return;
+         }
+ 
+         if (finalWt <= 0 || finalWt >= 100) {
+-            alert("Final exam weight must be between 1 and 99");
++            setResult(null);
+             return;
+         }
+ 
+@@ -227,6 +227,10 @@ export default function GradeCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { if (calcType === "weighted") calculateWeighted(); else if (calcType === "final") calculateFinal(); }, [calcType, assignments, desiredGrade, currentGrade, finalWeight]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/LoanComparisonCalculator.tsx b/components/calculators/LoanComparisonCalculator.tsx
+index 091798c..b4403f2 100644
+--- a/components/calculators/LoanComparisonCalculator.tsx
++++ b/components/calculators/LoanComparisonCalculator.tsx
+@@ -14,11 +14,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is better: lower interest rate or shorter tenure?",
+-        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: $10L loan at 9% for 5 years = $20,800 EMI, total $12.48L. Same loan at 10% for 3 years = $32,267 EMI, total $11.62L. Calculate both before deciding.",
++        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: a $30,000 loan at 9% over 5 years costs $623 a month and $37,365 in total. The same loan at 10% over 3 years costs $968 a month but only $34,857 in total. Calculate both before deciding.",
+     },
+     {
+         q: "Should I choose a loan with processing fees?",
+-        a: "Compare the effective interest rate including fees. Example: $10L loan at 8% with $10,000 fees vs 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
++        a: "Compare the effective interest rate including fees. Example: a $30,000 loan at 8% with $600 in fees, against 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
+     },
+     {
+         q: "How does prepayment affect loan comparison?",
+@@ -30,7 +30,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How does loan tenure affect total interest?",
+-        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: $50L at 9%: 10 years = $63,333 EMI ($26L interest). 20 years = $44,986 EMI ($58L interest). Choose shortest tenure you can afford for maximum savings.",
++        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: $350,000 at 6.5%: over 15 years the payment is $3,049 and the interest $199,000; over 30 years the payment drops to $2,212 but the interest more than doubles to $446,000. Choose shortest tenure you can afford for maximum savings.",
+     },
+     {
+         q: "What are hidden charges in loans?",
+@@ -38,7 +38,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to calculate effective interest rate including fees?",
+-        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: $10L loan, $50,000 interest, $10,000 fees, 3 years = (60,000) ÷ (10,00,000 × 3) × 100 = 2% effective rate (much higher than stated rate!). Always compare effective rates.",
++        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: a $30,000 loan with $4,000 interest and $600 in fees over 3 years = 4,600 ÷ (30,000 × 3) × 100 = 5.1% a year in real cost. Always compare effective rates.",
+     },
+     {
+         q: "What is the difference between secured and unsecured loans?",
+diff --git a/components/calculators/LoanPrepaymentCalculator.tsx b/components/calculators/LoanPrepaymentCalculator.tsx
+index 4ad85ab..16ef1be 100644
+--- a/components/calculators/LoanPrepaymentCalculator.tsx
++++ b/components/calculators/LoanPrepaymentCalculator.tsx
+@@ -642,16 +642,16 @@ export default function LoanPrepaymentCalculator() {
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="bg-[#0f1525] border border-gray-700 rounded-lg p-3">
+                             <p className="text-xs text-gray-500">Without Prepayment</p>
+-                            <p className="text-sm text-white mt-1">Principal: $50,00,000</p>
++                            <p className="text-sm text-white mt-1">Principal: $5,000,000</p>
+                             <p className="text-sm text-white">Rate: 9% p.a.</p>
+                             <p className="text-sm text-white">Tenure: 20 years</p>
+-                            <p className="text-sm text-orange-400 mt-1">Total Interest: $57,97,000</p>
++                            <p className="text-sm text-orange-400 mt-1">Total Interest: $5,797,000</p>
+                         </div>
+                         <div className="bg-[#0f1525] border border-green-500/30 rounded-lg p-3">
+-                            <p className="text-xs text-gray-500">With Prepayment ($5L at month 24)</p>
+-                            <p className="text-sm text-white mt-1">Principal Reduced by: $5,00,000</p>
+-                            <p className="text-sm text-white">New Balance: $45,00,000</p>
+-                            <p className="text-sm text-green-400 mt-1">Interest Saved: $7,50,000</p>
++                            <p className="text-xs text-gray-500">With Prepayment ($50,000 at month 24)</p>
++                            <p className="text-sm text-white mt-1">Principal Reduced by: $500,000</p>
++                            <p className="text-sm text-white">New Balance: $4,500,000</p>
++                            <p className="text-sm text-green-400 mt-1">Interest Saved: $179,614</p>
+                             <p className="text-sm text-green-400">Tenure Reduced: 3 years</p>
+                         </div>
+                     </div>
+@@ -673,27 +673,27 @@ export default function LoanPrepaymentCalculator() {
+                         </thead>
+                         <tbody>
+                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
+-                                <td className="py-2 px-4 text-blue-400 font-bold">$1,00,000</td>
+-                                <td className="py-2 px-4 text-right text-green-400">$1.5L</td>
+-                                <td className="py-2 px-4 text-right text-gray-300">6 months</td>
++                                <td className="py-2 px-4 text-blue-400 font-bold">$10,000</td>
++                                <td className="py-2 px-4 text-right text-green-400">$47,369</td>
++                                <td className="py-2 px-4 text-right text-gray-300">2 years 1 month</td>
+                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                             </tr>
+                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
+-                                <td className="py-2 px-4 text-blue-400 font-bold">$2,50,000</td>
+-                                <td className="py-2 px-4 text-right text-green-400">$3.8L</td>
+-                                <td className="py-2 px-4 text-right text-gray-300">14 months</td>
++                                <td className="py-2 px-4 text-blue-400 font-bold">$25,000</td>
++                                <td className="py-2 px-4 text-right text-green-400">$105,693</td>
++                                <td className="py-2 px-4 text-right text-gray-300">4 years 11 months</td>
+                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                             </tr>
+                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
+-                                <td className="py-2 px-4 text-blue-400 font-bold">$5,00,000</td>
+-                                <td className="py-2 px-4 text-right text-green-400">$7.5L</td>
+-                                <td className="py-2 px-4 text-right text-gray-300">28 months</td>
++                                <td className="py-2 px-4 text-blue-400 font-bold">$50,000</td>
++                                <td className="py-2 px-4 text-right text-green-400">$179,614</td>
++                                <td className="py-2 px-4 text-right text-gray-300">8 years 7 months</td>
+                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                             </tr>
+                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
+-                                <td className="py-2 px-4 text-blue-400 font-bold">$10,00,000</td>
+-                                <td className="py-2 px-4 text-right text-green-400">$14.2L</td>
+-                                <td className="py-2 px-4 text-right text-gray-300">52 months</td>
++                                <td className="py-2 px-4 text-blue-400 font-bold">$100,000</td>
++                                <td className="py-2 px-4 text-right text-green-400">$275,855</td>
++                                <td className="py-2 px-4 text-right text-gray-300">14 years 1 month</td>
+                                 <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                             </tr>
+                         </tbody>
+diff --git a/components/calculators/LuggageAllowanceCalculator.tsx b/components/calculators/LuggageAllowanceCalculator.tsx
+index c12d95a..aaad1bc 100644
+--- a/components/calculators/LuggageAllowanceCalculator.tsx
++++ b/components/calculators/LuggageAllowanceCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -173,6 +173,10 @@ export default function LuggageAllowanceCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, airline, bagWeight, bagCount, excessWeight, excessBags, feePerKg, feePerBag]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/PaceCalculator.tsx b/components/calculators/PaceCalculator.tsx
+index 0befed6..489edd7 100644
+--- a/components/calculators/PaceCalculator.tsx
++++ b/components/calculators/PaceCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -99,13 +99,13 @@ export default function PaceCalculator() {
+         const dist = parseFloat(distance) || 0;
+ 
+         if (dist <= 0) {
+-            alert("Please enter a valid distance");
++            setResult(null);
+             return;
+         }
+ 
+         const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+         if (totalSeconds <= 0) {
+-            alert("Please enter valid time");
++            setResult(null);
+             return;
+         }
+ 
+@@ -143,13 +143,13 @@ export default function PaceCalculator() {
+         const dist = parseFloat(timeDistance) || 0;
+ 
+         if (dist <= 0) {
+-            alert("Please enter a valid distance");
++            setResult(null);
+             return;
+         }
+ 
+         const totalPaceSeconds = (paceMin * 60) + paceSec;
+         if (totalPaceSeconds <= 0) {
+-            alert("Please enter valid pace");
++            setResult(null);
+             return;
+         }
+ 
+@@ -187,11 +187,11 @@ export default function PaceCalculator() {
+         const totalTimeSeconds = (hours * 3600) + (minutes * 60) + seconds;
+ 
+         if (totalPaceSeconds <= 0) {
+-            alert("Please enter valid pace");
++            setResult(null);
+             return;
+         }
+         if (totalTimeSeconds <= 0) {
+-            alert("Please enter valid time");
++            setResult(null);
+             return;
+         }
+ 
+@@ -234,6 +234,10 @@ export default function PaceCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calculationType, timeHours, timeMinutes, timeSeconds, distance, distanceUnit, paceMinutes, paceSeconds, paceUnit, timeDistance, distPaceMinutes, distPaceSeconds, distTimeHours, distTimeMinutes, distTimeSeconds]);
++
+     return (
+         <>
+             <nav aria-label="Breadcrumb" className="mb-5">
+diff --git a/components/calculators/PercentageMarksCalculator.tsx b/components/calculators/PercentageMarksCalculator.tsx
+index f3b3245..4a2727e 100644
+--- a/components/calculators/PercentageMarksCalculator.tsx
++++ b/components/calculators/PercentageMarksCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+@@ -78,7 +78,7 @@ export default function PercentageMarksCalculator() {
+         const total = parseFloat(totalMarks) || 0;
+ 
+         if (total <= 0) {
+-            alert("Please enter valid total marks");
++            setResult(null);
+             return;
+         }
+ 
+@@ -128,7 +128,7 @@ export default function PercentageMarksCalculator() {
+         }
+ 
+         if (totalMax <= 0) {
+-            alert("Please enter valid marks for at least one subject");
++            setResult(null);
+             return;
+         }
+ 
+@@ -161,7 +161,7 @@ export default function PercentageMarksCalculator() {
+         const factor = parseFloat(conversionFactor) || 9.5;
+ 
+         if (cgpaValue <= 0 || cgpaValue > 10) {
+-            alert("Please enter valid CGPA (0-10)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -202,6 +202,10 @@ export default function PercentageMarksCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [mode, obtainedMarks, totalMarks, subjects, cgpa, conversionFactor]);
++
+     return (
+         <>
+             <nav aria-label="Breadcrumb" className="mb-5">
+diff --git a/components/calculators/PowerConverter.tsx b/components/calculators/PowerConverter.tsx
+index 981a3f0..e31cbca 100644
+--- a/components/calculators/PowerConverter.tsx
++++ b/components/calculators/PowerConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -103,7 +103,7 @@ export default function PowerConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = POWER_UNITS.find(u => u.value === fromUnit)!;
+         const to = POWER_UNITS.find(u => u.value === toUnit)!;
+@@ -113,6 +113,10 @@ export default function PowerConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/PressureConverter.tsx b/components/calculators/PressureConverter.tsx
+index 85a8e99..cce274c 100644
+--- a/components/calculators/PressureConverter.tsx
++++ b/components/calculators/PressureConverter.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -105,7 +105,7 @@ export default function PressureConverter() {
+ 
+     const convert = () => {
+         const val = parseFloat(value);
+-        if (isNaN(val)) { alert("Please enter a valid number"); return; }
++        if (isNaN(val)) { setResult(null); return; }
+ 
+         const from = PRESSURE_UNITS.find(u => u.value === fromUnit)!;
+         const to = PRESSURE_UNITS.find(u => u.value === toUnit)!;
+@@ -115,6 +115,10 @@ export default function PressureConverter() {
+         setResult({ value: val, fromUnit: from.label, toUnit: to.label, converted: converted.toFixed(6) });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
++
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
+     const resetForm = () => {
+diff --git a/components/calculators/ProfitMarginCalculator.tsx b/components/calculators/ProfitMarginCalculator.tsx
+index caa530d..163d2b9 100644
+--- a/components/calculators/ProfitMarginCalculator.tsx
++++ b/components/calculators/ProfitMarginCalculator.tsx
+@@ -10,7 +10,7 @@ const FAQ_DATA = [
+     { q: "What is profit margin and how to calculate it?", a: "Profit margin is the percentage of revenue that remains as profit. Formula: (Revenue - Cost) ÷ Revenue × 100. Example: $1000 revenue, $600 cost = 40% profit margin." },
+     { q: "What is a good profit margin?", a: "Good profit margins by industry: Software/Apps (70-80%), Services (50-60%), Retail (20-30%), Manufacturing (15-25%), Food/Restaurants (10-15%). Small businesses should aim for 20-30%." },
+     { q: "What is the difference between markup and margin?", a: "Margin = Profit ÷ Revenue (tells profit per sale). Markup = Profit ÷ Cost (tells how much to increase cost). For $600 cost selling at $1000: Margin = 40%, Markup = 66.7%." },
+-    { q: "How to calculate profit margin percentage?", a: "Formula: ((Revenue - Cost) ÷ Revenue) × 100. Example: $1,00,000 revenue, $70,000 cost → (30,000 ÷ 1,00,000) × 100 = 30% profit margin. Higher margin means more profit per sale." },
++    { q: "How to calculate profit margin percentage?", a: "Formula: ((Revenue - Cost) ÷ Revenue) × 100. Example: $100,000 revenue, $70,000 cost → (30,000 ÷ 100,000) × 100 = 30% profit margin. Higher margin means more profit per sale." },
+     { q: "What is net profit margin vs gross profit margin?", a: "Gross Profit Margin = (Revenue - COGS) ÷ Revenue × 100 (includes only direct costs). Net Profit Margin = (Revenue - ALL expenses) ÷ Revenue × 100 (includes taxes, interest, overhead). Net margin is usually 5-15% lower than gross margin." },
+     { q: "How to increase profit margin?", a: "Strategies: 1) Increase prices (if market allows), 2) Reduce cost of goods sold (negotiate suppliers), 3) Reduce operating expenses (cut waste, optimize processes), 4) Increase sales volume to spread fixed costs, 5) Improve product mix (sell higher-margin products)." },
+     { q: "What is operating profit margin?", a: "Operating Profit Margin = Operating Income ÷ Revenue × 100. Operating income = Revenue - COGS - Operating Expenses (SG&A, R&D, depreciation). Excludes interest and taxes. Shows operational efficiency before financing and tax decisions." },
+diff --git a/components/calculators/PythagoreanCalculator.tsx b/components/calculators/PythagoreanCalculator.tsx
+index d14c44d..adf3350 100644
+--- a/components/calculators/PythagoreanCalculator.tsx
++++ b/components/calculators/PythagoreanCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -109,7 +109,7 @@ export default function PythagoreanCalculator() {
+         const b = parseFloat(sideB);
+ 
+         if (!a || !b || a <= 0 || b <= 0) {
+-            alert("Please enter valid values for both legs");
++            setResult(null);
+             return;
+         }
+ 
+@@ -131,12 +131,12 @@ export default function PythagoreanCalculator() {
+         const a = parseFloat(sideA);
+ 
+         if (!c || !a || c <= 0 || a <= 0) {
+-            alert("Please enter valid values for hypotenuse and one leg");
++            setResult(null);
+             return;
+         }
+ 
+         if (a >= c) {
+-            alert("Leg cannot be greater than or equal to hypotenuse");
++            setResult(null);
+             return;
+         }
+ 
+@@ -159,7 +159,7 @@ export default function PythagoreanCalculator() {
+         const c = parseFloat(hypotenuse);
+ 
+         if (!a || !b || !c || a <= 0 || b <= 0 || c <= 0) {
+-            alert("Please enter valid values for all three sides");
++            setResult(null);
+             return;
+         }
+ 
+@@ -188,6 +188,10 @@ export default function PythagoreanCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, sideA, sideB, hypotenuse]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/ROICalculator.tsx b/components/calculators/ROICalculator.tsx
+index 44b062f..51a13e6 100644
+--- a/components/calculators/ROICalculator.tsx
++++ b/components/calculators/ROICalculator.tsx
+@@ -22,11 +22,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to calculate ROI for marketing campaigns?",
+-        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend $50,000 on ads, generate $2,00,000 in sales → ROI = (2,00,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
++        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend $50,000 on ads, generate $200,000 in sales → ROI = (200,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
+     },
+     {
+         q: "What is negative ROI and what does it mean?",
+-        a: "Negative ROI means you lost money on an investment. Example: Invest $1,00,000 and get back only $80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
++        a: "Negative ROI means you lost money on an investment. Example: Invest $100,000 and get back only $80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
+     },
+     {
+         q: "How to calculate ROI for real estate?",
+@@ -330,7 +330,7 @@ export default function ROICalculator() {
+                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Basic ROI Formula</h3>
+                         <p className="text-white font-mono text-sm mb-2">ROI = (Net Profit ÷ Cost of Investment) × 100</p>
+                         <p className="text-gray-500 text-xs mb-2">Where: Net Profit = Final Value - Initial Investment</p>
+-                        <p className="text-gray-500 text-xs">Example: $1,00,000 to $1,50,000 → ROI = (50,000 ÷ 1,00,000) × 100 = 50%</p>
++                        <p className="text-gray-500 text-xs">Example: $100,000 to $150,000 → ROI = (50,000 ÷ 100,000) × 100 = 50%</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                         <h3 className="text-sm font-semibold text-green-400 mb-2">Annualized ROI (CAGR)</h3>
+diff --git a/components/calculators/RatioCalculator.tsx b/components/calculators/RatioCalculator.tsx
+index f74bdcc..579b508 100644
+--- a/components/calculators/RatioCalculator.tsx
++++ b/components/calculators/RatioCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -119,7 +119,7 @@ export default function RatioCalculator() {
+         const c = ratioC ? parseFloat(ratioC) : null;
+ 
+         if (!a || !b || a <= 0 || b <= 0) {
+-            alert("Please enter valid numbers for the ratio");
++            setResult(null);
+             return;
+         }
+ 
+@@ -150,7 +150,7 @@ export default function RatioCalculator() {
+         const x = parseFloat(missingX);
+ 
+         if (!a || !b || !x || a <= 0 || b <= 0 || x <= 0) {
+-            alert("Please enter valid numbers for the proportion");
++            setResult(null);
+             return;
+         }
+ 
+@@ -168,7 +168,7 @@ export default function RatioCalculator() {
+         const targetW = parseFloat(targetWidth);
+ 
+         if (!w || !h || w <= 0 || h <= 0) {
+-            alert("Please enter valid width and height");
++            setResult(null);
+             return;
+         }
+ 
+@@ -208,6 +208,10 @@ export default function RatioCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, ratioA, ratioB, ratioC, knownA, knownB, missingX, width, height, targetWidth]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+diff --git a/components/calculators/SalesCommissionCalculator.tsx b/components/calculators/SalesCommissionCalculator.tsx
+index 8e6ce02..9dab612 100644
+--- a/components/calculators/SalesCommissionCalculator.tsx
++++ b/components/calculators/SalesCommissionCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+ import { useCurrency } from "@/components/common/useCurrency";
+@@ -18,11 +18,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is tiered commission?",
+-        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on $0-$1L, 7% on $1L-$2L, 10% on $2L+. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
++        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on the first $50,000, 7% from $50,000 to $150,000, and 10% above that. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
+     },
+     {
+         q: "How to calculate commission with bonus?",
+-        a: "Add bonus to commission. Example: 10% commission on $1L sale = $10,000 + $5,000 bonus = $15,000 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition ($5,000-$10,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
++        a: "Add bonus to commission. Example: 10% commission on a $50,000 sale = $5,000, plus a $1,500 bonus = $6,500 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition ($500-$2,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
+     },
+     {
+         q: "What is draw against commission?",
+@@ -52,10 +52,10 @@ const FAQ_DATA = [
+ 
+ const COMMISSION_EXAMPLES = [
+     { sales: "$50,000", rate: "5%", commission: "$2,500", industry: "Retail" },
+-    { sales: "$1,00,000", rate: "8%", commission: "$8,000", industry: "Real Estate" },
+-    { sales: "$2,00,000", rate: "10%", commission: "$20,000", industry: "SaaS" },
+-    { sales: "$5,00,000", rate: "12%", commission: "$60,000", industry: "Insurance" },
+-    { sales: "$10,00,000", rate: "15%", commission: "$1,50,000", industry: "Medical Devices" },
++    { sales: "$100,000", rate: "8%", commission: "$8,000", industry: "Real Estate" },
++    { sales: "$200,000", rate: "10%", commission: "$20,000", industry: "SaaS" },
++    { sales: "$500,000", rate: "12%", commission: "$60,000", industry: "Insurance" },
++    { sales: "$1,000,000", rate: "15%", commission: "$150,000", industry: "Medical Devices" },
+ ];
+ 
+ const INDUSTRY_COMMISSION_RATES = [
+@@ -142,7 +142,7 @@ export default function SalesCommissionCalculator() {
+         const extraBonus = parseFloat(bonus) || 0;
+ 
+         if (!sale || sale <= 0 || !rate || rate <= 0) {
+-            alert("Please enter valid sale amount and commission rate");
++            setResult(null);
+             return;
+         }
+ 
+@@ -168,7 +168,7 @@ export default function SalesCommissionCalculator() {
+         const t3Rate = parseFloat(tier3Rate) || 0;
+ 
+         if (!sale || sale <= 0) {
+-            alert("Please enter valid sale amount");
++            setResult(null);
+             return;
+         }
+ 
+@@ -212,12 +212,12 @@ export default function SalesCommissionCalculator() {
+         const split = parseFloat(splitPercent);
+ 
+         if (!sale || sale <= 0 || !rate || rate <= 0) {
+-            alert("Please enter valid sale amount and commission rate");
++            setResult(null);
+             return;
+         }
+ 
+         if (!split || split <= 0 || split >= 100) {
+-            alert("Please enter a valid split percentage (1-99)");
++            setResult(null);
+             return;
+         }
+ 
+@@ -242,6 +242,10 @@ export default function SalesCommissionCalculator() {
+         else calculateSplit();
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, saleAmount, commissionRate, bonus, tier1Limit, tier1Rate, tier2Limit, tier2Rate, tier3Rate, splitPercent]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+@@ -578,7 +582,7 @@ export default function SalesCommissionCalculator() {
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Simple Commission</h3>
+                         <p className="text-white font-mono text-sm mb-2">Commission = Sale × Rate ÷ 100</p>
+-                        <p className="text-gray-500 text-xs">Example: $1,00,000 × 10% = $10,000</p>
++                        <p className="text-gray-500 text-xs">Example: $100,000 × 10% = $10,000</p>
+                         <p className="text-gray-500 text-xs mt-1">With Bonus: Commission + Bonus</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+@@ -603,7 +607,7 @@ export default function SalesCommissionCalculator() {
+                 <h2 className="text-xl font-semibold text-white mb-3">Tiered Commission Example</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                     <p className="text-gray-400 text-sm leading-relaxed mb-3">
+-                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $2,50,000 total sales.
++                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $250,000 total sales.
+                     </p>
+                     <div className="space-y-2">
+                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
+@@ -611,11 +615,11 @@ export default function SalesCommissionCalculator() {
+                             <span className="text-green-400 text-sm">$2,500</span>
+                         </div>
+                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
+-                            <span className="text-gray-400 text-sm">Tier 2: Next $1,00,000 @ 7%</span>
++                            <span className="text-gray-400 text-sm">Tier 2: Next $100,000 @ 7%</span>
+                             <span className="text-green-400 text-sm">$7,000</span>
+                         </div>
+                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
+-                            <span className="text-gray-400 text-sm">Tier 3: Remaining $1,00,000 @ 10%</span>
++                            <span className="text-gray-400 text-sm">Tier 3: Remaining $100,000 @ 10%</span>
+                             <span className="text-green-400 text-sm">$10,000</span>
+                         </div>
+                         <div className="flex justify-between items-center pt-2">
+diff --git a/components/calculators/VolumeCalculator.tsx b/components/calculators/VolumeCalculator.tsx
+index f30def8..f1b0bae 100644
+--- a/components/calculators/VolumeCalculator.tsx
++++ b/components/calculators/VolumeCalculator.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -134,7 +134,7 @@ export default function VolumeCalculator() {
+         switch (shape) {
+             case "cube": {
+                 const s = parseFloat(side);
+-                if (!s || s <= 0) { alert("Please enter side length"); return; }
++                if (!s || s <= 0) { setResult(null); return; }
+                 volume = s * s * s;
+                 formula = "side × side × side (s³)";
+                 calculation = `${s} × ${s} × ${s} = ${volume.toFixed(4)}`;
+@@ -146,7 +146,7 @@ export default function VolumeCalculator() {
+                 const w = parseFloat(width);
+                 const h = parseFloat(height);
+                 if (!l || !w || !h || l <= 0 || w <= 0 || h <= 0) {
+-                    alert("Please enter length, width, and height");
++                    setResult(null);
+                     return;
+                 }
+                 volume = l * w * h;
+@@ -159,7 +159,7 @@ export default function VolumeCalculator() {
+                 const r = parseFloat(radius);
+                 const h = parseFloat(height);
+                 if (!r || !h || r <= 0 || h <= 0) {
+-                    alert("Please enter radius and height");
++                    setResult(null);
+                     return;
+                 }
+                 volume = Math.PI * r * r * h;
+@@ -170,7 +170,7 @@ export default function VolumeCalculator() {
+             }
+             case "sphere": {
+                 const r = parseFloat(radius);
+-                if (!r || r <= 0) { alert("Please enter radius"); return; }
++                if (!r || r <= 0) { setResult(null); return; }
+                 volume = (4 / 3) * Math.PI * r * r * r;
+                 formula = "4/3 × π × r³";
+                 calculation = `4/3 × π × ${r}³ = ${volume.toFixed(4)}`;
+@@ -181,7 +181,7 @@ export default function VolumeCalculator() {
+                 const r = parseFloat(radius);
+                 const h = parseFloat(height);
+                 if (!r || !h || r <= 0 || h <= 0) {
+-                    alert("Please enter radius and height");
++                    setResult(null);
+                     return;
+                 }
+                 volume = (1 / 3) * Math.PI * r * r * h;
+@@ -201,6 +201,10 @@ export default function VolumeCalculator() {
+         });
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [shape, side, length, width, height, radius]);
++
+     const getShapeName = () => {
+         const names = { cube: "Cube", prism: "Rectangular Prism", cylinder: "Cylinder", sphere: "Sphere", cone: "Cone" };
+         return names[shape];
+diff --git a/components/common/useCurrency.ts b/components/common/useCurrency.ts
+index e6fe5e5..e5b451d 100644
+--- a/components/common/useCurrency.ts
++++ b/components/common/useCurrency.ts
+@@ -21,6 +21,7 @@ import {
+   CURRENCY_STORAGE_KEY,
+   DEFAULT_CURRENCY,
+   currencyInfo,
++  compactMoney,
+   currencySymbol,
+   formatMoney,
+   isCurrencyCode,
+@@ -99,6 +100,8 @@ export interface UseCurrencyResult {
+   locale: string;
+   /** Format a number as money in the chosen currency. */
+   money: (value: number, decimals?: number) => string;
++  /** Short form for preset buttons — "$350K" in en-US, "₹3.5L" in en-IN. */
++  compact: (value: number) => string;
+ }
+ 
+ export function useCurrency(): UseCurrencyResult {
+@@ -114,11 +117,14 @@ export function useCurrency(): UseCurrencyResult {
+     [currency],
+   );
+ 
++  const compact = useCallback((value: number) => compactMoney(value, currency), [currency]);
++
+   return {
+     currency,
+     setCurrency,
+     symbol: currencySymbol(currency),
+     locale: currencyInfo(currency).locale,
+     money,
++    compact,
+   };
+ }
+diff --git a/lib/currency.ts b/lib/currency.ts
+index c2c335d..5cb1cad 100644
+--- a/lib/currency.ts
++++ b/lib/currency.ts
+@@ -94,6 +94,22 @@ export function formatMoney(
+   return `${info.symbol}${formatted}`;
+ }
+ 
++/**
++ * Short form for preset buttons: "$350K" for an American reader, "₹3.5L" for an
++ * Indian one. Intl already knows each locale's own shorthand, so we do not have
++ * to hard-code "L" and "Cr" — which is what the amortization presets used to do,
++ * on a page that had just switched its default to dollars.
++ */
++export function compactMoney(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
++  if (!Number.isFinite(value)) return `${currencySymbol(code)}0`;
++  const info = currencyInfo(code);
++  const formatted = new Intl.NumberFormat(info.locale, {
++    notation: "compact",
++    maximumFractionDigits: 1,
++  }).format(value);
++  return `${info.symbol}${formatted}`;
++}
++
+ /** Plain number formatting (no symbol), locale-correct for the chosen currency. */
+ export function formatNumber(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
+   if (!Number.isFinite(value)) return "0";
+-- 
+2.43.0
+
