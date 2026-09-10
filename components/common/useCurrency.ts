@@ -20,6 +20,7 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import {
   CURRENCY_STORAGE_KEY,
   DEFAULT_CURRENCY,
+  currencyInfo,
   currencySymbol,
   formatMoney,
   isCurrencyCode,
@@ -94,6 +95,8 @@ export interface UseCurrencyResult {
   setCurrency: (code: CurrencyCode) => void;
   /** Symbol for the chosen currency, e.g. "$" or "₹". */
   symbol: string;
+  /** BCP-47 locale for the chosen currency, for toLocaleString() calls. */
+  locale: string;
   /** Format a number as money in the chosen currency. */
   money: (value: number, decimals?: number) => string;
 }
@@ -111,5 +114,11 @@ export function useCurrency(): UseCurrencyResult {
     [currency],
   );
 
-  return { currency, setCurrency, symbol: currencySymbol(currency), money };
+  return {
+    currency,
+    setCurrency,
+    symbol: currencySymbol(currency),
+    locale: currencyInfo(currency).locale,
+    money,
+  };
 }

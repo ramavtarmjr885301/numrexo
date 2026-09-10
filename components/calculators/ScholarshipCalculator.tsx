@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -87,6 +89,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ScholarshipCalculator() {
+    const { symbol } = useCurrency();
     const [totalCost, setTotalCost] = useState("");
     const [meritScholarship, setMeritScholarship] = useState("0");
     const [needScholarship, setNeedScholarship] = useState("0");
@@ -200,8 +203,10 @@ export default function ScholarshipCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Enter all funding sources to see your coverage gap</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div className="bg-[#0f1525] rounded-lg p-3 border border-gray-700">
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total College Cost (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total College Cost ($/year)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -211,7 +216,7 @@ export default function ScholarshipCalculator() {
                                     onChange={(e) => setTotalCost(e.target.value)}
                                     className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -229,7 +234,7 @@ export default function ScholarshipCalculator() {
                                             onChange={(e) => setMeritScholarship(e.target.value)}
                                             className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
@@ -243,7 +248,7 @@ export default function ScholarshipCalculator() {
                                             onChange={(e) => setNeedScholarship(e.target.value)}
                                             className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
@@ -257,7 +262,7 @@ export default function ScholarshipCalculator() {
                                             onChange={(e) => setExternalScholarship(e.target.value)}
                                             className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                             </div>
@@ -277,7 +282,7 @@ export default function ScholarshipCalculator() {
                                             onChange={(e) => setGrants(e.target.value)}
                                             className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
@@ -291,7 +296,7 @@ export default function ScholarshipCalculator() {
                                             onChange={(e) => setWorkStudy(e.target.value)}
                                             className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +315,7 @@ export default function ScholarshipCalculator() {
                                         onChange={(e) => setFamilyContribution(e.target.value)}
                                         className="w-full px-4 py-2 bg-[#1a2235] border border-gray-600 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                 </div>
                             </div>
                         </div>
@@ -340,12 +345,12 @@ export default function ScholarshipCalculator() {
                     emptyText="Enter all funding sources to see coverage"
                     mainResult={result ? { label: result.status, value: `${result.percentageCovered}% Covered`, color: result.statusColor } : undefined}
                     extraRows={result ? [
-                        { label: "Total College Cost", value: `₹${result.totalCost.toLocaleString()}` },
-                        { label: "Total Scholarships", value: `₹${result.totalScholarship.toLocaleString()}`, valueColor: "text-teal-400" },
-                        { label: "Total Financial Aid", value: `₹${result.totalAid.toLocaleString()}`, valueColor: "text-blue-400" },
-                        { label: "Family Contribution", value: `₹${result.familyContribution.toLocaleString()}` },
-                        { label: "Remaining Cost to Pay", value: `₹${result.remainingCost.toLocaleString()}`, valueColor: result.remainingCost > 0 ? "text-red-400" : "text-green-400" },
-                        ...(result.surplus > 0 ? [{ label: "Surplus (Refund)", value: `₹${result.surplus.toLocaleString()}`, valueColor: "text-green-400" }] : []),
+                        { label: "Total College Cost", value: `${symbol}${result.totalCost.toLocaleString()}` },
+                        { label: "Total Scholarships", value: `${symbol}${result.totalScholarship.toLocaleString()}`, valueColor: "text-teal-400" },
+                        { label: "Total Financial Aid", value: `${symbol}${result.totalAid.toLocaleString()}`, valueColor: "text-blue-400" },
+                        { label: "Family Contribution", value: `${symbol}${result.familyContribution.toLocaleString()}` },
+                        { label: "Remaining Cost to Pay", value: `${symbol}${result.remainingCost.toLocaleString()}`, valueColor: result.remainingCost > 0 ? "text-red-400" : "text-green-400" },
+                        ...(result.surplus > 0 ? [{ label: "Surplus (Refund)", value: `${symbol}${result.surplus.toLocaleString()}`, valueColor: "text-green-400" }] : []),
                         { label: "Scholarship % of Total", value: `${result.scholarshipPercentage}%` },
                     ] : []}
                 />
@@ -354,10 +359,10 @@ export default function ScholarshipCalculator() {
             {/* Funding Gap Suggestions */}
             {result && result.remainingCost > 0 && (
                 <div className="mb-8 bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-white mb-3">💡 Suggestions to Cover Gap: ₹{result.remainingCost.toLocaleString()}</h3>
+                    <h3 className="text-sm font-semibold text-white mb-3">💡 Suggestions to Cover Gap: ${result.remainingCost.toLocaleString()}</h3>
                     <ul className="text-sm text-gray-400 space-y-2 list-disc list-inside">
-                        <li>Apply for 5-10 more smaller scholarships (₹10,000-50,000 each) - many have less competition</li>
-                        <li>Consider part-time job during school year (₹15,000-30,000/month potential earnings)</li>
+                        <li>Apply for 5-10 more smaller scholarships ($10,000-50,000 each) - many have less competition</li>
+                        <li>Consider part-time job during school year ($15,000-30,000/month potential earnings)</li>
                         <li>Look for department-specific or major-based awards within your college</li>
                         <li>Ask about payment plans or reduced tuition options (some schools offer installment plans)</li>
                         <li>Research work-study opportunities in your field of study for valuable experience</li>

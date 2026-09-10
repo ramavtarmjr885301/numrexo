@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
     {
@@ -15,15 +17,15 @@ const FAQ_DATA = [
     },
     {
         q: "How is CAGR different from absolute return?",
-        a: "Absolute return: (End Value - Start Value) ÷ Start Value × 100 (ignores time). CAGR accounts for investment period. Example: ₹10,000 to ₹20,000 in 5 years = Absolute return 100%, CAGR = 14.87%. CAGR is more accurate for comparing investments.",
+        a: "Absolute return: (End Value - Start Value) ÷ Start Value × 100 (ignores time). CAGR accounts for investment period. Example: $10,000 to $20,000 in 5 years = Absolute return 100%, CAGR = 14.87%. CAGR is more accurate for comparing investments.",
     },
     {
         q: "How to calculate CAGR manually?",
-        a: "CAGR = (End Value ÷ Start Value)^(1 ÷ Years) - 1 × 100. Example: ₹10,000 to ₹20,000 in 5 years = (20,000/10,000)^(1/5) - 1 = 14.87%. Our calculator does this instantly.",
+        a: "CAGR = (End Value ÷ Start Value)^(1 ÷ Years) - 1 × 100. Example: $10,000 to $20,000 in 5 years = (20,000/10,000)^(1/5) - 1 = 14.87%. Our calculator does this instantly.",
     },
     {
         q: "Can CAGR be negative?",
-        a: "Yes, CAGR can be negative if your investment loses value over time. Example: ₹10,000 invested becomes ₹8,000 after 3 years = negative CAGR of -7.2%. Negative CAGR helps you understand losses in bear markets and poor-performing investments.",
+        a: "Yes, CAGR can be negative if your investment loses value over time. Example: $10,000 invested becomes $8,000 after 3 years = negative CAGR of -7.2%. Negative CAGR helps you understand losses in bear markets and poor-performing investments.",
     },
     {
         q: "What is the difference between CAGR and XIRR?",
@@ -58,6 +60,7 @@ const CAGR_SCHEMA = JSON.stringify({
 });
 
 export default function CAGRCalculator() {
+    const { symbol, locale } = useCurrency();
     const [startValue, setStartValue] = useState("10000");
     const [endValue, setEndValue] = useState("25000");
     const [years, setYears] = useState("5");
@@ -81,9 +84,9 @@ export default function CAGRCalculator() {
         setResult({
             cagr: cagr.toFixed(2),
             totalReturn: totalReturn.toFixed(1),
-            absoluteReturn: absoluteReturn.toLocaleString("en-IN"),
-            startValue: sv.toLocaleString("en-IN"),
-            endValue: ev.toLocaleString("en-IN"),
+            absoluteReturn: absoluteReturn.toLocaleString(locale),
+            startValue: sv.toLocaleString(locale),
+            endValue: ev.toLocaleString(locale),
             years: n,
         });
     };
@@ -119,6 +122,8 @@ export default function CAGRCalculator() {
                         <h3 className="font-semibold">Investment Details</h3>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">
                                 Starting Value (Initial Investment)
@@ -131,7 +136,7 @@ export default function CAGRCalculator() {
                                     onChange={(e) => setStartValue(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
@@ -146,7 +151,7 @@ export default function CAGRCalculator() {
                                     onChange={(e) => setEndValue(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
@@ -193,9 +198,9 @@ export default function CAGRCalculator() {
                     } : undefined}
                     extraRows={result ? [
                         { label: "Total Return", value: `${result.totalReturn}%`, valueColor: "text-green-400" },
-                        { label: "Absolute Return", value: `₹${result.absoluteReturn}` },
-                        { label: "Starting Value", value: `₹${result.startValue}` },
-                        { label: "Ending Value", value: `₹${result.endValue}` },
+                        { label: "Absolute Return", value: `${symbol}${result.absoluteReturn}` },
+                        { label: "Starting Value", value: `${symbol}${result.startValue}` },
+                        { label: "Ending Value", value: `${symbol}${result.endValue}` },
                         { label: "Period", value: `${result.years} years` }
                     ] : undefined}
                 />
@@ -266,15 +271,15 @@ export default function CAGRCalculator() {
                 <div className="space-y-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Example 1: Mutual Fund Performance</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: ₹50,000 in an equity fund | After 7 years: ₹1,20,000 | CAGR = (1,20,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $1,20,000 | CAGR = (1,20,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Example 2: Stock Market Investment</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Investment: ₹2,00,000 in blue-chip stocks | After 10 years: ₹5,00,000 | CAGR = (5,00,000/2,00,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Investment: $2,00,000 in blue-chip stocks | After 10 years: $5,00,000 | CAGR = (5,00,000/2,00,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">Example 3: Business Growth</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Business revenue: ₹10 lakhs in Year 1 | Revenue after 5 years: ₹30 lakhs | CAGR = (30/10)^(1/5)-1 = 24.6% | Exceptional growth rate, indicating successful scaling.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Business revenue: $1,000,000 in Year 1 | Revenue after 5 years: $3,000,000 | CAGR = (30/10)^(1/5)-1 = 24.6% | Exceptional growth rate, indicating successful scaling.</p>
                     </div>
                 </div>
             </section>
@@ -287,7 +292,7 @@ export default function CAGRCalculator() {
                         CAGR = (End Value ÷ Start Value)^(1 ÷ Years) - 1 × 100
                     </p>
                     <p className="text-gray-500 text-xs mb-2 text-center">
-                        Example: ₹10,000 to ₹25,000 in 5 years = (25,000/10,000)^(1/5) - 1 = 20.11% CAGR
+                        Example: $10,000 to $25,000 in 5 years = (25,000/10,000)^(1/5) - 1 = 20.11% CAGR
                     </p>
                     <p className="text-gray-500 text-xs text-center">
                         Formula breakdown: End Value/Start Value = Growth factor | 1/Years = Annualizing | -1 = Convert to percentage

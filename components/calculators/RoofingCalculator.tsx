@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -28,7 +30,7 @@ const FAQ_DATA = [
     },
     {
         q: "What type of roofing materials are available?",
-        a: "Common roofing materials: 1) Metal sheets (Corrugated, Colorbond) - durable, 40-70 years, ₹50-200/sq ft. 2) Clay tiles - traditional, 50-100 years, ₹100-300/sq ft. 3) Asphalt shingles - affordable, 20-30 years, ₹30-80/sq ft. 4) Polycarbonate sheets - lightweight, 10-15 years, ₹80-200/sq ft. 5) RCC - permanent, 50+ years, ₹150-400/sq ft. Choose based on budget, climate, and aesthetic preference.",
+        a: "Common roofing materials: 1) Metal sheets (Corrugated, Colorbond) - durable, 40-70 years, $50-200/sq ft. 2) Clay tiles - traditional, 50-100 years, $100-300/sq ft. 3) Asphalt shingles - affordable, 20-30 years, $30-80/sq ft. 4) Polycarbonate sheets - lightweight, 10-15 years, $80-200/sq ft. 5) RCC - permanent, 50+ years, $150-400/sq ft. Choose based on budget, climate, and aesthetic preference.",
     },
     {
         q: "How much waste should I add for roofing?",
@@ -36,7 +38,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to estimate roofing labor costs?",
-        a: "Labor costs for roofing: Metal sheets: ₹30-60/sq ft, Clay tiles: ₹60-120/sq ft, Asphalt shingles: ₹25-50/sq ft, Polycarbonate: ₹20-40/sq ft. Labor is typically 30-50% of total project cost. Additional charges: 20-30% for steep roofs (6/12+), 15-25% for complex shapes, Demolition of old roof: ₹10-30/sq ft. Always get multiple quotes and check contractor credentials.",
+        a: "Labor costs for roofing: Metal sheets: $30-60/sq ft, Clay tiles: $60-120/sq ft, Asphalt shingles: $25-50/sq ft, Polycarbonate: $20-40/sq ft. Labor is typically 30-50% of total project cost. Additional charges: 20-30% for steep roofs (6/12+), 15-25% for complex shapes, Demolition of old roof: $10-30/sq ft. Always get multiple quotes and check contractor credentials.",
     },
     {
         q: "How to account for roof overhangs?",
@@ -59,11 +61,11 @@ const ROOF_PITCH_FACTORS = [
 ];
 
 const MATERIAL_TYPES = [
-    { type: "Metal Sheets", lifespan: "40-70 years", price: "₹50-200/sq ft", maintenance: "Low" },
-    { type: "Clay Tiles", lifespan: "50-100 years", price: "₹100-300/sq ft", maintenance: "Medium" },
-    { type: "Asphalt Shingles", lifespan: "20-30 years", price: "₹30-80/sq ft", maintenance: "Medium" },
-    { type: "Polycarbonate", lifespan: "10-15 years", price: "₹80-200/sq ft", maintenance: "Low" },
-    { type: "RCC (Concrete)", lifespan: "50+ years", price: "₹150-400/sq ft", maintenance: "Low" },
+    { type: "Metal Sheets", lifespan: "40-70 years", price: "$50-200/sq ft", maintenance: "Low" },
+    { type: "Clay Tiles", lifespan: "50-100 years", price: "$100-300/sq ft", maintenance: "Medium" },
+    { type: "Asphalt Shingles", lifespan: "20-30 years", price: "$30-80/sq ft", maintenance: "Medium" },
+    { type: "Polycarbonate", lifespan: "10-15 years", price: "$80-200/sq ft", maintenance: "Low" },
+    { type: "RCC (Concrete)", lifespan: "50+ years", price: "$150-400/sq ft", maintenance: "Low" },
 ];
 
 const STANDARD_SHEET_SIZES = [
@@ -111,6 +113,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function RoofingCalculator() {
+    const { symbol } = useCurrency();
     const [roofLength, setRoofLength] = useState("40");
     const [roofWidth, setRoofWidth] = useState("20");
     const [roofPitch, setRoofPitch] = useState("4/12 (Standard)");
@@ -223,6 +226,8 @@ export default function RoofingCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Estimate roofing materials for your project</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <label className="block text-xs font-semibold text-gray-400 mb-2">Roof Length (ft)</label>
@@ -300,7 +305,7 @@ export default function RoofingCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Price per Sheet (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Price per Sheet ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -310,7 +315,7 @@ export default function RoofingCalculator() {
                                     onChange={(e) => setPricePerSheet(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -346,7 +351,7 @@ export default function RoofingCalculator() {
                             { label: "Sheets Required", value: `${result.sheetsNeeded} sheets`, valueColor: "text-yellow-400" },
                             { label: "Coverage per Sheet", value: `${result.sheetCoverage} sq ft` },
                             { label: "Waste Added", value: `${result.wastePercent}%` },
-                            { label: "Estimated Cost", value: `₹${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" },
+                            { label: "Estimated Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" },
                             { label: "Sheet Size Used", value: `${result.sheetLength || 'N/A'} × ${result.sheetWidth || 'N/A'} ft` },
                         ] : [
                             { label: "Enter Sheet Size", value: "To calculate sheets needed", valueColor: "text-gray-500" },

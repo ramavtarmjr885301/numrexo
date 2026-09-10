@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -12,11 +14,11 @@ const FAQ_DATA = [
     },
     {
         q: "What is better: lower interest rate or shorter tenure?",
-        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: ₹10L loan at 9% for 5 years = ₹20,800 EMI, total ₹12.48L. Same loan at 10% for 3 years = ₹32,267 EMI, total ₹11.62L. Calculate both before deciding.",
+        a: "Lower interest rate saves money over time. Shorter tenure reduces total interest but increases monthly payment. Example: $10L loan at 9% for 5 years = $20,800 EMI, total $12.48L. Same loan at 10% for 3 years = $32,267 EMI, total $11.62L. Calculate both before deciding.",
     },
     {
         q: "Should I choose a loan with processing fees?",
-        a: "Compare the effective interest rate including fees. Example: ₹10L loan at 8% with ₹10,000 fees vs 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
+        a: "Compare the effective interest rate including fees. Example: $10L loan at 8% with $10,000 fees vs 8.5% with no fees. Calculate total cost including fees to find which is cheaper.",
     },
     {
         q: "How does prepayment affect loan comparison?",
@@ -28,15 +30,15 @@ const FAQ_DATA = [
     },
     {
         q: "How does loan tenure affect total interest?",
-        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: ₹50L at 9%: 10 years = ₹63,333 EMI (₹26L interest). 20 years = ₹44,986 EMI (₹58L interest). Choose shortest tenure you can afford for maximum savings.",
+        a: "Longer tenure = lower EMI but MUCH higher total interest. Example: $50L at 9%: 10 years = $63,333 EMI ($26L interest). 20 years = $44,986 EMI ($58L interest). Choose shortest tenure you can afford for maximum savings.",
     },
     {
         q: "What are hidden charges in loans?",
-        a: "Hidden charges: Processing fee (0.5-2%), Legal/technical fee (₹5,000-20,000), Prepayment penalty (2-5%), Late payment fee (2-3%/month), Loan cancellation fee (1-2%), Statement charges, Document retrieval fees. Ask lender for complete fee list before signing.",
+        a: "Hidden charges: Processing fee (0.5-2%), Legal/technical fee ($5,000-20,000), Prepayment penalty (2-5%), Late payment fee (2-3%/month), Loan cancellation fee (1-2%), Statement charges, Document retrieval fees. Ask lender for complete fee list before signing.",
     },
     {
         q: "How to calculate effective interest rate including fees?",
-        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: ₹10L loan, ₹50,000 interest, ₹10,000 fees, 3 years = (60,000) ÷ (10,00,000 × 3) × 100 = 2% effective rate (much higher than stated rate!). Always compare effective rates.",
+        a: "Effective Rate = (Total Interest + Fees) ÷ (Loan Amount × Tenure) × 100. Example: $10L loan, $50,000 interest, $10,000 fees, 3 years = (60,000) ÷ (10,00,000 × 3) × 100 = 2% effective rate (much higher than stated rate!). Always compare effective rates.",
     },
     {
         q: "What is the difference between secured and unsecured loans?",
@@ -94,6 +96,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LoanComparisonCalculator() {
+    const { symbol } = useCurrency();
     // Loan 1
     const [loan1Amount, setLoan1Amount] = useState("500000");
     const [loan1Rate, setLoan1Rate] = useState("9");
@@ -208,10 +211,12 @@ export default function LoanComparisonCalculator() {
                             <h3 className="font-semibold text-blue-400">Loan 1</h3>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount (₹)</label><div className="relative"><input type="number" placeholder="500000" value={loan1Amount} onChange={(e) => setLoan1Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span></div></div>
+                            <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan1Amount} onChange={(e) => setLoan1Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan1Rate} onChange={(e) => setLoan1Rate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan1Tenure} onChange={(e) => setLoan1Tenure(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees (₹) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan1Fees} onChange={(e) => setLoan1Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span></div></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan1Fees} onChange={(e) => setLoan1Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
                         </div>
                     </div>
 
@@ -221,10 +226,10 @@ export default function LoanComparisonCalculator() {
                             <h3 className="font-semibold text-green-400">Loan 2</h3>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount (₹)</label><div className="relative"><input type="number" placeholder="500000" value={loan2Amount} onChange={(e) => setLoan2Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span></div></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan2Amount} onChange={(e) => setLoan2Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan2Rate} onChange={(e) => setLoan2Rate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan2Tenure} onChange={(e) => setLoan2Tenure(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees (₹) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan2Fees} onChange={(e) => setLoan2Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span></div></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan2Fees} onChange={(e) => setLoan2Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -243,13 +248,13 @@ export default function LoanComparisonCalculator() {
                     emptyText="Enter both loan details and press Compare"
                     mainResult={result ? { label: "Better Choice", value: result.betterLoan, color: "text-purple-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Monthly EMI - Loan 1", value: `₹${Math.round(result.loan1.emi).toLocaleString()}`, valueColor: "text-blue-400" },
-                        { label: "Monthly EMI - Loan 2", value: `₹${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-400" },
-                        { label: "Total Interest - Loan 1", value: `₹${Math.round(result.loan1.totalInterest).toLocaleString()}` },
-                        { label: "Total Interest - Loan 2", value: `₹${Math.round(result.loan2.totalInterest).toLocaleString()}` },
-                        { label: "Total Payment (incl. fees) - Loan 1", value: `₹${Math.round(result.loan1.totalWithFees).toLocaleString()}` },
-                        { label: "Total Payment (incl. fees) - Loan 2", value: `₹${Math.round(result.loan2.totalWithFees).toLocaleString()}` },
-                        { label: "You Save", value: `₹${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Monthly EMI - Loan 1", value: `${symbol}${Math.round(result.loan1.emi).toLocaleString()}`, valueColor: "text-blue-400" },
+                        { label: "Monthly EMI - Loan 2", value: `${symbol}${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Total Interest - Loan 1", value: `${symbol}${Math.round(result.loan1.totalInterest).toLocaleString()}` },
+                        { label: "Total Interest - Loan 2", value: `${symbol}${Math.round(result.loan2.totalInterest).toLocaleString()}` },
+                        { label: "Total Payment (incl. fees) - Loan 1", value: `${symbol}${Math.round(result.loan1.totalWithFees).toLocaleString()}` },
+                        { label: "Total Payment (incl. fees) - Loan 2", value: `${symbol}${Math.round(result.loan2.totalWithFees).toLocaleString()}` },
+                        { label: "You Save", value: `${symbol}${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-400" },
                     ] : []}
                 />
             </div>
@@ -285,7 +290,7 @@ export default function LoanComparisonCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Save Money</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Find the cheaper loan offer. Even 0.5% lower interest rate can save lakhs on large loans like home loans.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Find the cheaper loan offer. On a 30-year mortgage, half a percentage point is worth tens of thousands of dollars over the life of the loan.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Avoid Hidden Costs</h3>
@@ -336,7 +341,7 @@ export default function LoanComparisonCalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Improve credit score:</strong> 750+ CIBIL score gets 0.5-1% lower rates. Pay credit cards on time, reduce credit utilization.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Negotiate with banks:</strong> Use competitor offers to get better rates. Banks often match or beat competitor rates.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Choose shorter tenure:</strong> If EMI is affordable, choose shorter tenure to save lakhs in interest.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Choose the shorter term:</strong> if the higher payment fits your budget, a shorter term costs far less in total interest.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Ask for fee waiver:</strong> During festive seasons, many banks waive processing fees completely.</span></li>
                 </ul>
             </section>

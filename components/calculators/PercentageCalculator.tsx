@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 type CalcType = "percentage" | "percentageOf" | "increase" | "decrease";
 
@@ -15,7 +17,7 @@ const FAQ_DATA = [
   { q: "What is the difference between percentage and percentile?", a: "Percentage is a ratio out of 100 (individual performance). Percentile is rank relative to others (how you compare). Example: 90% = 90/100 correct. 90th percentile = you scored better than 90% of test-takers. Use percentage for scores, percentile for ranking." },
   { q: "How to calculate percentage increase?", a: "Formula: ((New Value - Original Value) ÷ Original Value) × 100. Example: Salary increased from 50,000 to 60,000 = ((60,000-50,000)÷50,000)×100 = 20% increase. Use our Increase mode for instant results." },
   { q: "How to calculate percentage decrease?", a: "Formula: ((Original Value - New Value) ÷ Original Value) × 100. Example: Price dropped from 80 to 60 = ((80-60)÷80)×100 = 25% decrease. Use our Decrease mode with your values." },
-  { q: "How to calculate discount percentage?", a: "Discount % = (Discount Amount ÷ Original Price) × 100. Example: Original ₹1,000, Sale ₹800 → Discount = (200÷1000)×100 = 20%. Or use: Discount = (Original - Sale) ÷ Original × 100. Our calculator does this instantly." },
+  { q: "How to calculate discount percentage?", a: "Discount % = (Discount Amount ÷ Original Price) × 100. Example: Original $1,000, Sale $800 → Discount = (200÷1000)×100 = 20%. Or use: Discount = (Original - Sale) ÷ Original × 100. Our calculator does this instantly." },
 ];
 
 const PERCENTAGE_SCHEMA = JSON.stringify({
@@ -29,6 +31,7 @@ const PERCENTAGE_SCHEMA = JSON.stringify({
 });
 
 export default function PercentageCalculator() {
+    const { symbol } = useCurrency();
   const [calcType, setCalcType] = useState<CalcType>("percentage");
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
@@ -103,6 +106,8 @@ export default function PercentageCalculator() {
         <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Percentage Calculator</h3></div>
           <div className="p-6 space-y-4">
+            <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
             <div>
               <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Type</label>
               <div className="grid grid-cols-2 gap-2">
@@ -230,7 +235,7 @@ export default function PercentageCalculator() {
         <h2 className="text-xl font-semibold text-white mb-3">Percentage Calculation Tips</h2>
         <ul className="space-y-2">
           <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">💡</span><span><strong className="text-gray-300">Mental math shortcut:</strong> 10% of any number = move decimal one place left. 20% = double that. 50% = half.</span></li>
-          <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">💡</span><span><strong className="text-gray-300">Reverse percentage:</strong> To find original price after discount, divide sale price by (1 - discount%). Example: ₹800 at 20% off = 800 ÷ 0.8 = ₹1000.</span></li>
+          <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">💡</span><span><strong className="text-gray-300">Reverse percentage:</strong> To find original price after discount, divide sale price by (1 - discount%). Example: $800 at 20% off = 800 ÷ 0.8 = $1000.</span></li>
           <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">💡</span><span><strong className="text-gray-300">Percentage difference:</strong> For comparing two values, use percentage change (increase/decrease). Not percentage points (1 percentage point = 1%).</span></li>
         </ul>
       </section>

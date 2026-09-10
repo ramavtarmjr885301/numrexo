@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -93,6 +95,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PaintCalculator() {
+    const { symbol } = useCurrency();
     const [roomLength, setRoomLength] = useState("12");
     const [roomWidth, setRoomWidth] = useState("10");
     const [roomHeight, setRoomHeight] = useState("8");
@@ -196,6 +199,8 @@ export default function PaintCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Estimate paint quantity for your room</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div className="grid grid-cols-2 gap-3">
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label><input type="number" step="0.5" placeholder="12" value={roomLength} onChange={(e) => setRoomLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Width (ft)</label><input type="number" step="0.5" placeholder="10" value={roomWidth} onChange={(e) => setRoomWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
@@ -213,7 +218,7 @@ export default function PaintCalculator() {
                             <input type="checkbox" id="includeCeiling" checked={includeCeiling} onChange={(e) => setIncludeCeiling(e.target.checked)} className="w-4 h-4 rounded border-gray-700 bg-[#0f1525] text-blue-500 focus:ring-blue-500" />
                             <label htmlFor="includeCeiling" className="text-sm text-gray-300">Include Ceiling</label>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Liter (₹) - Optional</label><input type="number" step="10" placeholder="250" value={pricePerLiter} onChange={(e) => setPricePerLiter(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Liter ({symbol}) - Optional</label><input type="number" step="10" placeholder="250" value={pricePerLiter} onChange={(e) => setPricePerLiter(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Paint →</button>
                             <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
@@ -234,7 +239,7 @@ export default function PaintCalculator() {
                         { label: "Total Area", value: `${result.totalArea} sq ft` },
                         { label: `${result.coats} coats - ${result.paintType}`, value: `${result.totalLiters} liters` },
                         { label: "Recommended Purchase", value: `${result.litersNeeded} liters (${result.paintCans} × 4L + ${result.smallCans}L)` },
-                        ...(result.totalCost ? [{ label: "Estimated Cost", value: `₹${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
                     ] : []}
                 />
             </div>

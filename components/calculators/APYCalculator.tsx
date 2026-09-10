@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -20,7 +22,7 @@ const FAQ_DATA = [
     },
     {
         q: "How much difference does compounding frequency make?",
-        a: "On ₹1,00,000 at 5% for 1 year: Annual compounding = ₹5,000 interest, Monthly = ₹5,116 interest, Daily = ₹5,127 interest. The difference grows larger over time and with higher rates.",
+        a: "On $100,000 at 5% for 1 year: Annual compounding = $5,000 interest, Monthly = $5,116 interest, Daily = $5,127 interest. The difference grows larger over time and with higher rates.",
     },
     {
         q: "What is a good APY for a savings account?",
@@ -79,6 +81,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function APYCalculator() {
+    const { symbol } = useCurrency();
     const [principal, setPrincipal] = useState("10000");
     const [rate, setRate] = useState("5");
     const [years, setYears] = useState("1");
@@ -179,11 +182,13 @@ export default function APYCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Calculate true annual return with compound interest</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Principal Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Principal Amount ({symbol})</label>
                             <div className="relative">
                                 <input type="number" placeholder="10000" value={principal} onChange={(e) => setPrincipal(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
@@ -225,9 +230,9 @@ export default function APYCalculator() {
                     emptyText="Enter your investment details"
                     mainResult={result ? { label: "Annual Percentage Yield (APY)", value: `${result.apy}%`, color: "text-blue-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Final Amount", value: `₹${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-400" },
-                        { label: "Total Interest Earned", value: `₹${parseFloat(result.totalInterest).toLocaleString()}` },
-                        { label: "Principal Amount", value: `₹${parseFloat(result.principal).toLocaleString()}` },
+                        { label: "Final Amount", value: `${symbol}${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Total Interest Earned", value: `${symbol}${parseFloat(result.totalInterest).toLocaleString()}` },
+                        { label: "Principal Amount", value: `${symbol}${parseFloat(result.principal).toLocaleString()}` },
                         { label: "Interest Rate (APR)", value: `${result.rate}%` },
                         { label: "Compounding", value: result.frequency },
                         { label: "Time Period", value: `${result.years} years` },

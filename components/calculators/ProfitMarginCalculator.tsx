@@ -3,17 +3,19 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
-    { q: "What is profit margin and how to calculate it?", a: "Profit margin is the percentage of revenue that remains as profit. Formula: (Revenue - Cost) ÷ Revenue × 100. Example: ₹1000 revenue, ₹600 cost = 40% profit margin." },
+    { q: "What is profit margin and how to calculate it?", a: "Profit margin is the percentage of revenue that remains as profit. Formula: (Revenue - Cost) ÷ Revenue × 100. Example: $1000 revenue, $600 cost = 40% profit margin." },
     { q: "What is a good profit margin?", a: "Good profit margins by industry: Software/Apps (70-80%), Services (50-60%), Retail (20-30%), Manufacturing (15-25%), Food/Restaurants (10-15%). Small businesses should aim for 20-30%." },
-    { q: "What is the difference between markup and margin?", a: "Margin = Profit ÷ Revenue (tells profit per sale). Markup = Profit ÷ Cost (tells how much to increase cost). For ₹600 cost selling at ₹1000: Margin = 40%, Markup = 66.7%." },
-    { q: "How to calculate profit margin percentage?", a: "Formula: ((Revenue - Cost) ÷ Revenue) × 100. Example: ₹1,00,000 revenue, ₹70,000 cost → (30,000 ÷ 1,00,000) × 100 = 30% profit margin. Higher margin means more profit per sale." },
+    { q: "What is the difference between markup and margin?", a: "Margin = Profit ÷ Revenue (tells profit per sale). Markup = Profit ÷ Cost (tells how much to increase cost). For $600 cost selling at $1000: Margin = 40%, Markup = 66.7%." },
+    { q: "How to calculate profit margin percentage?", a: "Formula: ((Revenue - Cost) ÷ Revenue) × 100. Example: $1,00,000 revenue, $70,000 cost → (30,000 ÷ 1,00,000) × 100 = 30% profit margin. Higher margin means more profit per sale." },
     { q: "What is net profit margin vs gross profit margin?", a: "Gross Profit Margin = (Revenue - COGS) ÷ Revenue × 100 (includes only direct costs). Net Profit Margin = (Revenue - ALL expenses) ÷ Revenue × 100 (includes taxes, interest, overhead). Net margin is usually 5-15% lower than gross margin." },
     { q: "How to increase profit margin?", a: "Strategies: 1) Increase prices (if market allows), 2) Reduce cost of goods sold (negotiate suppliers), 3) Reduce operating expenses (cut waste, optimize processes), 4) Increase sales volume to spread fixed costs, 5) Improve product mix (sell higher-margin products)." },
     { q: "What is operating profit margin?", a: "Operating Profit Margin = Operating Income ÷ Revenue × 100. Operating income = Revenue - COGS - Operating Expenses (SG&A, R&D, depreciation). Excludes interest and taxes. Shows operational efficiency before financing and tax decisions." },
     { q: "How to calculate profit margin in Excel?", a: "Formula: =(Revenue - Cost)/Revenue. Format as percentage. Example: A1=Revenue, B1=Cost. Enter =(A1-B1)/A1. Multiply by 100 for percentage format. Use our calculator for quick results." },
-    { q: "What is the difference between markup and margin?", a: "Margin = Profit ÷ Revenue (based on selling price). Markup = Profit ÷ Cost (based on cost price). Example: ₹600 cost, ₹1000 selling → Profit ₹400. Margin = 40%, Markup = 66.7%. Margin is more common in financial reporting." },
+    { q: "What is the difference between markup and margin?", a: "Margin = Profit ÷ Revenue (based on selling price). Markup = Profit ÷ Cost (based on cost price). Example: $600 cost, $1000 selling → Profit $400. Margin = 40%, Markup = 66.7%. Margin is more common in financial reporting." },
     { q: "What is a good profit margin?", a: "Good profit margins: Software (70-80%), Consulting (60-80%), Real Estate (40-50%), Retail (20-30%), Manufacturing (15-25%), Wholesale (10-20%), Food (10-15%). For small businesses, aim for 20-30% net margin. Track industry averages." },
 ];
 
@@ -28,6 +30,7 @@ const PROFIT_SCHEMA = JSON.stringify({
 });
 
 export default function ProfitMarginCalculator() {
+    const { symbol } = useCurrency();
     const [cost, setCost] = useState("600");
     const [revenue, setRevenue] = useState("1000");
     const [result, setResult] = useState<any>(null);
@@ -94,6 +97,8 @@ export default function ProfitMarginCalculator() {
                         <h3 className="font-semibold">Business Details</h3>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">
                                 Cost Price (Production/Delivery)
@@ -106,7 +111,7 @@ export default function ProfitMarginCalculator() {
                                     onChange={(e) => setCost(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
@@ -121,7 +126,7 @@ export default function ProfitMarginCalculator() {
                                     onChange={(e) => setRevenue(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div className="flex gap-3">
@@ -153,10 +158,10 @@ export default function ProfitMarginCalculator() {
                         color: "text-green-400"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Profit Amount", value: `₹${result.profit}`, valueColor: "text-green-400" },
+                        { label: "Profit Amount", value: `${symbol}${result.profit}`, valueColor: "text-green-400" },
                         { label: "Markup Percentage", value: `${result.markup}%` },
-                        { label: "Cost Price", value: `₹${result.cost}` },
-                        { label: "Selling Price", value: `₹${result.revenue}` }
+                        { label: "Cost Price", value: `${symbol}${result.cost}` },
+                        { label: "Selling Price", value: `${symbol}${result.revenue}` }
                     ] : undefined}
                 />
             </div>
@@ -233,7 +238,7 @@ export default function ProfitMarginCalculator() {
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost ₹600, Selling ₹1000</p>
+                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost $600, Selling $1000</p>
                             <p className="text-sm text-green-400 mt-2">Profit Margin = 40% (based on selling price)</p>
                             <p className="text-sm text-blue-400">Markup = 66.7% (based on cost price)</p>
                         </div>
@@ -265,7 +270,7 @@ export default function ProfitMarginCalculator() {
                         Profit Margin = (Revenue - Cost) ÷ Revenue × 100
                     </p>
                     <p className="text-gray-500 text-xs">
-                        Example: (₹1000 - ₹600) ÷ ₹1000 × 100 = 40% profit margin
+                        Example: ($1000 - $600) ÷ $1000 × 100 = 40% profit margin
                     </p>
                 </div>
             </section>

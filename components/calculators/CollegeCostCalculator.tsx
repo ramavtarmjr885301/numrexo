@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
     {
@@ -17,36 +19,37 @@ const FAQ_DATA = [
         a: "A 529 plan is a tax-advantaged savings plan designed for education costs. Earnings grow tax-free and withdrawals for qualified expenses are also tax-free.",
     },
     {
-        q: "What is the average college cost in India?",
-        a: "Average college costs in India vary widely: Government colleges: ₹20,000-1,00,000/year, Private engineering: ₹1-4 lakhs/year, Private medical: ₹5-20 lakhs/year, Management/MBA: ₹5-25 lakhs/year, Liberal arts: ₹50,000-3 lakhs/year. International studies: ₹20-50 lakhs/year.",
+        q: "What does a year of college actually cost?",
+        a: "It depends far more on the type of institution than on the subject. In the United States, published sticker prices run roughly $11,000-$13,000 a year in tuition and fees at a public university for in-state students, $28,000-$32,000 for out-of-state students, and $42,000-$45,000 at a private non-profit. Room and board adds about $12,000-$14,000 wherever you go. Most students pay less than the sticker price once grants are applied, so treat these as a starting point and work down from the aid offer.",
     },
     {
         q: "How to get education loans for college?",
-        a: "Steps: 1) Research banks (SBI, HDFC, ICICI, Bank of Baroda), 2) Check eligibility (usually 70%+ in 12th), 3) Calculate loan amount needed, 4) Apply with co-applicant (parents), 5) Provide collateral for loans above ₹7.5 lakhs, 6) Compare interest rates (8-12%).",
+        a: "Fill in the FAFSA first — it is what decides federal grants, work-study and federal loans, and many states and colleges use it for their own aid too. Take grants and scholarships before anything you repay, then subsidised federal loans, then unsubsidised. Private loans come last: they usually cost more and carry none of the federal protections. Only after the aid letter arrives do you know the real number, so compare offers side by side before choosing a college.",
     },
     {
         q: "What are scholarship options for college?",
-        a: "Scholarship types: Merit-based (top %ile in exams), Means-based (family income below ₹4.5L), National (NSP portal), State (state govt schemes), Private (Tata, Reliance, Adani), Corporate (L&T, Infosys), Sports (SAI). Apply early, deadlines typically Dec-Feb.",
+        a: "Need-based aid is decided by the FAFSA and, at some private colleges, the CSS Profile. Merit aid comes from the college itself and is usually tied to GPA or test scores. Beyond that there are federal Pell Grants, state grant programmes, and private scholarships from employers, unions, community foundations and professional associations. Deadlines cluster between December and March, and the earliest applications tend to be the best funded.",
     },
     {
         q: "What is the difference between subsidized and unsubsidized loans?",
-        a: "Subsidized loans: Government pays interest while you're in college and during grace period. Need-based. Unsubsidized loans: Interest accrues from day one. You pay all interest. Not need-based. Most Indian students use unsubsidized loans with moratorium period.",
+        a: "Subsidized loans: Government pays interest while you're in college and during grace period. Need-based. Unsubsidized loans: Interest accrues from day one. You pay all interest. Not need-based. Subsidised loans are limited and go to students with demonstrated financial need, so most borrowers end up with a mix of both.",
     },
     {
         q: "How to reduce college costs?",
-        a: "Strategies: 1) Choose government/state colleges (lower fees), 2) Apply for scholarships (reduce by 25-100%), 3) Live at home (save ₹80k-2L/year), 4) Buy used textbooks (save 50-70%), 5) Work-study/part-time jobs (earn ₹5-15k/month), 6) Complete degree faster (save 1 year costs).",
+        a: "Strategies: 1) Choose government/state colleges (lower fees), 2) Apply for scholarships (reduce by 25-100%), 3) Live at home (save $80k-2L/year), 4) Buy used textbooks (save 50-70%), 5) Work-study/part-time jobs (earn $5-15k/month), 6) Complete degree faster (save 1 year costs).",
     },
     {
         q: "What is the 4-4-4-4 cost breakdown?",
-        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save 4 times your annual college cost before starting. Example: ₹4L/year college → save ₹16L before enrolling.",
+        a: "4-4-4-4 rule: 4 years of college × 4% annual inflation × 4% withdrawal rate × 4 months summer job. Save 4 times your annual college cost before starting. Example: $4L/year college → save $16L before enrolling.",
     },
     {
         q: "When to start saving for college?",
-        a: "Start saving when child is born. Monthly saving targets: ₹2,000/month for 18 years at 8% = ₹9.6L corpus. ₹5,000/month = ₹24L corpus. ₹10,000/month = ₹48L corpus. Earlier start means lower monthly burden.",
+        a: "Start saving when child is born. Monthly saving targets: $2,000/month for 18 years at 8% = $9.6L corpus. $5,000/month = $24L corpus. $10,000/month = $48L corpus. Earlier start means lower monthly burden.",
     },
 ];
 
 export default function CollegeCostCalculator() {
+    const { symbol } = useCurrency();
     const [tuition, setTuition] = useState("");
     const [roomBoard, setRoomBoard] = useState("");
     const [books, setBooks] = useState("");
@@ -132,24 +135,26 @@ export default function CollegeCostCalculator() {
                         <p className="text-xs text-gray-500">Enter annual costs for one year (current prices)</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Tuition & Fees (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Tuition & Fees ($/year)</label>
                             <input type="number" step="10000" placeholder="e.g., 200000" value={tuition} onChange={(e) => setTuition(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Room & Board (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Room & Board ($/year)</label>
                             <input type="number" step="5000" placeholder="e.g., 80000" value={roomBoard} onChange={(e) => setRoomBoard(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Books & Supplies (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Books & Supplies ($/year)</label>
                             <input type="number" step="1000" placeholder="e.g., 15000" value={books} onChange={(e) => setBooks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Transportation (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Transportation ($/year)</label>
                             <input type="number" step="1000" placeholder="e.g., 10000" value={transport} onChange={(e) => setTransport(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Personal/Miscellaneous (₹/year)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Personal/Miscellaneous ($/year)</label>
                             <input type="number" step="1000" placeholder="e.g., 20000" value={other} onChange={(e) => setOther(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -177,11 +182,11 @@ export default function CollegeCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="🎓"
                     emptyText="Enter college costs to see total expense"
-                    mainResult={result ? { label: "Total College Cost", value: `₹${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-400" } : undefined}
+                    mainResult={result ? { label: "Total College Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Average Per Year", value: `₹${parseFloat(result.averagePerYear).toLocaleString()}` },
-                        { label: "First Year Cost", value: `₹${parseFloat(result.firstYearCost).toLocaleString()}`, valueColor: "text-yellow-400" },
-                        { label: "Final Year Cost", value: `₹${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-400" },
+                        { label: "Average Per Year", value: `${symbol}${parseFloat(result.averagePerYear).toLocaleString()}` },
+                        { label: "First Year Cost", value: `${symbol}${parseFloat(result.firstYearCost).toLocaleString()}`, valueColor: "text-yellow-400" },
+                        { label: "Final Year Cost", value: `${symbol}${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-400" },
                         { label: "Total Years", value: result.years },
                     ] : []}
                 />
@@ -194,7 +199,7 @@ export default function CollegeCostCalculator() {
                         {result.yearlyBreakdown.map((cost: number, idx: number) => (
                             <div key={idx} className="flex justify-between text-sm">
                                 <span className="text-gray-400">Year {idx + 1}</span>
-                                <span className="text-white font-medium">₹{Math.round(cost).toLocaleString()}</span>
+                                <span className="text-white font-medium">${Math.round(cost).toLocaleString()}</span>
                             </div>
                         ))}
                     </div>
@@ -210,7 +215,7 @@ export default function CollegeCostCalculator() {
                     The <strong className="text-gray-300">College Cost Calculator</strong> helps students and parents plan their education budget with inflation-adjusted projections. Includes tuition, housing, books, transportation, and miscellaneous expenses.
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                    College costs in India have been rising at 8-12% annually for private institutions. Our calculator accounts for inflation to give you a realistic estimate of future expenses, helping you plan savings, education loans, and scholarship needs.
+                    College costs have been climbing faster than general inflation for two decades. Our calculator accounts for inflation to give you a realistic estimate of future expenses, helping you plan savings, education loans, and scholarship needs.
                 </p>
             </section>
 
@@ -218,11 +223,11 @@ export default function CollegeCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This College Cost Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost (₹2L-₹25L/year depending on course).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — hostel/mess costs (₹50k-₹2L/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">books & supplies</strong> — textbooks, stationery (₹10k-₹30k/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">transportation</strong> — commute costs (₹5k-₹20k/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter <strong className="text-white">personal/miscellaneous</strong> — pocket money, clothes, entertainment (₹20k-₹50k/year).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost ($2L-$25L/year depending on course).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — hostel/mess costs ($50k-$2L/year).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">books & supplies</strong> — textbooks, stationery ($10k-$30k/year).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">transportation</strong> — commute costs ($5k-$20k/year).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter <strong className="text-white">personal/miscellaneous</strong> — pocket money, clothes, entertainment ($20k-$50k/year).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Select <strong className="text-white">number of years</strong> (3-5 years typical) and <strong className="text-white">inflation rate</strong> (5-8% recommended).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Click <strong className="text-white">Calculate</strong> to see total cost, year-by-year breakdown, and average per year.</p>
                 </div>
@@ -253,49 +258,51 @@ export default function CollegeCostCalculator() {
 
             {/* College Cost Breakdown */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Typical College Cost Breakdown (Private Engineering - Annual)</h2>
+                <h2 className="text-xl font-semibold text-white mb-4">What a Year of College Costs — Public University, In-State</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Expense Category</th><th className="text-right py-3 px-4 text-gray-400">Low Range</th><th className="text-right py-3 px-4 text-gray-400">Mid Range</th><th className="text-right py-3 px-4 text-gray-400">High Range</th></tr></thead>
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Expense Category</th><th className="text-right py-3 px-4 text-gray-400">Low</th><th className="text-right py-3 px-4 text-gray-400">Typical</th><th className="text-right py-3 px-4 text-gray-400">High</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tuition & Fees</td><td className="py-2 px-4 text-right">₹1,00,000</td><td className="py-2 px-4 text-right">₹2,00,000</td><td className="py-2 px-4 text-right">₹5,00,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Room & Board</td><td className="py-2 px-4 text-right">₹50,000</td><td className="py-2 px-4 text-right">₹80,000</td><td className="py-2 px-4 text-right">₹1,50,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Books & Supplies</td><td className="py-2 px-4 text-right">₹10,000</td><td className="py-2 px-4 text-right">₹15,000</td><td className="py-2 px-4 text-right">₹30,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Transportation</td><td className="py-2 px-4 text-right">₹5,000</td><td className="py-2 px-4 text-right">₹10,000</td><td className="py-2 px-4 text-right">₹20,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Personal/Misc</td><td className="py-2 px-4 text-right">₹10,000</td><td className="py-2 px-4 text-right">₹20,000</td><td className="py-2 px-4 text-right">₹50,000</td></tr>
-                            <tr className="bg-gray-800/30"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-400">₹1,75,000</td><td className="py-2 px-4 text-right font-semibold text-yellow-400">₹3,25,000</td><td className="py-2 px-4 text-right font-semibold text-orange-400">₹7,50,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tuition &amp; Fees</td><td className="py-2 px-4 text-right">$8,000</td><td className="py-2 px-4 text-right">$11,600</td><td className="py-2 px-4 text-right">$16,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Room &amp; Board</td><td className="py-2 px-4 text-right">$9,000</td><td className="py-2 px-4 text-right">$12,700</td><td className="py-2 px-4 text-right">$17,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Books &amp; Supplies</td><td className="py-2 px-4 text-right">$600</td><td className="py-2 px-4 text-right">$1,200</td><td className="py-2 px-4 text-right">$1,800</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Transportation</td><td className="py-2 px-4 text-right">$700</td><td className="py-2 px-4 text-right">$1,300</td><td className="py-2 px-4 text-right">$2,200</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Personal / Misc</td><td className="py-2 px-4 text-right">$1,500</td><td className="py-2 px-4 text-right">$2,400</td><td className="py-2 px-4 text-right">$3,500</td></tr>
+                            <tr className="bg-gray-800/30"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-400">$19,800</td><td className="py-2 px-4 text-right font-semibold text-yellow-400">$29,200</td><td className="py-2 px-4 text-right font-semibold text-orange-400">$40,500</td></tr>
                         </tbody>
                     </table>
                 </div>
+                <p className="text-xs text-gray-600 mt-2">Approximate published (sticker) prices for a recent academic year. Most students pay less once grants and scholarships are applied — use the aid letter, not this table, once you have one.</p>
             </section>
 
             {/* Sample College Costs */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sample College Costs by Course Type (Annual)</h2>
+                <h2 className="text-xl font-semibold text-white mb-4">Sample Annual Cost by Institution Type</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Course Type</th><th className="text-left py-3 px-4 text-gray-400">Tuition</th><th className="text-left py-3 px-4 text-gray-400">Total with Hostel</th><th className="text-left py-3 px-4 text-gray-400">4-Year Total</th></tr></thead>
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Institution Type</th><th className="text-right py-3 px-4 text-gray-400">Tuition &amp; Fees</th><th className="text-right py-3 px-4 text-gray-400">With Room &amp; Board</th><th className="text-right py-3 px-4 text-gray-400">Full Degree</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">B.Sc (Government)</td><td className="py-2 px-4">₹10,000-30,000</td><td className="py-2 px-4">₹50,000-80,000</td><td className="py-2 px-4 text-yellow-400">₹2-3.2L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">B.Com (Government)</td><td className="py-2 px-4">₹5,000-20,000</td><td className="py-2 px-4">₹40,000-60,000</td><td className="py-2 px-4 text-yellow-400">₹1.6-2.4L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">B.Tech (Government)</td><td className="py-2 px-4">₹50,000-1,50,000</td><td className="py-2 px-4">₹1,50,000-2,50,000</td><td className="py-2 px-4 text-yellow-400">₹6-10L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">B.Tech (Private)</td><td className="py-2 px-4">₹2,00,000-5,00,000</td><td className="py-2 px-4">₹3,00,000-7,00,000</td><td className="py-2 px-4 text-yellow-400">₹12-28L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">MBBS (Government)</td><td className="py-2 px-4">₹10,000-50,000</td><td className="py-2 px-4">₹1,00,000-2,00,000</td><td className="py-2 px-4 text-yellow-400">₹4-8L (5.5 yrs)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">MBBS (Private)</td><td className="py-2 px-4">₹10,00,000-25,00,000</td><td className="py-2 px-4">₹12,00,000-28,00,000</td><td className="py-2 px-4 text-yellow-400">₹60L-1.5Cr</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">MBA (Top B-School)</td><td className="py-2 px-4">₹15,00,000-30,00,000</td><td className="py-2 px-4">₹20,00,000-40,00,000</td><td className="py-2 px-4 text-yellow-400">₹20-40L (2 yrs)</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Community college (in-district)</td><td className="py-2 px-4 text-right">$3,600-4,500</td><td className="py-2 px-4 text-right">$12,000-16,000</td><td className="py-2 px-4 text-right">$24,000-32,000 (2 yrs)</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Public 4-year, in-state</td><td className="py-2 px-4 text-right">$9,000-13,500</td><td className="py-2 px-4 text-right">$22,000-29,000</td><td className="py-2 px-4 text-right">$88,000-116,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Public 4-year, out-of-state</td><td className="py-2 px-4 text-right">$24,000-32,000</td><td className="py-2 px-4 text-right">$37,000-48,000</td><td className="py-2 px-4 text-right">$148,000-192,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Private non-profit</td><td className="py-2 px-4 text-right">$38,000-46,000</td><td className="py-2 px-4 text-right">$52,000-62,000</td><td className="py-2 px-4 text-right">$208,000-248,000</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Private, highly selective</td><td className="py-2 px-4 text-right">$58,000-68,000</td><td className="py-2 px-4 text-right">$78,000-92,000</td><td className="py-2 px-4 text-right">$312,000-368,000</td></tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
+                <p className="text-xs text-gray-600 mt-2">Two years at a community college followed by two years at a public university is the single biggest lever on this table — it can cut a bachelor&apos;s degree cost roughly in half.</p>
             </section>
 
             {/* Savings Strategies */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Smart Savings Strategies for College</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start early with SIP:</strong> ₹5,000/month from child's birth at 12% returns = ₹48L after 18 years (₹10.8L invested, ₹37.2L gains).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use 529-equivalent plans:</strong> SSY (Sukanya Samriddhi for girls), PPF (up to ₹1.5L/year), NPS (for parents, tax-saving).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Education loans:</strong> SBI, HDFC, Bank of Baroda offer up to ₹1.5Cr with 8-12% interest. Interest deduction under Section 80E.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Scholarship portals:</strong> National Scholarship Portal (NSP), Vidyasaarathi, Buddy4Study, State scholarship portals.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start early with SIP:</strong> $5,000/month from child's birth at 12% returns = $48L after 18 years ($10.8L invested, $37.2L gains).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use 529-equivalent plans:</strong> SSY (Sukanya Samriddhi for girls), PPF (up to $1.5L/year), NPS (for parents, tax-saving).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
                 </ul>
             </section>
 

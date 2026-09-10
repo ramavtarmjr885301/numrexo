@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
     {
@@ -58,6 +60,7 @@ const CONCRETE_SCHEMA = JSON.stringify({
 });
 
 export default function ConcreteCalculator() {
+    const { symbol } = useCurrency();
     const [shape, setShape] = useState<"slab" | "column" | "footing">("slab");
     const [length, setLength] = useState("10");
     const [width, setWidth] = useState("10");
@@ -155,6 +158,8 @@ export default function ConcreteCalculator() {
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Concrete Volume Calculator</h3><p className="text-xs text-gray-500 mt-1">Estimate materials for your project</p></div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div><label className="block text-xs font-semibold text-gray-400 mb-2">Structure Type</label><div className="grid grid-cols-3 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${shape === "slab" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("slab")}>Slab</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "column" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("column")}>Column</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "footing" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("footing")}>Footing</button></div></div>
                         <div><label className="block text-xs font-semibold text-gray-400 mb-2">Unit</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${unit === "feet" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("feet")}>Feet</button><button className={`py-2 rounded-lg text-sm transition-all ${unit === "meters" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("meters")}>Meters</button></div></div>
                         {(shape === "slab" || shape === "footing") && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Length</label><div className="relative"><input type="number" placeholder="10" value={length} onChange={(e) => setLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Width</label><div className="relative"><input type="number" placeholder="10" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div></div></>)}
@@ -213,7 +218,7 @@ export default function ConcreteCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Cost Savings</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Concrete costs ₹4,000-8,000 per cubic meter. Over-ordering by 1 m³ wastes ₹5,000+. Under-ordering causes delays and weak cold joints.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Concrete costs $4,000-8,000 per cubic meter. Over-ordering by 1 m³ wastes $5,000+. Under-ordering causes delays and weak cold joints.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Less Waste</h3>
@@ -272,10 +277,10 @@ export default function ConcreteCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Concrete Cost Estimation Guide (India)</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Ready-mix concrete:</strong> M20 grade costs ₹4,500-6,500 per m³ + transportation (₹500-2,000 per trip).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Site-mix concrete (materials only):</strong> Cement ₹350-400/bag, Sand ₹800-1,200/tonne, Aggregate ₹1,000-1,500/tonne.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Labor cost:</strong> ₹500-1,000 per m³ for mixing, pouring, and finishing.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Formwork/shuttering:</strong> ₹500-800 per sq ft of contact area.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Ready-mix concrete:</strong> M20 grade costs $4,500-6,500 per m³ + transportation ($500-2,000 per trip).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Site-mix concrete (materials only):</strong> Cement $350-400/bag, Sand $800-1,200/tonne, Aggregate $1,000-1,500/tonne.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Labor cost:</strong> $500-1,000 per m³ for mixing, pouring, and finishing.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Formwork/shuttering:</strong> $500-800 per sq ft of contact area.</span></li>
                 </ul>
             </section>
 

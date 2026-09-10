@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -177,7 +179,7 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
                             />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
-                            {total > 0 ? `₹${Math.round(total).toLocaleString()}` : '0'}
+                            {total > 0 ? `$${Math.round(total).toLocaleString()}` : '0'}
                         </div>
                     </div>
                     <div className="space-y-1 text-xs">
@@ -206,6 +208,7 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SalaryBudgetingCalculator() {
+    const { symbol } = useCurrency();
     const [monthlySalary, setMonthlySalary] = useState("");
     const [rent, setRent] = useState("0");
     const [groceries, setGroceries] = useState("0");
@@ -408,9 +411,11 @@ export default function SalaryBudgetingCalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         {/* Monthly Salary */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Monthly Salary (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Monthly Salary ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -420,7 +425,7 @@ export default function SalaryBudgetingCalculator() {
                                     onChange={(e) => setMonthlySalary(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -615,20 +620,20 @@ export default function SalaryBudgetingCalculator() {
                         emptyText="Enter your salary and expenses to see your budget analysis"
                         mainResult={result ? {
                             label: "Remaining Balance",
-                            value: `₹${result.remaining.toFixed(2)}`,
+                            value: `${symbol}${result.remaining.toFixed(2)}`,
                             color: result.remaining >= 0 ? "text-green-400" : "text-red-400"
                         } : undefined}
                         extraRows={result ? [
                             { label: "Overall Budget Health", value: result.overallRating, valueColor: result.overallRatingColor },
-                            { label: "Total Income", value: `₹${result.salary.toFixed(2)}` },
-                            { label: "Total Expenses", value: `₹${result.totalExpenses.toFixed(2)}` },
-                            { label: "Needs (Essential)", value: `₹${result.needsTotal.toFixed(2)} (${result.needsPercentage}%)`, valueColor: result.needsRatingColor },
+                            { label: "Total Income", value: `${symbol}${result.salary.toFixed(2)}` },
+                            { label: "Total Expenses", value: `${symbol}${result.totalExpenses.toFixed(2)}` },
+                            { label: "Needs (Essential)", value: `${symbol}${result.needsTotal.toFixed(2)} (${result.needsPercentage}%)`, valueColor: result.needsRatingColor },
                             { label: "Needs Rating", value: result.needsRating, valueColor: result.needsRatingColor },
-                            { label: "Wants (Discretionary)", value: `₹${result.wantsTotal.toFixed(2)} (${result.wantsPercentage}%)`, valueColor: result.wantsRatingColor },
+                            { label: "Wants (Discretionary)", value: `${symbol}${result.wantsTotal.toFixed(2)} (${result.wantsPercentage}%)`, valueColor: result.wantsRatingColor },
                             { label: "Wants Rating", value: result.wantsRating, valueColor: result.wantsRatingColor },
-                            { label: "Savings & Investments", value: `₹${result.savingsTotal.toFixed(2)} (${result.savingsPercentage}%)`, valueColor: result.savingsRatingColor },
+                            { label: "Savings & Investments", value: `${symbol}${result.savingsTotal.toFixed(2)} (${result.savingsPercentage}%)`, valueColor: result.savingsRatingColor },
                             { label: "Savings Rating", value: result.savingsRating, valueColor: result.savingsRatingColor },
-                            { label: "50/30/20 Recommended", value: `₹${result.needsRecommended.toFixed(2)} / ₹${result.wantsRecommended.toFixed(2)} / ₹${result.savingsRecommended.toFixed(2)}` },
+                            { label: "50/30/20 Recommended", value: `${symbol}${result.needsRecommended.toFixed(2)} / $${result.wantsRecommended.toFixed(2)} / $${result.savingsRecommended.toFixed(2)}` },
                         ] : []}
                     />
 

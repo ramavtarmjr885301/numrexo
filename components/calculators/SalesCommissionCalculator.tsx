@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
 const FAQ_DATA = [
     {
         q: "How is sales commission calculated?",
-        a: "Sales commission is usually a percentage of the total sale amount. Formula: Commission = Sale Amount × Commission Rate ÷ 100. Example: ₹50,000 sale at 10% commission = ₹5,000. Some plans have tiered rates where higher sales earn higher percentages. The calculation can also include bonuses, split commissions, and draw against future commissions for more complex compensation structures.",
+        a: "Sales commission is usually a percentage of the total sale amount. Formula: Commission = Sale Amount × Commission Rate ÷ 100. Example: $50,000 sale at 10% commission = $5,000. Some plans have tiered rates where higher sales earn higher percentages. The calculation can also include bonuses, split commissions, and draw against future commissions for more complex compensation structures.",
     },
     {
         q: "What is a good commission rate?",
@@ -16,23 +18,23 @@ const FAQ_DATA = [
     },
     {
         q: "What is tiered commission?",
-        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on ₹0-₹1L, 7% on ₹1L-₹2L, 10% on ₹2L+. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
+        a: "Tiered commission pays higher rates for higher sales levels. Example: 5% on $0-$1L, 7% on $1L-$2L, 10% on $2L+. This motivates reps to sell more and rewards top performers. Our calculator supports this structure with up to 3 tiers. Tiered structures are common in high-volume sales environments and help align sales incentives with company growth goals.",
     },
     {
         q: "How to calculate commission with bonus?",
-        a: "Add bonus to commission. Example: 10% commission on ₹1L sale = ₹10,000 + ₹5,000 bonus = ₹15,000 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition (₹5,000-₹10,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
+        a: "Add bonus to commission. Example: 10% commission on $1L sale = $10,000 + $5,000 bonus = $15,000 total. Bonuses are often for hitting specific targets like: Monthly quota achievement (5-10% bonus), New customer acquisition ($5,000-$10,000 per new account), Product-specific sales (higher margins), or Performance milestones. Bonuses can significantly boost earnings and motivation.",
     },
     {
         q: "What is draw against commission?",
-        a: "A draw is guaranteed minimum payment advanced against future commissions. If you earn less than the draw, you owe the difference. If you earn more, you keep the surplus. Common in car sales and real estate. Types: Forgiving draw (you keep excess, no repayment) and Non-forgiving draw (you must repay shortfall). Draw amounts typically range from ₹20,000-₹50,000 per month, providing income stability during slow periods.",
+        a: "A draw is guaranteed minimum payment advanced against future commissions. If you earn less than the draw, you owe the difference. If you earn more, you keep the surplus. Common in car sales and real estate. Types: Forgiving draw (you keep excess, no repayment) and Non-forgiving draw (you must repay shortfall). Draw amounts typically range from $20,000-$50,000 per month, providing income stability during slow periods.",
     },
     {
         q: "How to calculate commission split?",
-        a: "When multiple people share a sale, split the commission. Example: Total commission ₹10,000 split 60/40 between sales rep and manager = ₹6,000 and ₹4,000. Common split scenarios: Rep/Manager (60/40, 70/30), Rep/Broker (50/50), Team leads (split based on contribution), Referral fees (10-20% to referrer). Always clarify split percentages in advance to avoid disputes.",
+        a: "When multiple people share a sale, split the commission. Example: Total commission $10,000 split 60/40 between sales rep and manager = $6,000 and $4,000. Common split scenarios: Rep/Manager (60/40, 70/30), Rep/Broker (50/50), Team leads (split based on contribution), Referral fees (10-20% to referrer). Always clarify split percentages in advance to avoid disputes.",
     },
     {
         q: "What's the difference between gross and net commission?",
-        a: "Gross commission is the total commission earned before any deductions. Net commission is what you actually receive after deductions: Company overhead (5-15%), Administrative fees (2-5%), Insurance/benefits costs, Professional fees (membership, licensing). Example: ₹10,000 gross commission - 10% admin fee = ₹9,000 net. Always calculate net commission for accurate earnings planning.",
+        a: "Gross commission is the total commission earned before any deductions. Net commission is what you actually receive after deductions: Company overhead (5-15%), Administrative fees (2-5%), Insurance/benefits costs, Professional fees (membership, licensing). Example: $10,000 gross commission - 10% admin fee = $9,000 net. Always calculate net commission for accurate earnings planning.",
     },
     {
         q: "How to optimize sales commission structure?",
@@ -49,11 +51,11 @@ const FAQ_DATA = [
 ];
 
 const COMMISSION_EXAMPLES = [
-    { sales: "₹50,000", rate: "5%", commission: "₹2,500", industry: "Retail" },
-    { sales: "₹1,00,000", rate: "8%", commission: "₹8,000", industry: "Real Estate" },
-    { sales: "₹2,00,000", rate: "10%", commission: "₹20,000", industry: "SaaS" },
-    { sales: "₹5,00,000", rate: "12%", commission: "₹60,000", industry: "Insurance" },
-    { sales: "₹10,00,000", rate: "15%", commission: "₹1,50,000", industry: "Medical Devices" },
+    { sales: "$50,000", rate: "5%", commission: "$2,500", industry: "Retail" },
+    { sales: "$1,00,000", rate: "8%", commission: "$8,000", industry: "Real Estate" },
+    { sales: "$2,00,000", rate: "10%", commission: "$20,000", industry: "SaaS" },
+    { sales: "$5,00,000", rate: "12%", commission: "$60,000", industry: "Insurance" },
+    { sales: "$10,00,000", rate: "15%", commission: "$1,50,000", industry: "Medical Devices" },
 ];
 
 const INDUSTRY_COMMISSION_RATES = [
@@ -106,6 +108,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SalesCommissionCalculator() {
+    const { symbol } = useCurrency();
     const [calcType, setCalcType] = useState<"simple" | "tiered" | "split">("simple");
     const [saleAmount, setSaleAmount] = useState("");
     const [commissionRate, setCommissionRate] = useState("");
@@ -272,6 +275,8 @@ export default function SalesCommissionCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Calculate earnings from sales</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Commission Type</label>
                             <div className="grid grid-cols-3 gap-2">
@@ -297,7 +302,7 @@ export default function SalesCommissionCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Sale Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Sale Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -306,7 +311,7 @@ export default function SalesCommissionCalculator() {
                                     onChange={(e) => setSaleAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -336,7 +341,7 @@ export default function SalesCommissionCalculator() {
                                             onChange={(e) => setBonus(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                             </>
@@ -346,7 +351,7 @@ export default function SalesCommissionCalculator() {
                             <>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 1 Limit (₹)</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 1 Limit ({symbol})</label>
                                         <input
                                             type="number"
                                             placeholder="50000"
@@ -369,7 +374,7 @@ export default function SalesCommissionCalculator() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 2 Limit (₹)</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 2 Limit ({symbol})</label>
                                         <input
                                             type="number"
                                             placeholder="100000"
@@ -460,24 +465,24 @@ export default function SalesCommissionCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter sale details and press Calculate"
-                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `₹${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `${symbol}${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Sale Amount", value: `₹${parseFloat(result.saleAmount).toLocaleString()}` },
+                        { label: "Sale Amount", value: `${symbol}${parseFloat(result.saleAmount).toLocaleString()}` },
                         ...(calcType === "simple" ? [
                             { label: "Commission Rate", value: `${result.rate}%` },
-                            { label: "Base Commission", value: `₹${parseFloat(result.commission).toLocaleString()}` },
-                            ...(result.bonus && parseFloat(result.bonus) > 0 ? [{ label: "Bonus", value: `₹${parseFloat(result.bonus).toLocaleString()}`, valueColor: "text-yellow-400" }] : []),
+                            { label: "Base Commission", value: `${symbol}${parseFloat(result.commission).toLocaleString()}` },
+                            ...(result.bonus && parseFloat(result.bonus) > 0 ? [{ label: "Bonus", value: `${symbol}${parseFloat(result.bonus).toLocaleString()}`, valueColor: "text-yellow-400" }] : []),
                         ] : []),
                         ...(calcType === "tiered" && result.tierBreakdown ? [
                             ...result.tierBreakdown.map((tier: any) => ({
                                 label: tier.tier,
-                                value: `₹${parseFloat(tier.amount).toLocaleString()} @ ${tier.rate}% = ₹${parseFloat(tier.commission).toLocaleString()}`,
+                                value: `${symbol}${parseFloat(tier.amount).toLocaleString()} @ ${tier.rate}% = $${parseFloat(tier.commission).toLocaleString()}`,
                                 valueColor: "text-blue-400"
                             })),
                         ] : []),
                         ...(calcType === "split" ? [
-                            { label: "Person 1 Commission", value: `₹${parseFloat(result.person1Commission).toLocaleString()}`, valueColor: "text-blue-400" },
-                            { label: "Person 2 Commission", value: `₹${parseFloat(result.person2Commission).toLocaleString()}`, valueColor: "text-purple-400" },
+                            { label: "Person 1 Commission", value: `${symbol}${parseFloat(result.person1Commission).toLocaleString()}`, valueColor: "text-blue-400" },
+                            { label: "Person 2 Commission", value: `${symbol}${parseFloat(result.person2Commission).toLocaleString()}`, valueColor: "text-purple-400" },
                             { label: "Split Ratio", value: `${result.splitPercent}% / ${(100 - result.splitPercent).toFixed(0)}%` },
                         ] : []),
                     ] : []}
@@ -505,7 +510,7 @@ export default function SalesCommissionCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Commission Calculator</h2>
                 <div className="space-y-3">
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">commission type</strong> (Simple, Tiered, or Split).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">total sale amount</strong> in ₹.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">total sale amount</strong> in $.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Simple: Enter <strong className="text-white">commission rate</strong> and optional <strong className="text-white">bonus</strong>.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> For Tiered: Enter <strong className="text-white">tier limits and rates</strong> (up to 3 tiers).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> For Split: Enter <strong className="text-white">commission rate</strong> and <strong className="text-white">split percentage</strong>.</p>
@@ -573,14 +578,14 @@ export default function SalesCommissionCalculator() {
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Simple Commission</h3>
                         <p className="text-white font-mono text-sm mb-2">Commission = Sale × Rate ÷ 100</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1,00,000 × 10% = ₹10,000</p>
+                        <p className="text-gray-500 text-xs">Example: $1,00,000 × 10% = $10,000</p>
                         <p className="text-gray-500 text-xs mt-1">With Bonus: Commission + Bonus</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Tiered Commission</h3>
                         <p className="text-white font-mono text-sm mb-2">Different rates for different sale levels</p>
-                        <p className="text-gray-500 text-xs">Example: 5% on first ₹50,000</p>
-                        <p className="text-gray-500 text-xs">7% on next ₹50,000</p>
+                        <p className="text-gray-500 text-xs">Example: 5% on first $50,000</p>
+                        <p className="text-gray-500 text-xs">7% on next $50,000</p>
                         <p className="text-gray-500 text-xs">10% on remaining</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
@@ -598,24 +603,24 @@ export default function SalesCommissionCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">Tiered Commission Example</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on ₹2,50,000 total sales.
+                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $2,50,000 total sales.
                     </p>
                     <div className="space-y-2">
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 1: First ₹50,000 @ 5%</span>
-                            <span className="text-green-400 text-sm">₹2,500</span>
+                            <span className="text-gray-400 text-sm">Tier 1: First $50,000 @ 5%</span>
+                            <span className="text-green-400 text-sm">$2,500</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 2: Next ₹1,00,000 @ 7%</span>
-                            <span className="text-green-400 text-sm">₹7,000</span>
+                            <span className="text-gray-400 text-sm">Tier 2: Next $1,00,000 @ 7%</span>
+                            <span className="text-green-400 text-sm">$7,000</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 3: Remaining ₹1,00,000 @ 10%</span>
-                            <span className="text-green-400 text-sm">₹10,000</span>
+                            <span className="text-gray-400 text-sm">Tier 3: Remaining $1,00,000 @ 10%</span>
+                            <span className="text-green-400 text-sm">$10,000</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">
                             <span className="text-white font-semibold">Total Commission</span>
-                            <span className="text-yellow-400 font-semibold">₹19,500</span>
+                            <span className="text-yellow-400 font-semibold">$19,500</span>
                         </div>
                     </div>
                 </div>

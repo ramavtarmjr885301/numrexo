@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
 const FAQ_DATA = [
     {
         q: "What is ROI and how is it calculated?",
-        a: "ROI (Return on Investment) measures the profitability of an investment. Formula: ROI = (Net Profit ÷ Cost of Investment) × 100. For example, if you invest ₹10,000 and earn ₹15,000, your net profit is ₹5,000, and ROI is 50%. Higher ROI means better investment returns. ROI is expressed as a percentage and helps compare different investment opportunities objectively.",
+        a: "ROI (Return on Investment) measures the profitability of an investment. Formula: ROI = (Net Profit ÷ Cost of Investment) × 100. For example, if you invest $10,000 and earn $15,000, your net profit is $5,000, and ROI is 50%. Higher ROI means better investment returns. ROI is expressed as a percentage and helps compare different investment opportunities objectively.",
     },
     {
         q: "What is a good ROI percentage?",
@@ -20,15 +22,15 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate ROI for marketing campaigns?",
-        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend ₹50,000 on ads, generate ₹2,00,000 in sales → ROI = (2,00,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
+        a: "Marketing ROI = (Revenue from Campaign - Campaign Cost) ÷ Campaign Cost × 100. Example: Spend $50,000 on ads, generate $2,00,000 in sales → ROI = (2,00,000 - 50,000) ÷ 50,000 × 100 = 300%. A positive ROI means profitable marketing. For more accurate analysis, consider customer lifetime value (LTV), brand awareness impact, and long-term customer acquisition costs.",
     },
     {
         q: "What is negative ROI and what does it mean?",
-        a: "Negative ROI means you lost money on an investment. Example: Invest ₹1,00,000 and get back only ₹80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
+        a: "Negative ROI means you lost money on an investment. Example: Invest $1,00,000 and get back only $80,000 → ROI = -20%. Negative ROI indicates poor investment performance and suggests you should reconsider the investment strategy. Common causes of negative ROI include poor market timing, high expenses, mismanagement, or unexpected market downturns. It's a red flag that requires immediate attention.",
     },
     {
         q: "How to calculate ROI for real estate?",
-        a: "Real estate ROI = (Annual Rental Income - Expenses) ÷ Total Investment × 100. Example: Property cost ₹50 lakhs, annual rent ₹3 lakhs, expenses ₹50,000 → Net income ₹2.5 lakhs → ROI = 2.5 ÷ 50 × 100 = 5%. Also consider property appreciation for total return. Additional factors to include: stamp duty, registration fees, renovation costs, property tax, maintenance, insurance, and vacancy periods.",
+        a: "Real estate ROI = (Annual Rental Income - Expenses) ÷ Total Investment × 100. Example: property cost $400,000, annual rent $30,000, expenses $8,000 → net income $22,000 → ROI = 22,000 ÷ 400,000 × 100 = 5.5%. Also consider property appreciation for total return. Additional costs to include: closing costs, renovation, property tax, maintenance, insurance, management fees and the weeks the property sits empty.",
     },
     {
         q: "What is the difference between ROI and ROE?",
@@ -98,6 +100,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ROICalculator() {
+    const { symbol } = useCurrency();
     const [investmentCost, setInvestmentCost] = useState("100000");
     const [finalValue, setFinalValue] = useState("150000");
     const [years, setYears] = useState("5");
@@ -186,8 +189,10 @@ export default function ROICalculator() {
                         <p className="text-xs text-gray-500 mt-1">Calculate your investment returns</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Initial Investment (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Initial Investment ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -196,11 +201,11 @@ export default function ROICalculator() {
                                     onChange={(e) => setInvestmentCost(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Final Value (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Final Value ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -209,7 +214,7 @@ export default function ROICalculator() {
                                     onChange={(e) => setFinalValue(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
@@ -255,10 +260,10 @@ export default function ROICalculator() {
                         color: result.isProfit ? "text-green-400" : "text-red-400"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Net Profit / Loss", value: `₹${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-400" : "text-red-400" },
+                        { label: "Net Profit / Loss", value: `${symbol}${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-400" : "text-red-400" },
                         { label: "Performance Rating", value: result.performanceRating, valueColor: result.ratingColor },
-                        { label: "Initial Investment", value: `₹${parseFloat(result.cost).toLocaleString()}` },
-                        { label: "Final Value", value: `₹${parseFloat(result.final).toLocaleString()}` },
+                        { label: "Initial Investment", value: `${symbol}${parseFloat(result.cost).toLocaleString()}` },
+                        { label: "Final Value", value: `${symbol}${parseFloat(result.final).toLocaleString()}` },
                         ...(result.cagr ? [{ label: "Annualized Return (CAGR)", value: `${result.cagr}%`, valueColor: "text-yellow-400" }] : []),
                         { label: "Status", value: result.isProfit ? "💰 Profit" : "⚠️ Loss", valueColor: result.isProfit ? "text-green-400" : "text-red-400" },
                     ] : []}
@@ -325,7 +330,7 @@ export default function ROICalculator() {
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Basic ROI Formula</h3>
                         <p className="text-white font-mono text-sm mb-2">ROI = (Net Profit ÷ Cost of Investment) × 100</p>
                         <p className="text-gray-500 text-xs mb-2">Where: Net Profit = Final Value - Initial Investment</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1,00,000 to ₹1,50,000 → ROI = (50,000 ÷ 1,00,000) × 100 = 50%</p>
+                        <p className="text-gray-500 text-xs">Example: $1,00,000 to $1,50,000 → ROI = (50,000 ÷ 1,00,000) × 100 = 50%</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Annualized ROI (CAGR)</h3>

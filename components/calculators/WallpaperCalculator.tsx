@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -24,7 +26,7 @@ const FAQ_DATA = [
     },
     {
         q: "What types of wallpaper are available?",
-        a: "Wallpaper types: 1) Vinyl - durable, washable, ₹500-2000/roll, 2) Non-woven - breathable, easy to install, ₹800-3000/roll, 3) Paper - traditional, affordable, ₹400-1500/roll, 4) Fabric/textile - luxurious, ₹2000-8000/roll, 5) Metallic - reflective, ₹1500-5000/roll, 6) Grasscloth - natural, ₹3000-10000/roll, 7) Peel-and-stick - removable, ₹1000-4000/roll.",
+        a: "Wallpaper types: 1) Vinyl - durable, washable, $500-2000/roll, 2) Non-woven - breathable, easy to install, $800-3000/roll, 3) Paper - traditional, affordable, $400-1500/roll, 4) Fabric/textile - luxurious, $2000-8000/roll, 5) Metallic - reflective, $1500-5000/roll, 6) Grasscloth - natural, $3000-10000/roll, 7) Peel-and-stick - removable, $1000-4000/roll.",
     },
     {
         q: "How to calculate wallpaper for a room with sloped ceilings?",
@@ -91,18 +93,19 @@ const WALLPAPER_ROLL = {
 };
 
 const WALLPAPER_TYPES = [
-    { type: "Vinyl", price: "₹500-2000/roll", durability: "High", washable: "Yes", bestFor: "Kitchens, Bathrooms" },
-    { type: "Non-woven", price: "₹800-3000/roll", durability: "Medium", washable: "Yes", bestFor: "Living Rooms, Bedrooms" },
-    { type: "Paper", price: "₹400-1500/roll", durability: "Low", washable: "No", bestFor: "Bedrooms (low traffic)" },
-    { type: "Fabric/Textile", price: "₹2000-8000/roll", durability: "High", washable: "No", bestFor: "Feature Walls" },
-    { type: "Metallic", price: "₹1500-5000/roll", durability: "Medium", washable: "Yes", bestFor: "Accent Walls" },
-    { type: "Grasscloth", price: "₹3000-10000/roll", durability: "Medium", washable: "No", bestFor: "Elegant Spaces" },
-    { type: "Peel-and-stick", price: "₹1000-4000/roll", durability: "Low", washable: "Yes", bestFor: "Rentals, DIY" },
+    { type: "Vinyl", price: "$500-2000/roll", durability: "High", washable: "Yes", bestFor: "Kitchens, Bathrooms" },
+    { type: "Non-woven", price: "$800-3000/roll", durability: "Medium", washable: "Yes", bestFor: "Living Rooms, Bedrooms" },
+    { type: "Paper", price: "$400-1500/roll", durability: "Low", washable: "No", bestFor: "Bedrooms (low traffic)" },
+    { type: "Fabric/Textile", price: "$2000-8000/roll", durability: "High", washable: "No", bestFor: "Feature Walls" },
+    { type: "Metallic", price: "$1500-5000/roll", durability: "Medium", washable: "Yes", bestFor: "Accent Walls" },
+    { type: "Grasscloth", price: "$3000-10000/roll", durability: "Medium", washable: "No", bestFor: "Elegant Spaces" },
+    { type: "Peel-and-stick", price: "$1000-4000/roll", durability: "Low", washable: "Yes", bestFor: "Rentals, DIY" },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function WallpaperCalculator() {
+    const { symbol } = useCurrency();
     const [roomLength, setRoomLength] = useState("12");
     const [roomWidth, setRoomWidth] = useState("10");
     const [roomHeight, setRoomHeight] = useState("8");
@@ -205,6 +208,8 @@ export default function WallpaperCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Estimate wallpaper rolls needed for your room</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label>
@@ -282,7 +287,7 @@ export default function WallpaperCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Price per Roll (₹) - Optional</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Price per Roll ({symbol}) - Optional</label>
                             <input
                                 type="number"
                                 step="100"
@@ -323,7 +328,7 @@ export default function WallpaperCalculator() {
                         { label: "Waste & Pattern Matching", value: `${result.wastePercent}%` },
                         { label: "Exact Rolls Needed", value: `${result.rollsNeeded} rolls` },
                         { label: "Pattern Repeat", value: `${result.patternRepeat} cm` },
-                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `₹${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
                     ] : []}
                 />
             </div>

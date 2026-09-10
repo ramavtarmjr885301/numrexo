@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -28,7 +30,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the total interest paid over the loan tenure?",
-        a: "Total interest is the sum of all interest payments over the loan tenure. It depends on the loan amount, interest rate, and tenure. For a ₹50 lakh home loan at 9% for 20 years, total interest would be approximately ₹58 lakh, which is more than the principal amount.",
+        a: "Total interest is the sum of all interest payments over the loan tenure. It depends on the loan amount, interest rate, and tenure. On a $350,000 mortgage at 6.5% over 30 years, total interest comes to about $446,000 — more than the amount borrowed.",
     },
     {
         q: "How does prepayment affect amortization?",
@@ -36,11 +38,11 @@ const FAQ_DATA = [
     },
     {
         q: "How does loan tenure affect amortization?",
-        a: "Longer tenure means lower EMI but higher total interest. Shorter tenure means higher EMI but lower total interest. For example, a ₹50 lakh loan at 9%: 15 years total interest ₹41.28L, 30 years total interest ₹94.83L. The amortization schedule shows this clearly.",
+        a: "Longer tenure means lower EMI but higher total interest. Shorter tenure means higher EMI but lower total interest. For example, a $350,000 loan at 6.5%: over 15 years the total interest is about $199,000; over 30 years it is about $446,000, on a payment that is only $837 lower each month. The amortization schedule shows this clearly.",
     },
     {
         q: "What is the principal portion in early payments?",
-        a: "In early payments, the principal portion is very small because most of the payment goes toward interest. For example, in the first payment of a ₹50 lakh, 9%, 20-year loan, interest is ₹37,500 and principal is only ₹7,486. The principal portion increases gradually.",
+        a: "In early payments, the principal portion is very small because most of the payment goes toward interest. For example, in the first payment on a $350,000 loan at 6.5% over 30 years, $1,896 goes to interest and only $316 to principal. The principal portion increases gradually.",
     },
     {
         q: "What is the difference between amortization and depreciation?",
@@ -48,7 +50,7 @@ const FAQ_DATA = [
     },
     {
         q: "How does interest rate affect amortization?",
-        a: "Higher interest rates mean more interest in early payments and slower principal reduction. A 1% increase in interest rate can significantly increase total interest and extend the time to pay off the principal. For a ₹50 lakh loan over 20 years, 1% increase adds about ₹6-7 lakh in total interest.",
+        a: "Higher interest rates mean more interest in early payments and slower principal reduction. A 1% increase in interest rate can significantly increase total interest and extend the time to pay off the principal. On a $350,000 loan over 30 years, going from 6.5% to 7.5% adds about $85,000 in total interest and $235 to the monthly payment.",
     },
     {
         q: "What is the amortization formula?",
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AmortizationCalculator() {
+    const { symbol } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -314,9 +317,11 @@ export default function AmortizationCalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -326,7 +331,7 @@ export default function AmortizationCalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -335,7 +340,7 @@ export default function AmortizationCalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
                                     >
-                                        {amount >= 10000000 ? `₹${amount / 10000000}Cr` : `₹${amount / 100000}L`}
+                                        {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
                                     </button>
                                 ))}
                             </div>
@@ -397,7 +402,7 @@ export default function AmortizationCalculator() {
 
                         {/* Extra Payment */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment (₹) <span className="text-gray-500">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment ({symbol}) <span className="text-gray-500">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -407,7 +412,7 @@ export default function AmortizationCalculator() {
                                     onChange={(e) => setExtraPayment(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetExtraPayments.map((amount) => (
@@ -416,7 +421,7 @@ export default function AmortizationCalculator() {
                                         onClick={() => setExtraPayment(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
                                     >
-                                        {amount === 0 ? "None" : `₹${amount / 1000}K`}
+                                        {amount === 0 ? "None" : `${symbol}${amount / 1000}K`}
                                     </button>
                                 ))}
                             </div>
@@ -449,22 +454,22 @@ export default function AmortizationCalculator() {
                     emptyText="Enter loan details and press Generate Schedule"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: `${symbol}${result.emiFormatted}`,
                         color: "text-blue-400"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Amortization Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-400" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-400" },
-                        { label: "Principal Amount", value: `₹${result.totalPrincipalFormatted}` },
+                        { label: "Total Payment", value: `${symbol}${result.totalPaymentFormatted}`, valueColor: "text-yellow-400" },
+                        { label: "Total Interest", value: `${symbol}${result.totalInterestFormatted}`, valueColor: "text-orange-400" },
+                        { label: "Principal Amount", value: `${symbol}${result.totalPrincipalFormatted}` },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(1)} years)` },
                         ...(result.extraPayment > 0 ? [
-                            { label: "Extra Payment", value: `₹${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-400" },
-                            { label: "EMI with Extra Payment", value: `₹${result.emiWithExtraFormatted}`, valueColor: "text-green-400" },
+                            { label: "Extra Payment", value: `${symbol}${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-400" },
+                            { label: "EMI with Extra Payment", value: `${symbol}${result.emiWithExtraFormatted}`, valueColor: "text-green-400" },
                             { label: "Actual Repayment Period", value: `${result.actualMonths} months (${(result.actualMonths / 12).toFixed(1)} years)`, valueColor: "text-green-400" },
                             { label: "Months Saved", value: `${result.monthsSaved} months ${result.monthsSaved > 0 ? '🎉' : ''}`, valueColor: "text-green-400" },
-                            { label: "Interest Saved", value: `₹${result.interestSavedFormatted}`, valueColor: "text-green-400" },
+                            { label: "Interest Saved", value: `${symbol}${result.interestSavedFormatted}`, valueColor: "text-green-400" },
                         ] : []),
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-400" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-400" },
@@ -496,10 +501,10 @@ export default function AmortizationCalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-gray-800/50 hover:bg-white/5">
                                             <td className="py-2 px-4 text-gray-300">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-gray-300">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-400">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-400">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-gray-300">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-gray-300">${row.emi.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-400">${row.principal.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-400">${row.interest.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-gray-300">${row.balance.toFixed(0)}</td>
                                             {result.extraPayment > 0 && (
                                                 <td className="py-2 px-4 text-center text-green-400">
                                                     {row.isExtraPayment ? '✅' : '-'}
@@ -528,17 +533,17 @@ export default function AmortizationCalculator() {
                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">Principal</h4>
                             <p className="text-2xl font-bold text-green-400">{result.principalPercentage.toFixed(1)}%</p>
-                            <p className="text-xs text-gray-500 mt-1">₹{result.totalPrincipalFormatted}</p>
+                            <p className="text-xs text-gray-500 mt-1">${result.totalPrincipalFormatted}</p>
                         </div>
                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">Interest</h4>
                             <p className="text-2xl font-bold text-orange-400">{result.interestPercentage.toFixed(1)}%</p>
-                            <p className="text-xs text-gray-500 mt-1">₹{result.totalInterestFormatted}</p>
+                            <p className="text-xs text-gray-500 mt-1">${result.totalInterestFormatted}</p>
                         </div>
                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">Total</h4>
                             <p className="text-2xl font-bold text-yellow-400">100%</p>
-                            <p className="text-xs text-gray-500 mt-1">₹{result.totalPaymentFormatted}</p>
+                            <p className="text-xs text-gray-500 mt-1">${result.totalPaymentFormatted}</p>
                         </div>
                     </div>
                 </section>
@@ -640,24 +645,24 @@ export default function AmortizationCalculator() {
                         <tbody>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
                                 <td className="py-2 px-4 text-gray-300">1</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹7,486</td>
-                                <td className="py-2 px-4 text-right text-orange-400">₹37,500</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹49,92,514</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-400">$316</td>
+                                <td className="py-2 px-4 text-right text-orange-400">$1,896</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$349,684</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
                                 <td className="py-2 px-4 text-gray-300">2</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹7,542</td>
-                                <td className="py-2 px-4 text-right text-orange-400">₹37,444</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹49,84,972</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-400">$318</td>
+                                <td className="py-2 px-4 text-right text-orange-400">$1,894</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$349,365</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
                                 <td className="py-2 px-4 text-gray-300">3</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹7,599</td>
-                                <td className="py-2 px-4 text-right text-orange-400">₹37,387</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹49,77,373</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-400">$320</td>
+                                <td className="py-2 px-4 text-right text-orange-400">$1,892</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$349,046</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
                                 <td className="py-2 px-4 text-gray-300">...</td>
@@ -668,15 +673,15 @@ export default function AmortizationCalculator() {
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
                                 <td className="py-2 px-4 text-gray-300">240</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹44,653</td>
-                                <td className="py-2 px-4 text-right text-orange-400">₹333</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$44,986</td>
+                                <td className="py-2 px-4 text-right text-green-400">$44,653</td>
+                                <td className="py-2 px-4 text-right text-orange-400">$333</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Example: ₹50 lakh home loan at 9% for 20 years (240 months)</p>
+                <p className="text-xs text-gray-600 mt-2">* Example: $350,000 mortgage at 6.5% for 30 years (360 payments) — monthly payment $2,212</p>
             </section>
 
             {/* Extra Payment Impact */}
@@ -694,39 +699,39 @@ export default function AmortizationCalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">₹0</td>
-                                <td className="py-2 px-4 text-right text-gray-300">0 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-green-400 font-bold">$0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">—</td>
+                                <td className="py-2 px-4 text-right text-green-400">$0</td>
+                                <td className="py-2 px-4 text-right text-yellow-400">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">₹1,000</td>
-                                <td className="py-2 px-4 text-right text-gray-300">5 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹43,212</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">₹48,212</td>
+                                <td className="py-2 px-4 text-green-400 font-bold">$100</td>
+                                <td className="py-2 px-4 text-right text-gray-300">3 years 6 months</td>
+                                <td className="py-2 px-4 text-right text-green-400">$62,627</td>
+                                <td className="py-2 px-4 text-right text-yellow-400">$62,627</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">₹2,000</td>
-                                <td className="py-2 px-4 text-right text-gray-300">10 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹84,568</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">₹94,568</td>
+                                <td className="py-2 px-4 text-green-400 font-bold">$250</td>
+                                <td className="py-2 px-4 text-right text-gray-300">7 years 3 months</td>
+                                <td className="py-2 px-4 text-right text-green-400">$126,604</td>
+                                <td className="py-2 px-4 text-right text-yellow-400">$126,604</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">₹5,000</td>
-                                <td className="py-2 px-4 text-right text-gray-300">22 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹1,87,432</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">₹2,02,432</td>
+                                <td className="py-2 px-4 text-green-400 font-bold">$500</td>
+                                <td className="py-2 px-4 text-right text-gray-300">11 years 5 months</td>
+                                <td className="py-2 px-4 text-right text-green-400">$193,603</td>
+                                <td className="py-2 px-4 text-right text-yellow-400">$193,603</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">₹10,000</td>
-                                <td className="py-2 px-4 text-right text-gray-300">38 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹3,12,876</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">₹3,42,876</td>
+                                <td className="py-2 px-4 text-green-400 font-bold">$1,000</td>
+                                <td className="py-2 px-4 text-right text-gray-300">16 years 2 months</td>
+                                <td className="py-2 px-4 text-right text-green-400">$265,954</td>
+                                <td className="py-2 px-4 text-right text-yellow-400">$265,954</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Based on ₹50 lakh home loan at 9% for 20 years</p>
+                <p className="text-xs text-gray-600 mt-2">* Based on a $350,000 mortgage at 6.5% for 30 years, with the extra amount paid every month</p>
             </section>
 
             {/* Tips for Using Amortization */}

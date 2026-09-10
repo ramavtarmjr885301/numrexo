@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -16,7 +18,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate VAT from a price?",
-        a: "To add VAT: Total Price = Original Price × (1 + VAT Rate/100). Example: ₹1000 at 20% VAT = ₹1000 × 1.20 = ₹1200. To remove VAT: Original Price = Total Price ÷ (1 + VAT Rate/100). Example: ₹1200 ÷ 1.20 = ₹1000. Our calculator handles both calculations instantly with just a click.",
+        a: "To add VAT: Total Price = Original Price × (1 + VAT Rate/100). Example: $1000 at 20% VAT = $1000 × 1.20 = $1200. To remove VAT: Original Price = Total Price ÷ (1 + VAT Rate/100). Example: $1200 ÷ 1.20 = $1000. Our calculator handles both calculations instantly with just a click.",
     },
     {
         q: "What are common VAT rates by country?",
@@ -113,6 +115,7 @@ const VAT_THRESHOLDS = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function VATCalculator() {
+    const { symbol } = useCurrency();
     const [amount, setAmount] = useState("1000");
     const [vatRate, setVatRate] = useState("20");
     const [calcType, setCalcType] = useState<"add" | "remove">("add");
@@ -210,6 +213,8 @@ export default function VATCalculator() {
                         <p className="text-xs text-gray-500 mt-1">For UK, Europe, Canada, Australia</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Amount</label>
                             <div className="relative">
@@ -221,7 +226,7 @@ export default function VATCalculator() {
                                     onChange={(e) => setAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹/£/€/$</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -355,13 +360,13 @@ export default function VATCalculator() {
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Add VAT</h3>
                         <p className="text-white font-mono text-sm mb-2">Gross Amount = Net Amount × (1 + VAT Rate/100)</p>
                         <p className="text-gray-500 text-xs mb-2">VAT Amount = Net Amount × (VAT Rate/100)</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1000 × 1.20 = ₹1200 (VAT ₹200)</p>
+                        <p className="text-gray-500 text-xs">Example: $1000 × 1.20 = $1200 (VAT $200)</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-orange-400 mb-2">Remove VAT</h3>
                         <p className="text-white font-mono text-sm mb-2">Net Amount = Gross Amount ÷ (1 + VAT Rate/100)</p>
                         <p className="text-gray-500 text-xs mb-2">VAT Amount = Gross Amount - Net Amount</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1200 ÷ 1.20 = ₹1000 (VAT ₹200)</p>
+                        <p className="text-gray-500 text-xs">Example: $1200 ÷ 1.20 = $1000 (VAT $200)</p>
                     </div>
                 </div>
             </section>

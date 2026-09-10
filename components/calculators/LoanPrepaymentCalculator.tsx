@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -56,7 +58,7 @@ const FAQ_DATA = [
     },
     {
         q: "How much can I save by prepaying?",
-        a: "Savings depend on prepayment amount, timing, loan rate, and tenure. For a ₹50 lakh loan at 9% for 20 years, a ₹5 lakh prepayment in year 1 can save ₹7-8 lakh in interest and reduce tenure by 2-3 years. Use our calculator to see your specific savings.",
+        a: "Savings depend on prepayment amount, timing, loan rate, and tenure. On a $350,000 loan at 6.5% over 30 years, a single $25,000 payment in year one saves roughly $75,000 in interest and takes about three years off the term. Use our calculator to see your specific savings.",
     },
     {
         q: "What is the lock-in period for loans?",
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LoanPrepaymentCalculator() {
+    const { symbol } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -313,9 +316,11 @@ export default function LoanPrepaymentCalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -325,7 +330,7 @@ export default function LoanPrepaymentCalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -334,7 +339,7 @@ export default function LoanPrepaymentCalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
                                     >
-                                        {amount >= 10000000 ? `₹${amount / 10000000}Cr` : `₹${amount / 100000}L`}
+                                        {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
                                     </button>
                                 ))}
                             </div>
@@ -396,7 +401,7 @@ export default function LoanPrepaymentCalculator() {
 
                         {/* Prepayment Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -406,7 +411,7 @@ export default function LoanPrepaymentCalculator() {
                                     onChange={(e) => setPrepaymentAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetPrepayments.map((amount) => (
@@ -415,7 +420,7 @@ export default function LoanPrepaymentCalculator() {
                                         onClick={() => setPrepaymentAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
                                     >
-                                        {amount >= 1000000 ? `₹${amount / 1000000}L` : `₹${amount / 1000}K`}
+                                        {amount >= 1000000 ? `${symbol}${amount / 1000000}L` : `${symbol}${amount / 1000}K`}
                                     </button>
                                 ))}
                             </div>
@@ -525,21 +530,21 @@ export default function LoanPrepaymentCalculator() {
                     emptyText="Enter loan details and press Calculate Savings"
                     mainResult={result ? {
                         label: "Total Interest Saved",
-                        value: `₹${result.interestSavedFormatted}`,
+                        value: `${symbol}${result.interestSavedFormatted}`,
                         color: "text-green-400"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Tenure Reduced", value: `${result.tenureReduction} months`, valueColor: result.tenureReduction > 0 ? "text-green-400" : "text-gray-400" },
-                        { label: "Original EMI", value: `₹${result.originalEmiFormatted}` },
-                        { label: "New EMI", value: `₹${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-400" : "text-gray-400" },
-                        { label: "Monthly Savings", value: `₹${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-400" : "text-gray-400" },
-                        { label: "Original Total Interest", value: `₹${result.originalTotalInterestFormatted}`, valueColor: "text-orange-400" },
-                        { label: "New Total Interest", value: `₹${result.newTotalInterestFormatted}`, valueColor: "text-green-400" },
-                        { label: "Original Total Payment", value: `₹${result.originalTotalPaymentFormatted}` },
-                        { label: "New Total Payment", value: `₹${result.newTotalPaymentFormatted}`, valueColor: "text-yellow-400" },
-                        { label: "Prepayment Penalty", value: `₹${result.penaltyAmountFormatted}`, valueColor: "text-red-400" },
-                        { label: "Balance at Prepayment", value: `₹${result.balanceAtPrepayment.toFixed(2)}` },
-                        { label: "Principal After Prepayment", value: `₹${result.principalAfterPrepayment.toFixed(2)}` },
+                        { label: "Original EMI", value: `${symbol}${result.originalEmiFormatted}` },
+                        { label: "New EMI", value: `${symbol}${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-400" : "text-gray-400" },
+                        { label: "Monthly Savings", value: `${symbol}${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-400" : "text-gray-400" },
+                        { label: "Original Total Interest", value: `${symbol}${result.originalTotalInterestFormatted}`, valueColor: "text-orange-400" },
+                        { label: "New Total Interest", value: `${symbol}${result.newTotalInterestFormatted}`, valueColor: "text-green-400" },
+                        { label: "Original Total Payment", value: `${symbol}${result.originalTotalPaymentFormatted}` },
+                        { label: "New Total Payment", value: `${symbol}${result.newTotalPaymentFormatted}`, valueColor: "text-yellow-400" },
+                        { label: "Prepayment Penalty", value: `${symbol}${result.penaltyAmountFormatted}`, valueColor: "text-red-400" },
+                        { label: "Balance at Prepayment", value: `${symbol}${result.balanceAtPrepayment.toFixed(2)}` },
+                        { label: "Principal After Prepayment", value: `${symbol}${result.principalAfterPrepayment.toFixed(2)}` },
                         { label: "New Tenure", value: `${result.newTenure} months (${(result.newTenure / 12).toFixed(1)} years)` },
                         ...(result.penaltyAmount > 0 ? [
                             { label: "Break-even Period", value: `${result.breakEvenMonths} months`, valueColor: "text-yellow-400" },
@@ -555,19 +560,19 @@ export default function LoanPrepaymentCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">Without Prepayment</h4>
-                            <p className="text-xl font-bold text-orange-400">₹{result.originalTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-orange-400">${result.originalTotalInterestFormatted}</p>
                             <p className="text-xs text-gray-500 mt-1">Total Interest</p>
                             <p className="text-xs text-gray-500">{result.originalEmiFormatted} × {tenure} months</p>
                         </div>
                         <div className="bg-[#111827] border border-green-500/30 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">With Prepayment</h4>
-                            <p className="text-xl font-bold text-green-400">₹{result.newTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-green-400">${result.newTotalInterestFormatted}</p>
                             <p className="text-xs text-gray-500 mt-1">Total Interest</p>
-                            <p className="text-xs text-gray-500">₹{result.newEmiFormatted} × {result.newTenure} months</p>
+                            <p className="text-xs text-gray-500">${result.newEmiFormatted} × {result.newTenure} months</p>
                         </div>
                         <div className="bg-[#111827] border border-yellow-500/30 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-gray-500 mb-1">You Save</h4>
-                            <p className="text-xl font-bold text-yellow-400">₹{result.interestSavedFormatted}</p>
+                            <p className="text-xl font-bold text-yellow-400">${result.interestSavedFormatted}</p>
                             <p className="text-xs text-gray-500 mt-1">Total Savings</p>
                             <p className="text-xs text-green-400">⏱️ {result.tenureReduction} months saved</p>
                         </div>
@@ -587,7 +592,7 @@ export default function LoanPrepaymentCalculator() {
                     Our calculator compares two scenarios: your current loan repayment plan and the plan with prepayment. You can see the interest saved, tenure reduced, and the impact of prepayment penalties. Choose between reducing your tenure or reducing your EMI after prepayment.
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                    Making informed prepayment decisions can save you lakhs of rupees in interest. Use our calculator to find the optimal prepayment strategy for your financial goals.
+                    Paying a little extra early, when the balance is at its largest, saves far more than the same amount paid later. Use our calculator to find the optimal prepayment strategy for your financial goals.
                 </p>
             </section>
 
@@ -637,16 +642,16 @@ export default function LoanPrepaymentCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-[#0f1525] border border-gray-700 rounded-lg p-3">
                             <p className="text-xs text-gray-500">Without Prepayment</p>
-                            <p className="text-sm text-white mt-1">Principal: ₹50,00,000</p>
+                            <p className="text-sm text-white mt-1">Principal: $50,00,000</p>
                             <p className="text-sm text-white">Rate: 9% p.a.</p>
                             <p className="text-sm text-white">Tenure: 20 years</p>
-                            <p className="text-sm text-orange-400 mt-1">Total Interest: ₹57,97,000</p>
+                            <p className="text-sm text-orange-400 mt-1">Total Interest: $57,97,000</p>
                         </div>
                         <div className="bg-[#0f1525] border border-green-500/30 rounded-lg p-3">
-                            <p className="text-xs text-gray-500">With Prepayment (₹5L at month 24)</p>
-                            <p className="text-sm text-white mt-1">Principal Reduced by: ₹5,00,000</p>
-                            <p className="text-sm text-white">New Balance: ₹45,00,000</p>
-                            <p className="text-sm text-green-400 mt-1">Interest Saved: ₹7,50,000</p>
+                            <p className="text-xs text-gray-500">With Prepayment ($5L at month 24)</p>
+                            <p className="text-sm text-white mt-1">Principal Reduced by: $5,00,000</p>
+                            <p className="text-sm text-white">New Balance: $45,00,000</p>
+                            <p className="text-sm text-green-400 mt-1">Interest Saved: $7,50,000</p>
                             <p className="text-sm text-green-400">Tenure Reduced: 3 years</p>
                         </div>
                     </div>
@@ -668,33 +673,33 @@ export default function LoanPrepaymentCalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">₹1,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹1.5L</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$1,00,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$1.5L</td>
                                 <td className="py-2 px-4 text-right text-gray-300">6 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">₹2,50,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹3.8L</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$2,50,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$3.8L</td>
                                 <td className="py-2 px-4 text-right text-gray-300">14 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">₹5,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹7.5L</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$5,00,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$7.5L</td>
                                 <td className="py-2 px-4 text-right text-gray-300">28 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                             <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">₹10,00,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">₹14.2L</td>
+                                <td className="py-2 px-4 text-blue-400 font-bold">$10,00,000</td>
+                                <td className="py-2 px-4 text-right text-green-400">$14.2L</td>
                                 <td className="py-2 px-4 text-right text-gray-300">52 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">₹0</td>
+                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Based on ₹50 lakh loan at 9% for 20 years with prepayment at month 24</p>
+                <p className="text-xs text-gray-600 mt-2">* Based on a $350,000 loan at 6.5% for 30 years, with the prepayment made at month 24</p>
             </section>
 
             {/* Tips for Prepayment */}

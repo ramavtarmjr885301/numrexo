@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -24,7 +26,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the difference between ceramic and vitrified tiles?",
-        a: "Ceramic tiles: Lower cost (₹30-100/sq ft), lower water absorption (3-5%), suitable for walls and light traffic areas. Vitrified tiles: Higher cost (₹40-200/sq ft), very low water absorption (0.1-0.5%), suitable for high traffic areas, more durable, and stain-resistant.",
+        a: "Ceramic tiles: Lower cost ($30-100/sq ft), lower water absorption (3-5%), suitable for walls and light traffic areas. Vitrified tiles: Higher cost ($40-200/sq ft), very low water absorption (0.1-0.5%), suitable for high traffic areas, more durable, and stain-resistant.",
     },
     {
         q: "How to calculate flooring for irregular-shaped rooms?",
@@ -32,7 +34,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the best flooring for bathrooms?",
-        a: "Best bathroom flooring: Ceramic tile (water-resistant, ₹30-100/sq ft), Vitrified tile (very low water absorption, ₹40-200/sq ft), Vinyl flooring (completely waterproof, ₹40-150/sq ft). Avoid wooden flooring in bathrooms (absorbs moisture, warps).",
+        a: "Best bathroom flooring: Ceramic tile (water-resistant, $30-100/sq ft), Vitrified tile (very low water absorption, $40-200/sq ft), Vinyl flooring (completely waterproof, $40-150/sq ft). Avoid wooden flooring in bathrooms (absorbs moisture, warps).",
     },
     {
         q: "How to calculate flooring for diagonal installation?",
@@ -40,7 +42,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the labor cost for flooring installation?",
-        a: "Labor costs (India): Tile installation ₹25-50/sq ft, Wooden flooring ₹30-60/sq ft, Laminate ₹15-30/sq ft, Vinyl ₹10-25/sq ft. Add 50% for small rooms. Get multiple quotes before hiring.",
+        a: "Labor costs (India): Tile installation $25-50/sq ft, Wooden flooring $30-60/sq ft, Laminate $15-30/sq ft, Vinyl $10-25/sq ft. Add 50% for small rooms. Get multiple quotes before hiring.",
     },
     {
         q: "How to calculate flooring for multiple rooms?",
@@ -49,13 +51,13 @@ const FAQ_DATA = [
 ];
 
 const FLOORING_TYPES = [
-    { type: "Ceramic Tile", priceRange: "₹30-100/sq ft", durability: "High", waterResistant: "Yes" },
-    { type: "Vitrified Tile", priceRange: "₹40-200/sq ft", durability: "Very High", waterResistant: "Yes" },
-    { type: "Marble", priceRange: "₹80-500/sq ft", durability: "High", waterResistant: "Yes" },
-    { type: "Granite", priceRange: "₹70-300/sq ft", durability: "Very High", waterResistant: "Yes" },
-    { type: "Wooden Flooring", priceRange: "₹150-600/sq ft", durability: "Medium", waterResistant: "No" },
-    { type: "Laminate", priceRange: "₹50-200/sq ft", durability: "Medium", waterResistant: "Partial" },
-    { type: "Vinyl", priceRange: "₹40-150/sq ft", durability: "High", waterResistant: "Yes" },
+    { type: "Ceramic Tile", priceRange: "$30-100/sq ft", durability: "High", waterResistant: "Yes" },
+    { type: "Vitrified Tile", priceRange: "$40-200/sq ft", durability: "Very High", waterResistant: "Yes" },
+    { type: "Marble", priceRange: "$80-500/sq ft", durability: "High", waterResistant: "Yes" },
+    { type: "Granite", priceRange: "$70-300/sq ft", durability: "Very High", waterResistant: "Yes" },
+    { type: "Wooden Flooring", priceRange: "$150-600/sq ft", durability: "Medium", waterResistant: "No" },
+    { type: "Laminate", priceRange: "$50-200/sq ft", durability: "Medium", waterResistant: "Partial" },
+    { type: "Vinyl", priceRange: "$40-150/sq ft", durability: "High", waterResistant: "Yes" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -97,6 +99,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FlooringCalculator() {
+    const { symbol } = useCurrency();
     const [roomLength, setRoomLength] = useState("12");
     const [roomWidth, setRoomWidth] = useState("10");
     const [tileLength, setTileLength] = useState("12");
@@ -195,6 +198,8 @@ export default function FlooringCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Calculate tiles or flooring material needed</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div className="grid grid-cols-2 gap-3">
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label><input type="number" step="0.5" placeholder="12" value={roomLength} onChange={(e) => setRoomLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             <div><label className="block text-xs font-semibold text-gray-400 mb-2">Room Width (ft)</label><input type="number" step="0.5" placeholder="10" value={roomWidth} onChange={(e) => setRoomWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
@@ -205,8 +210,8 @@ export default function FlooringCalculator() {
                         </div>
                         <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waste Percentage (%)</label><div className="relative"><input type="number" step="1" placeholder="10" value={wastePercent} onChange={(e) => setWastePercent(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div><p className="text-xs text-gray-500 mt-1">Recommended: 10-15% for standard installation</p></div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Tile (₹)</label><input type="number" step="5" placeholder="50" value={pricePerTile} onChange={(e) => setPricePerTile(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per sq ft (₹)</label><input type="number" step="5" placeholder="25" value={pricePerSqFt} onChange={(e) => setPricePerSqFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Tile ({symbol})</label><input type="number" step="5" placeholder="50" value={pricePerTile} onChange={(e) => setPricePerTile(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per sq ft ({symbol})</label><input type="number" step="5" placeholder="25" value={pricePerSqFt} onChange={(e) => setPricePerSqFt(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Flooring →</button>
@@ -226,8 +231,8 @@ export default function FlooringCalculator() {
                         { label: "Tile Area", value: `${result.tileArea} sq ft` },
                         { label: "Tiles without waste", value: `${result.tilesNeeded} tiles` },
                         { label: `Waste (${result.wastePercent}%)`, value: `${result.tilesWithWaste - result.tilesNeeded} extra tiles`, valueColor: "text-yellow-400" },
-                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `₹${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
-                        ...(result.costPerSqFt ? [{ label: "Cost per sq ft", value: `₹${result.costPerSqFt}` }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
+                        ...(result.costPerSqFt ? [{ label: "Cost per sq ft", value: `${symbol}${result.costPerSqFt}` }] : []),
                     ] : []}
                 />
             </div>
@@ -302,8 +307,8 @@ export default function FlooringCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">Cost Saving Tips for Flooring Installation</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Buy in bulk:</strong> Larger quantities often get wholesale discounts. Ask supplier for bulk pricing.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Compare material costs:</strong> Ceramic (₹30-100/sq ft) vs Vitrified (₹40-200/sq ft) vs Wood (₹150-600/sq ft).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">DIY installation:</strong> Save ₹25-50/sq ft by installing yourself. Watch YouTube tutorials for guidance.</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Compare material costs:</strong> Ceramic ($30-100/sq ft) vs Vitrified ($40-200/sq ft) vs Wood ($150-600/sq ft).</span></li>
+                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">DIY installation:</strong> Save $25-50/sq ft by installing yourself. Watch YouTube tutorials for guidance.</span></li>
                     <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Negotiate with multiple vendors:</strong> Get at least 3 quotes. Prices vary significantly between suppliers.</span></li>
                 </ul>
             </section>

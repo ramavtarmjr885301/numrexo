@@ -3,18 +3,20 @@
 
 import { useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
     { q: "How to calculate fuel cost for a trip?", a: "Fuel Cost = Distance × Fuel Price ÷ Mileage (km/l) or Distance × Fuel Price × Fuel Economy (l/100km). Our calculator handles both metrics." },
     { q: "What is good fuel economy?", a: "Cars: 15-20 km/l (good), 20-25+ km/l (excellent). SUVs: 10-15 km/l. Motorcycles: 35-50 km/l. EVs: cost equivalent to 25-30 km/l." },
-    { q: "How to calculate fuel cost for electric vehicles?", a: "EV cost = Distance × Electricity Rate (₹/kWh) ÷ Efficiency (km/kWh). EVs typically achieve 6-8 km/kWh. At ₹8/kWh, 100 km costs ~₹100-130 (vs ₹800-1000 for petrol). Use our EV mode for accurate estimates." },
+    { q: "How to calculate fuel cost for electric vehicles?", a: "EV cost = Distance × Electricity Rate ($/kWh) ÷ Efficiency (km/kWh). EVs typically achieve 6-8 km/kWh. At $8/kWh, 100 km costs ~$100-130 (vs $800-1000 for petrol). Use our EV mode for accurate estimates." },
     { q: "What is the difference between highway and city mileage?", a: "Highway mileage is 15-25% better than city due to fewer stops. Example: City 12 km/l → Highway 15 km/l. Use highway figures for road trips, city figures for daily commute. Our calculator uses combined average if not specified." },
     { q: "How to calculate fuel cost for round trips?", a: "Double the one-way distance. Example: One-way 500 km → round trip 1000 km. Calculate fuel needed for 1000 km. For trips with different routes, calculate each direction separately." },
     { q: "How does vehicle load affect fuel economy?", a: "Every 50 kg extra load reduces fuel economy by 1-2%. Roof cargo carrier reduces by 10-25% due to drag. A/C use reduces by 5-10%. Tire pressure 10% low reduces by 3-5%." },
     { q: "What is the best speed for fuel efficiency?", a: "Optimal speed: 50-65 km/h (30-40 mph). Fuel efficiency drops rapidly above 80 km/h (50 mph). At 120 km/h (75 mph), you burn 20-30% more fuel than at 80 km/h. Use cruise control on highways." },
-    { q: "How to calculate fuel savings by carpooling?", a: "Cost per person = Total fuel cost ÷ Number of passengers. Example: ₹2,000 trip cost, 4 persons → ₹500 each. You save 75% compared to driving alone. Our calculator shows per-person cost when you enter passenger count." },
+    { q: "How to calculate fuel savings by carpooling?", a: "Cost per person = Total fuel cost ÷ Number of passengers. Example: $2,000 trip cost, 4 persons → $500 each. You save 75% compared to driving alone. Our calculator shows per-person cost when you enter passenger count." },
     { q: "What is idling fuel consumption?", a: "Idling consumes 0.5-2 liters/hour depending on engine size. A 1.5L engine idling for 10 minutes wastes ~150ml fuel ($0.18). Modern engines don't need warm-up. Turn off engine if stopped for more than 60 seconds." },
-    { q: "How to calculate fuel cost for multiple vehicles?", a: "Calculate separately for each vehicle, then sum total cost. Compare per-person cost to decide which vehicle is more economical. For business fleets, add maintenance cost (₹1-2/km) to total fuel cost." },
+    { q: "How to calculate fuel cost for multiple vehicles?", a: "Calculate separately for each vehicle, then sum total cost. Compare per-person cost to decide which vehicle is more economical. For business fleets, add maintenance cost ($1-2/km) to total fuel cost." },
 ];
 
 const FUEL_SCHEMA = JSON.stringify({
@@ -28,6 +30,7 @@ const FUEL_SCHEMA = JSON.stringify({
 });
 
 export default function FuelCostCalculator() {
+    const { symbol, locale } = useCurrency();
     const [distance, setDistance] = useState("");
     const [fuelPrice, setFuelPrice] = useState("105");
     const [mileage, setMileage] = useState("");
@@ -46,7 +49,7 @@ export default function FuelCostCalculator() {
         if (unit === "kml") { fuelNeeded = d / m; totalCost = fuelNeeded * p; }
         else { fuelNeeded = (d * m) / 100; totalCost = fuelNeeded * p; }
 
-        setResult({ totalCost: Math.round(totalCost).toLocaleString("en-IN"), fuelNeeded: fuelNeeded.toFixed(1), distance: d, costPerKm: (totalCost / d).toFixed(2) });
+        setResult({ totalCost: Math.round(totalCost).toLocaleString(locale), fuelNeeded: fuelNeeded.toFixed(1), distance: d, costPerKm: (totalCost / d).toFixed(2) });
     };
 
     const resetForm = () => {
@@ -77,6 +80,8 @@ export default function FuelCostCalculator() {
                         <h3 className="font-semibold">Trip Details</h3>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Distance</label>
                             <div className="relative">
@@ -88,7 +93,7 @@ export default function FuelCostCalculator() {
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Fuel Price</label>
                             <div className="relative">
                                 <input type="number" placeholder="105" value={fuelPrice} onChange={(e) => setFuelPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹/liter</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$/liter</span>
                             </div>
                         </div>
                         <div>
@@ -114,11 +119,11 @@ export default function FuelCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="⛽"
                     emptyText="Enter trip details to calculate fuel cost"
-                    mainResult={result ? { label: "Total Fuel Cost", value: `₹${result.totalCost}`, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Total Fuel Cost", value: `${symbol}${result.totalCost}`, color: "text-blue-400" } : undefined}
                     extraRows={result ? [
                         { label: "Fuel Needed", value: `${result.fuelNeeded} liters` },
                         { label: "Distance", value: `${result.distance} km` },
-                        { label: "Cost per Kilometer", value: `₹${result.costPerKm}` }
+                        { label: "Cost per Kilometer", value: `${symbol}${result.costPerKm}` }
                     ] : undefined}
                 />
             </div>
@@ -141,7 +146,7 @@ export default function FuelCostCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Fuel Cost Calculator</h2>
                 <div className="space-y-3">
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">trip distance</strong> in kilometers.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter current <strong className="text-white">fuel price</strong> per liter (₹/liter).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter current <strong className="text-white">fuel price</strong> per liter ($/liter).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select <strong className="text-white">fuel efficiency unit</strong> — km/liter or liters/100km.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter your vehicle's <strong className="text-white">mileage</strong> (e.g., 18 km/l or 8 L/100km).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Fuel Cost"</strong> to see total cost.</p>
@@ -206,12 +211,12 @@ export default function FuelCostCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">Fuel Price Comparison by Fuel Type (India)</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Fuel Type</th><th className="text-left py-3 px-4 text-gray-400">Price Range (₹/liter)</th><th className="text-left py-3 px-4 text-gray-400">Fuel Economy</th></tr></thead>
+                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Fuel Type</th><th className="text-left py-3 px-4 text-gray-400">Price Range ($/liter)</th><th className="text-left py-3 px-4 text-gray-400">Fuel Economy</th></tr></thead>
                         <tbody>
                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Petrol</td><td className="py-2 px-4 text-yellow-400">95-110</td><td className="py-2 px-4">15-20 km/l (cars)</td></tr>
                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Diesel</td><td className="py-2 px-4 text-yellow-400">85-95</td><td className="py-2 px-4">18-25 km/l (cars)</td></tr>
                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">CNG</td><td className="py-2 px-4 text-yellow-400">70-85</td><td className="py-2 px-4">20-25 km/kg</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Electric (₹/kWh)</td><td className="py-2 px-4 text-yellow-400">6-10</td><td className="py-2 px-4">6-8 km/kWh</td></tr>
+                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Electric ($/kWh)</td><td className="py-2 px-4 text-yellow-400">6-10</td><td className="py-2 px-4">6-8 km/kWh</td></tr>
                         </tbody>
                     </table>
                 </div>

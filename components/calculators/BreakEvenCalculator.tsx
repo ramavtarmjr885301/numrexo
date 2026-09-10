@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -12,15 +14,15 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate break-even point in units?",
-        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs ₹1,00,000, selling price ₹500, variable cost ₹300 → Contribution = ₹200 → Break-even = 1,00,000 ÷ 200 = 500 units.",
+        a: "Break-even (units) = Fixed Costs ÷ (Selling Price - Variable Cost per unit). Example: Fixed costs $1,00,000, selling price $500, variable cost $300 → Contribution = $200 → Break-even = 1,00,000 ÷ 200 = 500 units.",
     },
     {
         q: "How to calculate break-even point in revenue?",
-        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs ₹1,00,000, margin 40% → Break-even revenue = ₹2,50,000.",
+        a: "Break-even (revenue) = Fixed Costs ÷ Contribution Margin Ratio. Contribution Margin Ratio = (Selling Price - Variable Cost) ÷ Selling Price × 100. Example: Fixed costs $1,00,000, margin 40% → Break-even revenue = $2,50,000.",
     },
     {
         q: "What is contribution margin?",
-        a: "Contribution margin is the amount from each sale that contributes to covering fixed costs and generating profit. Formula: Contribution = Selling Price - Variable Cost. Example: Product sells for ₹1,000, variable cost ₹600 → Contribution ₹400 per unit. Higher contribution means fewer units needed to break even.",
+        a: "Contribution margin is the amount from each sale that contributes to covering fixed costs and generating profit. Formula: Contribution = Selling Price - Variable Cost. Example: Product sells for $1,000, variable cost $600 → Contribution $400 per unit. Higher contribution means fewer units needed to break even.",
     },
     {
         q: "What is the difference between fixed and variable costs?",
@@ -33,10 +35,10 @@ const FAQ_DATA = [
 ];
 
 const BREAK_EVEN_EXAMPLES = [
-    { business: "Coffee Shop", fixedCosts: "₹2,00,000", pricePerUnit: "₹150", variableCost: "₹50", breakEven: "2,000 cups" },
-    { business: "T-Shirt Brand", fixedCosts: "₹50,000", pricePerUnit: "₹500", variableCost: "₹200", breakEven: "167 shirts" },
-    { business: "Software SaaS", fixedCosts: "₹5,00,000", pricePerUnit: "₹1,000", variableCost: "₹100", breakEven: "556 customers" },
-    { business: "Restaurant", fixedCosts: "₹3,00,000", pricePerUnit: "₹400", variableCost: "₹150", breakEven: "1,200 meals" },
+    { business: "Coffee Shop", fixedCosts: "$2,00,000", pricePerUnit: "$150", variableCost: "$50", breakEven: "2,000 cups" },
+    { business: "T-Shirt Brand", fixedCosts: "$50,000", pricePerUnit: "$500", variableCost: "$200", breakEven: "167 shirts" },
+    { business: "Software SaaS", fixedCosts: "$5,00,000", pricePerUnit: "$1,000", variableCost: "$100", breakEven: "556 customers" },
+    { business: "Restaurant", fixedCosts: "$3,00,000", pricePerUnit: "$400", variableCost: "$150", breakEven: "1,200 meals" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -78,6 +80,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BreakEvenCalculator() {
+    const { symbol } = useCurrency();
     const [calcType, setCalcType] = useState<"units" | "revenue">("units");
     const [fixedCosts, setFixedCosts] = useState("100000");
     const [sellingPrice, setSellingPrice] = useState("500");
@@ -203,6 +206,8 @@ export default function BreakEvenCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Find out when your business becomes profitable</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Method</label>
                             <div className="grid grid-cols-2 gap-3">
@@ -222,7 +227,7 @@ export default function BreakEvenCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Fixed Costs (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Fixed Costs ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -231,7 +236,7 @@ export default function BreakEvenCalculator() {
                                     onChange={(e) => setFixedCosts(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">Rent, salaries, insurance, loan payments, etc.</p>
                         </div>
@@ -239,7 +244,7 @@ export default function BreakEvenCalculator() {
                         {calcType === "units" ? (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price per Unit (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price per Unit ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -248,11 +253,11 @@ export default function BreakEvenCalculator() {
                                             onChange={(e) => setSellingPrice(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Variable Cost per Unit (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Variable Cost per Unit ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -261,7 +266,7 @@ export default function BreakEvenCalculator() {
                                             onChange={(e) => setVariableCost(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                     <p className="text-xs text-gray-500 mt-1">Raw materials, packaging, shipping, commissions</p>
                                 </div>
@@ -311,17 +316,17 @@ export default function BreakEvenCalculator() {
                         label: "Break-even Point",
                         value: result.calcType === "units"
                             ? `${result.breakEvenUnits} units`
-                            : `₹${parseInt(result.breakEvenRevenue).toLocaleString()}`,
+                            : `${symbol}${parseInt(result.breakEvenRevenue).toLocaleString()}`,
                         color: "text-purple-400"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Break-even Revenue", value: `₹${parseInt(result.breakEvenRevenue).toLocaleString()}`, valueColor: "text-yellow-400" },
+                        { label: "Break-even Revenue", value: `${symbol}${parseInt(result.breakEvenRevenue).toLocaleString()}`, valueColor: "text-yellow-400" },
                         { label: "Contribution Margin", value: `${result.marginPercent}%` },
-                        { label: "Contribution per Unit", value: `₹${result.contribution}` },
-                        { label: "Fixed Costs", value: `₹${parseInt(result.fixedCosts).toLocaleString()}` },
+                        { label: "Contribution per Unit", value: `${symbol}${result.contribution}` },
+                        { label: "Fixed Costs", value: `${symbol}${parseInt(result.fixedCosts).toLocaleString()}` },
                         ...(result.calcType === "units" ? [
-                            { label: "Selling Price", value: `₹${result.price}` },
-                            { label: "Variable Cost", value: `₹${result.variableCost}` },
+                            { label: "Selling Price", value: `${symbol}${result.price}` },
+                            { label: "Variable Cost", value: `${symbol}${result.variableCost}` },
                         ] : [
                             { label: "Break-even Units", value: `${result.breakEvenUnits} units` },
                         ]),
@@ -395,7 +400,7 @@ export default function BreakEvenCalculator() {
                 <div className="space-y-3">
                     <div className="flex gap-3 text-sm text-gray-400">
                         <span className="text-green-400 mt-0.5 font-bold">1.</span>
-                        <span><strong className="text-gray-300">Reduce Fixed Costs:</strong> Negotiate lower rent, outsource non-core functions, reduce staff overhead, switch to cheaper software alternatives, cut unnecessary subscriptions, and optimize energy usage. Every ₹1,000 reduction in fixed costs lowers your break-even point by ₹1,000 divided by contribution margin.</span>
+                        <span><strong className="text-gray-300">Reduce Fixed Costs:</strong> Negotiate lower rent, outsource non-core functions, reduce staff overhead, switch to cheaper software alternatives, cut unnecessary subscriptions, and optimize energy usage. Every $1,000 reduction in fixed costs lowers your break-even point by $1,000 divided by contribution margin.</span>
                     </div>
                     <div className="flex gap-3 text-sm text-gray-400">
                         <span className="text-green-400 mt-0.5 font-bold">2.</span>
@@ -420,9 +425,9 @@ export default function BreakEvenCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Break-even Analysis</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with ₹3,00,000 fixed costs, ₹400 average meal price, and ₹150 variable cost needs 1,200 meals to break even.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Restaurant Owners:</strong> Calculate how many meals you need to serve daily to cover rent, staff salaries, utilities, and ingredient costs. A restaurant with $3,00,000 fixed costs, $400 average meal price, and $150 variable cost needs 1,200 meals to break even.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">E-commerce Brands:</strong> Determine how many products you must sell monthly to cover website hosting, marketing, inventory storage, and payment gateway fees. Break-even analysis helps plan ad spend and discount strategies.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">SaaS Companies:</strong> Calculate how many customers at ₹1,000/month are needed to cover development costs, server expenses, customer support, and sales team salaries. This guides pricing and customer acquisition goals.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">SaaS Companies:</strong> Calculate how many customers at $1,000/month are needed to cover development costs, server expenses, customer support, and sales team salaries. This guides pricing and customer acquisition goals.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Freelancers & Consultants:</strong> Determine how many billable hours or projects per month are needed to cover business expenses, software subscriptions, marketing, and personal salary requirements.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Manufacturing Units:</strong> Calculate production volume needed to cover machinery costs, factory rent, labor, and raw materials before turning a profit on each additional unit.</p>
                 </div>
@@ -435,12 +440,12 @@ export default function BreakEvenCalculator() {
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-blue-400 mb-2">Break-even in Units</h3>
                         <p className="text-white font-mono text-sm mb-2">BE (units) = Fixed Costs ÷ (Price - Variable Cost)</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1,00,000 ÷ ₹200 = 500 units</p>
+                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ $200 = 500 units</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                         <h3 className="text-sm font-semibold text-green-400 mb-2">Break-even in Revenue</h3>
-                        <p className="text-white font-mono text-sm mb-2">BE (₹) = Fixed Costs ÷ Contribution Margin Ratio</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1,00,000 ÷ 40% = ₹2,50,000</p>
+                        <p className="text-white font-mono text-sm mb-2">BE ({symbol}) = Fixed Costs ÷ Contribution Margin Ratio</p>
+                        <p className="text-gray-500 text-xs">Example: $1,00,000 ÷ 40% = $2,50,000</p>
                     </div>
                 </div>
             </section>
