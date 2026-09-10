@@ -72,7 +72,7 @@ export default function CookingCategoryClient() {
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
-                        <span className="flex items-center gap-1">✓ Professional recipe standards</span>
+                        <span className="flex items-center gap-1">✓ Standard conversion tables</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ export default function CookingCategoryClient() {
                 {/* Calculators Count + Status Message */}
                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
                     {calculators.length > 0 ? (
-                        <>🍳 <span className="font-semibold text-blue-400">{calculators.length}+ cooking calculators</span> available — all free, all accurate</>
+                        <>🍳 <span className="font-semibold text-blue-400">{calculators.length}+ cooking calculators</span> available — all free to use</>
                     ) : (
                         <>🍳 <span className="font-semibold text-blue-400">New cooking calculators</span> being added weekly — check back soon!</>
                     )}

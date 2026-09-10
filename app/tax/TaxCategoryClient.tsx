@@ -75,7 +75,7 @@ export default function TaxCategoryClient() {
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
-                        <span className="flex items-center gap-1">✓ GST & VAT compliant formulas</span>
+                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ export default function TaxCategoryClient() {
                 {/* Calculators Count */}
                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
                     {calculators.length > 0 ? (
-                        <>📋 <span className="font-semibold text-blue-400">{calculators.length}+ tax calculators</span> available — all free, all accurate</>
+                        <>📋 <span className="font-semibold text-blue-400">{calculators.length}+ tax calculators</span> available — all free to use</>
                     ) : (
                         <>📋 <span className="font-semibold text-blue-400">New tax calculators</span> being added weekly — check back soon!</>
                     )}
@@ -118,8 +118,9 @@ export default function TaxCategoryClient() {
                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Tax Calculators?</h2>
                             <p>
                                 Our <strong className="text-white">tax calculators</strong> are designed for small business owners, 
-                                freelancers, accountants, tax professionals, and individual taxpayers. Each tool uses standard 
-                                tax formulas compliant with GST, VAT, and sales tax regulations in multiple jurisdictions.
+                                freelancers, accountants, tax professionals, and individual taxpayers. Each tool applies the standard
+                                arithmetic used for GST, VAT and sales tax. Rates differ by country and change over time, so enter the
+                                rate that applies to you and treat the result as an estimate to check with your tax professional.
                             </p>
                             <p>
                                 The <strong className="text-white">GST Calculator</strong> (Goods and Services Tax) helps businesses 
@@ -199,7 +200,7 @@ export default function TaxCategoryClient() {
                             <a href="/business" className="text-blue-400 hover:underline mx-1">Business Tools</a>
                         </p>
                         <p className="mt-2 text-gray-600 text-[11px]">
-                            <span className="text-gray-500">📋 GST, VAT & Sales tax compliant formulas | </span>
+                            <span className="text-gray-500">📋 GST, VAT and sales tax formulas | </span>
                             <span className="text-gray-500">Results are estimates — verify with your tax professional</span>
                         </p>
                     </div>

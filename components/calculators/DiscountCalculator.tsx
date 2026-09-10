@@ -1,21 +1,23 @@
 // components/calculators/DiscountCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 const FAQ_DATA = [
     {
         q: "How do I calculate the discounted price?",
-        a: "Discounted Price = Original Price × (1 - Discount% ÷ 100). Example: ₹1000 with 20% off = ₹1000 × 0.8 = ₹800. You save ₹200.",
+        a: "Discounted Price = Original Price × (1 - Discount% ÷ 100). Example: $1,000 with 20% off = $1,000 × 0.8 = $800. You save $200.",
     },
     {
         q: "What is the difference between percentage off and fixed amount off?",
-        a: "Percentage off reduces price by a percentage (e.g., 20% off). Fixed amount off reduces price by a specific amount (e.g., ₹200 off). Percentage off is better for higher-priced items, fixed amount off for lower-priced items.",
+        a: "Percentage off reduces price by a percentage (e.g., 20% off). Fixed amount off reduces price by a specific amount (e.g., $200 off). Percentage off is better for higher-priced items, fixed amount off for lower-priced items.",
     },
     {
         q: "How to calculate the original price from discounted price?",
-        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: ₹800 at 20% off = ₹800 ÷ 0.8 = ₹1000. Use our 'Reverse Discount' mode to calculate.",
+        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: $800 at 20% off = $800 ÷ 0.8 = $1,000. Use our 'Reverse Discount' mode to calculate.",
     },
     {
         q: "What is a good discount percentage for sales?",
@@ -23,11 +25,11 @@ const FAQ_DATA = [
     },
     {
         q: "What is the difference between discount and markup?",
-        a: "Discount reduces price from original (selling price). Markup adds to cost price to get selling price. Example: ₹1000 product with 20% discount = ₹800. ₹800 product with 25% markup = ₹1000. Different calculations give different results.",
+        a: "Discount reduces price from original (selling price). Markup adds to cost price to get selling price. Example: a $1,000 product with a 20% discount = $800. An $800 product with a 25% markup = $1,000. Different calculations give different results.",
     },
     {
         q: "How to calculate the original price after discount?",
-        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: You paid ₹800 with 20% discount. Original = ₹800 ÷ 0.8 = ₹1000. Works for both percentage and fixed discounts (convert fixed to % first).",
+        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: you paid $800 with a 20% discount. Original = $800 ÷ 0.8 = $1,000. Works for both percentage and fixed discounts (convert fixed to % first).",
     },
     {
         q: "What is the average discount during sale seasons?",
@@ -35,7 +37,7 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate multiple discounts (stacking)?",
-        a: "Apply discounts sequentially, not add percentages. Example: ₹1000 with 20% off = ₹800, then additional 10% off = ₹720. Total discount = 28%, not 30%. Use our stacking calculator mode for accurate results.",
+        a: "Apply discounts sequentially, not add percentages. Example: $1,000 with 20% off = $800, then an additional 10% off = $720. Total discount = 28%, not 30%. Use our stacking calculator mode for accurate results.",
     },
     {
         q: "What is the buy-one-get-one discount equivalent?",
@@ -57,61 +59,70 @@ const DISCOUNT_SCHEMA = JSON.stringify({
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
 
+/** Starting values, so the page shows a worked example instead of an empty box. */
+const DEFAULT_PRICE = "1000";
+const DEFAULT_DISCOUNT = "20";
+
 export default function DiscountCalculator() {
-    const [originalPrice, setOriginalPrice] = useState("");
+    const { symbol, money } = useCurrency();
+
+    const [originalPrice, setOriginalPrice] = useState(DEFAULT_PRICE);
     const [discountType, setDiscountType] = useState<"percentage" | "fixed">("percentage");
-    const [discountValue, setDiscountValue] = useState("");
+    const [discountValue, setDiscountValue] = useState(DEFAULT_DISCOUNT);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+    // Recalculate as the visitor types, instead of hiding the answer behind a button.
+    useEffect(() => {
+        const price = parseFloat(originalPrice);
+        const discount = parseFloat(discountValue);
+
+        if (!Number.isFinite(price) || price <= 0 || !Number.isFinite(discount) || discount <= 0) {
+            setResult(null);
+            return;
+        }
+        if (discountType === "percentage" && discount > 100) {
+            setResult(null);
+            return;
+        }
+        if (discountType === "fixed" && discount > price) {
+            setResult(null);
+            return;
+        }
+
+        const savings = discountType === "percentage" ? price * (discount / 100) : discount;
+        const finalPrice = price - savings;
+        const discountPercent = discountType === "percentage" ? discount : (discount / price) * 100;
+
+        setResult({
+            originalPrice: price,
+            finalPrice,
+            savings,
+            discountPercent: discountPercent.toFixed(1),
+            isPercentage: discountType === "percentage",
+            discountValue: discount,
+        });
+    }, [originalPrice, discountType, discountValue]);
+
+    // The result is already live, so the button only nudges invalid input back to
+    // something sensible. It replaced a chain of alert() popups, which blocked the
+    // page and gave the visitor nothing useful.
     const calculate = () => {
         const price = parseFloat(originalPrice);
         const discount = parseFloat(discountValue);
 
-        if (!price || isNaN(price) || price <= 0) {
-            alert("Please enter a valid original price");
-            return;
+        if (!Number.isFinite(price) || price <= 0) setOriginalPrice(DEFAULT_PRICE);
+        if (!Number.isFinite(discount) || discount <= 0) setDiscountValue(DEFAULT_DISCOUNT);
+        if (discountType === "percentage" && discount > 100) setDiscountValue(DEFAULT_DISCOUNT);
+        if (discountType === "fixed" && Number.isFinite(price) && discount > price) {
+            setDiscountValue(String(Math.round(price / 5)));
         }
-
-        if (!discount || isNaN(discount) || discount <= 0) {
-            alert("Please enter a valid discount value");
-            return;
-        }
-
-        let finalPrice, savings, discountPercent;
-
-        if (discountType === "percentage") {
-            if (discount > 100) {
-                alert("Discount percentage cannot exceed 100%");
-                return;
-            }
-            discountPercent = discount;
-            savings = price * (discount / 100);
-            finalPrice = price - savings;
-        } else {
-            if (discount > price) {
-                alert("Discount amount cannot exceed original price");
-                return;
-            }
-            savings = discount;
-            finalPrice = price - discount;
-            discountPercent = (discount / price) * 100;
-        }
-
-        setResult({
-            originalPrice: price.toLocaleString("en-IN"),
-            finalPrice: finalPrice.toLocaleString("en-IN"),
-            savings: savings.toLocaleString("en-IN"),
-            discountPercent: discountPercent.toFixed(1),
-            discountType: discountType === "percentage" ? `${discountValue}% off` : `₹${discountValue} off`,
-        });
     };
 
     const resetForm = () => {
-        setOriginalPrice("");
+        setOriginalPrice(DEFAULT_PRICE);
         setDiscountType("percentage");
-        setDiscountValue("");
-        setResult(null);
+        setDiscountValue(DEFAULT_DISCOUNT);
     };
 
     return (
@@ -134,25 +145,27 @@ export default function DiscountCalculator() {
                         <h3 className="font-semibold">Sale Price Calculator</h3>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Original Price</label>
                             <div className="relative">
-                                <input type="number" placeholder="1000" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <input type="number" placeholder={DEFAULT_PRICE} value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">Discount Type</label>
                             <div className="grid grid-cols-2 gap-3">
                                 <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "percentage" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("percentage")}>Percentage (%)</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "fixed" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("fixed")}>Fixed Amount (₹)</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "fixed" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("fixed")}>Fixed Amount ({symbol})</button>
                             </div>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">{discountType === "percentage" ? "Discount Percentage" : "Discount Amount"}</label>
                             <div className="relative">
                                 <input type="number" placeholder={discountType === "percentage" ? "20" : "200"} value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{discountType === "percentage" ? "%" : "₹"}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{discountType === "percentage" ? "%" : symbol}</span>
                             </div>
                         </div>
                         <div className="flex gap-3">
@@ -167,11 +180,11 @@ export default function DiscountCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏷️"
                     emptyText="Enter price and discount to calculate savings"
-                    mainResult={result ? { label: "Final Price", value: `₹${result.finalPrice}`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: "Final Price", value: money(result.finalPrice, 2), color: "text-green-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Original Price", value: `₹${result.originalPrice}` },
-                        { label: "You Save", value: `₹${result.savings}`, valueColor: "text-green-400" },
-                        { label: "Discount Applied", value: result.discountType },
+                        { label: "Original Price", value: money(result.originalPrice, 2) },
+                        { label: "You Save", value: money(result.savings, 2), valueColor: "text-green-400" },
+                        { label: "Discount Applied", value: result.isPercentage ? `${result.discountValue}% off` : `${money(result.discountValue, 2)} off` },
                         { label: "Effective Discount", value: `${result.discountPercent}%` },
                     ] : undefined}
                 />
@@ -186,7 +199,7 @@ export default function DiscountCalculator() {
                     The <strong className="text-gray-300">Discount Calculator</strong> helps shoppers, business owners, and deal hunters calculate final prices after discounts instantly. Whether you're shopping online during a sale, comparing deals, or setting prices for your products, get accurate results in seconds.
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                    Calculate both percentage discounts (20% off) and fixed amount discounts (₹200 off). See exactly how much you save and the effective discount percentage. Perfect for Black Friday, Diwali sales, End of Season sales, and everyday shopping.
+                    Calculate both percentage discounts (20% off) and fixed amount discounts ($200 off). See exactly how much you save and the effective discount percentage. Useful for Black Friday, Cyber Monday, Boxing Day, end-of-season sales and everyday shopping.
                 </p>
             </section>
 
@@ -195,8 +208,8 @@ export default function DiscountCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Discount Calculator</h2>
                 <div className="space-y-3">
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">original price</strong> of the product.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select <strong className="text-white">discount type</strong> — Percentage (%) or Fixed Amount (₹).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">discount value</strong> (e.g., 20 for 20% off, or 200 for ₹200 off).</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select <strong className="text-white">discount type</strong> — Percentage (%) or Fixed Amount.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">discount value</strong> (e.g., 20 for 20% off, or 200 for 200 off in your chosen currency).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Discount"</strong> to see final price and savings.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use <strong className="text-white">Reset</strong> to clear all fields and calculate a new discount.</p>
                 </div>
@@ -220,7 +233,7 @@ export default function DiscountCalculator() {
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Deal Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare percentage discounts vs fixed amount discounts. Which saves you more? ₹200 off vs 15% off on ₹1500 product? Our calculator tells you.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Compare percentage discounts vs fixed amount discounts. Which saves you more? $200 off vs 15% off on a $1,500 product? Our calculator tells you.</p>
                     </div>
                 </div>
             </section>
@@ -231,11 +244,11 @@ export default function DiscountCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">Percentage Discount (%)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by a percentage (e.g., 20% off). Best for: High-priced items (electronics, appliances, furniture). Savings increase with price. Example: ₹1000 product with 20% off = ₹800 savings.</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by a percentage (e.g., 20% off). Best for: High-priced items (electronics, appliances, furniture). Savings increase with price. Example: a $1,000 product with 20% off = $800.</p>
                     </div>
                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Fixed Amount Discount (₹)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by specific amount (e.g., ₹200 off). Best for: Low-priced items (grocery, cosmetics, books). Example: ₹500 product with ₹200 off = 40% effective discount, better than 20% off.</p>
+                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Fixed Amount Discount</h3>
+                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by specific amount (e.g., $200 off). Best for: Low-priced items (grocery, cosmetics, books). Example: a $500 product with $200 off = a 40% effective discount, better than 20% off.</p>
                     </div>
                 </div>
             </section>
@@ -273,9 +286,9 @@ export default function DiscountCalculator() {
                 <h2 className="text-xl font-semibold text-white mb-4">Discount Formula</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <p className="text-white font-mono text-sm mb-2">Final Price = Original Price × (1 - Discount % ÷ 100)</p>
-                    <p className="text-gray-500 text-xs">Example: ₹1000 with 20% off = ₹1000 × 0.8 = ₹800</p>
+                    <p className="text-gray-500 text-xs">Example: $1,000 with 20% off = $1,000 × 0.8 = $800</p>
                     <p className="text-white font-mono text-sm mt-3">Savings = Original Price - Final Price</p>
-                    <p className="text-gray-500 text-xs">Example: ₹1000 - ₹800 = ₹200 saved</p>
+                    <p className="text-gray-500 text-xs">Example: $1,000 − $800 = $200 saved</p>
                 </div>
             </section>
 

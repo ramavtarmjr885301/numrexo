@@ -64,9 +64,9 @@ export default function ConstructionCategoryClient() {
                     
                     {/* Trust Badges - Green accent */}
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">✓ 25,000+ contractors</span>
+                        <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
-                        <span className="flex items-center gap-1">✓ Professional accuracy</span>
+                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                         <span className="flex items-center gap-1">✓ Instant results</span>
                     </div>

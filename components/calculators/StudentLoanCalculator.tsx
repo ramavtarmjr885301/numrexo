@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -86,38 +88,57 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/**
+ * Starting values, so the page opens on a worked example rather than an empty
+ * box. Chosen to look like a typical US undergraduate balance on the standard
+ * 10-year federal repayment plan — a reader can see the shape of the answer
+ * before touching anything.
+ */
+const DEFAULT_AMOUNT = "30000";
+const DEFAULT_RATE = "6.5";
+const DEFAULT_TERM = "10";
+const DEFAULT_EXTRA = "100";
+
 export default function StudentLoanCalculator() {
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [loanTerm, setLoanTerm] = useState("10");
-    const [extraPayment, setExtraPayment] = useState("");
+    const { symbol, money } = useCurrency();
+
+    const [loanAmount, setLoanAmount] = useState(DEFAULT_AMOUNT);
+    const [interestRate, setInterestRate] = useState(DEFAULT_RATE);
+    const [loanTerm, setLoanTerm] = useState(DEFAULT_TERM);
+    const [extraPayment, setExtraPayment] = useState(DEFAULT_EXTRA);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setLoanTerm("10");
-        setExtraPayment("");
-        setResult(null);
+        setLoanAmount(DEFAULT_AMOUNT);
+        setInterestRate(DEFAULT_RATE);
+        setLoanTerm(DEFAULT_TERM);
+        setExtraPayment(DEFAULT_EXTRA);
     };
 
+    // The result updates as you type, so this only repairs empty or invalid input.
     const calculate = () => {
+        if (!(parseFloat(loanAmount) > 0)) setLoanAmount(DEFAULT_AMOUNT);
+        if (!(parseFloat(interestRate) > 0)) setInterestRate(DEFAULT_RATE);
+        if (!(parseFloat(loanTerm) > 0)) setLoanTerm(DEFAULT_TERM);
+    };
+
+    // Recalculate as the visitor types. The arithmetic below is unchanged.
+    useEffect(() => {
         const principal = parseFloat(loanAmount) || 0;
         const rate = (parseFloat(interestRate) || 0) / 100 / 12;
         const months = (parseFloat(loanTerm) || 10) * 12;
         const extra = parseFloat(extraPayment) || 0;
 
-        if (principal <= 0 || rate <= 0) {
-            alert("Please enter valid loan amount and interest rate");
+        if (principal <= 0 || rate <= 0 || months <= 0) {
+            setResult(null);
             return;
         }
 
-        // Standard monthly payment (EMI)
-        let monthlyPayment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
+        const monthlyPayment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
 
-        if (isNaN(monthlyPayment) || !isFinite(monthlyPayment)) {
-            alert("Unable to calculate. Please check your inputs.");
+        if (!Number.isFinite(monthlyPayment)) {
+            setResult(null);
             return;
         }
 
@@ -151,19 +172,19 @@ export default function StudentLoanCalculator() {
         const totalPaymentWithExtra = totalInterestWithExtra + principal;
 
         setResult({
-            monthlyPayment: monthlyPayment.toFixed(2),
-            totalPayment: totalPaymentStandard.toFixed(2),
-            totalInterest: totalInterestStandard.toFixed(2),
-            monthlyWithExtra: (monthlyPayment + extra).toFixed(2),
+            monthlyPayment,
+            totalPayment: totalPaymentStandard,
+            totalInterest: totalInterestStandard,
+            monthlyWithExtra: monthlyPayment + extra,
             newMonths: actualMonths,
-            timeSavedYears: timeSavedYears,
+            timeSavedYears,
             timeSavedMonths: timeSavedRemainingMonths,
-            interestSaved: interestSaved.toFixed(2),
-            extraPayment: extra.toFixed(2),
-            totalPaymentWithExtra: totalPaymentWithExtra.toFixed(2),
-            totalInterestWithExtra: totalInterestWithExtra.toFixed(2),
+            interestSaved,
+            extraPayment: extra,
+            totalPaymentWithExtra,
+            totalInterestWithExtra,
         });
-    };
+    }, [loanAmount, interestRate, loanTerm, extraPayment]);
 
     return (
         <>
@@ -198,8 +219,10 @@ export default function StudentLoanCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Enter your student loan information</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -209,7 +232,7 @@ export default function StudentLoanCalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -245,7 +268,7 @@ export default function StudentLoanCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -255,7 +278,7 @@ export default function StudentLoanCalculator() {
                                     onChange={(e) => setExtraPayment(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">Optional: Pay extra to save interest and time</p>
                         </div>
@@ -282,16 +305,16 @@ export default function StudentLoanCalculator() {
                     title="Loan Repayment Summary"
                     isEmpty={!result}
                     emptyIcon="📚"
-                    emptyText="Enter loan details to calculate EMI"
-                    mainResult={result ? { label: "Monthly Payment (EMI)", value: `₹${parseFloat(result.monthlyPayment).toLocaleString()}`, color: "text-teal-400" } : undefined}
+                    emptyText="Enter your loan details to see the monthly payment"
+                    mainResult={result ? { label: "Monthly Payment", value: money(result.monthlyPayment, 2), color: "text-teal-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Total Payment (Principal + Interest)", value: `₹${parseFloat(result.totalPayment).toLocaleString()}` },
-                        { label: "Total Interest Paid", value: `₹${parseFloat(result.totalInterest).toLocaleString()}`, valueColor: "text-yellow-400" },
-                        { label: "With Extra ₹${parseFloat(result.extraPayment).toLocaleString()}/month", value: `₹${parseFloat(result.monthlyWithExtra).toLocaleString()}`, valueColor: "text-blue-400" },
+                        { label: "Total Payment (Principal + Interest)", value: money(result.totalPayment, 2) },
+                        { label: "Total Interest Paid", value: money(result.totalInterest, 2), valueColor: "text-yellow-400" },
+                        { label: `With Extra ${money(result.extraPayment, 0)}/month`, value: money(result.monthlyWithExtra, 2), valueColor: "text-blue-400" },
                         { label: "New Loan Term", value: `${result.newMonths} months (${Math.floor(result.newMonths / 12)} years ${result.newMonths % 12} months)` },
                         { label: "Time Saved", value: `${result.timeSavedYears}y ${result.timeSavedMonths}m`, valueColor: "text-green-400" },
-                        { label: "Interest Saved", value: `₹${parseFloat(result.interestSaved).toLocaleString()}`, valueColor: "text-green-400" },
-                        { label: "Total Interest (with Extra)", value: `₹${parseFloat(result.totalInterestWithExtra).toLocaleString()}`, valueColor: "text-purple-400" },
+                        { label: "Interest Saved", value: money(result.interestSaved, 2), valueColor: "text-green-400" },
+                        { label: "Total Interest (with Extra)", value: money(result.totalInterestWithExtra, 2), valueColor: "text-purple-400" },
                     ] : []}
                 />
             </div>
@@ -397,7 +420,7 @@ export default function StudentLoanCalculator() {
                         </div>
                     </div>
                     <div className="mt-4 pt-4 border-t border-gray-800 text-center">
-                        <p className="text-gray-300 text-sm">🏦 Paying just ₹500-1000 extra per month can save thousands in interest and cut years off your loan term.</p>
+                        <p className="text-gray-300 text-sm">🏦 Paying even $50-100 extra per month can save thousands in interest and cut years off your loan term.</p>
                     </div>
                 </div>
             </section>

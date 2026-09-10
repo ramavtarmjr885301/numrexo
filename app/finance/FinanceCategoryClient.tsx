@@ -83,7 +83,7 @@ export default function FinanceCategoryClient() {
                 {/* Calculators Count */}
                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
                     {calculators.length > 0 ? (
-                        <>💰 <span className="font-semibold text-blue-400">{calculators.length}+ finance calculators</span> available — all free, all accurate</>
+                        <>💰 <span className="font-semibold text-blue-400">{calculators.length}+ finance calculators</span> available — all free to use</>
                     ) : (
                         <>💰 <span className="font-semibold text-blue-400">New finance calculators</span> being added weekly — check back soon!</>
                     )}
@@ -118,9 +118,9 @@ export default function FinanceCategoryClient() {
                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Finance Calculators?</h2>
                             <p>
                                 Our <strong className="text-white">finance calculators</strong> are designed for home buyers, 
-                                investors, small business owners, students, and financial planners. Each tool uses standard 
-                                financial formulas (amortization, compound interest, NPV, IRR) and follows regulatory guidelines 
-                                from RBI, SEBI, and international financial authorities.
+                                investors, small business owners, students, and financial planners. Each tool uses the standard,
+                                publicly documented formulas for amortization, compound interest, NPV and IRR, and every page shows
+                                the formula it applies so you can check the result yourself.
                             </p>
                             <p>
                                 The <strong className="text-white">EMI Calculator</strong> helps you estimate monthly loan payments 

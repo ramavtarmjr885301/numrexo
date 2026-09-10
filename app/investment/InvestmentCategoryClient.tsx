@@ -75,7 +75,7 @@ export default function InvestmentCategoryClient() {
                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
-                        <span className="flex items-center gap-1">✓ SEBI & RBI compliant formulas</span>
+                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ export default function InvestmentCategoryClient() {
                 {/* Calculators Count */}
                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
                     {calculators.length > 0 ? (
-                        <>📈 <span className="font-semibold text-blue-400">{calculators.length}+ investment calculators</span> available — all free, all accurate</>
+                        <>📈 <span className="font-semibold text-blue-400">{calculators.length}+ investment calculators</span> available — all free to use</>
                     ) : (
                         <>📈 <span className="font-semibold text-blue-400">New investment calculators</span> being added weekly — check back soon!</>
                     )}
@@ -118,8 +118,9 @@ export default function InvestmentCategoryClient() {
                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Investment Calculators?</h2>
                             <p>
                                 Our <strong className="text-white">investment calculators</strong> are designed for first-time investors, 
-                                retirement planners, young professionals, and wealth builders. Each tool uses standard financial formulas 
-                                (compound interest, future value, present value) and follows SEBI and RBI guidelines.
+                                retirement planners, young professionals, and wealth builders. Each tool uses the standard, publicly
+                                documented formulas for compound interest, future value and present value, and every page shows the
+                                formula it applies so you can check the result yourself.
                             </p>
                             <p>
                                 The <strong className="text-white">SIP Calculator</strong> (Systematic Investment Plan) projects the future 

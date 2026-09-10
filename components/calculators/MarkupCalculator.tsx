@@ -1,22 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
 const FAQ_DATA = [
     {
         q: "What is markup and how is it calculated?",
-        a: "Markup is the amount you add to the cost price to determine the selling price. Formula: Markup = (Selling Price - Cost Price) ÷ Cost Price × 100. Example: Cost ₹100, Selling ₹150 → Markup = (150-100) ÷ 100 × 100 = 50%. A 50% markup means you added 50% to your cost.",
+        a: "Markup is the amount you add to the cost price to determine the selling price. Formula: Markup = (Selling Price - Cost Price) ÷ Cost Price × 100. Example: cost $100, selling $150 → Markup = (150 − 100) ÷ 100 × 100 = 50%. A 50% markup means you added 50% to your cost.",
     },
     {
         q: "What is the difference between markup and margin?",
-        a: "Markup is based on cost price. Margin is based on selling price. Same numbers give different percentages. Example: Cost ₹100, Selling ₹150 → Markup = 50%, Margin = 33.3%. Margin tells profit per sale, markup tells how much to increase cost. Never confuse them — it can ruin your pricing.",
+        a: "Markup is based on cost price. Margin is based on selling price. Same numbers give different percentages. Example: cost $100, selling $150 → Markup = 50%, Margin = 33.3%. Margin tells profit per sale, markup tells how much to increase cost. Never confuse them — it can ruin your pricing.",
     },
     {
         q: "How to calculate selling price from cost and markup?",
-        a: "Selling Price = Cost Price × (1 + Markup/100). Example: Cost ₹100, want 50% markup → Selling Price = 100 × 1.50 = ₹150. Use this when you know your cost and desired profit percentage.",
+        a: "Selling Price = Cost Price × (1 + Markup/100). Example: cost $100, want a 50% markup → Selling Price = 100 × 1.50 = $150. Use this when you know your cost and desired profit percentage.",
     },
     {
         q: "What is a good markup percentage?",
@@ -24,15 +26,15 @@ const FAQ_DATA = [
     },
     {
         q: "How to calculate cost price from selling price and markup?",
-        a: "Cost Price = Selling Price ÷ (1 + Markup/100). Example: Selling ₹150, markup 50% → Cost = 150 ÷ 1.50 = ₹100. Useful when you know competitor's selling price and want to work backwards.",
+        a: "Cost Price = Selling Price ÷ (1 + Markup/100). Example: selling $150, markup 50% → Cost = 150 ÷ 1.50 = $100. Useful when you know competitor's selling price and want to work backwards.",
     },
     {
         q: "What is keystone markup?",
-        a: "Keystone markup is doubling the cost price — a 100% markup. Example: Cost ₹50, Selling ₹100. Common in retail, especially for jewelry, gifts, and specialty items. It's easy to calculate but not always optimal for all products.",
+        a: "Keystone markup is doubling the cost price — a 100% markup. Example: cost $50, selling $100. Common in retail, especially for jewelry, gifts, and specialty items. It's easy to calculate but not always optimal for all products.",
     },
     {
         q: "How to calculate selling price with markup and tax?",
-        a: "Selling Price = (Cost × (1 + Markup/100)) × (1 + Tax/100). Example: Cost ₹100, Markup 50%, GST 18% = (100 × 1.5) × 1.18 = ₹177. Add tax after markup, not before. Our calculator shows pre-tax and post-tax prices.",
+        a: "Selling Price = (Cost × (1 + Markup/100)) × (1 + Tax/100). Example: cost $100, markup 50%, sales tax 18% = (100 × 1.5) × 1.18 = $177. Add tax after markup, not before. Our calculator shows pre-tax and post-tax prices.",
     },
     {
         q: "What is a good markup percentage for retail?",
@@ -44,7 +46,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the difference between markup and profit?",
-        a: "Markup % is the percentage added to cost price. Profit is actual money earned. Example: Cost ₹100, 50% markup = ₹150 selling price. If you sell 100 units, revenue ₹15,000, profit ₹5,000 (₹50/unit). Markup helps set price, profit measures success.",
+        a: "Markup % is the percentage added to cost price. Profit is actual money earned. Example: cost $100, 50% markup = $150 selling price. Sell 100 units and revenue is $15,000 with $5,000 profit ($50/unit). Markup helps set price, profit measures success.",
     },
 ];
 
@@ -95,11 +97,18 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/** Starting values, so the page opens on a worked example rather than an empty box. */
+const DEFAULT_COST = "100";
+const DEFAULT_SELLING = "150";
+const DEFAULT_MARKUP = "50";
+
 export default function MarkupCalculator() {
     const [calcType, setCalcType] = useState<"markup" | "price" | "cost">("markup");
-    const [costPrice, setCostPrice] = useState("");
-    const [sellingPrice, setSellingPrice] = useState("");
-    const [markupPercent, setMarkupPercent] = useState("");
+    const { symbol, money } = useCurrency();
+
+    const [costPrice, setCostPrice] = useState(DEFAULT_COST);
+    const [sellingPrice, setSellingPrice] = useState(DEFAULT_SELLING);
+    const [markupPercent, setMarkupPercent] = useState(DEFAULT_MARKUP);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -109,12 +118,12 @@ export default function MarkupCalculator() {
             const selling = parseFloat(sellingPrice);
 
             if (!cost || !selling || cost <= 0 || selling <= 0) {
-                alert("Please enter valid cost price and selling price");
+                setResult(null);
                 return;
             }
 
             if (selling < cost) {
-                alert("Selling price cannot be less than cost price (that would be a loss)");
+                setResult(null);
                 return;
             }
 
@@ -125,9 +134,9 @@ export default function MarkupCalculator() {
             setResult({
                 markup: markup.toFixed(2),
                 margin: margin.toFixed(2),
-                profit: profit.toFixed(2),
-                cost: cost.toFixed(2),
-                selling: selling.toFixed(2),
+                profit,
+                cost,
+                selling,
                 calcType: "markup",
             });
         }
@@ -136,11 +145,11 @@ export default function MarkupCalculator() {
             const markup = parseFloat(markupPercent);
 
             if (!cost || cost <= 0) {
-                alert("Please enter valid cost price");
+                setResult(null);
                 return;
             }
             if (!markup || markup <= 0) {
-                alert("Please enter valid markup percentage");
+                setResult(null);
                 return;
             }
 
@@ -149,10 +158,10 @@ export default function MarkupCalculator() {
             const profit = selling - cost;
 
             setResult({
-                sellingPrice: selling.toFixed(2),
+                sellingPrice: selling,
                 margin: margin.toFixed(2),
-                profit: profit.toFixed(2),
-                cost: cost.toFixed(2),
+                profit,
+                cost,
                 markup: markup.toFixed(2),
                 calcType: "price",
             });
@@ -162,11 +171,11 @@ export default function MarkupCalculator() {
             const markup = parseFloat(markupPercent);
 
             if (!selling || selling <= 0) {
-                alert("Please enter valid selling price");
+                setResult(null);
                 return;
             }
             if (!markup || markup <= 0) {
-                alert("Please enter valid markup percentage");
+                setResult(null);
                 return;
             }
 
@@ -175,10 +184,10 @@ export default function MarkupCalculator() {
             const profit = selling - cost;
 
             setResult({
-                costPrice: cost.toFixed(2),
+                costPrice: cost,
                 margin: margin.toFixed(2),
-                profit: profit.toFixed(2),
-                selling: selling.toFixed(2),
+                profit,
+                selling,
                 markup: markup.toFixed(2),
                 calcType: "cost",
             });
@@ -187,11 +196,14 @@ export default function MarkupCalculator() {
 
     const resetForm = () => {
         setCalcType("markup");
-        setCostPrice("");
-        setSellingPrice("");
-        setMarkupPercent("");
-        setResult(null);
+        setCostPrice(DEFAULT_COST);
+        setSellingPrice(DEFAULT_SELLING);
+        setMarkupPercent(DEFAULT_MARKUP);
     };
+
+    // Show the answer as the visitor types rather than behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, costPrice, sellingPrice, markupPercent]);
 
     return (
         <>
@@ -226,6 +238,8 @@ export default function MarkupCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Set your prices to make profit</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
                             <label className="block text-xs font-semibold text-gray-400 mb-2">What do you want to calculate?</label>
                             <div className="grid grid-cols-3 gap-2">
@@ -253,7 +267,7 @@ export default function MarkupCalculator() {
                         {calcType === "markup" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -262,11 +276,11 @@ export default function MarkupCalculator() {
                                             onChange={(e) => setCostPrice(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -275,7 +289,7 @@ export default function MarkupCalculator() {
                                             onChange={(e) => setSellingPrice(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                             </>
@@ -284,7 +298,7 @@ export default function MarkupCalculator() {
                         {calcType === "price" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -293,7 +307,7 @@ export default function MarkupCalculator() {
                                             onChange={(e) => setCostPrice(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
@@ -315,7 +329,7 @@ export default function MarkupCalculator() {
                         {calcType === "cost" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price (₹)</label>
+                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -324,7 +338,7 @@ export default function MarkupCalculator() {
                                             onChange={(e) => setSellingPrice(e.target.value)}
                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
@@ -365,23 +379,23 @@ export default function MarkupCalculator() {
                     title="Markup Results"
                     isEmpty={!result}
                     emptyIcon="🏷️"
-                    emptyText="Enter your numbers and press Calculate"
+                    emptyText="Enter your numbers to see the markup"
                     mainResult={result ? {
                         label: calcType === "markup" ? "Markup Percentage" : calcType === "price" ? "Selling Price" : "Cost Price",
-                        value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? `₹${result.sellingPrice}` : `₹${result.costPrice}`,
+                        value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? money(result.sellingPrice, 2) : money(result.costPrice, 2),
                         color: "text-green-400"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Profit Margin", value: `${result.margin}%`, valueColor: "text-yellow-400" },
-                        { label: "Profit Amount", value: `₹${result.profit}`, valueColor: "text-green-400" },
+                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-400" },
                         ...(calcType === "markup" ? [
-                            { label: "Cost Price", value: `₹${result.cost}` },
-                            { label: "Selling Price", value: `₹${result.selling}` },
+                            { label: "Cost Price", value: money(result.cost, 2) },
+                            { label: "Selling Price", value: money(result.selling, 2) },
                         ] : calcType === "price" ? [
-                            { label: "Cost Price", value: `₹${result.cost}` },
+                            { label: "Cost Price", value: money(result.cost, 2) },
                             { label: "Markup Used", value: `${result.markup}%` },
                         ] : [
-                            { label: "Selling Price", value: `₹${result.selling}` },
+                            { label: "Selling Price", value: money(result.selling, 2) },
                             { label: "Markup Used", value: `${result.markup}%` },
                         ]),
                     ] : []}
@@ -442,7 +456,7 @@ export default function MarkupCalculator() {
                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost ₹100, Selling ₹150</p>
+                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost $100, Selling $150</p>
                             <p className="text-sm text-blue-400 mt-2">Markup = 50% (based on cost)</p>
                             <p className="text-sm text-green-400">Margin = 33.3% (based on selling price)</p>
                         </div>

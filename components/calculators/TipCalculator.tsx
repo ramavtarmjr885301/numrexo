@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -12,23 +14,23 @@ const FAQ_DATA = [
     },
     {
         q: "Should I tip on the total bill including tax?",
-        a: "Most people tip on the subtotal (before tax), but tipping on the total including tax is fine too. The difference is usually small. Example: ₹1000 bill + 10% tax = ₹1100 total. 15% on subtotal = ₹150, on total = ₹165 (₹15 difference). For simplicity, many people tip on the total to avoid mental math. Our calculator lets you choose either method.",
+        a: "Most people tip on the subtotal (before tax), but tipping on the total including tax is fine too. The difference is usually small. Example: a $100 bill + 10% tax = $110 total. 15% on the subtotal = $15, on the total = $16.50 — a $1.50 difference. For simplicity, many people tip on the total to avoid mental math. Our calculator lets you choose either method.",
     },
     {
         q: "How to calculate tip quickly in my head?",
-        a: "10% tip = move decimal one place left (₹850 → ₹85). 15% tip = 10% + half of 10% (₹85 + ₹42.5 = ₹127.5). 20% tip = double the 10% (₹85 × 2 = ₹170). This mental math trick works for any bill amount. For exact calculations, use our calculator. For quick estimates: round up to the nearest ₹100 for easier math.",
+        a: "10% tip = move the decimal one place left ($85 → $8.50). 15% tip = 10% plus half of 10% ($8.50 + $4.25 = $12.75). 20% tip = double the 10% ($8.50 × 2 = $17). This mental math trick works for any bill amount. For exact calculations, use our calculator. For quick estimates, round up to the nearest dollar.",
     },
     {
         q: "Should I tip for takeout orders?",
-        a: "Yes, 10-15% is customary for takeout, especially for large orders. The kitchen staff still prepares your food, and packaging takes time. For coffee shops, ₹20-50 or rounding up is fine. For small orders (under ₹500), a flat tip of ₹50-100 is appreciated. Consider tipping more for complex orders or during busy times.",
+        a: "Yes, 10-15% is customary for takeout, especially for large orders. The kitchen staff still prepares your food, and packaging takes time. For coffee shops, $1-2 or rounding up is fine. For small orders (under $20), a flat tip of $2-3 is appreciated. Consider tipping more for complex orders or during busy times.",
     },
     {
         q: "Do I tip on delivery orders?",
-        a: "Yes, delivery drivers should be tipped 15-20% or minimum ₹50-100. They use their own vehicles and gas, and often work in challenging conditions. During bad weather or holidays, tip more (25%+). Some apps add a delivery fee — that doesn't go to the driver. Tip in cash when possible so the driver gets the full amount. For large orders, tip based on the total bill amount.",
+        a: "Yes, delivery drivers should be tipped 15-20%, or a minimum of $3-5. They use their own vehicles and gas, and often work in challenging conditions. During bad weather or holidays, tip more (25%+). Some apps add a delivery fee — that doesn't go to the driver. Tip in cash when possible so the driver gets the full amount. For large orders, tip based on the total bill amount.",
     },
     {
         q: "How to split tip among friends?",
-        a: "Calculate total tip, add to bill, divide by number of people. Example: Bill ₹4000, tip 18% = ₹720, total ₹4720. Split 4 ways = ₹1180 each. Use our split bill feature to calculate easily. For uneven splits (someone had more), calculate each person's share based on what they ordered. Most restaurants can split bills by item if requested.",
+        a: "Calculate total tip, add to bill, divide by number of people. Example: a $120 bill, tip 18% = $21.60, total $141.60. Split 4 ways = $35.40 each. Use our split bill feature to calculate easily. For uneven splits (someone had more), calculate each person's share based on what they ordered. Most restaurants can split bills by item if requested.",
     },
     {
         q: "What is the difference between tip and service charge?",
@@ -44,7 +46,7 @@ const FAQ_DATA = [
     },
     {
         q: "What is the 20% rule for tipping?",
-        a: "The 20% rule is a modern guideline for excellent service. It's becoming the new standard in many US cities. 20% of the bill = generous tip for good service, 25%+ = exceptional. Many people find 20% easier to calculate (double the 10% tip). For bills under ₹1000, rounding up to the next ₹100 or ₹200 is common. Use our calculator for exact amounts, or remember: 20% = divide by 5.",
+        a: "The 20% rule is a modern guideline for excellent service. It's becoming the new standard in many US cities. 20% of the bill = generous tip for good service, 25%+ = exceptional. Many people find 20% easier to calculate (double the 10% tip). On a small bill, rounding up to the next dollar or two is common. Use our calculator for exact amounts, or remember: 20% = divide by 5.",
     },
 ];
 
@@ -108,42 +110,46 @@ const COUNTRY_TIPS = [
 const SERVICE_TYPES = [
     { service: "🍽️ Restaurant (Dine-in)", tipGuide: "15-20%", notes: "Based on service quality" },
     { service: "📦 Takeout", tipGuide: "10-15%", notes: "For large orders or complex prep" },
-    { service: "🚗 Delivery", tipGuide: "15-20%", notes: "Minimum ₹50-100 or 20%" },
-    { service: "☕ Coffee Shop", tipGuide: "₹20-50", notes: "Round up or small bills" },
+    { service: "🚗 Delivery", tipGuide: "15-20%", notes: "Minimum $3-5, or 20%" },
+    { service: "☕ Coffee Shop", tipGuide: "$1-2", notes: "Round up or small bills" },
     { service: "💇 Hair Salon", tipGuide: "15-20%", notes: "Based on service cost" },
-    { service: "🚕 Taxi/Ride", tipGuide: "10-15%", notes: "Round up to nearest ₹100" },
-    { service: "🛎️ Hotel Staff", tipGuide: "₹100-500", notes: "Per bag or night" },
+    { service: "🚕 Taxi/Ride", tipGuide: "10-15%", notes: "Round up to the nearest dollar" },
+    { service: "🛎️ Hotel Staff", tipGuide: "$2-5", notes: "Per bag or night" },
     { service: "📦 Moving Services", tipGuide: "10-15%", notes: "Per person, for heavy work" },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/** Starting values, so the page shows a worked example instead of an empty box. */
+const DEFAULT_BILL = "60";
+const DEFAULT_TIP = "18";
+const DEFAULT_PEOPLE = "2";
+
 export default function TipCalculator() {
-    const [billAmount, setBillAmount] = useState("");
-    const [tipPercent, setTipPercent] = useState("15");
-    const [peopleCount, setPeopleCount] = useState("1");
+    const { symbol, money } = useCurrency();
+
+    const [billAmount, setBillAmount] = useState(DEFAULT_BILL);
+    const [tipPercent, setTipPercent] = useState(DEFAULT_TIP);
+    const [peopleCount, setPeopleCount] = useState(DEFAULT_PEOPLE);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setBillAmount("");
-        setTipPercent("15");
-        setPeopleCount("1");
-        setResult(null);
+        setBillAmount(DEFAULT_BILL);
+        setTipPercent(DEFAULT_TIP);
+        setPeopleCount(DEFAULT_PEOPLE);
     };
 
-    const calculate = () => {
+    // Recalculate as the visitor types. The old version showed an empty box until
+    // you pressed a button, which is the main reason people bounced off these
+    // pages — the answer was one click further away than it needed to be.
+    useEffect(() => {
         const bill = parseFloat(billAmount);
-        const tip = parseFloat(tipPercent);
+        const tip = parseFloat(tipPercent) || 0;
         const people = parseFloat(peopleCount);
 
-        if (!bill || bill <= 0) {
-            alert("Please enter a valid bill amount");
-            return;
-        }
-
-        if (people < 1) {
-            alert("Number of people must be at least 1");
+        if (!Number.isFinite(bill) || bill <= 0 || !Number.isFinite(people) || people < 1) {
+            setResult(null);
             return;
         }
 
@@ -152,13 +158,21 @@ export default function TipCalculator() {
         const perPerson = totalAmount / people;
 
         setResult({
-            billAmount: bill.toFixed(2),
+            billAmount: bill,
             tipPercent: tip,
-            tipAmount: tipAmount.toFixed(2),
-            totalAmount: totalAmount.toFixed(2),
-            perPerson: perPerson.toFixed(2),
+            tipAmount,
+            totalAmount,
+            perPerson,
             peopleCount: people,
         });
+    }, [billAmount, tipPercent, peopleCount]);
+
+    // The button is kept for people who expect one, but the result is already there.
+    const calculate = () => {
+        const bill = parseFloat(billAmount);
+        if (!Number.isFinite(bill) || bill <= 0) {
+            setBillAmount(DEFAULT_BILL);
+        }
     };
 
     return (
@@ -194,18 +208,20 @@ export default function TipCalculator() {
                         <p className="text-xs text-gray-500 mt-1">Calculate gratuity and split bills</p>
                     </div>
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Bill Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-gray-400 mb-2">Bill Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
-                                    placeholder="1000"
+                                    placeholder={DEFAULT_BILL}
                                     step="any"
                                     value={billAmount}
                                     onChange={(e) => setBillAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
                             </div>
                         </div>
 
@@ -261,12 +277,12 @@ export default function TipCalculator() {
                     title="Tip Breakdown"
                     isEmpty={!result}
                     emptyIcon="💰"
-                    emptyText="Enter bill amount and press Calculate"
-                    mainResult={result ? { label: "Total Bill (with Tip)", value: `₹${parseFloat(result.totalAmount).toLocaleString()}`, color: "text-green-400" } : undefined}
+                    emptyText="Enter a bill amount to see the tip"
+                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-400" } : undefined}
                     extraRows={result ? [
-                        { label: "Original Bill", value: `₹${parseFloat(result.billAmount).toLocaleString()}` },
-                        { label: `Tip (${result.tipPercent}%)`, value: `₹${parseFloat(result.tipAmount).toLocaleString()}`, valueColor: "text-yellow-400" },
-                        { label: "Per Person Amount", value: `₹${parseFloat(result.perPerson).toLocaleString()}`, valueColor: "text-blue-400" },
+                        { label: "Original Bill", value: money(result.billAmount, 2) },
+                        { label: `Tip (${result.tipPercent}%)`, value: money(result.tipAmount, 2), valueColor: "text-yellow-400" },
+                        { label: "Per Person Amount", value: money(result.perPerson, 2), valueColor: "text-blue-400" },
                         { label: "Split Between", value: `${result.peopleCount} person${result.peopleCount > 1 ? 's' : ''}` },
                     ] : []}
                 />
@@ -292,7 +308,7 @@ export default function TipCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Tip Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">bill amount</strong> in ₹.</p>
+                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">bill amount</strong> in {symbol}.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">tip percentage</strong> (10-25% recommended).</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">number of people</strong> to split the bill.</p>
                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Tip"</strong> to see the breakdown.</p>
@@ -343,7 +359,7 @@ export default function TipCalculator() {
                         </div>
                     </div>
                     <p className="text-gray-500 text-xs text-center mt-3 pt-3 border-t border-gray-800">
-                        Example: ₹1000 bill, 18% tip, 4 people → Tip ₹180, Total ₹1180, Per Person ₹295
+                        Example: a $100 bill, 18% tip, 4 people → Tip $18, Total $118, Per Person $29.50
                     </p>
                 </div>
             </section>
@@ -436,11 +452,11 @@ export default function TipCalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Round up for simplicity:</strong> Round to the nearest ₹10 or ₹100 for easy mental math. Example: ₹127.50 tip → ₹130 is perfectly fine.</span>
+                        <span><strong className="text-gray-300">Round up for simplicity:</strong> Round to the nearest dollar for easy mental math. Example: a $12.75 tip → $13 is perfectly fine.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-gray-400">
                         <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: ₹850 ÷ 5 = ₹170 tip.</span>
+                        <span><strong className="text-gray-300">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: $85 ÷ 5 = $17 tip.</span>
                     </li>
                 </ul>
             </section>

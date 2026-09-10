@@ -163,7 +163,7 @@ const features = [
     { icon: "🆓", title: "Always Free", desc: "Every tool on Numrexo is completely free. No hidden fees, no subscriptions." },
     { icon: "📱", title: "Works Everywhere", desc: "Optimized for mobile, tablet, and desktop — any device, any screen." },
     { icon: "🔑", title: "No Login Required", desc: "Just open and use. No account creation or sign-up of any kind." },
-    { icon: "🎯", title: "Accurate & Reliable", desc: "Built with precision-tested formulas trusted by professionals globally." },
+    { icon: "🎯", title: "Formulas You Can Check", desc: "Standard, published formulas — and every calculator shows the method it used." },
 ];
 
 export default function AboutPage() {
@@ -270,7 +270,7 @@ export default function AboutPage() {
                     <section className="mb-10">
                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
                             <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
-                                Why Millions Choose Numrexo
+                                Why People Use Numrexo
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 {features.map((f) => (

@@ -83,7 +83,7 @@ export default function MathCategoryClient() {
                 {/* Calculators Count */}
                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
                     {calculators.length > 0 ? (
-                        <>📐 <span className="font-semibold text-blue-400">{calculators.length}+ mathematics calculators</span> available — all free, all accurate</>
+                        <>📐 <span className="font-semibold text-blue-400">{calculators.length}+ mathematics calculators</span> available — all free to use</>
                     ) : (
                         <>📐 <span className="font-semibold text-blue-400">New mathematics calculators</span> being added weekly — check back soon!</>
                     )}

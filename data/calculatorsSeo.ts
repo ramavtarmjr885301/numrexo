@@ -234,6 +234,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["home loan eligibility", "how much home loan", "mortgage affordability"],
   },
   "finance/student-loan-calculator": {
+    updatedAt: "2026-09-09",
     sources: [
       { label: "US Department of Education — Federal Student Aid", url: "https://studentaid.gov" },
       { label: "Formula: standard amortising repayment over the chosen term" },
@@ -721,12 +722,22 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["profit margin calculator", "gross margin", "margin vs markup"],
   },
   "business/markup-calculator": {
+    updatedAt: "2026-09-09",
+    sources: [
+      { label: "Formula: Markup % = (Selling Price − Cost) ÷ Cost × 100" },
+      { label: "Margin is calculated on the selling price, not the cost — the two percentages differ" },
+    ],
     title: "Markup Calculator: Selling Price from Cost",
     description:
       "Find the selling price a given markup percentage produces, and see the profit margin that markup translates into, which is not the same number.",
     keywords: ["markup calculator", "markup percentage", "cost to selling price"],
   },
   "business/discount-calculator": {
+    updatedAt: "2026-09-09",
+    sources: [
+      { label: "Formula: Final Price = Original Price × (1 − Discount % ÷ 100)" },
+      { label: "Stacked discounts apply in sequence, so 20% then 10% is 28% off, not 30%" },
+    ],
     title: "Discount Calculator: Final Price and Amount Saved",
     description:
       "Calculate the sale price after one or more discounts, the amount saved, and what a stacked discount really works out to as a single percentage.",
@@ -745,6 +756,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["break even calculator", "break even point", "contribution margin"],
   },
   "business/tip-calculator": {
+    updatedAt: "2026-09-09",
     sources: [
       { label: "US customary tipping ranges: 15% adequate, 18-20% standard, 25% exceptional" },
     ],
