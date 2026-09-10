@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -109,17 +109,17 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function NutritionLabelGenerator() {
-    const [servingSize, setServingSize] = useState("");
-    const [servingsPerContainer, setServingsPerContainer] = useState("");
+    const [servingSize, setServingSize] = useState("100");
+    const [servingsPerContainer, setServingsPerContainer] = useState("1");
     const [calories, setCalories] = useState("");
-    const [totalFat, setTotalFat] = useState("");
-    const [saturatedFat, setSaturatedFat] = useState("");
-    const [cholesterol, setCholesterol] = useState("");
-    const [sodium, setSodium] = useState("");
-    const [totalCarbs, setTotalCarbs] = useState("");
-    const [fiber, setFiber] = useState("");
-    const [sugar, setSugar] = useState("");
-    const [protein, setProtein] = useState("");
+    const [totalFat, setTotalFat] = useState("0");
+    const [saturatedFat, setSaturatedFat] = useState("0");
+    const [cholesterol, setCholesterol] = useState("0");
+    const [sodium, setSodium] = useState("0");
+    const [totalCarbs, setTotalCarbs] = useState("0");
+    const [fiber, setFiber] = useState("0");
+    const [sugar, setSugar] = useState("0");
+    const [protein, setProtein] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -137,7 +137,7 @@ export default function NutritionLabelGenerator() {
         const prot = parseFloat(protein);
 
         if (!serving || serving <= 0) {
-            alert("Please enter serving size");
+            setResult(null);
             return;
         }
 
@@ -175,6 +175,10 @@ export default function NutritionLabelGenerator() {
             proteinDV,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [servingSize, servingsPerContainer, calories, totalFat, saturatedFat, cholesterol, sodium, totalCarbs, fiber, sugar, protein]);
 
     const resetForm = () => {
         setServingSize("");

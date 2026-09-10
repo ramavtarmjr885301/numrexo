@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -130,6 +130,10 @@ export default function FoodExpiryCalculator() {
             notes: food.notes,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [selectedFood, storageMethod]);
 
     const resetForm = () => {
         setSelectedFood(FOOD_STORAGE[0].name);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FlightTimeCalculator() {
-    const [distance, setDistance] = useState("");
+    const [distance, setDistance] = useState("3450");
     const [unit, setUnit] = useState<"miles" | "km">("miles");
     const [aircraft, setAircraft] = useState(AIRPLANE_SPEEDS[5].aircraft);
     const [addTime, setAddTime] = useState("30");
@@ -123,7 +123,7 @@ export default function FlightTimeCalculator() {
         const extraMinutes = parseFloat(addTime) || 0;
 
         if (!dist || dist <= 0) {
-            alert("Please enter a valid distance");
+            setResult(null);
             return;
         }
 
@@ -150,6 +150,10 @@ export default function FlightTimeCalculator() {
             extraMinutes,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [distance, unit, aircraft, addTime]);
 
     const resetForm = () => {
         setDistance("");

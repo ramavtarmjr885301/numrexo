@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ export default function XIRRCalculator() {
     const [cashFlows, setCashFlows] = useState<CashFlow[]>([
         { id: 1, date: "", amount: "" },
     ]);
-    const [finalValue, setFinalValue] = useState("");
+    const [finalValue, setFinalValue] = useState("100000");
     const [finalDate, setFinalDate] = useState("");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -198,19 +198,19 @@ export default function XIRRCalculator() {
     const calculate = () => {
         const hasValidFlows = cashFlows.some(cf => cf.date && cf.amount);
         if (!hasValidFlows) {
-            alert("Please add at least one investment with date and amount");
+            setResult(null);
             return;
         }
 
         if (!finalValue || !finalDate) {
-            alert("Please enter current/final value and date");
+            setResult(null);
             return;
         }
 
         const xirr = calculateXIRR();
 
         if (xirr === 0 || isNaN(xirr) || !isFinite(xirr)) {
-            alert("Unable to calculate XIRR. Please check your inputs.");
+            setResult(null);
             return;
         }
 
@@ -279,6 +279,10 @@ export default function XIRRCalculator() {
             days,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [cashFlows, finalValue, finalDate]);
 
     return (
         <>

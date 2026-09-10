@@ -1,7 +1,7 @@
 // components/calculators/IdealWeightCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import ResultBox from "@/components/common/ResultBox";
 
@@ -143,9 +143,9 @@ const HOWTO_SCHEMA = JSON.stringify({
 export default function IdealWeightCalculator() {
     const [gender, setGender] = useState<"male" | "female">("male");
     const [unit, setUnit] = useState<"metric" | "imperial">("imperial");
-    const [heightFt, setHeightFt] = useState("");
-    const [heightIn, setHeightIn] = useState("");
-    const [heightCm, setHeightCm] = useState("");
+    const [heightFt, setHeightFt] = useState("5");
+    const [heightIn, setHeightIn] = useState("10");
+    const [heightCm, setHeightCm] = useState("170");
     const [frameSize, setFrameSize] = useState<"small" | "medium" | "large">("medium");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -158,13 +158,13 @@ export default function IdealWeightCalculator() {
             const inches = parseFloat(heightIn) || 0;
             heightInches = (ft * 12) + inches;
             if (heightInches <= 0) {
-                alert("Please enter a valid height");
+                setResult(null);
                 return;
             }
         } else {
             const cm = parseFloat(heightCm);
             if (!cm || cm <= 0) {
-                alert("Please enter a valid height");
+                setResult(null);
                 return;
             }
             heightInches = cm / 2.54;
@@ -213,6 +213,10 @@ export default function IdealWeightCalculator() {
             frameSize,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [gender, unit, heightFt, heightIn, heightCm, frameSize]);
 
     const resetForm = () => {
         setGender("male");

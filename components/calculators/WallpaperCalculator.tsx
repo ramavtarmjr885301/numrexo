@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -103,13 +103,13 @@ const WALLPAPER_TYPES = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function WallpaperCalculator() {
-    const [roomLength, setRoomLength] = useState("");
-    const [roomWidth, setRoomWidth] = useState("");
-    const [roomHeight, setRoomHeight] = useState("");
-    const [doorCount, setDoorCount] = useState("");
-    const [windowCount, setWindowCount] = useState("");
+    const [roomLength, setRoomLength] = useState("12");
+    const [roomWidth, setRoomWidth] = useState("10");
+    const [roomHeight, setRoomHeight] = useState("8");
+    const [doorCount, setDoorCount] = useState("1");
+    const [windowCount, setWindowCount] = useState("2");
     const [patternRepeat, setPatternRepeat] = useState("0");
-    const [pricePerRoll, setPricePerRoll] = useState("");
+    const [pricePerRoll, setPricePerRoll] = useState("1500");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -130,7 +130,7 @@ export default function WallpaperCalculator() {
         const height = parseFloat(roomHeight);
 
         if (!length || !width || !height || length <= 0 || width <= 0 || height <= 0) {
-            alert("Please enter valid room dimensions");
+            setResult(null);
             return;
         }
 
@@ -167,6 +167,10 @@ export default function WallpaperCalculator() {
             windowArea: windowArea,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [roomLength, roomWidth, roomHeight, doorCount, windowCount, patternRepeat, pricePerRoll]);
 
     return (
         <>

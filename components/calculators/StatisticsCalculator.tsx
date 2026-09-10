@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -98,14 +98,14 @@ export default function StatisticsCalculator() {
 
     const calculate = () => {
         if (!dataInput.trim()) {
-            alert("Please enter numbers separated by commas");
+            setResult(null);
             return;
         }
 
         const numbers = dataInput.split(",").map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
 
         if (numbers.length === 0) {
-            alert("Please enter valid numbers");
+            setResult(null);
             return;
         }
 
@@ -194,6 +194,10 @@ export default function StatisticsCalculator() {
             totalNumbers: numbers.length,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [dataInput]);
 
     return (
         <>

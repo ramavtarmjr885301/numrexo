@@ -1,7 +1,7 @@
 // components/calculators/QuadraticSolver.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,9 +58,9 @@ const QUADRATIC_SCHEMA = JSON.stringify({
 });
 
 export default function QuadraticSolver() {
-    const [a, setA] = useState("");
+    const [a, setA] = useState("1");
     const [b, setB] = useState("");
-    const [c, setC] = useState("");
+    const [c, setC] = useState("2");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -70,7 +70,7 @@ export default function QuadraticSolver() {
         const cVal = parseFloat(c);
 
         if (isNaN(aVal) || aVal === 0) {
-            alert("Please enter a non-zero value for 'a' (coefficient of x²)");
+            setResult(null);
             return;
         }
 
@@ -117,6 +117,10 @@ export default function QuadraticSolver() {
             vertexY: vertexY.toFixed(4),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [a, b, c]);
 
     const resetForm = () => {
         setA("");

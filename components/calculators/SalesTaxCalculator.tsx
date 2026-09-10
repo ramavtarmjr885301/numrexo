@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -115,7 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SalesTaxCalculator() {
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState("100");
     const [taxRate, setTaxRate] = useState("8");
     const [calcType, setCalcType] = useState<"add" | "remove">("add");
     const [selectedState, setSelectedState] = useState("");
@@ -140,7 +140,7 @@ export default function SalesTaxCalculator() {
         const r = parseFloat(taxRate) / 100;
 
         if (!a || a <= 0 || isNaN(a)) {
-            alert("Please enter a valid amount");
+            setResult(null);
             return;
         }
 
@@ -165,6 +165,10 @@ export default function SalesTaxCalculator() {
             selectedState: selectedState || "Custom Rate",
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [amount, taxRate, calcType, selectedState]);
 
     return (
         <>

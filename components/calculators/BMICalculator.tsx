@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -110,10 +110,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function BMICalculator() {
   const [unit, setUnit] = useState<"metric" | "imperial">("metric");
-  const [heightCm, setHeightCm] = useState("");
-  const [heightFt, setHeightFt] = useState("");
-  const [heightIn, setHeightIn] = useState("");
-  const [weight, setWeight] = useState("");
+  const [heightCm, setHeightCm] = useState("170");
+  const [heightFt, setHeightFt] = useState("5");
+  const [heightIn, setHeightIn] = useState("7");
+  const [weight, setWeight] = useState("65");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -130,7 +130,7 @@ export default function BMICalculator() {
     }
 
     if (!h || !w || h <= 0 || w <= 0 || isNaN(h) || isNaN(w)) {
-      alert("Please enter valid height and weight values");
+      setResult(null);
       return;
     }
 
@@ -160,6 +160,10 @@ export default function BMICalculator() {
     const gaugePos = Math.min(Math.max(((bmi - 10) / 35) * 100, 2), 98);
     setResult({ bmi: bmi.toFixed(1), category, colorClass, healthyRange, gaugePos });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [unit, heightCm, heightFt, heightIn, weight]);
 
   const resetForm = () => {
     setUnit("metric");

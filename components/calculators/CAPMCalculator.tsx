@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -87,9 +87,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CAPMCalculator() {
-    const [riskFreeRate, setRiskFreeRate] = useState("");
-    const [marketReturn, setMarketReturn] = useState("");
-    const [beta, setBeta] = useState("");
+    const [riskFreeRate, setRiskFreeRate] = useState("7");
+    const [marketReturn, setMarketReturn] = useState("12");
+    const [beta, setBeta] = useState("1.2");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -99,7 +99,7 @@ export default function CAPMCalculator() {
         const b = parseFloat(beta);
 
         if (isNaN(rf) || isNaN(mr) || isNaN(b)) {
-            alert("Please enter valid values for all fields");
+            setResult(null);
             return;
         }
 
@@ -124,6 +124,10 @@ export default function CAPMCalculator() {
             riskLevel,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [riskFreeRate, marketReturn, beta]);
 
     const resetForm = () => {
         setRiskFreeRate("");

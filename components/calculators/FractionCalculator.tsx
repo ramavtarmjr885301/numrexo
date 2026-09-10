@@ -1,7 +1,7 @@
 // components/calculators/FractionCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,10 +58,10 @@ const FRACTION_SCHEMA = JSON.stringify({
 });
 
 export default function FractionCalculator() {
-    const [num1, setNum1] = useState("");
-    const [den1, setDen1] = useState("");
-    const [num2, setNum2] = useState("");
-    const [den2, setDen2] = useState("");
+    const [num1, setNum1] = useState("1");
+    const [den1, setDen1] = useState("2");
+    const [num2, setNum2] = useState("1");
+    const [den2, setDen2] = useState("3");
     const [operation, setOperation] = useState<"add" | "subtract" | "multiply" | "divide">("add");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -73,7 +73,7 @@ export default function FractionCalculator() {
         let d2 = parseFloat(den2);
 
         if (!n1 || !d1 || !n2 || !d2 || d1 === 0 || d2 === 0) {
-            alert("Please enter valid fractions (denominators cannot be zero)");
+            setResult(null);
             return;
         }
 
@@ -125,6 +125,10 @@ export default function FractionCalculator() {
             simplifiedDen,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [num1, den1, num2, den2, operation]);
 
     const resetForm = () => {
         setNum1("");

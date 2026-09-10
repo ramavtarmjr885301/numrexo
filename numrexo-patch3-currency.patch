@@ -1,0 +1,1632 @@
+From dbf85a047705e90ae38a27415fee209bbbea362a Mon Sep 17 00:00:00 2001
+From: Sanjay Singh <sanjay@namsconsulting.com>
+Date: Wed, 9 Sep 2026 19:05:26 +0000
+Subject: [PATCH] Tier-1 currency layer, live results, and the last of the
+ unverifiable claims
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Three things, none of which change any calculation.
+
+1. Claims. The AdSense pass missed a few because they were worded differently
+   from the ones I searched for: "SEBI & RBI compliant formulas" (reversed),
+   "10,000+ business owners", "25,000+ contractors", "Why Millions Choose
+   Numrexo", "trusted by professionals globally", and "all free, all accurate"
+   on all 13 category hubs. A four-month-old domain cannot support any of them
+   and a reviewer checks exactly this. Compliance claims are replaced with what
+   is actually true: the formulas are standard and published, and each page
+   shows the one it used.
+
+2. Currency. Every money calculator printed a hard-coded rupee sign while the
+   copy around it was written for a US reader — the tipping guide quoted
+   rupees next to advice about US cities. lib/currency.ts plus a switcher lets
+   the reader choose, defaults to USD, and keeps INR in the list. Nothing is
+   converted between currencies; only the label and the digit grouping change.
+   Applied to tip, discount, markup and student loan.
+
+3. Results now update as you type on those four pages, instead of sitting
+   behind a Calculate button, and each opens on a worked example. The alert()
+   popups are gone. Realistic starting values, US figures in the prose.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PHRT6vhhyEyck1uNY7XC3G
+---
+ app/about/page.tsx                            |   4 +-
+ app/business/BusinessCategoryClient.tsx       |   4 +-
+ .../ConstructionCategoryClient.tsx            |   4 +-
+ app/cooking/CookingCategoryClient.tsx         |   4 +-
+ app/education/EducationCategoryClient.tsx     |   2 +-
+ app/finance/FinanceCategoryClient.tsx         |   8 +-
+ app/fitness/FitnessCategoryClient.tsx         |   2 +-
+ app/health/HealthCategoryClient.tsx           |   2 +-
+ app/investment/InvestmentCategoryClient.tsx   |   9 +-
+ app/math/MathCategoryClient.tsx               |   2 +-
+ app/science/ScienceCategoryClient.tsx         |   2 +-
+ app/tax/TaxCategoryClient.tsx                 |  11 +-
+ app/time/TimeCategoryClient.tsx               |   2 +-
+ app/travel/TravelCategoryClient.tsx           |   2 +-
+ components/calculators/DiscountCalculator.tsx | 129 ++++++++++--------
+ components/calculators/MarkupCalculator.tsx   | 106 +++++++-------
+ .../calculators/StudentLoanCalculator.tsx     |  99 ++++++++------
+ components/calculators/TipCalculator.tsx      | 102 ++++++++------
+ components/common/CurrencySwitcher.tsx        |  37 +++++
+ components/common/useCurrency.ts              | 115 ++++++++++++++++
+ data/calculatorsSeo.ts                        |  12 ++
+ lib/currency.ts                               | 101 ++++++++++++++
+ 22 files changed, 546 insertions(+), 213 deletions(-)
+ create mode 100644 components/common/CurrencySwitcher.tsx
+ create mode 100644 components/common/useCurrency.ts
+ create mode 100644 lib/currency.ts
+
+diff --git a/app/about/page.tsx b/app/about/page.tsx
+index 697d896..d99f6fd 100644
+--- a/app/about/page.tsx
++++ b/app/about/page.tsx
+@@ -163,7 +163,7 @@ const features = [
+     { icon: "🆓", title: "Always Free", desc: "Every tool on Numrexo is completely free. No hidden fees, no subscriptions." },
+     { icon: "📱", title: "Works Everywhere", desc: "Optimized for mobile, tablet, and desktop — any device, any screen." },
+     { icon: "🔑", title: "No Login Required", desc: "Just open and use. No account creation or sign-up of any kind." },
+-    { icon: "🎯", title: "Accurate & Reliable", desc: "Built with precision-tested formulas trusted by professionals globally." },
++    { icon: "🎯", title: "Formulas You Can Check", desc: "Standard, published formulas — and every calculator shows the method it used." },
+ ];
+ 
+ export default function AboutPage() {
+@@ -270,7 +270,7 @@ export default function AboutPage() {
+                     <section className="mb-10">
+                         <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
+                             <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
+-                                Why Millions Choose Numrexo
++                                Why People Use Numrexo
+                             </h2>
+                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                 {features.map((f) => (
+diff --git a/app/business/BusinessCategoryClient.tsx b/app/business/BusinessCategoryClient.tsx
+index 60cf30a..96834b7 100644
+--- a/app/business/BusinessCategoryClient.tsx
++++ b/app/business/BusinessCategoryClient.tsx
+@@ -69,7 +69,7 @@ export default function BusinessCategoryClient() {
+                     
+                     {/* Trust Badge - Social Proof */}
+                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+-                        <span className="flex items-center gap-1">✓ 10,000+ business owners</span>
++                        <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                         <span className="flex items-center gap-1">✓ Works on any device</span>
+                         <span className="flex items-center gap-1">✓ No data storage</span>
+                         <span className="flex items-center gap-1">✓ Instant results</span>
+@@ -78,7 +78,7 @@ export default function BusinessCategoryClient() {
+                 
+                 {/* Calculators Count - Shows comprehensiveness */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+-                    📊 <span className="font-semibold text-blue-400">{calculators.length}+ business calculators</span> available — all free, all accurate
++                    📊 <span className="font-semibold text-blue-400">{calculators.length}+ business calculators</span> available — all free to use
+                 </div>
+                 
+                 {/* Calculator Grid - Optimized Layout */}
+diff --git a/app/construction/ConstructionCategoryClient.tsx b/app/construction/ConstructionCategoryClient.tsx
+index cb917eb..463ef84 100644
+--- a/app/construction/ConstructionCategoryClient.tsx
++++ b/app/construction/ConstructionCategoryClient.tsx
+@@ -64,9 +64,9 @@ export default function ConstructionCategoryClient() {
+                     
+                     {/* Trust Badges - Green accent */}
+                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+-                        <span className="flex items-center gap-1">✓ 25,000+ contractors</span>
++                        <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                         <span className="flex items-center gap-1">✓ Works on any device</span>
+-                        <span className="flex items-center gap-1">✓ Professional accuracy</span>
++                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
+                         <span className="flex items-center gap-1">✓ No data storage</span>
+                         <span className="flex items-center gap-1">✓ Instant results</span>
+                     </div>
+diff --git a/app/cooking/CookingCategoryClient.tsx b/app/cooking/CookingCategoryClient.tsx
+index 928f595..b07f850 100644
+--- a/app/cooking/CookingCategoryClient.tsx
++++ b/app/cooking/CookingCategoryClient.tsx
+@@ -72,7 +72,7 @@ export default function CookingCategoryClient() {
+                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                         <span className="flex items-center gap-1">✓ Works on any device</span>
+-                        <span className="flex items-center gap-1">✓ Professional recipe standards</span>
++                        <span className="flex items-center gap-1">✓ Standard conversion tables</span>
+                         <span className="flex items-center gap-1">✓ No data storage</span>
+                     </div>
+                 </div>
+@@ -80,7 +80,7 @@ export default function CookingCategoryClient() {
+                 {/* Calculators Count + Status Message */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>🍳 <span className="font-semibold text-blue-400">{calculators.length}+ cooking calculators</span> available — all free, all accurate</>
++                        <>🍳 <span className="font-semibold text-blue-400">{calculators.length}+ cooking calculators</span> available — all free to use</>
+                     ) : (
+                         <>🍳 <span className="font-semibold text-blue-400">New cooking calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/education/EducationCategoryClient.tsx b/app/education/EducationCategoryClient.tsx
+index b699314..508429b 100644
+--- a/app/education/EducationCategoryClient.tsx
++++ b/app/education/EducationCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function EducationCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>📚 <span className="font-semibold text-blue-400">{calculators.length}+ education calculators</span> available — all free, all accurate</>
++                        <>📚 <span className="font-semibold text-blue-400">{calculators.length}+ education calculators</span> available — all free to use</>
+                     ) : (
+                         <>📚 <span className="font-semibold text-blue-400">New education calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/finance/FinanceCategoryClient.tsx b/app/finance/FinanceCategoryClient.tsx
+index 72d62a8..978268a 100644
+--- a/app/finance/FinanceCategoryClient.tsx
++++ b/app/finance/FinanceCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function FinanceCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>💰 <span className="font-semibold text-blue-400">{calculators.length}+ finance calculators</span> available — all free, all accurate</>
++                        <>💰 <span className="font-semibold text-blue-400">{calculators.length}+ finance calculators</span> available — all free to use</>
+                     ) : (
+                         <>💰 <span className="font-semibold text-blue-400">New finance calculators</span> being added weekly — check back soon!</>
+                     )}
+@@ -118,9 +118,9 @@ export default function FinanceCategoryClient() {
+                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Finance Calculators?</h2>
+                             <p>
+                                 Our <strong className="text-white">finance calculators</strong> are designed for home buyers, 
+-                                investors, small business owners, students, and financial planners. Each tool uses standard 
+-                                financial formulas (amortization, compound interest, NPV, IRR) and follows regulatory guidelines 
+-                                from RBI, SEBI, and international financial authorities.
++                                investors, small business owners, students, and financial planners. Each tool uses the standard,
++                                publicly documented formulas for amortization, compound interest, NPV and IRR, and every page shows
++                                the formula it applies so you can check the result yourself.
+                             </p>
+                             <p>
+                                 The <strong className="text-white">EMI Calculator</strong> helps you estimate monthly loan payments 
+diff --git a/app/fitness/FitnessCategoryClient.tsx b/app/fitness/FitnessCategoryClient.tsx
+index ecb7949..89f3f02 100644
+--- a/app/fitness/FitnessCategoryClient.tsx
++++ b/app/fitness/FitnessCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function FitnessCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>💪 <span className="font-semibold text-blue-400">{calculators.length}+ fitness calculators</span> available — all free, all accurate</>
++                        <>💪 <span className="font-semibold text-blue-400">{calculators.length}+ fitness calculators</span> available — all free to use</>
+                     ) : (
+                         <>💪 <span className="font-semibold text-blue-400">New fitness calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/health/HealthCategoryClient.tsx b/app/health/HealthCategoryClient.tsx
+index 2858980..568fee4 100644
+--- a/app/health/HealthCategoryClient.tsx
++++ b/app/health/HealthCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function HealthCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>🩺 <span className="font-semibold text-blue-400">{calculators.length}+ health calculators</span> available — all free, all accurate</>
++                        <>🩺 <span className="font-semibold text-blue-400">{calculators.length}+ health calculators</span> available — all free to use</>
+                     ) : (
+                         <>🩺 <span className="font-semibold text-blue-400">New health calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/investment/InvestmentCategoryClient.tsx b/app/investment/InvestmentCategoryClient.tsx
+index 8b1960d..f92457c 100644
+--- a/app/investment/InvestmentCategoryClient.tsx
++++ b/app/investment/InvestmentCategoryClient.tsx
+@@ -75,7 +75,7 @@ export default function InvestmentCategoryClient() {
+                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                         <span className="flex items-center gap-1">✓ Works on any device</span>
+-                        <span className="flex items-center gap-1">✓ SEBI & RBI compliant formulas</span>
++                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
+                         <span className="flex items-center gap-1">✓ No data storage</span>
+                     </div>
+                 </div>
+@@ -83,7 +83,7 @@ export default function InvestmentCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>📈 <span className="font-semibold text-blue-400">{calculators.length}+ investment calculators</span> available — all free, all accurate</>
++                        <>📈 <span className="font-semibold text-blue-400">{calculators.length}+ investment calculators</span> available — all free to use</>
+                     ) : (
+                         <>📈 <span className="font-semibold text-blue-400">New investment calculators</span> being added weekly — check back soon!</>
+                     )}
+@@ -118,8 +118,9 @@ export default function InvestmentCategoryClient() {
+                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Investment Calculators?</h2>
+                             <p>
+                                 Our <strong className="text-white">investment calculators</strong> are designed for first-time investors, 
+-                                retirement planners, young professionals, and wealth builders. Each tool uses standard financial formulas 
+-                                (compound interest, future value, present value) and follows SEBI and RBI guidelines.
++                                retirement planners, young professionals, and wealth builders. Each tool uses the standard, publicly
++                                documented formulas for compound interest, future value and present value, and every page shows the
++                                formula it applies so you can check the result yourself.
+                             </p>
+                             <p>
+                                 The <strong className="text-white">SIP Calculator</strong> (Systematic Investment Plan) projects the future 
+diff --git a/app/math/MathCategoryClient.tsx b/app/math/MathCategoryClient.tsx
+index 6fcc233..20bcf84 100644
+--- a/app/math/MathCategoryClient.tsx
++++ b/app/math/MathCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function MathCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>📐 <span className="font-semibold text-blue-400">{calculators.length}+ mathematics calculators</span> available — all free, all accurate</>
++                        <>📐 <span className="font-semibold text-blue-400">{calculators.length}+ mathematics calculators</span> available — all free to use</>
+                     ) : (
+                         <>📐 <span className="font-semibold text-blue-400">New mathematics calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/science/ScienceCategoryClient.tsx b/app/science/ScienceCategoryClient.tsx
+index a2535b8..0cc130a 100644
+--- a/app/science/ScienceCategoryClient.tsx
++++ b/app/science/ScienceCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function ScienceCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>🔬 <span className="font-semibold text-blue-400">{calculators.length}+ science calculators</span> available — all free, all accurate</>
++                        <>🔬 <span className="font-semibold text-blue-400">{calculators.length}+ science calculators</span> available — all free to use</>
+                     ) : (
+                         <>🔬 <span className="font-semibold text-blue-400">New science calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/tax/TaxCategoryClient.tsx b/app/tax/TaxCategoryClient.tsx
+index 9d68b16..e459d88 100644
+--- a/app/tax/TaxCategoryClient.tsx
++++ b/app/tax/TaxCategoryClient.tsx
+@@ -75,7 +75,7 @@ export default function TaxCategoryClient() {
+                     <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
+                         <span className="flex items-center gap-1">✓ Works on any device</span>
+-                        <span className="flex items-center gap-1">✓ GST & VAT compliant formulas</span>
++                        <span className="flex items-center gap-1">✓ Standard published formulas</span>
+                         <span className="flex items-center gap-1">✓ No data storage</span>
+                     </div>
+                 </div>
+@@ -83,7 +83,7 @@ export default function TaxCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>📋 <span className="font-semibold text-blue-400">{calculators.length}+ tax calculators</span> available — all free, all accurate</>
++                        <>📋 <span className="font-semibold text-blue-400">{calculators.length}+ tax calculators</span> available — all free to use</>
+                     ) : (
+                         <>📋 <span className="font-semibold text-blue-400">New tax calculators</span> being added weekly — check back soon!</>
+                     )}
+@@ -118,8 +118,9 @@ export default function TaxCategoryClient() {
+                             <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Tax Calculators?</h2>
+                             <p>
+                                 Our <strong className="text-white">tax calculators</strong> are designed for small business owners, 
+-                                freelancers, accountants, tax professionals, and individual taxpayers. Each tool uses standard 
+-                                tax formulas compliant with GST, VAT, and sales tax regulations in multiple jurisdictions.
++                                freelancers, accountants, tax professionals, and individual taxpayers. Each tool applies the standard
++                                arithmetic used for GST, VAT and sales tax. Rates differ by country and change over time, so enter the
++                                rate that applies to you and treat the result as an estimate to check with your tax professional.
+                             </p>
+                             <p>
+                                 The <strong className="text-white">GST Calculator</strong> (Goods and Services Tax) helps businesses 
+@@ -199,7 +200,7 @@ export default function TaxCategoryClient() {
+                             <a href="/business" className="text-blue-400 hover:underline mx-1">Business Tools</a>
+                         </p>
+                         <p className="mt-2 text-gray-600 text-[11px]">
+-                            <span className="text-gray-500">📋 GST, VAT & Sales tax compliant formulas | </span>
++                            <span className="text-gray-500">📋 GST, VAT and sales tax formulas | </span>
+                             <span className="text-gray-500">Results are estimates — verify with your tax professional</span>
+                         </p>
+                     </div>
+diff --git a/app/time/TimeCategoryClient.tsx b/app/time/TimeCategoryClient.tsx
+index e77cff9..a812ccf 100644
+--- a/app/time/TimeCategoryClient.tsx
++++ b/app/time/TimeCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function TimeCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>⏰ <span className="font-semibold text-blue-400">{calculators.length}+ time & date calculators</span> available — all free, all accurate</>
++                        <>⏰ <span className="font-semibold text-blue-400">{calculators.length}+ time & date calculators</span> available — all free to use</>
+                     ) : (
+                         <>⏰ <span className="font-semibold text-blue-400">New time & date calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/app/travel/TravelCategoryClient.tsx b/app/travel/TravelCategoryClient.tsx
+index 423c1d2..0ff9c48 100644
+--- a/app/travel/TravelCategoryClient.tsx
++++ b/app/travel/TravelCategoryClient.tsx
+@@ -83,7 +83,7 @@ export default function TravelCategoryClient() {
+                 {/* Calculators Count */}
+                 <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
+                     {calculators.length > 0 ? (
+-                        <>✈️ <span className="font-semibold text-blue-400">{calculators.length}+ travel calculators</span> available — all free, all accurate</>
++                        <>✈️ <span className="font-semibold text-blue-400">{calculators.length}+ travel calculators</span> available — all free to use</>
+                     ) : (
+                         <>✈️ <span className="font-semibold text-blue-400">New travel calculators</span> being added weekly — check back soon!</>
+                     )}
+diff --git a/components/calculators/DiscountCalculator.tsx b/components/calculators/DiscountCalculator.tsx
+index cde2085..3630188 100644
+--- a/components/calculators/DiscountCalculator.tsx
++++ b/components/calculators/DiscountCalculator.tsx
+@@ -1,21 +1,23 @@
+ // components/calculators/DiscountCalculator.tsx
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
++import CurrencySwitcher from "@/components/common/CurrencySwitcher";
++import { useCurrency } from "@/components/common/useCurrency";
+ 
+ const FAQ_DATA = [
+     {
+         q: "How do I calculate the discounted price?",
+-        a: "Discounted Price = Original Price × (1 - Discount% ÷ 100). Example: ₹1000 with 20% off = ₹1000 × 0.8 = ₹800. You save ₹200.",
++        a: "Discounted Price = Original Price × (1 - Discount% ÷ 100). Example: $1,000 with 20% off = $1,000 × 0.8 = $800. You save $200.",
+     },
+     {
+         q: "What is the difference between percentage off and fixed amount off?",
+-        a: "Percentage off reduces price by a percentage (e.g., 20% off). Fixed amount off reduces price by a specific amount (e.g., ₹200 off). Percentage off is better for higher-priced items, fixed amount off for lower-priced items.",
++        a: "Percentage off reduces price by a percentage (e.g., 20% off). Fixed amount off reduces price by a specific amount (e.g., $200 off). Percentage off is better for higher-priced items, fixed amount off for lower-priced items.",
+     },
+     {
+         q: "How to calculate the original price from discounted price?",
+-        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: ₹800 at 20% off = ₹800 ÷ 0.8 = ₹1000. Use our 'Reverse Discount' mode to calculate.",
++        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: $800 at 20% off = $800 ÷ 0.8 = $1,000. Use our 'Reverse Discount' mode to calculate.",
+     },
+     {
+         q: "What is a good discount percentage for sales?",
+@@ -23,11 +25,11 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is the difference between discount and markup?",
+-        a: "Discount reduces price from original (selling price). Markup adds to cost price to get selling price. Example: ₹1000 product with 20% discount = ₹800. ₹800 product with 25% markup = ₹1000. Different calculations give different results.",
++        a: "Discount reduces price from original (selling price). Markup adds to cost price to get selling price. Example: a $1,000 product with a 20% discount = $800. An $800 product with a 25% markup = $1,000. Different calculations give different results.",
+     },
+     {
+         q: "How to calculate the original price after discount?",
+-        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: You paid ₹800 with 20% discount. Original = ₹800 ÷ 0.8 = ₹1000. Works for both percentage and fixed discounts (convert fixed to % first).",
++        a: "Original Price = Discounted Price ÷ (1 - Discount%). Example: you paid $800 with a 20% discount. Original = $800 ÷ 0.8 = $1,000. Works for both percentage and fixed discounts (convert fixed to % first).",
+     },
+     {
+         q: "What is the average discount during sale seasons?",
+@@ -35,7 +37,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to calculate multiple discounts (stacking)?",
+-        a: "Apply discounts sequentially, not add percentages. Example: ₹1000 with 20% off = ₹800, then additional 10% off = ₹720. Total discount = 28%, not 30%. Use our stacking calculator mode for accurate results.",
++        a: "Apply discounts sequentially, not add percentages. Example: $1,000 with 20% off = $800, then an additional 10% off = $720. Total discount = 28%, not 30%. Use our stacking calculator mode for accurate results.",
+     },
+     {
+         q: "What is the buy-one-get-one discount equivalent?",
+@@ -57,61 +59,70 @@ const DISCOUNT_SCHEMA = JSON.stringify({
+     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+ });
+ 
++/** Starting values, so the page shows a worked example instead of an empty box. */
++const DEFAULT_PRICE = "1000";
++const DEFAULT_DISCOUNT = "20";
++
+ export default function DiscountCalculator() {
+-    const [originalPrice, setOriginalPrice] = useState("");
++    const { symbol, money } = useCurrency();
++
++    const [originalPrice, setOriginalPrice] = useState(DEFAULT_PRICE);
+     const [discountType, setDiscountType] = useState<"percentage" | "fixed">("percentage");
+-    const [discountValue, setDiscountValue] = useState("");
++    const [discountValue, setDiscountValue] = useState(DEFAULT_DISCOUNT);
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+-    const calculate = () => {
++    // Recalculate as the visitor types, instead of hiding the answer behind a button.
++    useEffect(() => {
+         const price = parseFloat(originalPrice);
+         const discount = parseFloat(discountValue);
+ 
+-        if (!price || isNaN(price) || price <= 0) {
+-            alert("Please enter a valid original price");
++        if (!Number.isFinite(price) || price <= 0 || !Number.isFinite(discount) || discount <= 0) {
++            setResult(null);
+             return;
+         }
+-
+-        if (!discount || isNaN(discount) || discount <= 0) {
+-            alert("Please enter a valid discount value");
++        if (discountType === "percentage" && discount > 100) {
++            setResult(null);
+             return;
+         }
+-
+-        let finalPrice, savings, discountPercent;
+-
+-        if (discountType === "percentage") {
+-            if (discount > 100) {
+-                alert("Discount percentage cannot exceed 100%");
+-                return;
+-            }
+-            discountPercent = discount;
+-            savings = price * (discount / 100);
+-            finalPrice = price - savings;
+-        } else {
+-            if (discount > price) {
+-                alert("Discount amount cannot exceed original price");
+-                return;
+-            }
+-            savings = discount;
+-            finalPrice = price - discount;
+-            discountPercent = (discount / price) * 100;
++        if (discountType === "fixed" && discount > price) {
++            setResult(null);
++            return;
+         }
+ 
++        const savings = discountType === "percentage" ? price * (discount / 100) : discount;
++        const finalPrice = price - savings;
++        const discountPercent = discountType === "percentage" ? discount : (discount / price) * 100;
++
+         setResult({
+-            originalPrice: price.toLocaleString("en-IN"),
+-            finalPrice: finalPrice.toLocaleString("en-IN"),
+-            savings: savings.toLocaleString("en-IN"),
++            originalPrice: price,
++            finalPrice,
++            savings,
+             discountPercent: discountPercent.toFixed(1),
+-            discountType: discountType === "percentage" ? `${discountValue}% off` : `₹${discountValue} off`,
++            isPercentage: discountType === "percentage",
++            discountValue: discount,
+         });
++    }, [originalPrice, discountType, discountValue]);
++
++    // The result is already live, so the button only nudges invalid input back to
++    // something sensible. It replaced a chain of alert() popups, which blocked the
++    // page and gave the visitor nothing useful.
++    const calculate = () => {
++        const price = parseFloat(originalPrice);
++        const discount = parseFloat(discountValue);
++
++        if (!Number.isFinite(price) || price <= 0) setOriginalPrice(DEFAULT_PRICE);
++        if (!Number.isFinite(discount) || discount <= 0) setDiscountValue(DEFAULT_DISCOUNT);
++        if (discountType === "percentage" && discount > 100) setDiscountValue(DEFAULT_DISCOUNT);
++        if (discountType === "fixed" && Number.isFinite(price) && discount > price) {
++            setDiscountValue(String(Math.round(price / 5)));
++        }
+     };
+ 
+     const resetForm = () => {
+-        setOriginalPrice("");
++        setOriginalPrice(DEFAULT_PRICE);
+         setDiscountType("percentage");
+-        setDiscountValue("");
+-        setResult(null);
++        setDiscountValue(DEFAULT_DISCOUNT);
+     };
+ 
+     return (
+@@ -134,25 +145,27 @@ export default function DiscountCalculator() {
+                         <h3 className="font-semibold">Sale Price Calculator</h3>
+                     </div>
+                     <div className="p-6 space-y-4">
++                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
++
+                         <div>
+                             <label className="block text-xs font-semibold text-gray-400 mb-2">Original Price</label>
+                             <div className="relative">
+-                                <input type="number" placeholder="1000" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                <input type="number" placeholder={DEFAULT_PRICE} value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
++                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                             </div>
+                         </div>
+                         <div>
+                             <label className="block text-xs font-semibold text-gray-400 mb-2">Discount Type</label>
+                             <div className="grid grid-cols-2 gap-3">
+                                 <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "percentage" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("percentage")}>Percentage (%)</button>
+-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "fixed" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("fixed")}>Fixed Amount (₹)</button>
++                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${discountType === "fixed" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setDiscountType("fixed")}>Fixed Amount ({symbol})</button>
+                             </div>
+                         </div>
+                         <div>
+                             <label className="block text-xs font-semibold text-gray-400 mb-2">{discountType === "percentage" ? "Discount Percentage" : "Discount Amount"}</label>
+                             <div className="relative">
+                                 <input type="number" placeholder={discountType === "percentage" ? "20" : "200"} value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{discountType === "percentage" ? "%" : "₹"}</span>
++                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{discountType === "percentage" ? "%" : symbol}</span>
+                             </div>
+                         </div>
+                         <div className="flex gap-3">
+@@ -167,11 +180,11 @@ export default function DiscountCalculator() {
+                     isEmpty={!result}
+                     emptyIcon="🏷️"
+                     emptyText="Enter price and discount to calculate savings"
+-                    mainResult={result ? { label: "Final Price", value: `₹${result.finalPrice}`, color: "text-green-400" } : undefined}
++                    mainResult={result ? { label: "Final Price", value: money(result.finalPrice, 2), color: "text-green-400" } : undefined}
+                     extraRows={result ? [
+-                        { label: "Original Price", value: `₹${result.originalPrice}` },
+-                        { label: "You Save", value: `₹${result.savings}`, valueColor: "text-green-400" },
+-                        { label: "Discount Applied", value: result.discountType },
++                        { label: "Original Price", value: money(result.originalPrice, 2) },
++                        { label: "You Save", value: money(result.savings, 2), valueColor: "text-green-400" },
++                        { label: "Discount Applied", value: result.isPercentage ? `${result.discountValue}% off` : `${money(result.discountValue, 2)} off` },
+                         { label: "Effective Discount", value: `${result.discountPercent}%` },
+                     ] : undefined}
+                 />
+@@ -186,7 +199,7 @@ export default function DiscountCalculator() {
+                     The <strong className="text-gray-300">Discount Calculator</strong> helps shoppers, business owners, and deal hunters calculate final prices after discounts instantly. Whether you're shopping online during a sale, comparing deals, or setting prices for your products, get accurate results in seconds.
+                 </p>
+                 <p className="text-gray-400 text-sm leading-relaxed">
+-                    Calculate both percentage discounts (20% off) and fixed amount discounts (₹200 off). See exactly how much you save and the effective discount percentage. Perfect for Black Friday, Diwali sales, End of Season sales, and everyday shopping.
++                    Calculate both percentage discounts (20% off) and fixed amount discounts ($200 off). See exactly how much you save and the effective discount percentage. Useful for Black Friday, Cyber Monday, Boxing Day, end-of-season sales and everyday shopping.
+                 </p>
+             </section>
+ 
+@@ -195,8 +208,8 @@ export default function DiscountCalculator() {
+                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Discount Calculator</h2>
+                 <div className="space-y-3">
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">original price</strong> of the product.</p>
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select <strong className="text-white">discount type</strong> — Percentage (%) or Fixed Amount (₹).</p>
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">discount value</strong> (e.g., 20 for 20% off, or 200 for ₹200 off).</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select <strong className="text-white">discount type</strong> — Percentage (%) or Fixed Amount.</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">discount value</strong> (e.g., 20 for 20% off, or 200 for 200 off in your chosen currency).</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Discount"</strong> to see final price and savings.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use <strong className="text-white">Reset</strong> to clear all fields and calculate a new discount.</p>
+                 </div>
+@@ -220,7 +233,7 @@ export default function DiscountCalculator() {
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Deal Comparison</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Compare percentage discounts vs fixed amount discounts. Which saves you more? ₹200 off vs 15% off on ₹1500 product? Our calculator tells you.</p>
++                        <p className="text-gray-400 text-xs leading-relaxed">Compare percentage discounts vs fixed amount discounts. Which saves you more? $200 off vs 15% off on a $1,500 product? Our calculator tells you.</p>
+                     </div>
+                 </div>
+             </section>
+@@ -231,11 +244,11 @@ export default function DiscountCalculator() {
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">Percentage Discount (%)</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by a percentage (e.g., 20% off). Best for: High-priced items (electronics, appliances, furniture). Savings increase with price. Example: ₹1000 product with 20% off = ₹800 savings.</p>
++                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by a percentage (e.g., 20% off). Best for: High-priced items (electronics, appliances, furniture). Savings increase with price. Example: a $1,000 product with 20% off = $800.</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Fixed Amount Discount (₹)</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by specific amount (e.g., ₹200 off). Best for: Low-priced items (grocery, cosmetics, books). Example: ₹500 product with ₹200 off = 40% effective discount, better than 20% off.</p>
++                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Fixed Amount Discount</h3>
++                        <p className="text-gray-400 text-xs leading-relaxed">Reduces price by specific amount (e.g., $200 off). Best for: Low-priced items (grocery, cosmetics, books). Example: a $500 product with $200 off = a 40% effective discount, better than 20% off.</p>
+                     </div>
+                 </div>
+             </section>
+@@ -273,9 +286,9 @@ export default function DiscountCalculator() {
+                 <h2 className="text-xl font-semibold text-white mb-4">Discount Formula</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                     <p className="text-white font-mono text-sm mb-2">Final Price = Original Price × (1 - Discount % ÷ 100)</p>
+-                    <p className="text-gray-500 text-xs">Example: ₹1000 with 20% off = ₹1000 × 0.8 = ₹800</p>
++                    <p className="text-gray-500 text-xs">Example: $1,000 with 20% off = $1,000 × 0.8 = $800</p>
+                     <p className="text-white font-mono text-sm mt-3">Savings = Original Price - Final Price</p>
+-                    <p className="text-gray-500 text-xs">Example: ₹1000 - ₹800 = ₹200 saved</p>
++                    <p className="text-gray-500 text-xs">Example: $1,000 − $800 = $200 saved</p>
+                 </div>
+             </section>
+ 
+diff --git a/components/calculators/MarkupCalculator.tsx b/components/calculators/MarkupCalculator.tsx
+index b429c94..72ba7ba 100644
+--- a/components/calculators/MarkupCalculator.tsx
++++ b/components/calculators/MarkupCalculator.tsx
+@@ -1,22 +1,24 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
++import CurrencySwitcher from "@/components/common/CurrencySwitcher";
++import { useCurrency } from "@/components/common/useCurrency";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+ 
+ const FAQ_DATA = [
+     {
+         q: "What is markup and how is it calculated?",
+-        a: "Markup is the amount you add to the cost price to determine the selling price. Formula: Markup = (Selling Price - Cost Price) ÷ Cost Price × 100. Example: Cost ₹100, Selling ₹150 → Markup = (150-100) ÷ 100 × 100 = 50%. A 50% markup means you added 50% to your cost.",
++        a: "Markup is the amount you add to the cost price to determine the selling price. Formula: Markup = (Selling Price - Cost Price) ÷ Cost Price × 100. Example: cost $100, selling $150 → Markup = (150 − 100) ÷ 100 × 100 = 50%. A 50% markup means you added 50% to your cost.",
+     },
+     {
+         q: "What is the difference between markup and margin?",
+-        a: "Markup is based on cost price. Margin is based on selling price. Same numbers give different percentages. Example: Cost ₹100, Selling ₹150 → Markup = 50%, Margin = 33.3%. Margin tells profit per sale, markup tells how much to increase cost. Never confuse them — it can ruin your pricing.",
++        a: "Markup is based on cost price. Margin is based on selling price. Same numbers give different percentages. Example: cost $100, selling $150 → Markup = 50%, Margin = 33.3%. Margin tells profit per sale, markup tells how much to increase cost. Never confuse them — it can ruin your pricing.",
+     },
+     {
+         q: "How to calculate selling price from cost and markup?",
+-        a: "Selling Price = Cost Price × (1 + Markup/100). Example: Cost ₹100, want 50% markup → Selling Price = 100 × 1.50 = ₹150. Use this when you know your cost and desired profit percentage.",
++        a: "Selling Price = Cost Price × (1 + Markup/100). Example: cost $100, want a 50% markup → Selling Price = 100 × 1.50 = $150. Use this when you know your cost and desired profit percentage.",
+     },
+     {
+         q: "What is a good markup percentage?",
+@@ -24,15 +26,15 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to calculate cost price from selling price and markup?",
+-        a: "Cost Price = Selling Price ÷ (1 + Markup/100). Example: Selling ₹150, markup 50% → Cost = 150 ÷ 1.50 = ₹100. Useful when you know competitor's selling price and want to work backwards.",
++        a: "Cost Price = Selling Price ÷ (1 + Markup/100). Example: selling $150, markup 50% → Cost = 150 ÷ 1.50 = $100. Useful when you know competitor's selling price and want to work backwards.",
+     },
+     {
+         q: "What is keystone markup?",
+-        a: "Keystone markup is doubling the cost price — a 100% markup. Example: Cost ₹50, Selling ₹100. Common in retail, especially for jewelry, gifts, and specialty items. It's easy to calculate but not always optimal for all products.",
++        a: "Keystone markup is doubling the cost price — a 100% markup. Example: cost $50, selling $100. Common in retail, especially for jewelry, gifts, and specialty items. It's easy to calculate but not always optimal for all products.",
+     },
+     {
+         q: "How to calculate selling price with markup and tax?",
+-        a: "Selling Price = (Cost × (1 + Markup/100)) × (1 + Tax/100). Example: Cost ₹100, Markup 50%, GST 18% = (100 × 1.5) × 1.18 = ₹177. Add tax after markup, not before. Our calculator shows pre-tax and post-tax prices.",
++        a: "Selling Price = (Cost × (1 + Markup/100)) × (1 + Tax/100). Example: cost $100, markup 50%, sales tax 18% = (100 × 1.5) × 1.18 = $177. Add tax after markup, not before. Our calculator shows pre-tax and post-tax prices.",
+     },
+     {
+         q: "What is a good markup percentage for retail?",
+@@ -44,7 +46,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is the difference between markup and profit?",
+-        a: "Markup % is the percentage added to cost price. Profit is actual money earned. Example: Cost ₹100, 50% markup = ₹150 selling price. If you sell 100 units, revenue ₹15,000, profit ₹5,000 (₹50/unit). Markup helps set price, profit measures success.",
++        a: "Markup % is the percentage added to cost price. Profit is actual money earned. Example: cost $100, 50% markup = $150 selling price. Sell 100 units and revenue is $15,000 with $5,000 profit ($50/unit). Markup helps set price, profit measures success.",
+     },
+ ];
+ 
+@@ -95,11 +97,18 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
++/** Starting values, so the page opens on a worked example rather than an empty box. */
++const DEFAULT_COST = "100";
++const DEFAULT_SELLING = "150";
++const DEFAULT_MARKUP = "50";
++
+ export default function MarkupCalculator() {
+     const [calcType, setCalcType] = useState<"markup" | "price" | "cost">("markup");
+-    const [costPrice, setCostPrice] = useState("");
+-    const [sellingPrice, setSellingPrice] = useState("");
+-    const [markupPercent, setMarkupPercent] = useState("");
++    const { symbol, money } = useCurrency();
++
++    const [costPrice, setCostPrice] = useState(DEFAULT_COST);
++    const [sellingPrice, setSellingPrice] = useState(DEFAULT_SELLING);
++    const [markupPercent, setMarkupPercent] = useState(DEFAULT_MARKUP);
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -109,12 +118,12 @@ export default function MarkupCalculator() {
+             const selling = parseFloat(sellingPrice);
+ 
+             if (!cost || !selling || cost <= 0 || selling <= 0) {
+-                alert("Please enter valid cost price and selling price");
++                setResult(null);
+                 return;
+             }
+ 
+             if (selling < cost) {
+-                alert("Selling price cannot be less than cost price (that would be a loss)");
++                setResult(null);
+                 return;
+             }
+ 
+@@ -125,9 +134,9 @@ export default function MarkupCalculator() {
+             setResult({
+                 markup: markup.toFixed(2),
+                 margin: margin.toFixed(2),
+-                profit: profit.toFixed(2),
+-                cost: cost.toFixed(2),
+-                selling: selling.toFixed(2),
++                profit,
++                cost,
++                selling,
+                 calcType: "markup",
+             });
+         }
+@@ -136,11 +145,11 @@ export default function MarkupCalculator() {
+             const markup = parseFloat(markupPercent);
+ 
+             if (!cost || cost <= 0) {
+-                alert("Please enter valid cost price");
++                setResult(null);
+                 return;
+             }
+             if (!markup || markup <= 0) {
+-                alert("Please enter valid markup percentage");
++                setResult(null);
+                 return;
+             }
+ 
+@@ -149,10 +158,10 @@ export default function MarkupCalculator() {
+             const profit = selling - cost;
+ 
+             setResult({
+-                sellingPrice: selling.toFixed(2),
++                sellingPrice: selling,
+                 margin: margin.toFixed(2),
+-                profit: profit.toFixed(2),
+-                cost: cost.toFixed(2),
++                profit,
++                cost,
+                 markup: markup.toFixed(2),
+                 calcType: "price",
+             });
+@@ -162,11 +171,11 @@ export default function MarkupCalculator() {
+             const markup = parseFloat(markupPercent);
+ 
+             if (!selling || selling <= 0) {
+-                alert("Please enter valid selling price");
++                setResult(null);
+                 return;
+             }
+             if (!markup || markup <= 0) {
+-                alert("Please enter valid markup percentage");
++                setResult(null);
+                 return;
+             }
+ 
+@@ -175,10 +184,10 @@ export default function MarkupCalculator() {
+             const profit = selling - cost;
+ 
+             setResult({
+-                costPrice: cost.toFixed(2),
++                costPrice: cost,
+                 margin: margin.toFixed(2),
+-                profit: profit.toFixed(2),
+-                selling: selling.toFixed(2),
++                profit,
++                selling,
+                 markup: markup.toFixed(2),
+                 calcType: "cost",
+             });
+@@ -187,12 +196,15 @@ export default function MarkupCalculator() {
+ 
+     const resetForm = () => {
+         setCalcType("markup");
+-        setCostPrice("");
+-        setSellingPrice("");
+-        setMarkupPercent("");
+-        setResult(null);
++        setCostPrice(DEFAULT_COST);
++        setSellingPrice(DEFAULT_SELLING);
++        setMarkupPercent(DEFAULT_MARKUP);
+     };
+ 
++    // Show the answer as the visitor types rather than behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [calcType, costPrice, sellingPrice, markupPercent]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+@@ -226,6 +238,8 @@ export default function MarkupCalculator() {
+                         <p className="text-xs text-gray-500 mt-1">Set your prices to make profit</p>
+                     </div>
+                     <div className="p-6 space-y-4">
++                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
++
+                         <div>
+                             <label className="block text-xs font-semibold text-gray-400 mb-2">What do you want to calculate?</label>
+                             <div className="grid grid-cols-3 gap-2">
+@@ -253,7 +267,7 @@ export default function MarkupCalculator() {
+                         {calcType === "markup" && (
+                             <>
+                                 <div>
+-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price (₹)</label>
++                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
+                                     <div className="relative">
+                                         <input
+                                             type="number"
+@@ -262,11 +276,11 @@ export default function MarkupCalculator() {
+                                             onChange={(e) => setCostPrice(e.target.value)}
+                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         />
+-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                     </div>
+                                 </div>
+                                 <div>
+-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price (₹)</label>
++                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
+                                     <div className="relative">
+                                         <input
+                                             type="number"
+@@ -275,7 +289,7 @@ export default function MarkupCalculator() {
+                                             onChange={(e) => setSellingPrice(e.target.value)}
+                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         />
+-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                     </div>
+                                 </div>
+                             </>
+@@ -284,7 +298,7 @@ export default function MarkupCalculator() {
+                         {calcType === "price" && (
+                             <>
+                                 <div>
+-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price (₹)</label>
++                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
+                                     <div className="relative">
+                                         <input
+                                             type="number"
+@@ -293,7 +307,7 @@ export default function MarkupCalculator() {
+                                             onChange={(e) => setCostPrice(e.target.value)}
+                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         />
+-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                     </div>
+                                 </div>
+                                 <div>
+@@ -315,7 +329,7 @@ export default function MarkupCalculator() {
+                         {calcType === "cost" && (
+                             <>
+                                 <div>
+-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price (₹)</label>
++                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
+                                     <div className="relative">
+                                         <input
+                                             type="number"
+@@ -324,7 +338,7 @@ export default function MarkupCalculator() {
+                                             onChange={(e) => setSellingPrice(e.target.value)}
+                                             className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                         />
+-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                     </div>
+                                 </div>
+                                 <div>
+@@ -365,23 +379,23 @@ export default function MarkupCalculator() {
+                     title="Markup Results"
+                     isEmpty={!result}
+                     emptyIcon="🏷️"
+-                    emptyText="Enter your numbers and press Calculate"
++                    emptyText="Enter your numbers to see the markup"
+                     mainResult={result ? {
+                         label: calcType === "markup" ? "Markup Percentage" : calcType === "price" ? "Selling Price" : "Cost Price",
+-                        value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? `₹${result.sellingPrice}` : `₹${result.costPrice}`,
++                        value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? money(result.sellingPrice, 2) : money(result.costPrice, 2),
+                         color: "text-green-400"
+                     } : undefined}
+                     extraRows={result ? [
+                         { label: "Profit Margin", value: `${result.margin}%`, valueColor: "text-yellow-400" },
+-                        { label: "Profit Amount", value: `₹${result.profit}`, valueColor: "text-green-400" },
++                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-400" },
+                         ...(calcType === "markup" ? [
+-                            { label: "Cost Price", value: `₹${result.cost}` },
+-                            { label: "Selling Price", value: `₹${result.selling}` },
++                            { label: "Cost Price", value: money(result.cost, 2) },
++                            { label: "Selling Price", value: money(result.selling, 2) },
+                         ] : calcType === "price" ? [
+-                            { label: "Cost Price", value: `₹${result.cost}` },
++                            { label: "Cost Price", value: money(result.cost, 2) },
+                             { label: "Markup Used", value: `${result.markup}%` },
+                         ] : [
+-                            { label: "Selling Price", value: `₹${result.selling}` },
++                            { label: "Selling Price", value: money(result.selling, 2) },
+                             { label: "Markup Used", value: `${result.markup}%` },
+                         ]),
+                     ] : []}
+@@ -442,7 +456,7 @@ export default function MarkupCalculator() {
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div>
+-                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost ₹100, Selling ₹150</p>
++                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost $100, Selling $150</p>
+                             <p className="text-sm text-blue-400 mt-2">Markup = 50% (based on cost)</p>
+                             <p className="text-sm text-green-400">Margin = 33.3% (based on selling price)</p>
+                         </div>
+diff --git a/components/calculators/StudentLoanCalculator.tsx b/components/calculators/StudentLoanCalculator.tsx
+index 19dfc19..6f429fe 100644
+--- a/components/calculators/StudentLoanCalculator.tsx
++++ b/components/calculators/StudentLoanCalculator.tsx
+@@ -1,7 +1,9 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
++import CurrencySwitcher from "@/components/common/CurrencySwitcher";
++import { useCurrency } from "@/components/common/useCurrency";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+ 
+@@ -86,38 +88,57 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ 
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
++/**
++ * Starting values, so the page opens on a worked example rather than an empty
++ * box. Chosen to look like a typical US undergraduate balance on the standard
++ * 10-year federal repayment plan — a reader can see the shape of the answer
++ * before touching anything.
++ */
++const DEFAULT_AMOUNT = "30000";
++const DEFAULT_RATE = "6.5";
++const DEFAULT_TERM = "10";
++const DEFAULT_EXTRA = "100";
++
+ export default function StudentLoanCalculator() {
+-    const [loanAmount, setLoanAmount] = useState("");
+-    const [interestRate, setInterestRate] = useState("");
+-    const [loanTerm, setLoanTerm] = useState("10");
+-    const [extraPayment, setExtraPayment] = useState("");
++    const { symbol, money } = useCurrency();
++
++    const [loanAmount, setLoanAmount] = useState(DEFAULT_AMOUNT);
++    const [interestRate, setInterestRate] = useState(DEFAULT_RATE);
++    const [loanTerm, setLoanTerm] = useState(DEFAULT_TERM);
++    const [extraPayment, setExtraPayment] = useState(DEFAULT_EXTRA);
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+     const resetForm = () => {
+-        setLoanAmount("");
+-        setInterestRate("");
+-        setLoanTerm("10");
+-        setExtraPayment("");
+-        setResult(null);
++        setLoanAmount(DEFAULT_AMOUNT);
++        setInterestRate(DEFAULT_RATE);
++        setLoanTerm(DEFAULT_TERM);
++        setExtraPayment(DEFAULT_EXTRA);
+     };
+ 
++    // The result updates as you type, so this only repairs empty or invalid input.
+     const calculate = () => {
++        if (!(parseFloat(loanAmount) > 0)) setLoanAmount(DEFAULT_AMOUNT);
++        if (!(parseFloat(interestRate) > 0)) setInterestRate(DEFAULT_RATE);
++        if (!(parseFloat(loanTerm) > 0)) setLoanTerm(DEFAULT_TERM);
++    };
++
++    // Recalculate as the visitor types. The arithmetic below is unchanged.
++    useEffect(() => {
+         const principal = parseFloat(loanAmount) || 0;
+         const rate = (parseFloat(interestRate) || 0) / 100 / 12;
+         const months = (parseFloat(loanTerm) || 10) * 12;
+         const extra = parseFloat(extraPayment) || 0;
+ 
+-        if (principal <= 0 || rate <= 0) {
+-            alert("Please enter valid loan amount and interest rate");
++        if (principal <= 0 || rate <= 0 || months <= 0) {
++            setResult(null);
+             return;
+         }
+ 
+-        // Standard monthly payment (EMI)
+-        let monthlyPayment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
++        const monthlyPayment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
+ 
+-        if (isNaN(monthlyPayment) || !isFinite(monthlyPayment)) {
+-            alert("Unable to calculate. Please check your inputs.");
++        if (!Number.isFinite(monthlyPayment)) {
++            setResult(null);
+             return;
+         }
+ 
+@@ -151,19 +172,19 @@ export default function StudentLoanCalculator() {
+         const totalPaymentWithExtra = totalInterestWithExtra + principal;
+ 
+         setResult({
+-            monthlyPayment: monthlyPayment.toFixed(2),
+-            totalPayment: totalPaymentStandard.toFixed(2),
+-            totalInterest: totalInterestStandard.toFixed(2),
+-            monthlyWithExtra: (monthlyPayment + extra).toFixed(2),
++            monthlyPayment,
++            totalPayment: totalPaymentStandard,
++            totalInterest: totalInterestStandard,
++            monthlyWithExtra: monthlyPayment + extra,
+             newMonths: actualMonths,
+-            timeSavedYears: timeSavedYears,
++            timeSavedYears,
+             timeSavedMonths: timeSavedRemainingMonths,
+-            interestSaved: interestSaved.toFixed(2),
+-            extraPayment: extra.toFixed(2),
+-            totalPaymentWithExtra: totalPaymentWithExtra.toFixed(2),
+-            totalInterestWithExtra: totalInterestWithExtra.toFixed(2),
++            interestSaved,
++            extraPayment: extra,
++            totalPaymentWithExtra,
++            totalInterestWithExtra,
+         });
+-    };
++    }, [loanAmount, interestRate, loanTerm, extraPayment]);
+ 
+     return (
+         <>
+@@ -198,8 +219,10 @@ export default function StudentLoanCalculator() {
+                         <p className="text-xs text-gray-500 mt-1">Enter your student loan information</p>
+                     </div>
+                     <div className="p-6 space-y-4">
++                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
++
+                         <div>
+-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Loan Amount (₹)</label>
++                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Loan Amount ({symbol})</label>
+                             <div className="relative">
+                                 <input
+                                     type="number"
+@@ -209,7 +232,7 @@ export default function StudentLoanCalculator() {
+                                     onChange={(e) => setLoanAmount(e.target.value)}
+                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                 />
+-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                             </div>
+                         </div>
+ 
+@@ -245,7 +268,7 @@ export default function StudentLoanCalculator() {
+                         </div>
+ 
+                         <div>
+-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment (₹)</label>
++                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment ({symbol})</label>
+                             <div className="relative">
+                                 <input
+                                     type="number"
+@@ -255,7 +278,7 @@ export default function StudentLoanCalculator() {
+                                     onChange={(e) => setExtraPayment(e.target.value)}
+                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                 />
+-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                             </div>
+                             <p className="text-xs text-gray-500 mt-1">Optional: Pay extra to save interest and time</p>
+                         </div>
+@@ -282,16 +305,16 @@ export default function StudentLoanCalculator() {
+                     title="Loan Repayment Summary"
+                     isEmpty={!result}
+                     emptyIcon="📚"
+-                    emptyText="Enter loan details to calculate EMI"
+-                    mainResult={result ? { label: "Monthly Payment (EMI)", value: `₹${parseFloat(result.monthlyPayment).toLocaleString()}`, color: "text-teal-400" } : undefined}
++                    emptyText="Enter your loan details to see the monthly payment"
++                    mainResult={result ? { label: "Monthly Payment", value: money(result.monthlyPayment, 2), color: "text-teal-400" } : undefined}
+                     extraRows={result ? [
+-                        { label: "Total Payment (Principal + Interest)", value: `₹${parseFloat(result.totalPayment).toLocaleString()}` },
+-                        { label: "Total Interest Paid", value: `₹${parseFloat(result.totalInterest).toLocaleString()}`, valueColor: "text-yellow-400" },
+-                        { label: "With Extra ₹${parseFloat(result.extraPayment).toLocaleString()}/month", value: `₹${parseFloat(result.monthlyWithExtra).toLocaleString()}`, valueColor: "text-blue-400" },
++                        { label: "Total Payment (Principal + Interest)", value: money(result.totalPayment, 2) },
++                        { label: "Total Interest Paid", value: money(result.totalInterest, 2), valueColor: "text-yellow-400" },
++                        { label: `With Extra ${money(result.extraPayment, 0)}/month`, value: money(result.monthlyWithExtra, 2), valueColor: "text-blue-400" },
+                         { label: "New Loan Term", value: `${result.newMonths} months (${Math.floor(result.newMonths / 12)} years ${result.newMonths % 12} months)` },
+                         { label: "Time Saved", value: `${result.timeSavedYears}y ${result.timeSavedMonths}m`, valueColor: "text-green-400" },
+-                        { label: "Interest Saved", value: `₹${parseFloat(result.interestSaved).toLocaleString()}`, valueColor: "text-green-400" },
+-                        { label: "Total Interest (with Extra)", value: `₹${parseFloat(result.totalInterestWithExtra).toLocaleString()}`, valueColor: "text-purple-400" },
++                        { label: "Interest Saved", value: money(result.interestSaved, 2), valueColor: "text-green-400" },
++                        { label: "Total Interest (with Extra)", value: money(result.totalInterestWithExtra, 2), valueColor: "text-purple-400" },
+                     ] : []}
+                 />
+             </div>
+@@ -397,7 +420,7 @@ export default function StudentLoanCalculator() {
+                         </div>
+                     </div>
+                     <div className="mt-4 pt-4 border-t border-gray-800 text-center">
+-                        <p className="text-gray-300 text-sm">🏦 Paying just ₹500-1000 extra per month can save thousands in interest and cut years off your loan term.</p>
++                        <p className="text-gray-300 text-sm">🏦 Paying even $50-100 extra per month can save thousands in interest and cut years off your loan term.</p>
+                     </div>
+                 </div>
+             </section>
+diff --git a/components/calculators/TipCalculator.tsx b/components/calculators/TipCalculator.tsx
+index 9cade66..549d207 100644
+--- a/components/calculators/TipCalculator.tsx
++++ b/components/calculators/TipCalculator.tsx
+@@ -1,7 +1,9 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
++import CurrencySwitcher from "@/components/common/CurrencySwitcher";
++import { useCurrency } from "@/components/common/useCurrency";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+ 
+@@ -12,23 +14,23 @@ const FAQ_DATA = [
+     },
+     {
+         q: "Should I tip on the total bill including tax?",
+-        a: "Most people tip on the subtotal (before tax), but tipping on the total including tax is fine too. The difference is usually small. Example: ₹1000 bill + 10% tax = ₹1100 total. 15% on subtotal = ₹150, on total = ₹165 (₹15 difference). For simplicity, many people tip on the total to avoid mental math. Our calculator lets you choose either method.",
++        a: "Most people tip on the subtotal (before tax), but tipping on the total including tax is fine too. The difference is usually small. Example: a $100 bill + 10% tax = $110 total. 15% on the subtotal = $15, on the total = $16.50 — a $1.50 difference. For simplicity, many people tip on the total to avoid mental math. Our calculator lets you choose either method.",
+     },
+     {
+         q: "How to calculate tip quickly in my head?",
+-        a: "10% tip = move decimal one place left (₹850 → ₹85). 15% tip = 10% + half of 10% (₹85 + ₹42.5 = ₹127.5). 20% tip = double the 10% (₹85 × 2 = ₹170). This mental math trick works for any bill amount. For exact calculations, use our calculator. For quick estimates: round up to the nearest ₹100 for easier math.",
++        a: "10% tip = move the decimal one place left ($85 → $8.50). 15% tip = 10% plus half of 10% ($8.50 + $4.25 = $12.75). 20% tip = double the 10% ($8.50 × 2 = $17). This mental math trick works for any bill amount. For exact calculations, use our calculator. For quick estimates, round up to the nearest dollar.",
+     },
+     {
+         q: "Should I tip for takeout orders?",
+-        a: "Yes, 10-15% is customary for takeout, especially for large orders. The kitchen staff still prepares your food, and packaging takes time. For coffee shops, ₹20-50 or rounding up is fine. For small orders (under ₹500), a flat tip of ₹50-100 is appreciated. Consider tipping more for complex orders or during busy times.",
++        a: "Yes, 10-15% is customary for takeout, especially for large orders. The kitchen staff still prepares your food, and packaging takes time. For coffee shops, $1-2 or rounding up is fine. For small orders (under $20), a flat tip of $2-3 is appreciated. Consider tipping more for complex orders or during busy times.",
+     },
+     {
+         q: "Do I tip on delivery orders?",
+-        a: "Yes, delivery drivers should be tipped 15-20% or minimum ₹50-100. They use their own vehicles and gas, and often work in challenging conditions. During bad weather or holidays, tip more (25%+). Some apps add a delivery fee — that doesn't go to the driver. Tip in cash when possible so the driver gets the full amount. For large orders, tip based on the total bill amount.",
++        a: "Yes, delivery drivers should be tipped 15-20%, or a minimum of $3-5. They use their own vehicles and gas, and often work in challenging conditions. During bad weather or holidays, tip more (25%+). Some apps add a delivery fee — that doesn't go to the driver. Tip in cash when possible so the driver gets the full amount. For large orders, tip based on the total bill amount.",
+     },
+     {
+         q: "How to split tip among friends?",
+-        a: "Calculate total tip, add to bill, divide by number of people. Example: Bill ₹4000, tip 18% = ₹720, total ₹4720. Split 4 ways = ₹1180 each. Use our split bill feature to calculate easily. For uneven splits (someone had more), calculate each person's share based on what they ordered. Most restaurants can split bills by item if requested.",
++        a: "Calculate total tip, add to bill, divide by number of people. Example: a $120 bill, tip 18% = $21.60, total $141.60. Split 4 ways = $35.40 each. Use our split bill feature to calculate easily. For uneven splits (someone had more), calculate each person's share based on what they ordered. Most restaurants can split bills by item if requested.",
+     },
+     {
+         q: "What is the difference between tip and service charge?",
+@@ -44,7 +46,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is the 20% rule for tipping?",
+-        a: "The 20% rule is a modern guideline for excellent service. It's becoming the new standard in many US cities. 20% of the bill = generous tip for good service, 25%+ = exceptional. Many people find 20% easier to calculate (double the 10% tip). For bills under ₹1000, rounding up to the next ₹100 or ₹200 is common. Use our calculator for exact amounts, or remember: 20% = divide by 5.",
++        a: "The 20% rule is a modern guideline for excellent service. It's becoming the new standard in many US cities. 20% of the bill = generous tip for good service, 25%+ = exceptional. Many people find 20% easier to calculate (double the 10% tip). On a small bill, rounding up to the next dollar or two is common. Use our calculator for exact amounts, or remember: 20% = divide by 5.",
+     },
+ ];
+ 
+@@ -108,42 +110,46 @@ const COUNTRY_TIPS = [
+ const SERVICE_TYPES = [
+     { service: "🍽️ Restaurant (Dine-in)", tipGuide: "15-20%", notes: "Based on service quality" },
+     { service: "📦 Takeout", tipGuide: "10-15%", notes: "For large orders or complex prep" },
+-    { service: "🚗 Delivery", tipGuide: "15-20%", notes: "Minimum ₹50-100 or 20%" },
+-    { service: "☕ Coffee Shop", tipGuide: "₹20-50", notes: "Round up or small bills" },
++    { service: "🚗 Delivery", tipGuide: "15-20%", notes: "Minimum $3-5, or 20%" },
++    { service: "☕ Coffee Shop", tipGuide: "$1-2", notes: "Round up or small bills" },
+     { service: "💇 Hair Salon", tipGuide: "15-20%", notes: "Based on service cost" },
+-    { service: "🚕 Taxi/Ride", tipGuide: "10-15%", notes: "Round up to nearest ₹100" },
+-    { service: "🛎️ Hotel Staff", tipGuide: "₹100-500", notes: "Per bag or night" },
++    { service: "🚕 Taxi/Ride", tipGuide: "10-15%", notes: "Round up to the nearest dollar" },
++    { service: "🛎️ Hotel Staff", tipGuide: "$2-5", notes: "Per bag or night" },
+     { service: "📦 Moving Services", tipGuide: "10-15%", notes: "Per person, for heavy work" },
+ ];
+ 
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
++/** Starting values, so the page shows a worked example instead of an empty box. */
++const DEFAULT_BILL = "60";
++const DEFAULT_TIP = "18";
++const DEFAULT_PEOPLE = "2";
++
+ export default function TipCalculator() {
+-    const [billAmount, setBillAmount] = useState("");
+-    const [tipPercent, setTipPercent] = useState("15");
+-    const [peopleCount, setPeopleCount] = useState("1");
++    const { symbol, money } = useCurrency();
++
++    const [billAmount, setBillAmount] = useState(DEFAULT_BILL);
++    const [tipPercent, setTipPercent] = useState(DEFAULT_TIP);
++    const [peopleCount, setPeopleCount] = useState(DEFAULT_PEOPLE);
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+     const resetForm = () => {
+-        setBillAmount("");
+-        setTipPercent("15");
+-        setPeopleCount("1");
+-        setResult(null);
++        setBillAmount(DEFAULT_BILL);
++        setTipPercent(DEFAULT_TIP);
++        setPeopleCount(DEFAULT_PEOPLE);
+     };
+ 
+-    const calculate = () => {
++    // Recalculate as the visitor types. The old version showed an empty box until
++    // you pressed a button, which is the main reason people bounced off these
++    // pages — the answer was one click further away than it needed to be.
++    useEffect(() => {
+         const bill = parseFloat(billAmount);
+-        const tip = parseFloat(tipPercent);
++        const tip = parseFloat(tipPercent) || 0;
+         const people = parseFloat(peopleCount);
+ 
+-        if (!bill || bill <= 0) {
+-            alert("Please enter a valid bill amount");
+-            return;
+-        }
+-
+-        if (people < 1) {
+-            alert("Number of people must be at least 1");
++        if (!Number.isFinite(bill) || bill <= 0 || !Number.isFinite(people) || people < 1) {
++            setResult(null);
+             return;
+         }
+ 
+@@ -152,13 +158,21 @@ export default function TipCalculator() {
+         const perPerson = totalAmount / people;
+ 
+         setResult({
+-            billAmount: bill.toFixed(2),
++            billAmount: bill,
+             tipPercent: tip,
+-            tipAmount: tipAmount.toFixed(2),
+-            totalAmount: totalAmount.toFixed(2),
+-            perPerson: perPerson.toFixed(2),
++            tipAmount,
++            totalAmount,
++            perPerson,
+             peopleCount: people,
+         });
++    }, [billAmount, tipPercent, peopleCount]);
++
++    // The button is kept for people who expect one, but the result is already there.
++    const calculate = () => {
++        const bill = parseFloat(billAmount);
++        if (!Number.isFinite(bill) || bill <= 0) {
++            setBillAmount(DEFAULT_BILL);
++        }
+     };
+ 
+     return (
+@@ -194,18 +208,20 @@ export default function TipCalculator() {
+                         <p className="text-xs text-gray-500 mt-1">Calculate gratuity and split bills</p>
+                     </div>
+                     <div className="p-6 space-y-4">
++                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
++
+                         <div>
+-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Bill Amount (₹)</label>
++                            <label className="block text-xs font-semibold text-gray-400 mb-2">Bill Amount ({symbol})</label>
+                             <div className="relative">
+                                 <input
+                                     type="number"
+-                                    placeholder="1000"
++                                    placeholder={DEFAULT_BILL}
+                                     step="any"
+                                     value={billAmount}
+                                     onChange={(e) => setBillAmount(e.target.value)}
+                                     className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                 />
+-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
++                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                             </div>
+                         </div>
+ 
+@@ -261,12 +277,12 @@ export default function TipCalculator() {
+                     title="Tip Breakdown"
+                     isEmpty={!result}
+                     emptyIcon="💰"
+-                    emptyText="Enter bill amount and press Calculate"
+-                    mainResult={result ? { label: "Total Bill (with Tip)", value: `₹${parseFloat(result.totalAmount).toLocaleString()}`, color: "text-green-400" } : undefined}
++                    emptyText="Enter a bill amount to see the tip"
++                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-400" } : undefined}
+                     extraRows={result ? [
+-                        { label: "Original Bill", value: `₹${parseFloat(result.billAmount).toLocaleString()}` },
+-                        { label: `Tip (${result.tipPercent}%)`, value: `₹${parseFloat(result.tipAmount).toLocaleString()}`, valueColor: "text-yellow-400" },
+-                        { label: "Per Person Amount", value: `₹${parseFloat(result.perPerson).toLocaleString()}`, valueColor: "text-blue-400" },
++                        { label: "Original Bill", value: money(result.billAmount, 2) },
++                        { label: `Tip (${result.tipPercent}%)`, value: money(result.tipAmount, 2), valueColor: "text-yellow-400" },
++                        { label: "Per Person Amount", value: money(result.perPerson, 2), valueColor: "text-blue-400" },
+                         { label: "Split Between", value: `${result.peopleCount} person${result.peopleCount > 1 ? 's' : ''}` },
+                     ] : []}
+                 />
+@@ -292,7 +308,7 @@ export default function TipCalculator() {
+             <section className="mb-8">
+                 <h2 className="text-xl font-semibold text-white mb-3">How to Use This Tip Calculator</h2>
+                 <div className="space-y-3">
+-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">bill amount</strong> in ₹.</p>
++                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">bill amount</strong> in {symbol}.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">tip percentage</strong> (10-25% recommended).</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">number of people</strong> to split the bill.</p>
+                     <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Tip"</strong> to see the breakdown.</p>
+@@ -343,7 +359,7 @@ export default function TipCalculator() {
+                         </div>
+                     </div>
+                     <p className="text-gray-500 text-xs text-center mt-3 pt-3 border-t border-gray-800">
+-                        Example: ₹1000 bill, 18% tip, 4 people → Tip ₹180, Total ₹1180, Per Person ₹295
++                        Example: a $100 bill, 18% tip, 4 people → Tip $18, Total $118, Per Person $29.50
+                     </p>
+                 </div>
+             </section>
+@@ -436,11 +452,11 @@ export default function TipCalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-green-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Round up for simplicity:</strong> Round to the nearest ₹10 or ₹100 for easy mental math. Example: ₹127.50 tip → ₹130 is perfectly fine.</span>
++                        <span><strong className="text-gray-300">Round up for simplicity:</strong> Round to the nearest dollar for easy mental math. Example: a $12.75 tip → $13 is perfectly fine.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-green-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: ₹850 ÷ 5 = ₹170 tip.</span>
++                        <span><strong className="text-gray-300">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: $85 ÷ 5 = $17 tip.</span>
+                     </li>
+                 </ul>
+             </section>
+diff --git a/components/common/CurrencySwitcher.tsx b/components/common/CurrencySwitcher.tsx
+new file mode 100644
+index 0000000..1170370
+--- /dev/null
++++ b/components/common/CurrencySwitcher.tsx
+@@ -0,0 +1,37 @@
++"use client";
++
++// components/common/CurrencySwitcher.tsx
++//
++// The control that makes one calculator work for a reader in Ohio and a reader
++// in Pune without maintaining two pages. Drop it above the input fields of any
++// money calculator.
++//
++// The choice is remembered, so a visitor sets it once and every other money
++// page on the site follows.
++
++import { CURRENCIES, CURRENCY_ORDER, type CurrencyCode } from "@/lib/currency";
++import { useCurrency } from "@/components/common/useCurrency";
++
++export default function CurrencySwitcher({ className = "" }: { className?: string }) {
++  const { currency, setCurrency } = useCurrency();
++
++  return (
++    <div className={`flex items-center justify-between gap-3 ${className}`}>
++      <label htmlFor="numrexo-currency" className="text-xs font-semibold text-gray-400">
++        Currency
++      </label>
++      <select
++        id="numrexo-currency"
++        value={currency}
++        onChange={(event) => setCurrency(event.target.value as CurrencyCode)}
++        className="bg-[#0b1220] border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 transition-colors"
++      >
++        {CURRENCY_ORDER.map((code) => (
++          <option key={code} value={code}>
++            {CURRENCIES[code].label}
++          </option>
++        ))}
++      </select>
++    </div>
++  );
++}
+diff --git a/components/common/useCurrency.ts b/components/common/useCurrency.ts
+new file mode 100644
+index 0000000..60051d9
+--- /dev/null
++++ b/components/common/useCurrency.ts
+@@ -0,0 +1,115 @@
++"use client";
++
++// components/common/useCurrency.ts
++//
++// One shared currency choice for the whole page, with no provider to wire up.
++//
++// WHY NOT REACT CONTEXT: a provider would have to wrap app/layout.tsx, which
++// would turn part of the root layout into a client boundary for every route on
++// the site — including the 90-odd pages that have nothing to do with money.
++// A tiny module-level store read through useSyncExternalStore gives the same
++// shared state to any component that asks for it, costs nothing on pages that
++// never import it, and leaves the layout a server component.
++//
++// HYDRATION: the server has no idea what the visitor picked last time, so the
++// first render on both sides must agree on the default. We read localStorage in
++// an effect, after hydration, and then notify subscribers. That is why
++// getServerSnapshot always returns DEFAULT_CURRENCY.
++
++import { useCallback, useEffect, useSyncExternalStore } from "react";
++import {
++  CURRENCY_STORAGE_KEY,
++  DEFAULT_CURRENCY,
++  currencySymbol,
++  formatMoney,
++  isCurrencyCode,
++  type CurrencyCode,
++} from "@/lib/currency";
++
++let currentCurrency: CurrencyCode = DEFAULT_CURRENCY;
++let hasHydrated = false;
++const listeners = new Set<() => void>();
++
++function emit(): void {
++  listeners.forEach((listener) => listener());
++}
++
++function subscribe(listener: () => void): () => void {
++  listeners.add(listener);
++  return () => {
++    listeners.delete(listener);
++  };
++}
++
++function getSnapshot(): CurrencyCode {
++  return currentCurrency;
++}
++
++/** Must never read localStorage — server and first client render have to match. */
++function getServerSnapshot(): CurrencyCode {
++  return DEFAULT_CURRENCY;
++}
++
++export function setCurrency(code: CurrencyCode): void {
++  if (!isCurrencyCode(code) || code === currentCurrency) return;
++  currentCurrency = code;
++  try {
++    window.localStorage.setItem(CURRENCY_STORAGE_KEY, code);
++  } catch {
++    // Private mode, or storage disabled. The choice still applies for this visit.
++  }
++  emit();
++}
++
++function hydrateFromStorage(): void {
++  if (hasHydrated) return;
++  hasHydrated = true;
++
++  try {
++    const stored = window.localStorage.getItem(CURRENCY_STORAGE_KEY);
++    if (isCurrencyCode(stored) && stored !== currentCurrency) {
++      currentCurrency = stored;
++      emit();
++    }
++  } catch {
++    // Nothing stored, or storage unavailable. Stay on the default.
++  }
++
++  // Keep two open tabs in agreement.
++  try {
++    window.addEventListener("storage", (event) => {
++      if (event.key !== CURRENCY_STORAGE_KEY) return;
++      if (isCurrencyCode(event.newValue) && event.newValue !== currentCurrency) {
++        currentCurrency = event.newValue;
++        emit();
++      }
++    });
++  } catch {
++    // Ignore — cross-tab sync is a convenience, not a requirement.
++  }
++}
++
++export interface UseCurrencyResult {
++  currency: CurrencyCode;
++  setCurrency: (code: CurrencyCode) => void;
++  /** Symbol for the chosen currency, e.g. "$" or "₹". */
++  symbol: string;
++  /** Format a number as money in the chosen currency. */
++  money: (value: number, decimals?: number) => string;
++}
++
++export function useCurrency(): UseCurrencyResult {
++  const currency = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
++
++  useEffect(() => {
++    hydrateFromStorage();
++  }, []);
++
++  const money = useCallback(
++    (value: number, decimals?: number) =>
++      formatMoney(value, currency, decimals === undefined ? {} : { decimals }),
++    [currency],
++  );
++
++  return { currency, setCurrency, symbol: currencySymbol(currency), money };
++}
+diff --git a/data/calculatorsSeo.ts b/data/calculatorsSeo.ts
+index edb957d..18e4672 100644
+--- a/data/calculatorsSeo.ts
++++ b/data/calculatorsSeo.ts
+@@ -234,6 +234,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["home loan eligibility", "how much home loan", "mortgage affordability"],
+   },
+   "finance/student-loan-calculator": {
++    updatedAt: "2026-09-09",
+     sources: [
+       { label: "US Department of Education — Federal Student Aid", url: "https://studentaid.gov" },
+       { label: "Formula: standard amortising repayment over the chosen term" },
+@@ -721,12 +722,22 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["profit margin calculator", "gross margin", "margin vs markup"],
+   },
+   "business/markup-calculator": {
++    updatedAt: "2026-09-09",
++    sources: [
++      { label: "Formula: Markup % = (Selling Price − Cost) ÷ Cost × 100" },
++      { label: "Margin is calculated on the selling price, not the cost — the two percentages differ" },
++    ],
+     title: "Markup Calculator: Selling Price from Cost",
+     description:
+       "Find the selling price a given markup percentage produces, and see the profit margin that markup translates into, which is not the same number.",
+     keywords: ["markup calculator", "markup percentage", "cost to selling price"],
+   },
+   "business/discount-calculator": {
++    updatedAt: "2026-09-09",
++    sources: [
++      { label: "Formula: Final Price = Original Price × (1 − Discount % ÷ 100)" },
++      { label: "Stacked discounts apply in sequence, so 20% then 10% is 28% off, not 30%" },
++    ],
+     title: "Discount Calculator: Final Price and Amount Saved",
+     description:
+       "Calculate the sale price after one or more discounts, the amount saved, and what a stacked discount really works out to as a single percentage.",
+@@ -745,6 +756,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["break even calculator", "break even point", "contribution margin"],
+   },
+   "business/tip-calculator": {
++    updatedAt: "2026-09-09",
+     sources: [
+       { label: "US customary tipping ranges: 15% adequate, 18-20% standard, 25% exceptional" },
+     ],
+diff --git a/lib/currency.ts b/lib/currency.ts
+new file mode 100644
+index 0000000..c2c335d
+--- /dev/null
++++ b/lib/currency.ts
+@@ -0,0 +1,101 @@
++// lib/currency.ts
++//
++// WHY THIS EXISTS
++//
++// Every money calculator on the site printed a hard-coded "₹". The written
++// content around those calculators is mostly written for a US/UK reader, so a
++// visitor from Chicago landed on a tipping guide that quoted rupees. That
++// mismatch is the single clearest signal that a page was assembled rather than
++// written, and it is why these pages do not hold Tier-1 traffic.
++//
++// The fix is not to swap one hard-coded symbol for another. It is to let the
++// reader pick, default to USD (where the traffic we want is), and keep INR in
++// the list so Indian visitors are not pushed out.
++//
++// This module is deliberately plain TypeScript with no React and no
++// dependencies, so it can be imported from a server component, a client
++// component, or a test without dragging anything else in.
++//
++// IMPORTANT: nothing here converts between currencies. There are no exchange
++// rates in this file on purpose — a tip on a $50 bill and a tip on a ₹50 bill
++// are two different questions, not the same question converted. We only change
++// how a number is labelled and formatted, never the arithmetic.
++
++export type CurrencyCode = "USD" | "GBP" | "EUR" | "CAD" | "AUD" | "INR";
++
++export interface CurrencyInfo {
++  code: CurrencyCode;
++  /** Symbol used in prose and next to input fields. */
++  symbol: string;
++  /** BCP-47 locale that gives this currency its conventional digit grouping. */
++  locale: string;
++  /** Shown in the switcher dropdown. */
++  label: string;
++}
++
++export const CURRENCIES: Record<CurrencyCode, CurrencyInfo> = {
++  USD: { code: "USD", symbol: "$", locale: "en-US", label: "USD ($) — United States" },
++  GBP: { code: "GBP", symbol: "£", locale: "en-GB", label: "GBP (£) — United Kingdom" },
++  EUR: { code: "EUR", symbol: "€", locale: "en-IE", label: "EUR (€) — Europe" },
++  CAD: { code: "CAD", symbol: "$", locale: "en-CA", label: "CAD ($) — Canada" },
++  AUD: { code: "AUD", symbol: "$", locale: "en-AU", label: "AUD ($) — Australia" },
++  INR: { code: "INR", symbol: "₹", locale: "en-IN", label: "INR (₹) — India" },
++};
++
++/** Order shown in the dropdown. USD first because it is the default. */
++export const CURRENCY_ORDER: CurrencyCode[] = ["USD", "GBP", "EUR", "CAD", "AUD", "INR"];
++
++export const DEFAULT_CURRENCY: CurrencyCode = "USD";
++
++/** localStorage key. Namespaced so it cannot collide with anything else. */
++export const CURRENCY_STORAGE_KEY = "numrexo.currency";
++
++export function isCurrencyCode(value: unknown): value is CurrencyCode {
++  return typeof value === "string" && Object.prototype.hasOwnProperty.call(CURRENCIES, value);
++}
++
++export function currencyInfo(code: CurrencyCode): CurrencyInfo {
++  return CURRENCIES[code] ?? CURRENCIES[DEFAULT_CURRENCY];
++}
++
++export function currencySymbol(code: CurrencyCode): string {
++  return currencyInfo(code).symbol;
++}
++
++interface FormatMoneyOptions {
++  /** Decimal places. Defaults to 2 below 1000 and 0 at or above it. */
++  decimals?: number;
++}
++
++/**
++ * Format a number as money in the given currency.
++ *
++ * Uses Intl.NumberFormat, so Indian visitors get 1,00,000 and American visitors
++ * get 100,000 from the same call. The old code used toLocaleString() with no
++ * locale, which meant the grouping depended on the visitor's browser and could
++ * disagree with the ₹ symbol printed next to it.
++ */
++export function formatMoney(
++  value: number,
++  code: CurrencyCode = DEFAULT_CURRENCY,
++  options: FormatMoneyOptions = {},
++): string {
++  if (!Number.isFinite(value)) return `${currencySymbol(code)}0`;
++
++  const info = currencyInfo(code);
++  const decimals =
++    options.decimals ?? (Math.abs(value) >= 1000 || Number.isInteger(value) ? 0 : 2);
++
++  const formatted = new Intl.NumberFormat(info.locale, {
++    minimumFractionDigits: decimals,
++    maximumFractionDigits: decimals,
++  }).format(value);
++
++  return `${info.symbol}${formatted}`;
++}
++
++/** Plain number formatting (no symbol), locale-correct for the chosen currency. */
++export function formatNumber(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
++  if (!Number.isFinite(value)) return "0";
++  return new Intl.NumberFormat(currencyInfo(code).locale).format(value);
++}
+-- 
+2.43.0
+

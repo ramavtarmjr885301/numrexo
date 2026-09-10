@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -87,10 +87,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function DistanceCalculator() {
-    const [x1, setX1] = useState("");
-    const [y1, setY1] = useState("");
-    const [x2, setX2] = useState("");
-    const [y2, setY2] = useState("");
+    const [x1, setX1] = useState("1");
+    const [y1, setY1] = useState("2");
+    const [x2, setX2] = useState("4");
+    const [y2, setY2] = useState("6");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -101,7 +101,7 @@ export default function DistanceCalculator() {
         const d = parseFloat(y2);
 
         if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
-            alert("Please enter valid coordinates for both points");
+            setResult(null);
             return;
         }
 
@@ -122,6 +122,10 @@ export default function DistanceCalculator() {
             point2: `(${c}, ${d})`,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [x1, y1, x2, y2]);
 
     const resetForm = () => {
         setX1("");

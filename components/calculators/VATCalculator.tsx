@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ const VAT_THRESHOLDS = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function VATCalculator() {
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState("1000");
     const [vatRate, setVatRate] = useState("20");
     const [calcType, setCalcType] = useState<"add" | "remove">("add");
     const [result, setResult] = useState<any>(null);
@@ -131,7 +131,7 @@ export default function VATCalculator() {
         const r = parseFloat(vatRate) / 100;
 
         if (!a || a <= 0 || isNaN(a)) {
-            alert("Please enter a valid amount");
+            setResult(null);
             return;
         }
 
@@ -149,7 +149,7 @@ export default function VATCalculator() {
 
         // Ensure amounts are valid
         if (!isFinite(netAmount) || !isFinite(vatAmount) || !isFinite(grossAmount)) {
-            alert("Invalid calculation result. Please check your inputs.");
+            setResult(null);
             return;
         }
 
@@ -161,6 +161,10 @@ export default function VATCalculator() {
             calcType,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [amount, vatRate, calcType]);
 
     return (
         <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -139,7 +139,7 @@ export default function CGPACalculator() {
         }
 
         if (totalCredits === 0) {
-            alert("Please enter at least one semester with valid GPA and credits");
+            setResult(null);
             return;
         }
 
@@ -162,6 +162,10 @@ export default function CGPACalculator() {
             semesterCount: semesters.length,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [semesters]);
 
     const resetForm = () => {
         setSemesters([{ gpa: "", credits: "" }]);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const ACTIVITIES = [
@@ -51,9 +51,9 @@ const CALORIE_SCHEMA = JSON.stringify({
 });
 
 export default function CalorieBurnCalculator() {
-  const [weight, setWeight] = useState("");
+  const [weight, setWeight] = useState("70");
   const [activity, setActivity] = useState("running");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState("30");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -63,7 +63,7 @@ export default function CalorieBurnCalculator() {
     const selectedActivity = ACTIVITIES.find(a => a.value === activity);
 
     if (!w || !d || !selectedActivity || isNaN(w) || isNaN(d) || w <= 0 || d <= 0) {
-      alert("Please enter valid weight and duration values");
+      setResult(null);
       return;
     }
 
@@ -94,6 +94,10 @@ export default function CalorieBurnCalculator() {
       met: selectedActivity.met,
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [weight, activity, duration]);
 
   const resetForm = () => {
     setWeight("");

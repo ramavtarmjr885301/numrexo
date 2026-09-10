@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -93,7 +93,7 @@ function gcd(a: number, b: number): number {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function DecimalToFractionCalculator() {
-    const [decimal, setDecimal] = useState("");
+    const [decimal, setDecimal] = useState("0.75");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -101,7 +101,7 @@ export default function DecimalToFractionCalculator() {
         let d = parseFloat(decimal);
 
         if (isNaN(d)) {
-            alert("Please enter a valid decimal number");
+            setResult(null);
             return;
         }
 
@@ -161,6 +161,10 @@ export default function DecimalToFractionCalculator() {
             integerPart,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [decimal]);
 
     const resetForm = () => {
         setDecimal("");

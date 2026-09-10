@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -147,9 +147,9 @@ const ARTICLE_SCHEMA = JSON.stringify({
 
 export default function BMRCalculator() {
   const [gender, setGender] = useState<"male" | "female">("male");
-  const [age, setAge] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
+  const [age, setAge] = useState("30");
+  const [weight, setWeight] = useState("70");
+  const [height, setHeight] = useState("170");
   const [activityLevel, setActivityLevel] = useState("sedentary");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -171,7 +171,7 @@ export default function BMRCalculator() {
       h <= 0 ||
       a <= 0
     ) {
-      alert("Please enter valid age, weight, and height values");
+      setResult(null);
       return;
     }
 
@@ -237,6 +237,10 @@ export default function BMRCalculator() {
       bodyFatColor,
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [gender, age, weight, height, activityLevel, formula]);
 
   return (
     <>

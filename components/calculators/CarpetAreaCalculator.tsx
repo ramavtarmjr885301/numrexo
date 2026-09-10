@@ -1,6 +1,6 @@
 // "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -129,7 +129,7 @@ export default function CarpetAreaCalculator() {
         }
 
         if (totalArea === 0) {
-            alert("Please enter valid dimensions for at least one room");
+            setResult(null);
             return;
         }
 
@@ -158,6 +158,10 @@ export default function CarpetAreaCalculator() {
             efficiency: efficiency.toFixed(1),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [rooms, builtUpArea]);
 
     const resetForm = () => {
         setRooms([{ id: 1, length: "", width: "", name: "Living Room" }]);

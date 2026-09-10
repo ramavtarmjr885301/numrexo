@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -87,12 +87,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HotelCostCalculator() {
-    const [pricePerNight, setPricePerNight] = useState("");
-    const [nights, setNights] = useState("");
+    const [pricePerNight, setPricePerNight] = useState("150");
+    const [nights, setNights] = useState("5");
     const [rooms, setRooms] = useState("1");
-    const [people, setPeople] = useState("");
+    const [people, setPeople] = useState("2");
     const [taxRate, setTaxRate] = useState("15");
-    const [extraFees, setExtraFees] = useState("");
+    const [extraFees, setExtraFees] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -105,7 +105,7 @@ export default function HotelCostCalculator() {
         const fees = parseFloat(extraFees) || 0;
 
         if (!perNight || perNight <= 0 || !numNights || numNights <= 0) {
-            alert("Please enter valid price per night and number of nights");
+            setResult(null);
             return;
         }
 
@@ -135,6 +135,10 @@ export default function HotelCostCalculator() {
             people: numPeople || null,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [pricePerNight, nights, rooms, people, taxRate, extraFees]);
 
     const resetForm = () => {
         setPricePerNight("");

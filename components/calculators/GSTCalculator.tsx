@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const GST_SCHEMA = JSON.stringify({
 });
 
 export default function GSTCalculator() {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("10000");
   const [gstRate, setGstRate] = useState("18");
   const [calcType, setCalcType] = useState<"exclusive" | "inclusive">("exclusive");
   const [transactionType, setTransactionType] = useState<"intrastate" | "interstate">("intrastate");
@@ -69,7 +69,7 @@ export default function GSTCalculator() {
     const a = parseFloat(amount);
     const r = parseFloat(gstRate) / 100;
     if (!a || isNaN(a) || a <= 0) {
-      alert("Please enter a valid amount");
+      setResult(null);
       return;
     }
 
@@ -100,6 +100,10 @@ export default function GSTCalculator() {
       transactionType,
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [amount, gstRate, calcType, transactionType]);
 
   const resetForm = () => {
     setAmount("");

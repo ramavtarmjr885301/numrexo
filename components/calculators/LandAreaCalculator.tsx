@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -99,11 +99,11 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function LandAreaCalculator() {
     const [shape, setShape] = useState<"rectangle" | "triangle" | "circle">("rectangle");
-    const [length, setLength] = useState("");
-    const [width, setWidth] = useState("");
-    const [base, setBase] = useState("");
-    const [height, setHeight] = useState("");
-    const [radius, setRadius] = useState("");
+    const [length, setLength] = useState("100");
+    const [width, setWidth] = useState("50");
+    const [base, setBase] = useState("100");
+    const [height, setHeight] = useState("80");
+    const [radius, setRadius] = useState("50");
     const [fromUnit, setFromUnit] = useState("sqft");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -119,7 +119,7 @@ export default function LandAreaCalculator() {
             const l = parseFloat(length);
             const w = parseFloat(width);
             if (!l || !w || l <= 0 || w <= 0) {
-                alert("Please enter valid length and width");
+                setResult(null);
                 return;
             }
             areaInSqFt = l * w * unitFactor;
@@ -129,7 +129,7 @@ export default function LandAreaCalculator() {
             const b = parseFloat(base);
             const h = parseFloat(height);
             if (!b || !h || b <= 0 || h <= 0) {
-                alert("Please enter valid base and height");
+                setResult(null);
                 return;
             }
             areaInSqFt = 0.5 * b * h * unitFactor;
@@ -138,7 +138,7 @@ export default function LandAreaCalculator() {
         else {
             const r = parseFloat(radius);
             if (!r || r <= 0) {
-                alert("Please enter valid radius");
+                setResult(null);
                 return;
             }
             areaInSqFt = Math.PI * r * r * unitFactor;
@@ -167,6 +167,10 @@ export default function LandAreaCalculator() {
             shape,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [shape, length, width, base, height, radius, fromUnit]);
 
     const resetForm = () => {
         setShape("rectangle");

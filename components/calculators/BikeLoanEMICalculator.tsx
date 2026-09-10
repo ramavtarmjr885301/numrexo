@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -142,17 +142,17 @@ export default function BikeLoanEMICalculator() {
         }
 
         if (isNaN(principal) || principal <= 0) {
-            alert("Please enter a valid bike price greater than zero");
+            setResult(null);
             return;
         }
 
         if (isNaN(rate) || rate < 0) {
-            alert("Please enter a valid interest rate");
+            setResult(null);
             return;
         }
 
         if (isNaN(months) || months <= 0) {
-            alert("Please enter a valid loan tenure greater than zero");
+            setResult(null);
             return;
         }
 
@@ -236,6 +236,10 @@ export default function BikeLoanEMICalculator() {
             totalInterestFormatted: totalInterest.toFixed(2),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, bikeType, downPayment]);
 
     // Preset values
     const presetAmounts = [50000, 80000, 100000, 150000, 200000];

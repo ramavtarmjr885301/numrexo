@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,11 +58,11 @@ const EMI_SCHEMA = JSON.stringify({
 });
 
 export default function EMICalculator() {
-  const [principal, setPrincipal] = useState("");
-  const [rate, setRate] = useState("");
-  const [tenure, setTenure] = useState("");
+  const [principal, setPrincipal] = useState("5000000");
+  const [rate, setRate] = useState("8.5");
+  const [tenure, setTenure] = useState("5");
   const [tenureType, setTenureType] = useState<"years" | "months">("years");
-  const [prepayment, setPrepayment] = useState("");
+  const [prepayment, setPrepayment] = useState("0");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -74,7 +74,7 @@ export default function EMICalculator() {
 
     if (tenureType === "years") n = n * 12;
     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || r <= 0 || n <= 0) {
-      alert("Please enter valid loan amount, interest rate, and tenure");
+      setResult(null);
       return;
     }
 
@@ -118,6 +118,10 @@ export default function EMICalculator() {
       interestSaved: interestSaved > 0 ? Math.round(interestSaved).toLocaleString("en-IN") : null,
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [principal, rate, tenure, tenureType, prepayment]);
 
   const resetForm = () => {
     setPrincipal("");

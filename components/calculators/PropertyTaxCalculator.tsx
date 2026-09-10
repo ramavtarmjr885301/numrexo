@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -98,12 +98,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PropertyTaxCalculator() {
-    const [propertyValue, setPropertyValue] = useState("");
+    const [propertyValue, setPropertyValue] = useState("5000000");
     const [city, setCity] = useState("Mumbai (MCGM)");
     const [propertyType, setPropertyType] = useState<"residential" | "commercial">("residential");
-    const [area, setArea] = useState("");
-    const [age, setAge] = useState("");
-    const [latePayment, setLatePayment] = useState("");
+    const [area, setArea] = useState("1000");
+    const [age, setAge] = useState("10");
+    const [latePayment, setLatePayment] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -125,7 +125,7 @@ export default function PropertyTaxCalculator() {
         const lateMonths = parseFloat(latePayment) || 0;
 
         if (!value || value <= 0) {
-            alert("Please enter property value or area");
+            setResult(null);
             return;
         }
 
@@ -160,6 +160,10 @@ export default function PropertyTaxCalculator() {
             method: cityData?.method,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [propertyValue, city, propertyType, area, age, latePayment]);
 
     const resetForm = () => {
         setPropertyValue("");

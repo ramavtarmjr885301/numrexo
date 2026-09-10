@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -119,7 +119,7 @@ const WEIGHT_REFERENCES = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function WeightConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("kilogram");
     const [toUnit, setToUnit] = useState("pound");
     const [result, setResult] = useState<any>(null);
@@ -135,7 +135,7 @@ export default function WeightConverter() {
     const convert = () => {
         const val = parseFloat(value);
         if (isNaN(val)) {
-            alert("Please enter a valid number");
+            setResult(null);
             return;
         }
 
@@ -153,6 +153,10 @@ export default function WeightConverter() {
             toEmoji: to.emoji,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
 
     const swapUnits = () => {
         const temp = fromUnit;

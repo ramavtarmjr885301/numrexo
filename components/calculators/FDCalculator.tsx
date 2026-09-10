@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const FD_SCHEMA = JSON.stringify({
 });
 
 export default function FDCalculator() {
-  const [principal, setPrincipal] = useState("");
+  const [principal, setPrincipal] = useState("100000");
   const [rate, setRate] = useState("7.2");
   const [years, setYears] = useState("5");
   const [payoutType, setPayoutType] = useState<"cumulative" | "noncumulative">("cumulative");
@@ -72,7 +72,7 @@ export default function FDCalculator() {
     let n = parseFloat(years);
 
     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || n <= 0) {
-      alert("Please enter valid principal amount, rate, and tenure");
+      setResult(null);
       return;
     }
 
@@ -113,6 +113,10 @@ export default function FDCalculator() {
       postTaxReturn: Math.round(maturityAmount - taxPayable).toLocaleString("en-IN"),
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [principal, rate, years, payoutType, seniorCitizen]);
 
   const resetForm = () => {
     setPrincipal("");

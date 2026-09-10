@@ -1,7 +1,7 @@
 // components/calculators/CAGRCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,9 +58,9 @@ const CAGR_SCHEMA = JSON.stringify({
 });
 
 export default function CAGRCalculator() {
-    const [startValue, setStartValue] = useState("");
-    const [endValue, setEndValue] = useState("");
-    const [years, setYears] = useState("");
+    const [startValue, setStartValue] = useState("10000");
+    const [endValue, setEndValue] = useState("25000");
+    const [years, setYears] = useState("5");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -70,7 +70,7 @@ export default function CAGRCalculator() {
         const n = parseFloat(years);
 
         if (!sv || !ev || !n || sv <= 0 || ev <= 0 || n <= 0) {
-            alert("Please enter valid values");
+            setResult(null);
             return;
         }
 
@@ -87,6 +87,10 @@ export default function CAGRCalculator() {
             years: n,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [startValue, endValue, years]);
 
     const resetForm = () => {
         setStartValue("");

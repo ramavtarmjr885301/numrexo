@@ -1,7 +1,7 @@
 // components/calculators/RDCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -91,7 +91,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function RDCalculator() {
-    const [monthlyAmount, setMonthlyAmount] = useState("");
+    const [monthlyAmount, setMonthlyAmount] = useState("5000");
     const [rate, setRate] = useState("7.2");
     const [years, setYears] = useState("5");
     const [seniorCitizen, setSeniorCitizen] = useState(false);
@@ -104,7 +104,7 @@ export default function RDCalculator() {
         let n = parseFloat(years);
 
         if (!P || !r || !n || P <= 0 || r <= 0 || n <= 0) {
-            alert("Please enter valid values");
+            setResult(null);
             return;
         }
 
@@ -133,6 +133,10 @@ export default function RDCalculator() {
             seniorCitizen,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [monthlyAmount, rate, years, seniorCitizen]);
 
     const resetForm = () => {
         setMonthlyAmount("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -84,6 +84,10 @@ export default function CollegeCostCalculator() {
             years: numYears,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [tuition, roomBoard, books, transport, other, years, inflation]);
 
     const reset = () => {
         setTuition("");

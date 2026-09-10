@@ -1,7 +1,7 @@
 // components/calculators/LumpsumCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const LUMPSUM_SCHEMA = JSON.stringify({
 });
 
 export default function LumpsumCalculator() {
-    const [principal, setPrincipal] = useState("");
+    const [principal, setPrincipal] = useState("100000");
     const [rate, setRate] = useState("12");
     const [years, setYears] = useState("10");
     const [result, setResult] = useState<any>(null);
@@ -70,7 +70,7 @@ export default function LumpsumCalculator() {
         const n = parseFloat(years);
 
         if (!P || !r || !n || P <= 0 || r <= 0 || n <= 0) {
-            alert("Please enter valid values");
+            setResult(null);
             return;
         }
 
@@ -87,6 +87,10 @@ export default function LumpsumCalculator() {
             rate: (r * 100).toFixed(1),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [principal, rate, years]);
 
     const resetForm = () => {
         setPrincipal("");

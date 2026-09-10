@@ -1,7 +1,7 @@
 // components/calculators/BaseCalculator.tsx
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 interface InputField {
@@ -40,6 +40,10 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
     const calculated = calculate(values);
     setResult(calculated);
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { handleCalculate(); }, [values]);
 
   const resetForm = () => {
     setValues({});

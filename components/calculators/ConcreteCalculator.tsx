@@ -1,7 +1,7 @@
 // components/calculators/ConcreteCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -59,10 +59,10 @@ const CONCRETE_SCHEMA = JSON.stringify({
 
 export default function ConcreteCalculator() {
     const [shape, setShape] = useState<"slab" | "column" | "footing">("slab");
-    const [length, setLength] = useState("");
-    const [width, setWidth] = useState("");
+    const [length, setLength] = useState("10");
+    const [width, setWidth] = useState("10");
     const [height, setHeight] = useState("");
-    const [diameter, setDiameter] = useState("");
+    const [diameter, setDiameter] = useState("1");
     const [unit, setUnit] = useState<"feet" | "meters">("feet");
     const [mixRatio, setMixRatio] = useState("1:1.5:3");
     const [result, setResult] = useState<any>(null);
@@ -76,15 +76,15 @@ export default function ConcreteCalculator() {
         let diameterVal = parseFloat(diameter);
 
         if (shape === "slab" && (!lengthVal || !widthVal || !heightVal)) {
-            alert("Please enter length, width, and thickness");
+            setResult(null);
             return;
         }
         if (shape === "column" && (!heightVal || !diameterVal)) {
-            alert("Please enter height and diameter");
+            setResult(null);
             return;
         }
         if (shape === "footing" && (!lengthVal || !widthVal || !heightVal)) {
-            alert("Please enter length, width, and height");
+            setResult(null);
             return;
         }
 
@@ -129,6 +129,10 @@ export default function ConcreteCalculator() {
             aggregateWeight: aggregateWeight.toFixed(0),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [shape, length, width, height, diameter, unit]);
 
     const resetForm = () => {
         setShape("slab");

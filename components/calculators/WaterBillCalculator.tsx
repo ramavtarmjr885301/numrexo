@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -88,8 +88,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function WaterBillCalculator() {
     const [unit, setUnit] = useState<"gallons" | "liters">("gallons");
-    const [consumption, setConsumption] = useState("");
-    const [peopleCount, setPeopleCount] = useState("");
+    const [consumption, setConsumption] = useState("8000");
+    const [peopleCount, setPeopleCount] = useState("4");
     const [fixedCharge, setFixedCharge] = useState("15");
     const [tieredRate, setTieredRate] = useState<"single" | "tiered">("single");
     const [sewerRate, setSewerRate] = useState("80");
@@ -150,7 +150,7 @@ export default function WaterBillCalculator() {
                 const avgMonthly = people * avgDailyUsage * 30;
                 usage = avgMonthly;
             } else {
-                alert("Please enter water consumption or number of people");
+                setResult(null);
                 return;
             }
         }
@@ -177,6 +177,10 @@ export default function WaterBillCalculator() {
             tierDetails,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [unit, consumption, peopleCount, fixedCharge, tieredRate, sewerRate]);
 
     return (
         <>

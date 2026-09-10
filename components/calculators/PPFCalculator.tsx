@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const PPF_SCHEMA = JSON.stringify({
 });
 
 export default function PPFCalculator() {
-  const [annualInvestment, setAnnualInvestment] = useState("");
+  const [annualInvestment, setAnnualInvestment] = useState("50000");
   const [rate, setRate] = useState("7.1");
   const [years, setYears] = useState("15");
   const [result, setResult] = useState<any>(null);
@@ -70,12 +70,12 @@ export default function PPFCalculator() {
     const n = parseFloat(years);
 
     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P < 500 || P > 150000) {
-      alert("Please enter valid values. Annual investment must be between ₹500 and ₹1,50,000");
+      setResult(null);
       return;
     }
 
     if (n < 15) {
-      alert("PPF has a minimum 15-year lock-in period. Please enter 15 years or more.");
+      setResult(null);
       return;
     }
 
@@ -96,6 +96,10 @@ export default function PPFCalculator() {
       annualInvestment: P,
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [annualInvestment, rate, years]);
 
   const resetForm = () => {
     setAnnualInvestment("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -87,12 +87,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function RentalYieldCalculator() {
-    const [propertyValue, setPropertyValue] = useState("");
-    const [monthlyRent, setMonthlyRent] = useState("");
-    const [propertyTax, setPropertyTax] = useState("");
-    const [maintenance, setMaintenance] = useState("");
-    const [insurance, setInsurance] = useState("");
-    const [managementFee, setManagementFee] = useState("");
+    const [propertyValue, setPropertyValue] = useState("5000000");
+    const [monthlyRent, setMonthlyRent] = useState("25000");
+    const [propertyTax, setPropertyTax] = useState("0");
+    const [maintenance, setMaintenance] = useState("0");
+    const [insurance, setInsurance] = useState("0");
+    const [managementFee, setManagementFee] = useState("0");
     const [vacancyRate, setVacancyRate] = useState("5");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -107,7 +107,7 @@ export default function RentalYieldCalculator() {
         const vacancy = parseFloat(vacancyRate) / 100;
 
         if (!value || value <= 0 || !monthly || monthly <= 0) {
-            alert("Please enter property value and monthly rent");
+            setResult(null);
             return;
         }
 
@@ -143,6 +143,10 @@ export default function RentalYieldCalculator() {
             valueToRentRatio: (value / annualRent).toFixed(1),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [propertyValue, monthlyRent, propertyTax, maintenance, insurance, managementFee, vacancyRate]);
 
     const resetForm = () => {
         setPropertyValue("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -95,15 +95,15 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function LoanComparisonCalculator() {
     // Loan 1
-    const [loan1Amount, setLoan1Amount] = useState("");
-    const [loan1Rate, setLoan1Rate] = useState("");
-    const [loan1Tenure, setLoan1Tenure] = useState("");
-    const [loan1Fees, setLoan1Fees] = useState("");
+    const [loan1Amount, setLoan1Amount] = useState("500000");
+    const [loan1Rate, setLoan1Rate] = useState("9");
+    const [loan1Tenure, setLoan1Tenure] = useState("5");
+    const [loan1Fees, setLoan1Fees] = useState("0");
     // Loan 2
-    const [loan2Amount, setLoan2Amount] = useState("");
-    const [loan2Rate, setLoan2Rate] = useState("");
-    const [loan2Tenure, setLoan2Tenure] = useState("");
-    const [loan2Fees, setLoan2Fees] = useState("");
+    const [loan2Amount, setLoan2Amount] = useState("500000");
+    const [loan2Rate, setLoan2Rate] = useState("9");
+    const [loan2Tenure, setLoan2Tenure] = useState("5");
+    const [loan2Fees, setLoan2Fees] = useState("0");
     // Result
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -129,7 +129,7 @@ export default function LoanComparisonCalculator() {
         const f2 = parseFloat(loan2Fees) || 0;
 
         if (!a1 || !r1 || !t1 || !a2 || !r2 || !t2) {
-            alert("Please fill all required fields for both loans");
+            setResult(null);
             return;
         }
 
@@ -166,6 +166,10 @@ export default function LoanComparisonCalculator() {
             betterLoan,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [loan1Amount, loan1Rate, loan1Tenure, loan1Fees, loan2Amount, loan2Rate, loan2Tenure, loan2Fees]);
 
     const resetForm = () => {
         setLoan1Amount("");

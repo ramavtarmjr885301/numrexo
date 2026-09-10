@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -146,22 +146,22 @@ export default function HomeLoanEligibilityCalculator() {
         const coIncome = parseFloat(coApplicantIncome) || 0;
 
         if (isNaN(income) || income <= 0) {
-            alert("Please enter a valid monthly income");
+            setResult(null);
             return;
         }
 
         if (isNaN(rate) || rate < 0) {
-            alert("Please enter a valid interest rate");
+            setResult(null);
             return;
         }
 
         if (isNaN(months) || months <= 0) {
-            alert("Please enter a valid loan tenure");
+            setResult(null);
             return;
         }
 
         if (isNaN(applicantAge) || applicantAge < 18) {
-            alert("Please enter a valid age (minimum 18 years)");
+            setResult(null);
             return;
         }
 
@@ -179,7 +179,7 @@ export default function HomeLoanEligibilityCalculator() {
         const maxEMI = (totalIncome * foir / 100) - existing;
 
         if (maxEMI <= 0) {
-            alert("Your existing EMIs already exceed the allowable limit. Consider clearing existing debts first.");
+            setResult(null);
             return;
         }
 
@@ -210,7 +210,7 @@ export default function HomeLoanEligibilityCalculator() {
 
         const maxTenureByAge = maxAge - applicantAge;
         if (maxTenureByAge < 5) {
-            alert(`Your age (${applicantAge}) is close to retirement (${maxAge} years). Maximum remaining tenure is ${maxTenureByAge} years.`);
+            setResult(null);
             return;
         }
 
@@ -275,6 +275,10 @@ export default function HomeLoanEligibilityCalculator() {
             totalPaymentFormatted: totalPayment.toFixed(2),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculateEligibility(); }, [monthlyIncome, existingEMI, interestRate, tenure, propertyValue, age, employmentType, hasCoApplicant, coApplicantIncome]);
 
     // Preset values
     const presetIncomes = [25000, 50000, 75000, 100000, 150000, 200000];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -143,27 +143,27 @@ export default function CreditScoreEstimator() {
 
         // Validate inputs
         if (isNaN(ph) || ph < 0 || ph > 100) {
-            alert("Please enter a valid payment history score (0-100%)");
+            setResult(null);
             return;
         }
 
         if (isNaN(cu) || cu < 0 || cu > 100) {
-            alert("Please enter a valid credit utilization percentage (0-100%)");
+            setResult(null);
             return;
         }
 
         if (isNaN(ch) || ch < 0 || ch > 10) {
-            alert("Please enter valid credit history years (0-10+)");
+            setResult(null);
             return;
         }
 
         if (isNaN(cm) || cm < 0 || cm > 100) {
-            alert("Please enter a valid credit mix score (0-100%)");
+            setResult(null);
             return;
         }
 
         if (isNaN(nc) || nc < 0 || nc > 100) {
-            alert("Please enter a valid new credit score (0-100%)");
+            setResult(null);
             return;
         }
 
@@ -267,6 +267,10 @@ export default function CreditScoreEstimator() {
             existingScore: existing,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { estimateScore(); }, [paymentHistory, creditUtilization, creditHistory, creditMix, newCredit, existingScore]);
 
     // Quick preset options
     const paymentOptions = [

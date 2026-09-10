@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -79,8 +79,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function APYCalculator() {
-    const [principal, setPrincipal] = useState("");
-    const [rate, setRate] = useState("");
+    const [principal, setPrincipal] = useState("10000");
+    const [rate, setRate] = useState("5");
     const [years, setYears] = useState("1");
     const [compoundFrequency, setCompoundFrequency] = useState<"daily" | "monthly" | "quarterly" | "semi-annual" | "annual">("monthly");
     const [result, setResult] = useState<any>(null);
@@ -115,7 +115,7 @@ export default function APYCalculator() {
         const n = getCompoundingPeriods();
 
         if (!p || p <= 0 || !r || r <= 0 || !t || t <= 0) {
-            alert("Please enter valid principal, rate, and years");
+            setResult(null);
             return;
         }
 
@@ -133,6 +133,10 @@ export default function APYCalculator() {
             frequency: getFrequencyName(),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [principal, rate, years]);
 
     const resetForm = () => {
         setPrincipal("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -79,10 +79,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function BreakEvenCalculator() {
     const [calcType, setCalcType] = useState<"units" | "revenue">("units");
-    const [fixedCosts, setFixedCosts] = useState("");
-    const [sellingPrice, setSellingPrice] = useState("");
-    const [variableCost, setVariableCost] = useState("");
-    const [contributionMargin, setContributionMargin] = useState("");
+    const [fixedCosts, setFixedCosts] = useState("100000");
+    const [sellingPrice, setSellingPrice] = useState("500");
+    const [variableCost, setVariableCost] = useState("300");
+    const [contributionMargin, setContributionMargin] = useState("40");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -90,7 +90,7 @@ export default function BreakEvenCalculator() {
         const fixed = parseFloat(fixedCosts);
 
         if (!fixed || fixed <= 0) {
-            alert("Please enter valid fixed costs");
+            setResult(null);
             return;
         }
 
@@ -104,12 +104,12 @@ export default function BreakEvenCalculator() {
             const variable = parseFloat(variableCost);
 
             if (!price || !variable || price <= 0 || variable <= 0) {
-                alert("Please enter valid selling price and variable cost");
+                setResult(null);
                 return;
             }
 
             if (price <= variable) {
-                alert("Selling price must be greater than variable cost to break even");
+                setResult(null);
                 return;
             }
 
@@ -133,7 +133,7 @@ export default function BreakEvenCalculator() {
             const marginRate = parseFloat(contributionMargin);
 
             if (!marginRate || marginRate <= 0 || marginRate >= 100) {
-                alert("Please enter a valid contribution margin percentage (1-99%)");
+                setResult(null);
                 return;
             }
 
@@ -156,6 +156,10 @@ export default function BreakEvenCalculator() {
             });
         }
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [calcType, fixedCosts, sellingPrice, variableCost, contributionMargin]);
 
     const resetForm = () => {
         setCalcType("units");

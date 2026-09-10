@@ -1,7 +1,7 @@
 // components/calculators/SWPCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -88,8 +88,8 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SWPCalculator() {
-    const [corpus, setCorpus] = useState("");
-    const [monthlyWithdrawal, setMonthlyWithdrawal] = useState("");
+    const [corpus, setCorpus] = useState("5000000");
+    const [monthlyWithdrawal, setMonthlyWithdrawal] = useState("25000");
     const [expectedReturn, setExpectedReturn] = useState("10");
     const [inflationRate, setInflationRate] = useState("6");
     const [result, setResult] = useState<any>(null);
@@ -112,12 +112,12 @@ export default function SWPCalculator() {
         let totalWithdrawn = 0;
 
         if (!balance || !withdrawal || balance <= 0 || withdrawal <= 0) {
-            alert("Please enter valid values");
+            setResult(null);
             return;
         }
 
         if (withdrawal > balance) {
-            alert("Monthly withdrawal cannot exceed your total corpus");
+            setResult(null);
             return;
         }
 
@@ -148,6 +148,10 @@ export default function SWPCalculator() {
             inflationAdjusted: true,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [corpus, monthlyWithdrawal, expectedReturn, inflationRate]);
 
     return (
         <>

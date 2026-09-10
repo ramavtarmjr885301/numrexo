@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -98,9 +98,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ROICalculator() {
-    const [investmentCost, setInvestmentCost] = useState("");
-    const [finalValue, setFinalValue] = useState("");
-    const [years, setYears] = useState("");
+    const [investmentCost, setInvestmentCost] = useState("100000");
+    const [finalValue, setFinalValue] = useState("150000");
+    const [years, setYears] = useState("5");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -110,7 +110,7 @@ export default function ROICalculator() {
         const yearsInvested = parseFloat(years);
 
         if (!cost || !final || cost <= 0 || final <= 0) {
-            alert("Please enter valid investment cost and final value");
+            setResult(null);
             return;
         }
 
@@ -141,6 +141,10 @@ export default function ROICalculator() {
             ratingColor,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [investmentCost, finalValue, years]);
 
     const resetForm = () => {
         setInvestmentCost("");

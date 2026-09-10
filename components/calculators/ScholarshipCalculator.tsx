@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -88,12 +88,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function ScholarshipCalculator() {
     const [totalCost, setTotalCost] = useState("");
-    const [meritScholarship, setMeritScholarship] = useState("");
-    const [needScholarship, setNeedScholarship] = useState("");
-    const [externalScholarship, setExternalScholarship] = useState("");
-    const [grants, setGrants] = useState("");
-    const [workStudy, setWorkStudy] = useState("");
-    const [familyContribution, setFamilyContribution] = useState("");
+    const [meritScholarship, setMeritScholarship] = useState("0");
+    const [needScholarship, setNeedScholarship] = useState("0");
+    const [externalScholarship, setExternalScholarship] = useState("0");
+    const [grants, setGrants] = useState("0");
+    const [workStudy, setWorkStudy] = useState("0");
+    const [familyContribution, setFamilyContribution] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -118,7 +118,7 @@ export default function ScholarshipCalculator() {
         const family = parseFloat(familyContribution) || 0;
 
         if (total <= 0) {
-            alert("Please enter total college cost");
+            setResult(null);
             return;
         }
 
@@ -162,6 +162,10 @@ export default function ScholarshipCalculator() {
             statusColor: statusColor,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [totalCost, meritScholarship, needScholarship, externalScholarship, grants, workStudy, familyContribution]);
 
     return (
         <>

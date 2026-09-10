@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -97,13 +97,13 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FlooringCalculator() {
-    const [roomLength, setRoomLength] = useState("");
-    const [roomWidth, setRoomWidth] = useState("");
-    const [tileLength, setTileLength] = useState("");
-    const [tileWidth, setTileWidth] = useState("");
+    const [roomLength, setRoomLength] = useState("12");
+    const [roomWidth, setRoomWidth] = useState("10");
+    const [tileLength, setTileLength] = useState("12");
+    const [tileWidth, setTileWidth] = useState("12");
     const [wastePercent, setWastePercent] = useState("10");
-    const [pricePerTile, setPricePerTile] = useState("");
-    const [pricePerSqFt, setPricePerSqFt] = useState("");
+    const [pricePerTile, setPricePerTile] = useState("50");
+    const [pricePerSqFt, setPricePerSqFt] = useState("25");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -114,12 +114,12 @@ export default function FlooringCalculator() {
         const tileW = parseFloat(tileWidth);
 
         if (!length || !width || length <= 0 || width <= 0) {
-            alert("Please enter valid room dimensions");
+            setResult(null);
             return;
         }
 
         if (!tileL || !tileW || tileL <= 0 || tileW <= 0) {
-            alert("Please enter valid tile dimensions");
+            setResult(null);
             return;
         }
 
@@ -156,6 +156,10 @@ export default function FlooringCalculator() {
             roomWidth: width,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [roomLength, roomWidth, tileLength, tileWidth, wastePercent, pricePerTile, pricePerSqFt]);
 
     const resetForm = () => {
         setRoomLength("");

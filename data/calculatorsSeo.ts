@@ -41,7 +41,7 @@ export interface CalculatorSeo {
   noIndex?: boolean;
 }
 
-export const SITE_DEFAULT_UPDATED_AT = "2026-09-05";
+export const SITE_DEFAULT_UPDATED_AT = "2026-09-10";
 
 export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
   // ───────────────────────── HEALTH ─────────────────────────

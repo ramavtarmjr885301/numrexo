@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -119,7 +119,7 @@ function gasMarkToCelsius(gasMark: number): number {
 }
 
 export default function OvenTemperatureConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("180");
     const [fromUnit, setFromUnit] = useState("celsius");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -127,7 +127,7 @@ export default function OvenTemperatureConverter() {
     const convert = () => {
         const val = parseFloat(value);
         if (isNaN(val)) {
-            alert("Please enter a valid temperature");
+            setResult(null);
             return;
         }
 
@@ -169,6 +169,10 @@ export default function OvenTemperatureConverter() {
             originalUnit: fromUnit,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { convert(); }, [value, fromUnit]);
 
     const resetForm = () => {
         setValue("");

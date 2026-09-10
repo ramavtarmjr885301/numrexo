@@ -1,7 +1,7 @@
 // components/calculators/NPSCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -63,7 +63,7 @@ const NPS_SCHEMA = JSON.stringify({
 });
 
 export default function NPSCalculator() {
-    const [monthlyContribution, setMonthlyContribution] = useState("");
+    const [monthlyContribution, setMonthlyContribution] = useState("5000");
     const [currentAge, setCurrentAge] = useState("30");
     const [retirementAge, setRetirementAge] = useState("60");
     const [expectedReturn, setExpectedReturn] = useState("10");
@@ -78,7 +78,7 @@ export default function NPSCalculator() {
         const months = (retire - current) * 12;
 
         if (!P || !current || !retire || !r || P <= 0 || months <= 0) {
-            alert("Please fill all fields correctly");
+            setResult(null);
             return;
         }
 
@@ -95,6 +95,10 @@ export default function NPSCalculator() {
             totalInvestment: (P * months).toLocaleString("en-IN"),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [monthlyContribution, currentAge, retirementAge, expectedReturn]);
 
     const resetForm = () => {
         setMonthlyContribution("");

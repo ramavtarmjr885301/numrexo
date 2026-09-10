@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -106,7 +106,7 @@ const DESTINATION_BUDGETS = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TravelBudgetCalculator() {
-    const [tripDays, setTripDays] = useState("");
+    const [tripDays, setTripDays] = useState("7");
     const [peopleCount, setPeopleCount] = useState("1");
     const [budgetItems, setBudgetItems] = useState<BudgetItem[]>([
         { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-400" },
@@ -144,12 +144,12 @@ export default function TravelBudgetCalculator() {
         const people = parseFloat(peopleCount);
 
         if (!days || days <= 0) {
-            alert("Please enter number of trip days");
+            setResult(null);
             return;
         }
 
         if (people < 1) {
-            alert("Number of people must be at least 1");
+            setResult(null);
             return;
         }
 
@@ -165,7 +165,7 @@ export default function TravelBudgetCalculator() {
         }
 
         if (totalBudget === 0) {
-            alert("Please enter at least one budget amount");
+            setResult(null);
             return;
         }
 
@@ -189,6 +189,10 @@ export default function TravelBudgetCalculator() {
             people,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [tripDays, peopleCount, budgetItems]);
 
     return (
         <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -158,7 +158,7 @@ export default function CalorieCounter() {
         }
 
         if (validFoods === 0) {
-            alert("Please add at least one food item with calories");
+            setResult(null);
             return;
         }
 
@@ -170,6 +170,10 @@ export default function CalorieCounter() {
             foodCount: validFoods,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [foods]);
 
     const resetForm = () => {
         setFoods([{ name: "", calories: "", protein: "", carbs: "", fat: "" }]);

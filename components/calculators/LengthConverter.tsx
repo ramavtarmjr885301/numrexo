@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -98,7 +98,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LengthConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("meter");
     const [toUnit, setToUnit] = useState("foot");
     const [result, setResult] = useState<any>(null);
@@ -107,7 +107,7 @@ export default function LengthConverter() {
     const convert = () => {
         const val = parseFloat(value);
         if (isNaN(val)) {
-            alert("Please enter a valid number");
+            setResult(null);
             return;
         }
 
@@ -124,6 +124,10 @@ export default function LengthConverter() {
             converted: converted.toFixed(6),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
 
     const swapUnits = () => {
         const temp = fromUnit;

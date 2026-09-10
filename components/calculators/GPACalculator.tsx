@@ -1,7 +1,7 @@
 // components/calculators/GPACalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const GRADE_POINTS: Record<string, number> = {
@@ -61,6 +61,10 @@ export default function GPACalculator() {
 
         setResult({ gpa: gpa.toFixed(2), letterGrade, totalCredits, totalPoints: totalPoints.toFixed(2) });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [courses]);
 
     const resetForm = () => {
         setCourses([{ grade: "A", credits: "3" }]);

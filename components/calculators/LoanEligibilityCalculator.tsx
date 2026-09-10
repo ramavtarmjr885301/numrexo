@@ -1,7 +1,7 @@
 // components/calculators/LoanEligibilityCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const LOAN_SCHEMA = JSON.stringify({
 });
 
 export default function LoanEligibilityCalculator() {
-    const [monthlyIncome, setMonthlyIncome] = useState("");
+    const [monthlyIncome, setMonthlyIncome] = useState("50000");
     const [existingEMI, setExistingEMI] = useState("0");
     const [interestRate, setInterestRate] = useState("9");
     const [tenure, setTenure] = useState("20");
@@ -72,7 +72,7 @@ export default function LoanEligibilityCalculator() {
         const months = parseFloat(tenure) * 12;
 
         if (!income || income <= 0) {
-            alert("Please enter your monthly income");
+            setResult(null);
             return;
         }
 
@@ -103,6 +103,10 @@ export default function LoanEligibilityCalculator() {
             existingEMI: existing.toLocaleString("en-IN"),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [monthlyIncome, existingEMI, interestRate, tenure]);
 
     const resetForm = () => {
         setMonthlyIncome("");

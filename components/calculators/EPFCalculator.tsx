@@ -1,7 +1,7 @@
 // components/calculators/EPFCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,7 +58,7 @@ const EPF_SCHEMA = JSON.stringify({
 });
 
 export default function EPFCalculator() {
-    const [basicSalary, setBasicSalary] = useState("");
+    const [basicSalary, setBasicSalary] = useState("25000");
     const [currentAge, setCurrentAge] = useState("25");
     const [retirementAge, setRetirementAge] = useState("58");
     const [employerContribution, setEmployerContribution] = useState("12");
@@ -75,7 +75,7 @@ export default function EPFCalculator() {
         const years = retire - current;
 
         if (!basic || basic <= 0 || years <= 0) {
-            alert("Please enter valid details");
+            setResult(null);
             return;
         }
 
@@ -102,6 +102,10 @@ export default function EPFCalculator() {
             years,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [basicSalary, currentAge, retirementAge, employerContribution, interestRate]);
 
     const resetForm = () => {
         setBasicSalary("");

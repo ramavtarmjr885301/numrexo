@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -124,14 +124,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function MortgageCalculator() {
-    const [homePrice, setHomePrice] = useState("");
-    const [downPayment, setDownPayment] = useState("");
+    const [homePrice, setHomePrice] = useState("300000");
+    const [downPayment, setDownPayment] = useState("60000");
     const [downPaymentPercent, setDownPaymentPercent] = useState("20");
     const [loanTerm, setLoanTerm] = useState(30);
-    const [interestRate, setInterestRate] = useState("");
-    const [propertyTax, setPropertyTax] = useState("");
-    const [homeInsurance, setHomeInsurance] = useState("");
-    const [pmi, setPmi] = useState("");
+    const [interestRate, setInterestRate] = useState("6.5");
+    const [propertyTax, setPropertyTax] = useState("3000");
+    const [homeInsurance, setHomeInsurance] = useState("1200");
+    const [pmi, setPmi] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [inputMethod, setInputMethod] = useState<"amount" | "percent">("percent");
@@ -150,24 +150,24 @@ export default function MortgageCalculator() {
         }
 
         if (isNaN(price) || price <= 0) {
-            alert("Please enter a valid home price");
+            setResult(null);
             return;
         }
 
         if (isNaN(down) || down < 0) {
-            alert("Please enter a valid down payment");
+            setResult(null);
             return;
         }
 
         const loanAmount = price - down;
         if (loanAmount <= 0) {
-            alert("Loan amount must be greater than zero");
+            setResult(null);
             return;
         }
 
         const rate = parseFloat(interestRate);
         if (isNaN(rate) || rate < 0) {
-            alert("Please enter a valid interest rate");
+            setResult(null);
             return;
         }
 
@@ -206,6 +206,10 @@ export default function MortgageCalculator() {
             interestRate: rate,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [homePrice, downPayment, downPaymentPercent, loanTerm, interestRate, propertyTax, homeInsurance, pmi, inputMethod]);
 
     const resetForm = () => {
         setHomePrice("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -90,14 +90,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 export default function BakingConverter() {
     const [ingredient, setIngredient] = useState(INGREDIENTS[0].name);
     const [conversionType, setConversionType] = useState<"cupsToGrams" | "gramsToCups">("cupsToGrams");
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("1");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const convert = () => {
         const val = parseFloat(value);
         if (isNaN(val) || val <= 0) {
-            alert("Please enter a valid value");
+            setResult(null);
             return;
         }
 
@@ -127,6 +127,10 @@ export default function BakingConverter() {
             conversionType,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { convert(); }, [ingredient, conversionType, value]);
 
     const resetForm = () => {
         setIngredient(INGREDIENTS[0].name);

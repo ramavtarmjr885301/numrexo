@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -80,10 +80,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function BodyTypeCalculator() {
     const [gender, setGender] = useState<"male" | "female">("female");
-    const [shoulders, setShoulders] = useState("");
-    const [bust, setBust] = useState("");
-    const [waist, setWaist] = useState("");
-    const [hips, setHips] = useState("");
+    const [shoulders, setShoulders] = useState("100");
+    const [bust, setBust] = useState("90");
+    const [waist, setWaist] = useState("75");
+    const [hips, setHips] = useState("100");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -94,7 +94,7 @@ export default function BodyTypeCalculator() {
         const h = parseFloat(hips);
 
         if (!s || !w || !h || s <= 0 || w <= 0 || h <= 0) {
-            alert("Please enter at least shoulder, waist, and hip measurements");
+            setResult(null);
             return;
         }
 
@@ -165,6 +165,10 @@ export default function BodyTypeCalculator() {
             },
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [gender, shoulders, bust, waist, hips]);
 
     const resetForm = () => {
         setGender("female");

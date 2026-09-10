@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -87,17 +87,17 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BuiltUpAreaCalculator() {
-    const [carpetArea, setCarpetArea] = useState("");
+    const [carpetArea, setCarpetArea] = useState("1000");
     const [wallFactor, setWallFactor] = useState("18");
-    const [balconyArea, setBalconyArea] = useState("");
-    const [pricePerSqFt, setPricePerSqFt] = useState("");
+    const [balconyArea, setBalconyArea] = useState("0");
+    const [pricePerSqFt, setPricePerSqFt] = useState("5000");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const calculate = () => {
         const carpet = parseFloat(carpetArea);
         if (!carpet || carpet <= 0) {
-            alert("Please enter a valid carpet area");
+            setResult(null);
             return;
         }
 
@@ -130,6 +130,10 @@ export default function BuiltUpAreaCalculator() {
             carpetCostPerSqFt: carpetCostPerSqFt ? carpetCostPerSqFt.toFixed(2) : null,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [carpetArea, wallFactor, balconyArea, pricePerSqFt]);
 
     const resetForm = () => {
         setCarpetArea("");

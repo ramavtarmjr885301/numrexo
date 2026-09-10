@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -207,19 +207,19 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
 
 export default function SalaryBudgetingCalculator() {
     const [monthlySalary, setMonthlySalary] = useState("");
-    const [rent, setRent] = useState("");
-    const [groceries, setGroceries] = useState("");
-    const [utilities, setUtilities] = useState("");
-    const [transport, setTransport] = useState("");
-    const [insurance, setInsurance] = useState("");
-    const [emiPayments, setEmiPayments] = useState("");
-    const [diningOut, setDiningOut] = useState("");
-    const [entertainment, setEntertainment] = useState("");
-    const [shopping, setShopping] = useState("");
-    const [subscriptions, setSubscriptions] = useState("");
-    const [emergencyFund, setEmergencyFund] = useState("");
-    const [investments, setInvestments] = useState("");
-    const [savingsGoal, setSavingsGoal] = useState("");
+    const [rent, setRent] = useState("0");
+    const [groceries, setGroceries] = useState("0");
+    const [utilities, setUtilities] = useState("0");
+    const [transport, setTransport] = useState("0");
+    const [insurance, setInsurance] = useState("0");
+    const [emiPayments, setEmiPayments] = useState("0");
+    const [diningOut, setDiningOut] = useState("0");
+    const [entertainment, setEntertainment] = useState("0");
+    const [shopping, setShopping] = useState("0");
+    const [subscriptions, setSubscriptions] = useState("0");
+    const [emergencyFund, setEmergencyFund] = useState("0");
+    const [investments, setInvestments] = useState("0");
+    const [savingsGoal, setSavingsGoal] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -245,7 +245,7 @@ export default function SalaryBudgetingCalculator() {
         const salary = parseFloat(monthlySalary);
 
         if (isNaN(salary) || salary <= 0) {
-            alert("Please enter a valid monthly salary greater than zero");
+            setResult(null);
             return;
         }
 
@@ -363,6 +363,10 @@ export default function SalaryBudgetingCalculator() {
             savingsPercentage: ((savingsTotal / salary) * 100).toFixed(1),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculateBudget(); }, [monthlySalary, rent, groceries, utilities, transport, insurance, emiPayments, diningOut, entertainment, shopping, subscriptions, emergencyFund, investments, savingsGoal]);
 
     return (
         <>

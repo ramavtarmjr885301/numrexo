@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -111,13 +111,13 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function RoofingCalculator() {
-    const [roofLength, setRoofLength] = useState("");
-    const [roofWidth, setRoofWidth] = useState("");
+    const [roofLength, setRoofLength] = useState("40");
+    const [roofWidth, setRoofWidth] = useState("20");
     const [roofPitch, setRoofPitch] = useState("4/12 (Standard)");
-    const [sheetLength, setSheetLength] = useState("");
+    const [sheetLength, setSheetLength] = useState("10");
     const [sheetWidth, setSheetWidth] = useState("3");
     const [wastePercent, setWastePercent] = useState("10");
-    const [pricePerSheet, setPricePerSheet] = useState("");
+    const [pricePerSheet, setPricePerSheet] = useState("500");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -142,7 +142,7 @@ export default function RoofingCalculator() {
         const width = parseFloat(roofWidth);
 
         if (!length || !width || length <= 0 || width <= 0) {
-            alert("Please enter valid roof dimensions");
+            setResult(null);
             return;
         }
 
@@ -185,6 +185,10 @@ export default function RoofingCalculator() {
             sheetWidth: sheetWid || null,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [roofLength, roofWidth, roofPitch, sheetLength, sheetWidth, wastePercent, pricePerSheet]);
 
     return (
         <>

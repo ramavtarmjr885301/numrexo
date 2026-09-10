@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 type CalcType = "percentage" | "percentageOf" | "increase" | "decrease";
@@ -40,7 +40,7 @@ export default function PercentageCalculator() {
     const v2 = parseFloat(value2);
 
     if (isNaN(v1) || (calcType !== "percentage" && isNaN(v2))) {
-      alert("Please enter valid numbers");
+      setResult(null);
       return;
     }
 
@@ -75,6 +75,10 @@ export default function PercentageCalculator() {
 
     setResult({ mainResult, extraRows });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [calcType, value1, value2]);
 
   const resetForm = () => {
     setCalcType("percentage");

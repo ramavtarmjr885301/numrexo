@@ -1,7 +1,7 @@
 // components/calculators/ProfitMarginCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -28,8 +28,8 @@ const PROFIT_SCHEMA = JSON.stringify({
 });
 
 export default function ProfitMarginCalculator() {
-    const [cost, setCost] = useState("");
-    const [revenue, setRevenue] = useState("");
+    const [cost, setCost] = useState("600");
+    const [revenue, setRevenue] = useState("1000");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -38,12 +38,12 @@ export default function ProfitMarginCalculator() {
         const r = parseFloat(revenue);
 
         if (!c || !r || c <= 0 || r <= 0) {
-            alert("Please enter valid cost and revenue");
+            setResult(null);
             return;
         }
 
         if (c >= r) {
-            alert("Cost must be less than revenue to have profit");
+            setResult(null);
             return;
         }
 
@@ -59,6 +59,10 @@ export default function ProfitMarginCalculator() {
             revenue: r
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [cost, revenue]);
 
     const resetForm = () => {
         setCost("");

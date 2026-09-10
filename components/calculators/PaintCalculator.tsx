@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -93,14 +93,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PaintCalculator() {
-    const [roomLength, setRoomLength] = useState("");
-    const [roomWidth, setRoomWidth] = useState("");
-    const [roomHeight, setRoomHeight] = useState("");
-    const [doorCount, setDoorCount] = useState("");
-    const [windowCount, setWindowCount] = useState("");
+    const [roomLength, setRoomLength] = useState("12");
+    const [roomWidth, setRoomWidth] = useState("10");
+    const [roomHeight, setRoomHeight] = useState("8");
+    const [doorCount, setDoorCount] = useState("1");
+    const [windowCount, setWindowCount] = useState("2");
     const [paintType, setPaintType] = useState<"paint" | "primer" | "enamel">("paint");
     const [coats, setCoats] = useState("2");
-    const [pricePerLiter, setPricePerLiter] = useState("");
+    const [pricePerLiter, setPricePerLiter] = useState("250");
     const [includeCeiling, setIncludeCeiling] = useState(false);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -111,7 +111,7 @@ export default function PaintCalculator() {
         const height = parseFloat(roomHeight);
 
         if (!length || !width || !height || length <= 0 || width <= 0 || height <= 0) {
-            alert("Please enter valid room dimensions");
+            setResult(null);
             return;
         }
 
@@ -155,6 +155,10 @@ export default function PaintCalculator() {
             paintType,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [roomLength, roomWidth, roomHeight, doorCount, windowCount, paintType, coats, pricePerLiter, includeCeiling]);
 
     const resetForm = () => {
         setRoomLength("");

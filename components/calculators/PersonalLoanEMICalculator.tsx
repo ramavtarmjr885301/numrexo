@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -132,17 +132,17 @@ export default function PersonalLoanEMICalculator() {
         const months = parseFloat(tenure);
 
         if (isNaN(principal) || principal <= 0) {
-            alert("Please enter a valid loan amount greater than zero");
+            setResult(null);
             return;
         }
 
         if (isNaN(rate) || rate < 0) {
-            alert("Please enter a valid interest rate");
+            setResult(null);
             return;
         }
 
         if (isNaN(months) || months <= 0) {
-            alert("Please enter a valid loan tenure greater than zero");
+            setResult(null);
             return;
         }
 
@@ -222,6 +222,10 @@ export default function PersonalLoanEMICalculator() {
             totalInterestFormatted: totalInterest.toFixed(2),
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure]);
 
     // Preset loan amounts
     const presetAmounts = [100000, 250000, 500000, 1000000, 2000000];

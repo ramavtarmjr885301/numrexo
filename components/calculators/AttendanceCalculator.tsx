@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -34,7 +34,7 @@ export default function AttendanceCalculator() {
         const held = parseFloat(classesHeld) || 0;
 
         if (held <= 0) {
-            alert("Please enter total classes held");
+            setResult(null);
             return;
         }
 
@@ -112,6 +112,10 @@ export default function AttendanceCalculator() {
             excess: currentPercentage > 75 ? (currentPercentage - 75).toFixed(2) : 0,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [classesAttended, classesHeld, targetPercentage]);
 
     const reset = () => {
         setClassesAttended("");

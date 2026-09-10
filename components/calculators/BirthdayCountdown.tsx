@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -107,7 +107,7 @@ export default function BirthdayCountdown() {
 
     const calculate = () => {
         if (!birthDate) {
-            alert("Please select your birth date");
+            setResult(null);
             return;
         }
 
@@ -162,6 +162,10 @@ export default function BirthdayCountdown() {
             nextAge: age + 1,
         });
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [birthDate]);
 
     const resetForm = () => {
         setBirthDate("");
