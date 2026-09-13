@@ -1,0 +1,470 @@
+From 318e7fa5989278f2938d8a7d4b84514eb070699e Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 10 Sep 2026 19:01:48 +0000
+Subject: [PATCH] Make the EMI pages about different things, instead of the
+ same thing renamed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Measured before touching anything: comparing six-word runs of visible
+text, the car and bike pages shared 64.1% of theirs. They were one page
+with a word swapped — "car" for "bike", ₹5 lakh for ₹50,000 — down to an
+identical FAQ question and eleven identical sentences of advice. That is
+what Google's scaled content policy is aimed at, and no amount of
+metadata fixes it.
+
+Rather than merge six URLs into one, which would throw away five terms
+people actually search for, each page now covers what is genuinely
+different about its own loan:
+
+- Bike: a small-ticket NBFC market, paperwork done at the dealership in
+  an hour, zero-down offers, accessories folded into the on-road price,
+  and a four-year tenure on an asset that will not be worth much by
+  then. All fifteen answers rewritten.
+- Car: secured but depreciating, so the tenure question is really about
+  the gap between the balance and the resale value; dealer finance
+  versus your own bank; hypothecation on the RC that has to be removed
+  after the last EMI.
+- Personal: unsecured, so the file is the security — income multiples,
+  the fee taken out of the disbursal so you repay interest on money that
+  never arrived, and how much more each extra year costs at these rates.
+
+Every figure quoted is computed, not carried over: ₹80,000 at 11% over
+one to four years on the bike page, ₹8,00,000 at 9.5% over three to
+seven years on the car page, ₹5,00,000 at 12% and 16% on the personal
+page.
+
+Worst pair is now 31.6%, and what remains is form labels, section
+headings and button text — the chrome a family of calculators is
+supposed to share.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PHRT6vhhyEyck1uNY7XC3G
+---
+ .../calculators/BikeLoanEMICalculator.tsx     | 80 +++++++++----------
+ .../calculators/CarLoanEMICalculator.tsx      | 28 +++----
+ .../calculators/PersonalLoanEMICalculator.tsx | 30 +++----
+ 3 files changed, 69 insertions(+), 69 deletions(-)
+
+diff --git a/components/calculators/BikeLoanEMICalculator.tsx b/components/calculators/BikeLoanEMICalculator.tsx
+index 25c2de6..385ea14 100644
+--- a/components/calculators/BikeLoanEMICalculator.tsx
++++ b/components/calculators/BikeLoanEMICalculator.tsx
+@@ -8,63 +8,63 @@ import ResultBox from "@/components/common/ResultBox";
+ const FAQ_DATA = [
+     {
+         q: "What is a bike loan EMI calculator?",
+-        a: "A bike loan EMI calculator helps you estimate your monthly payments for your two-wheeler purchase. It uses the standard EMI formula to calculate equal monthly installments based on the loan amount, interest rate, and tenure, helping you plan your bike purchase budget effectively.",
++        a: "It works out the monthly instalment on a two-wheeler loan before you sign anything at the showroom. Two-wheeler finance is a different market from car finance: the amounts are small (usually ₹50,000 to ₹1.5 lakh), most of the lending is done by NBFCs rather than banks, and the paperwork is often filled in at the dealership in under an hour. That speed is convenient, and it is also why people agree to a tenure and a rate they have not checked. Working out the EMI yourself first is the whole point.",
+     },
+     {
+         q: "How is bike loan EMI calculated?",
+-        a: "Bike loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
++        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the amount financed, r is the monthly rate (annual ÷ 12) and n is the number of months. On a small loan the percentage matters less than you would think in rupee terms: on ₹80,000 over 3 years, the difference between 11% and 12% is about ₹38 a month. What actually moves the number is how much you finance and for how long.",
+     },
+     {
+-        q: "What is the current bike loan interest rate?",
+-        a: "Bike loan interest rates in India typically range from 8% to 16% per annum, depending on the lender, loan amount, tenure, and your credit score. Top lenders like SBI, HDFC, and Bajaj Finance offer rates between 8-12% for new bikes and 10-16% for used bikes.",
++        q: "What interest rate should I expect on a bike loan?",
++        a: "Two-wheeler rates are typically higher than car rates because the ticket size is small and the asset depreciates fast. New bikes commonly fall in the 8-16% range and used bikes higher again, with NBFCs at the upper end and banks at the lower end if you already bank with them. Rates change often and vary by model, so treat any figure you read online as a starting point and ask two lenders for a written quote before you decide.",
+     },
+     {
+-        q: "What is the maximum tenure for a bike loan?",
+-        a: "Bike loan tenures typically range from 12 to 48 months (1-4 years). New bike loans usually offer up to 4 years, while used bike loans are typically limited to 2-3 years. Longer tenures mean lower EMIs but higher total interest payments.",
++        q: "How long should a bike loan run?",
++        a: "Lenders offer 12 to 48 months. Just because 48 is offered does not mean it is sensible. On ₹80,000 at 11%, a 1-year loan costs ₹7,071 a month and ₹4,846 in interest; stretching to 4 years drops the EMI to ₹2,068 but the interest nearly quadruples to ₹19,247 — on a bike that will be worth a fraction of its price by then. Two years is the usual sweet spot for a commuter bike.",
+     },
+     {
+-        q: "What is the difference between new bike and used bike loan rates?",
+-        a: "New bike loans typically have lower interest rates (8-12%) compared to used bike loans (10-16%). New bikes also get longer tenures (up to 4 years) while used bikes usually get 2-3 years. This is because new bikes have higher resale value and lower risk for lenders.",
++        q: "How much down payment should I make?",
++        a: "Lenders finance 80-90% of the on-road price, and dealerships push low or zero down payment hard because it makes the bike look affordable. It is the single most effective lever you have. On a ₹1,00,000 on-road bike at 12% over 3 years: pay nothing down and the EMI is ₹3,321 with ₹19,572 in interest; put ₹20,000 down and it is ₹2,657 with ₹15,657. Every rupee you pay upfront is a rupee you never pay interest on.",
+     },
+     {
+-        q: "How does credit score affect bike loan interest rate?",
+-        a: "A good credit score (700+) helps you get lower interest rates on bike loans. For example, a 1% lower interest rate on a ₹1 lakh bike loan for 3 years can save you approximately ₹150 per month in EMI and over ₹5,000 in total interest.",
++        q: "What does the on-road price include, and what gets financed?",
++        a: "Ex-showroom price is only the start. On-road adds RTO registration, road tax, and the first year of insurance, and dealerships routinely add accessories, extended warranty and a handling charge on top. All of it can be rolled into the loan, which is how a ₹85,000 bike becomes a ₹1,10,000 loan. Ask for the on-road breakup in writing, decide what you actually want, and enter only that amount here.",
+     },
+     {
+-        q: "What is the down payment required for a bike loan?",
+-        a: "Typically, banks finance 80-90% of the bike's on-road price. You need to pay 10-20% as down payment. For example, for a ₹1 lakh bike, you may need to pay ₹10,000-20,000 as down payment. Some lenders offer 100% financing with higher interest rates.",
++        q: "Can I get a loan on a used bike?",
++        a: "It is harder than for a used car. Many lenders will not finance two-wheelers older than 3-5 years at all, tenures are capped at 2-3 years, and rates run several points higher. You will also need the seller's RC with hypothecation already cleared, a valid insurance transfer and, in most states, an NOC if the bike is registered elsewhere. For older or cheaper bikes, a small personal loan is often the cheaper route.",
+     },
+     {
+-        q: "What documents are required for a bike loan?",
+-        a: "Common documents include: Identity proof (Aadhaar, PAN, Voter ID), Address proof, Income proof (salary slips, bank statements), Employment proof, Bike invoice, and insurance documents. Salaried individuals need last 3 months' salary slips and 6 months' bank statements.",
++        q: "What documents do I need?",
++        a: "Less than for a car loan. Identity and address proof (Aadhaar and PAN), a photograph, and proof that money comes in — three months of salary slips for a salaried applicant, or six months of bank statements for anyone self-employed. Many NBFCs approve small two-wheeler loans on Aadhaar and a bank statement alone. Keep the dealer's proforma invoice handy, since the loan is sanctioned against it.",
+     },
+     {
+-        q: "Can I prepay my bike loan?",
+-        a: "Yes, most lenders allow prepayment of bike loans. However, prepayment charges may apply (typically 2-5% of the outstanding amount). Some lenders allow prepayment after 6-12 months without penalty. Always check your loan agreement for prepayment terms.",
++        q: "What happens if I want to close the loan early?",
++        a: "Most lenders allow foreclosure after 6-12 EMIs, usually with a charge of 2-5% on the outstanding amount, and some add GST on that charge. On a small loan the charge can eat most of the interest you were trying to save, so check the figure before you pay off early — ask for a foreclosure statement, which the lender must give you, and compare it against the interest you would otherwise pay.",
+     },
+     {
+-        q: "What is the EMI for a ₹50,000 bike loan?",
+-        a: "For a ₹50,000 bike loan at 10% interest: 1 year EMI ₹4,395, total interest ₹2,740; 2 years EMI ₹2,307, total interest ₹5,368; 3 years EMI ₹1,613, total interest ₹8,068. Use our calculator to check EMIs for different loan amounts and tenures.",
++        q: "What is the EMI on a ₹80,000 bike loan?",
++        a: "At 11%: 1 year is ₹7,071 a month with ₹4,846 total interest; 2 years is ₹3,729 with ₹9,487; 3 years is ₹2,619 with ₹14,288. At 14% the same loan over 3 years costs ₹2,734 a month and ₹18,432 in interest. Change the figures above to match the quote you were actually given rather than relying on any of these.",
+     },
+     {
+-        q: "How does loan tenure affect EMI and total interest?",
+-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹1 lakh bike loan at 10%: 1 year EMI ₹8,790 (total interest ₹5,480); 3 years EMI ₹3,226 (total interest ₹16,136). Choose based on your monthly budget.",
++        q: "Why does the same bike cost more when I pay monthly?",
++        a: "Because you are buying money as well as a bike. A ₹1,20,000 loan at 11% over 4 years hands the lender ₹28,870 — roughly a quarter of the bike's price again — for the convenience of paying later. That is not an argument against financing; it is an argument for knowing the number. The total interest line in the result above is the price of the loan itself.",
+     },
+     {
+-        q: "What is the difference between fixed and floating rates for bike loans?",
+-        a: "Fixed rates remain constant throughout the loan tenure, offering predictability but usually higher rates. Floating rates change with market conditions, offering potentially lower rates but with uncertainty. Most bike loans in India are fixed rate.",
++        q: "Should I take the insurance the dealer offers?",
++        a: "The first year of insurance is usually bundled into the on-road price, and lenders are happy to finance it because it protects their asset. You are free to buy comprehensive cover elsewhere and often for less, but do it before delivery, not after — the bike cannot be registered or released without valid cover. From year two onward, renewing directly is almost always cheaper than whatever the dealer quotes.",
+     },
+     {
+-        q: "What is the processing fee for bike loans?",
+-        a: "Processing fees typically range from 0.5% to 2% of the loan amount plus GST. For a ₹1 lakh bike loan, fees can be ₹500 to ₹2,000. Many lenders offer zero processing fees during promotional periods or for specific bike models.",
++        q: "How much is the processing fee?",
++        a: "Usually 0.5-2% of the loan, plus GST, and often with a floor of ₹500-₹1,500. On a small two-wheeler loan a flat floor hurts disproportionately: ₹1,500 on a ₹60,000 loan is 2.5% before a single rupee of interest. Ask whether the fee is deducted from the disbursal or added to the loan — if it is added, you pay interest on the fee for the whole tenure.",
+     },
+     {
+-        q: "Can I get a bike loan with a low CIBIL score?",
+-        a: "While a low CIBIL score (below 650) makes approval difficult, some NBFCs and fintech lenders offer bike loans at higher interest rates. You can also improve approval chances by making a larger down payment, adding a co-applicant, or providing collateral.",
++        q: "Can I get a bike loan with a low or no credit score?",
++        a: "A two-wheeler loan is often a person's first credit product, so lenders are used to thin files and will look at income stability and address history instead. With a score below 650 expect a higher rate, a larger down payment, or a request for a co-applicant. If you do take it, treat it as a score-building exercise: 24 EMIs paid on time will do more for your credit record than anything else at that stage.",
+     },
+     {
+-        q: "How to reduce bike loan EMI?",
+-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find the optimal loan structure.",
++        q: "What actually reduces the EMI?",
++        a: "In order of how much they move the number: a bigger down payment, a shorter list of dealer add-ons, and a better rate — usually from the bank you already hold a salary account with. Extending the tenure also reduces the EMI, and it is the option dealerships suggest first, but it raises what you pay overall. Run both versions in the calculator above and compare the total interest, not just the monthly figure.",
+     },
+ ];
+ 
+@@ -584,7 +584,7 @@ export default function BikeLoanEMICalculator() {
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Down Payment Analysis</h3>
+-                        <p className="text-gray-400 text-xs leading-relaxed">Understand how different down payment amounts affect your EMI and total interest. Find the optimal down payment for your budget.</p>
++                        <p className="text-gray-400 text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra ₹10,000 upfront saves you over the full tenure.</p>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                         <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ New vs Used Decision</h3>
+@@ -616,7 +616,7 @@ export default function BikeLoanEMICalculator() {
+                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
+                         </div>
+                     </div>
+-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
++                    <p className="text-gray-500 text-xs mt-4">Interest is charged on the balance still outstanding, so the interest share of each EMI falls a little every month.</p>
+                 </div>
+             </section>
+ 
+@@ -717,7 +717,7 @@ export default function BikeLoanEMICalculator() {
+                         </tbody>
+                     </table>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
++                <p className="text-xs text-gray-600 mt-2">* On a two-wheeler, a longer tenure often outlives the bike's useful resale value</p>
+             </section>
+ 
+             {/* Popular Bike Models with EMI */}
+@@ -780,8 +780,8 @@ export default function BikeLoanEMICalculator() {
+                             <li>• Age: 21-60 years</li>
+                             <li>• Minimum monthly income: ₹15,000</li>
+                             <li>• Work experience: 6+ months</li>
+-                            <li>• CIBIL score: 700+ preferred</li>
+-                            <li>• Valid identity and address proof</li>
++                            <li>• CIBIL score: 700+ preferred, though a thin file is common for a first bike</li>
++                            <li>• Aadhaar and PAN, plus address proof if the two differ</li>
+                         </ul>
+                     </div>
+                     <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+@@ -791,11 +791,11 @@ export default function BikeLoanEMICalculator() {
+                             <li>• ITR filing: 1+ years</li>
+                             <li>• Business vintage: 2+ years</li>
+                             <li>• Annual turnover: ₹2 lakhs+</li>
+-                            <li>• Profitability track record</li>
++                            <li>• Six months of bank statements showing steady inflow</li>
+                         </ul>
+                     </div>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
++                <p className="text-xs text-gray-600 mt-3">* Two-wheeler lending is dominated by NBFCs, and their criteria are looser and their rates higher than a bank's. Check both.</p>
+             </section>
+ 
+             {/* Tips for Lower Bike Loan EMI */}
+@@ -820,7 +820,7 @@ export default function BikeLoanEMICalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Choose Optimal Tenure:</strong> Choose a tenure that balances EMI affordability with total interest. Don't go for the longest tenure just for lower EMI.</span>
++                        <span><strong className="text-gray-300">Choose Optimal Tenure:</strong> Match the tenure to how long you will actually keep the bike. Paying for a commuter bike in year four of ownership is how people end up with an EMI on something they no longer ride.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+@@ -835,7 +835,7 @@ export default function BikeLoanEMICalculator() {
+                 <ul className="space-y-2">
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Ignoring On-Road Price:</strong> Always calculate EMI based on the on-road price (ex-showroom + RTO + insurance), not just the ex-showroom price.</span>
++                        <span><strong className="text-gray-300">Ignoring On-Road Price:</strong> Dealers quote ex-showroom. The loan is written against the on-road figure — RTO, road tax, insurance and any accessories they add — which is routinely 20-25% higher.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+@@ -843,15 +843,15 @@ export default function BikeLoanEMICalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Choosing Longest Tenure:</strong> While it reduces EMI, it significantly increases total interest. Only choose long tenure if you absolutely need lower EMI.</span>
++                        <span><strong className="text-gray-300">Choosing Longest Tenure:</strong> Stretching ₹80,000 from two years to four cuts the EMI by ₹1,661 and adds ₹9,760 in interest. Take that trade only if the shorter EMI genuinely does not fit.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
++                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> On small loans the flat minimum processing fee matters more than the percentage. Ask for the rupee figure, not the rate.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
++                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Each application leaves a hard enquiry. Dealerships often submit to several financiers at once to get you approved fast — ask them to apply to one first.</span>
+                     </li>
+                 </ul>
+             </section>
+diff --git a/components/calculators/CarLoanEMICalculator.tsx b/components/calculators/CarLoanEMICalculator.tsx
+index 32f1b99..ed0b6e2 100644
+--- a/components/calculators/CarLoanEMICalculator.tsx
++++ b/components/calculators/CarLoanEMICalculator.tsx
+@@ -8,15 +8,15 @@ import ResultBox from "@/components/common/ResultBox";
+ const FAQ_DATA = [
+     {
+         q: "What is a car loan EMI calculator?",
+-        a: "A car loan EMI calculator helps you estimate your monthly payments for your car purchase. It uses the standard EMI formula to calculate equal monthly installments based on the loan amount, interest rate, and tenure, helping you plan your car purchase budget effectively.",
++        a: "It tells you the monthly cost of financing a car before the showroom does. A car loan sits between a home loan and a personal loan: it is secured against the vehicle, so rates are moderate, but the asset loses value far faster than the loan balance falls. That gap — owing more than the car is worth — is the thing worth understanding before you pick a tenure.",
+     },
+     {
+         q: "How is car loan EMI calculated?",
+-        a: "Car loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
++        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where r is the monthly rate and n the number of months. On ₹8,00,000 at 9.5%, three years costs ₹25,626 a month with ₹1,22,549 in interest; seven years drops the EMI to ₹13,075 but the interest climbs to ₹2,98,316. Same car, ₹1.75 lakh apart.",
+     },
+     {
+         q: "What is the current car loan interest rate?",
+-        a: "Car loan interest rates in India typically range from 7.5% to 12% per annum, depending on the lender, loan amount, tenure, and your credit score. Top lenders like SBI, HDFC, and ICICI offer rates between 7.5-9.5% for new cars and 9-12% for used cars.",
++        a: "New-car rates typically sit in the 8-12% band and used-car rates several points above it, with the exact number depending on your credit profile, the model, and whether the loan comes from your own bank or the dealership's tie-up. Dealer finance is quicker and frequently dearer; a written quote from your own bank is the cheapest half-hour of work in the whole purchase.",
+     },
+     {
+         q: "What is the maximum tenure for a car loan?",
+@@ -28,7 +28,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How does credit score affect car loan interest rate?",
+-        a: "A good credit score (750+) helps you get lower interest rates on car loans. For example, a 1% lower interest rate on a ₹10 lakh car loan for 5 years can save you approximately ₹500 per month in EMI and over ₹30,000 in total interest.",
++        a: "On a secured car loan the score moves the rate less than it does on an unsecured one, but it still moves it. A single percentage point on ₹8,00,000 over five years is ₹394 a month and ₹23,618 over the term. Pull your report before applying — a stale, already-closed loan still showing as live is the most common reason a good file gets priced badly.",
+     },
+     {
+         q: "What is the down payment required for a car loan?",
+@@ -36,7 +36,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What documents are required for a car loan?",
+-        a: "Common documents include: Identity proof (Aadhaar, PAN), Address proof, Income proof (salary slips, ITR, bank statements), Employment proof, Car invoice, and insurance documents. Salaried individuals need last 3 months' salary slips and 6 months' bank statements.",
++        a: "Aadhaar and PAN, address proof, three months of salary slips and six months of bank statements, and the dealer's proforma invoice, since the loan is sanctioned against a specific vehicle. Self-employed applicants add two years of ITR. The RC is issued with the lender's hypothecation on it, and removing that entry after the final EMI is a separate step people routinely forget.",
+     },
+     {
+         q: "Can I prepay my car loan?",
+@@ -48,7 +48,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How does loan tenure affect EMI and total interest?",
+-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹10 lakh car loan at 9%: 3 years EMI ₹31,800 (total interest ₹1.45L); 5 years EMI ₹20,756 (total interest ₹2.45L). Choose based on your monthly budget.",
++        a: "A car is a depreciating asset, which makes the tenure choice sharper than on a home loan. On ₹8,00,000 at 9.5%: three years is ₹25,626 a month and ₹1,22,549 in interest; five is ₹16,801 and ₹2,08,089; seven is ₹13,075 and ₹2,98,316. Past about five years, many owners owe more than the car would fetch — awkward if you need to sell or the car is written off.",
+     },
+     {
+         q: "What is the difference between fixed and floating rates for car loans?",
+@@ -56,7 +56,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What is the processing fee for car loans?",
+-        a: "Processing fees typically range from 0.5% to 1.5% of the loan amount plus GST. For a ₹10 lakh car loan, fees can be ₹5,000 to ₹15,000. Many lenders offer zero processing fees during promotional periods or for specific car models.",
++        a: "Usually 0.5-1.5% plus GST, and often waived or discounted at your own bank. Dealer-arranged finance may show a low rate and recover it in the fee, or in an insurance or extended-warranty package attached to the loan. Ask for the total amount financed and the total repayable, and compare those two numbers between lenders rather than the advertised rate.",
+     },
+     {
+         q: "Can I get a car loan with a low CIBIL score?",
+@@ -64,7 +64,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to reduce car loan EMI?",
+-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find the optimal loan structure.",
++        a: "In order of effect: a larger down payment, since it cuts the financed amount directly; a quote from your own bank rather than the showroom; and skipping the add-ons the dealer wants to roll into the loan. Extending the tenure lowers the EMI too, but on a car that is a trade you are making against an asset that is losing value the whole time.",
+     },
+ ];
+ 
+@@ -616,7 +616,7 @@ export default function CarLoanEMICalculator() {
+                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
+                         </div>
+                     </div>
+-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
++                    <p className="text-gray-500 text-xs mt-4">Interest is charged on the balance outstanding, so the early EMIs are mostly interest and the car builds equity slowly.</p>
+                 </div>
+             </section>
+ 
+@@ -717,7 +717,7 @@ export default function CarLoanEMICalculator() {
+                         </tbody>
+                     </table>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
++                <p className="text-xs text-gray-600 mt-2">* Past roughly five years, the loan balance tends to outrun what the car is worth</p>
+             </section>
+ 
+             {/* Car Loan Eligibility */}
+@@ -745,7 +745,7 @@ export default function CarLoanEMICalculator() {
+                         </ul>
+                     </div>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
++                <p className="text-xs text-gray-600 mt-3">* Your own bank will usually beat the showroom&apos;s tie-up. Get that quote before you sit down to sign.</p>
+             </section>
+ 
+             {/* Tips for Lower Car Loan EMI */}
+@@ -758,7 +758,7 @@ export default function CarLoanEMICalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Improve Credit Score:</strong> A higher credit score (750+) qualifies you for lower interest rates. Check your score regularly and correct any errors.</span>
++                        <span><strong className="text-gray-300">Improve Credit Score:</strong> Check your credit report before you apply, not after. A closed loan still showing as active is the usual culprit behind an unexpectedly high quote.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+@@ -797,11 +797,11 @@ export default function CarLoanEMICalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
++                        <span><strong className="text-gray-300">Missing Processing Fees:</strong> Compare the total amount repayable, not the advertised rate. A low rate with a heavy fee and a bundled warranty can cost more than a plain higher rate.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
++                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Dealerships often push your file to several financiers at once. Every one of those is a hard enquiry — ask them to try a single lender first.</span>
+                     </li>
+                 </ul>
+             </section>
+diff --git a/components/calculators/PersonalLoanEMICalculator.tsx b/components/calculators/PersonalLoanEMICalculator.tsx
+index 1fedc34..e53324f 100644
+--- a/components/calculators/PersonalLoanEMICalculator.tsx
++++ b/components/calculators/PersonalLoanEMICalculator.tsx
+@@ -8,11 +8,11 @@ import ResultBox from "@/components/common/ResultBox";
+ const FAQ_DATA = [
+     {
+         q: "What is a personal loan EMI calculator?",
+-        a: "A personal loan EMI calculator helps you estimate your monthly loan payments based on the loan amount, interest rate, and tenure. It uses the standard EMI formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is principal, r is monthly interest rate, and n is total number of payments.",
++        a: "It shows what an unsecured loan will actually cost you each month. A personal loan differs from a home or vehicle loan in one decisive way: there is no asset behind it, so the lender prices in the risk. That is why the rate is two to three times a home loan rate, why approval leans almost entirely on your income and credit record, and why the total interest deserves a hard look before you sign.",
+     },
+     {
+         q: "How is personal loan EMI calculated?",
+-        a: "Personal loan EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). Here P is the loan amount, r is the monthly interest rate (annual rate/12), and n is the loan tenure in months. This formula ensures equal monthly payments throughout the loan tenure.",
++        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), with r the monthly rate and n the number of months. The arithmetic is the same as any other loan; what makes a personal loan expensive is the rate that goes into it. ₹5,00,000 over 3 years costs ₹16,607 a month at 12% and ₹17,579 at 16% — a difference of under ₹1,000 a month, but ₹34,969 more in interest over the term.",
+     },
+     {
+         q: "What is a good personal loan interest rate?",
+@@ -36,19 +36,19 @@ const FAQ_DATA = [
+     },
+     {
+         q: "What documents are required for a personal loan?",
+-        a: "Common documents include: Identity proof (Aadhaar, PAN), Address proof, Income proof (salary slips, bank statements), Employment proof, and sometimes collateral documents. Salaried individuals need last 3 months' salary slips and bank statements.",
++        a: "Because nothing is pledged, the lender is underwriting you rather than an asset, so the file is about income stability: Aadhaar and PAN, address proof, three months of salary slips and six months of bank statements, plus Form 16 or the last two years' ITR if you are self-employed. Lenders look closely at how long you have been with your current employer and whether the salary credit is regular.",
+     },
+     {
+         q: "How much personal loan can I get?",
+-        a: "The loan amount depends on your income, credit score, existing loans, and lender's policies. Usually, you can get up to 10-20 times your monthly net income. For example, with a ₹50,000 monthly salary, you may qualify for ₹5-10 lakh loan. Use our calculator to check your EMI affordability.",
++        a: "Most lenders work from a multiple of monthly income — commonly 10 to 24 times net salary — and then cap it so that all your EMIs together stay under 40-50% of income. An existing car loan or a large credit card balance therefore reduces what you can borrow here, rupee for rupee. Improving that ratio before you apply raises the sanction more reliably than anything else.",
+     },
+     {
+         q: "What are processing fees for personal loans?",
+-        a: "Processing fees range from 0.5% to 3% of the loan amount plus GST. For a ₹5 lakh loan, fees can be ₹2,500 to ₹15,000. Some lenders offer zero processing fees during promotional periods. Always factor processing fees into your total loan cost.",
++        a: "Typically 1-3% of the loan plus GST, higher than on a secured loan, and usually deducted from the amount disbursed rather than billed separately. On ₹5,00,000 a 2.5% fee means ₹12,500 plus GST never reaches your account, so you repay interest on money you did not receive. Compare lenders on the amount that actually lands, not the headline rate.",
+     },
+     {
+         q: "How does loan tenure affect EMI and total interest?",
+-        a: "Shorter tenure means higher EMI but lower total interest. Longer tenure means lower EMI but higher total interest. For a ₹5 lakh loan at 12% interest: 3 years EMI ₹16,607, total interest ₹97,852; 5 years EMI ₹11,122, total interest ₹167,320. Balance affordability with total cost.",
++        a: "On ₹5,00,000 at 12%, one year costs ₹44,424 a month and ₹33,093 in interest; five years drops the EMI to ₹11,122 but the interest rises to ₹1,67,333 — five times as much. Unsecured rates make this trade far more punishing than it is on a home loan, so take the shortest term whose EMI you can actually sustain.",
+     },
+     {
+         q: "What is the EMI for a ₹1 lakh personal loan?",
+@@ -64,7 +64,7 @@ const FAQ_DATA = [
+     },
+     {
+         q: "How to reduce personal loan EMI?",
+-        a: "Ways to reduce EMI: 1) Choose a longer tenure, 2) Improve credit score for better rates, 3) Make a larger down payment if available, 4) Compare lenders for best rates, 5) Consider balance transfer to a lower rate lender, 6) Use our calculator to find optimal loan structure.",
++        a: "Refinancing to a lower rate is usually the biggest single win on an unsecured loan, and a balance transfer to a bank you already have a relationship with is often cheaper than the NBFC that gave you the original. Beyond that: pay down a credit card first if it is running at a higher rate, prepay in part when a bonus arrives, and extend the tenure only as a last resort — on these rates it costs more than it looks.",
+     },
+ ];
+ 
+@@ -505,7 +505,7 @@ export default function PersonalLoanEMICalculator() {
+                             <span className="text-gray-500 block text-xs">Total Payments (months)</span>
+                         </div>
+                     </div>
+-                    <p className="text-gray-500 text-xs mt-4">The calculator uses the reducing balance method for accurate EMI calculation.</p>
++                    <p className="text-gray-500 text-xs mt-4">Interest accrues on the balance outstanding, so an early prepayment saves more than the same amount paid later.</p>
+                 </div>
+             </section>
+ 
+@@ -606,7 +606,7 @@ export default function PersonalLoanEMICalculator() {
+                         </tbody>
+                     </table>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-2">* Longer tenures reduce EMI but significantly increase total interest paid</p>
++                <p className="text-xs text-gray-600 mt-2">* At unsecured rates, each extra year of tenure costs far more than it does on a secured loan</p>
+             </section>
+ 
+             {/* Eligibility Criteria */}
+@@ -634,7 +634,7 @@ export default function PersonalLoanEMICalculator() {
+                         </ul>
+                     </div>
+                 </div>
+-                <p className="text-xs text-gray-600 mt-3">* Eligibility criteria vary by lender. Always check with your bank for specific requirements.</p>
++                <p className="text-xs text-gray-600 mt-3">* Banks price unsecured lending lower than NBFCs but approve fewer files. If you hold a salary account, start there.</p>
+             </section>
+ 
+             {/* Tips for Lower EMI */}
+@@ -643,11 +643,11 @@ export default function PersonalLoanEMICalculator() {
+                 <ul className="space-y-2">
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Improve Credit Score:</strong> A higher credit score (750+) qualifies you for lower interest rates. Check your score regularly and correct any errors.</span>
++                        <span><strong className="text-gray-300">Improve Credit Score:</strong> With no collateral, your credit score is effectively the security. The gap between a 700 and a 780 file is usually several percentage points here, far wider than on a secured loan.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+-                        <span><strong className="text-gray-300">Choose Longer Tenure:</strong> While total interest is higher, longer tenure significantly reduces monthly EMI. Ideal for tight monthly budgets.</span>
++                        <span><strong className="text-gray-300">Choose Longer Tenure:</strong> A longer term buys breathing room in the monthly budget and costs a great deal for it. Use it deliberately, not by default.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-blue-400 mt-0.5">💡</span>
+@@ -674,11 +674,11 @@ export default function PersonalLoanEMICalculator() {
+                 <ul className="space-y-2">
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Over-borrowing:</strong> Borrow only what you need. Higher loan amount means higher EMI and more interest. Use our calculator to find your comfortable EMI.</span>
++                        <span><strong className="text-gray-300">Over-borrowing:</strong> Lenders often sanction more than you asked for, because a larger loan earns them more. Take the amount you came for.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Ignoring Processing Fees:</strong> Processing fees add to your loan cost. Always factor them into your total loan cost while comparing lenders.</span>
++                        <span><strong className="text-gray-300">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow ₹5,00,000 and receive less. Ask for the net figure in writing.</span>
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+@@ -690,7 +690,7 @@ export default function PersonalLoanEMICalculator() {
+                     </li>
+                     <li className="flex gap-3 text-sm text-gray-400">
+                         <span className="text-red-400 mt-0.5">⚠️</span>
+-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Multiple loan applications lower your credit score. Research thoroughly and apply to select lenders only.</span>
++                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Rate-shopping across aggregator sites can trigger several hard enquiries in a week, which reads as distress borrowing. Ask for a soft-check quote instead.</span>
+                     </li>
+                 </ul>
+             </section>
+-- 
+2.43.0
+

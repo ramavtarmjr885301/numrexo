@@ -1,0 +1,22 @@
+diff --git a/components/calculators/AreaConverter.tsx b/components/calculators/AreaConverter.tsx
+index 7479f11..6e0ddbc 100644
+--- a/components/calculators/AreaConverter.tsx
++++ b/components/calculators/AreaConverter.tsx
+@@ -163,7 +163,7 @@
+ 
+ // "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+@@ -272,7 +272,7 @@ export default function AreaConverter() {
+ 
+     // Results update as you type — the answer is no longer hidden behind a button press.
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+-    useEffect(() => { convert(); }, [value, fromUnit, toUnit, value, fromUnit, toUnit]);
++    useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
+ 
+     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+ 
