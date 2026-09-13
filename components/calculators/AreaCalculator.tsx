@@ -7,24 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
     {
-        q: "How to calculate area of a square?",
-        a: "Area = side × side (s²). Example: side = 5 cm → area = 25 cm². Square area is the simplest — just multiply side by itself.",
+        q: "How do I calculate the area of a square or rectangle?",
+        a: "A square is side × side; a rectangle is length × width. Both must be in the same unit before you multiply — a length in feet and a width in inches gives a meaningless number, and it is the most common error on this page.",
     },
     {
-        q: "How to calculate area of a rectangle?",
-        a: "Area = length × width. Example: length = 10 cm, width = 5 cm → area = 50 cm². This formula works for any rectangle.",
+        q: "How do I calculate the area of a circle?",
+        a: "Area = π × r², where r is the radius. If you measured across the circle rather than from the centre, that is the diameter — halve it first. Using the diameter by mistake gives four times the true area, which is a mistake worth checking for whenever a result looks impossibly large.",
     },
     {
-        q: "How to calculate area of a circle?",
-        a: "Area = π × r², where r is the radius. π ≈ 3.14159. Example: radius = 5 cm → area = 3.14 × 25 = 78.5 cm².",
-    },
-    {
-        q: "How to calculate area of a triangle?",
-        a: "Area = ½ × base × height. Example: base = 10 cm, height = 6 cm → area = 30 cm².",
+        q: "How do I calculate the area of a triangle?",
+        a: "Half the base times the perpendicular height: A = ½ × b × h. The height must be measured at a right angle to the base, not along a sloping side. When you only know the three side lengths, Heron's formula gets there instead: with s as half the perimeter, A = √(s(s−a)(s−b)(s−c)).",
     },
     {
         q: "What is the difference between area and perimeter?",
-        a: "Area measures the space inside a shape (square units). Perimeter measures the distance around a shape (linear units).",
+        a: "Area is the surface enclosed, measured in squared units; perimeter is the distance around the edge, measured in plain units. Paint and flooring are priced by area, fencing and skirting board by perimeter — and two rooms with the same perimeter can have very different areas.",
+    },
+    {
+        q: "Why do square units convert differently from ordinary units?",
+        a: "Because the conversion factor gets squared. One metre is 3.28084 feet, but one square metre is 3.28084² = 10.7639 square feet. Forgetting to square the factor is the single biggest source of wrong answers when converting an area between systems.",
+    },
+    {
+        q: "How do I work out the area of an irregular shape?",
+        a: "Split it into rectangles, triangles and part-circles, work out each one, and add them. An L-shaped room is two rectangles; a room with a bay window is a rectangle plus a segment. For a genuinely irregular plot, surveyors use the shoelace formula on the corner coordinates, which is the same idea done algebraically.",
+    },
+    {
+        q: "How much paint or flooring do I need for a given area?",
+        a: "Work out the area, then add a waste allowance — usually 5-10% for flooring, more like 15% if the material is laid diagonally or has a pattern to match. For paint, subtract the doors and windows, then check the coverage on the tin, which is typically quoted in square metres per litre per coat.",
+    },
+    {
+        q: "How large is an acre or a hectare?",
+        a: "An acre is 4,046.86 m² or 43,560 ft². A hectare is 10,000 m², which is 2.471 acres. A useful mental picture: a hectare is roughly a square 100 m on each side, and an acre is a bit smaller than a football pitch.",
+    },
+    {
+        q: "What is a parallelogram's area, and why is it not the side lengths multiplied?",
+        a: "It is base × perpendicular height, the same as a rectangle. The slanted side is longer than the height, so multiplying the two side lengths overstates the area. Lean a rectangle over and its area does not change even though one pair of sides now measures longer diagonally.",
+    },
+    {
+        q: "How do I find the area of a trapezoid?",
+        a: "Average the two parallel sides and multiply by the distance between them: A = ½ × (a + b) × h. It is the formula that turns up constantly in land measurement, because a plot with one irregular boundary can often be treated as a run of trapezoids.",
     },
 ];
 
@@ -239,7 +259,69 @@ export default function AreaCalculator() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Area Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Calculate the area of squares, rectangles, circles, triangles, parallelograms, and trapezoids.</p></section>
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About This Area Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Works out the area of a square, rectangle, circle, triangle, parallelogram or trapezoid from the
+                    measurements you have. Most people arrive here with a practical job behind the question — paint,
+                    flooring, turf, a plot of land — so the sections below cover the two things that actually cause
+                    wrong answers: mixing units, and converting an area between systems.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Getting the Units Right</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                        When you convert a length you use the factor once. When you convert an area you use it twice,
+                        because both dimensions convert.
+                    </p>
+                    <p className="text-white font-mono text-sm">1 m = 3.28084 ft &nbsp;→&nbsp; 1 m² = 3.28084² = 10.7639 ft²</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                        So a 40 m² apartment is 431 ft², not 131 ft². The same trap catches inches to feet — there are
+                        144 square inches in a square foot, not 12 — and it is why a quote that looks an order of
+                        magnitude out usually is.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Common Area Units, Side by Side</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Unit</th><th className="text-right py-3 px-4 text-gray-400">In square metres</th><th className="text-right py-3 px-4 text-gray-400">In square feet</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square foot</td><td className="py-2 px-4 text-right">0.0929</td><td className="py-2 px-4 text-right">1</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square yard</td><td className="py-2 px-4 text-right">0.8361</td><td className="py-2 px-4 text-right">9</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square metre</td><td className="py-2 px-4 text-right">1</td><td className="py-2 px-4 text-right">10.764</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 acre</td><td className="py-2 px-4 text-right">4,046.86</td><td className="py-2 px-4 text-right">43,560</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 hectare</td><td className="py-2 px-4 text-right">10,000</td><td className="py-2 px-4 text-right">107,639</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Working Out an Irregular Room</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                        Almost no real room is a clean rectangle. The reliable method is to break it into shapes you
+                        can measure and add them up.
+                    </p>
+                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside">
+                        <li>An L-shaped room: two rectangles. Measure both, add.</li>
+                        <li>A room with an alcove: the main rectangle plus the alcove rectangle.</li>
+                        <li>A bay window: a rectangle plus a trapezoid, using the depth of the bay as the height.</li>
+                        <li>A rounded corner: subtract the corner square, add a quarter circle.</li>
+                    </ul>
+                    <p className="text-gray-500 text-xs mt-3">
+                        Measure at floor level rather than at waist height — skirting boards, radiators and out-of-square
+                        walls all mean the two are not the same number.
+                    </p>
+                </div>
+            </section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Area Formulas</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">

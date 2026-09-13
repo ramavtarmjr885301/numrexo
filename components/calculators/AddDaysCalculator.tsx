@@ -1,26 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
 const FAQ_DATA = [
     {
-        q: "How to calculate a future date?",
-        a: "Add the number of days to the starting date. Example: Jan 1 + 30 days = Jan 31. Our calculator handles months with different lengths and leap years automatically.",
+        q: "How do I work out a date a set number of days from now?",
+        a: "Pick the start date, type the number of days, and choose add or subtract. The calculator moves across month ends and leap years for you, which is where hand-counting usually goes wrong — 31 January plus 30 days is 2 March in a normal year and 1 March in a leap year.",
     },
     {
-        q: "What is the difference between business days and calendar days?",
-        a: "Calendar days include weekends and holidays. Business days (working days) exclude weekends (Saturday & Sunday). Some calculators also exclude public holidays.",
+        q: "Does day one count as the start date or the day after?",
+        a: "This is the mistake that costs people deadlines. Here, adding 30 days to 1 January gives 31 January — the start date is day zero, and the count begins the following day. Contracts and court rules often say the opposite, counting the start date as day one. If a document specifies a method, follow the document; if it does not, most jurisdictions default to excluding the first day and including the last.",
     },
     {
-        q: "How to calculate a past date?",
-        a: "Subtract days from the starting date. Example: Jan 31 - 30 days = Jan 1. Our calculator supports both future and past date calculations.",
+        q: "What is the difference between calendar days and business days?",
+        a: "Calendar days count everything. Business days skip Saturdays and Sundays, and usually public holidays too. A '30-day' notice period is almost always calendar days, while a '10-day' processing time from a bank or government office is almost always business days — and the two can be three weeks apart. This calculator counts calendar days.",
     },
     {
-        q: "Does the calculator account for leap years?",
-        a: "Yes, our calculator automatically accounts for leap years (February 29) when adding or subtracting days across multiple years.",
+        q: "How do I count backwards to find a deadline?",
+        a: "Choose subtract and enter the number of days. This is how you find the last date to give notice: take the date the notice has to land, subtract the notice period, and you have the day it must go out. Give yourself a margin if it is going by post.",
+    },
+    {
+        q: "Does it handle leap years?",
+        a: "Yes. February gets its 29th day in leap years automatically, so a span that crosses one lands a day later than the same span in an ordinary year. Century years are handled correctly too: 1900 was not a leap year, 2000 was, and 2100 will not be.",
+    },
+    {
+        q: "What are the usual reasons people need this?",
+        a: "Notice periods on a lease or an employment contract, return and refund windows, warranty expiry, visa validity, probation end dates, project milestones counted from a kick-off, and prescription refill dates. In each case the answer needs to be a date, not an approximation.",
+    },
+    {
+        q: "How many days are in a month for this calculation?",
+        a: "The real number. The calculator moves through the actual calendar rather than assuming 30-day months, so adding 90 days to 1 January gives 1 April in a normal year, while adding three months would also give 1 April — the two agree here and often do not. If a contract says months, count months; if it says days, count days.",
+    },
+    {
+        q: "Can I find the date a specific number of weeks away?",
+        a: "Multiply by seven and enter that. Twelve weeks is 84 days, and because it is a whole number of weeks the answer always falls on the same weekday as the start date — useful for anything scheduled fortnightly or monthly-by-weeks.",
+    },
+    {
+        q: "Why does the weekday matter in the result?",
+        a: "Because a deadline that lands on a weekend or a public holiday usually rolls to the next working day, and in a few contexts back to the previous one. The result shows the weekday so you can spot that immediately rather than after the fact.",
+    },
+    {
+        q: "Is anything I enter saved?",
+        a: "No. The date arithmetic happens in your browser and nothing leaves it.",
     },
 ];
 
@@ -63,21 +87,21 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AddDaysCalculator() {
-    const [startDate, setStartDate] = useState("");
-    const [days, setDays] = useState("");
+    const [startDate, setStartDate] = useState(() => new Date().toISOString().slice(0, 10));
+    const [days, setDays] = useState("30");
     const [operation, setOperation] = useState<"add" | "subtract">("add");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const calculate = () => {
         if (!startDate) {
-            alert("Please select a start date");
+            setResult(null);
             return;
         }
 
         const daysNum = parseInt(days);
         if (isNaN(daysNum)) {
-            alert("Please enter a valid number of days");
+            setResult(null);
             return;
         }
 
@@ -105,6 +129,10 @@ export default function AddDaysCalculator() {
         setOperation("add");
         setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [startDate, days, operation]);
 
     return (
         <>
@@ -158,7 +186,58 @@ export default function AddDaysCalculator() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Add Days to Date Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Calculate future or past dates by adding or subtracting days. Perfect for deadlines, project planning, pregnancy due dates, and countdowns.</p></section>
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About This Date Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    Add or subtract days from any date and get the answer as a date and a weekday. It walks the real
+                    calendar — actual month lengths, leap years, century rules — rather than assuming 30-day months,
+                    which is where counting on your fingers tends to fall over.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Most people arrive here with a deadline: a notice period, a return window, a visa validity, a
+                    probation end date. For those, the weekday in the result is worth as much as the date itself.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">The Off-by-One Problem</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                        The single most common error in date arithmetic is disagreeing about whether the start date
+                        counts as day one.
+                    </p>
+                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
+                        <li>This calculator treats the start date as day zero: 1 January + 30 days = <span className="text-white">31 January</span>.</li>
+                        <li>Counting the start date as day one gives <span className="text-white">30 January</span> for the same span.</li>
+                    </ul>
+                    <p className="text-gray-500 text-xs">
+                        A day either way rarely matters for a holiday countdown and matters a great deal for a legal
+                        notice. If a contract sets out how to count, follow it. Where nothing is stated, the common
+                        convention is to exclude the first day and include the last.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Calendar Days vs Business Days</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Span</th><th className="text-right py-3 px-4 text-gray-400">Calendar days</th><th className="text-right py-3 px-4 text-gray-400">Roughly, in business days</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One week</td><td className="py-2 px-4 text-right">7</td><td className="py-2 px-4 text-right">5</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Two weeks</td><td className="py-2 px-4 text-right">14</td><td className="py-2 px-4 text-right">10</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One month</td><td className="py-2 px-4 text-right">30</td><td className="py-2 px-4 text-right">21-22</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Three months</td><td className="py-2 px-4 text-right">90</td><td className="py-2 px-4 text-right">64-65</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                    This calculator counts calendar days. Business-day figures above exclude weekends only — public
+                    holidays would shorten them further, and they differ by country.
+                </p>
+            </section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Examples</h2>
                 <div className="grid grid-cols-2 gap-3">

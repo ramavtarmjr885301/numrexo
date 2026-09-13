@@ -113,6 +113,7 @@ import PercentageMarksCalculator from "./PercentageMarksCalculator";
 import PaceCalculator from "./PaceCalculator";
 import DistanceSpeedTimeCalculator from "./DistanceSpeedTimeCalculator";
 import InvoiceGenerator from "./InvoiceGenerator";
+import SimpleInvoiceGenerator from "./SimpleInvoiceGenerator";
 import MortgageCalculator from "./MortgageCalculator";
 import PopulationCalculator from "./PopulationCalculator";
 import PersonalLoanEMICalculator from "./PersonalLoanEMICalculator";
@@ -356,6 +357,8 @@ export default function CalculatorWrapper({
       case "distance-speed-time":
         return <DistanceSpeedTimeCalculator />
       case "invoice":
+        return <SimpleInvoiceGenerator />
+      case "gst-invoice":
         return <InvoiceGenerator />
       case "percentage-marks":
         return <PercentageMarksCalculator />

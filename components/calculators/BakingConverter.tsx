@@ -7,20 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
     {
-        q: "Why convert cups to grams for baking?",
-        a: "Weight measurements (grams) are more accurate than volume (cups). Flour can vary from 120-150g per cup depending on how it's packed. For consistent baking results, use grams.",
+        q: "Why do serious recipes give weights instead of cups?",
+        a: "Because a cup measures volume, and flour is compressible. Scoop a cup straight from the bag and you can pack in 150 g; spoon it in loosely and level it off and you get about 120 g. That is a quarter more flour in the same cup, which is the difference between a tender cake and a dry one. A gram is a gram however you get it into the bowl.",
     },
     {
-        q: "How many grams in a cup of flour?",
-        a: "1 cup of all-purpose flour = 120-125 grams. For best results, spoon flour into cup and level, don't scoop. Our calculator uses 125g per cup.",
+        q: "How many grams is a cup of flour?",
+        a: "About 120-125 g for plain or all-purpose flour, spooned into the cup and levelled with a straight edge. Bread flour sits a touch higher, cake flour a touch lower, and wholemeal higher again. If a recipe was written in cups and you are converting, assume the spoon-and-level method unless it says otherwise — most American recipe writers use it.",
     },
     {
-        q: "How many grams in a cup of sugar?",
-        a: "1 cup of granulated sugar = 200g. 1 cup of brown sugar (packed) = 220g. 1 cup of powdered sugar = 120g.",
+        q: "How many grams is a cup of sugar?",
+        a: "Granulated white sugar is about 200 g a cup, and unlike flour it barely changes with how you fill it, because the crystals do not compress. Brown sugar is different: recipes almost always mean it packed, which brings a cup to roughly 213-220 g. Loose brown sugar can be 50 g lighter, so the word 'packed' is doing real work.",
     },
     {
-        q: "How many grams in a tablespoon of butter?",
-        a: "1 tablespoon of butter = 14 grams. 1 cup of butter = 227 grams (2 sticks).",
+        q: "How much does a stick of butter weigh?",
+        a: "One US stick is 113 g — a quarter pound, half a cup, or 8 tablespoons. So a tablespoon of butter is about 14 g. In the UK and Europe butter comes in 250 g blocks instead, which is why American recipes calling for 'one stick' need converting rather than eyeballing.",
+    },
+    {
+        q: "Is a cup the same size everywhere?",
+        a: "No, and this catches people out. A US customary cup is 236.6 ml, a US legal cup used on nutrition labels is 240 ml, an Australian and New Zealand metric cup is 250 ml, and the old imperial cup was 284 ml. Between a US cup and a metric cup that is a 6% difference — enough to matter in a cake, not enough to notice in a soup.",
+    },
+    {
+        q: "Do I need to convert liquids too?",
+        a: "For water and milk you can treat millilitres and grams as the same, because their density is close enough to 1 g/ml for baking. Honey, syrup and oil are not: honey is about 340 g a cup, where water is about 240 g. Measure sticky liquids by weight if you can — it is also far less wasteful than scraping a measuring cup.",
+    },
+    {
+        q: "What is the right way to measure flour in a cup if I have no scale?",
+        a: "Fluff the flour in the bag or tub with a fork, spoon it lightly into the cup without tapping or pressing, then sweep the excess off with the back of a knife. Never scoop with the measuring cup itself and never bang it on the counter. Done consistently, this gets you close to the 120 g figure most recipes assume.",
+    },
+    {
+        q: "Why does my cake come out dry when I follow the recipe exactly?",
+        a: "Too much flour is the usual culprit, and cup measuring is the usual cause. A recipe calling for three cups can easily receive 450 g instead of the 360 g intended, which changes the whole ratio of flour to liquid and fat. Converting the recipe to weights once, and writing the grams on it, fixes the problem permanently.",
+    },
+    {
+        q: "Does it matter for bread more than for cakes?",
+        a: "It matters for both, but differently. Bread is usually written as baker&apos;s percentages against flour weight, so an error in the flour throws off the hydration and you feel it in the dough. Cakes are less forgiving of the error itself: there is no kneading stage where you can judge and adjust, so what goes in the tin is what you get.",
+    },
+    {
+        q: "Which scale should I buy?",
+        a: "Any digital kitchen scale that reads in 1 g steps and has a tare button. Tare is the part that matters — you put the bowl on, zero it, add flour to the target, zero again, add sugar. One bowl, no measuring cups to wash, and the numbers are the same every time.",
     },
 ];
 
@@ -195,7 +219,82 @@ export default function BakingConverter() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Baking Converter</h2><p className="text-gray-400 text-sm leading-relaxed">Convert common baking ingredients from cups to grams and grams to cups. Weight measurements are more accurate for consistent baking results.</p></section>
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About This Baking Converter</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    Converts common baking ingredients between cups, tablespoons and grams. Each ingredient has its
+                    own conversion because each has its own density — a cup of flour and a cup of honey are the same
+                    volume and nowhere near the same weight.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    If you are converting a recipe rather than a single ingredient, it is worth writing the gram
+                    figures onto the recipe itself. You only have to do it once.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Why a Cup of Flour Has No Fixed Weight</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                        Flour compresses. How much ends up in the cup depends entirely on how it got there.
+                    </p>
+                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
+                        <li>Spooned in loosely and levelled: <span className="text-white">~120 g</span></li>
+                        <li>Scooped straight from the bag: <span className="text-white">~140-150 g</span></li>
+                        <li>Scooped and tapped down: <span className="text-white">160 g or more</span></li>
+                    </ul>
+                    <p className="text-gray-500 text-xs">
+                        Across three cups that spread is well over 100 g of flour — roughly an extra cup you never
+                        meant to add. It is the most common reason a cake comes out dry when the recipe was followed
+                        to the letter.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">One Cup, by Ingredient</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Ingredient</th><th className="text-right py-3 px-4 text-gray-400">1 cup ≈</th><th className="text-right py-3 px-4 text-gray-400">1 tbsp ≈</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Plain / all-purpose flour</td><td className="py-2 px-4 text-right">120 g</td><td className="py-2 px-4 text-right">8 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Granulated sugar</td><td className="py-2 px-4 text-right">200 g</td><td className="py-2 px-4 text-right">12.5 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Brown sugar, packed</td><td className="py-2 px-4 text-right">215 g</td><td className="py-2 px-4 text-right">13.5 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Butter</td><td className="py-2 px-4 text-right">227 g (2 sticks)</td><td className="py-2 px-4 text-right">14 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Water or milk</td><td className="py-2 px-4 text-right">240 g</td><td className="py-2 px-4 text-right">15 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Honey or syrup</td><td className="py-2 px-4 text-right">340 g</td><td className="py-2 px-4 text-right">21 g</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Cocoa powder</td><td className="py-2 px-4 text-right">85 g</td><td className="py-2 px-4 text-right">5 g</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                    Figures are for a US cup of 240 ml, flour spooned and levelled. Treat them as close approximations —
+                    brands and grinds vary by a few grams either way.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Not Every Cup Is the Same Cup</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Where</th><th className="text-right py-3 px-4 text-gray-400">Volume</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US customary cup</td><td className="py-2 px-4 text-right">236.6 ml</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US legal cup (nutrition labels)</td><td className="py-2 px-4 text-right">240 ml</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Australia and New Zealand</td><td className="py-2 px-4 text-right">250 ml</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Imperial cup (older UK recipes)</td><td className="py-2 px-4 text-right">284 ml</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                    A US cup against an Australian one is about 6% apart. Negligible in a stew, noticeable in a sponge,
+                    and worth checking where a recipe came from before you scale it up.
+                </p>
+            </section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Baking Conversions</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">

@@ -390,6 +390,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["percentage calculator", "percent increase", "percentage change"],
   },
   "math/age-calculator": {
+    updatedAt: "2026-09-11",
     title: "Age Calculator: Exact Age in Years, Months and Days",
     description:
       "Find your exact age in years, months and days from your date of birth, plus total weeks and days lived and how long until your next birthday.",
@@ -420,6 +421,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["pythagorean theorem calculator", "hypotenuse calculator", "right triangle"],
   },
   "math/area-calculator": {
+    updatedAt: "2026-09-11",
     title: "Area Calculator for 8 Shapes with Formulas",
     description:
       "Calculate the area of a circle, triangle, rectangle, trapezoid, parallelogram, ellipse, sector or rhombus, with the formula shown for each shape.",
@@ -548,6 +550,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["power converter", "watts to horsepower", "kw to hp"],
   },
   "conversion/angle-converter": {
+    updatedAt: "2026-09-11",
     title: "Angle Converter: Degrees, Radians, Gradians, Turns",
     description:
       "Convert angles between degrees, radians, gradians, minutes, seconds and full turns, with radians shown as an exact multiple of pi.",
@@ -568,6 +571,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["date difference calculator", "days between dates", "date duration"],
   },
   "time/add-days-calculator": {
+    updatedAt: "2026-09-11",
     title: "Add Days to Date Calculator: Future or Past Date",
     description:
       "Add or subtract days, weeks, months or years from any date to get the resulting date, with the day of the week and week number included.",
@@ -586,6 +590,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["time duration calculator", "hours between times", "time card calculator"],
   },
   "time/birthday-countdown": {
+    updatedAt: "2026-09-11",
     title: "Birthday Countdown: Days Until Your Next Birthday",
     description:
       "Count down to your next birthday in days, hours and minutes, with the day of the week it falls on and the age you will be turning.",
@@ -696,6 +701,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["percentage calculator marks", "marks to percentage", "exam percentage"],
   },
   "education/attendance-calculator": {
+    updatedAt: "2026-09-11",
     title: "Attendance Calculator: Classes Needed to Hit 75%",
     description:
       "Check your current attendance percentage and find out how many more classes you must attend, or can safely miss, to stay above the requirement.",
@@ -772,10 +778,26 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["commission calculator", "sales commission", "tiered commission"],
   },
   "business/invoice-generator": {
-    title: "Free Invoice Generator: Printable PDF Invoices",
+    updatedAt: "2026-09-13",
+    sources: [
+      { label: "Invoice fields follow the common requirements across tax authorities: invoice number, dates, both parties, itemised supply, tax shown separately" },
+      { label: "Registered businesses must add their tax registration number — check the rule where you are registered" },
+    ],
+    title: "Free Invoice Generator: PDF Invoice, No Sign-Up",
     description:
-      "Build a professional invoice with line items, tax and payment terms, then print or save it as a PDF. Nothing is stored on our servers.",
-    keywords: ["invoice generator", "free invoice maker", "printable invoice"],
+      "Fill in the invoice and download it as a PDF. Any currency, optional tax and discount, no account and no watermark. Nothing you type leaves your browser.",
+    keywords: ["invoice generator", "free invoice maker", "printable invoice", "invoice template pdf"],
+  },
+  "business/gst-invoice-generator": {
+    updatedAt: "2026-09-13",
+    sources: [
+      { label: "GST slabs restructured to 0%, 5%, 18% and 40% with effect from 22 September 2025", url: "https://cleartax.in/s/gst-rates" },
+      { label: "Rates shown are a starting point — confirm your HSN/SAC rate with CBIC or your accountant" },
+    ],
+    title: "GST Invoice Generator: GSTIN, HSN and Tax Breakup",
+    description:
+      "Create a GST-compliant invoice with GSTIN, HSN or SAC codes and place of supply, and the CGST, SGST or IGST split worked out for you.",
+    keywords: ["gst invoice generator", "gst bill format", "hsn sac invoice", "cgst sgst igst invoice"],
   },
 
   // ───────────────────────── COOKING ─────────────────────────
@@ -798,6 +820,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["oven temperature converter", "gas mark converter", "fan oven conversion"],
   },
   "cooking/baking-converter": {
+    updatedAt: "2026-09-11",
     title: "Baking Converter: Cups to Grams by Ingredient",
     description:
       "Convert baking measurements between cups, grams, ounces and tablespoons using the real density of each ingredient, not one generic factor.",

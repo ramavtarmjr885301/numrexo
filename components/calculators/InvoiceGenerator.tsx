@@ -80,7 +80,31 @@ interface InvoiceResult {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const GST_RATES = ["0", "0.1", "0.25", "1", "1.5", "3", "5", "7.5", "12", "18", "28"];
+/**
+ * GST rates offered in the line-item dropdown.
+ *
+ * WHY THIS IS GROUPED RATHER THAN A FLAT LIST
+ *
+ * The old list was a flat array that read 0, 0.1, 0.25, 1, 1.5, 3, 5, 7.5, 12,
+ * 18, 28 — the pre-reform structure. From 22 September 2025 the main slabs are
+ * 0, 5, 18 and 40; 12 and 28 were withdrawn as general slabs. A flat list gave
+ * 12% and 28% the same standing as 18%, and did not offer 40% at all, so an
+ * invoice could be raised at a rate that no longer applies.
+ *
+ * A few of the old rates genuinely survive in narrow cases — 28% on tobacco
+ * pending its move to 40%, and 12% on some construction material — and the
+ * special rates for diamonds, job work and gold are unchanged. Those are kept,
+ * but under a heading that says what they are, so nobody picks 12% by habit.
+ *
+ * The custom option exists because this list will go out of date again. When it
+ * does, the tool should not be the thing standing between a business and a
+ * correct invoice.
+ */
+const GST_RATE_GROUPS: { label: string; rates: string[] }[] = [
+    { label: "Standard slabs (from 22 Sep 2025)", rates: ["0", "5", "18", "40"] },
+    { label: "Special rates", rates: ["0.25", "1.5", "3"] },
+    { label: "Legacy / limited use", rates: ["0.1", "1", "12", "28"] },
+];
 const UNITS = ["Nos", "Pcs", "Kg", "Gram", "Ltr", "Mtr", "Sqft", "Sqmt", "Box", "Set", "Pair", "Hr", "Day", "Month", "Year", "Service"];
 const PAYMENT_TERMS = ["Due on Receipt", "Net 7", "Net 15", "Net 30", "Net 45", "Net 60", "COD"];
 
@@ -141,8 +165,16 @@ const FAQ_DATA = [
         a: "This tool generates a template compliant with GST invoice rules. For legal validity, ensure correct GSTIN, mandatory fields (invoice number, date, HSN/SAC, tax breakup), and e-invoice (IRN/QR) if your turnover exceeds ₹5 crore.",
     },
     {
-        q: "What GST rates apply in 2025?",
-        a: "Common rates: 0% (essentials), 5% (food, transport), 12% (processed food, business class), 18% (most services, electronics), 28% (luxury, sin goods). Some items have special rates: 0.1%, 0.25%, 1%, 1.5%, 3%, 7.5%.",
+        q: "Which GST rates apply now?",
+        a: "The structure changed on 22 September 2025. The main slabs are now 0%, 5%, 18% and 40% — the 12% and 28% slabs were withdrawn as general rates, and 40% was introduced for luxury and sin goods such as high-end vehicles, aerated and sugary drinks, motorcycles above 350cc, and betting. The special rates are unchanged: 0.25% on rough diamonds, 1.5% on diamond job work, and 3% on gold, silver and jewellery.",
+    },
+    {
+        q: "Why are 12% and 28% still in the dropdown?",
+        a: "Because a few things still sit there. Tobacco products stayed at 28% pending their move to 40%, and some construction materials are still taxed at 12%. They are grouped under 'Legacy / limited use' so nobody selects them out of habit. If your item is not one of those narrow cases, it belongs in a standard slab.",
+    },
+    {
+        q: "The rate I need is not in the list. What then?",
+        a: "Rates move, and this list will be out of date again at some point. Check the rate for your HSN or SAC code against the CBIC rate finder or with your accountant, and raise the invoice at that rate. Treat anything on this page as a starting point rather than as tax advice — we are not tax advisers, and the responsibility for the rate on an invoice sits with the person issuing it.",
     },
 ];
 
@@ -796,8 +828,15 @@ export default function InvoiceGenerator() {
                                             </div>
                                             <div>
                                                 <select value={item.gstRate} onChange={e => updateItem(item.id, "gstRate", e.target.value)} className={selectCls}>
-                                                    {GST_RATES.map(r => <option key={r} value={r}>{r}% GST</option>)}
+                                                    {GST_RATE_GROUPS.map(group => (
+                                                        <optgroup key={group.label} label={group.label}>
+                                                            {group.rates.map(r => <option key={r} value={r}>{r}% GST</option>)}
+                                                        </optgroup>
+                                                    ))}
                                                 </select>
+                                                <p className="text-[10px] text-gray-600 mt-1 leading-snug">
+                                                    Slabs changed on 22 Sep 2025. Verify your HSN/SAC rate with CBIC.
+                                                </p>
                                             </div>
                                         </div>
                                         {item.quantity && item.rate && (

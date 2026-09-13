@@ -5,20 +5,44 @@ import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
     {
-        q: "What is the minimum attendance requirement in colleges?",
-        a: "Most Indian universities require 75% attendance to be eligible for exams. Some colleges have 80% or 85% requirements. Always check your institution's specific policy.",
-    },
-    {
         q: "How is attendance percentage calculated?",
-        a: "Attendance % = (Total Classes Attended ÷ Total Classes Held) × 100. Holidays and authorized leaves may be treated differently based on your institution's rules.",
+        a: "Classes attended ÷ classes held × 100. If 48 of 60 classes were held with you present, that is 48 ÷ 60 × 100 = 80%. Only classes that actually took place count in the denominator, which is why a cancelled lecture changes your percentage even though you did nothing.",
     },
     {
-        q: "What happens if my attendance is below 75%?",
-        a: "You may be debarred from exams, need to pay a fine, complete extra assignments, or appear for a medical certificate. Some colleges grant condonation (relaxation) up to 5-10%.",
+        q: "How many more classes must I attend to reach my target?",
+        a: "If you have attended a of h classes and want to reach a fraction p, attending n consecutive classes gives (a + n) ÷ (h + n) ≥ p, so n ≥ (p·h − a) ÷ (1 − p). At 40 of 60 with a 75% target that is (0.75 × 60 − 40) ÷ 0.25 = 20 classes without missing one. The calculator above does this for you.",
     },
     {
-        q: "How many more classes do I need to attend to reach 75%?",
-        a: "Use the 'Target Attendance' feature above. Enter your current attendance and target percentage to calculate exactly how many consecutive classes you need to attend.",
+        q: "How many classes can I still afford to miss?",
+        a: "If you are currently above target, the answer is (a − p·h) ÷ p. At 54 of 60 — 90% — against a 75% requirement, that is (54 − 45) ÷ 0.75 = 12 classes. It shrinks every time a class is held, so a comfortable cushion in week three is not a cushion in week ten.",
+    },
+    {
+        q: "Why does my percentage drop so fast but recover so slowly?",
+        a: "Because a missed class adds to the denominator without adding to the numerator, while an attended class adds to both. Once you are below target, each attended class pulls the percentage up by less than a missed one pushed it down. That asymmetry is why the number of classes needed to recover is usually larger than people expect.",
+    },
+    {
+        q: "What is the usual minimum attendance requirement?",
+        a: "75% is the most common threshold across universities and professional courses, though some run at 80% or 85% and a few set it per subject rather than overall. The rule that matters is the one in your institution&apos;s handbook — check whether it is calculated per subject or across all of them, because the two can differ sharply.",
+    },
+    {
+        q: "What happens if I fall below the requirement?",
+        a: "Consequences vary: being barred from sitting the examination, having to repeat the term, a fine, or a detention grade on the transcript. Many institutions offer condonation for a limited shortfall, usually with documentation. Almost all of them apply it as a discretion rather than a right, so it is worth asking early rather than after results.",
+    },
+    {
+        q: "Does medical or approved leave count as attendance?",
+        a: "It depends on the institution. Some mark documented medical leave as present, some exclude those classes from the denominator entirely, and some simply count it as absent while allowing it toward a condonation case later. Submit the certificate at the time — retrospective claims are much harder to have accepted.",
+    },
+    {
+        q: "Is attendance calculated per subject or overall?",
+        a: "Both systems are in use, and it changes the arithmetic completely. Under an overall rule, strong attendance in one subject can carry a weak one; under a per-subject rule it cannot, and a single subject can bar you from a single examination. Work out each subject separately if your institution counts them separately.",
+    },
+    {
+        q: "Do labs, tutorials and lectures count the same?",
+        a: "Often not. Practical sessions and tutorials are frequently tracked separately and sometimes carry a higher minimum, because they are harder to make up. A three-hour lab may also be logged as three class hours rather than one, which changes how much a single absence costs you.",
+    },
+    {
+        q: "What is the fastest way to recover a shortfall?",
+        a: "Attend everything from today. There is no shortcut in the arithmetic — the recovery figure assumes an unbroken run, and one more absence resets the count upward. If the required run is longer than the classes remaining in the term, the number is telling you the shortfall cannot be closed by attendance alone, and that is the point to go and talk to the department.",
     },
 ];
 
@@ -211,7 +235,54 @@ export default function AttendanceCalculator() {
                 </div>
             )}
 
+<section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About This Attendance Calculator</h2>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    Enter how many classes were held and how many you attended, and this gives your percentage
+                    against your target — plus the number that people actually come here for: how many classes in a
+                    row you have to attend to get back above the line, or how many you can still miss if you are
+                    above it.
+                </p>
+            </section>
+
             <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">The Arithmetic Behind the Answer</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
+                    <p className="text-white font-mono text-sm">classes needed = (target × held − attended) ÷ (1 − target)</p>
+                    <p className="text-white font-mono text-sm">classes you can miss = (attended − target × held) ÷ target</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                        The dividing line in both is the target itself, and it is why recovery is slow. A missed class
+                        adds one to the denominator and nothing to the numerator; an attended class adds one to each.
+                        Below target, every class you attend improves the fraction by less than the one you missed
+                        damaged it.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Where You Stand at 75%</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Attendance so far</th><th className="text-right py-3 px-4 text-gray-400">Current</th><th className="text-right py-3 px-4 text-gray-400">Classes needed in a row</th><th className="text-right py-3 px-4 text-gray-400">Classes you can miss</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-400">40</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-400">20</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-400">18</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">0</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">12</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">13</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                    Both columns assume a 75% requirement and an unbroken run. One further absence and the
+                    &quot;needed&quot; figure goes up again.
+                </p>
+            </section>
+
+                        <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3">About Attendance Calculator</h2>
                 <p className="text-gray-400 text-sm leading-relaxed">Track your attendance percentage, find out how many more classes you need to meet requirements, and plan your attendance strategy for exams.</p>
             </section>

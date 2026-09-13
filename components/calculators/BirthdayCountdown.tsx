@@ -7,20 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
     {
-        q: "How to calculate days until my birthday?",
-        a: "Count the days from today to your next birthday. If your birthday has already passed this year, it counts to next year's birthday.",
+        q: "How many days until my birthday?",
+        a: "The countdown runs from today to your next birthday. If this year's has already passed, it rolls to next year automatically. The figure is whole days, so a birthday tomorrow shows as 1 and a birthday today shows as 0 — the day itself, not a wait.",
     },
     {
-        q: "What if my birthday is on February 29?",
-        a: "In non-leap years, February 28 or March 1 is often used as the celebration date. Our calculator uses February 28 for non-leap years.",
+        q: "What happens if my birthday is on 29 February?",
+        a: "You get a real birthday roughly once every four years and a choice in between. This calculator counts to 28 February in ordinary years, which is the more common convention socially. Legally it varies: many systems treat 1 March as the day the age changes, on the reasoning that the full year is only complete then. The next four leap years are 2028, 2032, 2036 and 2040.",
     },
     {
-        q: "How to calculate age in years, months, and days?",
-        a: "Subtract birth date from current date. Years = difference in years, months = remaining months, days = remaining days.",
+        q: "Why does my birthday fall on a different weekday each year?",
+        a: "A common year is 365 days, which is 52 weeks plus one day, so a birthday shifts forward one weekday each year — and two across a leap day. That is why the same date lands on a weekend roughly two years in seven, and why the pattern repeats on a 28-year cycle in the current calendar.",
     },
     {
-        q: "What zodiac sign am I?",
-        a: "Zodiac signs are based on birth date: Aries (Mar21-Apr19), Taurus (Apr20-May20), Gemini (May21-Jun20), Cancer (Jun21-Jul22), Leo (Jul23-Aug22), Virgo (Aug23-Sep22), Libra (Sep23-Oct22), Scorpio (Oct23-Nov21), Sagittarius (Nov22-Dec21), Capricorn (Dec22-Jan19), Aquarius (Jan20-Feb18), Pisces (Feb19-Mar20).",
+        q: "How is my exact age worked out?",
+        a: "Whole years since birth, then whole months since your last birthday, then the days left over — the same way an official form asks for it. It is not the total days divided by 365, which is why the months figure can move differently from what you would expect across a short month.",
+    },
+    {
+        q: "When is my next milestone birthday?",
+        a: "The countdown gives the next one; the arithmetic for the rest is simple subtraction from your current age. Milestones worth planning around tend to be the round decades, 18 and 21 where they carry legal weight, and 60, 65 or 67 where a pension age sits. If you are planning an event, note that the weekday shifts each year — a Saturday birthday may be two or three years away.",
+    },
+    {
+        q: "How many days have I been alive?",
+        a: "The total-days figure counts the real elapsed days including every leap day. People often watch for round numbers: 10,000 days arrives just after 27 years and 4 months, 20,000 days a little past 54 and a half years, and one billion seconds at roughly 31 years and 8 months.",
+    },
+    {
+        q: "What zodiac sign am I, and what happens on the boundary dates?",
+        a: "Western sun signs run Aries 21 Mar-19 Apr, Taurus 20 Apr-20 May, Gemini 21 May-20 Jun, Cancer 21 Jun-22 Jul, Leo 23 Jul-22 Aug, Virgo 23 Aug-22 Sep, Libra 23 Sep-22 Oct, Scorpio 23 Oct-21 Nov, Sagittarius 22 Nov-21 Dec, Capricorn 22 Dec-19 Jan, Aquarius 20 Jan-18 Feb, Pisces 19 Feb-20 Mar. The boundaries shift by a day between years because the sun does not cross them at the same clock time each year, so a birth date right on a cusp can genuinely fall either side depending on the year and the time of day.",
+    },
+    {
+        q: "Is the countdown affected by my time zone?",
+        a: "It uses your device's date. If you are near midnight, or travelling across a date line, the number can differ by one from what a friend elsewhere sees — both are correct for where they are standing.",
+    },
+    {
+        q: "Can I count down to someone else's birthday?",
+        a: "Yes — enter their date instead. It is the usual way to check how long there is to organise something, and the weekday shown for the next birthday is often the detail that decides the plan.",
+    },
+    {
+        q: "Is my birth date stored?",
+        a: "No. Everything is calculated in your browser and nothing is sent anywhere or saved.",
     },
 ];
 
@@ -101,7 +125,7 @@ function getZodiacDetails(sign: string) {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BirthdayCountdown() {
-    const [birthDate, setBirthDate] = useState("");
+    const [birthDate, setBirthDate] = useState("1990-06-15");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -172,6 +196,10 @@ export default function BirthdayCountdown() {
         setResult(null);
     };
 
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [birthDate]);
+
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
@@ -236,7 +264,55 @@ export default function BirthdayCountdown() {
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Birthday Countdown</h2><p className="text-gray-400 text-sm leading-relaxed">Count down the days until your next birthday. Also find your exact age in years, months, and days, and discover your zodiac sign.</p></section>
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-3">About This Birthday Countdown</h2>
+                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                    Enter a birth date and this gives three things at once: how many days remain until the next
+                    birthday, the exact age today in years, months and days, and the running total of days lived.
+                    The countdown rolls to next year on its own once this year&apos;s birthday has passed.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                    It runs entirely in your browser, so nothing you type is sent anywhere.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Why the Weekday Moves Every Year</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                        An ordinary year is 52 weeks and one day. That leftover day pushes your birthday forward one
+                        weekday each year, and two whenever a 29 February falls in between.
+                    </p>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                        So a Tuesday birthday becomes Wednesday next year, then Thursday, then jumps to Saturday if a
+                        leap day intervenes. Over a long enough run the whole pattern repeats every 28 years. If you
+                        are hoping for a weekend birthday to plan something around, it is worth looking a few years
+                        ahead rather than assuming next year will do.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Day Milestones Worth Watching</h2>
+                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Milestone</th><th className="text-right py-3 px-4 text-gray-400">Arrives at roughly</th></tr></thead>
+                            <tbody>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1,000 days</td><td className="py-2 px-4 text-right">2 years 9 months</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">5,000 days</td><td className="py-2 px-4 text-right">13 years 8 months</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10,000 days</td><td className="py-2 px-4 text-right">27 years 4 months</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 billion seconds</td><td className="py-2 px-4 text-right">31 years 8 months</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">20,000 days</td><td className="py-2 px-4 text-right">54 years 9 months</td></tr>
+                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">30,000 days</td><td className="py-2 px-4 text-right">82 years 1 month</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                    Compare these against the total-days figure above to see which one you are closest to.
+                </p>
+            </section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Zodiac Signs</h2>
                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
