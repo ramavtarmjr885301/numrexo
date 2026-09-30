@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CATEGORY_LABELS } from '@/lib/blogTypes';
+import { CATEGORY_LABELS, BlogFaq } from '@/lib/blogTypes';
+import ImageUploadField from '@/components/admin/ImageUploadField';
+import RichMarkdownEditor from '@/components/admin/RichMarkdownEditor';
+import FaqEditor from '@/components/admin/FaqEditor';
 
 export interface PostFormValues {
   id?: number;
@@ -13,6 +16,9 @@ export interface PostFormValues {
   excerpt: string;
   contentMarkdown: string;
   featuredImage: string;
+  metaTitle: string;
+  metaDescription: string;
+  faqs: BlogFaq[];
   published: boolean;
 }
 
@@ -24,6 +30,9 @@ const EMPTY: PostFormValues = {
   excerpt: '',
   contentMarkdown: '',
   featuredImage: '',
+  metaTitle: '',
+  metaDescription: '',
+  faqs: [],
   published: true,
 };
 
@@ -120,17 +129,12 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1.5">
-          Featured image URL <span className="text-gray-600">(optional)</span>
-        </label>
-        <input
-          value={values.featuredImage}
-          onChange={(e) => update('featuredImage', e.target.value)}
-          placeholder="https://... ya /blog-images/filename.png"
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <ImageUploadField
+        label="Featured Image"
+        hint="optional - blog list aur post ke top par dikhegi"
+        value={values.featuredImage}
+        onChange={(url) => update('featuredImage', url)}
+      />
 
       <div>
         <label className="block text-sm text-gray-400 mb-1.5">
@@ -145,16 +149,49 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">
-          Content <span className="text-gray-600">(Markdown - ## Heading, **bold**, - bullet list)</span>
-        </label>
-        <textarea
+        <label className="block text-sm text-gray-400 mb-1.5">Content</label>
+        <RichMarkdownEditor
           value={values.contentMarkdown}
-          onChange={(e) => update('contentMarkdown', e.target.value)}
-          rows={20}
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
+          onChange={(v) => update('contentMarkdown', v)}
         />
       </div>
+
+      <div className="p-4 rounded-lg bg-[#0d1220] border border-gray-800 space-y-4">
+        <h3 className="text-sm font-semibold text-gray-300">SEO (Google search result)</h3>
+
+        <div>
+          <label className="block text-sm text-gray-400 mb-1.5">
+            Meta Title{' '}
+            <span className="text-gray-600">
+              (optional - khaali chhod do to normal Title use hoga; 50-60 letters best hai)
+            </span>
+          </label>
+          <input
+            value={values.metaTitle}
+            onChange={(e) => update('metaTitle', e.target.value)}
+            maxLength={70}
+            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-gray-400 mb-1.5">
+            Meta Description{' '}
+            <span className="text-gray-600">
+              (optional - khaali chhod do to Excerpt use hoga; 150-160 letters best hai)
+            </span>
+          </label>
+          <textarea
+            value={values.metaDescription}
+            onChange={(e) => update('metaDescription', e.target.value)}
+            rows={2}
+            maxLength={200}
+            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+          />
+        </div>
+      </div>
+
+      <FaqEditor value={values.faqs} onChange={(v) => update('faqs', v)} />
 
       <label className="flex items-center gap-2 text-sm text-gray-300">
         <input

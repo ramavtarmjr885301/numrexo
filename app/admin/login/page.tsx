@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 export default function AdminLoginPage() {
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,12 +16,12 @@ export default function AdminLoginPage() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ userId, password }),
       });
       if (res.ok) {
         window.location.href = '/';
       } else {
-        setError('Galat password. Dobara try karo.');
+        setError('User ID ya password galat hai. Dobara try karo.');
       }
     } catch {
       setError('Kuch gadbad hui. Dobara try karo.');
@@ -36,7 +37,21 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm bg-[#111827] border border-gray-800 rounded-xl p-6 sm:p-8"
       >
         <h1 className="text-xl font-semibold text-white mb-1">Numrexo Blog Admin</h1>
-        <p className="text-sm text-gray-400 mb-6">Password daal kar login karo</p>
+        <p className="text-sm text-gray-400 mb-6">User ID aur password daal kar login karo</p>
+
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="userId">
+          User ID
+        </label>
+        <input
+          id="userId"
+          type="text"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          autoFocus
+          autoCapitalize="none"
+          autoCorrect="off"
+          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
+        />
 
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="password">
           Password
@@ -46,7 +61,6 @@ export default function AdminLoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          autoFocus
           className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
         />
 
@@ -54,7 +68,7 @@ export default function AdminLoginPage() {
 
         <button
           type="submit"
-          disabled={loading || !password}
+          disabled={loading || !userId || !password}
           className="w-full py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors"
         >
           {loading ? 'Checking...' : 'Login'}

@@ -38,14 +38,19 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   }
 
   const canonical = `https://numrexo.com/blog/${post.slug}`;
+  // metaTitle/metaDescription are the admin's optional SEO overrides - most
+  // posts won't set them, so fall back to the same title/excerpt used
+  // everywhere else on the site.
+  const title = post.metaTitle || `${post.title} | Numrexo Blog`;
+  const description = post.metaDescription || post.excerpt;
 
   return {
-    title: `${post.title} | Numrexo Blog`,
-    description: post.excerpt,
+    title,
+    description,
     alternates: { canonical },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description,
       url: canonical,
       type: 'article',
       publishedTime: post.publishedAt,
@@ -54,8 +59,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description,
       images: post.featuredImage ? [post.featuredImage] : [],
     },
   };
@@ -91,6 +96,26 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           }),
         }}
       />
+
+      {post.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: post.faqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
 
       <article className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
         <nav className="mb-4 sm:mb-6 text-xs sm:text-sm overflow-x-auto">
@@ -152,6 +177,28 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             className="[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-gray-300 [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto"
           />
         </div>
+
+        {post.faqs.length > 0 && (
+          <section className="mt-8 sm:mt-12 border-t border-gray-800 pt-6 sm:pt-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-2 sm:space-y-3">
+              {post.faqs.map((faq, i) => (
+                <details
+                  key={i}
+                  className="group bg-[#111827] border border-gray-800 rounded-lg p-3 sm:p-4 open:border-blue-500/40"
+                >
+                  <summary className="cursor-pointer text-sm sm:text-base text-white font-medium list-none flex items-center justify-between gap-2">
+                    {faq.question}
+                    <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+                  </summary>
+                  <p className="mt-2 sm:mt-3 text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800">
           <p className="text-sm text-gray-400 mb-3">Share this article:</p>

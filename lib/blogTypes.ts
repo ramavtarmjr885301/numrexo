@@ -6,6 +6,11 @@
 // actually stores, since we're no longer constrained by the WP REST API's
 // response format.
 
+export interface BlogFaq {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   id: number;
   slug: string;
@@ -22,6 +27,12 @@ export interface BlogPost {
   // one of those posts without touching it round-trips safely.
   contentMarkdown: string;
   featuredImage: string | null;
+  // SEO overrides - when empty, the blog pages fall back to `title`/`excerpt`.
+  metaTitle: string | null;
+  metaDescription: string | null;
+  // Optional FAQ block, shown on the post page and emitted as FAQPage
+  // schema.org JSON-LD for Google's FAQ rich result.
+  faqs: BlogFaq[];
   published: boolean;
   publishedAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
@@ -35,6 +46,9 @@ export interface BlogPostInput {
   excerpt: string;
   contentHtml: string;
   featuredImage: string | null;
+  metaTitle: string | null;
+  metaDescription: string | null;
+  faqs: BlogFaq[];
   published: boolean;
   publishedAt?: string;
 }

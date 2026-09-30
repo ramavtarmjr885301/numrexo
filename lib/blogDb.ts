@@ -19,7 +19,7 @@
 // the whole site build or take down calculator pages.
 
 import { neon } from '@neondatabase/serverless';
-import { BlogPost } from './blogTypes';
+import { BlogPost, BlogFaq } from './blogTypes';
 
 const DATABASE_URL = process.env.DATABASE_URL || '';
 
@@ -40,10 +40,27 @@ type Row = {
   content_html: string;
   content_markdown: string;
   featured_image: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  // The Neon HTTP driver returns jsonb columns already parsed into JS
+  // values, but this is defensive in case a row ever comes back as a raw
+  // JSON string instead (e.g. a different driver/path).
+  faqs: BlogFaq[] | string | null;
   published: boolean;
   published_at: string;
   updated_at: string;
 };
+
+function parseFaqs(value: BlogFaq[] | string | null): BlogFaq[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 function rowToPost(row: Row): BlogPost {
   return {
@@ -56,6 +73,9 @@ function rowToPost(row: Row): BlogPost {
     contentHtml: row.content_html,
     contentMarkdown: row.content_markdown,
     featuredImage: row.featured_image,
+    metaTitle: row.meta_title,
+    metaDescription: row.meta_description,
+    faqs: parseFaqs(row.faqs),
     published: row.published,
     publishedAt: row.published_at,
     updatedAt: row.updated_at,
@@ -259,7 +279,7 @@ export async function slugExists(slug: string, excludeId?: number): Promise<bool
   );
 }
 
-export async function createPost(input: {
+interface PostWriteInput {
   slug: string;
   title: string;
   category: string;
@@ -268,15 +288,21 @@ export async function createPost(input: {
   contentHtml: string;
   contentMarkdown: string;
   featuredImage: string | null;
+  metaTitle: string | null;
+  metaDescription: string | null;
+  faqs: BlogFaq[];
   published: boolean;
-}): Promise<BlogPost | null> {
+}
+
+export async function createPost(input: PostWriteInput): Promise<BlogPost | null> {
   return safeDb(
     'createPost',
     async () => {
       const sql = getSql()!;
+      const faqsJson = JSON.stringify(input.faqs || []);
       const rows = (await sql`
-        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, published, published_at, updated_at)
-        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.published}, now(), now())
+        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, meta_title, meta_description, faqs, published, published_at, updated_at)
+        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.metaTitle}, ${input.metaDescription}, ${faqsJson}::jsonb, ${input.published}, now(), now())
         RETURNING *
       `) as unknown as Row[];
       return rows[0] ? rowToPost(rows[0]) : null;
@@ -285,24 +311,12 @@ export async function createPost(input: {
   );
 }
 
-export async function updatePost(
-  id: number,
-  input: {
-    slug: string;
-    title: string;
-    category: string;
-    author: string;
-    excerpt: string;
-    contentHtml: string;
-    contentMarkdown: string;
-    featuredImage: string | null;
-    published: boolean;
-  },
-): Promise<BlogPost | null> {
+export async function updatePost(id: number, input: PostWriteInput): Promise<BlogPost | null> {
   return safeDb(
     `updatePost(${id})`,
     async () => {
       const sql = getSql()!;
+      const faqsJson = JSON.stringify(input.faqs || []);
       const rows = (await sql`
         UPDATE blog_posts
         SET slug = ${input.slug},
@@ -313,6 +327,9 @@ export async function updatePost(
             content_html = ${input.contentHtml},
             content_markdown = ${input.contentMarkdown},
             featured_image = ${input.featuredImage},
+            meta_title = ${input.metaTitle},
+            meta_description = ${input.metaDescription},
+            faqs = ${faqsJson}::jsonb,
             published = ${input.published},
             updated_at = now()
         WHERE id = ${id}

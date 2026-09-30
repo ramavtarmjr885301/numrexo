@@ -3,6 +3,7 @@ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
 import { createPost, slugExists } from '@/lib/blogDb';
 import { markdownToHtml } from '@/lib/markdown';
 import { slugify } from '@/lib/slugify';
+import { sanitizeFaqs } from '@/lib/faqs';
 
 export async function POST(request: NextRequest) {
   if (!(await isAdminRequestAuthed())) {
@@ -32,6 +33,9 @@ export async function POST(request: NextRequest) {
     contentHtml: markdownToHtml(contentMarkdown),
     contentMarkdown,
     featuredImage: body.featuredImage?.trim() || null,
+    metaTitle: (body.metaTitle || '').trim() || null,
+    metaDescription: (body.metaDescription || '').trim() || null,
+    faqs: sanitizeFaqs(body.faqs),
     published: Boolean(body.published),
   });
 

@@ -70,10 +70,15 @@ export async function isValidSessionToken(token: string | undefined | null): Pro
   }
 }
 
-export function checkAdminPassword(password: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) return false;
-  return password === expected;
+// Checks both the user ID and the password against their env vars. This is
+// still a single-admin system (one fixed identity, not a user table) - the
+// user ID field exists because Sanjay asked for a login that isn't just a
+// bare password, not because there's more than one person who can log in.
+export function checkAdminCredentials(userId: string, password: string): boolean {
+  const expectedUserId = process.env.ADMIN_USER_ID;
+  const expectedPassword = process.env.ADMIN_PASSWORD;
+  if (!expectedUserId || !expectedPassword) return false;
+  return userId === expectedUserId && password === expectedPassword;
 }
 
 export const ADMIN_SESSION_COOKIE = COOKIE_NAME;

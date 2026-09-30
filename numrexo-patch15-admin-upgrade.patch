@@ -1,0 +1,1126 @@
+diff --git a/.env.example b/.env.example
+index 81b91d4..87b2652 100644
+--- a/.env.example
++++ b/.env.example
+@@ -5,8 +5,14 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=your_google_analytics_measurement_id_here
+ # Blog (see PATCH14-STEPS.md for how to get these)
+ # Neon Postgres connection string - powers the blog and its admin panel.
+ DATABASE_URL=postgres://user:password@host/dbname?sslmode=require
+-# Password to log in to the admin panel at app.numrexo.com.
++# User ID + password to log in to the admin panel at app.numrexo.com.
++ADMIN_USER_ID=choose-a-login-id
+ ADMIN_PASSWORD=choose-a-strong-password
+ # Random string used to sign the admin login cookie. Generate one with:
+ #   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+-ADMIN_SESSION_SECRET=a-long-random-string
+\ No newline at end of file
++ADMIN_SESSION_SECRET=a-long-random-string
++# Vercel Blob Storage token, for uploading images from the admin editor (see
++# PATCH15-STEPS.md). Only needed locally if you run `npm run dev` and test
++# uploads before deploying - on Vercel itself this is added automatically
++# once Blob Storage is connected to the project, no copy-pasting needed.
++BLOB_READ_WRITE_TOKEN=
+\ No newline at end of file
+diff --git a/app/admin/edit/[id]/page.tsx b/app/admin/edit/[id]/page.tsx
+index b618751..3e61184 100644
+--- a/app/admin/edit/[id]/page.tsx
++++ b/app/admin/edit/[id]/page.tsx
+@@ -27,6 +27,9 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
+           excerpt: post.excerpt,
+           contentMarkdown: post.contentMarkdown,
+           featuredImage: post.featuredImage || '',
++          metaTitle: post.metaTitle || '',
++          metaDescription: post.metaDescription || '',
++          faqs: post.faqs || [],
+           published: post.published,
+         }}
+       />
+diff --git a/app/admin/login/page.tsx b/app/admin/login/page.tsx
+index c54c3dc..7718501 100644
+--- a/app/admin/login/page.tsx
++++ b/app/admin/login/page.tsx
+@@ -3,6 +3,7 @@
+ import { useState } from 'react';
+ 
+ export default function AdminLoginPage() {
++  const [userId, setUserId] = useState('');
+   const [password, setPassword] = useState('');
+   const [error, setError] = useState('');
+   const [loading, setLoading] = useState(false);
+@@ -15,12 +16,12 @@ export default function AdminLoginPage() {
+       const res = await fetch('/api/admin/login', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+-        body: JSON.stringify({ password }),
++        body: JSON.stringify({ userId, password }),
+       });
+       if (res.ok) {
+         window.location.href = '/';
+       } else {
+-        setError('Galat password. Dobara try karo.');
++        setError('User ID ya password galat hai. Dobara try karo.');
+       }
+     } catch {
+       setError('Kuch gadbad hui. Dobara try karo.');
+@@ -36,7 +37,21 @@ export default function AdminLoginPage() {
+         className="w-full max-w-sm bg-[#111827] border border-gray-800 rounded-xl p-6 sm:p-8"
+       >
+         <h1 className="text-xl font-semibold text-white mb-1">Numrexo Blog Admin</h1>
+-        <p className="text-sm text-gray-400 mb-6">Password daal kar login karo</p>
++        <p className="text-sm text-gray-400 mb-6">User ID aur password daal kar login karo</p>
++
++        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="userId">
++          User ID
++        </label>
++        <input
++          id="userId"
++          type="text"
++          value={userId}
++          onChange={(e) => setUserId(e.target.value)}
++          autoFocus
++          autoCapitalize="none"
++          autoCorrect="off"
++          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
++        />
+ 
+         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="password">
+           Password
+@@ -46,7 +61,6 @@ export default function AdminLoginPage() {
+           type="password"
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}
+-          autoFocus
+           className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
+         />
+ 
+@@ -54,7 +68,7 @@ export default function AdminLoginPage() {
+ 
+         <button
+           type="submit"
+-          disabled={loading || !password}
++          disabled={loading || !userId || !password}
+           className="w-full py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors"
+         >
+           {loading ? 'Checking...' : 'Login'}
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+index 7e4d39a..f566d6b 100644
+--- a/app/admin/page.tsx
++++ b/app/admin/page.tsx
+@@ -46,6 +46,20 @@ export default async function AdminDashboardPage() {
+               <p className="text-gray-500 text-xs mt-0.5">/blog/{post.slug}</p>
+             </div>
+             <div className="flex items-center gap-3 flex-shrink-0">
++              {post.published ? (
++                <a
++                  href={`https://numrexo.com/blog/${post.slug}`}
++                  target="_blank"
++                  rel="noopener noreferrer"
++                  className="text-sm text-gray-400 hover:text-white"
++                >
++                  View Live
++                </a>
++              ) : (
++                <span className="text-sm text-gray-600" title="Draft hai, abhi live nahi hai">
++                  Not live
++                </span>
++              )}
+               <Link href={`/edit/${post.id}`} className="text-sm text-blue-400 hover:text-blue-300">
+                 Edit
+               </Link>
+diff --git a/app/api/admin/login/route.ts b/app/api/admin/login/route.ts
+index cd5f6e5..6ae62f3 100644
+--- a/app/api/admin/login/route.ts
++++ b/app/api/admin/login/route.ts
+@@ -1,17 +1,21 @@
+ import { NextRequest, NextResponse } from 'next/server';
+ import {
+-  checkAdminPassword,
++  checkAdminCredentials,
+   createSessionToken,
+   ADMIN_SESSION_COOKIE,
+   ADMIN_SESSION_MAX_AGE_SECONDS,
+ } from '@/lib/adminAuth';
+ 
+ export async function POST(request: NextRequest) {
+-  const { password } = await request.json().catch(() => ({ password: '' }));
++  const { userId, password } = await request.json().catch(() => ({ userId: '', password: '' }));
+ 
+-  if (typeof password !== 'string' || !checkAdminPassword(password)) {
+-    // Same response either way - don't tell a caller whether ADMIN_PASSWORD
+-    // is even configured.
++  if (
++    typeof userId !== 'string' ||
++    typeof password !== 'string' ||
++    !checkAdminCredentials(userId, password)
++  ) {
++    // Same response either way - don't tell a caller whether ADMIN_USER_ID /
++    // ADMIN_PASSWORD are even configured, or which of the two was wrong.
+     return NextResponse.json({ ok: false }, { status: 401 });
+   }
+ 
+diff --git a/app/api/admin/posts/[id]/route.ts b/app/api/admin/posts/[id]/route.ts
+index f8a5127..5afb0c0 100644
+--- a/app/api/admin/posts/[id]/route.ts
++++ b/app/api/admin/posts/[id]/route.ts
+@@ -3,6 +3,7 @@ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { getPostById, updatePost, deletePost, slugExists } from '@/lib/blogDb';
+ import { markdownToHtml } from '@/lib/markdown';
+ import { slugify } from '@/lib/slugify';
++import { sanitizeFaqs } from '@/lib/faqs';
+ 
+ interface Params {
+   params: { id: string };
+@@ -42,6 +43,9 @@ export async function PUT(request: NextRequest, { params }: Params) {
+     contentHtml: markdownToHtml(contentMarkdown),
+     contentMarkdown,
+     featuredImage: body.featuredImage?.trim() || null,
++    metaTitle: (body.metaTitle || '').trim() || null,
++    metaDescription: (body.metaDescription || '').trim() || null,
++    faqs: sanitizeFaqs(body.faqs),
+     published: Boolean(body.published),
+   });
+ 
+diff --git a/app/api/admin/posts/route.ts b/app/api/admin/posts/route.ts
+index e3105c3..65348b1 100644
+--- a/app/api/admin/posts/route.ts
++++ b/app/api/admin/posts/route.ts
+@@ -3,6 +3,7 @@ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { createPost, slugExists } from '@/lib/blogDb';
+ import { markdownToHtml } from '@/lib/markdown';
+ import { slugify } from '@/lib/slugify';
++import { sanitizeFaqs } from '@/lib/faqs';
+ 
+ export async function POST(request: NextRequest) {
+   if (!(await isAdminRequestAuthed())) {
+@@ -32,6 +33,9 @@ export async function POST(request: NextRequest) {
+     contentHtml: markdownToHtml(contentMarkdown),
+     contentMarkdown,
+     featuredImage: body.featuredImage?.trim() || null,
++    metaTitle: (body.metaTitle || '').trim() || null,
++    metaDescription: (body.metaDescription || '').trim() || null,
++    faqs: sanitizeFaqs(body.faqs),
+     published: Boolean(body.published),
+   });
+ 
+diff --git a/app/api/admin/upload/route.ts b/app/api/admin/upload/route.ts
+new file mode 100644
+index 0000000..c6c8881
+--- /dev/null
++++ b/app/api/admin/upload/route.ts
+@@ -0,0 +1,56 @@
++// app/api/admin/upload/route.ts
++//
++// Handles image uploads from the admin editor (featured image + inline
++// content images) by storing them in Vercel Blob Storage and handing back a
++// public URL. Blob Storage is what makes a real "pick a file from your
++// computer" button possible - without it, the admin would have to host
++// images somewhere else themselves and paste a URL in, which is exactly the
++// clunky flow this replaces.
++
++import { NextRequest, NextResponse } from 'next/server';
++import { put } from '@vercel/blob';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++
++const MAX_BYTES = 5 * 1024 * 1024; // 5MB
++const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
++
++export async function POST(request: NextRequest) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++
++  if (!process.env.BLOB_READ_WRITE_TOKEN) {
++    return NextResponse.json(
++      {
++        error:
++          'Image storage is not set up yet on this deployment - see PATCH15-STEPS.md (the Vercel Blob Storage step).',
++      },
++      { status: 500 },
++    );
++  }
++
++  const formData = await request.formData().catch(() => null);
++  const file = formData?.get('file');
++
++  if (!file || !(file instanceof File)) {
++    return NextResponse.json({ error: 'No file received' }, { status: 400 });
++  }
++  if (!ALLOWED_TYPES.includes(file.type)) {
++    return NextResponse.json({ error: 'Only JPG, PNG, WEBP or GIF images are allowed' }, { status: 400 });
++  }
++  if (file.size > MAX_BYTES) {
++    return NextResponse.json({ error: 'Image is larger than 5MB - resize it and try again' }, { status: 400 });
++  }
++
++  try {
++    const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '-') || 'image';
++    const blob = await put(`blog-uploads/${Date.now()}-${safeName}`, file, {
++      access: 'public',
++      addRandomSuffix: true,
++    });
++    return NextResponse.json({ url: blob.url });
++  } catch (error) {
++    const reason = error instanceof Error ? error.message : String(error);
++    return NextResponse.json({ error: `Upload failed: ${reason}` }, { status: 500 });
++  }
++}
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index a994fb5..b2d9744 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -38,14 +38,19 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+   }
+ 
+   const canonical = `https://numrexo.com/blog/${post.slug}`;
++  // metaTitle/metaDescription are the admin's optional SEO overrides - most
++  // posts won't set them, so fall back to the same title/excerpt used
++  // everywhere else on the site.
++  const title = post.metaTitle || `${post.title} | Numrexo Blog`;
++  const description = post.metaDescription || post.excerpt;
+ 
+   return {
+-    title: `${post.title} | Numrexo Blog`,
+-    description: post.excerpt,
++    title,
++    description,
+     alternates: { canonical },
+     openGraph: {
+-      title: post.title,
+-      description: post.excerpt,
++      title,
++      description,
+       url: canonical,
+       type: 'article',
+       publishedTime: post.publishedAt,
+@@ -54,8 +59,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+     },
+     twitter: {
+       card: 'summary_large_image',
+-      title: post.title,
+-      description: post.excerpt,
++      title,
++      description,
+       images: post.featuredImage ? [post.featuredImage] : [],
+     },
+   };
+@@ -92,6 +97,26 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+         }}
+       />
+ 
++      {post.faqs.length > 0 && (
++        <script
++          type="application/ld+json"
++          dangerouslySetInnerHTML={{
++            __html: JSON.stringify({
++              '@context': 'https://schema.org',
++              '@type': 'FAQPage',
++              mainEntity: post.faqs.map((faq) => ({
++                '@type': 'Question',
++                name: faq.question,
++                acceptedAnswer: {
++                  '@type': 'Answer',
++                  text: faq.answer,
++                },
++              })),
++            }),
++          }}
++        />
++      )}
++
+       <article className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
+         <nav className="mb-4 sm:mb-6 text-xs sm:text-sm overflow-x-auto">
+           <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-gray-500 whitespace-nowrap">
+@@ -153,6 +178,28 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+           />
+         </div>
+ 
++        {post.faqs.length > 0 && (
++          <section className="mt-8 sm:mt-12 border-t border-gray-800 pt-6 sm:pt-8">
++            <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
++              Frequently Asked Questions
++            </h2>
++            <div className="space-y-2 sm:space-y-3">
++              {post.faqs.map((faq, i) => (
++                <details
++                  key={i}
++                  className="group bg-[#111827] border border-gray-800 rounded-lg p-3 sm:p-4 open:border-blue-500/40"
++                >
++                  <summary className="cursor-pointer text-sm sm:text-base text-white font-medium list-none flex items-center justify-between gap-2">
++                    {faq.question}
++                    <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
++                  </summary>
++                  <p className="mt-2 sm:mt-3 text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
++                </details>
++              ))}
++            </div>
++          </section>
++        )}
++
+         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800">
+           <p className="text-sm text-gray-400 mb-3">Share this article:</p>
+           <div className="flex flex-wrap gap-1.5 sm:gap-2">
+diff --git a/components/admin/FaqEditor.tsx b/components/admin/FaqEditor.tsx
+new file mode 100644
+index 0000000..acebe0d
+--- /dev/null
++++ b/components/admin/FaqEditor.tsx
+@@ -0,0 +1,77 @@
++'use client';
++
++import { BlogFaq } from '@/lib/blogTypes';
++
++interface FaqEditorProps {
++  value: BlogFaq[];
++  onChange: (value: BlogFaq[]) => void;
++}
++
++// Optional FAQ block for a post. Kept deliberately simple - a list of
++// question/answer pairs the admin can add to or remove from - because the
++// payoff isn't the editing UI, it's what app/blog/[slug]/page.tsx does with
++// it afterwards: renders it on the page AND emits it as FAQPage schema.org
++// JSON-LD, which is what makes a post eligible for Google's FAQ rich
++// result. A row with an empty question or answer is silently dropped on
++// save (see lib/faqs.ts), so a half-filled-in row left behind by mistake
++// never reaches the database or the schema.
++export default function FaqEditor({ value, onChange }: FaqEditorProps) {
++  function updateRow(index: number, field: keyof BlogFaq, text: string) {
++    const next = value.map((faq, i) => (i === index ? { ...faq, [field]: text } : faq));
++    onChange(next);
++  }
++
++  function addRow() {
++    onChange([...value, { question: '', answer: '' }]);
++  }
++
++  function removeRow(index: number) {
++    onChange(value.filter((_, i) => i !== index));
++  }
++
++  return (
++    <div>
++      <label className="block text-sm text-gray-400 mb-1.5">
++        FAQ <span className="text-gray-600">(optional - Google search me FAQ dikhta hai, SEO ke liye acha hai)</span>
++      </label>
++
++      <div className="space-y-3">
++        {value.map((faq, index) => (
++          <div key={index} className="p-3 rounded-lg bg-[#0f1525] border border-gray-700">
++            <div className="flex items-start gap-2 mb-2">
++              <input
++                value={faq.question}
++                onChange={(e) => updateRow(index, 'question', e.target.value)}
++                placeholder={`Sawaal ${index + 1}`}
++                className="flex-1 px-3 py-2 rounded-lg bg-[#1a2236] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
++              />
++              <button
++                type="button"
++                onClick={() => removeRow(index)}
++                title="Hatao"
++                className="px-2.5 py-2 rounded-lg text-gray-500 hover:text-red-400 transition-colors"
++              >
++                ✕
++              </button>
++            </div>
++            <textarea
++              value={faq.answer}
++              onChange={(e) => updateRow(index, 'answer', e.target.value)}
++              placeholder="Jawaab"
++              rows={2}
++              className="w-full px-3 py-2 rounded-lg bg-[#1a2236] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
++            />
++          </div>
++        ))}
++      </div>
++
++      <button
++        type="button"
++        onClick={addRow}
++        className="mt-3 px-3 py-1.5 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-200 text-sm hover:border-blue-500 transition-colors"
++      >
++        + FAQ Add karo
++      </button>
++    </div>
++  );
++}
+diff --git a/components/admin/ImageUploadField.tsx b/components/admin/ImageUploadField.tsx
+new file mode 100644
+index 0000000..b82a805
+--- /dev/null
++++ b/components/admin/ImageUploadField.tsx
+@@ -0,0 +1,96 @@
++'use client';
++
++import { useRef, useState } from 'react';
++
++interface ImageUploadFieldProps {
++  label: string;
++  hint?: string;
++  value: string;
++  onChange: (url: string) => void;
++}
++
++// Used for the featured image field. Shows whatever URL is currently set as
++// a small preview, a button that opens the computer's file picker and
++// uploads straight to /api/admin/upload, and a plain text input underneath
++// for the rare case Sanjay wants to paste a URL by hand instead (an image
++// already hosted somewhere else, or one of the /blog-images/... paths the
++// migrated posts use).
++export default function ImageUploadField({ label, hint, value, onChange }: ImageUploadFieldProps) {
++  const fileInputRef = useRef<HTMLInputElement>(null);
++  const [uploading, setUploading] = useState(false);
++  const [error, setError] = useState('');
++
++  async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
++    const file = e.target.files?.[0];
++    e.target.value = '';
++    if (!file) return;
++    setError('');
++    setUploading(true);
++    try {
++      const formData = new FormData();
++      formData.append('file', file);
++      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
++      const data = await res.json();
++      if (!res.ok) {
++        setError(data.error || 'Upload nahi hua, dobara try karo.');
++        return;
++      }
++      onChange(data.url);
++    } catch {
++      setError('Upload nahi hua - internet check karo aur dobara try karo.');
++    } finally {
++      setUploading(false);
++    }
++  }
++
++  return (
++    <div>
++      <label className="block text-sm text-gray-400 mb-1.5">
++        {label} {hint && <span className="text-gray-600">({hint})</span>}
++      </label>
++
++      {value && (
++        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-[#0f1525] border border-gray-700">
++          {/* eslint-disable-next-line @next/next/no-img-element */}
++          <img src={value} alt="" className="w-full h-full object-cover" />
++        </div>
++      )}
++
++      <div className="flex flex-wrap items-center gap-2">
++        <input
++          ref={fileInputRef}
++          type="file"
++          accept="image/jpeg,image/png,image/webp,image/gif"
++          onChange={handleFileSelected}
++          className="hidden"
++        />
++        <button
++          type="button"
++          onClick={() => fileInputRef.current?.click()}
++          disabled={uploading}
++          className="px-3 py-1.5 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-200 text-sm hover:border-blue-500 disabled:opacity-50 transition-colors"
++        >
++          {uploading ? 'Upload ho raha hai...' : 'Computer se Upload karo'}
++        </button>
++        {value && (
++          <button
++            type="button"
++            onClick={() => onChange('')}
++            className="px-3 py-1.5 rounded-lg text-gray-500 text-sm hover:text-red-400 transition-colors"
++          >
++            Remove
++          </button>
++        )}
++      </div>
++
++      {error && <p className="text-sm text-red-400 mt-2">{error}</p>}
++
++      <input
++        value={value}
++        onChange={(e) => onChange(e.target.value)}
++        placeholder="...ya yahan seedha image ka URL paste karo"
++        className="mt-2 w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
++      />
++    </div>
++  );
++}
+diff --git a/components/admin/PostForm.tsx b/components/admin/PostForm.tsx
+index bc81764..cb2f29d 100644
+--- a/components/admin/PostForm.tsx
++++ b/components/admin/PostForm.tsx
+@@ -2,7 +2,10 @@
+ 
+ import { useState } from 'react';
+ import { useRouter } from 'next/navigation';
+-import { CATEGORY_LABELS } from '@/lib/blogTypes';
++import { CATEGORY_LABELS, BlogFaq } from '@/lib/blogTypes';
++import ImageUploadField from '@/components/admin/ImageUploadField';
++import RichMarkdownEditor from '@/components/admin/RichMarkdownEditor';
++import FaqEditor from '@/components/admin/FaqEditor';
+ 
+ export interface PostFormValues {
+   id?: number;
+@@ -13,6 +16,9 @@ export interface PostFormValues {
+   excerpt: string;
+   contentMarkdown: string;
+   featuredImage: string;
++  metaTitle: string;
++  metaDescription: string;
++  faqs: BlogFaq[];
+   published: boolean;
+ }
+ 
+@@ -24,6 +30,9 @@ const EMPTY: PostFormValues = {
+   excerpt: '',
+   contentMarkdown: '',
+   featuredImage: '',
++  metaTitle: '',
++  metaDescription: '',
++  faqs: [],
+   published: true,
+ };
+ 
+@@ -120,17 +129,12 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
+         </div>
+       </div>
+ 
+-      <div>
+-        <label className="block text-sm text-gray-400 mb-1.5">
+-          Featured image URL <span className="text-gray-600">(optional)</span>
+-        </label>
+-        <input
+-          value={values.featuredImage}
+-          onChange={(e) => update('featuredImage', e.target.value)}
+-          placeholder="https://... ya /blog-images/filename.png"
+-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+-        />
+-      </div>
++      <ImageUploadField
++        label="Featured Image"
++        hint="optional - blog list aur post ke top par dikhegi"
++        value={values.featuredImage}
++        onChange={(url) => update('featuredImage', url)}
++      />
+ 
+       <div>
+         <label className="block text-sm text-gray-400 mb-1.5">
+@@ -145,17 +149,50 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
+       </div>
+ 
+       <div>
+-        <label className="block text-sm text-gray-400 mb-1.5">
+-          Content <span className="text-gray-600">(Markdown - ## Heading, **bold**, - bullet list)</span>
+-        </label>
+-        <textarea
++        <label className="block text-sm text-gray-400 mb-1.5">Content</label>
++        <RichMarkdownEditor
+           value={values.contentMarkdown}
+-          onChange={(e) => update('contentMarkdown', e.target.value)}
+-          rows={20}
+-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
++          onChange={(v) => update('contentMarkdown', v)}
+         />
+       </div>
+ 
++      <div className="p-4 rounded-lg bg-[#0d1220] border border-gray-800 space-y-4">
++        <h3 className="text-sm font-semibold text-gray-300">SEO (Google search result)</h3>
++
++        <div>
++          <label className="block text-sm text-gray-400 mb-1.5">
++            Meta Title{' '}
++            <span className="text-gray-600">
++              (optional - khaali chhod do to normal Title use hoga; 50-60 letters best hai)
++            </span>
++          </label>
++          <input
++            value={values.metaTitle}
++            onChange={(e) => update('metaTitle', e.target.value)}
++            maxLength={70}
++            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
++          />
++        </div>
++
++        <div>
++          <label className="block text-sm text-gray-400 mb-1.5">
++            Meta Description{' '}
++            <span className="text-gray-600">
++              (optional - khaali chhod do to Excerpt use hoga; 150-160 letters best hai)
++            </span>
++          </label>
++          <textarea
++            value={values.metaDescription}
++            onChange={(e) => update('metaDescription', e.target.value)}
++            rows={2}
++            maxLength={200}
++            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
++          />
++        </div>
++      </div>
++
++      <FaqEditor value={values.faqs} onChange={(v) => update('faqs', v)} />
++
+       <label className="flex items-center gap-2 text-sm text-gray-300">
+         <input
+           type="checkbox"
+diff --git a/components/admin/RichMarkdownEditor.tsx b/components/admin/RichMarkdownEditor.tsx
+new file mode 100644
+index 0000000..e813d8c
+--- /dev/null
++++ b/components/admin/RichMarkdownEditor.tsx
+@@ -0,0 +1,159 @@
++'use client';
++
++import { useRef, useState } from 'react';
++
++interface RichMarkdownEditorProps {
++  value: string;
++  onChange: (value: string) => void;
++}
++
++// A toolbar on top of the plain markdown textarea, so writing a post feels
++// closer to WordPress than to editing raw markdown by hand. Every button
++// edits the textarea's own text (wrapping the selection in **bold** markers,
++// prefixing the current line(s) with "## ", and so on) rather than
++// switching to a separate rich-text editor library - that keeps the
++// underlying content a plain markdown string, which is what
++// lib/markdown.ts converts to HTML at save time and what the admin list
++// re-opens later. "Insert Image" is the one button that does something
++// asynchronous: it opens the file picker, uploads to /api/admin/upload, and
++// inserts a markdown image tag with the returned URL once that finishes.
++export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEditorProps) {
++  const textareaRef = useRef<HTMLTextAreaElement>(null);
++  const fileInputRef = useRef<HTMLInputElement>(null);
++  const [uploading, setUploading] = useState(false);
++  const [error, setError] = useState('');
++
++  function applyEdit(nextValue: string, selectionStart: number, selectionEnd: number) {
++    onChange(nextValue);
++    // The textarea is a controlled input, so its DOM value hasn't caught up
++    // yet on this tick - restore the cursor position on the next one.
++    requestAnimationFrame(() => {
++      const el = textareaRef.current;
++      if (!el) return;
++      el.focus();
++      el.setSelectionRange(selectionStart, selectionEnd);
++    });
++  }
++
++  function wrapSelection(marker: string, placeholder: string) {
++    const el = textareaRef.current;
++    if (!el) return;
++    const { selectionStart: start, selectionEnd: end } = el;
++    const selected = value.slice(start, end) || placeholder;
++    const next = value.slice(0, start) + marker + selected + marker + value.slice(end);
++    applyEdit(next, start + marker.length, start + marker.length + selected.length);
++  }
++
++  function prefixLines(prefix: string) {
++    const el = textareaRef.current;
++    if (!el) return;
++    const { selectionStart: start, selectionEnd: end } = el;
++    const lineStart = value.lastIndexOf('\n', start - 1) + 1;
++    let lineEnd = value.indexOf('\n', end);
++    if (lineEnd === -1) lineEnd = value.length;
++    const block = value.slice(lineStart, lineEnd);
++    const prefixed = block
++      .split('\n')
++      .map((line) => prefix + line)
++      .join('\n');
++    const next = value.slice(0, lineStart) + prefixed + value.slice(lineEnd);
++    applyEdit(next, lineStart, lineStart + prefixed.length);
++  }
++
++  function insertLink() {
++    const el = textareaRef.current;
++    if (!el) return;
++    const { selectionStart: start, selectionEnd: end } = el;
++    const selected = value.slice(start, end) || 'link text';
++    const url = window.prompt('Link ka URL daalo (jaise https://numrexo.com):', 'https://');
++    if (!url) return;
++    const markdown = `[${selected}](${url})`;
++    const next = value.slice(0, start) + markdown + value.slice(end);
++    applyEdit(next, start, start + markdown.length);
++  }
++
++  async function handleImageFile(e: React.ChangeEvent<HTMLInputElement>) {
++    const file = e.target.files?.[0];
++    e.target.value = '';
++    if (!file) return;
++    setError('');
++    setUploading(true);
++    try {
++      const formData = new FormData();
++      formData.append('file', file);
++      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
++      const data = await res.json();
++      if (!res.ok) {
++        setError(data.error || 'Upload nahi hua, dobara try karo.');
++        return;
++      }
++      const el = textareaRef.current;
++      const start = el?.selectionStart ?? value.length;
++      const end = el?.selectionEnd ?? value.length;
++      const altText = window.prompt('Image ke baare me chhota sa text (SEO ke liye, optional):', '') || '';
++      const markdown = `\n![${altText}](${data.url})\n`;
++      const next = value.slice(0, start) + markdown + value.slice(end);
++      applyEdit(next, start + markdown.length, start + markdown.length);
++    } catch {
++      setError('Upload nahi hua - internet check karo aur dobara try karo.');
++    } finally {
++      setUploading(false);
++    }
++  }
++
++  const buttons: { label: string; title: string; onClick: () => void }[] = [
++    { label: 'H2', title: 'Heading', onClick: () => prefixLines('## ') },
++    { label: 'H3', title: 'Sub-heading', onClick: () => prefixLines('### ') },
++    { label: 'B', title: 'Bold', onClick: () => wrapSelection('**', 'bold text') },
++    { label: 'I', title: 'Italic', onClick: () => wrapSelection('_', 'italic text') },
++    { label: '“”', title: 'Quote', onClick: () => prefixLines('> ') },
++    { label: '• List', title: 'Bullet list', onClick: () => prefixLines('- ') },
++    { label: '1. List', title: 'Numbered list', onClick: () => prefixLines('1. ') },
++    { label: 'Link', title: 'Insert link', onClick: insertLink },
++  ];
++
++  return (
++    <div>
++      <div className="flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-[#0f1525] border border-gray-700">
++        {buttons.map((btn) => (
++          <button
++            key={btn.label}
++            type="button"
++            title={btn.title}
++            onClick={btn.onClick}
++            className="px-2.5 py-1 rounded bg-[#1a2236] text-gray-200 text-xs font-medium hover:bg-blue-500/20 hover:text-blue-300 transition-colors"
++          >
++            {btn.label}
++          </button>
++        ))}
++        <span className="w-px h-5 bg-gray-700 mx-1" />
++        <input
++          ref={fileInputRef}
++          type="file"
++          accept="image/jpeg,image/png,image/webp,image/gif"
++          onChange={handleImageFile}
++          className="hidden"
++        />
++        <button
++          type="button"
++          title="Insert image"
++          onClick={() => fileInputRef.current?.click()}
++          disabled={uploading}
++          className="px-2.5 py-1 rounded bg-[#1a2236] text-gray-200 text-xs font-medium hover:bg-blue-500/20 hover:text-blue-300 disabled:opacity-50 transition-colors"
++        >
++          {uploading ? 'Uploading...' : '🖼 Insert Image'}
++        </button>
++      </div>
++
++      {error && <p className="text-sm text-red-400 mb-2">{error}</p>}
++
++      <textarea
++        ref={textareaRef}
++        value={value}
++        onChange={(e) => onChange(e.target.value)}
++        rows={20}
++        className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
++      />
++    </div>
++  );
++}
+diff --git a/lib/adminAuth.ts b/lib/adminAuth.ts
+index 6def6ff..9ddb046 100644
+--- a/lib/adminAuth.ts
++++ b/lib/adminAuth.ts
+@@ -70,10 +70,15 @@ export async function isValidSessionToken(token: string | undefined | null): Pro
+   }
+ }
+ 
+-export function checkAdminPassword(password: string): boolean {
+-  const expected = process.env.ADMIN_PASSWORD;
+-  if (!expected) return false;
+-  return password === expected;
++// Checks both the user ID and the password against their env vars. This is
++// still a single-admin system (one fixed identity, not a user table) - the
++// user ID field exists because Sanjay asked for a login that isn't just a
++// bare password, not because there's more than one person who can log in.
++export function checkAdminCredentials(userId: string, password: string): boolean {
++  const expectedUserId = process.env.ADMIN_USER_ID;
++  const expectedPassword = process.env.ADMIN_PASSWORD;
++  if (!expectedUserId || !expectedPassword) return false;
++  return userId === expectedUserId && password === expectedPassword;
+ }
+ 
+ export const ADMIN_SESSION_COOKIE = COOKIE_NAME;
+diff --git a/lib/blogDb.ts b/lib/blogDb.ts
+index bd5acbf..0d98423 100644
+--- a/lib/blogDb.ts
++++ b/lib/blogDb.ts
+@@ -19,7 +19,7 @@
+ // the whole site build or take down calculator pages.
+ 
+ import { neon } from '@neondatabase/serverless';
+-import { BlogPost } from './blogTypes';
++import { BlogPost, BlogFaq } from './blogTypes';
+ 
+ const DATABASE_URL = process.env.DATABASE_URL || '';
+ 
+@@ -40,11 +40,28 @@ type Row = {
+   content_html: string;
+   content_markdown: string;
+   featured_image: string | null;
++  meta_title: string | null;
++  meta_description: string | null;
++  // The Neon HTTP driver returns jsonb columns already parsed into JS
++  // values, but this is defensive in case a row ever comes back as a raw
++  // JSON string instead (e.g. a different driver/path).
++  faqs: BlogFaq[] | string | null;
+   published: boolean;
+   published_at: string;
+   updated_at: string;
+ };
+ 
++function parseFaqs(value: BlogFaq[] | string | null): BlogFaq[] {
++  if (!value) return [];
++  if (Array.isArray(value)) return value;
++  try {
++    const parsed = JSON.parse(value);
++    return Array.isArray(parsed) ? parsed : [];
++  } catch {
++    return [];
++  }
++}
++
+ function rowToPost(row: Row): BlogPost {
+   return {
+     id: row.id,
+@@ -56,6 +73,9 @@ function rowToPost(row: Row): BlogPost {
+     contentHtml: row.content_html,
+     contentMarkdown: row.content_markdown,
+     featuredImage: row.featured_image,
++    metaTitle: row.meta_title,
++    metaDescription: row.meta_description,
++    faqs: parseFaqs(row.faqs),
+     published: row.published,
+     publishedAt: row.published_at,
+     updatedAt: row.updated_at,
+@@ -259,7 +279,7 @@ export async function slugExists(slug: string, excludeId?: number): Promise<bool
+   );
+ }
+ 
+-export async function createPost(input: {
++interface PostWriteInput {
+   slug: string;
+   title: string;
+   category: string;
+@@ -268,15 +288,21 @@ export async function createPost(input: {
+   contentHtml: string;
+   contentMarkdown: string;
+   featuredImage: string | null;
++  metaTitle: string | null;
++  metaDescription: string | null;
++  faqs: BlogFaq[];
+   published: boolean;
+-}): Promise<BlogPost | null> {
++}
++
++export async function createPost(input: PostWriteInput): Promise<BlogPost | null> {
+   return safeDb(
+     'createPost',
+     async () => {
+       const sql = getSql()!;
++      const faqsJson = JSON.stringify(input.faqs || []);
+       const rows = (await sql`
+-        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, published, published_at, updated_at)
+-        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.published}, now(), now())
++        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, meta_title, meta_description, faqs, published, published_at, updated_at)
++        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.metaTitle}, ${input.metaDescription}, ${faqsJson}::jsonb, ${input.published}, now(), now())
+         RETURNING *
+       `) as unknown as Row[];
+       return rows[0] ? rowToPost(rows[0]) : null;
+@@ -285,24 +311,12 @@ export async function createPost(input: {
+   );
+ }
+ 
+-export async function updatePost(
+-  id: number,
+-  input: {
+-    slug: string;
+-    title: string;
+-    category: string;
+-    author: string;
+-    excerpt: string;
+-    contentHtml: string;
+-    contentMarkdown: string;
+-    featuredImage: string | null;
+-    published: boolean;
+-  },
+-): Promise<BlogPost | null> {
++export async function updatePost(id: number, input: PostWriteInput): Promise<BlogPost | null> {
+   return safeDb(
+     `updatePost(${id})`,
+     async () => {
+       const sql = getSql()!;
++      const faqsJson = JSON.stringify(input.faqs || []);
+       const rows = (await sql`
+         UPDATE blog_posts
+         SET slug = ${input.slug},
+@@ -313,6 +327,9 @@ export async function updatePost(
+             content_html = ${input.contentHtml},
+             content_markdown = ${input.contentMarkdown},
+             featured_image = ${input.featuredImage},
++            meta_title = ${input.metaTitle},
++            meta_description = ${input.metaDescription},
++            faqs = ${faqsJson}::jsonb,
+             published = ${input.published},
+             updated_at = now()
+         WHERE id = ${id}
+diff --git a/lib/blogTypes.ts b/lib/blogTypes.ts
+index 7971815..3640bdd 100644
+--- a/lib/blogTypes.ts
++++ b/lib/blogTypes.ts
+@@ -6,6 +6,11 @@
+ // actually stores, since we're no longer constrained by the WP REST API's
+ // response format.
+ 
++export interface BlogFaq {
++  question: string;
++  answer: string;
++}
++
+ export interface BlogPost {
+   id: number;
+   slug: string;
+@@ -22,6 +27,12 @@ export interface BlogPost {
+   // one of those posts without touching it round-trips safely.
+   contentMarkdown: string;
+   featuredImage: string | null;
++  // SEO overrides - when empty, the blog pages fall back to `title`/`excerpt`.
++  metaTitle: string | null;
++  metaDescription: string | null;
++  // Optional FAQ block, shown on the post page and emitted as FAQPage
++  // schema.org JSON-LD for Google's FAQ rich result.
++  faqs: BlogFaq[];
+   published: boolean;
+   publishedAt: string; // ISO timestamp
+   updatedAt: string; // ISO timestamp
+@@ -35,6 +46,9 @@ export interface BlogPostInput {
+   excerpt: string;
+   contentHtml: string;
+   featuredImage: string | null;
++  metaTitle: string | null;
++  metaDescription: string | null;
++  faqs: BlogFaq[];
+   published: boolean;
+   publishedAt?: string;
+ }
+diff --git a/lib/faqs.ts b/lib/faqs.ts
+new file mode 100644
+index 0000000..1278a4c
+--- /dev/null
++++ b/lib/faqs.ts
+@@ -0,0 +1,26 @@
++// lib/faqs.ts
++//
++// Shared validation for the optional FAQ block on a blog post. Used by both
++// admin API routes (create/update) so a malformed or junk `faqs` value from
++// the client can never reach the database - only rows with a real, non-empty
++// question and answer survive, and anything that isn't an array at all
++// becomes an empty one rather than throwing.
++
++import { BlogFaq } from './blogTypes';
++
++const MAX_FAQS = 20;
++
++export function sanitizeFaqs(value: unknown): BlogFaq[] {
++  if (!Array.isArray(value)) return [];
++  const cleaned: BlogFaq[] = [];
++  for (const item of value) {
++    if (!item || typeof item !== 'object') continue;
++    const question = typeof (item as any).question === 'string' ? (item as any).question.trim() : '';
++    const answer = typeof (item as any).answer === 'string' ? (item as any).answer.trim() : '';
++    if (question && answer) {
++      cleaned.push({ question, answer });
++    }
++    if (cleaned.length >= MAX_FAQS) break;
++  }
++  return cleaned;
++}
+diff --git a/package.json b/package.json
+index b3795d7..7fb4432 100644
+--- a/package.json
++++ b/package.json
+@@ -10,11 +10,13 @@
+     "lint": "next lint",
+     "verify:seo": "node scripts/verify-seo.mjs",
+     "prebuild": "node scripts/verify-seo.mjs",
+-    "seed:blog": "node scripts/seed-blog.mjs"
++    "seed:blog": "node scripts/seed-blog.mjs",
++    "migrate:blog-v2": "node scripts/migrate-blog-v2.mjs"
+   },
+   "dependencies": {
+     "@formspree/react": "^3.0.0",
+     "@neondatabase/serverless": "^0.10.0",
++    "@vercel/blob": "^0.27.1",
+     "graphql-request": "^7.4.0",
+     "lucide-react": "^0.344.0",
+     "marked": "^12.0.0",
+diff --git a/scripts/migrate-blog-v2.mjs b/scripts/migrate-blog-v2.mjs
+new file mode 100644
+index 0000000..e3e61f5
+--- /dev/null
++++ b/scripts/migrate-blog-v2.mjs
+@@ -0,0 +1,54 @@
++// scripts/migrate-blog-v2.mjs
++//
++// One-time migration for Patch 15. Adds the three new columns the richer
++// admin editor needs (meta_title, meta_description, faqs) to the blog_posts
++// table that scripts/seed-blog.mjs already created. Every existing post
++// keeps working exactly as before - the new columns are nullable / default
++// to an empty FAQ list, so nothing has to be backfilled.
++//
++// Usage:  node scripts/migrate-blog-v2.mjs
++//
++// Safe to run more than once - every statement is "add the column if it's
++// not already there", so re-running it just confirms the columns exist.
++
++import { neon } from '@neondatabase/serverless';
++import { readFileSync, existsSync } from 'node:fs';
++import { fileURLToPath } from 'node:url';
++import { dirname, join } from 'node:path';
++
++const __dirname = dirname(fileURLToPath(import.meta.url));
++
++// Same hand-rolled .env.local reader as scripts/seed-blog.mjs - a bare
++// `node script.mjs` process doesn't auto-load it the way `next build` does.
++const envLocalPath = join(__dirname, '..', '.env.local');
++if (existsSync(envLocalPath)) {
++  for (const line of readFileSync(envLocalPath, 'utf-8').split('\n')) {
++    const match = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/i);
++    if (match && !process.env[match[1]]) {
++      process.env[match[1]] = match[2].replace(/^['"]|['"]$/g, '');
++    }
++  }
++}
++
++const DATABASE_URL = process.env.DATABASE_URL;
++if (!DATABASE_URL) {
++  console.error('DATABASE_URL is not set. Add it to .env.local (see PATCH14-STEPS.md) and try again.');
++  process.exit(1);
++}
++
++const sql = neon(DATABASE_URL);
++
++async function main() {
++  console.log('Adding meta_title, meta_description and faqs columns to blog_posts (if missing)...');
++  await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS meta_title TEXT`;
++  await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS meta_description TEXT`;
++  await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS faqs JSONB NOT NULL DEFAULT '[]'::jsonb`;
++  console.log('Done. Your 25 existing posts are untouched - the new fields are empty until you fill them in.');
++}
++
++main()
++  .then(() => process.exit(0))
++  .catch((err) => {
++    console.error('Migration failed:', err);
++    process.exit(1);
++  });

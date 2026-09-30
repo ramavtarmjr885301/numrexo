@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  checkAdminPassword,
+  checkAdminCredentials,
   createSessionToken,
   ADMIN_SESSION_COOKIE,
   ADMIN_SESSION_MAX_AGE_SECONDS,
 } from '@/lib/adminAuth';
 
 export async function POST(request: NextRequest) {
-  const { password } = await request.json().catch(() => ({ password: '' }));
+  const { userId, password } = await request.json().catch(() => ({ userId: '', password: '' }));
 
-  if (typeof password !== 'string' || !checkAdminPassword(password)) {
-    // Same response either way - don't tell a caller whether ADMIN_PASSWORD
-    // is even configured.
+  if (
+    typeof userId !== 'string' ||
+    typeof password !== 'string' ||
+    !checkAdminCredentials(userId, password)
+  ) {
+    // Same response either way - don't tell a caller whether ADMIN_USER_ID /
+    // ADMIN_PASSWORD are even configured, or which of the two was wrong.
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 

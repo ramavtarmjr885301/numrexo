@@ -46,6 +46,20 @@ export default async function AdminDashboardPage() {
               <p className="text-gray-500 text-xs mt-0.5">/blog/{post.slug}</p>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
+              {post.published ? (
+                <a
+                  href={`https://numrexo.com/blog/${post.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-400 hover:text-white"
+                >
+                  View Live
+                </a>
+              ) : (
+                <span className="text-sm text-gray-600" title="Draft hai, abhi live nahi hai">
+                  Not live
+                </span>
+              )}
               <Link href={`/edit/${post.id}`} className="text-sm text-blue-400 hover:text-blue-300">
                 Edit
               </Link>
