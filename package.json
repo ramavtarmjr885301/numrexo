@@ -9,19 +9,20 @@
     "start": "next start",
     "lint": "next lint",
     "verify:seo": "node scripts/verify-seo.mjs",
-    "prebuild": "node scripts/verify-seo.mjs"
+    "prebuild": "node scripts/verify-seo.mjs",
+    "seed:blog": "node scripts/seed-blog.mjs"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
-    "axios": "^1.18.0",
+    "@neondatabase/serverless": "^0.10.0",
     "graphql-request": "^7.4.0",
     "lucide-react": "^0.344.0",
+    "marked": "^12.0.0",
     "next": "^14.2.5",
     "nextjs-indexing-pack": "^0.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rss": "^1.2.2",
-    "swr": "^2.4.1"
+    "rss": "^1.2.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.0",

@@ -1,52 +1,54 @@
-// app/rss.xml/route.ts
+// app/rss/route.ts
 
-import { wpClient, getFeaturedImage } from '../wordpress';
+import { listPublishedPosts } from '@/lib/blogDb';
+import { categoryLabel } from '@/lib/blogTypes';
 import RSS from 'rss';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    const posts = await wpClient.getPosts();
-    const baseUrl = 'https://numrexo.com';
+  const { posts } = await listPublishedPosts(1, 50);
+  const baseUrl = 'https://numrexo.com';
 
-    const feed = new RSS({
-        title: 'Numrexo Blog',
-        description: 'Expert guides on finance, loans, investments, and math',
-        feed_url: `${baseUrl}/rss.xml`,
-        site_url: baseUrl,
-        image_url: `${baseUrl}/favicon.ico`,
-        managingEditor: 'Numrexo Team',
-        webMaster: 'Numrexo Team',
-        copyright: `2024-${new Date().getFullYear()} Numrexo`,
-        language: 'en-us',
-        pubDate: new Date(),
-        ttl: 60,
+  const feed = new RSS({
+    title: 'Numrexo Blog',
+    description: 'Expert guides on finance, loans, investments, and math',
+    feed_url: `${baseUrl}/rss.xml`,
+    site_url: baseUrl,
+    image_url: `${baseUrl}/favicon.ico`,
+    managingEditor: 'Numrexo Team',
+    webMaster: 'Numrexo Team',
+    copyright: `2024-${new Date().getFullYear()} Numrexo`,
+    language: 'en-us',
+    pubDate: new Date(),
+    ttl: 60,
+  });
+
+  posts.forEach((post) => {
+    feed.item({
+      title: post.title,
+      description: post.excerpt,
+      url: `${baseUrl}/blog/${post.slug}`,
+      guid: `${baseUrl}/blog/${post.slug}`,
+      categories: [categoryLabel(post.category)],
+      author: post.author,
+      date: post.publishedAt,
+      enclosure: post.featuredImage
+        ? {
+            url: post.featuredImage.startsWith('http')
+              ? post.featuredImage
+              : `${baseUrl}${post.featuredImage}`,
+            type: 'image/jpeg',
+          }
+        : undefined,
     });
+  });
 
-    posts.forEach((post) => {
-        const featuredImage = getFeaturedImage(post);
-        const author = post._embedded?.author?.[0]?.name || 'Numrexo Team';
+  const xml = feed.xml({ indent: true });
 
-        feed.item({
-            title: post.title.rendered,
-            description: post.excerpt.rendered.replace(/<[^>]+>/g, ''),
-            url: `${baseUrl}/blog/${post.slug}`,
-            guid: `${baseUrl}/blog/${post.slug}`,
-            categories: post.categories?.map((catId) => catId.toString()) || [],
-            author: author,
-            date: post.date,
-            enclosure: featuredImage ? {
-                url: featuredImage.url,
-                type: 'image/jpeg',
-            } : undefined,
-        });
-    });
-
-    const xml = feed.xml({ indent: true });
-
-    return new NextResponse(xml, {
-        headers: {
-            'Content-Type': 'application/xml; charset=utf-8',
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-        },
-    });
+  return new NextResponse(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+    },
+  });
 }

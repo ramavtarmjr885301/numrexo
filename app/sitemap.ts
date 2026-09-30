@@ -14,8 +14,9 @@
 //    reviewers notice. It is gone.
 //
 // 3. Blog posts and /contact were missing entirely — 8 published posts were not
-//    in the sitemap at all. Posts are now pulled from WordPress at build time,
-//    with a try/catch so a WordPress outage cannot break the build.
+//    in the sitemap at all. Posts are now pulled from the blog's own Postgres
+//    table at build time (see lib/blogDb.ts), with a try/catch so a database
+//    hiccup cannot break the build.
 //
 // 4. Comingsoon calculators are excluded — no point asking Google to index a
 //    page that has nothing on it yet.
@@ -24,7 +25,7 @@ import { MetadataRoute } from 'next'
 import { CALCULATORS_REGISTRY, CATEGORIES } from '@/data/calculatorsRegistry'
 import { SITE_URL, calculatorLastModified } from '@/lib/seo'
 import { SITE_DEFAULT_UPDATED_AT, CALCULATOR_SEO } from '@/data/calculatorsSeo'
-import { wpClient } from '@/app/wordpress'
+import { listPublishedPosts } from '@/lib/blogDb'
 
 const baseUrl = SITE_URL
 
@@ -79,18 +80,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
 
     // ─────────────────────────────────────────────────────────
-    // Blog posts — pulled from WordPress, never allowed to fail the build
+    // Blog posts — pulled from Postgres, never allowed to fail the build
     // ─────────────────────────────────────────────────────────
     let blogPages: MetadataRoute.Sitemap = []
     try {
-        const posts = await wpClient.getPosts()
+        const { posts } = await listPublishedPosts(1, 200)
         blogPages = posts.map((post) => ({
             url: `${baseUrl}/blog/${post.slug}`,
-            lastModified: new Date(post.modified || post.date),
+            lastModified: new Date(post.updatedAt || post.publishedAt),
             priority: 0.6,
         }))
     } catch (error) {
-        console.warn('[sitemap] Could not fetch blog posts from WordPress:', error)
+        console.warn('[sitemap] Could not fetch blog posts:', error)
     }
 
     return [...staticPages, ...categoryPages, ...calculatorPages, ...blogPages]

@@ -1,0 +1,1008 @@
+diff --git a/components/calculators/AddDaysCalculator.tsx b/components/calculators/AddDaysCalculator.tsx
+index ff308e9..1b581d7 100644
+--- a/components/calculators/AddDaysCalculator.tsx
++++ b/components/calculators/AddDaysCalculator.tsx
+@@ -1,26 +1,50 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ // ─── Static SEO Data ──────────────────────────────────────────────────────────
+ 
+ const FAQ_DATA = [
+     {
+-        q: "How to calculate a future date?",
+-        a: "Add the number of days to the starting date. Example: Jan 1 + 30 days = Jan 31. Our calculator handles months with different lengths and leap years automatically.",
++        q: "How do I work out a date a set number of days from now?",
++        a: "Pick the start date, type the number of days, and choose add or subtract. The calculator moves across month ends and leap years for you, which is where hand-counting usually goes wrong — 31 January plus 30 days is 2 March in a normal year and 1 March in a leap year.",
+     },
+     {
+-        q: "What is the difference between business days and calendar days?",
+-        a: "Calendar days include weekends and holidays. Business days (working days) exclude weekends (Saturday & Sunday). Some calculators also exclude public holidays.",
++        q: "Does day one count as the start date or the day after?",
++        a: "This is the mistake that costs people deadlines. Here, adding 30 days to 1 January gives 31 January — the start date is day zero, and the count begins the following day. Contracts and court rules often say the opposite, counting the start date as day one. If a document specifies a method, follow the document; if it does not, most jurisdictions default to excluding the first day and including the last.",
+     },
+     {
+-        q: "How to calculate a past date?",
+-        a: "Subtract days from the starting date. Example: Jan 31 - 30 days = Jan 1. Our calculator supports both future and past date calculations.",
++        q: "What is the difference between calendar days and business days?",
++        a: "Calendar days count everything. Business days skip Saturdays and Sundays, and usually public holidays too. A '30-day' notice period is almost always calendar days, while a '10-day' processing time from a bank or government office is almost always business days — and the two can be three weeks apart. This calculator counts calendar days.",
+     },
+     {
+-        q: "Does the calculator account for leap years?",
+-        a: "Yes, our calculator automatically accounts for leap years (February 29) when adding or subtracting days across multiple years.",
++        q: "How do I count backwards to find a deadline?",
++        a: "Choose subtract and enter the number of days. This is how you find the last date to give notice: take the date the notice has to land, subtract the notice period, and you have the day it must go out. Give yourself a margin if it is going by post.",
++    },
++    {
++        q: "Does it handle leap years?",
++        a: "Yes. February gets its 29th day in leap years automatically, so a span that crosses one lands a day later than the same span in an ordinary year. Century years are handled correctly too: 1900 was not a leap year, 2000 was, and 2100 will not be.",
++    },
++    {
++        q: "What are the usual reasons people need this?",
++        a: "Notice periods on a lease or an employment contract, return and refund windows, warranty expiry, visa validity, probation end dates, project milestones counted from a kick-off, and prescription refill dates. In each case the answer needs to be a date, not an approximation.",
++    },
++    {
++        q: "How many days are in a month for this calculation?",
++        a: "The real number. The calculator moves through the actual calendar rather than assuming 30-day months, so adding 90 days to 1 January gives 1 April in a normal year, while adding three months would also give 1 April — the two agree here and often do not. If a contract says months, count months; if it says days, count days.",
++    },
++    {
++        q: "Can I find the date a specific number of weeks away?",
++        a: "Multiply by seven and enter that. Twelve weeks is 84 days, and because it is a whole number of weeks the answer always falls on the same weekday as the start date — useful for anything scheduled fortnightly or monthly-by-weeks.",
++    },
++    {
++        q: "Why does the weekday matter in the result?",
++        a: "Because a deadline that lands on a weekend or a public holiday usually rolls to the next working day, and in a few contexts back to the previous one. The result shows the weekday so you can spot that immediately rather than after the fact.",
++    },
++    {
++        q: "Is anything I enter saved?",
++        a: "No. The date arithmetic happens in your browser and nothing leaves it.",
+     },
+ ];
+ 
+@@ -63,21 +87,21 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function AddDaysCalculator() {
+-    const [startDate, setStartDate] = useState("");
+-    const [days, setDays] = useState("");
++    const [startDate, setStartDate] = useState(() => new Date().toISOString().slice(0, 10));
++    const [days, setDays] = useState("30");
+     const [operation, setOperation] = useState<"add" | "subtract">("add");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+     const calculate = () => {
+         if (!startDate) {
+-            alert("Please select a start date");
++            setResult(null);
+             return;
+         }
+ 
+         const daysNum = parseInt(days);
+         if (isNaN(daysNum)) {
+-            alert("Please enter a valid number of days");
++            setResult(null);
+             return;
+         }
+ 
+@@ -106,6 +130,10 @@ export default function AddDaysCalculator() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [startDate, days, operation]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+@@ -158,7 +186,58 @@ export default function AddDaysCalculator() {
+                 />
+             </div>
+ 
+-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Add Days to Date Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Calculate future or past dates by adding or subtracting days. Perfect for deadlines, project planning, pregnancy due dates, and countdowns.</p></section>
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Date Calculator</h2>
++                <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                    Add or subtract days from any date and get the answer as a date and a weekday. It walks the real
++                    calendar — actual month lengths, leap years, century rules — rather than assuming 30-day months,
++                    which is where counting on your fingers tends to fall over.
++                </p>
++                <p className="text-gray-400 text-sm leading-relaxed">
++                    Most people arrive here with a deadline: a notice period, a return window, a visa validity, a
++                    probation end date. For those, the weekday in the result is worth as much as the date itself.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">The Off-by-One Problem</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                        The single most common error in date arithmetic is disagreeing about whether the start date
++                        counts as day one.
++                    </p>
++                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
++                        <li>This calculator treats the start date as day zero: 1 January + 30 days = <span className="text-white">31 January</span>.</li>
++                        <li>Counting the start date as day one gives <span className="text-white">30 January</span> for the same span.</li>
++                    </ul>
++                    <p className="text-gray-500 text-xs">
++                        A day either way rarely matters for a holiday countdown and matters a great deal for a legal
++                        notice. If a contract sets out how to count, follow it. Where nothing is stated, the common
++                        convention is to exclude the first day and include the last.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Calendar Days vs Business Days</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Span</th><th className="text-right py-3 px-4 text-gray-400">Calendar days</th><th className="text-right py-3 px-4 text-gray-400">Roughly, in business days</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One week</td><td className="py-2 px-4 text-right">7</td><td className="py-2 px-4 text-right">5</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Two weeks</td><td className="py-2 px-4 text-right">14</td><td className="py-2 px-4 text-right">10</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One month</td><td className="py-2 px-4 text-right">30</td><td className="py-2 px-4 text-right">21-22</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Three months</td><td className="py-2 px-4 text-right">90</td><td className="py-2 px-4 text-right">64-65</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    This calculator counts calendar days. Business-day figures above exclude weekends only — public
++                    holidays would shorten them further, and they differ by country.
++                </p>
++            </section>
+ 
+             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Examples</h2>
+                 <div className="grid grid-cols-2 gap-3">
+diff --git a/components/calculators/AgeCalculator.tsx b/components/calculators/AgeCalculator.tsx
+index c847544..1458280 100644
+--- a/components/calculators/AgeCalculator.tsx
++++ b/components/calculators/AgeCalculator.tsx
+@@ -1,19 +1,25 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+-  { q: "How is my exact age calculated?", a: "Your exact age is calculated by subtracting your birth date from the current date. The result gives you years, months, and days. We account for leap years and varying month lengths for complete accuracy." },
+-  { q: "Does the calculator account for leap years?", a: "Yes! Our age calculator automatically accounts for leap years. A leap year adds one extra day (February 29), which affects age calculations for those born on or before February 28." },
+-  { q: "What is a lunar age?", a: "Lunar age is used in some cultures (especially East Asian). It adds 1 year at birth and another year on Lunar New Year. This calculator shows Western chronological age, which is the international standard." },
+-  { q: "Why do Koreans calculate age differently?", a: "Traditional Korean age counts the time in the womb as 1 year at birth and adds a year every New Year's Day. South Korea officially switched to international age in 2023, but traditional age is still used culturally." },
++  { q: "How is my exact age calculated?", a: "The calculator counts whole years from your birth date to today, then whole months from your last birthday, then the leftover days. It does not divide by 365. That distinction matters: 30 April to 31 May is one month, and so is 31 January to 28 February, even though one is 31 days and the other 28. Counting in calendar units is how age is stated on every form that asks for it." },
++  { q: "Why does the day count sometimes look off by one?", a: "Because the last partial month is measured against the length of the previous month, not a fixed 30 days. Someone born on the 31st has no 31st in a 30-day month, so the calculator rolls back to the end of that month before counting the remaining days. Every method has to make a choice here, and different tools make different ones — which is why two calculators can disagree by a day on the same birth date." },
++  { q: "Does it account for leap years?", a: "Yes. The total-days figure counts the actual days that passed, leap days included, so anyone who has lived through a 29 February has that day in their total. The years-months-days figure is unaffected: a leap day does not add or remove a birthday." },
++  { q: "What happens if I was born on 29 February?", a: "You get a birthday in leap years and a decision to make in the other three. Most legal systems treat 1 March as the day the age changes, on the reasoning that the full year is complete by then; a few treat 28 February as the anniversary. This calculator uses 1 March for the years-months-days figure. If it matters for a document, check the rule in the jurisdiction asking." },
++  { q: "How many days old am I?", a: "The total-days figure above answers exactly that: the number of complete days between your birth date and today. It is a favourite for milestone posts — 10,000 days is just over 27 years and 4 months, 20,000 days a little over 54 years, and 1 billion seconds arrives at roughly 31 years and 8 months." },
++  { q: "Where does an exact age actually get used?", a: "School entry cut-offs, visa and passport applications, insurance underwriting, paediatric medicine dosing by age in months, pension and annuity start dates, and any legal threshold — driving, voting, contracts, retirement. In most of these the day matters, not the year, which is why 'about 34' is not an answer any of them accept." },
++  { q: "What is the difference between age in months and total months?", a: "Age in months is your years multiplied by twelve plus the leftover months — the figure a paediatrician or a nursery admissions form wants. Total months is the same number; what differs is the days column beside it, which shows how far into the current month you are. For an infant, that column is usually the one being asked about." },
++  { q: "What is a lunar age, and why do some countries count differently?", a: "East Asian age reckoning traditionally counts a baby as one year old at birth and adds a year on New Year rather than on the birthday, which puts a person one or two years ahead of their international age. South Korea moved to international age for official purposes in June 2023, though the traditional count is still heard socially. This calculator gives international age." },
++  { q: "Can I use this to work out someone else's age?", a: "Yes — enter their birth date instead of yours. It is the usual way to check whether a child meets a school cut-off, whether a relative has reached a pension age, or how old someone was on a particular past date, which genealogy work needs constantly." },
++  { q: "Is my birth date stored anywhere?", a: "No. The calculation runs in your browser and nothing is sent to a server or written down. Close the tab and it is gone." },
+ ];
+ 
+ export default function AgeCalculator() {
+-  const [day, setDay] = useState("");
+-  const [month, setMonth] = useState("");
+-  const [year, setYear] = useState("");
++  const [day, setDay] = useState("15");
++  const [month, setMonth] = useState("6");
++  const [year, setYear] = useState("1990");
+   const [result, setResult] = useState<any>(null);
+   const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -21,8 +27,8 @@ export default function AgeCalculator() {
+     const birthDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+     const today = new Date();
+ 
+-    if (isNaN(birthDate.getTime())) { alert("Please enter a valid date"); return; }
+-    if (birthDate > today) { alert("Birth date cannot be in the future"); return; }
++    if (isNaN(birthDate.getTime())) { setResult(null); return; }
++    if (birthDate > today) { setResult(null); return; }
+ 
+     let years = today.getFullYear() - birthDate.getFullYear();
+     let months = today.getMonth() - birthDate.getMonth();
+@@ -41,11 +47,14 @@ export default function AgeCalculator() {
+     setResult({ years, months, days, totalDays, totalWeeks, totalMonths, daysToNextBirthday });
+   };
+ 
++  // Results update as you type — the answer is no longer hidden behind a button press.
++  // eslint-disable-next-line react-hooks/exhaustive-deps
++  useEffect(() => { calculate(); }, [day, month, year]);
++
+   const resetForm = () => {
+-    setDay("");
+-    setMonth("");
+-    setYear("");
+-    setResult(null);
++    setDay("15");
++    setMonth("6");
++    setYear("1990");
+   };
+ 
+   return (
+@@ -80,7 +89,7 @@ export default function AgeCalculator() {
+           title="Your Age"
+           isEmpty={!result}
+           emptyIcon="🎂"
+-          emptyText="Enter your birth date and press Calculate"
++          emptyText="Enter a birth date to see the exact age"
+           mainResult={result ? { label: "Your Exact Age", value: `${result.years} years, ${result.months} months, ${result.days} days`, color: "text-pink-400" } : undefined}
+           extraRows={result ? [
+             { label: "Total Months", value: `${result.totalMonths} months` },
+@@ -91,9 +100,75 @@ export default function AgeCalculator() {
+         />
+       </div>
+ 
+-      <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Age Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Our free age calculator tells you exactly how old you are in years, months, and days. Perfect for birthdays, legal documents, medical records, or simply satisfying your curiosity!</p></section>
+-
+-      <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Age Calculation Formula</h2><div className="bg-[#111827] border border-gray-800 rounded-xl p-5"><p className="text-white font-mono text-sm">Age = Current Date - Birth Date</p><p className="text-gray-500 text-xs mt-2">The calculation accounts for leap years (February 29) and varying month lengths (28-31 days).</p></div></section>
++      <section className="mb-8">
++        <h2 className="text-xl font-semibold text-white mb-3">About This Age Calculator</h2>
++        <p className="text-gray-400 text-sm leading-relaxed mb-3">
++          This tool gives your age the way official forms ask for it: whole years, then whole months since your
++          last birthday, then the days left over. It also gives the running totals — months, weeks and days lived —
++          which are the numbers people usually want for a milestone rather than a form.
++        </p>
++        <p className="text-gray-400 text-sm leading-relaxed">
++          Everything is worked out in your browser from the date you type. Nothing is sent anywhere, and nothing is
++          stored.
++        </p>
++      </section>
++
++      <section className="mb-8">
++        <h2 className="text-xl font-semibold text-white mb-4">How the Calculation Works</h2>
++        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
++          <p className="text-white font-mono text-sm">years, months, days = calendar difference (today − birth date)</p>
++          <p className="text-gray-400 text-sm leading-relaxed">
++            The count goes in calendar units, not in fixed 30-day blocks. Whole years come off first, then whole
++            months from the last birthday, then whatever days remain. If the day-of-month has not been reached yet,
++            one month is borrowed and its actual length — 28, 29, 30 or 31 days — is added to the day count.
++          </p>
++          <p className="text-gray-400 text-sm leading-relaxed">
++            The total-days figure is measured separately, as the real elapsed time between the two dates, so every
++            leap day you have lived through is included in it.
++          </p>
++        </div>
++      </section>
++
++      <section className="mb-8">
++        <h2 className="text-xl font-semibold text-white mb-4">A Worked Example</h2>
++        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++          <p className="text-gray-400 text-sm leading-relaxed mb-3">
++            Take a birth date of <span className="text-white">31 March 2000</span> and a current date of{" "}
++            <span className="text-white">30 June 2024</span>.
++          </p>
++          <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside">
++            <li>Whole years from 31 March 2000 to 31 March 2024: <span className="text-white">24</span></li>
++            <li>Whole months from 31 March 2024 to 30 June 2024: June has no 31st, so the count borrows from May and lands at <span className="text-white">2 months and 30 days</span></li>
++            <li>Elapsed days across the whole period, leap days included: <span className="text-white">8,857</span></li>
++          </ul>
++          <p className="text-gray-500 text-xs mt-3">
++            This is the edge case where calculators disagree. Some report 2 months 30 days, others 3 months 0 days.
++            Neither is wrong; they resolve the missing 31st differently.
++          </p>
++        </div>
++      </section>
++
++      <section className="mb-8">
++        <h2 className="text-xl font-semibold text-white mb-4">Where an Exact Age Is Needed</h2>
++        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
++          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++            <h3 className="text-sm font-semibold text-pink-400 mb-2">School and nursery admission</h3>
++            <p className="text-gray-400 text-xs leading-relaxed">Entry cut-offs are set to a date, not a year. A child born days either side of it can start a full year apart, so the exact age on the cut-off date is what decides the place.</p>
++          </div>
++          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++            <h3 className="text-sm font-semibold text-pink-400 mb-2">Medicine and paediatrics</h3>
++            <p className="text-gray-400 text-xs leading-relaxed">Dosage and vaccination schedules for young children are set in months, not years. Growth charts are plotted the same way, which is why the months figure matters far more than the years one early on.</p>
++          </div>
++          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++            <h3 className="text-sm font-semibold text-pink-400 mb-2">Legal thresholds</h3>
++            <p className="text-gray-400 text-xs leading-relaxed">Driving, voting, signing a contract, drawing a pension — each turns on a birthday, and in most systems the age changes at the start of the birthday itself rather than at the moment of birth.</p>
++          </div>
++          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++            <h3 className="text-sm font-semibold text-pink-400 mb-2">Forms and applications</h3>
++            <p className="text-gray-400 text-xs leading-relaxed">Visa, passport and insurance forms often ask for age as at a specific date rather than today. Enter that date&apos;s figures and read the years-months-days line.</p>
++          </div>
++        </div>
++      </section>
+ 
+       <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div></section>
+     </>
+diff --git a/components/calculators/AngleConverter.tsx b/components/calculators/AngleConverter.tsx
+index af8ec61..12401df 100644
+--- a/components/calculators/AngleConverter.tsx
++++ b/components/calculators/AngleConverter.tsx
+@@ -7,20 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+     {
+-        q: "How to convert degrees to radians?",
+-        a: "Multiply degrees by π/180 (0.0174533). Example: 90° × 0.0174533 = 1.5708 radians. 180° = π radians.",
++        q: "How do I convert degrees to radians?",
++        a: "Multiply by π/180. A right angle, 90°, becomes π/2 ≈ 1.5708 rad; a full turn, 360°, becomes 2π ≈ 6.2832 rad. As a single factor, 1° = 0.0174533 rad.",
+     },
+     {
+-        q: "How to convert radians to degrees?",
+-        a: "Multiply radians by 180/π (57.2958). Example: 1 radian × 57.2958 = 57.2958°. π radians = 180°.",
++        q: "How do I convert radians to degrees?",
++        a: "Multiply by 180/π, which is 57.2957795 — so one radian is a little over 57°. That awkward number is the price of a unit defined by the circle itself rather than by counting.",
+     },
+     {
+-        q: "What is a gradian?",
+-        a: "A gradian (gon) divides a right angle into 100 parts. 1 gradian = 0.9 degrees. 400 gradians = full circle (360°). Used in surveying and some European countries.",
++        q: "Why do radians exist at all, if degrees are easier to read?",
++        a: "Because a radian is defined by the circle rather than imposed on it: one radian is the angle that cuts off an arc equal to the radius. That makes arc length simply r × θ, and it makes the calculus behave — the derivative of sin x is cos x only when x is in radians. In degrees you would carry a π/180 through every step.",
+     },
+     {
+-        q: "What is the difference between degree, minute, and second?",
+-        a: "1 degree = 60 minutes ('), 1 minute = 60 seconds (''). Used for precise navigation and astronomy. Example: 30° 15' 30'' = 30.2583 degrees.",
++        q: "Where did 360 degrees come from?",
++        a: "From Babylonian base-60 arithmetic, and it stuck because 360 divides cleanly by 2, 3, 4, 5, 6, 8, 9, 10, 12 and more. That divisibility is genuinely useful: a third of a circle is a whole 120°, where a third of 400 gradians is not.",
++    },
++    {
++        q: "What is a gradian, and who uses it?",
++        a: "A gradian, also written gon, is one hundredth of a right angle — 400 to a full turn, so 1 gon = 0.9°. It was a metric-era attempt to decimalise the circle. It survives mainly in surveying and civil engineering in parts of Europe, where a quarter turn being exactly 100 units simplifies bearing arithmetic.",
++    },
++    {
++        q: "What are arcminutes and arcseconds?",
++        a: "Subdivisions of a degree in base 60: one degree is 60 arcminutes, one arcminute is 60 arcseconds, so a degree holds 3,600 arcseconds. They are written 12° 34′ 56″. Astronomy and navigation still use them because the units map onto real distance on the ground.",
++    },
++    {
++        q: "How much ground does an arcsecond cover?",
++        a: "One arcminute of latitude is one nautical mile, 1,852 metres — that is where the nautical mile comes from. So one arcsecond of latitude is about 31 metres, and a tenth of an arcsecond is around 3 metres. It is why GPS coordinates quoted in DMS need decimal places on the seconds to be useful for anything smaller than a building.",
++    },
++    {
++        q: "How do I read a coordinate like 51° 30′ 26″ N?",
++        a: "Degrees, then arcminutes, then arcseconds. Convert to decimal degrees by dividing: 30 ÷ 60 = 0.5, 26 ÷ 3600 = 0.00722, giving 51.50722° N. Mapping software almost always wants the decimal form, while charts and older references use DMS.",
++    },
++    {
++        q: "What is a turn or revolution?",
++        a: "One full rotation: 360°, 2π radians, or 400 gradians. Mechanical and rotational work often quotes angles in turns or in revolutions per minute rather than in any of the three, because the whole rotation is the natural unit there.",
++    },
++    {
++        q: "Why does my converted value have so many decimals?",
++        a: "Because π is irrational, so almost every conversion between degrees and radians is an approximation somewhere. Keep the extra digits through intermediate steps and round only at the end — rounding 57.2957795 to 57.3 early will show up as visible error over a long distance or a long calculation.",
+     },
+ ];
+ 
+@@ -138,7 +162,55 @@ export default function AngleConverter() {
+                 <ResultBox title="Converted Angle" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-indigo-400" } : undefined} extraRows={[]} />
+             </div>
+ 
+-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Angle Converter</h2><p className="text-gray-400 text-sm leading-relaxed">Convert between degrees, radians, gradians, arcminutes, and arcseconds. Perfect for geometry, trigonometry, navigation, and surveying.</p></section>
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Angle Converter</h2>
++                <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                    Converts between degrees, radians, gradians, arcminutes and arcseconds. The four units exist
++                    because four different trades needed different things from the same circle: degrees for anyone who
++                    wants clean fractions, radians for mathematics and programming, gradians for European surveying,
++                    and arcminutes and arcseconds for navigation and astronomy, where an angle has to translate into
++                    distance on the ground.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Why Radians Are the Natural Unit</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
++                    <p className="text-white font-mono text-sm">arc length = r × θ &nbsp;&nbsp;(θ in radians)</p>
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        A radian is the angle that cuts an arc as long as the radius. Because the unit is defined by
++                        the circle itself, arc length needs no conversion factor — and neither does calculus. The
++                        familiar result that the derivative of sin x is cos x holds only in radians; in degrees it
++                        picks up a factor of π/180 that has to be carried through everything after it.
++                    </p>
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        This is why every programming language&apos;s trigonometric functions take radians. Passing
++                        degrees to Math.sin is one of the most common quiet bugs in graphics and physics code.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Angles as Distance on the Ground</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Angle of latitude</th><th className="text-right py-3 px-4 text-gray-400">Distance on Earth</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 degree</td><td className="py-2 px-4 text-right">≈ 111 km</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 arcminute (1′)</td><td className="py-2 px-4 text-right">1 nautical mile — 1,852 m</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 arcsecond (1″)</td><td className="py-2 px-4 text-right">≈ 31 m</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.1 arcsecond</td><td className="py-2 px-4 text-right">≈ 3 m</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    The nautical mile was defined as one arcminute of latitude, which is why these two columns line up
++                    so neatly. Longitude behaves differently — the same angle covers less ground the further you are
++                    from the equator.
++                </p>
++            </section>
+ 
+             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Angle Conversions</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+diff --git a/components/calculators/AreaCalculator.tsx b/components/calculators/AreaCalculator.tsx
+index ed8666f..be69da7 100644
+--- a/components/calculators/AreaCalculator.tsx
++++ b/components/calculators/AreaCalculator.tsx
+@@ -7,24 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+     {
+-        q: "How to calculate area of a square?",
+-        a: "Area = side × side (s²). Example: side = 5 cm → area = 25 cm². Square area is the simplest — just multiply side by itself.",
++        q: "How do I calculate the area of a square or rectangle?",
++        a: "A square is side × side; a rectangle is length × width. Both must be in the same unit before you multiply — a length in feet and a width in inches gives a meaningless number, and it is the most common error on this page.",
+     },
+     {
+-        q: "How to calculate area of a rectangle?",
+-        a: "Area = length × width. Example: length = 10 cm, width = 5 cm → area = 50 cm². This formula works for any rectangle.",
++        q: "How do I calculate the area of a circle?",
++        a: "Area = π × r², where r is the radius. If you measured across the circle rather than from the centre, that is the diameter — halve it first. Using the diameter by mistake gives four times the true area, which is a mistake worth checking for whenever a result looks impossibly large.",
+     },
+     {
+-        q: "How to calculate area of a circle?",
+-        a: "Area = π × r², where r is the radius. π ≈ 3.14159. Example: radius = 5 cm → area = 3.14 × 25 = 78.5 cm².",
++        q: "How do I calculate the area of a triangle?",
++        a: "Half the base times the perpendicular height: A = ½ × b × h. The height must be measured at a right angle to the base, not along a sloping side. When you only know the three side lengths, Heron's formula gets there instead: with s as half the perimeter, A = √(s(s−a)(s−b)(s−c)).",
+     },
+     {
+-        q: "How to calculate area of a triangle?",
+-        a: "Area = ½ × base × height. Example: base = 10 cm, height = 6 cm → area = 30 cm².",
++        q: "What is the difference between area and perimeter?",
++        a: "Area is the surface enclosed, measured in squared units; perimeter is the distance around the edge, measured in plain units. Paint and flooring are priced by area, fencing and skirting board by perimeter — and two rooms with the same perimeter can have very different areas.",
+     },
+     {
+-        q: "What is the difference between area and perimeter?",
+-        a: "Area measures the space inside a shape (square units). Perimeter measures the distance around a shape (linear units).",
++        q: "Why do square units convert differently from ordinary units?",
++        a: "Because the conversion factor gets squared. One metre is 3.28084 feet, but one square metre is 3.28084² = 10.7639 square feet. Forgetting to square the factor is the single biggest source of wrong answers when converting an area between systems.",
++    },
++    {
++        q: "How do I work out the area of an irregular shape?",
++        a: "Split it into rectangles, triangles and part-circles, work out each one, and add them. An L-shaped room is two rectangles; a room with a bay window is a rectangle plus a segment. For a genuinely irregular plot, surveyors use the shoelace formula on the corner coordinates, which is the same idea done algebraically.",
++    },
++    {
++        q: "How much paint or flooring do I need for a given area?",
++        a: "Work out the area, then add a waste allowance — usually 5-10% for flooring, more like 15% if the material is laid diagonally or has a pattern to match. For paint, subtract the doors and windows, then check the coverage on the tin, which is typically quoted in square metres per litre per coat.",
++    },
++    {
++        q: "How large is an acre or a hectare?",
++        a: "An acre is 4,046.86 m² or 43,560 ft². A hectare is 10,000 m², which is 2.471 acres. A useful mental picture: a hectare is roughly a square 100 m on each side, and an acre is a bit smaller than a football pitch.",
++    },
++    {
++        q: "What is a parallelogram's area, and why is it not the side lengths multiplied?",
++        a: "It is base × perpendicular height, the same as a rectangle. The slanted side is longer than the height, so multiplying the two side lengths overstates the area. Lean a rectangle over and its area does not change even though one pair of sides now measures longer diagonally.",
++    },
++    {
++        q: "How do I find the area of a trapezoid?",
++        a: "Average the two parallel sides and multiply by the distance between them: A = ½ × (a + b) × h. It is the formula that turns up constantly in land measurement, because a plot with one irregular boundary can often be treated as a run of trapezoids.",
+     },
+ ];
+ 
+@@ -239,7 +259,69 @@ export default function AreaCalculator() {
+                 />
+             </div>
+ 
+-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Area Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Calculate the area of squares, rectangles, circles, triangles, parallelograms, and trapezoids.</p></section>
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Area Calculator</h2>
++                <p className="text-gray-400 text-sm leading-relaxed">
++                    Works out the area of a square, rectangle, circle, triangle, parallelogram or trapezoid from the
++                    measurements you have. Most people arrive here with a practical job behind the question — paint,
++                    flooring, turf, a plot of land — so the sections below cover the two things that actually cause
++                    wrong answers: mixing units, and converting an area between systems.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Getting the Units Right</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        When you convert a length you use the factor once. When you convert an area you use it twice,
++                        because both dimensions convert.
++                    </p>
++                    <p className="text-white font-mono text-sm">1 m = 3.28084 ft &nbsp;→&nbsp; 1 m² = 3.28084² = 10.7639 ft²</p>
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        So a 40 m² apartment is 431 ft², not 131 ft². The same trap catches inches to feet — there are
++                        144 square inches in a square foot, not 12 — and it is why a quote that looks an order of
++                        magnitude out usually is.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Common Area Units, Side by Side</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Unit</th><th className="text-right py-3 px-4 text-gray-400">In square metres</th><th className="text-right py-3 px-4 text-gray-400">In square feet</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square foot</td><td className="py-2 px-4 text-right">0.0929</td><td className="py-2 px-4 text-right">1</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square yard</td><td className="py-2 px-4 text-right">0.8361</td><td className="py-2 px-4 text-right">9</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square metre</td><td className="py-2 px-4 text-right">1</td><td className="py-2 px-4 text-right">10.764</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 acre</td><td className="py-2 px-4 text-right">4,046.86</td><td className="py-2 px-4 text-right">43,560</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 hectare</td><td className="py-2 px-4 text-right">10,000</td><td className="py-2 px-4 text-right">107,639</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Working Out an Irregular Room</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                        Almost no real room is a clean rectangle. The reliable method is to break it into shapes you
++                        can measure and add them up.
++                    </p>
++                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside">
++                        <li>An L-shaped room: two rectangles. Measure both, add.</li>
++                        <li>A room with an alcove: the main rectangle plus the alcove rectangle.</li>
++                        <li>A bay window: a rectangle plus a trapezoid, using the depth of the bay as the height.</li>
++                        <li>A rounded corner: subtract the corner square, add a quarter circle.</li>
++                    </ul>
++                    <p className="text-gray-500 text-xs mt-3">
++                        Measure at floor level rather than at waist height — skirting boards, radiators and out-of-square
++                        walls all mean the two are not the same number.
++                    </p>
++                </div>
++            </section>
+ 
+             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Area Formulas</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+diff --git a/components/calculators/AttendanceCalculator.tsx b/components/calculators/AttendanceCalculator.tsx
+index f1ca66e..9f0c5a4 100644
+--- a/components/calculators/AttendanceCalculator.tsx
++++ b/components/calculators/AttendanceCalculator.tsx
+@@ -5,20 +5,44 @@ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+     {
+-        q: "What is the minimum attendance requirement in colleges?",
+-        a: "Most Indian universities require 75% attendance to be eligible for exams. Some colleges have 80% or 85% requirements. Always check your institution's specific policy.",
++        q: "How is attendance percentage calculated?",
++        a: "Classes attended ÷ classes held × 100. If 48 of 60 classes were held with you present, that is 48 ÷ 60 × 100 = 80%. Only classes that actually took place count in the denominator, which is why a cancelled lecture changes your percentage even though you did nothing.",
+     },
+     {
+-        q: "How is attendance percentage calculated?",
+-        a: "Attendance % = (Total Classes Attended ÷ Total Classes Held) × 100. Holidays and authorized leaves may be treated differently based on your institution's rules.",
++        q: "How many more classes must I attend to reach my target?",
++        a: "If you have attended a of h classes and want to reach a fraction p, attending n consecutive classes gives (a + n) ÷ (h + n) ≥ p, so n ≥ (p·h − a) ÷ (1 − p). At 40 of 60 with a 75% target that is (0.75 × 60 − 40) ÷ 0.25 = 20 classes without missing one. The calculator above does this for you.",
++    },
++    {
++        q: "How many classes can I still afford to miss?",
++        a: "If you are currently above target, the answer is (a − p·h) ÷ p. At 54 of 60 — 90% — against a 75% requirement, that is (54 − 45) ÷ 0.75 = 12 classes. It shrinks every time a class is held, so a comfortable cushion in week three is not a cushion in week ten.",
++    },
++    {
++        q: "Why does my percentage drop so fast but recover so slowly?",
++        a: "Because a missed class adds to the denominator without adding to the numerator, while an attended class adds to both. Once you are below target, each attended class pulls the percentage up by less than a missed one pushed it down. That asymmetry is why the number of classes needed to recover is usually larger than people expect.",
++    },
++    {
++        q: "What is the usual minimum attendance requirement?",
++        a: "75% is the most common threshold across universities and professional courses, though some run at 80% or 85% and a few set it per subject rather than overall. The rule that matters is the one in your institution&apos;s handbook — check whether it is calculated per subject or across all of them, because the two can differ sharply.",
++    },
++    {
++        q: "What happens if I fall below the requirement?",
++        a: "Consequences vary: being barred from sitting the examination, having to repeat the term, a fine, or a detention grade on the transcript. Many institutions offer condonation for a limited shortfall, usually with documentation. Almost all of them apply it as a discretion rather than a right, so it is worth asking early rather than after results.",
++    },
++    {
++        q: "Does medical or approved leave count as attendance?",
++        a: "It depends on the institution. Some mark documented medical leave as present, some exclude those classes from the denominator entirely, and some simply count it as absent while allowing it toward a condonation case later. Submit the certificate at the time — retrospective claims are much harder to have accepted.",
++    },
++    {
++        q: "Is attendance calculated per subject or overall?",
++        a: "Both systems are in use, and it changes the arithmetic completely. Under an overall rule, strong attendance in one subject can carry a weak one; under a per-subject rule it cannot, and a single subject can bar you from a single examination. Work out each subject separately if your institution counts them separately.",
+     },
+     {
+-        q: "What happens if my attendance is below 75%?",
+-        a: "You may be debarred from exams, need to pay a fine, complete extra assignments, or appear for a medical certificate. Some colleges grant condonation (relaxation) up to 5-10%.",
++        q: "Do labs, tutorials and lectures count the same?",
++        a: "Often not. Practical sessions and tutorials are frequently tracked separately and sometimes carry a higher minimum, because they are harder to make up. A three-hour lab may also be logged as three class hours rather than one, which changes how much a single absence costs you.",
+     },
+     {
+-        q: "How many more classes do I need to attend to reach 75%?",
+-        a: "Use the 'Target Attendance' feature above. Enter your current attendance and target percentage to calculate exactly how many consecutive classes you need to attend.",
++        q: "What is the fastest way to recover a shortfall?",
++        a: "Attend everything from today. There is no shortcut in the arithmetic — the recovery figure assumes an unbroken run, and one more absence resets the count upward. If the required run is longer than the classes remaining in the term, the number is telling you the shortfall cannot be closed by attendance alone, and that is the point to go and talk to the department.",
+     },
+ ];
+ 
+@@ -211,7 +235,54 @@ export default function AttendanceCalculator() {
+                 </div>
+             )}
+ 
++<section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Attendance Calculator</h2>
++                <p className="text-gray-400 text-sm leading-relaxed">
++                    Enter how many classes were held and how many you attended, and this gives your percentage
++                    against your target — plus the number that people actually come here for: how many classes in a
++                    row you have to attend to get back above the line, or how many you can still miss if you are
++                    above it.
++                </p>
++            </section>
++
+             <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">The Arithmetic Behind the Answer</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
++                    <p className="text-white font-mono text-sm">classes needed = (target × held − attended) ÷ (1 − target)</p>
++                    <p className="text-white font-mono text-sm">classes you can miss = (attended − target × held) ÷ target</p>
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        The dividing line in both is the target itself, and it is why recovery is slow. A missed class
++                        adds one to the denominator and nothing to the numerator; an attended class adds one to each.
++                        Below target, every class you attend improves the fraction by less than the one you missed
++                        damaged it.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Where You Stand at 75%</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Attendance so far</th><th className="text-right py-3 px-4 text-gray-400">Current</th><th className="text-right py-3 px-4 text-gray-400">Classes needed in a row</th><th className="text-right py-3 px-4 text-gray-400">Classes you can miss</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-400">40</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-400">20</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-400">18</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">0</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">12</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">13</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    Both columns assume a 75% requirement and an unbroken run. One further absence and the
++                    &quot;needed&quot; figure goes up again.
++                </p>
++            </section>
++
++                        <section className="mb-8">
+                 <h2 className="text-xl font-semibold text-white mb-3">About Attendance Calculator</h2>
+                 <p className="text-gray-400 text-sm leading-relaxed">Track your attendance percentage, find out how many more classes you need to meet requirements, and plan your attendance strategy for exams.</p>
+             </section>
+diff --git a/components/calculators/BakingConverter.tsx b/components/calculators/BakingConverter.tsx
+index 8d82fff..26a02d5 100644
+--- a/components/calculators/BakingConverter.tsx
++++ b/components/calculators/BakingConverter.tsx
+@@ -7,20 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+     {
+-        q: "Why convert cups to grams for baking?",
+-        a: "Weight measurements (grams) are more accurate than volume (cups). Flour can vary from 120-150g per cup depending on how it's packed. For consistent baking results, use grams.",
++        q: "Why do serious recipes give weights instead of cups?",
++        a: "Because a cup measures volume, and flour is compressible. Scoop a cup straight from the bag and you can pack in 150 g; spoon it in loosely and level it off and you get about 120 g. That is a quarter more flour in the same cup, which is the difference between a tender cake and a dry one. A gram is a gram however you get it into the bowl.",
+     },
+     {
+-        q: "How many grams in a cup of flour?",
+-        a: "1 cup of all-purpose flour = 120-125 grams. For best results, spoon flour into cup and level, don't scoop. Our calculator uses 125g per cup.",
++        q: "How many grams is a cup of flour?",
++        a: "About 120-125 g for plain or all-purpose flour, spooned into the cup and levelled with a straight edge. Bread flour sits a touch higher, cake flour a touch lower, and wholemeal higher again. If a recipe was written in cups and you are converting, assume the spoon-and-level method unless it says otherwise — most American recipe writers use it.",
+     },
+     {
+-        q: "How many grams in a cup of sugar?",
+-        a: "1 cup of granulated sugar = 200g. 1 cup of brown sugar (packed) = 220g. 1 cup of powdered sugar = 120g.",
++        q: "How many grams is a cup of sugar?",
++        a: "Granulated white sugar is about 200 g a cup, and unlike flour it barely changes with how you fill it, because the crystals do not compress. Brown sugar is different: recipes almost always mean it packed, which brings a cup to roughly 213-220 g. Loose brown sugar can be 50 g lighter, so the word 'packed' is doing real work.",
+     },
+     {
+-        q: "How many grams in a tablespoon of butter?",
+-        a: "1 tablespoon of butter = 14 grams. 1 cup of butter = 227 grams (2 sticks).",
++        q: "How much does a stick of butter weigh?",
++        a: "One US stick is 113 g — a quarter pound, half a cup, or 8 tablespoons. So a tablespoon of butter is about 14 g. In the UK and Europe butter comes in 250 g blocks instead, which is why American recipes calling for 'one stick' need converting rather than eyeballing.",
++    },
++    {
++        q: "Is a cup the same size everywhere?",
++        a: "No, and this catches people out. A US customary cup is 236.6 ml, a US legal cup used on nutrition labels is 240 ml, an Australian and New Zealand metric cup is 250 ml, and the old imperial cup was 284 ml. Between a US cup and a metric cup that is a 6% difference — enough to matter in a cake, not enough to notice in a soup.",
++    },
++    {
++        q: "Do I need to convert liquids too?",
++        a: "For water and milk you can treat millilitres and grams as the same, because their density is close enough to 1 g/ml for baking. Honey, syrup and oil are not: honey is about 340 g a cup, where water is about 240 g. Measure sticky liquids by weight if you can — it is also far less wasteful than scraping a measuring cup.",
++    },
++    {
++        q: "What is the right way to measure flour in a cup if I have no scale?",
++        a: "Fluff the flour in the bag or tub with a fork, spoon it lightly into the cup without tapping or pressing, then sweep the excess off with the back of a knife. Never scoop with the measuring cup itself and never bang it on the counter. Done consistently, this gets you close to the 120 g figure most recipes assume.",
++    },
++    {
++        q: "Why does my cake come out dry when I follow the recipe exactly?",
++        a: "Too much flour is the usual culprit, and cup measuring is the usual cause. A recipe calling for three cups can easily receive 450 g instead of the 360 g intended, which changes the whole ratio of flour to liquid and fat. Converting the recipe to weights once, and writing the grams on it, fixes the problem permanently.",
++    },
++    {
++        q: "Does it matter for bread more than for cakes?",
++        a: "It matters for both, but differently. Bread is usually written as baker&apos;s percentages against flour weight, so an error in the flour throws off the hydration and you feel it in the dough. Cakes are less forgiving of the error itself: there is no kneading stage where you can judge and adjust, so what goes in the tin is what you get.",
++    },
++    {
++        q: "Which scale should I buy?",
++        a: "Any digital kitchen scale that reads in 1 g steps and has a tare button. Tare is the part that matters — you put the bowl on, zero it, add flour to the target, zero again, add sugar. One bowl, no measuring cups to wash, and the numbers are the same every time.",
+     },
+ ];
+ 
+@@ -195,7 +219,82 @@ export default function BakingConverter() {
+                 />
+             </div>
+ 
+-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Baking Converter</h2><p className="text-gray-400 text-sm leading-relaxed">Convert common baking ingredients from cups to grams and grams to cups. Weight measurements are more accurate for consistent baking results.</p></section>
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Baking Converter</h2>
++                <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                    Converts common baking ingredients between cups, tablespoons and grams. Each ingredient has its
++                    own conversion because each has its own density — a cup of flour and a cup of honey are the same
++                    volume and nowhere near the same weight.
++                </p>
++                <p className="text-gray-400 text-sm leading-relaxed">
++                    If you are converting a recipe rather than a single ingredient, it is worth writing the gram
++                    figures onto the recipe itself. You only have to do it once.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Why a Cup of Flour Has No Fixed Weight</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                        Flour compresses. How much ends up in the cup depends entirely on how it got there.
++                    </p>
++                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
++                        <li>Spooned in loosely and levelled: <span className="text-white">~120 g</span></li>
++                        <li>Scooped straight from the bag: <span className="text-white">~140-150 g</span></li>
++                        <li>Scooped and tapped down: <span className="text-white">160 g or more</span></li>
++                    </ul>
++                    <p className="text-gray-500 text-xs">
++                        Across three cups that spread is well over 100 g of flour — roughly an extra cup you never
++                        meant to add. It is the most common reason a cake comes out dry when the recipe was followed
++                        to the letter.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">One Cup, by Ingredient</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Ingredient</th><th className="text-right py-3 px-4 text-gray-400">1 cup ≈</th><th className="text-right py-3 px-4 text-gray-400">1 tbsp ≈</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Plain / all-purpose flour</td><td className="py-2 px-4 text-right">120 g</td><td className="py-2 px-4 text-right">8 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Granulated sugar</td><td className="py-2 px-4 text-right">200 g</td><td className="py-2 px-4 text-right">12.5 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Brown sugar, packed</td><td className="py-2 px-4 text-right">215 g</td><td className="py-2 px-4 text-right">13.5 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Butter</td><td className="py-2 px-4 text-right">227 g (2 sticks)</td><td className="py-2 px-4 text-right">14 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Water or milk</td><td className="py-2 px-4 text-right">240 g</td><td className="py-2 px-4 text-right">15 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Honey or syrup</td><td className="py-2 px-4 text-right">340 g</td><td className="py-2 px-4 text-right">21 g</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Cocoa powder</td><td className="py-2 px-4 text-right">85 g</td><td className="py-2 px-4 text-right">5 g</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    Figures are for a US cup of 240 ml, flour spooned and levelled. Treat them as close approximations —
++                    brands and grinds vary by a few grams either way.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Not Every Cup Is the Same Cup</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Where</th><th className="text-right py-3 px-4 text-gray-400">Volume</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US customary cup</td><td className="py-2 px-4 text-right">236.6 ml</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US legal cup (nutrition labels)</td><td className="py-2 px-4 text-right">240 ml</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Australia and New Zealand</td><td className="py-2 px-4 text-right">250 ml</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Imperial cup (older UK recipes)</td><td className="py-2 px-4 text-right">284 ml</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    A US cup against an Australian one is about 6% apart. Negligible in a stew, noticeable in a sponge,
++                    and worth checking where a recipe came from before you scale it up.
++                </p>
++            </section>
+ 
+             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Baking Conversions</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">
+diff --git a/components/calculators/BirthdayCountdown.tsx b/components/calculators/BirthdayCountdown.tsx
+index 568210b..75d842d 100644
+--- a/components/calculators/BirthdayCountdown.tsx
++++ b/components/calculators/BirthdayCountdown.tsx
+@@ -7,20 +7,44 @@ import ResultBox from "@/components/common/ResultBox";
+ 
+ const FAQ_DATA = [
+     {
+-        q: "How to calculate days until my birthday?",
+-        a: "Count the days from today to your next birthday. If your birthday has already passed this year, it counts to next year's birthday.",
++        q: "How many days until my birthday?",
++        a: "The countdown runs from today to your next birthday. If this year's has already passed, it rolls to next year automatically. The figure is whole days, so a birthday tomorrow shows as 1 and a birthday today shows as 0 — the day itself, not a wait.",
+     },
+     {
+-        q: "What if my birthday is on February 29?",
+-        a: "In non-leap years, February 28 or March 1 is often used as the celebration date. Our calculator uses February 28 for non-leap years.",
++        q: "What happens if my birthday is on 29 February?",
++        a: "You get a real birthday roughly once every four years and a choice in between. This calculator counts to 28 February in ordinary years, which is the more common convention socially. Legally it varies: many systems treat 1 March as the day the age changes, on the reasoning that the full year is only complete then. The next four leap years are 2028, 2032, 2036 and 2040.",
+     },
+     {
+-        q: "How to calculate age in years, months, and days?",
+-        a: "Subtract birth date from current date. Years = difference in years, months = remaining months, days = remaining days.",
++        q: "Why does my birthday fall on a different weekday each year?",
++        a: "A common year is 365 days, which is 52 weeks plus one day, so a birthday shifts forward one weekday each year — and two across a leap day. That is why the same date lands on a weekend roughly two years in seven, and why the pattern repeats on a 28-year cycle in the current calendar.",
+     },
+     {
+-        q: "What zodiac sign am I?",
+-        a: "Zodiac signs are based on birth date: Aries (Mar21-Apr19), Taurus (Apr20-May20), Gemini (May21-Jun20), Cancer (Jun21-Jul22), Leo (Jul23-Aug22), Virgo (Aug23-Sep22), Libra (Sep23-Oct22), Scorpio (Oct23-Nov21), Sagittarius (Nov22-Dec21), Capricorn (Dec22-Jan19), Aquarius (Jan20-Feb18), Pisces (Feb19-Mar20).",
++        q: "How is my exact age worked out?",
++        a: "Whole years since birth, then whole months since your last birthday, then the days left over — the same way an official form asks for it. It is not the total days divided by 365, which is why the months figure can move differently from what you would expect across a short month.",
++    },
++    {
++        q: "When is my next milestone birthday?",
++        a: "The countdown gives the next one; the arithmetic for the rest is simple subtraction from your current age. Milestones worth planning around tend to be the round decades, 18 and 21 where they carry legal weight, and 60, 65 or 67 where a pension age sits. If you are planning an event, note that the weekday shifts each year — a Saturday birthday may be two or three years away.",
++    },
++    {
++        q: "How many days have I been alive?",
++        a: "The total-days figure counts the real elapsed days including every leap day. People often watch for round numbers: 10,000 days arrives just after 27 years and 4 months, 20,000 days a little past 54 and a half years, and one billion seconds at roughly 31 years and 8 months.",
++    },
++    {
++        q: "What zodiac sign am I, and what happens on the boundary dates?",
++        a: "Western sun signs run Aries 21 Mar-19 Apr, Taurus 20 Apr-20 May, Gemini 21 May-20 Jun, Cancer 21 Jun-22 Jul, Leo 23 Jul-22 Aug, Virgo 23 Aug-22 Sep, Libra 23 Sep-22 Oct, Scorpio 23 Oct-21 Nov, Sagittarius 22 Nov-21 Dec, Capricorn 22 Dec-19 Jan, Aquarius 20 Jan-18 Feb, Pisces 19 Feb-20 Mar. The boundaries shift by a day between years because the sun does not cross them at the same clock time each year, so a birth date right on a cusp can genuinely fall either side depending on the year and the time of day.",
++    },
++    {
++        q: "Is the countdown affected by my time zone?",
++        a: "It uses your device's date. If you are near midnight, or travelling across a date line, the number can differ by one from what a friend elsewhere sees — both are correct for where they are standing.",
++    },
++    {
++        q: "Can I count down to someone else's birthday?",
++        a: "Yes — enter their date instead. It is the usual way to check how long there is to organise something, and the weekday shown for the next birthday is often the detail that decides the plan.",
++    },
++    {
++        q: "Is my birth date stored?",
++        a: "No. Everything is calculated in your browser and nothing is sent anywhere or saved.",
+     },
+ ];
+ 
+@@ -101,7 +125,7 @@ function getZodiacDetails(sign: string) {
+ // ─── Component ────────────────────────────────────────────────────────────────
+ 
+ export default function BirthdayCountdown() {
+-    const [birthDate, setBirthDate] = useState("");
++    const [birthDate, setBirthDate] = useState("1990-06-15");
+     const [result, setResult] = useState<any>(null);
+     const [openFaq, setOpenFaq] = useState<number | null>(null);
+ 
+@@ -172,6 +196,10 @@ export default function BirthdayCountdown() {
+         setResult(null);
+     };
+ 
++    // Results update as you type — the answer is no longer hidden behind a button press.
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    useEffect(() => { calculate(); }, [birthDate]);
++
+     return (
+         <>
+             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+@@ -236,7 +264,55 @@ export default function BirthdayCountdown() {
+                 />
+             </div>
+ 
+-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Birthday Countdown</h2><p className="text-gray-400 text-sm leading-relaxed">Count down the days until your next birthday. Also find your exact age in years, months, and days, and discover your zodiac sign.</p></section>
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-3">About This Birthday Countdown</h2>
++                <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                    Enter a birth date and this gives three things at once: how many days remain until the next
++                    birthday, the exact age today in years, months and days, and the running total of days lived.
++                    The countdown rolls to next year on its own once this year&apos;s birthday has passed.
++                </p>
++                <p className="text-gray-400 text-sm leading-relaxed">
++                    It runs entirely in your browser, so nothing you type is sent anywhere.
++                </p>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Why the Weekday Moves Every Year</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
++                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
++                        An ordinary year is 52 weeks and one day. That leftover day pushes your birthday forward one
++                        weekday each year, and two whenever a 29 February falls in between.
++                    </p>
++                    <p className="text-gray-400 text-sm leading-relaxed">
++                        So a Tuesday birthday becomes Wednesday next year, then Thursday, then jumps to Saturday if a
++                        leap day intervenes. Over a long enough run the whole pattern repeats every 28 years. If you
++                        are hoping for a weekend birthday to plan something around, it is worth looking a few years
++                        ahead rather than assuming next year will do.
++                    </p>
++                </div>
++            </section>
++
++            <section className="mb-8">
++                <h2 className="text-xl font-semibold text-white mb-4">Day Milestones Worth Watching</h2>
++                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
++                    <div className="overflow-x-auto">
++                        <table className="w-full text-sm">
++                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Milestone</th><th className="text-right py-3 px-4 text-gray-400">Arrives at roughly</th></tr></thead>
++                            <tbody>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1,000 days</td><td className="py-2 px-4 text-right">2 years 9 months</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">5,000 days</td><td className="py-2 px-4 text-right">13 years 8 months</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10,000 days</td><td className="py-2 px-4 text-right">27 years 4 months</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 billion seconds</td><td className="py-2 px-4 text-right">31 years 8 months</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">20,000 days</td><td className="py-2 px-4 text-right">54 years 9 months</td></tr>
++                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">30,000 days</td><td className="py-2 px-4 text-right">82 years 1 month</td></tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <p className="text-xs text-gray-600 mt-2">
++                    Compare these against the total-days figure above to see which one you are closest to.
++                </p>
++            </section>
+ 
+             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Zodiac Signs</h2>
+                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+diff --git a/data/calculatorsSeo.ts b/data/calculatorsSeo.ts
+index d0b90ae..68abaea 100644
+--- a/data/calculatorsSeo.ts
++++ b/data/calculatorsSeo.ts
+@@ -390,6 +390,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["percentage calculator", "percent increase", "percentage change"],
+   },
+   "math/age-calculator": {
++    updatedAt: "2026-09-11",
+     title: "Age Calculator: Exact Age in Years, Months and Days",
+     description:
+       "Find your exact age in years, months and days from your date of birth, plus total weeks and days lived and how long until your next birthday.",
+@@ -420,6 +421,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["pythagorean theorem calculator", "hypotenuse calculator", "right triangle"],
+   },
+   "math/area-calculator": {
++    updatedAt: "2026-09-11",
+     title: "Area Calculator for 8 Shapes with Formulas",
+     description:
+       "Calculate the area of a circle, triangle, rectangle, trapezoid, parallelogram, ellipse, sector or rhombus, with the formula shown for each shape.",
+@@ -548,6 +550,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["power converter", "watts to horsepower", "kw to hp"],
+   },
+   "conversion/angle-converter": {
++    updatedAt: "2026-09-11",
+     title: "Angle Converter: Degrees, Radians, Gradians, Turns",
+     description:
+       "Convert angles between degrees, radians, gradians, minutes, seconds and full turns, with radians shown as an exact multiple of pi.",
+@@ -568,6 +571,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["date difference calculator", "days between dates", "date duration"],
+   },
+   "time/add-days-calculator": {
++    updatedAt: "2026-09-11",
+     title: "Add Days to Date Calculator: Future or Past Date",
+     description:
+       "Add or subtract days, weeks, months or years from any date to get the resulting date, with the day of the week and week number included.",
+@@ -586,6 +590,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["time duration calculator", "hours between times", "time card calculator"],
+   },
+   "time/birthday-countdown": {
++    updatedAt: "2026-09-11",
+     title: "Birthday Countdown: Days Until Your Next Birthday",
+     description:
+       "Count down to your next birthday in days, hours and minutes, with the day of the week it falls on and the age you will be turning.",
+@@ -696,6 +701,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["percentage calculator marks", "marks to percentage", "exam percentage"],
+   },
+   "education/attendance-calculator": {
++    updatedAt: "2026-09-11",
+     title: "Attendance Calculator: Classes Needed to Hit 75%",
+     description:
+       "Check your current attendance percentage and find out how many more classes you must attend, or can safely miss, to stay above the requirement.",
+@@ -798,6 +804,7 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
+     keywords: ["oven temperature converter", "gas mark converter", "fan oven conversion"],
+   },
+   "cooking/baking-converter": {
++    updatedAt: "2026-09-11",
+     title: "Baking Converter: Cups to Grams by Ingredient",
+     description:
+       "Convert baking measurements between cups, grams, ounces and tablespoons using the real density of each ingredient, not one generic factor.",
