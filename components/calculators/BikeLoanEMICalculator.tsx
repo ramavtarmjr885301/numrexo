@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BikeLoanEMICalculator() {
+    const { symbol, money, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -231,9 +234,6 @@ export default function BikeLoanEMICalculator() {
             rating: rating,
             ratingColor: ratingColor,
             bikeType: bikeType,
-            emiFormatted: emi.toFixed(2),
-            totalPaymentFormatted: totalPayment.toFixed(2),
-            totalInterestFormatted: totalInterest.toFixed(2),
         });
     };
 
@@ -287,6 +287,8 @@ export default function BikeLoanEMICalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
+
                         {/* Bike Type */}
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Bike Type</label>
@@ -323,7 +325,7 @@ export default function BikeLoanEMICalculator() {
 
                         {/* Bike Price */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Bike Price (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Bike Price ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -333,7 +335,7 @@ export default function BikeLoanEMICalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -342,7 +344,7 @@ export default function BikeLoanEMICalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        ₹{amount / 1000}K
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -350,7 +352,7 @@ export default function BikeLoanEMICalculator() {
 
                         {/* Down Payment */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Down Payment (₹) <span className="text-ink-faint">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Down Payment ({symbol}) <span className="text-ink-faint">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -360,7 +362,7 @@ export default function BikeLoanEMICalculator() {
                                     onChange={(e) => setDownPayment(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetDownPayments.map((amount) => (
@@ -369,7 +371,7 @@ export default function BikeLoanEMICalculator() {
                                         onClick={() => setDownPayment(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        ₹{amount / 1000}K
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -456,22 +458,22 @@ export default function BikeLoanEMICalculator() {
                     emptyText="Enter bike details and press Calculate"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: money(result.emi),
                         color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "Bike Price", value: `₹${result.bikePrice.toFixed(2)}` },
-                        { label: "Down Payment", value: `₹${result.downPayment.toFixed(2)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
-                        { label: "Loan Amount", value: `₹${result.principal.toFixed(2)}` },
+                        { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Bike Price", value: money(result.bikePrice) },
+                        { label: "Down Payment", value: `${money(result.downPayment)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
+                        { label: "Loan Amount", value: money(result.principal) },
                         { label: "Bike Type", value: result.bikeType === "new" ? "New Bike 🏍️" : "Used Bike 🛵" },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(1)} years)` },
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Average Interest per Month", value: `₹${result.averageInterest.toFixed(2)}` },
+                        { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
             </div>
@@ -496,10 +498,10 @@ export default function BikeLoanEMICalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -516,13 +518,13 @@ export default function BikeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Bike Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    The <strong className="text-ink-soft">Bike Loan EMI Calculator</strong> helps you estimate your monthly payments for your two-wheeler purchase accurately. Whether you're buying a new sports bike, a commuter bike, or a used scooter, this calculator gives you a clear picture of your repayment obligations.
+                    Two-wheeler financing moves fast — most of it is arranged on the spot at the dealership, often by an NBFC rather than your own bank, with paperwork done in under an hour. That speed is exactly why so many buyers never actually see the EMI math before agreeing to a tenure, and why a quick calculation before you sit down at the counter is worth more here than on almost any other kind of loan.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Our calculator uses the standard EMI formula to provide accurate results for bike loans. It accounts for the bike price, down payment, interest rate, and tenure to calculate your monthly payments. You can also see the total interest payable and a detailed amortization schedule.
+                    Enter the bike's on-road price, anything you're putting down, the rate quoted, and the tenure, and you'll get the monthly EMI, total interest over the loan, and a schedule showing how the balance comes down month by month.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
-                    Understanding your bike loan EMI helps you budget better, plan your finances, and choose the right two-wheeler within your budget. Use our calculator to compare different loan options and find the one that best fits your monthly budget.
+                    It's particularly useful for sanity-checking a "zero down payment" offer — those are built to make the EMI look small, not to make the loan cheap, and the numbers below show exactly what that convenience costs in interest.
                 </p>
             </section>
 
@@ -560,13 +562,9 @@ export default function BikeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Bike Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">bike type</strong> - New Bike or Used Bike.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">bike price</strong> (use preset buttons for quick input).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Optionally enter the <strong className="text-ink">down payment</strong> amount.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter the <strong className="text-ink">interest rate</strong> offered by your lender.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Select the <strong className="text-ink">loan tenure</strong> in months.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Click <strong className="text-ink">"Calculate EMI"</strong> to see your monthly payment and amortization schedule.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 7:</strong> Review the <strong className="text-ink">affordability rating</strong> and use <strong className="text-ink">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Pick <strong className="text-ink">New Bike</strong> or <strong className="text-ink">Used Bike</strong> first, since the typical rates and tenures differ quite a bit between the two. Enter the <strong className="text-ink">on-road price</strong> — not just the ex-showroom figure, since RTO charges, insurance and accessories usually get financed along with it.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Add a <strong className="text-ink">down payment</strong> if you're planning one — try the calculation with and without it to see how much interest a small upfront payment actually saves. Then enter the <strong className="text-ink">interest rate</strong> and <strong className="text-ink">tenure</strong> you've been quoted.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Press <strong className="text-ink">Calculate EMI</strong> for the monthly payment, total interest, and the full repayment schedule. The <strong className="text-ink">affordability rating</strong> flags whether the EMI looks heavy for a typical income at that level — <strong className="text-ink">Reset</strong> clears everything if you want to try a different dealership's numbers.</p>
                 </div>
             </section>
 
@@ -575,20 +573,20 @@ export default function BikeLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Bike Loan EMI Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly payment before buying a bike. Plan your monthly budget around your EMI obligations and avoid over-committing.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Check the Numbers Before the Counter</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Two-wheeler loans are often approved and signed in the same sitting at the dealership. Having your own EMI figure beforehand means you're not just accepting whatever the finance desk quotes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Lenders</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI offers from different banks and NBFCs. Find the best interest rate and tenure combination for your dream bike.</p>
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Bank vs NBFC Tie-Up</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Dealership financing is usually an NBFC tie-up chosen for speed, not price. Run the same bike price through your own bank's rate to see if a day's delay is worth the saving.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Down Payment Analysis</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra ₹10,000 upfront saves you over the full tenure.</p>
+                        <p className="text-ink-faint text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra {compact(10000)} upfront saves you over the full tenure.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ New vs Used Decision</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI for new and used bikes. Understand the cost difference and make an informed decision based on your budget.</p>
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Weigh a Shorter Loan Against a Lower EMI</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">On a small loan, stretching the tenure barely moves the EMI but can push the total interest up by thousands. Test a 2-year and a 4-year tenure side by side before you pick one.</p>
                     </div>
                 </div>
             </section>
@@ -628,7 +626,7 @@ export default function BikeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹1L, 3Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(100000)}, 3Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -636,38 +634,38 @@ export default function BikeLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-green-600 font-bold">8%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,134</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹12,824</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,12,824</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3134, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(12824, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(112824, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">9%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,180</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹14,480</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,14,480</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3180, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{money(14480, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(114480, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,226</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹16,136</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,16,136</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3226, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(16136, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(116136, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">12%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,322</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹19,592</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,19,592</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3322, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(19592, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(119592, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">14%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,419</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹23,084</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,23,084</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3419, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(23084, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(123084, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a ₹1 lakh bike loan over 3 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(100000)} bike loan over 3 years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -678,7 +676,7 @@ export default function BikeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹1L, 10%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(100000)}, 10%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -686,33 +684,33 @@ export default function BikeLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">12 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹8,790</td>
-                                <td className="py-2 px-4 text-right text-green-600">₹5,480</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,05,480</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(8790, 0)}</td>
+                                <td className="py-2 px-4 text-right text-green-600">{money(5480, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(105480, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">18 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,002</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹8,036</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,08,036</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(6002, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{money(8036, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(108036, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">24 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹4,614</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹10,736</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,10,736</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(4614, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(10736, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(110736, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">36 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,226</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹16,136</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,16,136</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3226, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(16136, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(116136, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">48 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹2,535</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹21,680</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,21,680</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(2535, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(21680, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(121680, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -728,7 +726,7 @@ export default function BikeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Bike Model</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Price (₹)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Price ({symbol})</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">EMI (10%, 3Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                             </tr>
@@ -736,33 +734,33 @@ export default function BikeLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600">Honda Activa</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹85,000</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹2,742</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹13,712</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(85000, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(2742, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(13712, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600">TVS Jupiter</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹75,000</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹2,420</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹12,120</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(75000, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(2420, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(12120, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600">Hero Splendor</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹65,000</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹2,097</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹10,492</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(65000, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(2097, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(10492, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600">Bajaj Pulsar</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,20,000</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹3,871</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹19,356</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(120000, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(3871, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(19356, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600">Royal Enfield</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹2,00,000</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,452</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹32,272</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(200000, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(6452, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(32272, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -778,7 +776,7 @@ export default function BikeLoanEMICalculator() {
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: ₹15,000</li>
+                            <li>• Minimum monthly income: {money(15000)}</li>
                             <li>• Work experience: 6+ months</li>
                             <li>• CIBIL score: 700+ preferred, though a thin file is common for a first bike</li>
                             <li>• Aadhaar and PAN, plus address proof if the two differ</li>
@@ -790,7 +788,7 @@ export default function BikeLoanEMICalculator() {
                             <li>• Age: 25-65 years</li>
                             <li>• ITR filing: 1+ years</li>
                             <li>• Business vintage: 2+ years</li>
-                            <li>• Annual turnover: ₹2 lakhs+</li>
+                            <li>• Annual turnover: {compact(200000)}+</li>
                             <li>• Six months of bank statements showing steady inflow</li>
                         </ul>
                     </div>
@@ -816,7 +814,7 @@ export default function BikeLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 1% difference can save you ₹5,000+ over the loan tenure.</span>
+                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 1% difference can save you {money(5000)}+ over the loan tenure.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
@@ -843,7 +841,7 @@ export default function BikeLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Choosing Longest Tenure:</strong> Stretching ₹80,000 from two years to four cuts the EMI by ₹1,661 and adds ₹9,760 in interest. Take that trade only if the shorter EMI genuinely does not fit.</span>
+                        <span><strong className="text-ink-soft">Choosing Longest Tenure:</strong> Stretching {money(80000)} from two years to four cuts the EMI by {money(1661)} and adds {money(9760)} in interest. Take that trade only if the shorter EMI genuinely does not fit.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HomeLoanEMICalculator() {
+    const { symbol, money, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -278,9 +281,11 @@ export default function HomeLoanEMICalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
+
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -290,7 +295,7 @@ export default function HomeLoanEMICalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -299,7 +304,7 @@ export default function HomeLoanEMICalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        {amount >= 10000000 ? `₹${amount / 10000000}Cr` : `₹${amount / 100000}L`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -361,7 +366,7 @@ export default function HomeLoanEMICalculator() {
 
                         {/* Processing Fee (Optional) */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Processing Fee (₹) <span className="text-ink-faint">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Processing Fee ({symbol}) <span className="text-ink-faint">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -371,7 +376,7 @@ export default function HomeLoanEMICalculator() {
                                     onChange={(e) => setProcessingFee(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <p className="text-xs text-ink-faint mt-1">Processing fees typically range from 0.5% to 1% of loan amount</p>
                         </div>
@@ -402,21 +407,21 @@ export default function HomeLoanEMICalculator() {
                     emptyText="Enter loan details and press Calculate"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: money(result.emi),
                         color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "Processing Fee", value: `₹${result.processingFee.toFixed(2)}`, valueColor: "text-purple-600" },
-                        { label: "Total Cost with Fee", value: `₹${result.totalCostWithFeeFormatted}`, valueColor: "text-red-600" },
-                        { label: "Principal Amount", value: `₹${result.principal.toFixed(2)}` },
+                        { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Processing Fee", value: money(result.processingFee), valueColor: "text-purple-600" },
+                        { label: "Total Cost with Fee", value: money(result.totalCostWithFee), valueColor: "text-red-600" },
+                        { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(0)} years)` },
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Average Interest per Month", value: `₹${result.averageInterest.toFixed(2)}` },
+                        { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
             </div>
@@ -441,10 +446,10 @@ export default function HomeLoanEMICalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -461,13 +466,13 @@ export default function HomeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Home Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    The <strong className="text-ink-soft">Home Loan EMI Calculator</strong> is a powerful financial tool that helps you estimate your monthly mortgage payments accurately. Whether you're planning to buy your first home, upgrade to a bigger house, or invest in property, this calculator gives you a clear picture of your repayment obligations.
+                    A home loan is usually the longest financial commitment most people ever take on — 15, 20, sometimes 30 years — which means small differences in rate or tenure compound into very large amounts over the life of the loan. A quarter-point on the interest rate barely changes the EMI you see month to month, but it can add up to lakhs over two decades.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Our calculator uses the standard EMI formula to provide accurate results for home loans. It accounts for the loan amount, interest rate, tenure, and even processing fees to calculate your monthly payments. You can also see the total interest payable, total cost including fees, and a detailed amortization schedule.
+                    Enter the loan amount, interest rate, tenure, and any processing fee, and this calculator works out your EMI, total interest payable, total cost including fees, and a year-by-year amortization schedule showing how slowly the principal actually falls in the early years of a long mortgage.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
-                    Understanding your home loan EMI helps you budget better, plan your finances, and make informed decisions about your dream home. Use our calculator to compare different loan options and find the one that best fits your financial situation.
+                    It's worth running the numbers at a couple of different tenures before you sign — a shorter loan feels heavier on the EMI but can cut the total interest paid by a striking amount, which the schedule below makes easy to see.
                 </p>
             </section>
 
@@ -512,12 +517,9 @@ export default function HomeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Home Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">loan amount</strong> you wish to borrow (use preset buttons for quick input).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">annual interest rate</strong> offered by your lender.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">loan tenure</strong> in months (preset tenures available).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Optionally enter the <strong className="text-ink">processing fee</strong> to see total cost.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate EMI"</strong> to see your monthly payment and full amortization schedule.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Review the <strong className="text-ink">affordability rating</strong> and use <strong className="text-ink">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Enter the <strong className="text-ink">loan amount</strong> you expect to borrow — the preset buttons cover common property price brackets if you want a quick starting point. Then enter the <strong className="text-ink">interest rate</strong> your bank has quoted and whether it's fixed or floating, since that affects how the rate might move later.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Pick the <strong className="text-ink">tenure</strong> in months — given how long home loans run, it's worth testing a few tenures to see the real trade-off between monthly affordability and total interest. If your lender charges a <strong className="text-ink">processing fee</strong>, add it in to see the full cost of the loan, not just the EMI.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Click <strong className="text-ink">Calculate EMI</strong> for the monthly payment, total interest, and the full amortization schedule. The <strong className="text-ink">affordability rating</strong> is a useful check against your income, and <strong className="text-ink">Reset</strong> lets you compare a different lender's terms from scratch.</p>
                 </div>
             </section>
 
@@ -526,12 +528,12 @@ export default function HomeLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Home Loan EMI Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly payment before taking a home loan. Plan your monthly budget around your EMI obligations and avoid over-committing.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ See Decades of Interest in One Table</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">A mortgage's total interest is easy to underestimate when you're only looking at the monthly figure. The amortization schedule shows the real number across the full tenure.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Lenders</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI offers from different banks and NBFCs. Find the best interest rate and tenure combination for your dream home.</p>
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ A Quarter-Point Matters More Than It Looks</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Over a 20-year tenure, even a small rate difference between lenders compounds into a meaningful sum. Worth comparing before you commit to one bank.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Tenure Optimization</h3>
@@ -579,7 +581,7 @@ export default function HomeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹50L, 20Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(5000000)}, 20Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -587,32 +589,32 @@ export default function HomeLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-green-600 font-bold">8%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹41,823</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹50.37L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,00.37L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(41823, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{compact(5037000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(10037000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">9%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹57.97L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,07.97L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(44986, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{compact(5797000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(10797000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹48,251</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹65.80L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,15.80L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(48251, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(6580000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(11580000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">11%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹51,609</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹73.86L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,23.86L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(51609, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(7386000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(12386000)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a ₹50 lakh loan over 20 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(5000000)} loan over 20 years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -623,7 +625,7 @@ export default function HomeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹50L, 9%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(5000000)}, 9%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -631,33 +633,33 @@ export default function HomeLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">10 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹63,341</td>
-                                <td className="py-2 px-4 text-right text-green-600">₹26.01L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹76.01L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(63341, 0)}</td>
+                                <td className="py-2 px-4 text-right text-green-600">{compact(2601000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(7601000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">15 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹50,710</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹41.28L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹91.28L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(50710, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{compact(4128000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(9128000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">20 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹44,986</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹57.97L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,07.97L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(44986, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(5797000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(10797000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">25 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹41,964</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹75.89L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,25.89L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(41964, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(7589000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(12589000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">30 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹40,230</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹94.83L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,44.83L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(40230, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(9483000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(14483000)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -673,7 +675,7 @@ export default function HomeLoanEMICalculator() {
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: ₹25,000</li>
+                            <li>• Minimum monthly income: {money(25000, 0)}</li>
                             <li>• Work experience: 2+ years</li>
                             <li>• CIBIL score: 700+ preferred</li>
                             <li>• Valid identity and address proof</li>
@@ -685,7 +687,7 @@ export default function HomeLoanEMICalculator() {
                             <li>• Age: 25-65 years</li>
                             <li>• ITR filing: 3+ years</li>
                             <li>• Business vintage: 5+ years</li>
-                            <li>• Annual turnover: ₹10 lakhs+</li>
+                            <li>• Annual turnover: {compact(1000000)}+</li>
                             <li>• Profitability track record</li>
                         </ul>
                     </div>

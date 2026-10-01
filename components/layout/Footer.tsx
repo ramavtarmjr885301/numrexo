@@ -195,6 +195,12 @@ export default function Footer() {
               >
                 Disclaimer
               </button>
+              <button
+                onClick={() => window.openCookiePreferences?.()}
+                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              >
+                Privacy Settings
+              </button>
             </div>
           </div>
 

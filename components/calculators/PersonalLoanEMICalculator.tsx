@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PersonalLoanEMICalculator() {
+    const { symbol, money, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -272,9 +275,11 @@ export default function PersonalLoanEMICalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
+
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -284,7 +289,7 @@ export default function PersonalLoanEMICalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -293,7 +298,7 @@ export default function PersonalLoanEMICalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        ₹{amount >= 1000000 ? `${amount / 1000000}L` : `${amount / 1000}K`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -379,19 +384,19 @@ export default function PersonalLoanEMICalculator() {
                     emptyText="Enter loan details and press Calculate"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: money(result.emi),
                         color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "Principal Amount", value: `₹${result.principal.toFixed(2)}` },
+                        { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months` },
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Average Interest per Month", value: `₹${result.averageInterest.toFixed(2)}` },
+                        { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
             </div>
@@ -416,10 +421,10 @@ export default function PersonalLoanEMICalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -436,13 +441,13 @@ export default function PersonalLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Personal Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    The <strong className="text-ink-soft">Personal Loan EMI Calculator</strong> helps you estimate your monthly loan payments accurately. Whether you're planning to take a loan for a wedding, travel, home renovation, or debt consolidation, this calculator gives you a clear picture of your repayment obligations.
+                    A personal loan isn't backed by any asset, which is exactly why it costs more than a car or home loan for the same borrower — the lender has nothing to repossess if repayment stops, so the rate carries that risk instead. That makes the tenure and rate you accept matter more here than almost anywhere else, since there's no collateral cushioning the arithmetic.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Our calculator uses the standard EMI formula to provide accurate results. It accounts for the loan amount, interest rate, and tenure to calculate your monthly payments. You can also see the total interest payable and the amortization schedule, which shows how each payment splits between principal and interest over time.
+                    Enter the amount you need, the rate you've been offered, and the tenure, and this calculator breaks down the EMI, the total interest you'll pay over the loan, and a full amortization schedule showing how much of each payment goes toward the principal versus the interest.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
-                    Understanding your EMI helps you budget better and avoid over-borrowing. Use our calculator to compare different loan options and find the one that best fits your financial situation.
+                    Because unsecured loans are priced almost entirely on your credit profile, it's worth running the numbers at a couple of different rates — even a one-point difference compounds into real money over a multi-year personal loan.
                 </p>
             </section>
 
@@ -450,12 +455,9 @@ export default function PersonalLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Personal Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">loan amount</strong> you wish to borrow (use preset buttons for quick input).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">annual interest rate</strong> offered by your lender (preset rates available).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">loan tenure</strong> in months (preset tenures for common options).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate EMI"</strong> to see your monthly payment and full amortization schedule.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review the <strong className="text-ink">affordability rating</strong> and total cost breakdown to make an informed decision.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Type in the <strong className="text-ink">loan amount</strong> you're considering, or tap one of the preset figures to start from a round number. Next, enter the <strong className="text-ink">annual interest rate</strong> your lender has quoted — since this is unsecured debt, that rate can vary a lot between lenders for the same applicant, so it's worth checking more than one offer.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Choose the <strong className="text-ink">tenure</strong> in months. A shorter tenure means a bigger EMI but noticeably less interest paid overall — try a couple of tenures back to back to feel out that trade-off before committing.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Click <strong className="text-ink">Calculate EMI</strong> to see the monthly payment, total interest, and the full repayment schedule. Check the <strong className="text-ink">affordability rating</strong> against your other monthly commitments, and use <strong className="text-ink">Reset</strong> whenever you want to compare a different offer.</p>
                 </div>
             </section>
 
@@ -464,12 +466,12 @@ export default function PersonalLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Personal Loan EMI Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly payment before taking a loan. Plan your monthly budget around your EMI obligations. Avoid over-committing and maintain healthy cash flow.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Know the Real Cost of Going Unsecured</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Personal loan rates run well above secured loans precisely because there's no collateral. See the actual rupee cost of that before deciding this is the right way to fund the expense.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Lenders</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI offers from different banks and NBFCs. Find the best interest rate and tenure combination. Understand how even a small rate difference affects your total payment.</p>
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Shop the Rate, Not Just the Approval</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Pre-approved offers are convenient but rarely the cheapest. Run the same amount through a couple of quotes — on unsecured debt, lenders price the same applicant very differently.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Tenure Optimization</h3>
@@ -517,7 +519,7 @@ export default function PersonalLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹5L, 3Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(500000)}, 3Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -525,38 +527,38 @@ export default function PersonalLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-green-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,134</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹80,824</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,80,824</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16134, 0)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{money(80824, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(580824, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">12%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,607</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹97,852</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,97,852</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16607, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{money(97852, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(597852, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">14%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹17,096</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1,15,456</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,15,456</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(17096, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(115456, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(615456, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">16%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹17,599</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1,33,564</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,33,564</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(17599, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(133564, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(633564, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">18%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹18,116</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1,52,176</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,52,176</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(18116, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(152176, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(652176, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a ₹5 lakh loan over 3 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(500000)} loan over 3 years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -567,7 +569,7 @@ export default function PersonalLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹5L, 12%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(500000)}, 12%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -575,33 +577,33 @@ export default function PersonalLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">12 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹44,423</td>
-                                <td className="py-2 px-4 text-right text-green-600">₹33,076</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,33,076</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(44423, 0)}</td>
+                                <td className="py-2 px-4 text-right text-green-600">{money(33076, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(533076, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">24 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹23,537</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹64,888</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,64,888</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(23537, 0)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{money(64888, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(564888, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">36 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,607</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹97,852</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,97,852</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16607, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(97852, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(597852, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">48 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹13,166</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1,31,968</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,31,968</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(13166, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(131968, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(631968, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">60 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹11,122</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1,67,320</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,67,320</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(11122, 0)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{money(167320, 0)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(667320, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -617,7 +619,7 @@ export default function PersonalLoanEMICalculator() {
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: ₹25,000</li>
+                            <li>• Minimum monthly income: {money(25000, 0)}</li>
                             <li>• Work experience: 1+ years (6+ months in current job)</li>
                             <li>• CIBIL score: 700+ preferred</li>
                             <li>• Valid identity and address proof</li>
@@ -629,7 +631,7 @@ export default function PersonalLoanEMICalculator() {
                             <li>• Age: 25-65 years</li>
                             <li>• ITR filing: 2+ years</li>
                             <li>• Business vintage: 3+ years</li>
-                            <li>• Annual turnover: ₹5 lakhs+</li>
+                            <li>• Annual turnover: {compact(500000)}+</li>
                             <li>• Profitability track record</li>
                         </ul>
                     </div>
@@ -678,7 +680,7 @@ export default function PersonalLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow ₹5,00,000 and receive less. Ask for the net figure in writing.</span>
+                        <span><strong className="text-ink-soft">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow {money(500000, 0)} and receive less. Ask for the net figure in writing.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>

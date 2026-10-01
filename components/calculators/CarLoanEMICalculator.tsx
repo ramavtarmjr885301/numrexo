@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CarLoanEMICalculator() {
+    const { symbol, money, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -287,6 +290,8 @@ export default function CarLoanEMICalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
+
                         {/* Car Type */}
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Car Type</label>
@@ -323,7 +328,7 @@ export default function CarLoanEMICalculator() {
 
                         {/* Car Price */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Car Price (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Car Price ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -333,7 +338,7 @@ export default function CarLoanEMICalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
@@ -342,7 +347,7 @@ export default function CarLoanEMICalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        {amount >= 1000000 ? `₹${amount/1000000}L` : `₹${amount/1000}K`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -350,7 +355,7 @@ export default function CarLoanEMICalculator() {
 
                         {/* Down Payment */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Down Payment (₹) <span className="text-ink-faint">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Down Payment ({symbol}) <span className="text-ink-faint">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -360,7 +365,7 @@ export default function CarLoanEMICalculator() {
                                     onChange={(e) => setDownPayment(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetDownPayments.map((amount) => (
@@ -369,7 +374,7 @@ export default function CarLoanEMICalculator() {
                                         onClick={() => setDownPayment(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        ₹{amount/1000}K
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -456,22 +461,22 @@ export default function CarLoanEMICalculator() {
                     emptyText="Enter car details and press Calculate"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: money(result.emi),
                         color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "Car Price", value: `₹${result.carPrice.toFixed(2)}` },
-                        { label: "Down Payment", value: `₹${result.downPayment.toFixed(2)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
-                        { label: "Loan Amount", value: `₹${result.principal.toFixed(2)}` },
+                        { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Car Price", value: money(result.carPrice) },
+                        { label: "Down Payment", value: `${money(result.downPayment)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
+                        { label: "Loan Amount", value: money(result.principal) },
                         { label: "Car Type", value: result.carType === "new" ? "New Car 🚗" : "Used Car 🚘" },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months/12).toFixed(0)} years)` },
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Average Interest per Month", value: `₹${result.averageInterest.toFixed(2)}` },
+                        { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
             </div>
@@ -496,10 +501,10 @@ export default function CarLoanEMICalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -516,13 +521,13 @@ export default function CarLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Car Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    The <strong className="text-ink-soft">Car Loan EMI Calculator</strong> helps you estimate your monthly payments for your car purchase accurately. Whether you're buying a new car or a used car, this calculator gives you a clear picture of your repayment obligations.
+                    A car depreciates every month you own it, but the loan against it doesn't fall anywhere near as fast — especially in the first two or three years. That gap is the one number showroom conversations tend to skip, and it's the reason an EMI calculator is more useful here than the salesperson's monthly-payment quote: the quote tells you what you'll pay, not what you'll still owe if you need to sell or trade in early.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Our calculator uses the standard EMI formula to provide accurate results for car loans. It accounts for the car price, down payment, interest rate, and tenure to calculate your monthly payments. You can also see the total interest payable, and a detailed amortization schedule.
+                    Enter the on-road price, your down payment, the rate you've been quoted, and the tenure, and this calculator works out the EMI, the total interest over the loan, and a month-by-month amortization schedule showing exactly how the split between principal and interest shifts over time.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
-                    Understanding your car loan EMI helps you budget better, plan your finances, and choose the right car within your budget. Use our calculator to compare different loan options and find the one that best fits your financial situation.
+                    It's also the fastest way to see what a dealer's "zero down payment, low EMI" offer actually costs versus a shorter loan with more money down — run both and compare the total interest line, not just the monthly figure.
                 </p>
             </section>
 
@@ -560,13 +565,9 @@ export default function CarLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Car Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">car type</strong> - New Car or Used Car.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">car price</strong> (use preset buttons for quick input).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Optionally enter the <strong className="text-ink">down payment</strong> amount.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter the <strong className="text-ink">interest rate</strong> offered by your lender.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Select the <strong className="text-ink">loan tenure</strong> in months.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Click <strong className="text-ink">"Calculate EMI"</strong> to see your monthly payment and amortization schedule.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 7:</strong> Review the <strong className="text-ink">affordability rating</strong> and use <strong className="text-ink">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Start by picking <strong className="text-ink">New Car</strong> or <strong className="text-ink">Used Car</strong> — it changes which preset rates and tenures make sense. Then enter the <strong className="text-ink">on-road car price</strong>, either by typing it in or tapping one of the preset amounts.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">If you're planning a down payment, add it next — even a rough figure is useful, since it directly reduces the amount you're financing. Then fill in the <strong className="text-ink">interest rate</strong> your lender or dealer has quoted, and the <strong className="text-ink">tenure</strong> in months.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Hit <strong className="text-ink">Calculate EMI</strong> and you'll get the monthly payment, total interest, and a full amortization table below. The <strong className="text-ink">affordability rating</strong> gives you a quick read on whether the EMI fits comfortably against typical income levels — use <strong className="text-ink">Reset</strong> to try a different price, rate, or tenure combination.</p>
                 </div>
             </section>
 
@@ -575,20 +576,20 @@ export default function CarLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Car Loan EMI Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly payment before buying a car. Plan your monthly budget around your EMI obligations and avoid over-committing.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Negotiate From a Number, Not a Guess</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Walk into the showroom already knowing your EMI at a few different prices and down payments, so the salesperson's "I can get you this monthly figure" has nothing to hide behind.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Lenders</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI offers from different banks and NBFCs. Find the best interest rate and tenure combination for your dream car.</p>
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Bank Quote vs Dealer Finance</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Run the same price and tenure through both your bank's rate and the dealer's tie-up rate — the gap is often larger than it looks on the sticker.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Down Payment Analysis</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Understand how different down payment amounts affect your EMI and total interest. Find the optimal down payment for your budget.</p>
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ See the Depreciation Trap Coming</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">A longer tenure lowers the EMI, but it also stretches out the period where you owe more than the car is worth. The amortization schedule shows you exactly when that crossover happens.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ New vs Used Decision</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Compare EMI for new and used cars. Understand the cost difference and make an informed decision based on your budget.</p>
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ New vs Used, Side by Side</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">A used car costs less upfront but usually carries a higher rate and shorter tenure. Switch the car type and compare the actual EMI difference, not just the price tag.</p>
                     </div>
                 </div>
             </section>
@@ -628,7 +629,7 @@ export default function CarLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹8L, 5Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(800000)}, 5Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -636,38 +637,38 @@ export default function CarLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-green-600 font-bold">7%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹15,843</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">₹1.51L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.51L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(15843)}</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">{compact(151000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(951000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">8%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,212</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹1.73L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.73L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16212)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{compact(173000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(973000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">9%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,605</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1.96L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.96L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16605)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(196000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(996000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,999</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹2.20L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹10.20L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16999)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(220000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1020000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">11%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹17,394</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹2.44L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹10.44L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(17394)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(244000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1044000)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for an ₹8 lakh car loan over 5 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(800000)} car loan over 5 years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -678,7 +679,7 @@ export default function CarLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI (₹8L, 9%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(800000)}, 9%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
@@ -686,33 +687,33 @@ export default function CarLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">3 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹25,440</td>
-                                <td className="py-2 px-4 text-right text-green-600">₹1.16L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.16L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(25440)}</td>
+                                <td className="py-2 px-4 text-right text-green-600">{compact(116000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(916000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-yellow-700 font-bold">4 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹19,893</td>
-                                <td className="py-2 px-4 text-right text-orange-600">₹1.55L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.55L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(19893)}</td>
+                                <td className="py-2 px-4 text-right text-orange-600">{compact(155000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(955000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">5 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹16,605</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹1.96L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹9.96L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(16605)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(196000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(996000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">6 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹14,418</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹2.38L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹10.38L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(14418)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(238000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1038000)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-500 font-bold">7 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹12,857</td>
-                                <td className="py-2 px-4 text-right text-red-600">₹2.80L</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹10.80L</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(12857)}</td>
+                                <td className="py-2 px-4 text-right text-red-600">{compact(280000)}</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1080000)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -728,7 +729,7 @@ export default function CarLoanEMICalculator() {
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: ₹25,000</li>
+                            <li>• Minimum monthly income: {money(25000)}</li>
                             <li>• Work experience: 1+ years</li>
                             <li>• CIBIL score: 700+ preferred</li>
                             <li>• Valid identity and address proof</li>
@@ -740,7 +741,7 @@ export default function CarLoanEMICalculator() {
                             <li>• Age: 25-65 years</li>
                             <li>• ITR filing: 2+ years</li>
                             <li>• Business vintage: 3+ years</li>
-                            <li>• Annual turnover: ₹5 lakhs+</li>
+                            <li>• Annual turnover: {compact(500000)}+</li>
                             <li>• Profitability track record</li>
                         </ul>
                     </div>
@@ -766,7 +767,7 @@ export default function CarLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 0.5% difference can save you ₹20,000+ over the loan tenure.</span>
+                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 0.5% difference can save you {compact(20000)}+ over the loan tenure.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>

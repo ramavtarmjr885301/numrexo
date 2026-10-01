@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
+import CurrencySwitcher from "@/components/common/CurrencySwitcher";
+import { useCurrency } from "@/components/common/useCurrency";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -113,6 +115,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ConsumerLoanEMICalculator() {
+    const { symbol, money, compact } = useCurrency();
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [tenure, setTenure] = useState("");
@@ -330,6 +333,8 @@ export default function ConsumerLoanEMICalculator() {
                     </div>
 
                     <div className="p-6 space-y-4">
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
+
                         {/* Loan Type */}
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Type</label>
@@ -366,7 +371,7 @@ export default function ConsumerLoanEMICalculator() {
 
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -376,7 +381,7 @@ export default function ConsumerLoanEMICalculator() {
                                     onChange={(e) => setLoanAmount(e.target.value)}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presets.amounts.map((amount) => (
@@ -385,7 +390,7 @@ export default function ConsumerLoanEMICalculator() {
                                         onClick={() => setLoanAmount(amount.toString())}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        ₹{amount >= 100000 ? `${amount / 100000}L` : amount >= 1000 ? `${amount / 1000}K` : amount}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -471,20 +476,20 @@ export default function ConsumerLoanEMICalculator() {
                     emptyText="Enter loan details and press Calculate"
                     mainResult={result ? {
                         label: "Monthly EMI",
-                        value: `₹${result.emiFormatted}`,
+                        value: money(result.emi),
                         color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "Principal Amount", value: `₹${result.principal.toFixed(2)}` },
+                        { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months` },
                         { label: "Loan Type", value: result.loanType.charAt(0).toUpperCase() + result.loanType.slice(1) },
                         { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
                         { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Average Interest per Month", value: `₹${result.averageInterest.toFixed(2)}` },
+                        { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
             </div>
@@ -509,10 +514,10 @@ export default function ConsumerLoanEMICalculator() {
                                     {result.schedule.map((row: any) => (
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">₹{row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">₹{row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-ink-soft">₹{row.balance.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -529,13 +534,13 @@ export default function ConsumerLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Consumer Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    The <strong className="text-ink-soft">Consumer Loan EMI Calculator</strong> helps you estimate your monthly payments for consumer loans, including consumer durables, vehicles, electronics, and other personal purchases. Whether you're buying a new TV, refrigerator, laptop, or planning a vehicle purchase, this calculator gives you a clear picture of your repayment obligations.
+                    "No-cost EMI" is one of the more misleading phrases in retail — the interest rarely disappears, it's usually folded into the product's price instead, or recovered through a processing fee and a discount you'd have gotten anyway for paying cash. A quick EMI calculation at checkout is often the easiest way to spot which version you're actually being offered.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Our calculator uses the standard EMI formula to provide accurate results for different types of consumer loans. It accounts for the loan amount, interest rate, and tenure to calculate your monthly payments. You can also see the total interest payable and the amortization schedule, which shows how each payment splits between principal and interest over time.
+                    Enter the loan amount for your durable, electronics, or small vehicle purchase, along with the rate and tenure, and this calculator shows the EMI, the total interest over the loan, and an amortization schedule breaking down each payment into principal and interest.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
-                    Consumer loans are designed for purchasing goods and services for personal use. Understanding your EMI helps you budget better and choose the right loan product. Use our calculator to compare different loan options and find the one that best fits your monthly budget.
+                    It's especially useful for point-of-sale financing, where the EMI is quoted fast and the total cost is easy to skip past — run the numbers here before you tap "confirm" at the counter.
                 </p>
             </section>
 
@@ -549,7 +554,7 @@ export default function ConsumerLoanEMICalculator() {
                             <li>• For buying TVs, refrigerators, washing machines</li>
                             <li>• Tenure: 3-24 months</li>
                             <li>• Interest: 10-18% p.a.</li>
-                            <li>• Amount: Up to ₹1,00,000</li>
+                            <li>• Amount: Up to {compact(100000)}</li>
                             <li>• Instant approval options</li>
                         </ul>
                     </div>
@@ -559,7 +564,7 @@ export default function ConsumerLoanEMICalculator() {
                             <li>• For cars, bikes, scooters</li>
                             <li>• Tenure: 24-72 months</li>
                             <li>• Interest: 8-12% p.a.</li>
-                            <li>• Amount: Up to ₹10,00,000</li>
+                            <li>• Amount: Up to {compact(1000000)}</li>
                             <li>• Secured against vehicle</li>
                         </ul>
                     </div>
@@ -569,7 +574,7 @@ export default function ConsumerLoanEMICalculator() {
                             <li>• For laptops, mobiles, gadgets</li>
                             <li>• Tenure: 3-24 months</li>
                             <li>• Interest: 12-20% p.a.</li>
-                            <li>• Amount: Up to ₹2,00,000</li>
+                            <li>• Amount: Up to {compact(200000)}</li>
                             <li>• Often zero-cost EMI options</li>
                         </ul>
                     </div>
@@ -580,12 +585,9 @@ export default function ConsumerLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Consumer Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">loan type</strong> - Consumer Durable, Vehicle, or Electronics.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">loan amount</strong> (use preset buttons for quick input).</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">annual interest rate</strong> offered by your lender.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Select the <strong className="text-ink">loan tenure</strong> in months.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate EMI"</strong> to see your monthly payment and amortization schedule.</p>
-                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Review the <strong className="text-ink">affordability rating</strong> and use <strong className="text-ink">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Pick the <strong className="text-ink">loan type</strong> closest to your purchase — Consumer Durable, Vehicle, or Electronics — since typical rates and tenures differ across them. Enter the <strong className="text-ink">loan amount</strong>, or use a preset to start from a round figure close to your purchase price.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Enter the <strong className="text-ink">interest rate</strong> you've been quoted — if it's a "no-cost EMI" deal, check the product's cash price first, since the "zero interest" is often built into a higher sticker price rather than genuinely waived. Then pick the <strong className="text-ink">tenure</strong> in months.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Click <strong className="text-ink">Calculate EMI</strong> to see the monthly payment, total interest, and schedule. Use the <strong className="text-ink">affordability rating</strong> as a quick gut-check, and <strong className="text-ink">Reset</strong> to try a different purchase amount or financing offer.</p>
                 </div>
             </section>
 
@@ -656,31 +658,31 @@ export default function ConsumerLoanEMICalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">Consumer Durable</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹50,000</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(50000, 0)}</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">14%</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">12 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹4,490</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(4490, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-green-600 font-bold">Vehicle</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,00,000</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(500000, 0)}</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">10%</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">48 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹12,680</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(12680, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-purple-600 font-bold">Electronics</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹1,00,000</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(100000, 0)}</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">16%</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">18 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹6,324</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(6324, 0)}</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-orange-600 font-bold">Consumer Durable</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹30,000</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(30000, 0)}</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">12%</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">6 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">₹5,171</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">{money(5171, 0)}</td>
                             </tr>
                         </tbody>
                     </table>

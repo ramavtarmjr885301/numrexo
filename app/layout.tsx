@@ -5,7 +5,11 @@ import { headers } from "next/headers";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import CookieConsent from "@/components/common/CookieConsent";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
+
+const TOOL_COUNT = CALCULATORS_REGISTRY.length;
 
 const sora = Sora({
   subsets: ["latin"],
@@ -35,7 +39,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Over 100 free online calculators for loans, health, tax, math, grades and unit conversion. No sign-up, and nothing you enter leaves your browser.",
+    `${TOOL_COUNT}+ free online calculators for loans, health, tax, math, grades and unit conversion. No sign-up, and nothing you enter leaves your browser.`,
   applicationName: SITE_NAME,
   referrer: "origin-when-cross-origin",
   formatDetection: { telephone: false, address: false, email: false },
@@ -68,6 +72,30 @@ export default function RootLayout({
       >
         {!isAdmin && (
           <>
+            {/* Google Consent Mode v2 - must run before gtag.js loads. Every
+                signal starts "denied" so no ad/analytics cookie is set until
+                a visitor actually clicks something in <CookieConsent />
+                (components/common/CookieConsent.tsx). That component reads
+                any earlier choice from localStorage and calls
+                gtag('consent','update',...) on mount, or shows the banner
+                for a first-time visitor and does the same when they choose. */}
+            <Script
+              id="google-consent-default"
+              strategy="beforeInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('consent', 'default', {
+                    'ad_storage': 'denied',
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied',
+                    'analytics_storage': 'denied',
+                    'wait_for_update': 500
+                  });
+                `,
+              }}
+            />
             {/* Google Analytics - Fixed preload warning */}
             <Script
               strategy="lazyOnload"
@@ -91,6 +119,7 @@ export default function RootLayout({
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2722324525359517"
               crossOrigin="anonymous"
             />
+            <CookieConsent />
           </>
         )}
         {isAdmin ? (
