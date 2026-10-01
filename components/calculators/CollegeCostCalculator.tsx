@@ -119,60 +119,60 @@ export default function CollegeCostCalculator() {
             }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-gray-300">Education Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">College Cost Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">College Cost Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">College Cost Details</h3>
-                        <p className="text-xs text-gray-500">Enter annual costs for one year (current prices)</p>
+                        <p className="text-xs text-ink-faint">Enter annual costs for one year (current prices)</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Tuition & Fees ($/year)</label>
-                            <input type="number" step="10000" placeholder="e.g., 200000" value={tuition} onChange={(e) => setTuition(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Tuition & Fees ($/year)</label>
+                            <input type="number" step="10000" placeholder="e.g., 200000" value={tuition} onChange={(e) => setTuition(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Room & Board ($/year)</label>
-                            <input type="number" step="5000" placeholder="e.g., 80000" value={roomBoard} onChange={(e) => setRoomBoard(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Room & Board ($/year)</label>
+                            <input type="number" step="5000" placeholder="e.g., 80000" value={roomBoard} onChange={(e) => setRoomBoard(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Books & Supplies ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 15000" value={books} onChange={(e) => setBooks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Books & Supplies ($/year)</label>
+                            <input type="number" step="1000" placeholder="e.g., 15000" value={books} onChange={(e) => setBooks(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Transportation ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 10000" value={transport} onChange={(e) => setTransport(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Transportation ($/year)</label>
+                            <input type="number" step="1000" placeholder="e.g., 10000" value={transport} onChange={(e) => setTransport(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Personal/Miscellaneous ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 20000" value={other} onChange={(e) => setOther(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Personal/Miscellaneous ($/year)</label>
+                            <input type="number" step="1000" placeholder="e.g., 20000" value={other} onChange={(e) => setOther(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Number of Years</label>
-                                <select value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Number of Years</label>
+                                <select value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">
                                     <option value="1">1 year</option><option value="2">2 years</option><option value="3">3 years</option>
                                     <option value="4">4 years</option><option value="5">5 years</option><option value="6">6+ years</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Annual Inflation (%)</label>
-                                <input type="number" step="0.5" placeholder="5" value={inflation} onChange={(e) => setInflation(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Annual Inflation (%)</label>
+                                <input type="number" step="0.5" placeholder="5" value={inflation} onChange={(e) => setInflation(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                             </div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -182,24 +182,24 @@ export default function CollegeCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="🎓"
                     emptyText="Enter college costs to see total expense"
-                    mainResult={result ? { label: "Total College Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-400" } : undefined}
+                    mainResult={result ? { label: "Total College Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-600" } : undefined}
                     extraRows={result ? [
                         { label: "Average Per Year", value: `${symbol}${parseFloat(result.averagePerYear).toLocaleString()}` },
-                        { label: "First Year Cost", value: `${symbol}${parseFloat(result.firstYearCost).toLocaleString()}`, valueColor: "text-yellow-400" },
-                        { label: "Final Year Cost", value: `${symbol}${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-400" },
+                        { label: "First Year Cost", value: `${symbol}${parseFloat(result.firstYearCost).toLocaleString()}`, valueColor: "text-yellow-700" },
+                        { label: "Final Year Cost", value: `${symbol}${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-600" },
                         { label: "Total Years", value: result.years },
                     ] : []}
                 />
             </div>
 
             {result && result.yearlyBreakdown && (
-                <div className="mb-8 bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-white mb-3">Year-by-Year Breakdown</h3>
+                <div className="mb-8 bg-surface border border-hairline rounded-xl p-5">
+                    <h3 className="text-sm font-semibold text-ink mb-3">Year-by-Year Breakdown</h3>
                     <div className="space-y-2">
                         {result.yearlyBreakdown.map((cost: number, idx: number) => (
                             <div key={idx} className="flex justify-between text-sm">
-                                <span className="text-gray-400">Year {idx + 1}</span>
-                                <span className="text-white font-medium">${Math.round(cost).toLocaleString()}</span>
+                                <span className="text-ink-faint">Year {idx + 1}</span>
+                                <span className="text-ink font-medium">${Math.round(cost).toLocaleString()}</span>
                             </div>
                         ))}
                     </div>
@@ -210,119 +210,119 @@ export default function CollegeCostCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About College Cost Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">College Cost Calculator</strong> helps students and parents plan their education budget with inflation-adjusted projections. Includes tuition, housing, books, transportation, and miscellaneous expenses.
+                <h2 className="text-xl font-semibold text-ink mb-3">About College Cost Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">College Cost Calculator</strong> helps students and parents plan their education budget with inflation-adjusted projections. Includes tuition, housing, books, transportation, and miscellaneous expenses.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     College costs have been climbing faster than general inflation for two decades. Our calculator accounts for inflation to give you a realistic estimate of future expenses, helping you plan savings, education loans, and scholarship needs.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This College Cost Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This College Cost Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">tuition & fees</strong> — the main academic cost, roughly $9,000 a year in-state and up to $60,000 at a private college.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">room & board</strong> — housing and a meal plan, typically $12,000-$14,000 a year on campus.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">books & supplies</strong> — textbooks, stationery ($10k-$30k/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">transportation</strong> — commute costs ($5k-$20k/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter <strong className="text-white">personal/miscellaneous</strong> — pocket money, clothes, entertainment ($20k-$50k/year).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Select <strong className="text-white">number of years</strong> (3-5 years typical) and <strong className="text-white">inflation rate</strong> (5-8% recommended).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Click <strong className="text-white">Calculate</strong> to see total cost, year-by-year breakdown, and average per year.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter <strong className="text-ink">tuition & fees</strong> — the main academic cost, roughly $9,000 a year in-state and up to $60,000 at a private college.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter <strong className="text-ink">room & board</strong> — housing and a meal plan, typically $12,000-$14,000 a year on campus.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter <strong className="text-ink">books & supplies</strong> — textbooks, stationery ($10k-$30k/year).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter <strong className="text-ink">transportation</strong> — commute costs ($5k-$20k/year).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Enter <strong className="text-ink">personal/miscellaneous</strong> — pocket money, clothes, entertainment ($20k-$50k/year).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Select <strong className="text-ink">number of years</strong> (3-5 years typical) and <strong className="text-ink">inflation rate</strong> (5-8% recommended).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 7:</strong> Click <strong className="text-ink">Calculate</strong> to see total cost, year-by-year breakdown, and average per year.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Benefits of College Cost Planning</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Benefits of College Cost Planning</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Avoid Financial Surprises</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how much you'll need each year. Plan savings and loan applications well in advance without last-minute stress.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Avoid Financial Surprises</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll need each year. Plan savings and loan applications well in advance without last-minute stress.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Colleges</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare total 4-year costs between different colleges (government vs private, in-state vs out-of-state). Make informed decisions based on ROI.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Colleges</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare total 4-year costs between different colleges (government vs private, in-state vs out-of-state). Make informed decisions based on ROI.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Scholarship Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know how much scholarship you need. Apply for appropriate scholarships based on your financial gap.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Scholarship Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know how much scholarship you need. Apply for appropriate scholarships based on your financial gap.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Loan Management</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate exactly how much education loan to request. Plan repayment strategies before graduation.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Loan Management</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate exactly how much education loan to request. Plan repayment strategies before graduation.</p>
                     </div>
                 </div>
             </section>
 
             {/* College Cost Breakdown */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">What a Year of College Costs — Public University, In-State</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">What a Year of College Costs — Public University, In-State</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Expense Category</th><th className="text-right py-3 px-4 text-gray-400">Low</th><th className="text-right py-3 px-4 text-gray-400">Typical</th><th className="text-right py-3 px-4 text-gray-400">High</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Expense Category</th><th className="text-right py-3 px-4 text-ink-faint">Low</th><th className="text-right py-3 px-4 text-ink-faint">Typical</th><th className="text-right py-3 px-4 text-ink-faint">High</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tuition &amp; Fees</td><td className="py-2 px-4 text-right">$8,000</td><td className="py-2 px-4 text-right">$11,600</td><td className="py-2 px-4 text-right">$16,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Room &amp; Board</td><td className="py-2 px-4 text-right">$9,000</td><td className="py-2 px-4 text-right">$12,700</td><td className="py-2 px-4 text-right">$17,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Books &amp; Supplies</td><td className="py-2 px-4 text-right">$600</td><td className="py-2 px-4 text-right">$1,200</td><td className="py-2 px-4 text-right">$1,800</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Transportation</td><td className="py-2 px-4 text-right">$700</td><td className="py-2 px-4 text-right">$1,300</td><td className="py-2 px-4 text-right">$2,200</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Personal / Misc</td><td className="py-2 px-4 text-right">$1,500</td><td className="py-2 px-4 text-right">$2,400</td><td className="py-2 px-4 text-right">$3,500</td></tr>
-                            <tr className="bg-gray-800/30"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-400">$19,800</td><td className="py-2 px-4 text-right font-semibold text-yellow-400">$29,200</td><td className="py-2 px-4 text-right font-semibold text-orange-400">$40,500</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Tuition &amp; Fees</td><td className="py-2 px-4 text-right">$8,000</td><td className="py-2 px-4 text-right">$11,600</td><td className="py-2 px-4 text-right">$16,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Room &amp; Board</td><td className="py-2 px-4 text-right">$9,000</td><td className="py-2 px-4 text-right">$12,700</td><td className="py-2 px-4 text-right">$17,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Books &amp; Supplies</td><td className="py-2 px-4 text-right">$600</td><td className="py-2 px-4 text-right">$1,200</td><td className="py-2 px-4 text-right">$1,800</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Transportation</td><td className="py-2 px-4 text-right">$700</td><td className="py-2 px-4 text-right">$1,300</td><td className="py-2 px-4 text-right">$2,200</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Personal / Misc</td><td className="py-2 px-4 text-right">$1,500</td><td className="py-2 px-4 text-right">$2,400</td><td className="py-2 px-4 text-right">$3,500</td></tr>
+                            <tr className="bg-cream"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-600">$19,800</td><td className="py-2 px-4 text-right font-semibold text-yellow-700">$29,200</td><td className="py-2 px-4 text-right font-semibold text-orange-600">$40,500</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">Approximate published (sticker) prices for a recent academic year. Most students pay less once grants and scholarships are applied — use the aid letter, not this table, once you have one.</p>
+                <p className="text-xs text-ink-faint mt-2">Approximate published (sticker) prices for a recent academic year. Most students pay less once grants and scholarships are applied — use the aid letter, not this table, once you have one.</p>
             </section>
 
             {/* Sample College Costs */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sample Annual Cost by Institution Type</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Sample Annual Cost by Institution Type</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Institution Type</th><th className="text-right py-3 px-4 text-gray-400">Tuition &amp; Fees</th><th className="text-right py-3 px-4 text-gray-400">With Room &amp; Board</th><th className="text-right py-3 px-4 text-gray-400">Full Degree</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Institution Type</th><th className="text-right py-3 px-4 text-ink-faint">Tuition &amp; Fees</th><th className="text-right py-3 px-4 text-ink-faint">With Room &amp; Board</th><th className="text-right py-3 px-4 text-ink-faint">Full Degree</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Community college (in-district)</td><td className="py-2 px-4 text-right">$3,600-4,500</td><td className="py-2 px-4 text-right">$12,000-16,000</td><td className="py-2 px-4 text-right">$24,000-32,000 (2 yrs)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Public 4-year, in-state</td><td className="py-2 px-4 text-right">$9,000-13,500</td><td className="py-2 px-4 text-right">$22,000-29,000</td><td className="py-2 px-4 text-right">$88,000-116,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Public 4-year, out-of-state</td><td className="py-2 px-4 text-right">$24,000-32,000</td><td className="py-2 px-4 text-right">$37,000-48,000</td><td className="py-2 px-4 text-right">$148,000-192,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Private non-profit</td><td className="py-2 px-4 text-right">$38,000-46,000</td><td className="py-2 px-4 text-right">$52,000-62,000</td><td className="py-2 px-4 text-right">$208,000-248,000</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Private, highly selective</td><td className="py-2 px-4 text-right">$58,000-68,000</td><td className="py-2 px-4 text-right">$78,000-92,000</td><td className="py-2 px-4 text-right">$312,000-368,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Community college (in-district)</td><td className="py-2 px-4 text-right">$3,600-4,500</td><td className="py-2 px-4 text-right">$12,000-16,000</td><td className="py-2 px-4 text-right">$24,000-32,000 (2 yrs)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Public 4-year, in-state</td><td className="py-2 px-4 text-right">$9,000-13,500</td><td className="py-2 px-4 text-right">$22,000-29,000</td><td className="py-2 px-4 text-right">$88,000-116,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Public 4-year, out-of-state</td><td className="py-2 px-4 text-right">$24,000-32,000</td><td className="py-2 px-4 text-right">$37,000-48,000</td><td className="py-2 px-4 text-right">$148,000-192,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Private non-profit</td><td className="py-2 px-4 text-right">$38,000-46,000</td><td className="py-2 px-4 text-right">$52,000-62,000</td><td className="py-2 px-4 text-right">$208,000-248,000</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Private, highly selective</td><td className="py-2 px-4 text-right">$58,000-68,000</td><td className="py-2 px-4 text-right">$78,000-92,000</td><td className="py-2 px-4 text-right">$312,000-368,000</td></tr>
                         </tbody>
                     </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">Two years at a community college followed by two years at a public university is the single biggest lever on this table — it can cut a bachelor&apos;s degree cost roughly in half.</p>
+                <p className="text-xs text-ink-faint mt-2">Two years at a community college followed by two years at a public university is the single biggest lever on this table — it can cut a bachelor&apos;s degree cost roughly in half.</p>
             </section>
 
             {/* Savings Strategies */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart Savings Strategies for College</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart Savings Strategies for College</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
                 </ul>
             </section>
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About College Cost Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Plan your education budget with inflation-adjusted projections. Includes tuition, housing, books, and all associated expenses.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About College Cost Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Plan your education budget with inflation-adjusted projections. Includes tuition, housing, books, and all associated expenses.</p>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+                            {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
                         </div>
                     ))}
                 </div>

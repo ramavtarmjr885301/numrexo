@@ -113,24 +113,24 @@ export default function PPFCalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: PPF_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-          <li className="text-gray-700">/</li>
-          <li><a href="https://numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
-          <li className="text-gray-700">/</li>
-          <li><span className="text-gray-300">PPF Calculator</span></li>
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><a href="https://numrexo.com/finance" className="hover:text-ink-soft">Finance Calculators</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><span className="text-ink-soft">PPF Calculator</span></li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">PPF Investment Details</h3>
-            <p className="text-xs text-gray-500 mt-1">Government of India, EEE Tax Benefit</p>
+            <p className="text-xs text-ink-faint mt-1">Government of India, EEE Tax Benefit</p>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Annual Investment (Min ₹500, Max ₹1,50,000)
               </label>
               <div className="relative">
@@ -141,14 +141,14 @@ export default function PPFCalculator() {
                   max="150000"
                   value={annualInvestment}
                   onChange={(e) => setAnnualInvestment(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹/year</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹/year</span>
               </div>
               <p className="text-xs text-green-500 mt-1">✓ Up to ₹1.5 lakh tax deduction under Section 80C</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Interest Rate (Current: 7.1% p.a.)
               </label>
               <div className="relative">
@@ -158,14 +158,14 @@ export default function PPFCalculator() {
                   step="0.1"
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">% p.a.</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">% p.a.</span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Rate set quarterly by Govt of India (compounded annually)</p>
+              <p className="text-xs text-ink-faint mt-1">Rate set quarterly by Govt of India (compounded annually)</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Tenure (Minimum 15 years)
               </label>
               <div className="relative">
@@ -176,11 +176,11 @@ export default function PPFCalculator() {
                   max="50"
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">15-year lock-in, extendable in 5-year blocks</p>
+              <p className="text-xs text-ink-faint mt-1">15-year lock-in, extendable in 5-year blocks</p>
             </div>
             <div className="flex gap-3">
               <button
@@ -191,7 +191,7 @@ export default function PPFCalculator() {
               </button>
               <button
                 onClick={resetForm}
-                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
               >
                 Reset
               </button>
@@ -207,13 +207,13 @@ export default function PPFCalculator() {
           mainResult={result ? {
             label: "Total Maturity Amount (Tax-Free)",
             value: `₹${result.maturityAmount}`,
-            color: "text-indigo-400",
+            color: "text-indigo-600",
           } : undefined}
           extraRows={result ? [
             { label: "Total Investment (15 years)", value: `₹${result.totalInvestment}` },
-            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-400" },
+            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-600" },
             { label: "Interest-to-Investment Ratio", value: `${result.interestPercentage}%` },
-            { label: "Tax Saving (30% bracket)", value: `₹${result.taxSaving}`, valueColor: "text-yellow-400" },
+            { label: "Tax Saving (30% bracket)", value: `₹${result.taxSaving}`, valueColor: "text-yellow-700" },
             { label: "Effective Annual Return", value: `${result.effectiveReturn}% (post-tax)` },
           ] : undefined}
         />
@@ -223,74 +223,74 @@ export default function PPFCalculator() {
 
       {/* About Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About PPF Calculator</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          The <strong className="text-gray-300">Public Provident Fund (PPF)</strong> is one of India's most popular long-term, tax-free investment schemes. Backed by the Government of India, PPF offers guaranteed returns with EEE (Exempt-Exempt-Exempt) tax status - deposits, interest, and maturity are all tax-free.
+        <h2 className="text-xl font-semibold text-ink mb-3">About PPF Calculator</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          The <strong className="text-ink-soft">Public Provident Fund (PPF)</strong> is one of India's most popular long-term, tax-free investment schemes. Backed by the Government of India, PPF offers guaranteed returns with EEE (Exempt-Exempt-Exempt) tax status - deposits, interest, and maturity are all tax-free.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           Our PPF calculator helps you project your maturity amount, total interest earned, and tax savings. Perfect for retirement planning, children's education, and building a risk-free corpus.
         </p>
       </section>
 
       {/* How to Use Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">How to Use This PPF Calculator</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">How to Use This PPF Calculator</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">annual investment</strong> (₹500 to ₹1,50,000).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">current PPF interest rate</strong> (7.1% as of 2025-26).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">tenure</strong> (minimum 15 years).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate PPF Returns"</strong> to see your maturity amount.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> View total investment, interest earned, and tax savings.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">annual investment</strong> (₹500 to ₹1,50,000).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">current PPF interest rate</strong> (7.1% as of 2025-26).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">tenure</strong> (minimum 15 years).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate PPF Returns"</strong> to see your maturity amount.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> View total investment, interest earned, and tax savings.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Why Use a PPF Calculator?</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Why Use a PPF Calculator?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Retirement Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Project your retirement corpus with tax-free PPF returns. Plan your golden years with confidence.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-indigo-600 mb-2">✓ Retirement Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Project your retirement corpus with tax-free PPF returns. Plan your golden years with confidence.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Tax Saving</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Calculate your Section 80C tax savings. Understand the true post-tax return of PPF investment.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Tax Saving</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Calculate your Section 80C tax savings. Understand the true post-tax return of PPF investment.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Goal Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Plan for children's education, wedding, or home purchase with a safe, guaranteed investment.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Goal Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Plan for children's education, wedding, or home purchase with a safe, guaranteed investment.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Compare Options</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Compare PPF with FD, mutual funds, and other investment options. Choose the best for your goals.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Compare Options</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Compare PPF with FD, mutual funds, and other investment options. Choose the best for your goals.</p>
           </div>
         </div>
       </section>
 
       {/* PPF Formula */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">PPF Formula & Calculation</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-          <p className="text-white font-mono text-sm mb-2">Maturity = P × ((1 + r)ⁿ - 1) / r × (1 + r)</p>
-          <p className="text-gray-500 text-xs mb-2">Where: P = Annual Investment, r = Annual Interest Rate, n = Number of Years</p>
-          <p className="text-gray-500 text-xs">Interest is calculated monthly (on lowest balance 5th-30th) but credited annually on March 31st.</p>
+        <h2 className="text-xl font-semibold text-ink mb-4">PPF Formula & Calculation</h2>
+        <div className="bg-surface border border-hairline rounded-xl p-5">
+          <p className="text-ink font-mono text-sm mb-2">Maturity = P × ((1 + r)ⁿ - 1) / r × (1 + r)</p>
+          <p className="text-ink-faint text-xs mb-2">Where: P = Annual Investment, r = Annual Interest Rate, n = Number of Years</p>
+          <p className="text-ink-faint text-xs">Interest is calculated monthly (on lowest balance 5th-30th) but credited annually on March 31st.</p>
         </div>
       </section>
 
       {/* Year by Year Breakdown */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">PPF Investment Calculator - Year by Year</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-4">PPF Investment Calculator - Year by Year</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left py-3 px-4 text-gray-400">Year</th>
-                  <th className="text-right py-3 px-4 text-gray-400">Annual Investment</th>
-                  <th className="text-right py-3 px-4 text-gray-400">Cumulative Investment</th>
-                  <th className="text-right py-3 px-4 text-gray-400">Interest @7.1%</th>
-                  <th className="text-right py-3 px-4 text-gray-400">Year End Balance</th>
+                <tr className="border-b border-hairline">
+                  <th className="text-left py-3 px-4 text-ink-faint">Year</th>
+                  <th className="text-right py-3 px-4 text-ink-faint">Annual Investment</th>
+                  <th className="text-right py-3 px-4 text-ink-faint">Cumulative Investment</th>
+                  <th className="text-right py-3 px-4 text-ink-faint">Interest @7.1%</th>
+                  <th className="text-right py-3 px-4 text-ink-faint">Year End Balance</th>
                 </tr>
               </thead>
               <tbody>
@@ -302,25 +302,25 @@ export default function PPFCalculator() {
                   for (let i = 1; i <= Math.min(result.years, 10); i++) {
                     balance = (balance + P) * (1 + r);
                     rows.push(
-                      <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                        <td className="py-2 px-4 text-gray-300">{i}</td>
-                        <td className="py-2 px-4 text-right text-gray-400">₹{P.toLocaleString("en-IN")}</td>
-                        <td className="py-2 px-4 text-right text-gray-400">₹{(P * i).toLocaleString("en-IN")}</td>
-                        <td className="py-2 px-4 text-right text-green-400">₹{Math.round(balance - (P * i)).toLocaleString("en-IN")}</td>
-                        <td className="py-2 px-4 text-right text-white font-semibold">₹{Math.round(balance).toLocaleString("en-IN")}</td>
+                      <tr key={i} className="border-b border-hairline hover:bg-cream">
+                        <td className="py-2 px-4 text-ink-soft">{i}</td>
+                        <td className="py-2 px-4 text-right text-ink-faint">₹{P.toLocaleString("en-IN")}</td>
+                        <td className="py-2 px-4 text-right text-ink-faint">₹{(P * i).toLocaleString("en-IN")}</td>
+                        <td className="py-2 px-4 text-right text-green-600">₹{Math.round(balance - (P * i)).toLocaleString("en-IN")}</td>
+                        <td className="py-2 px-4 text-right text-ink font-semibold">₹{Math.round(balance).toLocaleString("en-IN")}</td>
                       </tr>
                     );
                   }
                   return rows;
                 })()}
                 {!result && (
-                  <tr><td colSpan={5} className="py-8 text-center text-gray-500">Enter values above to see year-by-year breakdown</td></tr>
+                  <tr><td colSpan={5} className="py-8 text-center text-ink-faint">Enter values above to see year-by-year breakdown</td></tr>
                 )}
               </tbody>
             </table>
           </div>
           {result && result.years > 10 && (
-            <div className="p-4 text-center text-gray-500 text-xs border-t border-gray-800">
+            <div className="p-4 text-center text-ink-faint text-xs border-t border-hairline">
               + {result.years - 10} more years (full breakdown available in detailed report)
             </div>
           )}
@@ -329,42 +329,42 @@ export default function PPFCalculator() {
 
       {/* PPF Key Benefits */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">PPF Key Benefits</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">PPF Key Benefits</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">💰</div>
-            <h3 className="text-sm font-semibold text-green-400 mb-1">Tax-Free Returns (EEE)</h3>
-            <p className="text-xs text-gray-400">Deposits, interest, and maturity - all completely tax-free under Section 80C.</p>
+            <h3 className="text-sm font-semibold text-green-600 mb-1">Tax-Free Returns (EEE)</h3>
+            <p className="text-xs text-ink-faint">Deposits, interest, and maturity - all completely tax-free under Section 80C.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">🛡️</div>
-            <h3 className="text-sm font-semibold text-green-400 mb-1">Government Backed</h3>
-            <p className="text-xs text-gray-400">Sovereign guarantee - your principal is 100% safe with no market risk.</p>
+            <h3 className="text-sm font-semibold text-green-600 mb-1">Government Backed</h3>
+            <p className="text-xs text-ink-faint">Sovereign guarantee - your principal is 100% safe with no market risk.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">📈</div>
-            <h3 className="text-sm font-semibold text-green-400 mb-1">Compounding Benefits</h3>
-            <p className="text-xs text-gray-400">15+ years of tax-free compounding generates substantial wealth.</p>
+            <h3 className="text-sm font-semibold text-green-600 mb-1">Compounding Benefits</h3>
+            <p className="text-xs text-ink-faint">15+ years of tax-free compounding generates substantial wealth.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">🏦</div>
-            <h3 className="text-sm font-semibold text-green-400 mb-1">Easy Access</h3>
-            <p className="text-xs text-gray-400">Open at any post office or authorized bank (SBI, HDFC, ICICI).</p>
+            <h3 className="text-sm font-semibold text-green-600 mb-1">Easy Access</h3>
+            <p className="text-xs text-ink-faint">Open at any post office or authorized bank (SBI, HDFC, ICICI).</p>
           </div>
         </div>
       </section>
 
       {/* PPF vs FD vs Mutual Funds */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">PPF vs FD vs Mutual Funds</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-3">PPF vs FD vs Mutual Funds</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Feature</th><th className="text-left py-3 px-4 text-gray-400">PPF</th><th className="text-left py-3 px-4 text-gray-400">FD</th><th className="text-left py-3 px-4 text-gray-400">Mutual Funds</th></tr></thead>
+            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Feature</th><th className="text-left py-3 px-4 text-ink-faint">PPF</th><th className="text-left py-3 px-4 text-ink-faint">FD</th><th className="text-left py-3 px-4 text-ink-faint">Mutual Funds</th></tr></thead>
             <tbody>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Returns</td><td className="py-2 px-4 text-yellow-400">7-8%</td><td className="py-2 px-4 text-yellow-400">6-7%</td><td className="py-2 px-4 text-yellow-400">8-12%</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tax Status</td><td className="py-2 px-4 text-green-400">EEE (Tax-Free)</td><td className="py-2 px-4 text-red-400">Taxable</td><td className="py-2 px-4 text-yellow-400">LTCG/STCG</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Lock-in</td><td className="py-2 px-4">15 years</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">None</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Risk</td><td className="py-2 px-4 text-green-400">Very Low</td><td className="py-2 px-4 text-green-400">Very Low</td><td className="py-2 px-4 text-yellow-400">Moderate-High</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Returns</td><td className="py-2 px-4 text-yellow-700">7-8%</td><td className="py-2 px-4 text-yellow-700">6-7%</td><td className="py-2 px-4 text-yellow-700">8-12%</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Tax Status</td><td className="py-2 px-4 text-green-600">EEE (Tax-Free)</td><td className="py-2 px-4 text-red-600">Taxable</td><td className="py-2 px-4 text-yellow-700">LTCG/STCG</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Lock-in</td><td className="py-2 px-4">15 years</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">None</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Risk</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4 text-yellow-700">Moderate-High</td></tr>
             </tbody>
           </table>
         </div>
@@ -372,19 +372,19 @@ export default function PPFCalculator() {
 
       {/* FAQ Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
               <button
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
               >
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
               {openFaq === i && (
-                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                   {item.a}
                 </div>
               )}

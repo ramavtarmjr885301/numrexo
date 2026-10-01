@@ -250,36 +250,36 @@ export default function DistanceSpeedTimeCalculator() {
     return (
         <>
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="https://numrexo.com/calculator" className="hover:text-gray-300">Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">Distance/Speed/Time Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="https://numrexo.com/calculator" className="hover:text-ink-soft">Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">Distance/Speed/Time Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Distance / Speed / Time</h3>
-                        <p className="text-xs text-gray-500">Calculate any one value given the other two</p>
+                        <p className="text-xs text-ink-faint">Calculate any one value given the other two</p>
                     </div>
                     <div className="p-6 space-y-4">
                         {/* Calculation Type Selection */}
-                        <div className="flex gap-2 p-1 bg-[#0f1525] rounded-lg">
-                            <button onClick={() => { setCalculationType("speed"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "speed" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>Find Speed</button>
-                            <button onClick={() => { setCalculationType("distance"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>Find Distance</button>
-                            <button onClick={() => { setCalculationType("time"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>Find Time</button>
+                        <div className="flex gap-2 p-1 bg-surface rounded-lg">
+                            <button onClick={() => { setCalculationType("speed"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "speed" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Speed</button>
+                            <button onClick={() => { setCalculationType("distance"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Distance</button>
+                            <button onClick={() => { setCalculationType("time"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Time</button>
                         </div>
 
                         {calculationType === "speed" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Distance</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Distance</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="0.1" placeholder="Distance" value={distance} onChange={(e) => setDistance(e.target.value)} className="flex-1 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <select value={distanceUnit} onChange={(e) => setDistanceUnit(e.target.value as "km" | "miles" | "meters")} className="w-24 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm">
+                                        <input type="number" step="0.1" placeholder="Distance" value={distance} onChange={(e) => setDistance(e.target.value)} className="flex-1 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <select value={distanceUnit} onChange={(e) => setDistanceUnit(e.target.value as "km" | "miles" | "meters")} className="w-24 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm">
                                             <option value="km">km</option>
                                             <option value="miles">miles</option>
                                             <option value="meters">meters</option>
@@ -287,11 +287,11 @@ export default function DistanceSpeedTimeCalculator() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Time</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Time</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="1" placeholder="Hours" value={timeHours} onChange={(e) => setTimeHours(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <input type="number" step="1" placeholder="Minutes" value={timeMinutes} onChange={(e) => setTimeMinutes(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <input type="number" step="1" placeholder="Seconds" value={timeSeconds} onChange={(e) => setTimeSeconds(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Hours" value={timeHours} onChange={(e) => setTimeHours(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Minutes" value={timeMinutes} onChange={(e) => setTimeMinutes(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Seconds" value={timeSeconds} onChange={(e) => setTimeSeconds(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                     </div>
                                 </div>
                             </>
@@ -300,10 +300,10 @@ export default function DistanceSpeedTimeCalculator() {
                         {calculationType === "distance" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Speed</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Speed</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="0.1" placeholder="Speed" value={speed} onChange={(e) => setSpeed(e.target.value)} className="flex-1 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <select value={speedUnit} onChange={(e) => setSpeedUnit(e.target.value as "kmh" | "mph" | "ms")} className="w-28 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm">
+                                        <input type="number" step="0.1" placeholder="Speed" value={speed} onChange={(e) => setSpeed(e.target.value)} className="flex-1 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <select value={speedUnit} onChange={(e) => setSpeedUnit(e.target.value as "kmh" | "mph" | "ms")} className="w-28 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm">
                                             <option value="kmh">km/h</option>
                                             <option value="mph">mph</option>
                                             <option value="ms">m/s</option>
@@ -311,16 +311,16 @@ export default function DistanceSpeedTimeCalculator() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Time</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Time</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="1" placeholder="Hours" value={distTimeHours} onChange={(e) => setDistTimeHours(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <input type="number" step="1" placeholder="Minutes" value={distTimeMinutes} onChange={(e) => setDistTimeMinutes(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <input type="number" step="1" placeholder="Seconds" value={distTimeSeconds} onChange={(e) => setDistTimeSeconds(e.target.value)} className="w-1/3 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Hours" value={distTimeHours} onChange={(e) => setDistTimeHours(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Minutes" value={distTimeMinutes} onChange={(e) => setDistTimeMinutes(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <input type="number" step="1" placeholder="Seconds" value={distTimeSeconds} onChange={(e) => setDistTimeSeconds(e.target.value)} className="w-1/3 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Output Unit</label>
-                                    <select value={distOutputUnit} onChange={(e) => setDistOutputUnit(e.target.value as "km" | "miles" | "meters")} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm">
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Output Unit</label>
+                                    <select value={distOutputUnit} onChange={(e) => setDistOutputUnit(e.target.value as "km" | "miles" | "meters")} className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm">
                                         <option value="km">Kilometers (km)</option>
                                         <option value="miles">Miles</option>
                                         <option value="meters">Meters</option>
@@ -332,10 +332,10 @@ export default function DistanceSpeedTimeCalculator() {
                         {calculationType === "time" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Distance</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Distance</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="0.1" placeholder="Distance" value={timeDistance} onChange={(e) => setTimeDistance(e.target.value)} className="flex-1 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <select value={timeDistanceUnit} onChange={(e) => setTimeDistanceUnit(e.target.value as "km" | "miles" | "meters")} className="w-24 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm">
+                                        <input type="number" step="0.1" placeholder="Distance" value={timeDistance} onChange={(e) => setTimeDistance(e.target.value)} className="flex-1 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <select value={timeDistanceUnit} onChange={(e) => setTimeDistanceUnit(e.target.value as "km" | "miles" | "meters")} className="w-24 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm">
                                             <option value="km">km</option>
                                             <option value="miles">miles</option>
                                             <option value="meters">meters</option>
@@ -343,10 +343,10 @@ export default function DistanceSpeedTimeCalculator() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Speed</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Speed</label>
                                     <div className="flex gap-2">
-                                        <input type="number" step="0.1" placeholder="Speed" value={timeSpeed} onChange={(e) => setTimeSpeed(e.target.value)} className="flex-1 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                        <select value={timeSpeedUnit} onChange={(e) => setTimeSpeedUnit(e.target.value as "kmh" | "mph" | "ms")} className="w-28 px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm">
+                                        <input type="number" step="0.1" placeholder="Speed" value={timeSpeed} onChange={(e) => setTimeSpeed(e.target.value)} className="flex-1 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                        <select value={timeSpeedUnit} onChange={(e) => setTimeSpeedUnit(e.target.value as "kmh" | "mph" | "ms")} className="w-28 px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm">
                                             <option value="kmh">km/h</option>
                                             <option value="mph">mph</option>
                                             <option value="ms">m/s</option>
@@ -358,7 +358,7 @@ export default function DistanceSpeedTimeCalculator() {
 
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -371,7 +371,7 @@ export default function DistanceSpeedTimeCalculator() {
                     mainResult={result ? {
                         label: result.type === "speed" ? "Speed" : (result.type === "distance" ? "Distance" : "Time"),
                         value: result.type === "speed" ? `${result.speedKmh} km/h` : (result.type === "distance" ? `${result.distance} ${result.distanceUnit}` : result.time),
-                        color: "text-teal-400"
+                        color: "text-teal-600"
                     } : undefined}
                     extraRows={result ? [
                         ...(result.type === "speed" ? [
@@ -401,63 +401,63 @@ export default function DistanceSpeedTimeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Distance/Speed/Time Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Distance/Speed/Time Calculator</strong> helps you solve any motion problem using the fundamental formula. Whether you're planning a road trip, training for a marathon, or solving physics homework, get instant results with unit conversions.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Distance/Speed/Time Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Distance/Speed/Time Calculator</strong> helps you solve any motion problem using the fundamental formula. Whether you're planning a road trip, training for a marathon, or solving physics homework, get instant results with unit conversions.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Calculate speed from distance and time, distance from speed and time, or time from distance and speed. Supports multiple units including kilometers, miles, meters, km/h, mph, and m/s. Perfect for travel, sports, and science.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Distance/Speed/Time Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Distance/Speed/Time Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to <strong className="text-white">calculate</strong> — Speed, Distance, or Time.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">two known values</strong> (Distance & Time for Speed, Speed & Time for Distance, Distance & Speed for Time).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select appropriate <strong className="text-white">units</strong> for distance, speed, and output.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate"</strong> to see the result with multiple unit conversions.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select what you want to <strong className="text-ink">calculate</strong> — Speed, Distance, or Time.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">two known values</strong> (Distance & Time for Speed, Speed & Time for Distance, Distance & Speed for Time).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select appropriate <strong className="text-ink">units</strong> for distance, speed, and output.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate"</strong> to see the result with multiple unit conversions.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Why Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Distance/Speed/Time Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Distance/Speed/Time Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Travel Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Estimate arrival times, fuel stops, and total trip duration. Plan road trips with accurate time calculations.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Travel Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Estimate arrival times, fuel stops, and total trip duration. Plan road trips with accurate time calculations.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Fitness Tracking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate running pace, cycling speed, or walking time. Set achievable fitness goals based on speed.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Fitness Tracking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate running pace, cycling speed, or walking time. Set achievable fitness goals based on speed.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Education & Homework</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Solve physics problems instantly. Check your manual calculations with accurate results.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Education & Homework</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Solve physics problems instantly. Check your manual calculations with accurate results.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Business Logistics</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate delivery times, shipping durations, and fleet management estimates.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Business Logistics</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate delivery times, shipping durations, and fleet management estimates.</p>
                     </div>
                 </div>
             </section>
 
             {/* Unit Conversion Reference */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Unit Conversion Reference</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Unit Conversion Reference</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Convert From</th><th className="text-left py-3 px-4 text-gray-400">Convert To</th><th className="text-left py-3 px-4 text-gray-400">Formula</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Convert From</th><th className="text-left py-3 px-4 text-ink-faint">Convert To</th><th className="text-left py-3 px-4 text-ink-faint">Formula</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">km/h</td><td className="py-2 px-4">m/s</td><td className="py-2 px-4 text-yellow-400">÷ 3.6</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">m/s</td><td className="py-2 px-4">km/h</td><td className="py-2 px-4 text-yellow-400">× 3.6</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">km/h</td><td className="py-2 px-4">mph</td><td className="py-2 px-4 text-yellow-400">÷ 1.60934</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">mph</td><td className="py-2 px-4">km/h</td><td className="py-2 px-4 text-yellow-400">× 1.60934</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">km</td><td className="py-2 px-4">miles</td><td className="py-2 px-4 text-yellow-400">÷ 1.60934</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">miles</td><td className="py-2 px-4">km</td><td className="py-2 px-4 text-yellow-400">× 1.60934</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">km/h</td><td className="py-2 px-4">m/s</td><td className="py-2 px-4 text-yellow-700">÷ 3.6</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">m/s</td><td className="py-2 px-4">km/h</td><td className="py-2 px-4 text-yellow-700">× 3.6</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">km/h</td><td className="py-2 px-4">mph</td><td className="py-2 px-4 text-yellow-700">÷ 1.60934</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">mph</td><td className="py-2 px-4">km/h</td><td className="py-2 px-4 text-yellow-700">× 1.60934</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">km</td><td className="py-2 px-4">miles</td><td className="py-2 px-4 text-yellow-700">÷ 1.60934</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">miles</td><td className="py-2 px-4">km</td><td className="py-2 px-4 text-yellow-700">× 1.60934</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -465,56 +465,56 @@ export default function DistanceSpeedTimeCalculator() {
 
             {/* Quick Reference Formulas */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Quick Reference Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Quick Reference Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <div className="text-teal-400 text-xl mb-1">S = D / T</div>
-                        <p className="text-xs text-gray-500">Speed = Distance ÷ Time</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <div className="text-teal-600 text-xl mb-1">S = D / T</div>
+                        <p className="text-xs text-ink-faint">Speed = Distance ÷ Time</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <div className="text-teal-400 text-xl mb-1">D = S × T</div>
-                        <p className="text-xs text-gray-500">Distance = Speed × Time</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <div className="text-teal-600 text-xl mb-1">D = S × T</div>
+                        <p className="text-xs text-ink-faint">Distance = Speed × Time</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <div className="text-teal-400 text-xl mb-1">T = D / S</div>
-                        <p className="text-xs text-gray-500">Time = Distance ÷ Speed</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <div className="text-teal-600 text-xl mb-1">T = D / S</div>
+                        <p className="text-xs text-ink-faint">Time = Distance ÷ Speed</p>
                     </div>
                 </div>
             </section>
 
             {/* Speed Reference Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Common Speed References</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Common Speed References</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2"><span className="text-yellow-400 font-bold">Walking</span><p className="text-gray-400">3-5 km/h</p><p className="text-gray-600 text-[10px]">1.8-3.1 mph</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2"><span className="text-green-400 font-bold">Running</span><p className="text-gray-400">8-12 km/h</p><p className="text-gray-600 text-[10px]">5-7.5 mph</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2"><span className="text-blue-400 font-bold">Cycling</span><p className="text-gray-400">15-25 km/h</p><p className="text-gray-600 text-[10px]">9-15.5 mph</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2"><span className="text-red-400 font-bold">Car (City)</span><p className="text-gray-400">30-50 km/h</p><p className="text-gray-600 text-[10px]">18-31 mph</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-yellow-700 font-bold">Walking</span><p className="text-ink-faint">3-5 km/h</p><p className="text-ink-faint text-[10px]">1.8-3.1 mph</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-green-600 font-bold">Running</span><p className="text-ink-faint">8-12 km/h</p><p className="text-ink-faint text-[10px]">5-7.5 mph</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-blue-600 font-bold">Cycling</span><p className="text-ink-faint">15-25 km/h</p><p className="text-ink-faint text-[10px]">9-15.5 mph</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-red-600 font-bold">Car (City)</span><p className="text-ink-faint">30-50 km/h</p><p className="text-ink-faint text-[10px]">18-31 mph</p></div>
                 </div>
             </section>
 
             {/* Practical Examples */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Practical Examples & Scenarios</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Practical Examples & Scenarios</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🚗 Road Trip:</strong> 400 km distance at 80 km/h average speed = 5 hours driving time. Add 15% for breaks = 5.75 hours (5h 45m).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🏃 Running:</strong> 10 km run in 50 minutes = 12 km/h average speed (5 min/km pace). Good for intermediate runners.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">✈️ Flight:</strong> 5,000 km distance at 900 km/h cruising speed = 5.56 hours flight time + 1 hour takeoff/landing = 6.5 hours total.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🚴 Cycling:</strong> 60 km ride at 20 km/h average = 3 hours. Strong headwind reduces speed to 15 km/h = 4 hours.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">🚗 Road Trip:</strong> 400 km distance at 80 km/h average speed = 5 hours driving time. Add 15% for breaks = 5.75 hours (5h 45m).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">🏃 Running:</strong> 10 km run in 50 minutes = 12 km/h average speed (5 min/km pace). Good for intermediate runners.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">✈️ Flight:</strong> 5,000 km distance at 900 km/h cruising speed = 5.56 hours flight time + 1 hour takeoff/landing = 6.5 hours total.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">🚴 Cycling:</strong> 60 km ride at 20 km/h average = 3 hours. Strong headwind reduces speed to 15 km/h = 4 hours.</p>
                 </div>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+                            {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
                         </div>
                     ))}
                 </div>

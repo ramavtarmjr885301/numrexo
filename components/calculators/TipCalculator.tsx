@@ -87,11 +87,11 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 });
 
 const TIP_PERCENTAGES = [
-    { percent: 10, label: "Poor Service", color: "text-red-400", description: "Unacceptable service" },
-    { percent: 15, label: "Standard Service", color: "text-yellow-400", description: "Met expectations" },
-    { percent: 18, label: "Good Service", color: "text-green-400", description: "Attentive and friendly" },
-    { percent: 20, label: "Excellent Service", color: "text-blue-400", description: "Went above and beyond" },
-    { percent: 25, label: "Outstanding Service", color: "text-purple-400", description: "Exceptional experience" },
+    { percent: 10, label: "Poor Service", color: "text-red-600", description: "Unacceptable service" },
+    { percent: 15, label: "Standard Service", color: "text-yellow-700", description: "Met expectations" },
+    { percent: 18, label: "Good Service", color: "text-green-600", description: "Attentive and friendly" },
+    { percent: 20, label: "Excellent Service", color: "text-blue-600", description: "Went above and beyond" },
+    { percent: 25, label: "Outstanding Service", color: "text-purple-600", description: "Exceptional experience" },
 ];
 
 const COUNTRY_TIPS = [
@@ -182,19 +182,19 @@ export default function TipCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
+                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Tip Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Tip Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -202,16 +202,16 @@ export default function TipCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Tip Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate gratuity and split bills</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate gratuity and split bills</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Bill Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Bill Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -219,14 +219,14 @@ export default function TipCalculator() {
                                     step="any"
                                     value={billAmount}
                                     onChange={(e) => setBillAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Tip Percentage (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Tip Percentage (%)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -234,14 +234,14 @@ export default function TipCalculator() {
                                     placeholder="15"
                                     value={tipPercent}
                                     onChange={(e) => setTipPercent(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Number of People</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Number of People</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -249,9 +249,9 @@ export default function TipCalculator() {
                                     min="1"
                                     value={peopleCount}
                                     onChange={(e) => setPeopleCount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">people</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">people</span>
                             </div>
                         </div>
 
@@ -264,7 +264,7 @@ export default function TipCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -278,11 +278,11 @@ export default function TipCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter a bill amount to see the tip"
-                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-600" } : undefined}
                     extraRows={result ? [
                         { label: "Original Bill", value: money(result.billAmount, 2) },
-                        { label: `Tip (${result.tipPercent}%)`, value: money(result.tipAmount, 2), valueColor: "text-yellow-400" },
-                        { label: "Per Person Amount", value: money(result.perPerson, 2), valueColor: "text-blue-400" },
+                        { label: `Tip (${result.tipPercent}%)`, value: money(result.tipAmount, 2), valueColor: "text-yellow-700" },
+                        { label: "Per Person Amount", value: money(result.perPerson, 2), valueColor: "text-blue-600" },
                         { label: "Split Between", value: `${result.peopleCount} person${result.peopleCount > 1 ? 's' : ''}` },
                     ] : []}
                 />
@@ -292,73 +292,73 @@ export default function TipCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Tip Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Tip Calculator</strong> helps you calculate the perfect gratuity for restaurants, delivery services, and any service industry professional. It also makes splitting bills among friends quick and easy.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Tip Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Tip Calculator</strong> helps you calculate the perfect gratuity for restaurants, delivery services, and any service industry professional. It also makes splitting bills among friends quick and easy.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Whether you're dining out, ordering delivery, or getting a service done, our calculator ensures you never overpay or under-tip. It handles both percentage-based tips and even splitting, making social dining stress-free.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     With built-in tipping guidelines, country-specific customs, and quick mental math tips, you'll always know the right amount to tip in any situation.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Tip Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Tip Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">bill amount</strong> in {symbol}.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">tip percentage</strong> (10-25% recommended).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">number of people</strong> to split the bill.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Tip"</strong> to see the breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Review the <strong className="text-white">tip amount, total, and per person</strong> costs.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">bill amount</strong> in {symbol}.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">tip percentage</strong> (10-25% recommended).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">number of people</strong> to split the bill.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Tip"</strong> to see the breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review the <strong className="text-ink">tip amount, total, and per person</strong> costs.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Tip Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Tip Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Accurate Tipping</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Never second-guess the right tip amount. Calculate exact gratuity based on service quality and bill amount.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Accurate Tipping</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Never second-guess the right tip amount. Calculate exact gratuity based on service quality and bill amount.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Easy Bill Splitting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Split bills evenly among friends. No more awkward math or overpaying. Perfect for group dining.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Easy Bill Splitting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Split bills evenly among friends. No more awkward math or overpaying. Perfect for group dining.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ International Travel</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know the tipping customs in different countries. Avoid embarrassing situations while traveling abroad.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ International Travel</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know the tipping customs in different countries. Avoid embarrassing situations while traveling abroad.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly what you'll pay including tip. Plan your dining and service expenses with confidence.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly what you'll pay including tip. Plan your dining and service expenses with confidence.</p>
                     </div>
                 </div>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Tip Calculation Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-4">Tip Calculation Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center">
-                            <p className="text-gray-400 text-xs">Tip Amount</p>
-                            <p className="text-white font-mono text-sm">Bill × (Tip% ÷ 100)</p>
+                            <p className="text-ink-faint text-xs">Tip Amount</p>
+                            <p className="text-ink font-mono text-sm">Bill × (Tip% ÷ 100)</p>
                         </div>
-                        <div className="text-center border-l border-r border-gray-800">
-                            <p className="text-gray-400 text-xs">Total Bill</p>
-                            <p className="text-white font-mono text-sm">Bill + Tip Amount</p>
+                        <div className="text-center border-l border-r border-hairline">
+                            <p className="text-ink-faint text-xs">Total Bill</p>
+                            <p className="text-ink font-mono text-sm">Bill + Tip Amount</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-gray-400 text-xs">Per Person</p>
-                            <p className="text-white font-mono text-sm">Total ÷ People</p>
+                            <p className="text-ink-faint text-xs">Per Person</p>
+                            <p className="text-ink font-mono text-sm">Total ÷ People</p>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs text-center mt-3 pt-3 border-t border-gray-800">
+                    <p className="text-ink-faint text-xs text-center mt-3 pt-3 border-t border-hairline">
                         Example: a $100 bill, 18% tip, 4 people → Tip $18, Total $118, Per Person $29.50
                     </p>
                 </div>
@@ -366,27 +366,27 @@ export default function TipCalculator() {
 
             {/* Tip Guide Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Tip Percentage Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Tip Percentage Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Tip %</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Service Level</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Description</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Tip %</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Service Level</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             {TIP_PERCENTAGES.map((item, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className={`py-3 px-4 font-mono ${item.color}`}>{item.percent}%</td>
-                                    <td className="py-3 px-4 text-gray-300">{item.label}</td>
-                                    <td className="py-3 px-4 text-gray-400">{item.description}</td>
+                                    <td className="py-3 px-4 text-ink-soft">{item.label}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{item.description}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Customize the tip percentage based on service quality and local customs.
                     </p>
                 </div>
@@ -394,27 +394,27 @@ export default function TipCalculator() {
 
             {/* Country Tipping Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Tipping Guide by Country</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Tipping Guide by Country</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Country</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Customary Tip</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Country</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Customary Tip</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {COUNTRY_TIPS.map((item, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{item.country}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{item.tipRange}</td>
-                                    <td className="py-3 px-4 text-gray-400 text-xs">{item.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{item.country}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{item.tipRange}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{item.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Always check the bill for included service charge. Customs may vary by region within countries.
                     </p>
                 </div>
@@ -422,13 +422,13 @@ export default function TipCalculator() {
 
             {/* Service Types */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tipping by Service Type</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Tipping by Service Type</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {SERVICE_TYPES.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-green-500/30 transition-all">
-                            <h4 className="text-sm font-semibold text-gray-200">{item.service}</h4>
-                            <p className="text-xs text-yellow-400">{item.tipGuide}</p>
-                            <p className="text-xs text-gray-500 mt-1">{item.notes}</p>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl p-3 hover:border-green-200 transition-all">
+                            <h4 className="text-sm font-semibold text-ink">{item.service}</h4>
+                            <p className="text-xs text-yellow-700">{item.tipGuide}</p>
+                            <p className="text-xs text-ink-faint mt-1">{item.notes}</p>
                         </div>
                     ))}
                 </div>
@@ -436,46 +436,46 @@ export default function TipCalculator() {
 
             {/* Tip Calculator Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart Tipping Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart Tipping Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check the bill first:</strong> Some restaurants add a service charge. Don't double-tip. Look for "service included" or "gratuity added" on the receipt.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check the bill first:</strong> Some restaurants add a service charge. Don't double-tip. Look for "service included" or "gratuity added" on the receipt.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Tip in cash when possible:</strong> Credit card tips may be processed differently and sometimes don't reach service staff. Cash tips are always fully received.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Tip in cash when possible:</strong> Credit card tips may be processed differently and sometimes don't reach service staff. Cash tips are always fully received.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider the service context:</strong> Tip more for complex orders, large groups, or during busy times. Tip less for counter service or self-service situations.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider the service context:</strong> Tip more for complex orders, large groups, or during busy times. Tip less for counter service or self-service situations.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Round up for simplicity:</strong> Round to the nearest dollar for easy mental math. Example: a $12.75 tip → $13 is perfectly fine.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Round up for simplicity:</strong> Round to the nearest dollar for easy mental math. Example: a $12.75 tip → $13 is perfectly fine.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: $85 ÷ 5 = $17 tip.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: $85 ÷ 5 = $17 tip.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

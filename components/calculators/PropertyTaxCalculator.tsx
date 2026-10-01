@@ -31,20 +31,12 @@ const FAQ_DATA = [
         a: "Annual Value: Tax based on property's rental income potential. Used in Delhi, Chennai, Kolkata. Capital Value: Tax based on property's market value. Used in Mumbai, Bangalore, Hyderabad, Pune. Annual value method usually lower for self-occupied properties, capital value method reflects actual market worth.",
     },
     {
-        q: "How is property tax calculated?",
-        a: "Formula: Property Tax = Base Value × Rate × (Area/1000) × Depreciation Factor × Property Type Factor × Location Factor. Most cities use: Capital Value (Mumbai, Bangalore) or Annual Value (Delhi, Chennai). Our calculator simplifies this for major Indian cities.",
+        q: "Is property tax deductible?",
+        a: "In the US, property tax on a primary residence is generally deductible on federal returns as part of the combined SALT (state and local tax) deduction, subject to a cap — check current IRS rules or a tax professional, since limits can change. In India, property tax is deductible against rental income for a let-out property, but not for a self-occupied one.",
     },
     {
-        q: "What factors affect property tax?",
-        a: "Key factors: 1) Location (prime areas have higher rates), 2) Built-up area (larger = higher tax), 3) Property age (older = lower tax due to depreciation), 4) Occupancy (self-occupied vs rented), 5) Amenities (lift, parking, gym increase tax), 6) Property type (commercial higher than residential).",
-    },
-    {
-        q: "How to pay property tax online?",
-        a: "Online payment steps: 1) Visit municipal corporation website (e.g., MCGM for Mumbai, BBMP for Bangalore), 2) Enter property ID/Assessment number, 3) Verify property details, 4) Select financial year, 5) Pay via net banking/credit card/UPI, 6) Download receipt. Available on all major city portals.",
-    },
-    {
-        q: "What is the penalty for late payment?",
-        a: "Late payment penalties: Mumbai (2% per month, max 20%), Delhi (1% per month), Bangalore (2% per month, max 20%), Chennai (1.5% per month), Kolkata (2% per month). Most cities allow 15-30 days grace period. Pay before June 30th to avoid penalties in most cities.",
+        q: "How often is property tax reassessed?",
+        a: "This varies by jurisdiction. Many Indian municipal corporations reassess every few years or on a self-declaration basis; many US counties reassess annually or every few years, and some trigger a reassessment specifically when a property is sold or substantially renovated. Check your local municipal or county assessor's schedule for the exact rule.",
     },
 ];
 
@@ -182,33 +174,33 @@ export default function PropertyTaxCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Property Tax Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Property Tax Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Property Tax Estimator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate property tax for Indian cities</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate property tax for Indian cities</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">City</label><select value={city} onChange={(e) => setCity(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">{CITY_TAX_RATES.map(c => <option key={c.city} value={c.city}>{c.city}</option>)}</select></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Property Type</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm font-medium transition-all ${propertyType === "residential" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setPropertyType("residential")}>Residential</button><button className={`py-2 rounded-lg text-sm font-medium transition-all ${propertyType === "commercial" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setPropertyType("commercial")}>Commercial</button></div></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Property Value (₹)</label><div className="relative"><input type="number" step="100000" placeholder="5000000" value={propertyValue} onChange={(e) => setPropertyValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">City</label><select value={city} onChange={(e) => setCity(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer">{CITY_TAX_RATES.map(c => <option key={c.city} value={c.city}>{c.city}</option>)}</select></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Property Type</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm font-medium transition-all ${propertyType === "residential" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setPropertyType("residential")}>Residential</button><button className={`py-2 rounded-lg text-sm font-medium transition-all ${propertyType === "commercial" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setPropertyType("commercial")}>Commercial</button></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Property Value (₹)</label><div className="relative"><input type="number" step="100000" placeholder="5000000" value={propertyValue} onChange={(e) => setPropertyValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span></div></div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Built-up Area (sq ft)</label><input type="number" placeholder="1000" value={area} onChange={(e) => setArea(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Property Age (years)</label><input type="number" placeholder="10" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Built-up Area (sq ft)</label><input type="number" placeholder="1000" value={area} onChange={(e) => setArea(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Property Age (years)</label><input type="number" placeholder="10" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Late Payment (months)</label><div className="relative"><input type="number" placeholder="0" value={latePayment} onChange={(e) => setLatePayment(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">months</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Late Payment (months)</label><div className="relative"><input type="number" placeholder="0" value={latePayment} onChange={(e) => setLatePayment(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span></div></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Property Tax →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -218,11 +210,11 @@ export default function PropertyTaxCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏠"
                     emptyText="Enter property details"
-                    mainResult={result ? { label: "Total Property Tax", value: `₹${parseFloat(result.totalTax).toLocaleString()}`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: "Total Property Tax", value: `₹${parseFloat(result.totalTax).toLocaleString()}`, color: "text-green-600" } : undefined}
                     extraRows={result ? [
                         { label: "Base Tax", value: `₹${parseFloat(result.taxAmount).toLocaleString()}` },
-                        { label: "Tax Rate", value: `${result.taxRate}%`, valueColor: "text-yellow-400" },
-                        { label: "Late Payment Penalty", value: `₹${parseFloat(result.penalty).toLocaleString()}`, valueColor: "text-red-400" },
+                        { label: "Tax Rate", value: `${result.taxRate}%`, valueColor: "text-yellow-700" },
+                        { label: "Late Payment Penalty", value: `₹${parseFloat(result.penalty).toLocaleString()}`, valueColor: "text-red-600" },
                         { label: "City", value: result.city },
                         { label: "Property Type", value: result.propertyType === "residential" ? "Residential" : "Commercial" },
                         { label: "Assessment Method", value: result.method },
@@ -234,60 +226,60 @@ export default function PropertyTaxCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Property Tax Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Property Tax Calculator</strong> helps you estimate property tax for residential and commercial properties across major Indian cities including Mumbai, Delhi, Bangalore, Chennai, Kolkata, Hyderabad, Pune, and Ahmedabad.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Property Tax Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Property Tax Calculator</strong> helps you estimate property tax for residential and commercial properties across major Indian cities including Mumbai, Delhi, Bangalore, Chennai, Kolkata, Hyderabad, Pune, and Ahmedabad.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Property tax is a recurring annual expense for property owners. Our calculator considers city-specific tax rates, property type, built-up area, age of property (depreciation), and late payment penalties to give you an accurate estimate.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Property Tax Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Property Tax Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select your <strong className="text-white">city</strong> from the dropdown (8 major Indian cities).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Choose <strong className="text-white">property type</strong> — Residential or Commercial (commercial has 1.5x higher rates).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter <strong className="text-white">property value</strong> (capital value or annual value based on city).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> (Optional) Enter <strong className="text-white">built-up area</strong> and <strong className="text-white">property age</strong> for more accurate calculation.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> (Optional) Enter <strong className="text-white">late payment months</strong> to see penalty amount.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Click <strong className="text-white">"Calculate Property Tax"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select your <strong className="text-ink">city</strong> from the dropdown (8 major Indian cities).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Choose <strong className="text-ink">property type</strong> — Residential or Commercial (commercial has 1.5x higher rates).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter <strong className="text-ink">property value</strong> (capital value or annual value based on city).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> (Optional) Enter <strong className="text-ink">built-up area</strong> and <strong className="text-ink">property age</strong> for more accurate calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> (Optional) Enter <strong className="text-ink">late payment months</strong> to see penalty amount.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Click <strong className="text-ink">"Calculate Property Tax"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 7:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Property Tax Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Property Tax Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know your annual property tax liability in advance. Plan your budget and avoid surprises.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know your annual property tax liability in advance. Plan your budget and avoid surprises.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Compare Cities</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare property tax rates across different cities. Make informed decisions about property investment location.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Compare Cities</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare property tax rates across different cities. Make informed decisions about property investment location.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Avoid Penalties</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate late payment penalties. Pay on time to avoid 5-20% penalty charges.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Avoid Penalties</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate late payment penalties. Pay on time to avoid 5-20% penalty charges.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Tax Optimization</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Identify ways to reduce tax (depreciation, exemptions, early payment discounts). Maximize your savings.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Tax Optimization</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Identify ways to reduce tax (depreciation, exemptions, early payment discounts). Maximize your savings.</p>
                     </div>
                 </div>
             </section>
 
             {/* City-wise Tax Rates */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">City-wise Property Tax Rates</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">City-wise Property Tax Rates</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800 sticky top-0 bg-[#111827]"><th className="text-left py-3 px-4 text-gray-400">City</th><th className="text-left py-3 px-4 text-gray-400">Tax Rate</th><th className="text-left py-3 px-4 text-gray-400">Method</th><th className="text-left py-3 px-4 text-gray-400">Notes</th></tr></thead>
+                        <thead><tr className="border-b border-hairline sticky top-0 bg-surface"><th className="text-left py-3 px-4 text-ink-faint">City</th><th className="text-left py-3 px-4 text-ink-faint">Tax Rate</th><th className="text-left py-3 px-4 text-ink-faint">Method</th><th className="text-left py-3 px-4 text-ink-faint">Notes</th></tr></thead>
                         <tbody>
-                            {CITY_TAX_RATES.map((cityData, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{cityData.city}</td><td className="py-2 px-4 text-yellow-400">{cityData.rate}</td><td className="py-2 px-4 text-gray-400">{cityData.method}</td><td className="py-2 px-4 text-gray-500 text-xs">{cityData.notes}</td></tr>))}
+                            {CITY_TAX_RATES.map((cityData, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{cityData.city}</td><td className="py-2 px-4 text-yellow-700">{cityData.rate}</td><td className="py-2 px-4 text-ink-faint">{cityData.method}</td><td className="py-2 px-4 text-ink-faint text-xs">{cityData.notes}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -295,38 +287,38 @@ export default function PropertyTaxCalculator() {
 
             {/* Exemptions & Rebates */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Property Tax Exemptions & Rebates</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Property Tax Exemptions & Rebates</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Senior Citizens:</strong> 10-30% rebate in many cities (60+ years)</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Women Owners:</strong> Bangalore offers 20% rebate for properties owned by women</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Green Building:</strong> 5-10% rebate for eco-friendly constructions</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Early Payment:</strong> 5-10% discount for paying before due date</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Senior Citizens:</strong> 10-30% rebate in many cities (60+ years)</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Women Owners:</strong> Bangalore offers 20% rebate for properties owned by women</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Green Building:</strong> 5-10% rebate for eco-friendly constructions</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Early Payment:</strong> 5-10% discount for paying before due date</span></li>
                 </ul>
             </section>
 
             {/* Property Tax Payment Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Property Tax Payment Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Property Tax Payment Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">💡</span><span><strong className="text-gray-300">Pay before June 30th:</strong> Most cities offer early payment discounts (5-10%). Avoid last-minute rush.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">💡</span><span><strong className="text-gray-300">Check property ID:</strong> Ensure your property ID is correct on municipal records. Incorrect ID leads to wrong tax calculation.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">💡</span><span><strong className="text-gray-300">Keep receipts:</strong> Save payment receipts for 5-7 years. Useful for property resale and tax audits.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">💡</span><span><strong className="text-gray-300">Online payment:</strong> Use official municipal portals only. Avoid third-party payment sites to prevent fraud.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Pay before June 30th:</strong> Most cities offer early payment discounts (5-10%). Avoid last-minute rush.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Check property ID:</strong> Ensure your property ID is correct on municipal records. Incorrect ID leads to wrong tax calculation.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Keep receipts:</strong> Save payment receipts for 5-7 years. Useful for property resale and tax audits.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Online payment:</strong> Use official municipal portals only. Avoid third-party payment sites to prevent fraud.</span></li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

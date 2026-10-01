@@ -189,19 +189,19 @@ export default function WaterBillCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">Finance Calculators</a>
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Water Bill Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Water Bill Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -209,23 +209,23 @@ export default function WaterBillCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Water Bill Estimator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate your monthly water bill</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate your monthly water bill</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Unit</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Unit</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "gallons" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "gallons" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setUnit("gallons")}
                                 >
                                     Gallons
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "liters" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "liters" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setUnit("liters")}
                                 >
                                     Liters
@@ -234,7 +234,7 @@ export default function WaterBillCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Monthly Water Consumption</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Monthly Water Consumption</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -242,35 +242,35 @@ export default function WaterBillCalculator() {
                                     placeholder="8000"
                                     value={consumption}
                                     onChange={(e) => setConsumption(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit === "gallons" ? "gal" : "L"}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit === "gallons" ? "gal" : "L"}</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Or enter number of people below to estimate</p>
+                            <p className="text-xs text-ink-faint mt-1">Or enter number of people below to estimate</p>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Number of People (optional)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Number of People (optional)</label>
                             <input
                                 type="number"
                                 placeholder="4"
                                 value={peopleCount}
                                 onChange={(e) => setPeopleCount(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Rate Structure</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Rate Structure</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${tieredRate === "single" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${tieredRate === "single" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setTieredRate("single")}
                                 >
                                     Single Rate
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${tieredRate === "tiered" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${tieredRate === "tiered" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setTieredRate("tiered")}
                                 >
                                     Tiered Rate
@@ -280,18 +280,18 @@ export default function WaterBillCalculator() {
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Fixed Service Charge ($)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Fixed Service Charge ($)</label>
                                 <input
                                     type="number"
                                     step="0.5"
                                     placeholder="15"
                                     value={fixedCharge}
                                     onChange={(e) => setFixedCharge(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Sewer Charge (% of usage)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Sewer Charge (% of usage)</label>
                                 <div className="relative">
                                     <input
                                         type="number"
@@ -299,9 +299,9 @@ export default function WaterBillCalculator() {
                                         placeholder="80"
                                         value={sewerRate}
                                         onChange={(e) => setSewerRate(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                 </div>
                             </div>
                         </div>
@@ -309,13 +309,13 @@ export default function WaterBillCalculator() {
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Bill →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -329,10 +329,10 @@ export default function WaterBillCalculator() {
                     isEmpty={!result}
                     emptyIcon="💧"
                     emptyText="Enter water consumption"
-                    mainResult={result ? { label: "Total Monthly Bill", value: `$${result.totalBill}`, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Total Monthly Bill", value: `$${result.totalBill}`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
                         { label: "Water Consumption", value: `${parseFloat(result.consumption).toLocaleString()} ${result.unit}` },
-                        { label: "Consumption Charge", value: `$${result.consumptionCharge}`, valueColor: "text-yellow-400" },
+                        { label: "Consumption Charge", value: `$${result.consumptionCharge}`, valueColor: "text-yellow-700" },
                         { label: "Fixed Service Charge", value: `$${result.fixedCharge}` },
                         { label: "Sewer Charge", value: `$${result.sewerCharge}` },
                         { label: "Rate per Unit", value: `${result.rate}/unit` },
@@ -341,7 +341,7 @@ export default function WaterBillCalculator() {
                         ...(result.tiered && result.tierDetails.length > 0 ? result.tierDetails.map((detail: string, i: number) => ({
                             label: `Tier ${i + 1}`,
                             value: detail,
-                            valueColor: "text-gray-400"
+                            valueColor: "text-ink-faint"
                         })) : []),
                     ] : []}
                 />
@@ -351,101 +351,101 @@ export default function WaterBillCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Water Bill Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Water Bill Calculator</strong> helps you estimate your monthly water bill based on consumption, rate structure, and service charges. It includes both single and tiered rate options, fixed service charges, and sewer fees.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Water Bill Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Water Bill Calculator</strong> helps you estimate your monthly water bill based on consumption, rate structure, and service charges. It includes both single and tiered rate options, fixed service charges, and sewer fees.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Understanding your water bill can help you identify areas to save money and conserve water. Many utilities use tiered rates to encourage conservation — higher usage means higher rates. Our calculator helps you understand how your usage affects your bill.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're a homeowner trying to budget, or someone looking to reduce their water consumption, this calculator provides valuable insights into your water costs.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Water Bill Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Water Bill Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select your <strong className="text-white">unit</strong> (Gallons or Liters).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">monthly water consumption</strong> or number of people.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Choose <strong className="text-white">rate structure</strong> (Single or Tiered).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">fixed service charge</strong> and <strong className="text-white">sewer charge percentage</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Bill"</strong> to see your estimated bill.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select your <strong className="text-ink">unit</strong> (Gallons or Liters).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your <strong className="text-ink">monthly water consumption</strong> or number of people.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Choose <strong className="text-ink">rate structure</strong> (Single or Tiered).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter <strong className="text-ink">fixed service charge</strong> and <strong className="text-ink">sewer charge percentage</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate Bill"</strong> to see your estimated bill.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Water Bill Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Water Bill Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know your monthly water costs in advance. Plan your household budget with accurate water bill estimates.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know your monthly water costs in advance. Plan your household budget with accurate water bill estimates.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Rate Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare single vs tiered rate structures. See how different rate systems affect your total bill.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Rate Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare single vs tiered rate structures. See how different rate systems affect your total bill.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Conservation Insights</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand how your consumption habits affect your bill. Identify opportunities to save water and money.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Conservation Insights</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand how your consumption habits affect your bill. Identify opportunities to save water and money.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Expense Tracking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track your water expenses over time. Monitor changes in consumption and identify potential leaks.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Expense Tracking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track your water expenses over time. Monitor changes in consumption and identify potential leaks.</p>
                     </div>
                 </div>
             </section>
 
             {/* Household Usage Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Typical Water Bill by Household Size</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Typical Water Bill by Household Size</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Household Size</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Avg Monthly Usage</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Est. Monthly Bill</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Water Saved (with efficient fixtures)</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Household Size</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Avg Monthly Usage</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Est. Monthly Bill</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Water Saved (with efficient fixtures)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">1 person</td>
-                                <td className="py-3 px-4 text-gray-400">3,600 gal</td>
-                                <td className="py-3 px-4 text-yellow-400">$35-50</td>
-                                <td className="py-3 px-4 text-green-400">Save 1,000+ gal</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">1 person</td>
+                                <td className="py-3 px-4 text-ink-faint">3,600 gal</td>
+                                <td className="py-3 px-4 text-yellow-700">$35-50</td>
+                                <td className="py-3 px-4 text-green-600">Save 1,000+ gal</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">2 persons</td>
-                                <td className="py-3 px-4 text-gray-400">6,000 gal</td>
-                                <td className="py-3 px-4 text-yellow-400">$50-70</td>
-                                <td className="py-3 px-4 text-green-400">Save 2,000+ gal</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">2 persons</td>
+                                <td className="py-3 px-4 text-ink-faint">6,000 gal</td>
+                                <td className="py-3 px-4 text-yellow-700">$50-70</td>
+                                <td className="py-3 px-4 text-green-600">Save 2,000+ gal</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">3 persons</td>
-                                <td className="py-3 px-4 text-gray-400">9,000 gal</td>
-                                <td className="py-3 px-4 text-yellow-400">$70-95</td>
-                                <td className="py-3 px-4 text-green-400">Save 3,000+ gal</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">3 persons</td>
+                                <td className="py-3 px-4 text-ink-faint">9,000 gal</td>
+                                <td className="py-3 px-4 text-yellow-700">$70-95</td>
+                                <td className="py-3 px-4 text-green-600">Save 3,000+ gal</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">4 persons</td>
-                                <td className="py-3 px-4 text-gray-400">12,000 gal</td>
-                                <td className="py-3 px-4 text-yellow-400">$90-120</td>
-                                <td className="py-3 px-4 text-green-400">Save 4,000+ gal</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">4 persons</td>
+                                <td className="py-3 px-4 text-ink-faint">12,000 gal</td>
+                                <td className="py-3 px-4 text-yellow-700">$90-120</td>
+                                <td className="py-3 px-4 text-green-600">Save 4,000+ gal</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">5 persons</td>
-                                <td className="py-3 px-4 text-gray-400">15,000 gal</td>
-                                <td className="py-3 px-4 text-yellow-400">$110-150</td>
-                                <td className="py-3 px-4 text-green-400">Save 5,000+ gal</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">5 persons</td>
+                                <td className="py-3 px-4 text-ink-faint">15,000 gal</td>
+                                <td className="py-3 px-4 text-yellow-700">$110-150</td>
+                                <td className="py-3 px-4 text-green-600">Save 5,000+ gal</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Estimates based on national averages. Actual bills vary by location, rate structure, and usage habits.
                     </p>
                 </div>
@@ -453,45 +453,45 @@ export default function WaterBillCalculator() {
 
             {/* Tiered Rate Structure */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Tiered Rate Structure (Gallons)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Tiered Rate Structure (Gallons)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Tier</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Usage Range (gal)</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Rate per Gallon</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Description</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Tier</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Usage Range (gal)</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Rate per Gallon</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Description</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Tier 1</td>
-                                <td className="py-3 px-4 text-gray-400">0 - 2,000</td>
-                                <td className="py-3 px-4 text-green-400">$0.006</td>
-                                <td className="py-3 px-4 text-gray-400">Efficient usage</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Tier 1</td>
+                                <td className="py-3 px-4 text-ink-faint">0 - 2,000</td>
+                                <td className="py-3 px-4 text-green-600">$0.006</td>
+                                <td className="py-3 px-4 text-ink-faint">Efficient usage</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Tier 2</td>
-                                <td className="py-3 px-4 text-gray-400">2,001 - 6,000</td>
-                                <td className="py-3 px-4 text-yellow-400">$0.008</td>
-                                <td className="py-3 px-4 text-gray-400">Average usage</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Tier 2</td>
+                                <td className="py-3 px-4 text-ink-faint">2,001 - 6,000</td>
+                                <td className="py-3 px-4 text-yellow-700">$0.008</td>
+                                <td className="py-3 px-4 text-ink-faint">Average usage</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Tier 3</td>
-                                <td className="py-3 px-4 text-gray-400">6,001 - 12,000</td>
-                                <td className="py-3 px-4 text-orange-400">$0.010</td>
-                                <td className="py-3 px-4 text-gray-400">High usage</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Tier 3</td>
+                                <td className="py-3 px-4 text-ink-faint">6,001 - 12,000</td>
+                                <td className="py-3 px-4 text-orange-600">$0.010</td>
+                                <td className="py-3 px-4 text-ink-faint">High usage</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Tier 4</td>
-                                <td className="py-3 px-4 text-gray-400">12,000+</td>
-                                <td className="py-3 px-4 text-red-400">$0.012</td>
-                                <td className="py-3 px-4 text-gray-400">Excessive usage</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Tier 4</td>
+                                <td className="py-3 px-4 text-ink-faint">12,000+</td>
+                                <td className="py-3 px-4 text-red-600">$0.012</td>
+                                <td className="py-3 px-4 text-ink-faint">Excessive usage</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Tiered rates encourage conservation by charging more for higher consumption. Our calculator automatically applies tiered rates.
                     </p>
                 </div>
@@ -499,59 +499,59 @@ export default function WaterBillCalculator() {
 
             {/* Water Saving Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Water Saving Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Water Saving Tips</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">💧</span>
+                            <span className="text-blue-600 text-lg">💧</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Fix Leaks Immediately</h4>
-                                <p className="text-xs text-gray-400">A dripping faucet wastes 3,000+ gallons/year. A running toilet wastes 6,000+ gallons/year.</p>
+                                <h4 className="text-sm font-semibold text-ink">Fix Leaks Immediately</h4>
+                                <p className="text-xs text-ink-faint">A dripping faucet wastes 3,000+ gallons/year. A running toilet wastes 6,000+ gallons/year.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">🚿</span>
+                            <span className="text-blue-600 text-lg">🚿</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Install Low-Flow Fixtures</h4>
-                                <p className="text-xs text-gray-400">Low-flow showerheads save 2,700+ gallons/year. Aerators on faucets save 1,000+ gallons/year.</p>
+                                <h4 className="text-sm font-semibold text-ink">Install Low-Flow Fixtures</h4>
+                                <p className="text-xs text-ink-faint">Low-flow showerheads save 2,700+ gallons/year. Aerators on faucets save 1,000+ gallons/year.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">🧺</span>
+                            <span className="text-blue-600 text-lg">🧺</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Run Full Loads</h4>
-                                <p className="text-xs text-gray-400">Dishwasher and washing machine use same water regardless of load size. Wait until full to save water.</p>
+                                <h4 className="text-sm font-semibold text-ink">Run Full Loads</h4>
+                                <p className="text-xs text-ink-faint">Dishwasher and washing machine use same water regardless of load size. Wait until full to save water.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">⏱️</span>
+                            <span className="text-blue-600 text-lg">⏱️</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Take Shorter Showers</h4>
-                                <p className="text-xs text-gray-400">5-minute shower saves 2,000+ gallons/year. Install a shower timer to track your usage.</p>
+                                <h4 className="text-sm font-semibold text-ink">Take Shorter Showers</h4>
+                                <p className="text-xs text-ink-faint">5-minute shower saves 2,000+ gallons/year. Install a shower timer to track your usage.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">🌧️</span>
+                            <span className="text-blue-600 text-lg">🌧️</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Collect Rainwater</h4>
-                                <p className="text-xs text-gray-400">Use rain barrels for garden watering. A 1,000 sq ft roof collects 600+ gallons per inch of rain.</p>
+                                <h4 className="text-sm font-semibold text-ink">Collect Rainwater</h4>
+                                <p className="text-xs text-ink-faint">Use rain barrels for garden watering. A 1,000 sq ft roof collects 600+ gallons per inch of rain.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 hover:border-blue-200 transition-all">
                         <div className="flex items-start gap-2">
-                            <span className="text-blue-400 text-lg">🧹</span>
+                            <span className="text-blue-600 text-lg">🧹</span>
                             <div>
-                                <h4 className="text-sm font-semibold text-gray-200">Use Broom Instead of Hose</h4>
-                                <p className="text-xs text-gray-400">Sweeping driveways saves 10+ gallons per minute compared to hosing. Simple change, big impact.</p>
+                                <h4 className="text-sm font-semibold text-ink">Use Broom Instead of Hose</h4>
+                                <p className="text-xs text-ink-faint">Sweeping driveways saves 10+ gallons per minute compared to hosing. Simple change, big impact.</p>
                             </div>
                         </div>
                     </div>
@@ -560,46 +560,46 @@ export default function WaterBillCalculator() {
 
             {/* Water Bill Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart Water Bill Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart Water Bill Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check for leaks regularly:</strong> Read your meter before and after a 2-hour period with no water use. If it changed, you have a leak.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check for leaks regularly:</strong> Read your meter before and after a 2-hour period with no water use. If it changed, you have a leak.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Install smart irrigation controllers:</strong> These adjust watering based on weather, saving 8,000+ gallons/year.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Install smart irrigation controllers:</strong> These adjust watering based on weather, saving 8,000+ gallons/year.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Water plants early morning:</strong> Less evaporation means less water needed. Save 2,000+ gallons/year.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Water plants early morning:</strong> Less evaporation means less water needed. Save 2,000+ gallons/year.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider a water audit:</strong> Many utilities offer free water audits to identify savings opportunities.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider a water audit:</strong> Many utilities offer free water audits to identify savings opportunities.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Set conservation goals:</strong> Track your usage monthly and set reduction goals. Even 10% savings adds up over time.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Set conservation goals:</strong> Track your usage monthly and set reduction goals. Even 10% savings adds up over time.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

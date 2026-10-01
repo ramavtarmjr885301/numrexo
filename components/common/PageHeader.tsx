@@ -22,7 +22,7 @@ export default function PageHeader({ icon, title, tags, description, iconBg }: P
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100"
               >
                 {tag}
               </span>
@@ -30,7 +30,7 @@ export default function PageHeader({ icon, title, tags, description, iconBg }: P
           </div>
         </div>
       </div>
-      <p className="text-gray-400 leading-relaxed">{description}</p>
+      <p className="text-ink-soft leading-relaxed">{description}</p>
     </div>
   );
 }

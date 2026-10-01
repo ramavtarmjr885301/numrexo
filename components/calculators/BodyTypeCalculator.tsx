@@ -186,36 +186,36 @@ export default function BodyTypeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">Health Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Body Type Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Body Type Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Body Type Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Enter your body measurements</p>
+                        <p className="text-xs text-ink-faint mt-1">Enter your body measurements</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Gender</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Gender</label>
                             <div className="grid grid-cols-2 gap-3">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female" ? "bg-pink-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("female")}>Female</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("male")}>Male</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female" ? "bg-pink-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setGender("female")}>Female</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setGender("male")}>Male</button>
                             </div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Shoulder Width (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={shoulders} onChange={(e) => setShoulders(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-                        {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Bust / Chest (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="90" value={bust} onChange={(e) => setBust(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>)}
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="75" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={hips} onChange={(e) => setHips(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Shoulder Width (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={shoulders} onChange={(e) => setShoulders(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>
+                        {gender === "female" && (<div><label className="block text-xs font-semibold text-ink-faint mb-2">Bust / Chest (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="90" value={bust} onChange={(e) => setBust(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>)}
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Waist (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="75" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Hip (cm)</label><div className="relative"><input type="number" step="0.5" placeholder="100" value={hips} onChange={(e) => setHips(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all">Find My Body Type →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -225,40 +225,40 @@ export default function BodyTypeCalculator() {
                     isEmpty={!result}
                     emptyIcon="👤"
                     emptyText="Enter your measurements and press Calculate"
-                    mainResult={result ? { label: "Body Shape", value: result.bodyType, color: "text-pink-400" } : undefined}
+                    mainResult={result ? { label: "Body Shape", value: result.bodyType, color: "text-pink-600" } : undefined}
                     extraRows={result ? [
                         { label: "Description", value: result.description },
-                        { label: "Style Tips", value: result.tips, valueColor: "text-yellow-400" },
+                        { label: "Style Tips", value: result.tips, valueColor: "text-yellow-700" },
                     ] : []}
                 />
             </div>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Body Type Calculator</h2><p className="text-gray-400 text-sm leading-relaxed">Find your body shape using your shoulder, bust, waist, and hip measurements. Get personalized fashion advice and fitness recommendations based on your unique body type.</p></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-3">About Body Type Calculator</h2><p className="text-ink-faint text-sm leading-relaxed">Find your body shape using your shoulder, bust, waist, and hip measurements. Get personalized fashion advice and fitness recommendations based on your unique body type.</p></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Body Types Reference</h2><div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Body Types Reference</h2><div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                 <table className="w-full text-sm">
                     <thead>
-                        <tr className="border-b border-gray-800">
-                            <th className="text-left py-3 px-4 text-gray-400">Body Type</th>
-                            <th className="text-left py-3 px-4 text-gray-400">Characteristics</th>
-                            <th className="text-left py-3 px-4 text-gray-400">Description</th>
+                        <tr className="border-b border-hairline">
+                            <th className="text-left py-3 px-4 text-ink-faint">Body Type</th>
+                            <th className="text-left py-3 px-4 text-ink-faint">Characteristics</th>
+                            <th className="text-left py-3 px-4 text-ink-faint">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         {BODY_TYPES.map((row, i) => (
-                            <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
+                            <tr key={i} className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4"><span className="text-xl mr-2">{row.icon}</span>{row.type}</td>
-                                <td className="py-3 px-4 text-yellow-400">{row.shoulderHips}</td>
-                                <td className="py-3 px-4 text-gray-400">{row.description}</td>
+                                <td className="py-3 px-4 text-yellow-700">{row.shoulderHips}</td>
+                                <td className="py-3 px-4 text-ink-faint">{row.description}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">How to Take Accurate Measurements</h2><ul className="space-y-3"><li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Shoulders:</strong> Measure around the fullest part of your shoulders, keeping tape level.</span></li><li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Bust/Chest:</strong> Measure around the fullest part of your chest, keeping tape straight.</span></li><li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Waist:</strong> Measure at the narrowest point, usually just above belly button.</span></li><li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Hips:</strong> Measure around the widest part of your buttocks.</span></li></ul></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-3">How to Take Accurate Measurements</h2><ul className="space-y-3"><li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Shoulders:</strong> Measure around the fullest part of your shoulders, keeping tape level.</span></li><li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Bust/Chest:</strong> Measure around the fullest part of your chest, keeping tape straight.</span></li><li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Waist:</strong> Measure at the narrowest point, usually just above belly button.</span></li><li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Hips:</strong> Measure around the widest part of your buttocks.</span></li></ul></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span><span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span><span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
         </>
     );
 }

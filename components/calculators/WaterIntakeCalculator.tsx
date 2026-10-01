@@ -143,19 +143,19 @@ export default function WaterIntakeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">Health Calculators</a>
+                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Water Intake Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Water Intake Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -163,14 +163,14 @@ export default function WaterIntakeCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Personal Details</h3>
-                        <p className="text-xs text-gray-500 mt-1">Get your personalized hydration recommendation</p>
+                        <p className="text-xs text-ink-faint mt-1">Get your personalized hydration recommendation</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Body Weight
                             </label>
                             <div className="relative">
@@ -179,20 +179,20 @@ export default function WaterIntakeCalculator() {
                                     placeholder="70"
                                     value={weight}
                                     onChange={(e) => setWeight(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">kg</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Activity Level
                             </label>
                             <select
                                 value={activity}
                                 onChange={(e) => setActivity(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
                             >
                                 <option value="sedentary">Sedentary (little or no exercise)</option>
                                 <option value="light">Light (exercise 1-2 days/week)</option>
@@ -200,7 +200,7 @@ export default function WaterIntakeCalculator() {
                                 <option value="active">Active (exercise 6-7 days/week)</option>
                                 <option value="very">Very Active (intense training 2x/day)</option>
                             </select>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-ink-faint mt-1">
                                 {activityMultipliers[activity as keyof typeof activityMultipliers]?.extra}
                             </p>
                         </div>
@@ -208,13 +208,13 @@ export default function WaterIntakeCalculator() {
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Water Intake →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -231,10 +231,10 @@ export default function WaterIntakeCalculator() {
                     mainResult={result ? {
                         label: "Water Needed Daily",
                         value: `${result.totalWater} liters`,
-                        color: "text-blue-400"
+                        color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Glasses (250ml)", value: `${result.glasses} glasses`, valueColor: "text-green-400" },
+                        { label: "Glasses (250ml)", value: `${result.glasses} glasses`, valueColor: "text-green-600" },
                         { label: "Base Need (Resting)", value: `${result.baseWater} liters` },
                         { label: "Activity Adjustment", value: `${result.activityWater} liters` },
                         { label: "Weight", value: `${result.weight} kg` },
@@ -247,18 +247,18 @@ export default function WaterIntakeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Water Intake Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    Proper hydration is essential for <strong className="text-gray-300">energy, brain function,
+                <h2 className="text-xl font-semibold text-ink mb-3">About Water Intake Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    Proper hydration is essential for <strong className="text-ink-soft">energy, brain function,
                         digestion, and overall health</strong>. Our water intake calculator provides personalized
                     recommendations based on your body weight and physical activity level.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     The calculation uses the standard 30-35 ml per kg of body weight formula, with additional
                     water for physical activity. This method is more accurate than the general "8 glasses per day"
                     rule because it accounts for your individual characteristics.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're an athlete, a busy professional, or just trying to improve your health,
                     this calculator helps you set the right hydration goal for your needs.
                 </p>
@@ -266,54 +266,54 @@ export default function WaterIntakeCalculator() {
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Water Intake Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Water Intake Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">body weight</strong> in kilograms.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select your <strong className="text-white">activity level</strong> from the dropdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Water Intake"</strong> to get your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Review your <strong className="text-white">daily water goal in liters and glasses</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to try different weights or activity levels.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">body weight</strong> in kilograms.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select your <strong className="text-ink">activity level</strong> from the dropdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate Water Intake"</strong> to get your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Review your <strong className="text-ink">daily water goal in liters and glasses</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to try different weights or activity levels.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Benefits of Proper Hydration</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Proper Hydration</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">⚡ More Energy</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Even mild dehydration (1-2% of body weight) can cause fatigue and reduce energy levels. Proper hydration keeps your cells energized.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">⚡ More Energy</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Even mild dehydration (1-2% of body weight) can cause fatigue and reduce energy levels. Proper hydration keeps your cells energized.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">🧠 Better Focus</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Your brain is 73% water. Dehydration impairs cognitive function, concentration, and memory. Stay hydrated for mental clarity.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">🧠 Better Focus</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Your brain is 73% water. Dehydration impairs cognitive function, concentration, and memory. Stay hydrated for mental clarity.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">💪 Muscle Function</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Water lubricates joints and aids muscle contraction. Proper hydration reduces cramping and improves athletic performance.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">💪 Muscle Function</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Water lubricates joints and aids muscle contraction. Proper hydration reduces cramping and improves athletic performance.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✨ Healthy Skin</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Water helps maintain skin elasticity and moisture. Well-hydrated skin looks healthier, smoother, and more youthful.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✨ Healthy Skin</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Water helps maintain skin elasticity and moisture. Well-hydrated skin looks healthier, smoother, and more youthful.</p>
                     </div>
                 </div>
             </section>
 
             {/* Hydration Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Hydration Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2">
+                <h2 className="text-xl font-semibold text-ink mb-4">Hydration Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2">
                         Daily Water (liters) = (Weight in kg × 0.033) + Activity Adjustment
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 pt-3 border-t border-gray-800">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 pt-3 border-t border-hairline">
                         <div>
-                            <p className="text-xs text-gray-400"><strong className="text-gray-300">Base Need:</strong> 33 ml per kg of body weight</p>
-                            <p className="text-xs text-gray-400"><strong className="text-gray-300">Example:</strong> 70kg × 0.033 = 2.31 liters base</p>
+                            <p className="text-xs text-ink-faint"><strong className="text-ink-soft">Base Need:</strong> 33 ml per kg of body weight</p>
+                            <p className="text-xs text-ink-faint"><strong className="text-ink-soft">Example:</strong> 70kg × 0.033 = 2.31 liters base</p>
                         </div>
                         <div>
-                            <p className="text-xs text-gray-400"><strong className="text-gray-300">Activity Adjustment:</strong> 0-1.2 liters based on exercise</p>
-                            <p className="text-xs text-gray-400"><strong className="text-gray-300">Example:</strong> 2.31L + 0.5L (moderate) = 2.81L total</p>
+                            <p className="text-xs text-ink-faint"><strong className="text-ink-soft">Activity Adjustment:</strong> 0-1.2 liters based on exercise</p>
+                            <p className="text-xs text-ink-faint"><strong className="text-ink-soft">Example:</strong> 2.31L + 0.5L (moderate) = 2.81L total</p>
                         </div>
                     </div>
                 </div>
@@ -321,40 +321,40 @@ export default function WaterIntakeCalculator() {
 
             {/* Water Intake by Age */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Water Intake Recommendations by Age</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Water Intake Recommendations by Age</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Age Group</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Recommended Daily Intake</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Glasses (250ml)</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Age Group</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Recommended Daily Intake</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Glasses (250ml)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Children (4-8 yrs)</td>
-                                <td className="py-3 px-4 text-yellow-400">1.2-1.7 liters</td>
-                                <td className="py-3 px-4 text-gray-400">5-7 glasses</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Children (4-8 yrs)</td>
+                                <td className="py-3 px-4 text-yellow-700">1.2-1.7 liters</td>
+                                <td className="py-3 px-4 text-ink-faint">5-7 glasses</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Teens (9-13 yrs)</td>
-                                <td className="py-3 px-4 text-yellow-400">2.1-2.4 liters</td>
-                                <td className="py-3 px-4 text-gray-400">8-10 glasses</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Teens (9-13 yrs)</td>
+                                <td className="py-3 px-4 text-yellow-700">2.1-2.4 liters</td>
+                                <td className="py-3 px-4 text-ink-faint">8-10 glasses</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Adults (18-64 yrs)</td>
-                                <td className="py-3 px-4 text-yellow-400">2.7-3.7 liters</td>
-                                <td className="py-3 px-4 text-gray-400">11-15 glasses</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Adults (18-64 yrs)</td>
+                                <td className="py-3 px-4 text-yellow-700">2.7-3.7 liters</td>
+                                <td className="py-3 px-4 text-ink-faint">11-15 glasses</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Older Adults (65+ yrs)</td>
-                                <td className="py-3 px-4 text-yellow-400">2.5-3.2 liters</td>
-                                <td className="py-3 px-4 text-gray-400">10-13 glasses</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Older Adults (65+ yrs)</td>
+                                <td className="py-3 px-4 text-yellow-700">2.5-3.2 liters</td>
+                                <td className="py-3 px-4 text-ink-faint">10-13 glasses</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * These are general guidelines. Individual needs vary based on weight, activity, and climate.
                     </p>
                 </div>
@@ -362,11 +362,11 @@ export default function WaterIntakeCalculator() {
 
             {/* Signs of Dehydration */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Signs of Dehydration</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Signs of Dehydration</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">🟡 Early Signs</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">🟡 Early Signs</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Dry mouth and throat</li>
                             <li>• Dark yellow urine</li>
                             <li>• Headache</li>
@@ -375,9 +375,9 @@ export default function WaterIntakeCalculator() {
                             <li>• Dry skin</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-red-400 mb-2">🔴 Severe Signs</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-red-600 mb-2">🔴 Severe Signs</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Confusion or disorientation</li>
                             <li>• Rapid heartbeat</li>
                             <li>• Fainting or weakness</li>
@@ -387,53 +387,53 @@ export default function WaterIntakeCalculator() {
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">💡 Don't wait for thirst — it means you're already dehydrated. Drink water regularly throughout the day.</p>
+                <p className="text-xs text-ink-faint mt-2">💡 Don't wait for thirst — it means you're already dehydrated. Drink water regularly throughout the day.</p>
             </section>
 
             {/* Hydration Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Hydration Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Hydration Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Start your day with water:</strong> Drink 1-2 glasses of water immediately after waking up. This jumpstarts your metabolism and rehydrates after sleep.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Start your day with water:</strong> Drink 1-2 glasses of water immediately after waking up. This jumpstarts your metabolism and rehydrates after sleep.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use a marked water bottle:</strong> A reusable bottle with time markers helps you track your intake throughout the day.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use a marked water bottle:</strong> A reusable bottle with time markers helps you track your intake throughout the day.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Set hourly reminders:</strong> Use your phone to set reminders to drink water every hour. Small sips add up!</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Set hourly reminders:</strong> Use your phone to set reminders to drink water every hour. Small sips add up!</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Eat water-rich foods:</strong> Cucumbers, watermelon, and strawberries have high water content and contribute to your daily hydration.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Eat water-rich foods:</strong> Cucumbers, watermelon, and strawberries have high water content and contribute to your daily hydration.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Monitor urine color:</strong> Pale yellow = well hydrated, dark yellow = dehydrated. Use this as your daily hydration indicator.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Monitor urine color:</strong> Pale yellow = well hydrated, dark yellow = dehydrated. Use this as your daily hydration indicator.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>
                                     +
                                 </span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

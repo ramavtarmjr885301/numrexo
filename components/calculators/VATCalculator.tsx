@@ -176,28 +176,28 @@ export default function VATCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Home</span> {/* ✅ Error Fixed Here */}
             </a>
             <meta itemProp="position" content="1" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Tax Calculators</span> {/* ✅ Error Fixed Here */}
             </a>
             <meta itemProp="position" content="2" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-gray-300">VAT Calculator</span> {/* ✅ Error Fixed Here */}
+            <span itemProp="name" className="text-ink-soft">VAT Calculator</span> {/* ✅ Error Fixed Here */}
             {/* Last item par URL nahi hota isliye itemProp="item" hataya gaya hai */}
             <meta itemProp="position" content="3" />
         </li>
@@ -207,16 +207,16 @@ export default function VATCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">VAT Calculation</h3>
-                        <p className="text-xs text-gray-500 mt-1">For UK, Europe, Canada, Australia</p>
+                        <p className="text-xs text-ink-faint mt-1">For UK, Europe, Canada, Australia</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Amount</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Amount</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -224,14 +224,14 @@ export default function VATCalculator() {
                                     placeholder="1000"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">VAT Rate (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">VAT Rate (%)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -239,24 +239,24 @@ export default function VATCalculator() {
                                     placeholder="20"
                                     value={vatRate}
                                     onChange={(e) => setVatRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">UK: 20%, Germany: 19%, France: 20%, Italy: 22%, Canada: 5%</p>
+                            <p className="text-xs text-ink-faint mt-1">UK: 20%, Germany: 19%, France: 20%, Italy: 22%, Canada: 5%</p>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Calculation Type</label>
                             <div className="grid grid-cols-2 gap-3">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "add" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "add" ? "bg-green-500 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("add")}
                                 >
                                     Add VAT
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "remove" ? "bg-orange-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "remove" ? "bg-orange-500 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("remove")}
                                 >
                                     Remove VAT
@@ -273,7 +273,7 @@ export default function VATCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -290,11 +290,11 @@ export default function VATCalculator() {
                     mainResult={result ? {
                         label: calcType === "add" ? "Total Amount (with VAT)" : "Original Amount (without VAT)",
                         value: `${calcType === "add" ? result.grossAmount : result.netAmount}`,
-                        color: "text-purple-400"
+                        color: "text-purple-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: calcType === "add" ? "Original Amount" : "Gross Amount (with VAT)", value: calcType === "add" ? result.netAmount : result.grossAmount },
-                        { label: `VAT Amount (${result.vatRate}%)`, value: result.vatAmount, valueColor: "text-green-400" },
+                        { label: `VAT Amount (${result.vatRate}%)`, value: result.vatAmount, valueColor: "text-green-600" },
                         { label: calcType === "add" ? "Total with VAT" : "VAT Exclusive Price", value: calcType === "add" ? result.grossAmount : result.netAmount },
                     ] : []}
                 />
@@ -304,98 +304,98 @@ export default function VATCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About VAT Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Value Added Tax (VAT) Calculator</strong> helps you calculate VAT for transactions in the UK, Europe, Canada, and Australia. Whether you need to add VAT to a price or remove VAT from a VAT-inclusive price, this calculator gives you instant results.
+                <h2 className="text-xl font-semibold text-ink mb-3">About VAT Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Value Added Tax (VAT) Calculator</strong> helps you calculate VAT for transactions in the UK, Europe, Canada, and Australia. Whether you need to add VAT to a price or remove VAT from a VAT-inclusive price, this calculator gives you instant results.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     VAT is a consumption tax applied to most goods and services. Businesses charge VAT on their sales (output VAT) and can reclaim VAT on their purchases (input VAT). The difference is paid to or refunded by tax authorities.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding VAT is essential for businesses and consumers alike. Our calculator supports multiple countries and includes common VAT rates, registration thresholds, and filing frequencies to help you navigate VAT compliance.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This VAT Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This VAT Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">amount</strong> (net or gross depending on calculation type).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">VAT rate</strong> (e.g., 20% for UK standard rate).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select <strong className="text-white">"Add VAT"</strong> or <strong className="text-white">"Remove VAT"</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate VAT"</strong> to see the breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Review your <strong className="text-white">net amount, VAT amount, and gross amount</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">amount</strong> (net or gross depending on calculation type).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">VAT rate</strong> (e.g., 20% for UK standard rate).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select <strong className="text-ink">"Add VAT"</strong> or <strong className="text-ink">"Remove VAT"</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate VAT"</strong> to see the breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review your <strong className="text-ink">net amount, VAT amount, and gross amount</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a VAT Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a VAT Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Quick VAT Calculations</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get instant VAT calculations without manual math. Perfect for invoices, quotes, and expense tracking.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Quick VAT Calculations</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get instant VAT calculations without manual math. Perfect for invoices, quotes, and expense tracking.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Multiple Country Support</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Supports VAT rates for UK, Germany, France, Italy, Spain, Canada, Australia, and more.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Multiple Country Support</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Supports VAT rates for UK, Germany, France, Italy, Spain, Canada, Australia, and more.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Add or Remove VAT</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate both VAT-inclusive and VAT-exclusive prices. Essential for business accounting and pricing.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Add or Remove VAT</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate both VAT-inclusive and VAT-exclusive prices. Essential for business accounting and pricing.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Business Compliance</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Accurate VAT calculations help with VAT return filing, invoice accuracy, and tax compliance.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Business Compliance</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Accurate VAT calculations help with VAT return filing, invoice accuracy, and tax compliance.</p>
                     </div>
                 </div>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">VAT Calculation Formula</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">VAT Calculation Formula</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Add VAT</h3>
-                        <p className="text-white font-mono text-sm mb-2">Gross Amount = Net Amount × (1 + VAT Rate/100)</p>
-                        <p className="text-gray-500 text-xs mb-2">VAT Amount = Net Amount × (VAT Rate/100)</p>
-                        <p className="text-gray-500 text-xs">Example: $1000 × 1.20 = $1200 (VAT $200)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Add VAT</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Gross Amount = Net Amount × (1 + VAT Rate/100)</p>
+                        <p className="text-ink-faint text-xs mb-2">VAT Amount = Net Amount × (VAT Rate/100)</p>
+                        <p className="text-ink-faint text-xs">Example: $1000 × 1.20 = $1200 (VAT $200)</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">Remove VAT</h3>
-                        <p className="text-white font-mono text-sm mb-2">Net Amount = Gross Amount ÷ (1 + VAT Rate/100)</p>
-                        <p className="text-gray-500 text-xs mb-2">VAT Amount = Gross Amount - Net Amount</p>
-                        <p className="text-gray-500 text-xs">Example: $1200 ÷ 1.20 = $1000 (VAT $200)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Remove VAT</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Net Amount = Gross Amount ÷ (1 + VAT Rate/100)</p>
+                        <p className="text-ink-faint text-xs mb-2">VAT Amount = Gross Amount - Net Amount</p>
+                        <p className="text-ink-faint text-xs">Example: $1200 ÷ 1.20 = $1000 (VAT $200)</p>
                     </div>
                 </div>
             </section>
 
             {/* VAT Rates by Country Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">VAT/GST Rates by Country</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">VAT/GST Rates by Country</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Country</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Standard Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Reduced Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Zero Rate</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Country</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Standard Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Reduced Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Zero Rate</th>
                             </tr>
                         </thead>
                         <tbody>
                             {VAT_RATES_BY_COUNTRY.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.country}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.standard}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.reduced}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.zero}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.country}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.standard}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.reduced}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.zero}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Some countries have provincial or state-level VAT/GST in addition to federal rates. Reduced rates apply to certain goods and services.
                     </p>
                 </div>
@@ -403,27 +403,27 @@ export default function VATCalculator() {
 
             {/* VAT Registration Thresholds */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">VAT Registration Thresholds</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">VAT Registration Thresholds</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Country</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Registration Threshold</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Filing Frequency</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Country</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Registration Threshold</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Filing Frequency</th>
                             </tr>
                         </thead>
                         <tbody>
                             {VAT_THRESHOLDS.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.country}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.threshold}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.frequency}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.country}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.threshold}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.frequency}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Thresholds are based on annual taxable turnover. Check with local tax authorities for exact requirements.
                     </p>
                 </div>
@@ -431,12 +431,12 @@ export default function VATCalculator() {
 
             {/* VAT vs Sales Tax */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">VAT vs Sales Tax Comparison</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-3">VAT vs Sales Tax Comparison</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-[#0f1525] rounded-lg p-3 border border-green-500/20">
-                            <h4 className="text-sm font-semibold text-green-400 mb-2">✅ VAT</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface rounded-lg p-3 border border-green-100">
+                            <h4 className="text-sm font-semibold text-green-600 mb-2">✅ VAT</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Charged at each stage of production</li>
                                 <li>• Businesses can claim input VAT credits</li>
                                 <li>• Used in Europe, UK, Australia, Canada</li>
@@ -444,9 +444,9 @@ export default function VATCalculator() {
                                 <li>• More complex compliance</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 border border-orange-500/20">
-                            <h4 className="text-sm font-semibold text-orange-400 mb-2">🛒 Sales Tax</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface rounded-lg p-3 border border-orange-100">
+                            <h4 className="text-sm font-semibold text-orange-600 mb-2">🛒 Sales Tax</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Charged only at final sale</li>
                                 <li>• No input tax credits</li>
                                 <li>• Used primarily in the US</li>
@@ -460,46 +460,46 @@ export default function VATCalculator() {
 
             {/* VAT Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart VAT Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart VAT Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check your VAT rate:</strong> Different products may have different VAT rates. Food and books often have reduced rates. Always verify the correct rate for your product or service.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check your VAT rate:</strong> Different products may have different VAT rates. Food and books often have reduced rates. Always verify the correct rate for your product or service.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Keep accurate records:</strong> Maintain detailed records of all transactions. You'll need these for VAT returns and potential audits.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Keep accurate records:</strong> Maintain detailed records of all transactions. You'll need these for VAT returns and potential audits.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Claim input VAT:</strong> Ensure you're claiming VAT on all eligible business purchases. This reduces your VAT liability.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Claim input VAT:</strong> Ensure you're claiming VAT on all eligible business purchases. This reduces your VAT liability.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">File on time:</strong> Late VAT returns incur penalties. Set reminders for your filing deadlines (monthly, quarterly, or annually).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">File on time:</strong> Late VAT returns incur penalties. Set reminders for your filing deadlines (monthly, quarterly, or annually).</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use our calculator:</strong> Always double-check your VAT calculations using our calculator. Even small errors can lead to compliance issues.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use our calculator:</strong> Always double-check your VAT calculations using our calculator. Even small errors can lead to compliance issues.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

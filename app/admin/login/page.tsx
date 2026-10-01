@@ -34,12 +34,12 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-[#111827] border border-gray-800 rounded-xl p-6 sm:p-8"
+        className="w-full max-w-sm bg-surface border border-hairline rounded-xl p-6 sm:p-8 shadow-sm"
       >
-        <h1 className="text-xl font-semibold text-white mb-1">Numrexo Blog Admin</h1>
-        <p className="text-sm text-gray-400 mb-6">User ID aur password daal kar login karo</p>
+        <h1 className="text-xl font-semibold text-ink mb-1">Numrexo Blog Admin</h1>
+        <p className="text-sm text-ink-soft mb-6">User ID aur password daal kar login karo</p>
 
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="userId">
+        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="userId">
           User ID
         </label>
         <input
@@ -50,10 +50,10 @@ export default function AdminLoginPage() {
           autoFocus
           autoCapitalize="none"
           autoCorrect="off"
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
         />
 
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="password">
+        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="password">
           Password
         </label>
         <input
@@ -61,15 +61,15 @@ export default function AdminLoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white mb-4 focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
         />
 
-        {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
+        {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
 
         <button
           type="submit"
           disabled={loading || !userId || !password}
-          className="w-full py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors"
+          className="w-full py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
         >
           {loading ? 'Checking...' : 'Login'}
         </button>

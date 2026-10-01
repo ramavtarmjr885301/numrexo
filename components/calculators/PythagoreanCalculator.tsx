@@ -27,24 +27,16 @@ const FAQ_DATA = [
         a: "Check if a² + b² = c² (where c is the longest side). If true, it's a right triangle. Example: sides 6,8,10 → 36+64=100 → 100=100 → Yes, it's a right triangle.",
     },
     {
-        q: "What is the Pythagorean Theorem?",
-        a: "The Pythagorean Theorem: In any right triangle, the square of the hypotenuse (longest side) equals the sum of the squares of the other two sides. Formula: a² + b² = c². One of the most important theorems in geometry, used in construction, navigation, and physics.",
+        q: "What is the converse of the Pythagorean theorem?",
+        a: "The converse states that if a² + b² = c² holds for a triangle's three sides, the triangle must be right-angled. This is how the theorem is used to test a triangle rather than solve it — exactly the check used in the 'is it right-angled' method above.",
     },
     {
-        q: "How to find the hypotenuse?",
-        a: "If you know both legs: Hypotenuse = √(a² + b²). Example: a=5, b=12 → c = √(25+144) = √169 = 13. The 5-12-13 triangle is a Pythagorean triple. Our calculator does this instantly.",
+        q: "Where is the Pythagorean theorem used in real life?",
+        a: "It underlies the distance formula between two points on a graph, is used by carpenters and builders to square corners (the classic 3-4-5 method), by surveyors calculating land distances, and in navigation and computer graphics to compute straight-line distances between coordinates.",
     },
     {
-        q: "How to find a missing leg?",
-        a: "If you know hypotenuse and one leg: Missing leg = √(c² - a²). Example: c=13, a=5 → b = √(169-25) = √144 = 12. Works for any right triangle with two known sides.",
-    },
-    {
-        q: "What is a Pythagorean triple?",
-        a: "Pythagorean triples are integer solutions to a² + b² = c². Common triples: 3-4-5, 5-12-13, 8-15-17, 7-24-25, 9-40-41, 20-21-29. Multiples also work: 6-8-10, 9-12-15. Our calculator identifies if your triangle is a Pythagorean triple.",
-    },
-    {
-        q: "How to check if a triangle is right-angled?",
-        a: "Check if a² + b² = c² (c = longest side). Example: 8-15-17 → 64+225=289 → 289=289 → Right triangle! If not equal, it's not a right triangle. Use our 'Check Right Triangle' mode for instant verification.",
+        q: "Does the Pythagorean theorem work in 3D?",
+        a: "Yes, extended as d = √(a² + b² + c²) for the space diagonal of a rectangular box — sometimes called the 3D distance formula. It applies the same idea across three perpendicular dimensions instead of two.",
     },
 ];
 
@@ -199,56 +191,56 @@ export default function PythagoreanCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Pythagorean Theorem Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pythagorean Theorem Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Pythagorean Theorem: a² + b² = c²</h3>
-                        <p className="text-xs text-gray-500 mt-1">Solve right triangles instantly</p>
+                        <p className="text-xs text-ink-faint mt-1">Solve right triangles instantly</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">What do you want to find?</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">What do you want to find?</label>
                             <div className="grid grid-cols-3 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "hypotenuse" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("hypotenuse")}>Find Hypotenuse</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "leg" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("leg")}>Find Missing Leg</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "check" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("check")}>Check Right Triangle</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "hypotenuse" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("hypotenuse")}>Find Hypotenuse</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "leg" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("leg")}>Find Missing Leg</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "check" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("check")}>Check Right Triangle</button>
                             </div>
                         </div>
 
                         {calcType === "hypotenuse" && (
                             <>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side a (leg)</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side b (leg)</label><input type="number" placeholder="4" value={sideB} onChange={(e) => setSideB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side a (leg)</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side b (leg)</label><input type="number" placeholder="4" value={sideB} onChange={(e) => setSideB(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             </>
                         )}
 
                         {calcType === "leg" && (
                             <>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Hypotenuse (c)</label><input type="number" placeholder="5" value={hypotenuse} onChange={(e) => setHypotenuse(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Known Leg (a or b)</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Hypotenuse (c)</label><input type="number" placeholder="5" value={hypotenuse} onChange={(e) => setHypotenuse(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Known Leg (a or b)</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             </>
                         )}
 
                         {calcType === "check" && (
                             <>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side a</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side b</label><input type="number" placeholder="4" value={sideB} onChange={(e) => setSideB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side c (largest)</label><input type="number" placeholder="5" value={hypotenuse} onChange={(e) => setHypotenuse(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side a</label><input type="number" placeholder="3" value={sideA} onChange={(e) => setSideA(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side b</label><input type="number" placeholder="4" value={sideB} onChange={(e) => setSideB(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side c (largest)</label><input type="number" placeholder="5" value={hypotenuse} onChange={(e) => setHypotenuse(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                             </>
                         )}
 
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -261,16 +253,16 @@ export default function PythagoreanCalculator() {
                     mainResult={result ? {
                         label: calcType === "hypotenuse" ? "Hypotenuse (c)" : calcType === "leg" ? "Missing Leg" : "Triangle Check",
                         value: calcType === "check" ? result.result : result.result,
-                        color: calcType === "check" ? (result.isRightTriangle ? "text-green-400" : "text-red-400") : "text-green-400"
+                        color: calcType === "check" ? (result.isRightTriangle ? "text-green-600" : "text-red-600") : "text-green-600"
                     } : undefined}
                     extraRows={result ? [
                         ...(calcType === "hypotenuse" ? [
                             { label: "Formula", value: result.formula },
-                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-400" : "text-gray-400" },
+                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-600" : "text-ink-faint" },
                         ] : []),
                         ...(calcType === "leg" ? [
                             { label: "Formula", value: result.formula },
-                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-400" : "text-gray-400" },
+                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-600" : "text-ink-faint" },
                         ] : []),
                         ...(calcType === "check" ? [
                             { label: "a² + b²", value: `${result.sides.a * result.sides.a} + ${result.sides.b * result.sides.b} = ${result.sides.a * result.sides.a + result.sides.b * result.sides.b}` },
@@ -284,79 +276,79 @@ export default function PythagoreanCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Pythagorean Theorem Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Pythagorean Theorem Calculator</strong> helps you solve right triangles instantly. Whether you need to find the hypotenuse, a missing leg, or check if a triangle is right-angled, our calculator provides accurate results with step-by-step formulas.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Pythagorean Theorem Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Pythagorean Theorem Calculator</strong> helps you solve right triangles instantly. Whether you need to find the hypotenuse, a missing leg, or check if a triangle is right-angled, our calculator provides accurate results with step-by-step formulas.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Perfect for students, teachers, carpenters, architects, and anyone working with triangles. The Pythagorean theorem (a² + b² = c²) is one of the most fundamental concepts in geometry.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Pythagorean Theorem Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Pythagorean Theorem Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to find: <strong className="text-white">Hypotenuse</strong>, <strong className="text-white">Missing Leg</strong>, or <strong className="text-white">Check Right Triangle</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">known side lengths</strong> (legs for hypotenuse, hypotenuse + one leg for missing leg, all three sides for check).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate"</strong> to see your result.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> View the calculated side length, formula used, and check if it's a Pythagorean triple.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try a different calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select what you want to find: <strong className="text-ink">Hypotenuse</strong>, <strong className="text-ink">Missing Leg</strong>, or <strong className="text-ink">Check Right Triangle</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">known side lengths</strong> (legs for hypotenuse, hypotenuse + one leg for missing leg, all three sides for check).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate"</strong> to see your result.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> View the calculated side length, formula used, and check if it's a Pythagorean triple.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try a different calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Pythagorean Theorem Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Pythagorean Theorem Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Quick Solutions</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get instant answers to right triangle problems. No manual square root calculations needed.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Quick Solutions</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get instant answers to right triangle problems. No manual square root calculations needed.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Construction & Carpentry</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Check right angles and calculate diagonal lengths. Essential for building, framing, and layout.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Construction & Carpentry</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Check right angles and calculate diagonal lengths. Essential for building, framing, and layout.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Education & Homework</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Check your Pythagorean theorem homework answers. Understand the formula with step-by-step solutions.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Education & Homework</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Check your Pythagorean theorem homework answers. Understand the formula with step-by-step solutions.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Multiple Modes</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Find hypotenuse, missing leg, or verify right triangles. All in one calculator.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Multiple Modes</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Find hypotenuse, missing leg, or verify right triangles. All in one calculator.</p>
                     </div>
                 </div>
             </section>
 
             {/* Real-World Applications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Pythagorean Theorem</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Real-World Applications of Pythagorean Theorem</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">🔨</span><span><strong className="text-gray-300">Construction:</strong> Checking right angles in buildings, ensuring walls are perpendicular, calculating diagonal bracing lengths.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">🔨</span><span><strong className="text-gray-300">Navigation:</strong> Calculating shortest distances between two points (as the crow flies).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">🔨</span><span><strong className="text-gray-300">Sports:</strong> Calculating distances in baseball (base paths), football (field goal angles), and golf (shots).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">🔨</span><span><strong className="text-gray-300">Computer Graphics:</strong> Calculating distances between pixels, object collision detection, 3D rendering.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Construction:</strong> Checking right angles in buildings, ensuring walls are perpendicular, calculating diagonal bracing lengths.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Navigation:</strong> Calculating shortest distances between two points (as the crow flies).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Sports:</strong> Calculating distances in baseball (base paths), football (field goal angles), and golf (shots).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Computer Graphics:</strong> Calculating distances between pixels, object collision detection, 3D rendering.</span></li>
                 </ul>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 text-center">
-                    <p className="text-white font-mono text-xl mb-2">a² + b² = c²</p>
-                    <p className="text-gray-500 text-sm">Where c is the hypotenuse (longest side), a and b are the legs</p>
-                    <p className="text-gray-500 text-xs mt-2">To find hypotenuse: c = √(a² + b²) | To find leg: a = √(c² - b²)</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 text-center">
+                    <p className="text-ink font-mono text-xl mb-2">a² + b² = c²</p>
+                    <p className="text-ink-faint text-sm">Where c is the hypotenuse (longest side), a and b are the legs</p>
+                    <p className="text-ink-faint text-xs mt-2">To find hypotenuse: c = √(a² + b²) | To find leg: a = √(c² - b²)</p>
                 </div>
             </section>
 
             {/* Pythagorean Triples */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Pythagorean Triples (Integer Solutions)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Pythagorean Triples (Integer Solutions)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">a</th><th className="text-left py-3 px-4 text-gray-400">b</th><th className="text-left py-3 px-4 text-gray-400">c (hypotenuse)</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">a</th><th className="text-left py-3 px-4 text-ink-faint">b</th><th className="text-left py-3 px-4 text-ink-faint">c (hypotenuse)</th></tr></thead>
                         <tbody>
-                            {PYTHAGOREAN_TRIPLES.map((triple, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-3 px-4 text-yellow-400">{triple.a}</td><td className="py-3 px-4 text-yellow-400">{triple.b}</td><td className="py-3 px-4 text-green-400">{triple.c}</td></tr>))}
+                            {PYTHAGOREAN_TRIPLES.map((triple, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-3 px-4 text-yellow-700">{triple.a}</td><td className="py-3 px-4 text-yellow-700">{triple.b}</td><td className="py-3 px-4 text-green-600">{triple.c}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -364,16 +356,16 @@ export default function PythagoreanCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

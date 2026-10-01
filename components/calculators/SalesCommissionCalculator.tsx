@@ -253,19 +253,19 @@ export default function SalesCommissionCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
+                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Sales Commission Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Sales Commission Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -273,31 +273,31 @@ export default function SalesCommissionCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Commission Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate earnings from sales</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate earnings from sales</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Commission Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Commission Type</label>
                             <div className="grid grid-cols-3 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "simple" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "simple" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("simple")}
                                 >
                                     Simple
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "tiered" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "tiered" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("tiered")}
                                 >
                                     Tiered
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "split" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "split" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("split")}
                                 >
                                     Split
@@ -306,23 +306,23 @@ export default function SalesCommissionCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Sale Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Total Sale Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="100000"
                                     value={saleAmount}
                                     onChange={(e) => setSaleAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
 
                         {calcType === "simple" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Commission Rate (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Commission Rate (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -330,22 +330,22 @@ export default function SalesCommissionCalculator() {
                                             placeholder="10"
                                             value={commissionRate}
                                             onChange={(e) => setCommissionRate(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Bonus (Optional)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Bonus (Optional)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="0"
                                             value={bonus}
                                             onChange={(e) => setBonus(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                                     </div>
                                 </div>
                             </>
@@ -355,59 +355,59 @@ export default function SalesCommissionCalculator() {
                             <>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 1 Limit ({symbol})</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Tier 1 Limit ({symbol})</label>
                                         <input
                                             type="number"
                                             placeholder="50000"
                                             value={tier1Limit}
                                             onChange={(e) => setTier1Limit(e.target.value)}
-                                            className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 1 Rate (%)</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Tier 1 Rate (%)</label>
                                         <input
                                             type="number"
                                             step="0.5"
                                             placeholder="5"
                                             value={tier1Rate}
                                             onChange={(e) => setTier1Rate(e.target.value)}
-                                            className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 2 Limit ({symbol})</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Tier 2 Limit ({symbol})</label>
                                         <input
                                             type="number"
                                             placeholder="100000"
                                             value={tier2Limit}
                                             onChange={(e) => setTier2Limit(e.target.value)}
-                                            className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 2 Rate (%)</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Tier 2 Rate (%)</label>
                                         <input
                                             type="number"
                                             step="0.5"
                                             placeholder="7"
                                             value={tier2Rate}
                                             onChange={(e) => setTier2Rate(e.target.value)}
-                                            className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Tier 3 Rate (%) (Above Tier 2)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Tier 3 Rate (%) (Above Tier 2)</label>
                                     <input
                                         type="number"
                                         step="0.5"
                                         placeholder="10"
                                         value={tier3Rate}
                                         onChange={(e) => setTier3Rate(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </>
@@ -416,7 +416,7 @@ export default function SalesCommissionCalculator() {
                         {calcType === "split" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Commission Rate (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Commission Rate (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -424,13 +424,13 @@ export default function SalesCommissionCalculator() {
                                             placeholder="10"
                                             value={commissionRate}
                                             onChange={(e) => setCommissionRate(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Person 1 Split (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Person 1 Split (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
@@ -438,9 +438,9 @@ export default function SalesCommissionCalculator() {
                                             placeholder="60"
                                             value={splitPercent}
                                             onChange={(e) => setSplitPercent(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                             </>
@@ -455,7 +455,7 @@ export default function SalesCommissionCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -469,24 +469,24 @@ export default function SalesCommissionCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter sale details and press Calculate"
-                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `${symbol}${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `${symbol}${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-600" } : undefined}
                     extraRows={result ? [
                         { label: "Sale Amount", value: `${symbol}${parseFloat(result.saleAmount).toLocaleString()}` },
                         ...(calcType === "simple" ? [
                             { label: "Commission Rate", value: `${result.rate}%` },
                             { label: "Base Commission", value: `${symbol}${parseFloat(result.commission).toLocaleString()}` },
-                            ...(result.bonus && parseFloat(result.bonus) > 0 ? [{ label: "Bonus", value: `${symbol}${parseFloat(result.bonus).toLocaleString()}`, valueColor: "text-yellow-400" }] : []),
+                            ...(result.bonus && parseFloat(result.bonus) > 0 ? [{ label: "Bonus", value: `${symbol}${parseFloat(result.bonus).toLocaleString()}`, valueColor: "text-yellow-700" }] : []),
                         ] : []),
                         ...(calcType === "tiered" && result.tierBreakdown ? [
                             ...result.tierBreakdown.map((tier: any) => ({
                                 label: tier.tier,
                                 value: `${symbol}${parseFloat(tier.amount).toLocaleString()} @ ${tier.rate}% = $${parseFloat(tier.commission).toLocaleString()}`,
-                                valueColor: "text-blue-400"
+                                valueColor: "text-blue-600"
                             })),
                         ] : []),
                         ...(calcType === "split" ? [
-                            { label: "Person 1 Commission", value: `${symbol}${parseFloat(result.person1Commission).toLocaleString()}`, valueColor: "text-blue-400" },
-                            { label: "Person 2 Commission", value: `${symbol}${parseFloat(result.person2Commission).toLocaleString()}`, valueColor: "text-purple-400" },
+                            { label: "Person 1 Commission", value: `${symbol}${parseFloat(result.person1Commission).toLocaleString()}`, valueColor: "text-blue-600" },
+                            { label: "Person 2 Commission", value: `${symbol}${parseFloat(result.person2Commission).toLocaleString()}`, valueColor: "text-purple-600" },
                             { label: "Split Ratio", value: `${result.splitPercent}% / ${(100 - result.splitPercent).toFixed(0)}%` },
                         ] : []),
                     ] : []}
@@ -497,79 +497,79 @@ export default function SalesCommissionCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Sales Commission Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Sales Commission Calculator</strong> helps sales professionals, managers, and business owners calculate commissions accurately. It supports simple percentage-based commissions, tiered structures, and split commissions between multiple people.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Sales Commission Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Sales Commission Calculator</strong> helps sales professionals, managers, and business owners calculate commissions accurately. It supports simple percentage-based commissions, tiered structures, and split commissions between multiple people.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Whether you're in real estate, car sales, retail, software/SaaS, insurance, or any commission-based role, this calculator provides instant, accurate results. It includes bonus calculations, tiered rate structures, and commission splitting functionality.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding your commission structure is crucial for earnings planning and career decisions. Our calculator helps you project earnings, compare different commission structures, and make informed decisions about compensation plans.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Commission Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Commission Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">commission type</strong> (Simple, Tiered, or Split).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">total sale amount</strong> in $.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Simple: Enter <strong className="text-white">commission rate</strong> and optional <strong className="text-white">bonus</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> For Tiered: Enter <strong className="text-white">tier limits and rates</strong> (up to 3 tiers).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> For Split: Enter <strong className="text-white">commission rate</strong> and <strong className="text-white">split percentage</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Click <strong className="text-white">"Calculate Commission"</strong> to see results. Use <strong className="text-white">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select <strong className="text-ink">commission type</strong> (Simple, Tiered, or Split).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter <strong className="text-ink">total sale amount</strong> in $.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For Simple: Enter <strong className="text-ink">commission rate</strong> and optional <strong className="text-ink">bonus</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> For Tiered: Enter <strong className="text-ink">tier limits and rates</strong> (up to 3 tiers).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> For Split: Enter <strong className="text-ink">commission rate</strong> and <strong className="text-ink">split percentage</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Click <strong className="text-ink">"Calculate Commission"</strong> to see results. Use <strong className="text-ink">Reset</strong> to start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Commission Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Commission Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Accurate Earnings</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly what you'll earn from each sale. Avoid errors and ensure you're getting paid correctly.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Accurate Earnings</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly what you'll earn from each sale. Avoid errors and ensure you're getting paid correctly.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Structure Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare different commission structures. See which plan works best for your sales volume and goals.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Structure Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare different commission structures. See which plan works best for your sales volume and goals.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Goal Setting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Set realistic sales targets. Know how much you need to sell to achieve your income goals.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Goal Setting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Set realistic sales targets. Know how much you need to sell to achieve your income goals.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Professional Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan your finances with confidence. Accurate commission projections help with budgeting and financial decisions.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Professional Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan your finances with confidence. Accurate commission projections help with budgeting and financial decisions.</p>
                     </div>
                 </div>
             </section>
 
             {/* Industry Commission Rates */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Commission Rates by Industry</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Commission Rates by Industry</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Industry</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Typical Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Commission Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Industry</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Typical Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Commission Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {INDUSTRY_COMMISSION_RATES.map((item, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300 font-medium">{item.industry}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{item.typicalRate}</td>
-                                    <td className="py-3 px-4 text-gray-400">{item.type}</td>
-                                    <td className="py-3 px-4 text-gray-500 text-xs">{item.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft font-medium">{item.industry}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{item.typicalRate}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{item.type}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{item.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Rates vary by company, experience level, and region. These are average ranges for reference only.
                     </p>
                 </div>
@@ -577,54 +577,54 @@ export default function SalesCommissionCalculator() {
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Commission Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Commission Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Simple Commission</h3>
-                        <p className="text-white font-mono text-sm mb-2">Commission = Sale × Rate ÷ 100</p>
-                        <p className="text-gray-500 text-xs">Example: $100,000 × 10% = $10,000</p>
-                        <p className="text-gray-500 text-xs mt-1">With Bonus: Commission + Bonus</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Simple Commission</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Commission = Sale × Rate ÷ 100</p>
+                        <p className="text-ink-faint text-xs">Example: $100,000 × 10% = $10,000</p>
+                        <p className="text-ink-faint text-xs mt-1">With Bonus: Commission + Bonus</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Tiered Commission</h3>
-                        <p className="text-white font-mono text-sm mb-2">Different rates for different sale levels</p>
-                        <p className="text-gray-500 text-xs">Example: 5% on first $50,000</p>
-                        <p className="text-gray-500 text-xs">7% on next $50,000</p>
-                        <p className="text-gray-500 text-xs">10% on remaining</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Tiered Commission</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Different rates for different sale levels</p>
+                        <p className="text-ink-faint text-xs">Example: 5% on first $50,000</p>
+                        <p className="text-ink-faint text-xs">7% on next $50,000</p>
+                        <p className="text-ink-faint text-xs">10% on remaining</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">Split Commission</h3>
-                        <p className="text-white font-mono text-sm mb-2">Commission divided by percentage</p>
-                        <p className="text-gray-500 text-xs">Total Commission × Split% = Person 1</p>
-                        <p className="text-gray-500 text-xs">Total Commission × (100-Split%) = Person 2</p>
-                        <p className="text-gray-500 text-xs">Example: 60/40 split</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">Split Commission</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Commission divided by percentage</p>
+                        <p className="text-ink-faint text-xs">Total Commission × Split% = Person 1</p>
+                        <p className="text-ink-faint text-xs">Total Commission × (100-Split%) = Person 2</p>
+                        <p className="text-ink-faint text-xs">Example: 60/40 split</p>
                     </div>
                 </div>
             </section>
 
             {/* Tiered Commission Example */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tiered Commission Example</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        <strong className="text-white">Scenario:</strong> Sales rep earns tiered commission on $250,000 total sales.
+                <h2 className="text-xl font-semibold text-ink mb-3">Tiered Commission Example</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                        <strong className="text-ink">Scenario:</strong> Sales rep earns tiered commission on $250,000 total sales.
                     </p>
                     <div className="space-y-2">
-                        <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 1: First $50,000 @ 5%</span>
-                            <span className="text-green-400 text-sm">$2,500</span>
+                        <div className="flex justify-between items-center border-b border-hairline pb-2">
+                            <span className="text-ink-faint text-sm">Tier 1: First $50,000 @ 5%</span>
+                            <span className="text-green-600 text-sm">$2,500</span>
                         </div>
-                        <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 2: Next $100,000 @ 7%</span>
-                            <span className="text-green-400 text-sm">$7,000</span>
+                        <div className="flex justify-between items-center border-b border-hairline pb-2">
+                            <span className="text-ink-faint text-sm">Tier 2: Next $100,000 @ 7%</span>
+                            <span className="text-green-600 text-sm">$7,000</span>
                         </div>
-                        <div className="flex justify-between items-center border-b border-gray-800 pb-2">
-                            <span className="text-gray-400 text-sm">Tier 3: Remaining $100,000 @ 10%</span>
-                            <span className="text-green-400 text-sm">$10,000</span>
+                        <div className="flex justify-between items-center border-b border-hairline pb-2">
+                            <span className="text-ink-faint text-sm">Tier 3: Remaining $100,000 @ 10%</span>
+                            <span className="text-green-600 text-sm">$10,000</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">
-                            <span className="text-white font-semibold">Total Commission</span>
-                            <span className="text-yellow-400 font-semibold">$19,500</span>
+                            <span className="text-ink font-semibold">Total Commission</span>
+                            <span className="text-yellow-700 font-semibold">$19,500</span>
                         </div>
                     </div>
                 </div>
@@ -632,46 +632,46 @@ export default function SalesCommissionCalculator() {
 
             {/* Sales Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tips for Maximizing Your Commission</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Tips for Maximizing Your Commission</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Focus on high-margin products:</strong> Products with higher profit margins often pay higher commissions. Understand your company's margin structure.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Focus on high-margin products:</strong> Products with higher profit margins often pay higher commissions. Understand your company's margin structure.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Build a referral pipeline:</strong> Referrals often lead to higher conversion rates and larger deals. Nurture relationships for repeat business.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Build a referral pipeline:</strong> Referrals often lead to higher conversion rates and larger deals. Nurture relationships for repeat business.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Track your numbers:</strong> Monitor your sales metrics regularly. Identify which products and strategies yield the highest commissions.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Track your numbers:</strong> Monitor your sales metrics regularly. Identify which products and strategies yield the highest commissions.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Negotiate your commission structure:</strong> If you consistently exceed targets, negotiate higher rates or better tier structures.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Negotiate your commission structure:</strong> If you consistently exceed targets, negotiate higher rates or better tier structures.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Leverage SPIFFs and bonuses:</strong> Take advantage of special incentives for specific products or targets. These can significantly boost your earnings.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Leverage SPIFFs and bonuses:</strong> Take advantage of special incentives for specific products or targets. These can significantly boost your earnings.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

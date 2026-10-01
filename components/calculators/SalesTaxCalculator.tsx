@@ -177,19 +177,19 @@ export default function SalesTaxCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a>
+                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Sales Tax Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Sales Tax Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -197,28 +197,28 @@ export default function SalesTaxCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Sales Tax Calculation</h3>
-                        <p className="text-xs text-gray-500 mt-1">For US states and local taxes</p>
+                        <p className="text-xs text-ink-faint mt-1">For US states and local taxes</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Amount ($)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Amount ($)</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="100"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Sales Tax Rate (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Sales Tax Rate (%)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -226,14 +226,14 @@ export default function SalesTaxCalculator() {
                                     step="0.1"
                                     value={taxRate}
                                     onChange={(e) => setTaxRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Or Select State (Quick Rate)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Or Select State (Quick Rate)</label>
                             <select
                                 value={selectedState}
                                 onChange={(e) => {
@@ -245,7 +245,7 @@ export default function SalesTaxCalculator() {
                                         }
                                     }
                                 }}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                             >
                                 <option value="">Select a state</option>
                                 {US_STATE_RATES.map((state) => (
@@ -255,16 +255,16 @@ export default function SalesTaxCalculator() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Calculation Type</label>
                             <div className="grid grid-cols-2 gap-3">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "add" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "add" ? "bg-green-500 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("add")}
                                 >
                                     Add Sales Tax
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "remove" ? "bg-orange-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "remove" ? "bg-orange-500 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("remove")}
                                 >
                                     Remove Sales Tax
@@ -281,7 +281,7 @@ export default function SalesTaxCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -298,11 +298,11 @@ export default function SalesTaxCalculator() {
                     mainResult={result ? {
                         label: calcType === "add" ? "Total with Tax" : "Price without Tax",
                         value: `$${calcType === "add" ? result.postTax : result.preTax}`,
-                        color: "text-green-400"
+                        color: "text-green-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: calcType === "add" ? "Price before tax" : "Total with tax", value: `$${calcType === "add" ? result.preTax : result.postTax}` },
-                        { label: `Sales Tax (${result.taxRate}%)`, value: `$${result.taxAmount}`, valueColor: "text-yellow-400" },
+                        { label: `Sales Tax (${result.taxRate}%)`, value: `$${result.taxAmount}`, valueColor: "text-yellow-700" },
                         { label: calcType === "add" ? "Final price" : "Original price", value: `$${calcType === "add" ? result.postTax : result.preTax}` },
                         { label: "Location", value: result.selectedState },
                         { label: "Calculation Type", value: calcType === "add" ? "Added tax to amount" : "Removed tax from amount" },
@@ -314,98 +314,98 @@ export default function SalesTaxCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Sales Tax Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Sales Tax Calculator</strong> helps you calculate sales tax for purchases in the United States and around the world. Whether you're shopping online, planning a budget, or running a business, this calculator gives you instant and accurate sales tax calculations.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Sales Tax Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Sales Tax Calculator</strong> helps you calculate sales tax for purchases in the United States and around the world. Whether you're shopping online, planning a budget, or running a business, this calculator gives you instant and accurate sales tax calculations.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Sales tax rates vary by state, county, and city. This calculator includes base state rates and allows you to add local taxes for more accurate results. You can either enter a custom tax rate or select from a list of US states to automatically fill the correct rate.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     The calculator supports two modes: Add Sales Tax (calculates the total including tax) and Remove Sales Tax (calculates the pre-tax amount from a total including tax). This is useful for both consumers and business owners.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Sales Tax Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Sales Tax Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">amount</strong> in dollars (pre-tax or total depending on calculation type).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">sales tax rate</strong> as a percentage.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Alternatively, <strong className="text-white">select a state</strong> from the dropdown to auto-fill the rate.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Choose <strong className="text-white">"Add Sales Tax"</strong> or <strong className="text-white">"Remove Sales Tax"</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Sales Tax"</strong> to see the breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start fresh.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">amount</strong> in dollars (pre-tax or total depending on calculation type).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">sales tax rate</strong> as a percentage.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Alternatively, <strong className="text-ink">select a state</strong> from the dropdown to auto-fill the rate.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Choose <strong className="text-ink">"Add Sales Tax"</strong> or <strong className="text-ink">"Remove Sales Tax"</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate Sales Tax"</strong> to see the breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start fresh.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Sales Tax Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Sales Tax Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Accurate Budgeting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how much you'll pay in taxes. Plan your purchases and avoid surprises at checkout.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Accurate Budgeting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll pay in taxes. Plan your purchases and avoid surprises at checkout.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Business Compliance</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate correct sales tax for invoices. Ensure you're collecting and remitting the right amount.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Business Compliance</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate correct sales tax for invoices. Ensure you're collecting and remitting the right amount.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Multi-State Shopping</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare prices across different states. See how much tax you'll pay based on your location.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Multi-State Shopping</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare prices across different states. See how much tax you'll pay based on your location.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Online Purchase Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate total cost for online purchases. Know the final price including shipping and taxes.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Online Purchase Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate total cost for online purchases. Know the final price including shipping and taxes.</p>
                     </div>
                 </div>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sales Tax Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Sales Tax Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Add Sales Tax</h3>
-                        <p className="text-white font-mono text-sm mb-2">Total = Amount × (1 + Tax Rate/100)</p>
-                        <p className="text-gray-500 text-xs mb-2">Tax = Amount × Tax Rate/100</p>
-                        <p className="text-gray-500 text-xs">Example: $100 × 1.08 = $108 (Tax $8)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Add Sales Tax</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Total = Amount × (1 + Tax Rate/100)</p>
+                        <p className="text-ink-faint text-xs mb-2">Tax = Amount × Tax Rate/100</p>
+                        <p className="text-ink-faint text-xs">Example: $100 × 1.08 = $108 (Tax $8)</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">Remove Sales Tax</h3>
-                        <p className="text-white font-mono text-sm mb-2">Pre-Tax = Total ÷ (1 + Tax Rate/100)</p>
-                        <p className="text-gray-500 text-xs mb-2">Tax = Total - Pre-Tax</p>
-                        <p className="text-gray-500 text-xs">Example: $108 ÷ 1.08 = $100 (Tax $8)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Remove Sales Tax</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Pre-Tax = Total ÷ (1 + Tax Rate/100)</p>
+                        <p className="text-ink-faint text-xs mb-2">Tax = Total - Pre-Tax</p>
+                        <p className="text-ink-faint text-xs">Example: $108 ÷ 1.08 = $100 (Tax $8)</p>
                     </div>
                 </div>
             </section>
 
             {/* US State Rates Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sales Tax Rates by US State</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Sales Tax Rates by US State</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">State</th>
-                                <th className="text-left py-3 px-4 text-gray-400">State Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Max Combined</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">State</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">State Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Max Combined</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {US_STATE_RATES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.state}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.rate}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.localMax}</td>
-                                    <td className="py-3 px-4 text-gray-500 text-xs">{row.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.state}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.rate}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.localMax}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{row.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Local city/county taxes can add additional 1-5% to the base state rate. Always check your specific location for the exact combined rate.
                     </p>
                 </div>
@@ -413,29 +413,29 @@ export default function SalesTaxCalculator() {
 
             {/* International Tax Rates */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">International Sales Tax / VAT Rates</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">International Sales Tax / VAT Rates</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Country</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Country</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {INTERNATIONAL_TAX_RATES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.country}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.rate}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.type}</td>
-                                    <td className="py-3 px-4 text-gray-500 text-xs">{row.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.country}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.rate}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.type}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{row.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * VAT rates vary by product category. Reduced rates apply to essential items like food and medicine. Always check local regulations.
                     </p>
                 </div>
@@ -443,11 +443,11 @@ export default function SalesTaxCalculator() {
 
             {/* Exempt Items Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Common Sales Tax Exemptions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Common Sales Tax Exemptions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Frequently Exempt</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Frequently Exempt</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Groceries (most states)</li>
                             <li>• Prescription drugs</li>
                             <li>• Medical devices</li>
@@ -455,9 +455,9 @@ export default function SalesTaxCalculator() {
                             <li>• Manufacturing equipment</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">State-Specific</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">State-Specific</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Clothing (MA, PA, MN, NJ)</li>
                             <li>• School supplies (during holidays)</li>
                             <li>• Energy-efficient products</li>
@@ -466,51 +466,51 @@ export default function SalesTaxCalculator() {
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Always verify exemptions with your state's tax authority. Requirements vary and documentation may be needed.</p>
+                <p className="text-xs text-ink-faint mt-2">Always verify exemptions with your state's tax authority. Requirements vary and documentation may be needed.</p>
             </section>
 
             {/* Sales Tax Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Sales Tax Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Sales Tax Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Know your local rate:</strong> Always check your specific city and county rates. Combined rates can be significantly higher than state rates.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Know your local rate:</strong> Always check your specific city and county rates. Combined rates can be significantly higher than state rates.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Save exemption certificates:</strong> Businesses should maintain valid certificates for tax-exempt sales. Audits can go back 3-5 years.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Save exemption certificates:</strong> Businesses should maintain valid certificates for tax-exempt sales. Audits can go back 3-5 years.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use automated tax software:</strong> For multi-state businesses, consider sales tax automation tools to reduce compliance risk.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use automated tax software:</strong> For multi-state businesses, consider sales tax automation tools to reduce compliance risk.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Watch for tax holidays:</strong> Plan major purchases during sales tax holidays to save 5-10% on qualifying items.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Watch for tax holidays:</strong> Plan major purchases during sales tax holidays to save 5-10% on qualifying items.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Understand economic nexus:</strong> If you sell online, know the thresholds for each state where you have customers ($100,000-$500,000 in sales).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Understand economic nexus:</strong> If you sell online, know the thresholds for each state where you have customers ($100,000-$500,000 in sales).</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

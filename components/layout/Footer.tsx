@@ -45,12 +45,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">N</span>
-              </div>
-              <span className="text-xl font-extrabold">
-                Num<span className="text-blue-500">rexo</span>
-              </span>
+              <span className="text-xl font-bold text-white">numrexo</span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
               Free, accurate, and fast online calculators for health, finance, tax, and everyday math.

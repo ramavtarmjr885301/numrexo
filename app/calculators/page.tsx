@@ -53,26 +53,26 @@
 // //     <section className="px-4 sm:px-6 py-8 sm:py-12 md:py-16">
 // //       <div className="max-w-6xl mx-auto">
 // //         <div className="text-center mb-8 sm:mb-10">
-// //           <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">All Tools</span>
+// //           <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">All Tools</span>
 // //           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-2 sm:mb-3">Browse All Calculators</h1>
-// //           <p className="text-gray-400 text-sm sm:text-base">Free, accurate calculators for every need</p>
+// //           <p className="text-ink-faint text-sm sm:text-base">Free, accurate calculators for every need</p>
 // //         </div>
 
 // //         {/* Search Bar */}
 // //         <div className="mb-6 sm:mb-8">
 // //           <div className="relative">
-// //             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+// //             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint" />
 // //             <input
 // //               type="text"
 // //               placeholder="Search calculators..."
 // //               value={searchTerm}
 // //               onChange={(e) => handleSearchChange(e.target.value)}
-// //               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#111827] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors text-sm sm:text-base"
+// //               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-surface border border-hairline rounded-xl text-ink placeholder-gray-500 focus:border-blue-600 outline-none transition-colors text-sm sm:text-base"
 // //             />
 // //             {searchTerm && (
 // //               <button
 // //                 onClick={() => handleSearchChange("")}
-// //                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+// //                 className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink-soft"
 // //               >
 // //                 ✕
 // //               </button>
@@ -86,8 +86,8 @@
 // //             <button
 // //               onClick={() => setSelectedCategory("all")}
 // //               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === "all"
-// //                 ? "bg-blue-500 text-white"
-// //                 : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+// //                 ? "bg-blue-600 text-white"
+// //                 : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 // //                 }`}
 // //             >
 // //               All
@@ -97,8 +97,8 @@
 // //                 key={key}
 // //                 onClick={() => setSelectedCategory(key)}
 // //                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === key
-// //                   ? "bg-blue-500 text-white"
-// //                   : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+// //                   ? "bg-blue-600 text-white"
+// //                   : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 // //                   }`}
 // //               >
 // //                 {cat.icon} {cat.name}
@@ -108,7 +108,7 @@
 // //         </div>
 
 // //         {/* Results Count */}
-// //         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-500">
+// //         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-ink-faint">
 // //           Found {filteredCalculators.length} calculator{filteredCalculators.length !== 1 ? "s" : ""}
 // //         </div>
 
@@ -129,10 +129,10 @@
 // //             {linkCalculators.length > 0 && (
 // //               <div className="hidden md:block relative my-8 sm:my-10">
 // //                 <div className="absolute inset-0 flex items-center">
-// //                   <div className="w-full border-t border-gray-800"></div>
+// //                   <div className="w-full border-t border-hairline"></div>
 // //                 </div>
 // //                 <div className="relative flex justify-center">
-// //                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-gray-500">More Calculators</span>
+// //                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-ink-faint">More Calculators</span>
 // //                 </div>
 // //               </div>
 // //             )}
@@ -146,18 +146,18 @@
 // //               <button
 // //                 key={calc.id}
 // //                 onClick={() => router.push(calc.path)}
-// //                 className="group flex items-center justify-between p-3 sm:p-4 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50 hover:shadow-lg"
+// //                 className="group flex items-center justify-between p-3 sm:p-4 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 hover:shadow-lg"
 // //               >
 // //                 <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
 // //                   <span className="text-xl sm:text-2xl flex-shrink-0">{calc.icon || "🧮"}</span>
 // //                   <div className="text-left min-w-0 flex-1">
-// //                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs sm:text-sm truncate">
+// //                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">
 // //                       {calc.name}
 // //                     </h3>
-// //                     <p className="text-[10px] sm:text-xs text-gray-500 truncate hidden sm:block">{calc.desc}</p>
+// //                     <p className="text-[10px] sm:text-xs text-ink-faint truncate hidden sm:block">{calc.desc}</p>
 // //                   </div>
 // //                 </div>
-// //                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+// //                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 // //               </button>
 // //             ))}
 // //           </div>
@@ -170,17 +170,17 @@
 // //               <button
 // //                 key={calc.id}
 // //                 onClick={() => router.push(calc.path)}
-// //                 className="group flex items-center justify-between p-3 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50"
+// //                 className="group flex items-center justify-between p-3 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300"
 // //               >
 // //                 <div className="flex items-center gap-2 min-w-0 flex-1">
 // //                   <span className="text-lg flex-shrink-0">{calc.icon || "🧮"}</span>
 // //                   <div className="text-left min-w-0 flex-1">
-// //                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs truncate">
+// //                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs truncate">
 // //                       {calc.name}
 // //                     </h3>
 // //                   </div>
 // //                 </div>
-// //                 <ChevronRight className="w-3 h-3 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+// //                 <ChevronRight className="w-3 h-3 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 // //               </button>
 // //             ))}
 // //           </div>
@@ -190,10 +190,10 @@
 // //         {filteredCalculators.length === 0 && (
 // //           <div className="text-center py-12">
 // //             <div className="text-5xl mb-3">🔍</div>
-// //             <p className="text-gray-400">No calculators found matching "{searchTerm}"</p>
+// //             <p className="text-ink-faint">No calculators found matching "{searchTerm}"</p>
 // //             <button
 // //               onClick={() => handleSearchChange("")}
-// //               className="mt-3 text-sm text-blue-400 hover:underline"
+// //               className="mt-3 text-sm text-blue-600 hover:underline"
 // //             >
 // //               Clear search
 // //             </button>
@@ -201,36 +201,36 @@
 // //         )}
 
 // //         {/* SEO Content Section */}
-// //         <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-800">
+// //         <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-hairline">
 // //           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
 
 // //             {/* Left Column */}
-// //             <div className="text-xs sm:text-sm text-gray-400 space-y-2 sm:space-y-3">
-// //               <h2 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Why Use Numrexo Free Online Calculators?</h2>
+// //             <div className="text-xs sm:text-sm text-ink-faint space-y-2 sm:space-y-3">
+// //               <h2 className="text-base sm:text-lg font-semibold text-ink mb-2 sm:mb-3">Why Use Numrexo Free Online Calculators?</h2>
 // //               <p>
-// //                 Numrexo is a <strong className="text-white">free online calculator platform</strong> built for speed, accuracy, and simplicity.
-// //                 Whether you need to calculate your <strong className="text-white">Body Mass Index (BMI)</strong>, figure out your monthly loan
-// //                 <strong className="text-white">EMI (Equated Monthly Installment)</strong>, work out a percentage change, or estimate your GST or SIP returns —
+// //                 Numrexo is a <strong className="text-ink">free online calculator platform</strong> built for speed, accuracy, and simplicity.
+// //                 Whether you need to calculate your <strong className="text-ink">Body Mass Index (BMI)</strong>, figure out your monthly loan
+// //                 <strong className="text-ink">EMI (Equated Monthly Installment)</strong>, work out a percentage change, or estimate your GST or SIP returns —
 // //                 Numrexo has a dedicated, purpose-built calculator for every need.
 // //               </p>
 // //               <p>
-// //                 Our <strong className="text-white">BMI Calculator</strong> uses the World Health Organization (WHO) standard formula, giving you
-// //                 instant insight into whether your weight falls in the healthy range. The <strong className="text-white">EMI Calculator</strong>
+// //                 Our <strong className="text-ink">BMI Calculator</strong> uses the World Health Organization (WHO) standard formula, giving you
+// //                 instant insight into whether your weight falls in the healthy range. The <strong className="text-ink">EMI Calculator</strong>
 // //                 applies the standard amortization formula used by banks globally, helping you plan home loans, car loans, or personal loans
 // //                 with complete transparency.
 // //               </p>
 // //               <p>
-// //                 The <strong className="text-white">Percentage Calculator</strong> handles percentage increase, decrease, and difference in seconds —
-// //                 perfect for students, teachers, shoppers, and business professionals. The <strong className="text-white">Age Calculator</strong>
+// //                 The <strong className="text-ink">Percentage Calculator</strong> handles percentage increase, decrease, and difference in seconds —
+// //                 perfect for students, teachers, shoppers, and business professionals. The <strong className="text-ink">Age Calculator</strong>
 // //                 gives your exact age in years, months, and days — useful for official documents, medical records, or just satisfying curiosity.
 // //               </p>
 // //             </div>
 
 // //             {/* Right Column */}
-// //             <div className="text-xs sm:text-sm text-gray-400 space-y-2 sm:space-y-3">
-// //               <h2 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Privacy First & Global Access</h2>
+// //             <div className="text-xs sm:text-sm text-ink-faint space-y-2 sm:space-y-3">
+// //               <h2 className="text-base sm:text-lg font-semibold text-ink mb-2 sm:mb-3">Privacy First & Global Access</h2>
 // //               <p>
-// //                 <strong className="text-white">Privacy first:</strong> every calculation happens entirely inside your browser.
+// //                 <strong className="text-ink">Privacy first:</strong> every calculation happens entirely inside your browser.
 // //                 Numrexo never stores, logs, or shares your input data. No account, no email, no tracking — just instant answers.
 // //               </p>
 // //               <p>
@@ -238,13 +238,13 @@
 // //                 Open your browser, pick a calculator, enter your values, and get results in under a second.
 // //               </p>
 // //               <p>
-// //                 <strong className="text-white">100% free, no registration, no data collection.</strong> All calculations
+// //                 <strong className="text-ink">100% free, no registration, no data collection.</strong> All calculations
 // //                 happen in your browser — your data stays private and secure.
 // //               </p>
 
-// //               <div className="mt-3 sm:mt-4 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-// //                 <p className="text-xs text-blue-300/80">
-// //                   💡 <strong className="text-blue-300">Pro Tip:</strong> Use the search bar above to find any calculator quickly — just type
+// //               <div className="mt-3 sm:mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg">
+// //                 <p className="text-xs text-blue-600/80">
+// //                   💡 <strong className="text-blue-600">Pro Tip:</strong> Use the search bar above to find any calculator quickly — just type
 // //                   "BMI", "EMI", "GST", or any calculator name. Bookmark this page for instant access to all tools!
 // //                 </p>
 // //               </div>
@@ -252,20 +252,20 @@
 // //           </div>
 
 // //           {/* Internal Links */}
-// //           <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-800/50 text-xs text-gray-500 text-center">
+// //           <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-hairline text-xs text-ink-faint text-center">
 // //             <p className="flex flex-wrap justify-center gap-1">
 // //               <span>Popular Calculators:</span>
-// //               <a href="/health/bmi-calculator" className="text-blue-400 hover:underline">BMI Calculator</a> •
-// //               <a href="/finance/emi-calculator" className="text-blue-400 hover:underline">EMI Calculator</a> •
-// //               <a href="/tax/gst-calculator" className="text-blue-400 hover:underline">GST Calculator</a> •
-// //               <a href="/math/age-calculator" className="text-blue-400 hover:underline">Age Calculator</a> •
-// //               <a href="/math/percentage-calculator" className="text-blue-400 hover:underline">Percentage Calculator</a> •
-// //               <a href="/investment/sip-calculator" className="text-blue-400 hover:underline">SIP Calculator</a>
+// //               <a href="/health/bmi-calculator" className="text-blue-600 hover:underline">BMI Calculator</a> •
+// //               <a href="/finance/emi-calculator" className="text-blue-600 hover:underline">EMI Calculator</a> •
+// //               <a href="/tax/gst-calculator" className="text-blue-600 hover:underline">GST Calculator</a> •
+// //               <a href="/math/age-calculator" className="text-blue-600 hover:underline">Age Calculator</a> •
+// //               <a href="/math/percentage-calculator" className="text-blue-600 hover:underline">Percentage Calculator</a> •
+// //               <a href="/investment/sip-calculator" className="text-blue-600 hover:underline">SIP Calculator</a>
 // //             </p>
-// //             <p className="mt-2 text-gray-600 text-[10px] sm:text-[11px]">
-// //               <span className="text-gray-500">🧮 Free online calculators for every need | </span>
-// //               <span className="text-gray-500">100% privacy-first | </span>
-// //               <span className="text-gray-500">No sign-up, no tracking</span>
+// //             <p className="mt-2 text-ink-faint text-[10px] sm:text-[11px]">
+// //               <span className="text-ink-faint">🧮 Free online calculators for every need | </span>
+// //               <span className="text-ink-faint">100% privacy-first | </span>
+// //               <span className="text-ink-faint">No sign-up, no tracking</span>
 // //             </p>
 // //           </div>
 // //         </div>
@@ -343,7 +343,7 @@
 // //           </div>
 // //           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 // //             {[1, 2, 3, 4, 5, 6].map(i => (
-// //               <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl h-32 animate-pulse" />
+// //               <div key={i} className="bg-surface border border-hairline rounded-xl h-32 animate-pulse" />
 // //             ))}
 // //           </div>
 // //         </div>
@@ -355,26 +355,26 @@
 // //     <section className="px-4 sm:px-6 py-8 sm:py-12 md:py-16">
 // //       <div className="max-w-6xl mx-auto">
 // //         <div className="text-center mb-8 sm:mb-10">
-// //           <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">All Tools</span>
+// //           <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">All Tools</span>
 // //           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-2 sm:mb-3">Browse All Calculators</h1>
-// //           <p className="text-gray-400 text-sm sm:text-base">Free, accurate calculators for every need</p>
+// //           <p className="text-ink-faint text-sm sm:text-base">Free, accurate calculators for every need</p>
 // //         </div>
 
 // //         {/* Search Bar */}
 // //         <div className="mb-6 sm:mb-8">
 // //           <div className="relative">
-// //             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+// //             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint" />
 // //             <input
 // //               type="text"
 // //               placeholder="Search calculators..."
 // //               value={searchTerm}
 // //               onChange={(e) => handleSearchChange(e.target.value)}
-// //               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#111827] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors text-sm sm:text-base"
+// //               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-surface border border-hairline rounded-xl text-ink placeholder-gray-500 focus:border-blue-600 outline-none transition-colors text-sm sm:text-base"
 // //             />
 // //             {searchTerm && (
 // //               <button
 // //                 onClick={() => handleSearchChange("")}
-// //                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+// //                 className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink-soft"
 // //               >
 // //                 ✕
 // //               </button>
@@ -388,8 +388,8 @@
 // //             <button
 // //               onClick={() => setSelectedCategory("all")}
 // //               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === "all"
-// //                 ? "bg-blue-500 text-white"
-// //                 : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+// //                 ? "bg-blue-600 text-white"
+// //                 : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 // //                 }`}
 // //             >
 // //               All
@@ -399,8 +399,8 @@
 // //                 key={key}
 // //                 onClick={() => setSelectedCategory(key)}
 // //                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === key
-// //                   ? "bg-blue-500 text-white"
-// //                   : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+// //                   ? "bg-blue-600 text-white"
+// //                   : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 // //                   }`}
 // //               >
 // //                 {cat.icon} {cat.name}
@@ -409,7 +409,7 @@
 // //           </div>
 // //         </div>
 
-// //         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-500">
+// //         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-ink-faint">
 // //           Found {filteredCalculators.length} calculator{filteredCalculators.length !== 1 ? "s" : ""}
 // //         </div>
 
@@ -428,10 +428,10 @@
 // //             {linkCalculators.length > 0 && (
 // //               <div className="hidden md:block relative my-8 sm:my-10">
 // //                 <div className="absolute inset-0 flex items-center">
-// //                   <div className="w-full border-t border-gray-800"></div>
+// //                   <div className="w-full border-t border-hairline"></div>
 // //                 </div>
 // //                 <div className="relative flex justify-center">
-// //                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-gray-500">More Calculators</span>
+// //                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-ink-faint">More Calculators</span>
 // //                 </div>
 // //               </div>
 // //             )}
@@ -445,18 +445,18 @@
 // //               <button
 // //                 key={calc.id}
 // //                 onClick={() => router.push(calc.path)}
-// //                 className="group flex items-center justify-between p-3 sm:p-4 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50 hover:shadow-lg"
+// //                 className="group flex items-center justify-between p-3 sm:p-4 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 hover:shadow-lg"
 // //               >
 // //                 <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
 // //                   <span className="text-xl sm:text-2xl flex-shrink-0">{calc.icon || "🧮"}</span>
 // //                   <div className="text-left min-w-0 flex-1">
-// //                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs sm:text-sm truncate">
+// //                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">
 // //                       {calc.name}
 // //                     </h3>
-// //                     <p className="text-[10px] sm:text-xs text-gray-500 truncate hidden sm:block">{calc.desc}</p>
+// //                     <p className="text-[10px] sm:text-xs text-ink-faint truncate hidden sm:block">{calc.desc}</p>
 // //                   </div>
 // //                 </div>
-// //                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+// //                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 // //               </button>
 // //             ))}
 // //           </div>
@@ -469,17 +469,17 @@
 // //               <button
 // //                 key={calc.id}
 // //                 onClick={() => router.push(calc.path)}
-// //                 className="group flex items-center justify-between p-3 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50"
+// //                 className="group flex items-center justify-between p-3 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300"
 // //               >
 // //                 <div className="flex items-center gap-2 min-w-0 flex-1">
 // //                   <span className="text-lg flex-shrink-0">{calc.icon || "🧮"}</span>
 // //                   <div className="text-left min-w-0 flex-1">
-// //                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs truncate">
+// //                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs truncate">
 // //                       {calc.name}
 // //                     </h3>
 // //                   </div>
 // //                 </div>
-// //                 <ChevronRight className="w-3 h-3 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+// //                 <ChevronRight className="w-3 h-3 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 // //               </button>
 // //             ))}
 // //           </div>
@@ -488,10 +488,10 @@
 // //         {filteredCalculators.length === 0 && (
 // //           <div className="text-center py-12">
 // //             <div className="text-5xl mb-3">🔍</div>
-// //             <p className="text-gray-400">No calculators found matching "{searchTerm}"</p>
+// //             <p className="text-ink-faint">No calculators found matching "{searchTerm}"</p>
 // //             <button
 // //               onClick={() => handleSearchChange("")}
-// //               className="mt-3 text-sm text-blue-400 hover:underline"
+// //               className="mt-3 text-sm text-blue-600 hover:underline"
 // //             >
 // //               Clear search
 // //             </button>
@@ -499,7 +499,7 @@
 // //         )}
 
 // //         {/* SEO Content - Rest remains same */}
-// //         <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-800">
+// //         <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-hairline">
 // //           {/* ... your existing SEO content ... */}
 // //         </div>
 // //       </div>
@@ -571,7 +571,7 @@
 //         <div className="max-w-6xl mx-auto">
 //           <div className="text-center mb-8 sm:mb-10">
 //             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">Browse All Calculators</h1>
-//             <p className="text-gray-400 text-sm sm:text-base mt-2">Loading...</p>
+//             <p className="text-ink-faint text-sm sm:text-base mt-2">Loading...</p>
 //           </div>
 //         </div>
 //       </section>
@@ -582,26 +582,26 @@
 //     <section className="px-4 sm:px-6 py-8 sm:py-12 md:py-16">
 //       <div className="max-w-6xl mx-auto">
 //         <div className="text-center mb-8 sm:mb-10">
-//           <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">All Tools</span>
+//           <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">All Tools</span>
 //           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-2 sm:mb-3">Browse All Calculators</h1>
-//           <p className="text-gray-400 text-sm sm:text-base">Free, accurate calculators for every need</p>
+//           <p className="text-ink-faint text-sm sm:text-base">Free, accurate calculators for every need</p>
 //         </div>
 
 //         {/* Search Bar */}
 //         <div className="mb-6 sm:mb-8">
 //           <div className="relative">
-//             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+//             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint" />
 //             <input
 //               type="text"
 //               placeholder="Search calculators..."
 //               value={searchTerm}
 //               onChange={(e) => handleSearchChange(e.target.value)}
-//               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-[#111827] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:border-blue-500 outline-none transition-colors text-sm sm:text-base"
+//               className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-surface border border-hairline rounded-xl text-ink placeholder-gray-500 focus:border-blue-600 outline-none transition-colors text-sm sm:text-base"
 //             />
 //             {searchTerm && (
 //               <button
 //                 onClick={() => handleSearchChange("")}
-//                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+//                 className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink-soft"
 //               >
 //                 ✕
 //               </button>
@@ -615,8 +615,8 @@
 //             <button
 //               onClick={() => setSelectedCategory("all")}
 //               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === "all"
-//                 ? "bg-blue-500 text-white"
-//                 : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+//                 ? "bg-blue-600 text-white"
+//                 : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 //                 }`}
 //             >
 //               All
@@ -626,8 +626,8 @@
 //                 key={key}
 //                 onClick={() => setSelectedCategory(key)}
 //                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === key
-//                   ? "bg-blue-500 text-white"
-//                   : "bg-[#111827] border border-gray-800 text-gray-400 hover:text-white"
+//                   ? "bg-blue-600 text-white"
+//                   : "bg-surface border border-hairline text-ink-faint hover:text-ink"
 //                   }`}
 //               >
 //                 {cat.icon} {cat.name}
@@ -637,7 +637,7 @@
 //         </div>
 
 //         {/* Results Count */}
-//         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-500">
+//         <div className="mb-3 sm:mb-4 text-xs sm:text-sm text-ink-faint">
 //           Found {filteredCalculators.length} calculator{filteredCalculators.length !== 1 ? "s" : ""}
 //         </div>
 
@@ -649,23 +649,23 @@
 //                 <div
 //                   key={calc.id}
 //                   onClick={() => router.push(calc.path)}
-//                   className="bg-[#111827] border border-gray-800 rounded-xl p-5 hover:border-blue-500/50 hover:scale-[1.02] transition-all cursor-pointer"
+//                   className="bg-surface border border-hairline rounded-xl p-5 hover:border-blue-300 hover:scale-[1.02] transition-all cursor-pointer"
 //                 >
 //                   <div className="flex items-center gap-3 mb-3">
 //                     <span className="text-3xl">{calc.icon || "🧮"}</span>
-//                     <h3 className="font-semibold text-white">{calc.name}</h3>
+//                     <h3 className="font-semibold text-ink">{calc.name}</h3>
 //                   </div>
-//                   <p className="text-gray-400 text-sm">{calc.desc}</p>
+//                   <p className="text-ink-faint text-sm">{calc.desc}</p>
 //                 </div>
 //               ))}
 //             </div>
 //             {linkCalculators.length > 0 && (
 //               <div className="hidden md:block relative my-8 sm:my-10">
 //                 <div className="absolute inset-0 flex items-center">
-//                   <div className="w-full border-t border-gray-800"></div>
+//                   <div className="w-full border-t border-hairline"></div>
 //                 </div>
 //                 <div className="relative flex justify-center">
-//                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-gray-500">More Calculators</span>
+//                   <span className="px-4 bg-[#0F172A] text-xs sm:text-sm text-ink-faint">More Calculators</span>
 //                 </div>
 //               </div>
 //             )}
@@ -679,18 +679,18 @@
 //               <button
 //                 key={calc.id}
 //                 onClick={() => router.push(calc.path)}
-//                 className="group flex items-center justify-between p-3 sm:p-4 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50 hover:shadow-lg text-left w-full"
+//                 className="group flex items-center justify-between p-3 sm:p-4 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 hover:shadow-lg text-left w-full"
 //               >
 //                 <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
 //                   <span className="text-xl sm:text-2xl flex-shrink-0">{calc.icon || "🧮"}</span>
 //                   <div className="min-w-0 flex-1">
-//                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs sm:text-sm truncate">
+//                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">
 //                       {calc.name}
 //                     </h3>
-//                     <p className="text-[10px] sm:text-xs text-gray-500 truncate hidden sm:block">{calc.desc}</p>
+//                     <p className="text-[10px] sm:text-xs text-ink-faint truncate hidden sm:block">{calc.desc}</p>
 //                   </div>
 //                 </div>
-//                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+//                 <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 //               </button>
 //             ))}
 //           </div>
@@ -703,17 +703,17 @@
 //               <button
 //                 key={calc.id}
 //                 onClick={() => router.push(calc.path)}
-//                 className="group flex items-center justify-between p-3 bg-[#111827] hover:bg-[#1A2333] border border-gray-800 rounded-xl transition-all duration-200 hover:border-blue-500/50 text-left w-full"
+//                 className="group flex items-center justify-between p-3 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 text-left w-full"
 //               >
 //                 <div className="flex items-center gap-2 min-w-0 flex-1">
 //                   <span className="text-lg flex-shrink-0">{calc.icon || "🧮"}</span>
 //                   <div className="min-w-0 flex-1">
-//                     <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-xs truncate">
+//                     <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs truncate">
 //                       {calc.name}
 //                     </h3>
 //                   </div>
 //                 </div>
-//                 <ChevronRight className="w-3 h-3 text-gray-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+//                 <ChevronRight className="w-3 h-3 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
 //               </button>
 //             ))}
 //           </div>
@@ -722,10 +722,10 @@
 //         {filteredCalculators.length === 0 && (
 //           <div className="text-center py-12">
 //             <div className="text-5xl mb-3">🔍</div>
-//             <p className="text-gray-400">No calculators found matching "{searchTerm}"</p>
+//             <p className="text-ink-faint">No calculators found matching "{searchTerm}"</p>
 //             <button
 //               onClick={() => handleSearchChange("")}
-//               className="mt-3 text-sm text-blue-400 hover:underline"
+//               className="mt-3 text-sm text-blue-600 hover:underline"
 //             >
 //               Clear search
 //             </button>

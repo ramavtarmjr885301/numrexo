@@ -152,22 +152,22 @@ export default function ConcreteCalculator() {
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CONCRETE_SCHEMA }} />
 
-            <nav className="mb-5"><ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500"><li><a href="/" className="hover:text-gray-300">Home</a></li><li className="text-gray-700">/</li><li><a href="/construction" className="hover:text-gray-300">Construction Calculators</a></li><li className="text-gray-700">/</li><li><span className="text-gray-300">Concrete Calculator</span></li></ol></nav>
+            <nav className="mb-5"><ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint"><li><a href="/" className="hover:text-ink-soft">Home</a></li><li className="text-ink-soft">/</li><li><a href="/construction" className="hover:text-ink-soft">Construction Calculators</a></li><li className="text-ink-soft">/</li><li><span className="text-ink-soft">Concrete Calculator</span></li></ol></nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Concrete Volume Calculator</h3><p className="text-xs text-gray-500 mt-1">Estimate materials for your project</p></div>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Concrete Volume Calculator</h3><p className="text-xs text-ink-faint mt-1">Estimate materials for your project</p></div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Structure Type</label><div className="grid grid-cols-3 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${shape === "slab" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("slab")}>Slab</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "column" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("column")}>Column</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "footing" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("footing")}>Footing</button></div></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Unit</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${unit === "feet" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("feet")}>Feet</button><button className={`py-2 rounded-lg text-sm transition-all ${unit === "meters" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("meters")}>Meters</button></div></div>
-                        {(shape === "slab" || shape === "footing") && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Length</label><div className="relative"><input type="number" placeholder="10" value={length} onChange={(e) => setLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Width</label><div className="relative"><input type="number" placeholder="10" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div></div></>)}
-                        {shape === "column" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Diameter</label><div className="relative"><input type="number" placeholder="1" step="0.1" value={diameter} onChange={(e) => setDiameter(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div></div>)}
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Height / Thickness</label><div className="relative"><input type="number" placeholder={shape === "slab" ? "0.33" : "8"} step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit}</span></div><p className="text-xs text-gray-500 mt-1">{shape === "slab" ? "Typical slab: 4-6 inches (0.33-0.5 feet)" : shape === "column" ? "Typical column: 8-12 feet" : "Typical footing: 1-2 feet"}</p></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Structure Type</label><div className="grid grid-cols-3 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${shape === "slab" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("slab")}>Slab</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "column" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("column")}>Column</button><button className={`py-2 rounded-lg text-sm transition-all ${shape === "footing" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("footing")}>Footing</button></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Unit</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm transition-all ${unit === "feet" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setUnit("feet")}>Feet</button><button className={`py-2 rounded-lg text-sm transition-all ${unit === "meters" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setUnit("meters")}>Meters</button></div></div>
+                        {(shape === "slab" || shape === "footing") && (<><div><label className="block text-xs font-semibold text-ink-faint mb-2">Length</label><div className="relative"><input type="number" placeholder="10" value={length} onChange={(e) => setLength(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit}</span></div></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Width</label><div className="relative"><input type="number" placeholder="10" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit}</span></div></div></>)}
+                        {shape === "column" && (<div><label className="block text-xs font-semibold text-ink-faint mb-2">Diameter</label><div className="relative"><input type="number" placeholder="1" step="0.1" value={diameter} onChange={(e) => setDiameter(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit}</span></div></div>)}
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Height / Thickness</label><div className="relative"><input type="number" placeholder={shape === "slab" ? "0.33" : "8"} step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit}</span></div><p className="text-xs text-ink-faint mt-1">{shape === "slab" ? "Typical slab: 4-6 inches (0.33-0.5 feet)" : shape === "column" ? "Typical column: 8-12 feet" : "Typical footing: 1-2 feet"}</p></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold hover:shadow-lg transition-all">Calculate Concrete →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -177,11 +177,11 @@ export default function ConcreteCalculator() {
                     isEmpty={!result}
                     emptyIcon="🧱"
                     emptyText="Enter dimensions and press Calculate"
-                    mainResult={result ? { label: "Total Concrete Volume (+10% waste)", value: `${result.volume} m³ (${result.volumeCubicFeet} cu ft)`, color: "text-gray-400" } : undefined}
+                    mainResult={result ? { label: "Total Concrete Volume (+10% waste)", value: `${result.volume} m³ (${result.volumeCubicFeet} cu ft)`, color: "text-ink-faint" } : undefined}
                     extraRows={result ? [
-                        { label: "Cement Bags (50kg each)", value: `${result.cementBags} bags`, valueColor: "text-blue-400" },
+                        { label: "Cement Bags (50kg each)", value: `${result.cementBags} bags`, valueColor: "text-blue-600" },
                         { label: "Cement Weight", value: `${result.cementWeight} kg` },
-                        { label: "Sand Required", value: `${result.sandWeight} kg`, valueColor: "text-yellow-400" },
+                        { label: "Sand Required", value: `${result.sandWeight} kg`, valueColor: "text-yellow-700" },
                         { label: "Aggregate Required", value: `${result.aggregateWeight} kg` },
                     ] : undefined}
                 />
@@ -191,61 +191,61 @@ export default function ConcreteCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Concrete Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Concrete Calculator</strong> helps contractors, DIY enthusiasts, and homeowners estimate the exact amount of concrete needed for slabs, columns, and footings. Save money by ordering the right quantity - no more, no less.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Concrete Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Concrete Calculator</strong> helps contractors, DIY enthusiasts, and homeowners estimate the exact amount of concrete needed for slabs, columns, and footings. Save money by ordering the right quantity - no more, no less.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Nothing's worse than running out of concrete halfway through a pour. Or worse - ordering too much and paying for disposal. Our calculator helps you hit that sweet spot. Professional contractors always add 10% extra - it's not being wasteful, it's being realistic.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Concrete Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Concrete Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">structure type</strong> — Slab (floors, driveways), Column (pillars, supports), or Footing (foundations).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Choose <strong className="text-white">unit</strong> — Feet (US) or Meters (metric).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter dimensions — length, width, height/thickness. For columns, enter diameter instead of length/width.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Concrete"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select <strong className="text-ink">structure type</strong> — Slab (floors, driveways), Column (pillars, supports), or Footing (foundations).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Choose <strong className="text-ink">unit</strong> — Feet (US) or Meters (metric).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter dimensions — length, width, height/thickness. For columns, enter diameter instead of length/width.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Concrete"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Accurate Concrete Estimation Matters</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Accurate Concrete Estimation Matters</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Cost Savings</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Concrete costs $4,000-8,000 per cubic meter. Over-ordering by 1 m³ wastes $5,000+. Under-ordering causes delays and weak cold joints.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Cost Savings</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Concrete costs $4,000-8,000 per cubic meter. Over-ordering by 1 m³ wastes $5,000+. Under-ordering causes delays and weak cold joints.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Less Waste</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Disposing extra concrete is expensive and environmentally harmful. Calculate accurately to reduce construction waste and save disposal fees.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Less Waste</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Disposing extra concrete is expensive and environmentally harmful. Calculate accurately to reduce construction waste and save disposal fees.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Stronger Structure</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Proper concrete volume ensures no cold joints or weak sections. Continuous pour = stronger monolithic structure.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Stronger Structure</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Proper concrete volume ensures no cold joints or weak sections. Continuous pour = stronger monolithic structure.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Time Efficiency</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">No multiple trips to purchase more concrete. No delays waiting for ready-mix trucks. Pour once, pour right.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Time Efficiency</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">No multiple trips to purchase more concrete. No delays waiting for ready-mix trucks. Pour once, pour right.</p>
                     </div>
                 </div>
             </section>
 
             {/* Concrete Mix Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Concrete Mix Ratio Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Concrete Mix Ratio Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Grade</th><th className="text-left py-3 px-4 text-gray-400">Mix Ratio</th><th className="text-left py-3 px-4 text-gray-400">Strength (MPa)</th><th className="text-left py-3 px-4 text-gray-400">Typical Use</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Grade</th><th className="text-left py-3 px-4 text-ink-faint">Mix Ratio</th><th className="text-left py-3 px-4 text-ink-faint">Strength (MPa)</th><th className="text-left py-3 px-4 text-ink-faint">Typical Use</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">M15</td><td className="py-2 px-4 text-yellow-400">1:2:4</td><td className="py-2 px-4">15 MPa</td><td className="py-2 px-4">Footings, boundary walls</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">M20</td><td className="py-2 px-4 text-yellow-400">1:1.5:3</td><td className="py-2 px-4">20 MPa</td><td className="py-2 px-4">Residential slabs, beams, columns</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">M25</td><td className="py-2 px-4 text-yellow-400">1:1:2</td><td className="py-2 px-4">25 MPa</td><td className="py-2 px-4">Commercial buildings, bridges</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">M30</td><td className="py-2 px-4 text-yellow-400">1:0.75:1.5</td><td className="py-2 px-4">30 MPa</td><td className="py-2 px-4">High-rise buildings, heavy loads</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">M15</td><td className="py-2 px-4 text-yellow-700">1:2:4</td><td className="py-2 px-4">15 MPa</td><td className="py-2 px-4">Footings, boundary walls</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">M20</td><td className="py-2 px-4 text-yellow-700">1:1.5:3</td><td className="py-2 px-4">20 MPa</td><td className="py-2 px-4">Residential slabs, beams, columns</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">M25</td><td className="py-2 px-4 text-yellow-700">1:1:2</td><td className="py-2 px-4">25 MPa</td><td className="py-2 px-4">Commercial buildings, bridges</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">M30</td><td className="py-2 px-4 text-yellow-700">1:0.75:1.5</td><td className="py-2 px-4">30 MPa</td><td className="py-2 px-4">High-rise buildings, heavy loads</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -253,56 +253,56 @@ export default function ConcreteCalculator() {
 
             {/* Volume Formulas */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Concrete Volume Formulas by Shape</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Concrete Volume Formulas by Shape</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">📐 Rectangular Slab</h3>
-                        <p className="text-white font-mono text-sm">L × W × H</p>
-                        <p className="text-gray-500 text-xs mt-1">Example: 10ft × 10ft × 0.33ft = 33 cu ft</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">📐 Rectangular Slab</h3>
+                        <p className="text-ink font-mono text-sm">L × W × H</p>
+                        <p className="text-ink-faint text-xs mt-1">Example: 10ft × 10ft × 0.33ft = 33 cu ft</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">⭕ Circular Column</h3>
-                        <p className="text-white font-mono text-sm">π × r² × H</p>
-                        <p className="text-gray-500 text-xs mt-1">Example: 3.14 × (1.5²) × 10ft = 70.7 cu ft</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">⭕ Circular Column</h3>
+                        <p className="text-ink font-mono text-sm">π × r² × H</p>
+                        <p className="text-ink-faint text-xs mt-1">Example: 3.14 × (1.5²) × 10ft = 70.7 cu ft</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">🔲 Rectangular Footing</h3>
-                        <p className="text-white font-mono text-sm">L × W × H</p>
-                        <p className="text-gray-500 text-xs mt-1">Example: 6ft × 6ft × 1.5ft = 54 cu ft</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">🔲 Rectangular Footing</h3>
+                        <p className="text-ink font-mono text-sm">L × W × H</p>
+                        <p className="text-ink-faint text-xs mt-1">Example: 6ft × 6ft × 1.5ft = 54 cu ft</p>
                     </div>
                 </div>
             </section>
 
             {/* Cost Estimation Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Concrete Cost Estimation Guide (India)</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Concrete Cost Estimation Guide (India)</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Ready-mix concrete:</strong> M20 grade costs $4,500-6,500 per m³ + transportation ($500-2,000 per trip).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Site-mix concrete (materials only):</strong> Cement $350-400/bag, Sand $800-1,200/tonne, Aggregate $1,000-1,500/tonne.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Labor cost:</strong> $500-1,000 per m³ for mixing, pouring, and finishing.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">•</span><span><strong className="text-gray-300">Formwork/shuttering:</strong> $500-800 per sq ft of contact area.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">•</span><span><strong className="text-ink-soft">Ready-mix concrete:</strong> M20 grade costs $4,500-6,500 per m³ + transportation ($500-2,000 per trip).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">•</span><span><strong className="text-ink-soft">Site-mix concrete (materials only):</strong> Cement $350-400/bag, Sand $800-1,200/tonne, Aggregate $1,000-1,500/tonne.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">•</span><span><strong className="text-ink-soft">Labor cost:</strong> $500-1,000 per m³ for mixing, pouring, and finishing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">•</span><span><strong className="text-ink-soft">Formwork/shuttering:</strong> $500-800 per sq ft of contact area.</span></li>
                 </ul>
             </section>
 
             {/* Pro Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Pro Tips for Concrete Pouring</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Pro Tips for Concrete Pouring</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Always add 10% waste:</strong> Ground isn't perfectly level, forms can leak, some concrete stays in the truck. This buffer saves you from disaster.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Order ready-mix for large pours:</strong> For over 5 m³, ready-mix truck is cheaper and more consistent than mixing on-site.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Pour within 90 minutes:</strong> Concrete starts setting after 90 minutes. Plan your pour so you finish before that.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Cure for 7 days minimum:</strong> Keep concrete moist with water curing or wet burlap. This increases strength by 50% vs uncured concrete.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Always add 10% waste:</strong> Ground isn't perfectly level, forms can leak, some concrete stays in the truck. This buffer saves you from disaster.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Order ready-mix for large pours:</strong> For over 5 m³, ready-mix truck is cheaper and more consistent than mixing on-site.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Pour within 90 minutes:</strong> Concrete starts setting after 90 minutes. Plan your pour so you finish before that.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Cure for 7 days minimum:</strong> Keep concrete moist with water curing or wet burlap. This increases strength by 50% vs uncured concrete.</span></li>
                 </ul>
             </section>
 
             {/* Getting Your Concrete Quantity Right */}
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">Getting Your Concrete Quantity Right</h2><p className="text-gray-400 text-sm leading-relaxed">Nothing's worse than running out of concrete halfway through a pour. Or worse - ordering too much and paying for disposal. Our calculator helps you hit that sweet spot. Remember to add 10% extra for waste, spillage, and variations in ground level. Professional contractors always do this - it's not being wasteful, it's being realistic.</p></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-3">Getting Your Concrete Quantity Right</h2><p className="text-ink-faint text-sm leading-relaxed">Nothing's worse than running out of concrete halfway through a pour. Or worse - ordering too much and paying for disposal. Our calculator helps you hit that sweet spot. Remember to add 10% extra for waste, spillage, and variations in ground level. Professional contractors always do this - it's not being wasteful, it's being realistic.</p></section>
 
             {/* Concrete Mix Ratio Guide (Visual) */}
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Concrete Mix Ratio Guide</h2><div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-lg mb-1">🏠</div><h3 className="text-sm font-semibold text-blue-400">M20 (1:1.5:3)</h3><p className="text-xs text-gray-400">Residential slabs, beams, columns. Most common for home construction.</p></div><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-lg mb-1">🏭</div><h3 className="text-sm font-semibold text-blue-400">M25 (1:1:2)</h3><p className="text-xs text-gray-400">Commercial buildings, bridges. Stronger, used for heavy loads.</p></div><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-lg mb-1">🚧</div><h3 className="text-sm font-semibold text-blue-400">M15 (1:2:4)</h3><p className="text-xs text-gray-400">Footings, boundary walls, non-structural. Lower strength, cheaper.</p></div></div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Concrete Mix Ratio Guide</h2><div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-lg mb-1">🏠</div><h3 className="text-sm font-semibold text-blue-600">M20 (1:1.5:3)</h3><p className="text-xs text-ink-faint">Residential slabs, beams, columns. Most common for home construction.</p></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-lg mb-1">🏭</div><h3 className="text-sm font-semibold text-blue-600">M25 (1:1:2)</h3><p className="text-xs text-ink-faint">Commercial buildings, bridges. Stronger, used for heavy loads.</p></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-lg mb-1">🚧</div><h3 className="text-sm font-semibold text-blue-600">M15 (1:2:4)</h3><p className="text-xs text-ink-faint">Footings, boundary walls, non-structural. Lower strength, cheaper.</p></div></div></section>
 
             {/* FAQ Section */}
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div></section>
         </>
     );
 }

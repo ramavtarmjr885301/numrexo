@@ -160,19 +160,19 @@ export default function SWPCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-gray-300">Investment Calculators</a>
+                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">Investment Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">SWP Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">SWP Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -180,42 +180,42 @@ export default function SWPCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Your SWP Setup</h3>
-                        <p className="text-xs text-gray-500 mt-1">Turn your savings into regular income</p>
+                        <p className="text-xs text-ink-faint mt-1">Turn your savings into regular income</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Your Retirement Corpus</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Your Retirement Corpus</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="5000000"
                                     value={corpus}
                                     onChange={(e) => setCorpus(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Monthly Withdrawal You Want</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Monthly Withdrawal You Want</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="25000"
                                     value={monthlyWithdrawal}
                                     onChange={(e) => setMonthlyWithdrawal(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Expected Annual Return on Investment</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Expected Annual Return on Investment</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -223,15 +223,15 @@ export default function SWPCalculator() {
                                     step="0.5"
                                     value={expectedReturn}
                                     onChange={(e) => setExpectedReturn(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Conservative debt funds: 6-8% | Balanced funds: 8-10% | Equity: 10-12%</p>
+                            <p className="text-xs text-ink-faint mt-1">Conservative debt funds: 6-8% | Balanced funds: 8-10% | Equity: 10-12%</p>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Expected Inflation Rate (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Expected Inflation Rate (%)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -239,11 +239,11 @@ export default function SWPCalculator() {
                                     step="0.5"
                                     value={inflationRate}
                                     onChange={(e) => setInflationRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">SWP withdrawals will increase with inflation to maintain purchasing power</p>
+                            <p className="text-xs text-ink-faint mt-1">SWP withdrawals will increase with inflation to maintain purchasing power</p>
                         </div>
 
                         <div className="flex gap-3">
@@ -255,7 +255,7 @@ export default function SWPCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -269,9 +269,9 @@ export default function SWPCalculator() {
                     isEmpty={!result}
                     emptyIcon="💸"
                     emptyText="Enter your corpus and monthly withdrawal"
-                    mainResult={result ? { label: "Your Money Will Last", value: `${result.years} years ${result.months} months`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: "Your Money Will Last", value: `${result.years} years ${result.months} months`, color: "text-green-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Total You'll Withdraw", value: `₹${result.totalWithdrawn}`, valueColor: "text-green-400" },
+                        { label: "Total You'll Withdraw", value: `₹${result.totalWithdrawn}`, valueColor: "text-green-600" },
                         { label: "Starting Monthly Income", value: `₹${result.monthlyAmount}` },
                         { label: "Remaining Balance", value: result.finalBalance },
                         { label: "Total Duration", value: `${result.totalMonths} months` },
@@ -284,100 +284,100 @@ export default function SWPCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About SWP Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Systematic Withdrawal Plan (SWP) Calculator</strong> helps you plan your retirement income strategy. It shows how long your retirement corpus will last when you withdraw a fixed amount monthly, accounting for investment returns and inflation.
+                <h2 className="text-xl font-semibold text-ink mb-3">About SWP Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Systematic Withdrawal Plan (SWP) Calculator</strong> helps you plan your retirement income strategy. It shows how long your retirement corpus will last when you withdraw a fixed amount monthly, accounting for investment returns and inflation.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     SWPs are popular for retirees who want regular income while keeping their money invested in the market. Unlike traditional pension plans, SWPs offer flexibility - you control how much to withdraw and when, and your remaining money continues to grow.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our calculator factors in inflation to show you the real purchasing power of your withdrawals over time. This is crucial because ₹25,000 today will buy significantly less in 20 years at 6% inflation.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This SWP Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This SWP Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">retirement corpus</strong> (total savings you have).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your desired <strong className="text-white">monthly withdrawal</strong> amount.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Set the <strong className="text-white">expected annual return</strong> on your investments.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Set the <strong className="text-white">expected inflation rate</strong> (for inflation-adjusted withdrawals).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate SWP Duration"</strong> to see how long your money will last.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to try different scenarios and find the right withdrawal rate.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">retirement corpus</strong> (total savings you have).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your desired <strong className="text-ink">monthly withdrawal</strong> amount.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Set the <strong className="text-ink">expected annual return</strong> on your investments.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Set the <strong className="text-ink">expected inflation rate</strong> (for inflation-adjusted withdrawals).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate SWP Duration"</strong> to see how long your money will last.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to try different scenarios and find the right withdrawal rate.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an SWP Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an SWP Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Retirement Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how long your savings will last. Plan your retirement income strategy with confidence and avoid outliving your money.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Retirement Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how long your savings will last. Plan your retirement income strategy with confidence and avoid outliving your money.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Inflation Protection</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See how inflation impacts your purchasing power. Adjust your withdrawal strategy to maintain your lifestyle throughout retirement.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Inflation Protection</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See how inflation impacts your purchasing power. Adjust your withdrawal strategy to maintain your lifestyle throughout retirement.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Withdrawal Optimization</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Find the sustainable withdrawal rate. Balance between enjoying your retirement now and ensuring your money lasts.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Withdrawal Optimization</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Find the sustainable withdrawal rate. Balance between enjoying your retirement now and ensuring your money lasts.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Scenario Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare different return scenarios, withdrawal amounts, and inflation rates. Make informed decisions about your retirement strategy.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Scenario Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare different return scenarios, withdrawal amounts, and inflation rates. Make informed decisions about your retirement strategy.</p>
                     </div>
                 </div>
             </section>
 
             {/* SWP vs Other Income Options */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">SWP vs Other Retirement Income Options</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">SWP vs Other Retirement Income Options</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Option</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Income Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Flexibility</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Risk Level</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Growth Potential</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Option</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Income Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Flexibility</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Risk Level</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Growth Potential</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300 font-medium">SWP</td>
-                                <td className="py-3 px-4 text-gray-400">Market-linked</td>
-                                <td className="py-3 px-4 text-green-400">High</td>
-                                <td className="py-3 px-4 text-yellow-400">Medium</td>
-                                <td className="py-3 px-4 text-green-400">High</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-medium">SWP</td>
+                                <td className="py-3 px-4 text-ink-faint">Market-linked</td>
+                                <td className="py-3 px-4 text-green-600">High</td>
+                                <td className="py-3 px-4 text-yellow-700">Medium</td>
+                                <td className="py-3 px-4 text-green-600">High</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300 font-medium">Pension</td>
-                                <td className="py-3 px-4 text-gray-400">Guaranteed</td>
-                                <td className="py-3 px-4 text-red-400">Low</td>
-                                <td className="py-3 px-4 text-green-400">Low</td>
-                                <td className="py-3 px-4 text-red-400">Low</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-medium">Pension</td>
+                                <td className="py-3 px-4 text-ink-faint">Guaranteed</td>
+                                <td className="py-3 px-4 text-red-600">Low</td>
+                                <td className="py-3 px-4 text-green-600">Low</td>
+                                <td className="py-3 px-4 text-red-600">Low</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300 font-medium">Fixed Deposit</td>
-                                <td className="py-3 px-4 text-gray-400">Fixed</td>
-                                <td className="py-3 px-4 text-yellow-400">Medium</td>
-                                <td className="py-3 px-4 text-green-400">Very Low</td>
-                                <td className="py-3 px-4 text-red-400">Low</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-medium">Fixed Deposit</td>
+                                <td className="py-3 px-4 text-ink-faint">Fixed</td>
+                                <td className="py-3 px-4 text-yellow-700">Medium</td>
+                                <td className="py-3 px-4 text-green-600">Very Low</td>
+                                <td className="py-3 px-4 text-red-600">Low</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300 font-medium">Rental Income</td>
-                                <td className="py-3 px-4 text-gray-400">Property-linked</td>
-                                <td className="py-3 px-4 text-yellow-400">Medium</td>
-                                <td className="py-3 px-4 text-yellow-400">Medium</td>
-                                <td className="py-3 px-4 text-yellow-400">Medium</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-medium">Rental Income</td>
+                                <td className="py-3 px-4 text-ink-faint">Property-linked</td>
+                                <td className="py-3 px-4 text-yellow-700">Medium</td>
+                                <td className="py-3 px-4 text-yellow-700">Medium</td>
+                                <td className="py-3 px-4 text-yellow-700">Medium</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * SWP offers the best balance of flexibility and growth potential, making it ideal for retirement income planning.
                     </p>
                 </div>
@@ -385,95 +385,95 @@ export default function SWPCalculator() {
 
             {/* The 4% Rule */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">The 4% Rule Explained</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2">Year 1 Withdrawal = Corpus × 0.04</p>
-                    <p className="text-gray-500 text-xs">Example: ₹1 Crore corpus → ₹40,000 per month first year (₹4.8 lakh annual)</p>
-                    <p className="text-gray-500 text-xs mt-2">Then increase by inflation (say 6%) each year: Year 2: ₹42,400/month, Year 3: ₹44,944/month, etc.</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-800">
+                <h2 className="text-xl font-semibold text-ink mb-4">The 4% Rule Explained</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2">Year 1 Withdrawal = Corpus × 0.04</p>
+                    <p className="text-ink-faint text-xs">Example: ₹1 Crore corpus → ₹40,000 per month first year (₹4.8 lakh annual)</p>
+                    <p className="text-ink-faint text-xs mt-2">Then increase by inflation (say 6%) each year: Year 2: ₹42,400/month, Year 3: ₹44,944/month, etc.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-hairline">
                         <div className="text-center">
-                            <p className="text-xs text-gray-400">Conservative (3%)</p>
-                            <p className="text-sm text-green-400 font-semibold">₹25,000/month</p>
-                            <p className="text-xs text-gray-500">Per ₹1 Crore</p>
+                            <p className="text-xs text-ink-faint">Conservative (3%)</p>
+                            <p className="text-sm text-green-600 font-semibold">₹25,000/month</p>
+                            <p className="text-xs text-ink-faint">Per ₹1 Crore</p>
                         </div>
-                        <div className="text-center border-x border-gray-800">
-                            <p className="text-xs text-gray-400">Standard (4%)</p>
-                            <p className="text-sm text-yellow-400 font-semibold">₹33,333/month</p>
-                            <p className="text-xs text-gray-500">Per ₹1 Crore</p>
+                        <div className="text-center border-x border-hairline">
+                            <p className="text-xs text-ink-faint">Standard (4%)</p>
+                            <p className="text-sm text-yellow-700 font-semibold">₹33,333/month</p>
+                            <p className="text-xs text-ink-faint">Per ₹1 Crore</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-xs text-gray-400">Aggressive (5%)</p>
-                            <p className="text-sm text-orange-400 font-semibold">₹41,667/month</p>
-                            <p className="text-xs text-gray-500">Per ₹1 Crore</p>
+                            <p className="text-xs text-ink-faint">Aggressive (5%)</p>
+                            <p className="text-sm text-orange-600 font-semibold">₹41,667/month</p>
+                            <p className="text-xs text-ink-faint">Per ₹1 Crore</p>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-3">The 4% rule has historically worked 95% of the time for 30-year retirements in the US market.</p>
+                    <p className="text-ink-faint text-xs mt-3">The 4% rule has historically worked 95% of the time for 30-year retirements in the US market.</p>
                 </div>
             </section>
 
             {/* SWP Strategies */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">SWP Withdrawal Strategies</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">SWP Withdrawal Strategies</h2>
                 <div className="space-y-2">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-green-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-green-400">1️⃣ Fixed Amount SWP</h4>
-                        <p className="text-xs text-gray-400">Withdraw a fixed amount each month regardless of market performance. Simple and predictable. Best for those who need consistent income and can tolerate market fluctuations.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
+                        <h4 className="text-sm font-semibold text-green-600">1️⃣ Fixed Amount SWP</h4>
+                        <p className="text-xs text-ink-faint">Withdraw a fixed amount each month regardless of market performance. Simple and predictable. Best for those who need consistent income and can tolerate market fluctuations.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-blue-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-blue-400">2️⃣ Inflation-Adjusted SWP</h4>
-                        <p className="text-xs text-gray-400">Withdrawals increase annually with inflation to maintain purchasing power. Our calculator supports this strategy. Essential for long retirements (20+ years).</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
+                        <h4 className="text-sm font-semibold text-blue-600">2️⃣ Inflation-Adjusted SWP</h4>
+                        <p className="text-xs text-ink-faint">Withdrawals increase annually with inflation to maintain purchasing power. Our calculator supports this strategy. Essential for long retirements (20+ years).</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-yellow-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-yellow-400">3️⃣ Percentage-Based SWP</h4>
-                        <p className="text-xs text-gray-400">Withdraw a fixed percentage (e.g., 4%) of the current corpus each year. Income varies with markets but ensures you never run out. Best for those with flexible expenses.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-yellow-200 transition-all">
+                        <h4 className="text-sm font-semibold text-yellow-700">3️⃣ Percentage-Based SWP</h4>
+                        <p className="text-xs text-ink-faint">Withdraw a fixed percentage (e.g., 4%) of the current corpus each year. Income varies with markets but ensures you never run out. Best for those with flexible expenses.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-purple-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-purple-400">4️⃣ Bucket Strategy</h4>
-                        <p className="text-xs text-gray-400">Keep 2-3 years of expenses in cash/FDs (short-term bucket), rest in growth assets (long-term bucket). Withdraw from the short-term bucket and replenish from the long-term bucket in good years. Reduces sequence of returns risk.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-purple-200 transition-all">
+                        <h4 className="text-sm font-semibold text-purple-600">4️⃣ Bucket Strategy</h4>
+                        <p className="text-xs text-ink-faint">Keep 2-3 years of expenses in cash/FDs (short-term bucket), rest in growth assets (long-term bucket). Withdraw from the short-term bucket and replenish from the long-term bucket in good years. Reduces sequence of returns risk.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-red-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-red-400">5️⃣ Variable SWP</h4>
-                        <p className="text-xs text-gray-400">Withdraw more in good market years and less in bad years. This strategy maximizes longevity of your corpus. Best for retirees with discretionary expenses that can be adjusted.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-red-200 transition-all">
+                        <h4 className="text-sm font-semibold text-red-600">5️⃣ Variable SWP</h4>
+                        <p className="text-xs text-ink-faint">Withdraw more in good market years and less in bad years. This strategy maximizes longevity of your corpus. Best for retirees with discretionary expenses that can be adjusted.</p>
                     </div>
                 </div>
             </section>
 
             {/* Tax Implications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tax Implications of SWP</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-3">Tax Implications of SWP</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-yellow-400 mb-2">Equity Funds</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
-                                <li>• <strong className="text-gray-300">LTCG (&gt;1 year):</strong> 10% tax on gains exceeding ₹1 lakh per financial year</li>
-                                <li>• <strong className="text-gray-300">STCG (&lt;1 year):</strong> 15% tax on entire gains</li>
-                                <li>• <strong className="text-gray-300">Indexation:</strong> Not available for equity funds</li>
-                                <li>• <strong className="text-gray-300">Tax on SWP:</strong> Only the capital gains portion is taxed (not the entire withdrawal)</li>
+                            <h4 className="text-sm font-semibold text-yellow-700 mb-2">Equity Funds</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• <strong className="text-ink-soft">LTCG (&gt;1 year):</strong> 10% tax on gains exceeding ₹1 lakh per financial year</li>
+                                <li>• <strong className="text-ink-soft">STCG (&lt;1 year):</strong> 15% tax on entire gains</li>
+                                <li>• <strong className="text-ink-soft">Indexation:</strong> Not available for equity funds</li>
+                                <li>• <strong className="text-ink-soft">Tax on SWP:</strong> Only the capital gains portion is taxed (not the entire withdrawal)</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-blue-400 mb-2">Debt Funds</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
-                                <li>• <strong className="text-gray-300">LTCG (&gt;3 years):</strong> 20% tax with indexation benefit (reduces tax)</li>
-                                <li>• <strong className="text-gray-300">STCG (&lt;3 years):</strong> Added to income, taxed as per slab rate</li>
-                                <li>• <strong className="text-gray-300">Indexation:</strong> Available for LTCG (adjusts purchase price for inflation)</li>
-                                <li>• <strong className="text-gray-300">Tax on SWP:</strong> Taxed only on the capital gains portion</li>
+                            <h4 className="text-sm font-semibold text-blue-600 mb-2">Debt Funds</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• <strong className="text-ink-soft">LTCG (&gt;3 years):</strong> 20% tax with indexation benefit (reduces tax)</li>
+                                <li>• <strong className="text-ink-soft">STCG (&lt;3 years):</strong> Added to income, taxed as per slab rate</li>
+                                <li>• <strong className="text-ink-soft">Indexation:</strong> Available for LTCG (adjusts purchase price for inflation)</li>
+                                <li>• <strong className="text-ink-soft">Tax on SWP:</strong> Taxed only on the capital gains portion</li>
                             </ul>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-800">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-hairline">
                         <div>
-                            <h4 className="text-sm font-semibold text-green-400 mb-2">Hybrid / Balanced Funds</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
-                                <li>• <strong className="text-gray-300">Taxation:</strong> Depends on equity allocation</li>
-                                <li>• <strong className="text-gray-300">Equity-oriented (&gt;65% equity):</strong> Taxed like equity funds</li>
-                                <li>• <strong className="text-gray-300">Debt-oriented (&lt;65% equity):</strong> Taxed like debt funds</li>
+                            <h4 className="text-sm font-semibold text-green-600 mb-2">Hybrid / Balanced Funds</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• <strong className="text-ink-soft">Taxation:</strong> Depends on equity allocation</li>
+                                <li>• <strong className="text-ink-soft">Equity-oriented (&gt;65% equity):</strong> Taxed like equity funds</li>
+                                <li>• <strong className="text-ink-soft">Debt-oriented (&lt;65% equity):</strong> Taxed like debt funds</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-purple-400 mb-2">💡 Tax Optimization Tips</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                            <h4 className="text-sm font-semibold text-purple-600 mb-2">💡 Tax Optimization Tips</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Withdraw from funds with highest cost basis first</li>
                                 <li>• Time withdrawals to manage income tax brackets</li>
                                 <li>• Use LTCG tax exemption of ₹1 lakh per year (equity)</li>
@@ -481,11 +481,11 @@ export default function SWPCalculator() {
                             </ul>
                         </div>
                     </div>
-                    <div className="mt-4 pt-3 border-t border-gray-800">
-                        <p className="text-gray-400 text-xs leading-relaxed">
-                            <strong className="text-gray-300">Important:</strong> In a SWP, each withdrawal is treated as a sale of units. Only the <strong className="text-white">capital gains</strong> portion is taxable, not the entire withdrawal amount. The cost basis (purchase price) determines the gains portion. This makes SWPs tax-efficient compared to regular income or interest income.
+                    <div className="mt-4 pt-3 border-t border-hairline">
+                        <p className="text-ink-faint text-xs leading-relaxed">
+                            <strong className="text-ink-soft">Important:</strong> In a SWP, each withdrawal is treated as a sale of units. Only the <strong className="text-ink">capital gains</strong> portion is taxable, not the entire withdrawal amount. The cost basis (purchase price) determines the gains portion. This makes SWPs tax-efficient compared to regular income or interest income.
                         </p>
-                        <p className="text-gray-500 text-xs mt-2">
+                        <p className="text-ink-faint text-xs mt-2">
                             ⚠️ Tax laws are subject to change. Consult a tax professional for personalized advice based on your specific situation.
                         </p>
                     </div>
@@ -494,46 +494,46 @@ export default function SWPCalculator() {
 
             {/* SWP Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart SWP Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart SWP Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Start with a conservative withdrawal rate:</strong> Begin with 3-3.5% and adjust if your portfolio outperforms. Better to start low and increase than to start high and run out of money.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Start with a conservative withdrawal rate:</strong> Begin with 3-3.5% and adjust if your portfolio outperforms. Better to start low and increase than to start high and run out of money.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Maintain an emergency buffer:</strong> Keep 6-12 months of expenses in liquid assets (FDs, savings). This prevents you from selling investments during market downturns.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Maintain an emergency buffer:</strong> Keep 6-12 months of expenses in liquid assets (FDs, savings). This prevents you from selling investments during market downturns.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Rebalance annually:</strong> Review and rebalance your portfolio each year. Ensure your asset allocation matches your risk tolerance and withdrawal needs.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Rebalance annually:</strong> Review and rebalance your portfolio each year. Ensure your asset allocation matches your risk tolerance and withdrawal needs.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider debt funds for SWP:</strong> Debt funds are less volatile and offer indexation benefits (tax advantage). A mix of equity and debt funds provides stability and growth.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider debt funds for SWP:</strong> Debt funds are less volatile and offer indexation benefits (tax advantage). A mix of equity and debt funds provides stability and growth.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Review SWP every 5 years:</strong> As you age, your needs change. Review your withdrawal strategy regularly and adjust for changing expenses, life expectancy, and market conditions.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Review SWP every 5 years:</strong> As you age, your needs change. Review your withdrawal strategy regularly and adjust for changing expenses, life expectancy, and market conditions.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

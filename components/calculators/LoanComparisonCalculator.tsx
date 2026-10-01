@@ -193,12 +193,12 @@ export default function LoanComparisonCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">Finance Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Loan Comparison Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Loan Comparison Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
@@ -206,30 +206,30 @@ export default function LoanComparisonCalculator() {
                 {/* Loan 1 and Loan 2 Side by Side */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Loan 1 Input Form */}
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gray-800 bg-blue-500/10">
-                            <h3 className="font-semibold text-blue-400">Loan 1</h3>
+                    <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                        <div className="px-6 py-4 border-b border-hairline bg-blue-50">
+                            <h3 className="font-semibold text-blue-600">Loan 1</h3>
                         </div>
                         <div className="p-6 space-y-4">
-                            <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                            <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan1Amount} onChange={(e) => setLoan1Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan1Rate} onChange={(e) => setLoan1Rate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan1Tenure} onChange={(e) => setLoan1Tenure(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan1Fees} onChange={(e) => setLoan1Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan1Amount} onChange={(e) => setLoan1Amount(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan1Rate} onChange={(e) => setLoan1Rate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan1Tenure} onChange={(e) => setLoan1Tenure(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan1Fees} onChange={(e) => setLoan1Fees(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span></div></div>
                         </div>
                     </div>
 
                     {/* Loan 2 Input Form */}
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gray-800 bg-green-500/10">
-                            <h3 className="font-semibold text-green-400">Loan 2</h3>
+                    <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                        <div className="px-6 py-4 border-b border-hairline bg-green-50">
+                            <h3 className="font-semibold text-green-600">Loan 2</h3>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan2Amount} onChange={(e) => setLoan2Amount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan2Rate} onChange={(e) => setLoan2Rate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan2Tenure} onChange={(e) => setLoan2Tenure(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan2Fees} onChange={(e) => setLoan2Fees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan2Amount} onChange={(e) => setLoan2Amount(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="9" value={loan2Rate} onChange={(e) => setLoan2Rate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Tenure (Years)</label><div className="relative"><input type="number" step="0.5" placeholder="5" value={loan2Tenure} onChange={(e) => setLoan2Tenure(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Processing Fees ({symbol}) - Optional</label><div className="relative"><input type="number" placeholder="0" value={loan2Fees} onChange={(e) => setLoan2Fees(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@ export default function LoanComparisonCalculator() {
                 {/* Calculate & Reset Buttons */}
                 <div className="flex gap-3">
                     <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Compare Loans →</button>
-                    <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                    <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                 </div>
 
                 {/* Result Box */}
@@ -246,15 +246,15 @@ export default function LoanComparisonCalculator() {
                     isEmpty={!result}
                     emptyIcon="⚖️"
                     emptyText="Enter both loan details and press Compare"
-                    mainResult={result ? { label: "Better Choice", value: result.betterLoan, color: "text-purple-400" } : undefined}
+                    mainResult={result ? { label: "Better Choice", value: result.betterLoan, color: "text-purple-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Monthly EMI - Loan 1", value: `${symbol}${Math.round(result.loan1.emi).toLocaleString()}`, valueColor: "text-blue-400" },
-                        { label: "Monthly EMI - Loan 2", value: `${symbol}${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Monthly EMI - Loan 1", value: `${symbol}${Math.round(result.loan1.emi).toLocaleString()}`, valueColor: "text-blue-600" },
+                        { label: "Monthly EMI - Loan 2", value: `${symbol}${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-600" },
                         { label: "Total Interest - Loan 1", value: `${symbol}${Math.round(result.loan1.totalInterest).toLocaleString()}` },
                         { label: "Total Interest - Loan 2", value: `${symbol}${Math.round(result.loan2.totalInterest).toLocaleString()}` },
                         { label: "Total Payment (incl. fees) - Loan 1", value: `${symbol}${Math.round(result.loan1.totalWithFees).toLocaleString()}` },
                         { label: "Total Payment (incl. fees) - Loan 2", value: `${symbol}${Math.round(result.loan2.totalWithFees).toLocaleString()}` },
-                        { label: "You Save", value: `${symbol}${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "You Save", value: `${symbol}${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-600" },
                     ] : []}
                 />
             </div>
@@ -263,73 +263,73 @@ export default function LoanComparisonCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Loan Comparison Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Loan Comparison Calculator</strong> helps you compare two loans side by side. Whether you're comparing home loans, car loans, or personal loans from different banks, know which offer truly saves you money.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Loan Comparison Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Loan Comparison Calculator</strong> helps you compare two loans side by side. Whether you're comparing home loans, car loans, or personal loans from different banks, know which offer truly saves you money.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     See monthly EMI, total interest payable, total payment including processing fees, and how much you save by choosing the better loan. Make informed borrowing decisions.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Loan Comparison Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Loan Comparison Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">Loan 1 details</strong> — amount, interest rate, tenure, processing fees.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">Loan 2 details</strong> from another bank or offer.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Compare Loans"</strong> to see side-by-side comparison.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Review EMI, total interest, total payment, and which loan is better.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and compare different loan offers.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter <strong className="text-ink">Loan 1 details</strong> — amount, interest rate, tenure, processing fees.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter <strong className="text-ink">Loan 2 details</strong> from another bank or offer.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Compare Loans"</strong> to see side-by-side comparison.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Review EMI, total interest, total payment, and which loan is better.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and compare different loan offers.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Loan Comparison Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Loan Comparison Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Save Money</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Find the cheaper loan offer. On a 30-year mortgage, half a percentage point is worth tens of thousands of dollars over the life of the loan.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Save Money</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Find the cheaper loan offer. On a 30-year mortgage, half a percentage point is worth tens of thousands of dollars over the life of the loan.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Avoid Hidden Costs</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Processing fees, legal charges, and prepayment penalties add to loan cost. Include them in comparison for true cost.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Avoid Hidden Costs</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Processing fees, legal charges, and prepayment penalties add to loan cost. Include them in comparison for true cost.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Tenure Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See how different tenures affect EMI and total interest. Choose the tenure that fits your budget.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Tenure Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See how different tenures affect EMI and total interest. Choose the tenure that fits your budget.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Bank Negotiation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Show bank A's offer to bank B to negotiate better rates. Knowledge is power in loan negotiation.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Bank Negotiation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Show bank A's offer to bank B to negotiate better rates. Knowledge is power in loan negotiation.</p>
                     </div>
                 </div>
             </section>
 
             {/* Factors to Consider */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Factors to Consider When Comparing Loans</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Factors to Consider When Comparing Loans</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">•</span><span><strong className="text-gray-300">Interest Rate (APR):</strong> Compare Annual Percentage Rate which includes interest + fees, not just the advertised rate.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">•</span><span><strong className="text-gray-300">Loan Tenure:</strong> Shorter tenure = higher EMI but lower total interest. Longer tenure = lower EMI but much higher total cost.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">•</span><span><strong className="text-gray-300">Processing Fees:</strong> Ranges from 0.5-2% of loan amount + 18% GST. Ask for fee waiver during festive offers.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">•</span><span><strong className="text-gray-300">Prepayment Penalty:</strong> Some banks charge 2-5% for early repayment. Floating rate loans usually have zero penalty.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-purple-400 mt-0.5">•</span><span><strong className="text-gray-300">Hidden Charges:</strong> Legal fees, valuation charges, document retrieval fees, late payment fees, loan cancellation fees.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-purple-600 mt-0.5">•</span><span><strong className="text-ink-soft">Interest Rate (APR):</strong> Compare Annual Percentage Rate which includes interest + fees, not just the advertised rate.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-purple-600 mt-0.5">•</span><span><strong className="text-ink-soft">Loan Tenure:</strong> Shorter tenure = higher EMI but lower total interest. Longer tenure = lower EMI but much higher total cost.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-purple-600 mt-0.5">•</span><span><strong className="text-ink-soft">Processing Fees:</strong> Ranges from 0.5-2% of loan amount + 18% GST. Ask for fee waiver during festive offers.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-purple-600 mt-0.5">•</span><span><strong className="text-ink-soft">Prepayment Penalty:</strong> Some banks charge 2-5% for early repayment. Floating rate loans usually have zero penalty.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-purple-600 mt-0.5">•</span><span><strong className="text-ink-soft">Hidden Charges:</strong> Legal fees, valuation charges, document retrieval fees, late payment fees, loan cancellation fees.</span></li>
                 </ul>
             </section>
 
             {/* Loan Types & Features */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Loan Types & Their Features</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Loan Types & Their Features</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Loan Type</th><th className="text-left py-3 px-4 text-gray-400">Interest Rate</th><th className="text-left py-3 px-4 text-gray-400">Tenure</th><th className="text-left py-3 px-4 text-gray-400">Fees</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Loan Type</th><th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th><th className="text-left py-3 px-4 text-ink-faint">Tenure</th><th className="text-left py-3 px-4 text-ink-faint">Fees</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Home Loan</td><td className="py-2 px-4">8.4-9.5%</td><td className="py-2 px-4">10-30 years</td><td className="py-2 px-4">0.5-1%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Car Loan</td><td className="py-2 px-4">9-12%</td><td className="py-2 px-4">3-7 years</td><td className="py-2 px-4">1-2%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Personal Loan</td><td className="py-2 px-4">11-18%</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">1-3%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Education Loan</td><td className="py-2 px-4">8-13%</td><td className="py-2 px-4">5-15 years</td><td className="py-2 px-4">1% + GST</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Home Loan</td><td className="py-2 px-4">8.4-9.5%</td><td className="py-2 px-4">10-30 years</td><td className="py-2 px-4">0.5-1%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Car Loan</td><td className="py-2 px-4">9-12%</td><td className="py-2 px-4">3-7 years</td><td className="py-2 px-4">1-2%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Personal Loan</td><td className="py-2 px-4">11-18%</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">1-3%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Education Loan</td><td className="py-2 px-4">8-13%</td><td className="py-2 px-4">5-15 years</td><td className="py-2 px-4">1% + GST</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -337,36 +337,36 @@ export default function LoanComparisonCalculator() {
 
             {/* Tips to Get Best Loan Deal */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tips to Get the Best Loan Deal</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Tips to Get the Best Loan Deal</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Improve credit score:</strong> 750+ CIBIL score gets 0.5-1% lower rates. Pay credit cards on time, reduce credit utilization.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Negotiate with banks:</strong> Use competitor offers to get better rates. Banks often match or beat competitor rates.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Choose the shorter term:</strong> if the higher payment fits your budget, a shorter term costs far less in total interest.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Ask for fee waiver:</strong> During festive seasons, many banks waive processing fees completely.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Improve credit score:</strong> 750+ CIBIL score gets 0.5-1% lower rates. Pay credit cards on time, reduce credit utilization.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Negotiate with banks:</strong> Use competitor offers to get better rates. Banks often match or beat competitor rates.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Choose the shorter term:</strong> if the higher payment fits your budget, a shorter term costs far less in total interest.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Ask for fee waiver:</strong> During festive seasons, many banks waive processing fees completely.</span></li>
                 </ul>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Loan Comparison Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2 text-center">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
-                    <p className="text-gray-500 text-xs text-center">Total Cost = (EMI × Months) + Processing Fees</p>
-                    <p className="text-gray-500 text-xs text-center mt-2">Better Loan = Lower Total Cost (including all fees)</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">Loan Comparison Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2 text-center">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
+                    <p className="text-ink-faint text-xs text-center">Total Cost = (EMI × Months) + Processing Fees</p>
+                    <p className="text-ink-faint text-xs text-center mt-2">Better Loan = Lower Total Cost (including all fees)</p>
                 </div>
             </section>
 
             {/* Loan Tips Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">What to Check When Comparing Loans</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">What to Check When Comparing Loans</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Factor</th><th className="text-left py-3 px-4 text-gray-400">Why It Matters</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Factor</th><th className="text-left py-3 px-4 text-ink-faint">Why It Matters</th></tr></thead>
                         <tbody>
                             {LOAN_TIPS.map((item, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{item.tip}</td>
-                                    <td className="py-3 px-4 text-gray-400">{item.detail}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{item.tip}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{item.detail}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -376,16 +376,16 @@ export default function LoanComparisonCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

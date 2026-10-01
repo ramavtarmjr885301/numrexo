@@ -178,32 +178,32 @@ export default function DecimalToFractionCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Decimal to Fraction Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Decimal to Fraction Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Decimal to Fraction Converter</h3>
-                        <p className="text-xs text-gray-500 mt-1">Convert any decimal number to a fraction</p>
+                        <p className="text-xs text-ink-faint mt-1">Convert any decimal number to a fraction</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Enter Decimal Number</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Enter Decimal Number</label>
                             <div className="relative">
-                                <input type="number" step="any" placeholder="0.75" value={decimal} onChange={(e) => setDecimal(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <input type="number" step="any" placeholder="0.75" value={decimal} onChange={(e) => setDecimal(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Examples: 0.5, 0.75, 1.25, 0.333...</p>
+                            <p className="text-xs text-ink-faint mt-1">Examples: 0.5, 0.75, 1.25, 0.333...</p>
                         </div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Convert to Fraction →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Convert to Fraction →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ export default function DecimalToFractionCalculator() {
                     isEmpty={!result}
                     emptyIcon="➗"
                     emptyText="Enter a decimal number and press Convert"
-                    mainResult={result ? { label: "Fraction", value: result.simplified, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Fraction", value: result.simplified, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
                         { label: "Mixed Number", value: result.mixedNumber },
                         { label: "Decimal Entered", value: result.decimal },
@@ -225,108 +225,108 @@ export default function DecimalToFractionCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Decimal to Fraction Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Decimal to Fraction Calculator</strong> converts any decimal number into its fraction form instantly. Whether you're a student learning fractions, a professional needing precise measurements, or anyone working with numerical conversions, this calculator saves time and ensures accuracy.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Decimal to Fraction Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Decimal to Fraction Calculator</strong> converts any decimal number into its fraction form instantly. Whether you're a student learning fractions, a professional needing precise measurements, or anyone working with numerical conversions, this calculator saves time and ensures accuracy.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our calculator handles terminating decimals (0.75 = 3/4), repeating decimals (0.333... = 1/3), mixed numbers (1.25 = 5/4 = 1 1/4), and negative decimals (-0.5 = -1/2). All results are automatically simplified to their lowest terms.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Decimal to Fraction Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Decimal to Fraction Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter any <strong className="text-white">decimal number</strong> in the input field (examples: 0.5, 0.75, 1.25, 0.333).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Click <strong className="text-white">"Convert to Fraction"</strong> to see the result.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> View the simplified fraction and mixed number (if applicable).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 4:</strong> Click <strong className="text-white">Reset</strong> to clear the input and start a new conversion.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter any <strong className="text-ink">decimal number</strong> in the input field (examples: 0.5, 0.75, 1.25, 0.333).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Click <strong className="text-ink">"Convert to Fraction"</strong> to see the result.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> View the simplified fraction and mixed number (if applicable).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 4:</strong> Click <strong className="text-ink">Reset</strong> to clear the input and start a new conversion.</p>
                 </div>
             </section>
 
             {/* Why Convert Decimal to Fraction */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Convert Decimal to Fraction?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Convert Decimal to Fraction?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Precise Measurements</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Fractions are more precise than decimals for construction, carpentry, cooking, and sewing. 1/3 inch is exact, while 0.333... inches is approximate.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Precise Measurements</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Fractions are more precise than decimals for construction, carpentry, cooking, and sewing. 1/3 inch is exact, while 0.333... inches is approximate.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Academic Requirements</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Math problems often require fraction answers. Convert decimals to fractions to show simplified, reduced forms for full credit.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Academic Requirements</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Math problems often require fraction answers. Convert decimals to fractions to show simplified, reduced forms for full credit.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Easier Comparisons</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Fractions with common denominators are easier to compare than decimals. 2/3 vs 3/4 is clearer than 0.666 vs 0.75.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Easier Comparisons</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Fractions with common denominators are easier to compare than decimals. 2/3 vs 3/4 is clearer than 0.666 vs 0.75.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Recipe Scaling</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">When scaling recipes, fractions work naturally. Doubling 1/3 cup is 2/3 cup, while 0.333 × 2 = 0.666 cups is less intuitive.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Recipe Scaling</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">When scaling recipes, fractions work naturally. Doubling 1/3 cup is 2/3 cup, while 0.333 × 2 = 0.666 cups is less intuitive.</p>
                     </div>
                 </div>
             </section>
 
             {/* Decimal Types Explained */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Decimal Types Explained</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Decimal Types Explained</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Terminating Decimals</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">End after finite digits. Examples: 0.5, 0.75, 0.125. Convert by writing over power of 10 (0.75 = 75/100 = 3/4). Denominators only have prime factors 2 and 5.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">Terminating Decimals</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">End after finite digits. Examples: 0.5, 0.75, 0.125. Convert by writing over power of 10 (0.75 = 75/100 = 3/4). Denominators only have prime factors 2 and 5.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Repeating Decimals</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Digits repeat infinitely (0.333..., 0.1666..., 0.142857142857...). Use algebraic method: x = 0.333..., 10x = 3.333..., 9x = 3, x = 1/3.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">Repeating Decimals</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Digits repeat infinitely (0.333..., 0.1666..., 0.142857142857...). Use algebraic method: x = 0.333..., 10x = 3.333..., 9x = 3, x = 1/3.</p>
                     </div>
                 </div>
             </section>
 
             {/* Conversion Methods */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Conversion Methods & Tricks</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Conversion Methods & Tricks</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">Method 1:</span><span><strong className="text-gray-300">Multiply by 10ⁿ:</strong> Count decimal places, multiply numerator and denominator by 10ⁿ, then simplify. Example: 0.75 × 100 = 75/100 = 3/4.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">Method 2:</span><span><strong className="text-gray-300">Fraction to decimal matching:</strong> Memorize common fractions: 1/2=0.5, 1/4=0.25, 3/4=0.75, 1/3=0.333..., 2/3=0.666...</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">Method 3:</span><span><strong className="text-gray-300">For repeating decimals:</strong> Multiply by power of 10 equal to repeating length, subtract original, solve for x.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">Method 1:</span><span><strong className="text-ink-soft">Multiply by 10ⁿ:</strong> Count decimal places, multiply numerator and denominator by 10ⁿ, then simplify. Example: 0.75 × 100 = 75/100 = 3/4.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">Method 2:</span><span><strong className="text-ink-soft">Fraction to decimal matching:</strong> Memorize common fractions: 1/2=0.5, 1/4=0.25, 3/4=0.75, 1/3=0.333..., 2/3=0.666...</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">Method 3:</span><span><strong className="text-ink-soft">For repeating decimals:</strong> Multiply by power of 10 equal to repeating length, subtract original, solve for x.</span></li>
                 </ul>
             </section>
 
             {/* Real-World Applications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications of Decimal to Fraction Conversion</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Real-World Applications of Decimal to Fraction Conversion</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🔨 Construction & Carpentry:</strong> Measurements are in fractions (1/4 inch, 3/8 inch). Convert decimal measurements from digital tools to fractions for cutting wood, pipes, or tiles.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">🍳 Cooking & Baking:</strong> Recipes use fractions (1/2 cup, 3/4 teaspoon). Convert decimal quantities from scaled recipes back to fractions for accurate measuring cups.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">📐 Engineering & CAD:</strong> Design software uses decimals, but manufacturing requires fractions. Convert dimensions for blueprints, machining, and 3D printing.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">📊 Finance & Statistics:</strong> Data may come as decimals, but reporting often uses fractions (3/4 of respondents, 2/3 majority).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">🔨 Construction & Carpentry:</strong> Measurements are in fractions (1/4 inch, 3/8 inch). Convert decimal measurements from digital tools to fractions for cutting wood, pipes, or tiles.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">🍳 Cooking & Baking:</strong> Recipes use fractions (1/2 cup, 3/4 teaspoon). Convert decimal quantities from scaled recipes back to fractions for accurate measuring cups.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">📐 Engineering & CAD:</strong> Design software uses decimals, but manufacturing requires fractions. Convert dimensions for blueprints, machining, and 3D printing.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">📊 Finance & Statistics:</strong> Data may come as decimals, but reporting often uses fractions (3/4 of respondents, 2/3 majority).</p>
                 </div>
             </section>
 
             {/* Conversion Examples Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Common Decimal to Fraction Conversions</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Common Decimal to Fraction Conversions</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Decimal</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Fraction</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Simplified</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Decimal</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Fraction</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Simplified</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.5</td><td className="py-2 px-4">5/10</td><td className="py-2 px-4 text-yellow-400">1/2</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.75</td><td className="py-2 px-4">75/100</td><td className="py-2 px-4 text-yellow-400">3/4</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.333...</td><td className="py-2 px-4">333/1000</td><td className="py-2 px-4 text-yellow-400">1/3</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.666...</td><td className="py-2 px-4">666/1000</td><td className="py-2 px-4 text-yellow-400">2/3</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.125</td><td className="py-2 px-4">125/1000</td><td className="py-2 px-4 text-yellow-400">1/8</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.375</td><td className="py-2 px-4">375/1000</td><td className="py-2 px-4 text-yellow-400">3/8</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.625</td><td className="py-2 px-4">625/1000</td><td className="py-2 px-4 text-yellow-400">5/8</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.875</td><td className="py-2 px-4">875/1000</td><td className="py-2 px-4 text-yellow-400">7/8</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.2</td><td className="py-2 px-4">2/10</td><td className="py-2 px-4 text-yellow-400">1/5</td></tr>
-                            <tr><td className="py-2 px-4">0.4</td><td className="py-2 px-4">4/10</td><td className="py-2 px-4 text-yellow-400">2/5</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.5</td><td className="py-2 px-4">5/10</td><td className="py-2 px-4 text-yellow-700">1/2</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.75</td><td className="py-2 px-4">75/100</td><td className="py-2 px-4 text-yellow-700">3/4</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.333...</td><td className="py-2 px-4">333/1000</td><td className="py-2 px-4 text-yellow-700">1/3</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.666...</td><td className="py-2 px-4">666/1000</td><td className="py-2 px-4 text-yellow-700">2/3</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.125</td><td className="py-2 px-4">125/1000</td><td className="py-2 px-4 text-yellow-700">1/8</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.375</td><td className="py-2 px-4">375/1000</td><td className="py-2 px-4 text-yellow-700">3/8</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.625</td><td className="py-2 px-4">625/1000</td><td className="py-2 px-4 text-yellow-700">5/8</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.875</td><td className="py-2 px-4">875/1000</td><td className="py-2 px-4 text-yellow-700">7/8</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.2</td><td className="py-2 px-4">2/10</td><td className="py-2 px-4 text-yellow-700">1/5</td></tr>
+                            <tr><td className="py-2 px-4">0.4</td><td className="py-2 px-4">4/10</td><td className="py-2 px-4 text-yellow-700">2/5</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -334,25 +334,25 @@ export default function DecimalToFractionCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Decimal to Fraction Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Convert any decimal number to its fraction form instantly. Get simplified fractions and mixed numbers with step-by-step explanation.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Decimal to Fraction Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Convert any decimal number to its fraction form instantly. Get simplified fractions and mixed numbers with step-by-step explanation.</p>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

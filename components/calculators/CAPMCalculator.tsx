@@ -143,28 +143,28 @@ export default function CAPMCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/investment" itemProp="item" className="hover:text-gray-300">Investment Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">CAPM Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">Investment Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">CAPM Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">CAPM Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Expected Return = Rf + β × (Rm - Rf)</p>
+                        <p className="text-xs text-ink-faint mt-1">Expected Return = Rf + β × (Rm - Rf)</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Risk-Free Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="7" value={riskFreeRate} onChange={(e) => setRiskFreeRate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div><p className="text-xs text-gray-500 mt-1">10-year government bond yield</p></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Expected Market Return (%)</label><div className="relative"><input type="number" step="0.1" placeholder="12" value={marketReturn} onChange={(e) => setMarketReturn(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div><p className="text-xs text-gray-500 mt-1">Nifty/Sensex expected return (10-14%)</p></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Stock Beta (β)</label><div className="relative"><input type="number" step="0.01" placeholder="1.2" value={beta} onChange={(e) => setBeta(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><p className="text-xs text-gray-500 mt-1">β=1 = market average, β{'>'}1 = higher risk/return</p></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Risk-Free Rate (%)</label><div className="relative"><input type="number" step="0.1" placeholder="7" value={riskFreeRate} onChange={(e) => setRiskFreeRate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span></div><p className="text-xs text-ink-faint mt-1">10-year government bond yield</p></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Expected Market Return (%)</label><div className="relative"><input type="number" step="0.1" placeholder="12" value={marketReturn} onChange={(e) => setMarketReturn(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span></div><p className="text-xs text-ink-faint mt-1">Nifty/Sensex expected return (10-14%)</p></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Stock Beta (β)</label><div className="relative"><input type="number" step="0.01" placeholder="1.2" value={beta} onChange={(e) => setBeta(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><p className="text-xs text-ink-faint mt-1">β=1 = market average, β{'>'}1 = higher risk/return</p></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Expected Return →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -174,11 +174,11 @@ export default function CAPMCalculator() {
                     isEmpty={!result}
                     emptyIcon="📊"
                     emptyText="Enter values to calculate"
-                    mainResult={result ? { label: "Expected Return", value: `${result.expectedReturn}%`, color: "text-indigo-400" } : undefined}
+                    mainResult={result ? { label: "Expected Return", value: `${result.expectedReturn}%`, color: "text-indigo-600" } : undefined}
                     extraRows={result ? [
                         { label: "Risk-Free Rate", value: `${result.riskFreeRate}%` },
                         { label: "Market Return", value: `${result.marketReturn}%` },
-                        { label: "Beta", value: result.beta, valueColor: "text-yellow-400" },
+                        { label: "Beta", value: result.beta, valueColor: "text-yellow-700" },
                         { label: "Market Risk Premium", value: `${result.riskPremium}%` },
                         { label: "Stock Risk Premium", value: `${result.stockRiskPremium}%` },
                         { label: "Risk Level", value: result.riskLevel },
@@ -190,62 +190,62 @@ export default function CAPMCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About CAPM Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Capital Asset Pricing Model (CAPM) Calculator</strong> helps investors calculate the expected return of a stock based on its risk level. Developed by William Sharpe in the 1960s (Nobel Prize-winning work), CAPM remains one of the most widely used models in finance for estimating required returns and valuing risky assets.
+                <h2 className="text-xl font-semibold text-ink mb-3">About CAPM Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Capital Asset Pricing Model (CAPM) Calculator</strong> helps investors calculate the expected return of a stock based on its risk level. Developed by William Sharpe in the 1960s (Nobel Prize-winning work), CAPM remains one of the most widely used models in finance for estimating required returns and valuing risky assets.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're evaluating individual stocks, building a portfolio, or analyzing investment opportunities, CAPM provides a systematic way to determine if a stock offers adequate return for its risk. The model considers three key inputs: risk-free rate, expected market return, and the stock's Beta (volatility relative to market).
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This CAPM Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This CAPM Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the current <strong className="text-white">Risk-Free Rate</strong> — typically the 10-year government bond yield (India ~7%, US ~4%).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">Expected Market Return</strong> — historical average return of Nifty/Sensex (10-14%) or S&P 500 (8-10%).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the stock's <strong className="text-white">Beta (β)</strong> — available on Yahoo Finance, Moneycontrol, or your brokerage platform.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Expected Return"</strong> to see the CAPM result and risk analysis.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and analyze a different stock.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the current <strong className="text-ink">Risk-Free Rate</strong> — typically the 10-year government bond yield (India ~7%, US ~4%).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">Expected Market Return</strong> — historical average return of Nifty/Sensex (10-14%) or S&P 500 (8-10%).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the stock's <strong className="text-ink">Beta (β)</strong> — available on Yahoo Finance, Moneycontrol, or your brokerage platform.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Expected Return"</strong> to see the CAPM result and risk analysis.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and analyze a different stock.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use CAPM for Investment Analysis</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use CAPM for Investment Analysis</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Risk-Adjusted Returns</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">CAPM tells you if a stock's expected return adequately compensates for its risk. Higher Beta stocks must offer higher returns to be worthwhile.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-indigo-600 mb-2">✓ Risk-Adjusted Returns</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">CAPM tells you if a stock's expected return adequately compensates for its risk. Higher Beta stocks must offer higher returns to be worthwhile.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Stock Valuation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Use CAPM expected return as discount rate for DCF or Dividend Discount Model to calculate intrinsic value of stocks.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Stock Valuation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Use CAPM expected return as discount rate for DCF or Dividend Discount Model to calculate intrinsic value of stocks.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Portfolio Construction</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Build efficient portfolios by selecting stocks with favorable expected returns relative to their risk (Beta).</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Portfolio Construction</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Build efficient portfolios by selecting stocks with favorable expected returns relative to their risk (Beta).</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Performance Evaluation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate Alpha = Actual Return - Expected Return. Positive Alpha indicates manager skill or undervalued stock.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Performance Evaluation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate Alpha = Actual Return - Expected Return. Positive Alpha indicates manager skill or undervalued stock.</p>
                     </div>
                 </div>
             </section>
 
             {/* Beta Interpretation Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Beta Interpretation Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Beta Interpretation Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Beta Range</th><th className="text-left py-3 px-4 text-gray-400">Risk Level</th><th className="text-left py-3 px-4 text-gray-400">Example Sectors</th><th className="text-left py-3 px-4 text-gray-400">Interpretation</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Beta Range</th><th className="text-left py-3 px-4 text-ink-faint">Risk Level</th><th className="text-left py-3 px-4 text-ink-faint">Example Sectors</th><th className="text-left py-3 px-4 text-ink-faint">Interpretation</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">&lt; 0.5</td><td className="py-2 px-4 text-green-400">Very Low</td><td className="py-2 px-4">Utilities, Consumer Staples</td><td className="py-2 px-4">Defensive, stable during downturns</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.5 - 1.0</td><td className="py-2 px-4 text-blue-400">Low</td><td className="py-2 px-4">Large-cap, Healthcare</td><td className="py-2 px-4">Less volatile than market</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1.0</td><td className="py-2 px-4 text-yellow-400">Market Average</td><td className="py-2 px-4">Index Funds, Diversified</td><td className="py-2 px-4">Moves exactly with market</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1.0 - 1.5</td><td className="py-2 px-4 text-orange-400">High</td><td className="py-2 px-4">Technology, Financials</td><td className="py-2 px-4">More volatile than market</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">&gt; 1.5</td><td className="py-2 px-4 text-red-400">Very High</td><td className="py-2 px-4">Small-cap, Crypto, Growth</td><td className="py-2 px-4">Speculative, high risk/reward</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">&lt; 0.5</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4">Utilities, Consumer Staples</td><td className="py-2 px-4">Defensive, stable during downturns</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">0.5 - 1.0</td><td className="py-2 px-4 text-blue-600">Low</td><td className="py-2 px-4">Large-cap, Healthcare</td><td className="py-2 px-4">Less volatile than market</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1.0</td><td className="py-2 px-4 text-yellow-700">Market Average</td><td className="py-2 px-4">Index Funds, Diversified</td><td className="py-2 px-4">Moves exactly with market</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1.0 - 1.5</td><td className="py-2 px-4 text-orange-600">High</td><td className="py-2 px-4">Technology, Financials</td><td className="py-2 px-4">More volatile than market</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">&gt; 1.5</td><td className="py-2 px-4 text-red-600">Very High</td><td className="py-2 px-4">Small-cap, Crypto, Growth</td><td className="py-2 px-4">Speculative, high risk/reward</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -253,44 +253,44 @@ export default function CAPMCalculator() {
 
             {/* Real-World Examples */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Real-World CAPM Examples</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Real-World CAPM Examples</h2>
                 <div className="space-y-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Example 1: Defensive Stock (Beta = 0.6)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 0.6×(12-7) = 10%. Lower return than market (12%) but with much lower risk. Suitable for conservative investors.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Example 1: Defensive Stock (Beta = 0.6)</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 0.6×(12-7) = 10%. Lower return than market (12%) but with much lower risk. Suitable for conservative investors.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Example 2: Average Stock (Beta = 1.0)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.0×(12-7) = 12%. Exactly matches market return with market-average risk.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Example 2: Average Stock (Beta = 1.0)</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.0×(12-7) = 12%. Exactly matches market return with market-average risk.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">Example 3: Aggressive Growth Stock (Beta = 1.5)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.5×(12-7) = 14.5%. Higher expected return (14.5%) but with significantly higher risk. Suitable for aggressive investors.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Example 3: Aggressive Growth Stock (Beta = 1.5)</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.5×(12-7) = 14.5%. Higher expected return (14.5%) but with significantly higher risk. Suitable for aggressive investors.</p>
                     </div>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">CAPM Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 text-center">
-                    <p className="text-white font-mono text-lg mb-2">E(R) = Rf + β × (Rm - Rf)</p>
-                    <p className="text-gray-500 text-sm">Where: Rf = Risk-Free Rate, β = Beta, Rm = Market Return</p>
-                    <p className="text-gray-500 text-xs mt-2">Example: Rf=7%, β=1.2, Rm=12% → Expected Return = 7 + 1.2×(5) = 13%</p>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">CAPM Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 text-center">
+                    <p className="text-ink font-mono text-lg mb-2">E(R) = Rf + β × (Rm - Rf)</p>
+                    <p className="text-ink-faint text-sm">Where: Rf = Risk-Free Rate, β = Beta, Rm = Market Return</p>
+                    <p className="text-ink-faint text-xs mt-2">Example: Rf=7%, β=1.2, Rm=12% → Expected Return = 7 + 1.2×(5) = 13%</p>
                 </div>
             </section>
 
             {/* Limitations Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Limitations of CAPM</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Limitations of CAPM</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">⚠️</span><span><strong className="text-gray-300">Assumes single risk factor:</strong> CAPM considers only market risk (Beta), ignoring company-specific risks like management quality, competition, regulatory changes.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">⚠️</span><span><strong className="text-gray-300">Uses historical Beta:</strong> Past volatility may not predict future risk. Beta can change significantly over time as company fundamentals change.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">⚠️</span><span><strong className="text-gray-300">Assumes efficient markets:</strong> CAPM works best in efficient markets where prices reflect all available information. Less accurate in emerging markets like India.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">⚠️</span><span><strong className="text-gray-300">Risk-free borrowing unrealistic:</strong> CAPM assumes investors can borrow at risk-free rate, which isn't true for retail investors who pay higher interest rates.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">⚠️</span><span><strong className="text-ink-soft">Assumes single risk factor:</strong> CAPM considers only market risk (Beta), ignoring company-specific risks like management quality, competition, regulatory changes.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">⚠️</span><span><strong className="text-ink-soft">Uses historical Beta:</strong> Past volatility may not predict future risk. Beta can change significantly over time as company fundamentals change.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">⚠️</span><span><strong className="text-ink-soft">Assumes efficient markets:</strong> CAPM works best in efficient markets where prices reflect all available information. Less accurate in emerging markets like India.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">⚠️</span><span><strong className="text-ink-soft">Risk-free borrowing unrealistic:</strong> CAPM assumes investors can borrow at risk-free rate, which isn't true for retail investors who pay higher interest rates.</span></li>
                 </ul>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div>
             </section>
         </>
     );

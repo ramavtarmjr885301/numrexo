@@ -148,37 +148,37 @@ export default function FoodExpiryCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-gray-300">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Food Expiry Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Food Expiry Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Food Storage Guide</h3>
-                        <p className="text-xs text-gray-500 mt-1">Check how long food lasts in fridge or freezer</p>
+                        <p className="text-xs text-ink-faint mt-1">Check how long food lasts in fridge or freezer</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Food Item</label>
-                            <select value={selectedFood} onChange={(e) => setSelectedFood(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white cursor-pointer">
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Food Item</label>
+                            <select value={selectedFood} onChange={(e) => setSelectedFood(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink cursor-pointer">
                                 {FOOD_STORAGE.map(f => <option key={f.name} value={f.name}>{f.name}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Storage Method</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Storage Method</label>
                             <div className="grid grid-cols-2 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${storageMethod === "fridge" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setStorageMethod("fridge")}>Refrigerator</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${storageMethod === "freezer" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setStorageMethod("freezer")}>Freezer</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${storageMethod === "fridge" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setStorageMethod("fridge")}>Refrigerator</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${storageMethod === "freezer" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setStorageMethod("freezer")}>Freezer</button>
                             </div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Check Storage Time →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -188,9 +188,9 @@ export default function FoodExpiryCalculator() {
                     isEmpty={!result}
                     emptyIcon="🥫"
                     emptyText="Select a food item"
-                    mainResult={result ? { label: `${result.food} in ${result.storageMethod}`, value: result.expiryTime, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: `${result.food} in ${result.storageMethod}`, value: result.expiryTime, color: "text-green-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Important Notes", value: result.notes, valueColor: "text-yellow-400" },
+                        { label: "Important Notes", value: result.notes, valueColor: "text-yellow-700" },
                     ] : []}
                 />
             </div>
@@ -199,82 +199,82 @@ export default function FoodExpiryCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Food Expiry Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Food Expiry Calculator</strong> helps you determine how long different foods last in the refrigerator or freezer. Follow these science-based guidelines from food safety authorities to reduce food waste and prevent foodborne illness.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Food Expiry Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Food Expiry Calculator</strong> helps you determine how long different foods last in the refrigerator or freezer. Follow these science-based guidelines from food safety authorities to reduce food waste and prevent foodborne illness.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're meal prepping, cleaning out your fridge, or planning grocery shopping, knowing proper food storage times saves money and keeps your family safe.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Food Expiry Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Food Expiry Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select the <strong className="text-white">food item</strong> from the dropdown list (15+ common foods).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Choose <strong className="text-white">storage method</strong> — Refrigerator or Freezer.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Check Storage Time"</strong> to see how long it lasts.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Read important notes for that specific food item.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear selection and check another food.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">food item</strong> from the dropdown list (15+ common foods).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Choose <strong className="text-ink">storage method</strong> — Refrigerator or Freezer.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Check Storage Time"</strong> to see how long it lasts.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Read important notes for that specific food item.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear selection and check another food.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Food Expiry Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Food Expiry Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Reduce Food Waste</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Stop throwing away food that's still safe. Learn actual storage times vs guessing. Save money on groceries by using food before it spoils.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Reduce Food Waste</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Stop throwing away food that's still safe. Learn actual storage times vs guessing. Save money on groceries by using food before it spoils.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Prevent Food Poisoning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">48 million Americans get food poisoning annually. Follow proper storage times to keep your family safe. Know when to discard vs when food is still good.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Prevent Food Poisoning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">48 million Americans get food poisoning annually. Follow proper storage times to keep your family safe. Know when to discard vs when food is still good.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Meal Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan weekly meals based on how long ingredients last. Cook leftovers within recommended times. Freeze extras before they spoil.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Meal Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan weekly meals based on how long ingredients last. Cook leftovers within recommended times. Freeze extras before they spoil.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Bulk Buying Guide</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know which foods freeze well for bulk purchases. Buy meat on sale and freeze. Stock up during sales without waste.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Bulk Buying Guide</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know which foods freeze well for bulk purchases. Buy meat on sale and freeze. Stock up during sales without waste.</p>
                     </div>
                 </div>
             </section>
 
             {/* Temperature Guidelines */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Food Storage Temperature Guidelines</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Food Storage Temperature Guidelines</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">❄️ Refrigerator (40°F / 4°C)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Keep fridge at 40°F or below. Use a thermometer to verify. Don't overpack — air needs to circulate. Store raw meat on bottom shelf. Keep dairy in coldest part (not door).</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">❄️ Refrigerator (40°F / 4°C)</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Keep fridge at 40°F or below. Use a thermometer to verify. Don't overpack — air needs to circulate. Store raw meat on bottom shelf. Keep dairy in coldest part (not door).</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-400 mb-2">🧊 Freezer (0°F / -18°C)</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Keep freezer at 0°F or below. Food stays safe indefinitely at this temperature, but quality decreases over time. Use freezer-safe containers. Label and date everything.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">🧊 Freezer (0°F / -18°C)</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Keep freezer at 0°F or below. Food stays safe indefinitely at this temperature, but quality decreases over time. Use freezer-safe containers. Label and date everything.</p>
                     </div>
                 </div>
             </section>
 
             {/* Signs of Food Spoilage */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Signs of Food Spoilage - When to Throw Away</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Signs of Food Spoilage - When to Throw Away</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">🔴</span><span><strong className="text-gray-300">Unusual Odor:</strong> Sour, rancid, ammonia, or off smells indicate bacterial growth. Trust your nose — if it smells bad, throw it out.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">🔴</span><span><strong className="text-gray-300">Mold Growth:</strong> Any visible mold on soft foods (bread, cheese, leftovers) means discard entire item. For hard cheese, cut off 1-inch around mold.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">🔴</span><span><strong className="text-gray-300">Texture Changes:</strong> Slimy surface on meat, mushy vegetables, or separated liquids indicate spoilage.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">🔴</span><span><strong className="text-gray-300">Color Changes:</strong> Gray/green meat, brown guacamole, discolored fruits indicate spoilage.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-red-400 mt-0.5">🔴</span><span><strong className="text-gray-300">Bulging Cans:</strong> Never eat from bulging, leaking, or rusted cans — risk of botulism.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">🔴</span><span><strong className="text-ink-soft">Unusual Odor:</strong> Sour, rancid, ammonia, or off smells indicate bacterial growth. Trust your nose — if it smells bad, throw it out.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">🔴</span><span><strong className="text-ink-soft">Mold Growth:</strong> Any visible mold on soft foods (bread, cheese, leftovers) means discard entire item. For hard cheese, cut off 1-inch around mold.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">🔴</span><span><strong className="text-ink-soft">Texture Changes:</strong> Slimy surface on meat, mushy vegetables, or separated liquids indicate spoilage.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">🔴</span><span><strong className="text-ink-soft">Color Changes:</strong> Gray/green meat, brown guacamole, discolored fruits indicate spoilage.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-red-600 mt-0.5">🔴</span><span><strong className="text-ink-soft">Bulging Cans:</strong> Never eat from bulging, leaking, or rusted cans — risk of botulism.</span></li>
                 </ul>
             </section>
 
             {/* Food Safety Statistics */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Food Safety Facts & Statistics</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <ul className="space-y-2 text-sm text-gray-400">
+                <h2 className="text-xl font-semibold text-ink mb-3">Food Safety Facts & Statistics</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <ul className="space-y-2 text-sm text-ink-faint">
                         <li>• <strong>48 million Americans</strong> get food poisoning each year</li>
                         <li>• <strong>128,000 hospitalizations</strong> and <strong>3,000 deaths</strong> annually from foodborne illness</li>
                         <li>• <strong>90% of food waste</strong> happens at consumer level due to confusion about date labels</li>
@@ -286,18 +286,18 @@ export default function FoodExpiryCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Food Expiry Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Check how long different foods last in the refrigerator or freezer. Follow these guidelines for food safety and quality.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Food Expiry Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Check how long different foods last in the refrigerator or freezer. Follow these guidelines for food safety and quality.</p>
             </section>
 
             {/* Complete Food Storage Chart */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Complete Food Storage Chart</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Complete Food Storage Chart</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-96 overflow-y-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800 sticky top-0 bg-[#111827]"><th className="text-left py-3 px-4 text-gray-400">Food Item</th><th className="text-left py-3 px-4 text-gray-400">Refrigerator</th><th className="text-left py-3 px-4 text-gray-400">Freezer</th><th className="text-left py-3 px-4 text-gray-400">Notes</th></tr></thead>
+                        <thead><tr className="border-b border-hairline sticky top-0 bg-surface"><th className="text-left py-3 px-4 text-ink-faint">Food Item</th><th className="text-left py-3 px-4 text-ink-faint">Refrigerator</th><th className="text-left py-3 px-4 text-ink-faint">Freezer</th><th className="text-left py-3 px-4 text-ink-faint">Notes</th></tr></thead>
                         <tbody>
-                            {FOOD_STORAGE.map((item, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{item.name}</td><td className="py-2 px-4 text-yellow-400">{item.fridge}</td><td className="py-2 px-4 text-blue-400">{item.freezer}</td><td className="py-2 px-4 text-gray-500 text-xs">{item.notes}</td></tr>))}
+                            {FOOD_STORAGE.map((item, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{item.name}</td><td className="py-2 px-4 text-yellow-700">{item.fridge}</td><td className="py-2 px-4 text-blue-600">{item.freezer}</td><td className="py-2 px-4 text-ink-faint text-xs">{item.notes}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -305,27 +305,27 @@ export default function FoodExpiryCalculator() {
 
             {/* Food Safety Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Food Safety Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Food Safety Tips</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Keep fridge at 40°F (4°C) or below</strong> — Bacteria grows rapidly above this temperature.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Freezer should be at 0°F (-18°C)</strong> — Food stays safe indefinitely at this temperature.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">When in doubt, throw it out</strong> — Don't risk food poisoning for a few dollars.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">•</span><span><strong className="text-gray-300">Label and date frozen foods</strong> — Use within recommended times for best quality.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Keep fridge at 40°F (4°C) or below</strong> — Bacteria grows rapidly above this temperature.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Freezer should be at 0°F (-18°C)</strong> — Food stays safe indefinitely at this temperature.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">When in doubt, throw it out</strong> — Don't risk food poisoning for a few dollars.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Label and date frozen foods</strong> — Use within recommended times for best quality.</span></li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

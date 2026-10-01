@@ -157,35 +157,35 @@ export default function HotelCostCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Hotel Cost Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Hotel Cost Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Hotel Cost Estimator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate total hotel stay cost</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate total hotel stay cost</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Price per Night ($)</label><div className="relative"><input type="number" step="10" placeholder="150" value={pricePerNight} onChange={(e) => setPricePerNight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Price per Night ($)</label><div className="relative"><input type="number" step="10" placeholder="150" value={pricePerNight} onChange={(e) => setPricePerNight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span></div></div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Number of Nights</label><input type="number" placeholder="5" value={nights} onChange={(e) => setNights(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Number of Rooms</label><input type="number" placeholder="1" value={rooms} onChange={(e) => setRooms(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Number of Nights</label><input type="number" placeholder="5" value={nights} onChange={(e) => setNights(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Number of Rooms</label><input type="number" placeholder="1" value={rooms} onChange={(e) => setRooms(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Number of People (for split)</label><input type="number" placeholder="2" value={people} onChange={(e) => setPeople(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Number of People (for split)</label><input type="number" placeholder="2" value={people} onChange={(e) => setPeople(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Tax Rate (%)</label><div className="relative"><input type="number" step="1" placeholder="15" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Extra Fees ($)</label><div className="relative"><input type="number" step="10" placeholder="0" value={extraFees} onChange={(e) => setExtraFees(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Tax Rate (%)</label><div className="relative"><input type="number" step="1" placeholder="15" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Extra Fees ($)</label><div className="relative"><input type="number" step="10" placeholder="0" value={extraFees} onChange={(e) => setExtraFees(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span></div></div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Hotel Cost →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -195,14 +195,14 @@ export default function HotelCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏨"
                     emptyText="Enter hotel details"
-                    mainResult={result ? { label: "Total Cost", value: `$${parseFloat(result.total).toLocaleString()}`, color: "text-purple-400" } : undefined}
+                    mainResult={result ? { label: "Total Cost", value: `$${parseFloat(result.total).toLocaleString()}`, color: "text-purple-600" } : undefined}
                     extraRows={result ? [
                         { label: "Subtotal", value: `$${result.subtotal}` },
-                        { label: "Taxes", value: `$${result.taxAmount}`, valueColor: "text-yellow-400" },
+                        { label: "Taxes", value: `$${result.taxAmount}`, valueColor: "text-yellow-700" },
                         { label: "Extra Fees", value: `$${result.extraFees}` },
                         { label: "Cost per Night", value: `$${result.perNight}` },
                         ...(result.perPersonCost ? [
-                            { label: "Cost per Person (total)", value: `$${result.perPersonCost}`, valueColor: "text-green-400" },
+                            { label: "Cost per Person (total)", value: `$${result.perPersonCost}`, valueColor: "text-green-600" },
                             { label: "Cost per Person per Night", value: `$${result.perPersonPerNight}` },
                         ] : []),
                     ] : []}
@@ -213,76 +213,76 @@ export default function HotelCostCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Hotel Cost Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Hotel Cost Calculator</strong> helps travelers estimate total hotel stay costs including taxes and fees. Perfect for trip planning, budget management, and splitting costs with travel companions.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Hotel Cost Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Hotel Cost Calculator</strong> helps travelers estimate total hotel stay costs including taxes and fees. Perfect for trip planning, budget management, and splitting costs with travel companions.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Enter price per night, number of nights, rooms, and people. The calculator instantly shows total cost, taxes, fees, per night cost, and per person breakdown.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Hotel Cost Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Hotel Cost Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">price per night</strong> of the hotel room.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">number of nights</strong> you'll be staying.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">number of rooms</strong> (if booking multiple rooms).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter <strong className="text-white">number of people</strong> to split costs (optional).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Adjust <strong className="text-white">tax rate</strong> and <strong className="text-white">extra fees</strong> (resort fees, parking).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Click <strong className="text-white">Calculate Hotel Cost</strong> to see total and per person breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different scenario.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">price per night</strong> of the hotel room.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">number of nights</strong> you'll be staying.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">number of rooms</strong> (if booking multiple rooms).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter <strong className="text-ink">number of people</strong> to split costs (optional).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Adjust <strong className="text-ink">tax rate</strong> and <strong className="text-ink">extra fees</strong> (resort fees, parking).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Click <strong className="text-ink">Calculate Hotel Cost</strong> to see total and per person breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 7:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and calculate a different scenario.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Hotel Cost Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Hotel Cost Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exact hotel costs before booking. Avoid surprise fees at checkout. Plan your travel budget accurately.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exact hotel costs before booking. Avoid surprise fees at checkout. Plan your travel budget accurately.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Group Trip Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Split costs fairly among friends. Calculate per person cost instantly. No arguments about who pays what.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Group Trip Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Split costs fairly among friends. Calculate per person cost instantly. No arguments about who pays what.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Compare Hotels</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare total cost including taxes and fees across different hotels. Find the best value for your budget.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Compare Hotels</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare total cost including taxes and fees across different hotels. Find the best value for your budget.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Tax & Fee Transparency</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See exactly how much you're paying in taxes and hidden fees. Avoid price shock at checkout.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Tax & Fee Transparency</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See exactly how much you're paying in taxes and hidden fees. Avoid price shock at checkout.</p>
                     </div>
                 </div>
             </section>
 
             {/* Hotel Cost Saving Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Hotel Cost Saving Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Hotel Cost Saving Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Book weekdays:</strong> Sunday-Thursday rates are 20-40% cheaper than weekends. Avoid Friday/Saturday check-ins.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use incognito mode:</strong> Hotel websites track cookies and may increase prices on repeat visits. Clear cookies or use private browsing.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Join loyalty programs:</strong> Free membership gives member-only discounts, late checkout, and points for free nights.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Book directly with hotel:</strong> Often matches or beats OTA prices. Plus, better cancellation policies and room upgrades.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Travel off-season:</strong> Peak season rates can be 2-3x higher. Shoulder season (just before/after peak) offers best value.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Book weekdays:</strong> Sunday-Thursday rates are 20-40% cheaper than weekends. Avoid Friday/Saturday check-ins.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use incognito mode:</strong> Hotel websites track cookies and may increase prices on repeat visits. Clear cookies or use private browsing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Join loyalty programs:</strong> Free membership gives member-only discounts, late checkout, and points for free nights.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Book directly with hotel:</strong> Often matches or beats OTA prices. Plus, better cancellation policies and room upgrades.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Travel off-season:</strong> Peak season rates can be 2-3x higher. Shoulder season (just before/after peak) offers best value.</span></li>
                 </ul>
             </section>
 
             {/* Hidden Hotel Fees */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Hidden Hotel Fees to Watch For</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Hidden Hotel Fees to Watch For</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Fee Type</th><th className="text-left py-3 px-4 text-gray-400">Typical Cost</th><th className="text-left py-3 px-4 text-gray-400">How to Avoid</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Fee Type</th><th className="text-left py-3 px-4 text-ink-faint">Typical Cost</th><th className="text-left py-3 px-4 text-ink-faint">How to Avoid</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Resort Fees</td><td className="py-2 px-4 text-yellow-400">$20-50/night</td><td className="py-2 px-4">Book hotels without resort fees (use filter)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Parking Fees</td><td className="py-2 px-4 text-yellow-400">$10-40/day</td><td className="py-2 px-4">Use public parking apps (SpotHero, ParkWhiz)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">City Tax</td><td className="py-2 px-4 text-yellow-400">5-15%</td><td className="py-2 px-4">Mandatory, included in total calculation</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Early Check-in Fee</td><td className="py-2 px-4 text-yellow-400">$20-50</td><td className="py-2 px-4">Ask nicely at front desk (often waived)</td></tr>
-                            <tr><td className="py-2 px-4">Late Check-out Fee</td><td className="py-2 px-4 text-yellow-400">$20-100</td><td className="py-2 px-4">Request free late checkout with loyalty status</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Resort Fees</td><td className="py-2 px-4 text-yellow-700">$20-50/night</td><td className="py-2 px-4">Book hotels without resort fees (use filter)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Parking Fees</td><td className="py-2 px-4 text-yellow-700">$10-40/day</td><td className="py-2 px-4">Use public parking apps (SpotHero, ParkWhiz)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">City Tax</td><td className="py-2 px-4 text-yellow-700">5-15%</td><td className="py-2 px-4">Mandatory, included in total calculation</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Early Check-in Fee</td><td className="py-2 px-4 text-yellow-700">$20-50</td><td className="py-2 px-4">Ask nicely at front desk (often waived)</td></tr>
+                            <tr><td className="py-2 px-4">Late Check-out Fee</td><td className="py-2 px-4 text-yellow-700">$20-100</td><td className="py-2 px-4">Request free late checkout with loyalty status</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -290,34 +290,34 @@ export default function HotelCostCalculator() {
 
             {/* Hotel Booking Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Hotel Booking Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Hotel Booking Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">📅</span><span><strong className="text-gray-300">Book 1-3 months ahead:</strong> Best rates for domestic travel. For international, book 3-6 months ahead.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">📅</span><span><strong className="text-gray-300">Tuesday/Wednesday bookings:</strong> Prices are lowest mid-week. Friday-Sunday rates are higher.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">📅</span><span><strong className="text-gray-300">Use price tracking:</strong> Google Hotels, Kayak, and Trivago show price history. Book when price drops.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-blue-400 mt-0.5">📅</span><span><strong className="text-gray-300">Read cancellation policy:</strong> Free cancellation within 24-48 hours of check-in. Avoid non-refundable unless certain.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">📅</span><span><strong className="text-ink-soft">Book 1-3 months ahead:</strong> Best rates for domestic travel. For international, book 3-6 months ahead.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">📅</span><span><strong className="text-ink-soft">Tuesday/Wednesday bookings:</strong> Prices are lowest mid-week. Friday-Sunday rates are higher.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">📅</span><span><strong className="text-ink-soft">Use price tracking:</strong> Google Hotels, Kayak, and Trivago show price history. Book when price drops.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-blue-600 mt-0.5">📅</span><span><strong className="text-ink-soft">Read cancellation policy:</strong> Free cancellation within 24-48 hours of check-in. Avoid non-refundable unless certain.</span></li>
                 </ul>
             </section>
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Hotel Cost Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Calculate total hotel stay cost including taxes and fees. Split costs between travelers easily.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Hotel Cost Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Calculate total hotel stay cost including taxes and fees. Split costs between travelers easily.</p>
             </section>
 
             {/* Average Hotel Costs Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Average Hotel Costs by City</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Average Hotel Costs by City</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">City</th><th className="text-left py-3 px-4 text-gray-400">Budget</th><th className="text-left py-3 px-4 text-gray-400">Mid-Range</th><th className="text-left py-3 px-4 text-gray-400">Luxury</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">City</th><th className="text-left py-3 px-4 text-ink-faint">Budget</th><th className="text-left py-3 px-4 text-ink-faint">Mid-Range</th><th className="text-left py-3 px-4 text-ink-faint">Luxury</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">New York</td><td className="py-2 px-4 text-yellow-400">$150-250</td><td className="py-2 px-4">$250-400</td><td className="py-2 px-4">$500+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">London</td><td className="py-2 px-4 text-yellow-400">$100-200</td><td className="py-2 px-4">$200-350</td><td className="py-2 px-4">$400+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Paris</td><td className="py-2 px-4 text-yellow-400">$100-180</td><td className="py-2 px-4">$180-300</td><td className="py-2 px-4">$400+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Tokyo</td><td className="py-2 px-4 text-yellow-400">$80-150</td><td className="py-2 px-4">$150-250</td><td className="py-2 px-4">$350+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Dubai</td><td className="py-2 px-4 text-yellow-400">$70-150</td><td className="py-2 px-4">$150-300</td><td className="py-2 px-4">$400+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Singapore</td><td className="py-2 px-4 text-yellow-400">$80-150</td><td className="py-2 px-4">$150-250</td><td className="py-2 px-4">$350+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">New York</td><td className="py-2 px-4 text-yellow-700">$150-250</td><td className="py-2 px-4">$250-400</td><td className="py-2 px-4">$500+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">London</td><td className="py-2 px-4 text-yellow-700">$100-200</td><td className="py-2 px-4">$200-350</td><td className="py-2 px-4">$400+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Paris</td><td className="py-2 px-4 text-yellow-700">$100-180</td><td className="py-2 px-4">$180-300</td><td className="py-2 px-4">$400+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Tokyo</td><td className="py-2 px-4 text-yellow-700">$80-150</td><td className="py-2 px-4">$150-250</td><td className="py-2 px-4">$350+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Dubai</td><td className="py-2 px-4 text-yellow-700">$70-150</td><td className="py-2 px-4">$150-300</td><td className="py-2 px-4">$400+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Singapore</td><td className="py-2 px-4 text-yellow-700">$80-150</td><td className="py-2 px-4">$150-250</td><td className="py-2 px-4">$350+</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -325,16 +325,16 @@ export default function HotelCostCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

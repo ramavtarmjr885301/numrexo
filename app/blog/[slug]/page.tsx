@@ -119,12 +119,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
       <article className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
         <nav className="mb-4 sm:mb-6 text-xs sm:text-sm overflow-x-auto">
-          <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-gray-500 whitespace-nowrap">
-            <li><Link href="/" className="hover:text-gray-300">Home</Link></li>
+          <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-ink-faint whitespace-nowrap">
+            <li><Link href="/" className="hover:text-ink">Home</Link></li>
             <li>/</li>
-            <li><Link href="/blog" className="hover:text-gray-300">Blog</Link></li>
+            <li><Link href="/blog" className="hover:text-ink">Blog</Link></li>
             <li>/</li>
-            <li className="text-gray-300 truncate max-w-[100px] sm:max-w-none">
+            <li className="text-ink-soft truncate max-w-[100px] sm:max-w-none">
               {categoryLabel(post.category)}
             </li>
           </ol>
@@ -132,25 +132,25 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         <header className="mb-6 sm:mb-8">
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-            <span className="text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-blue-500/20 text-blue-400">
+            <span className="text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-blue-50 text-blue-700">
               {categoryLabel(post.category)}
             </span>
-            <span className="text-[10px] sm:text-xs text-gray-500">{formatDate(post.publishedAt)}</span>
+            <span className="text-[10px] sm:text-xs text-ink-faint">{formatDate(post.publishedAt)}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink mb-3 sm:mb-4 leading-tight">
             {post.title}
           </h1>
 
-          <p className="text-base sm:text-lg text-gray-400 leading-relaxed">{post.excerpt}</p>
+          <p className="text-base sm:text-lg text-ink-soft leading-relaxed">{post.excerpt}</p>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm sm:text-base">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-sm sm:text-base">
               {post.author.charAt(0)}
             </div>
             <div>
-              <p className="text-sm sm:text-base text-white">{post.author}</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-sm sm:text-base text-ink">{post.author}</p>
+              <p className="text-xs text-ink-faint">
                 Published on {formatDate(post.publishedAt)}
                 {post.updatedAt !== post.publishedAt && ` • Updated on ${formatDate(post.updatedAt)}`}
               </p>
@@ -159,7 +159,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </header>
 
         {post.featuredImage && (
-          <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-6 sm:mb-8 bg-[#0f1525]">
+          <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-6 sm:mb-8 bg-cream">
             <Image
               src={post.featuredImage}
               alt={post.title}
@@ -171,37 +171,37 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         )}
 
-        <div className="prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none">
+        <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-soft prose-strong:text-ink prose-a:text-blue-600">
           <div
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-            className="[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-gray-300 [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto"
+            className="[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto"
           />
         </div>
 
         {post.faqs.length > 0 && (
-          <section className="mt-8 sm:mt-12 border-t border-gray-800 pt-6 sm:pt-8">
-            <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
+          <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-ink mb-3 sm:mb-4">
               Frequently Asked Questions
             </h2>
             <div className="space-y-2 sm:space-y-3">
               {post.faqs.map((faq, i) => (
                 <details
                   key={i}
-                  className="group bg-[#111827] border border-gray-800 rounded-lg p-3 sm:p-4 open:border-blue-500/40"
+                  className="group bg-surface border border-hairline rounded-lg p-3 sm:p-4 open:border-blue-300"
                 >
-                  <summary className="cursor-pointer text-sm sm:text-base text-white font-medium list-none flex items-center justify-between gap-2">
+                  <summary className="cursor-pointer text-sm sm:text-base text-ink font-medium list-none flex items-center justify-between gap-2">
                     {faq.question}
-                    <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+                    <span className="text-ink-faint group-open:rotate-180 transition-transform">▾</span>
                   </summary>
-                  <p className="mt-2 sm:mt-3 text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
+                  <p className="mt-2 sm:mt-3 text-sm text-ink-soft leading-relaxed">{faq.answer}</p>
                 </details>
               ))}
             </div>
           </section>
         )}
 
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800">
-          <p className="text-sm text-gray-400 mb-3">Share this article:</p>
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-hairline">
+          <p className="text-sm text-ink-soft mb-3">Share this article:</p>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
             <a
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
@@ -231,8 +231,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         {relatedCalculators.length > 0 && (
-          <section className="mt-8 sm:mt-12 border-t border-gray-800 pt-6 sm:pt-8">
-            <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
+          <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-ink mb-3 sm:mb-4">
               🧮 Related Calculators
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
@@ -240,12 +240,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <Link
                   key={calc.id}
                   href={calc.path}
-                  className="bg-[#111827] border border-gray-800 rounded-lg p-3 sm:p-4 hover:border-blue-500 transition-all text-center group"
+                  className="bg-surface border border-hairline rounded-lg p-3 sm:p-4 hover:border-blue-300 hover:shadow-lg transition-all text-center group"
                 >
                   <div className="text-2xl sm:text-3xl mb-1 group-hover:scale-110 transition-transform">
                     {calc.icon}
                   </div>
-                  <h3 className="text-[10px] sm:text-xs font-medium text-white group-hover:text-blue-400 transition-colors line-clamp-2">
+                  <h3 className="text-[10px] sm:text-xs font-medium text-ink group-hover:text-blue-600 transition-colors line-clamp-2">
                     {calc.name}
                   </h3>
                 </Link>
@@ -255,14 +255,14 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         )}
 
         {relatedPosts.length > 0 && (
-          <section className="mt-8 sm:mt-12 border-t border-gray-800 pt-6 sm:pt-8">
-            <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Related Articles</h2>
+          <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-ink mb-3 sm:mb-4">Related Articles</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
               {relatedPosts.map((related) => (
                 <Link key={related.id} href={`/blog/${related.slug}`}>
-                  <div className="bg-[#111827] border border-gray-800 rounded-lg overflow-hidden hover:border-blue-500 transition-all h-full flex flex-col">
+                  <div className="bg-surface border border-hairline rounded-lg overflow-hidden hover:border-blue-300 hover:shadow-lg transition-all h-full flex flex-col">
                     {related.featuredImage && (
-                      <div className="relative w-full aspect-[16/9] overflow-hidden flex-shrink-0 bg-[#0f1525]">
+                      <div className="relative w-full aspect-[16/9] overflow-hidden flex-shrink-0 bg-cream">
                         <Image
                           src={related.featuredImage}
                           alt={related.title}
@@ -273,10 +273,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                       </div>
                     )}
                     <div className="p-2.5 sm:p-3 flex flex-col flex-grow">
-                      <h3 className="text-xs sm:text-sm font-medium text-white hover:text-blue-400 transition-colors line-clamp-2">
+                      <h3 className="text-xs sm:text-sm font-medium text-ink hover:text-blue-600 transition-colors line-clamp-2">
                         {related.title}
                       </h3>
-                      <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                      <p className="text-[10px] sm:text-xs text-ink-faint mt-1">
                         {formatDate(related.publishedAt)}
                       </p>
                     </div>
@@ -288,7 +288,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         )}
 
         <div className="mt-6 sm:mt-8">
-          <Link href="/blog" className="text-blue-400 hover:underline text-sm">
+          <Link href="/blog" className="text-blue-600 hover:underline text-sm">
             ← Back to Blog
           </Link>
         </div>

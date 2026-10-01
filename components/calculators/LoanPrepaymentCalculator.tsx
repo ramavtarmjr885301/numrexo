@@ -283,23 +283,23 @@ export default function LoanPrepaymentCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Loan Prepayment Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Loan Prepayment Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -307,20 +307,20 @@ export default function LoanPrepaymentCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <div>
                             <h3 className="font-semibold">Loan Prepayment Calculator</h3>
-                            <p className="text-xs text-gray-500 mt-1">See how prepayment saves you money</p>
+                            <p className="text-xs text-ink-faint mt-1">See how prepayment saves you money</p>
                         </div>
                     </div>
 
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -328,16 +328,16 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 5000000"
                                     value={loanAmount}
                                     onChange={(e) => setLoanAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
                                         onClick={() => setLoanAmount(amount.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
                                     </button>
@@ -347,7 +347,7 @@ export default function LoanPrepaymentCalculator() {
 
                         {/* Interest Rate */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (% p.a.)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (% p.a.)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -355,16 +355,16 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 9"
                                     value={interestRate}
                                     onChange={(e) => setInterestRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
                                         onClick={() => setInterestRate(rate.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
                                     </button>
@@ -374,7 +374,7 @@ export default function LoanPrepaymentCalculator() {
 
                         {/* Loan Tenure */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Tenure (months)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Tenure (months)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -382,16 +382,16 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 240"
                                     value={tenure}
                                     onChange={(e) => setTenure(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">months</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
                                         onClick={() => setTenure(month.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 240 ? `${month / 12}Y` : `${month}M`}
                                     </button>
@@ -401,7 +401,7 @@ export default function LoanPrepaymentCalculator() {
 
                         {/* Prepayment Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Prepayment Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -409,16 +409,16 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 500000"
                                     value={prepaymentAmount}
                                     onChange={(e) => setPrepaymentAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetPrepayments.map((amount) => (
                                     <button
                                         key={amount}
                                         onClick={() => setPrepaymentAmount(amount.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {amount >= 1000000 ? `${symbol}${amount / 1000000}L` : `${symbol}${amount / 1000}K`}
                                     </button>
@@ -428,7 +428,7 @@ export default function LoanPrepaymentCalculator() {
 
                         {/* Prepayment Month */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment Month</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Prepayment Month</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -437,27 +437,27 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 24"
                                     value={prepaymentMonth}
                                     onChange={(e) => setPrepaymentMonth(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">month</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">month</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetPrepayMonths.map((month) => (
                                     <button
                                         key={month}
                                         onClick={() => setPrepaymentMonth(month.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month}M
                                     </button>
                                 ))}
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">💡 Early prepayment saves more interest</p>
+                            <p className="text-xs text-ink-faint mt-1">💡 Early prepayment saves more interest</p>
                         </div>
 
                         {/* Prepayment Penalty */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment Penalty (%) <span className="text-gray-500">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Prepayment Penalty (%) <span className="text-ink-faint">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -467,22 +467,22 @@ export default function LoanPrepaymentCalculator() {
                                     placeholder="e.g., 2"
                                     value={prepaymentPenalty}
                                     onChange={(e) => setPrepaymentPenalty(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Most floating rate loans have 0% penalty</p>
+                            <p className="text-xs text-ink-faint mt-1">Most floating rate loans have 0% penalty</p>
                         </div>
 
                         {/* Prepayment Option */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">After Prepayment, I Want To</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">After Prepayment, I Want To</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
                                     onClick={() => setPrepaymentOption("reduce-tenure")}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${prepaymentOption === "reduce-tenure"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-surface border border-hairline text-ink-faint hover:text-ink"
                                         }`}
                                 >
                                     ⏱️ Reduce Tenure
@@ -491,13 +491,13 @@ export default function LoanPrepaymentCalculator() {
                                     onClick={() => setPrepaymentOption("reduce-emi")}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${prepaymentOption === "reduce-emi"
                                         ? "bg-green-500 text-white"
-                                        : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                                        : "bg-surface border border-hairline text-ink-faint hover:text-ink"
                                         }`}
                                 >
                                     💰 Reduce EMI
                                 </button>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-ink-faint mt-1">
                                 {prepaymentOption === "reduce-tenure"
                                     ? "Keep same EMI, pay off loan faster"
                                     : "Keep same tenure, reduce monthly payment"}
@@ -508,13 +508,13 @@ export default function LoanPrepaymentCalculator() {
                         <div className="flex gap-3 pt-2">
                             <button
                                 onClick={calculatePrepayment}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                             >
                                 Calculate Savings →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -531,23 +531,23 @@ export default function LoanPrepaymentCalculator() {
                     mainResult={result ? {
                         label: "Total Interest Saved",
                         value: `${symbol}${result.interestSavedFormatted}`,
-                        color: "text-green-400"
+                        color: "text-green-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Tenure Reduced", value: `${result.tenureReduction} months`, valueColor: result.tenureReduction > 0 ? "text-green-400" : "text-gray-400" },
+                        { label: "Tenure Reduced", value: `${result.tenureReduction} months`, valueColor: result.tenureReduction > 0 ? "text-green-600" : "text-ink-faint" },
                         { label: "Original EMI", value: `${symbol}${result.originalEmiFormatted}` },
-                        { label: "New EMI", value: `${symbol}${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-400" : "text-gray-400" },
-                        { label: "Monthly Savings", value: `${symbol}${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-400" : "text-gray-400" },
-                        { label: "Original Total Interest", value: `${symbol}${result.originalTotalInterestFormatted}`, valueColor: "text-orange-400" },
-                        { label: "New Total Interest", value: `${symbol}${result.newTotalInterestFormatted}`, valueColor: "text-green-400" },
+                        { label: "New EMI", value: `${symbol}${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-600" : "text-ink-faint" },
+                        { label: "Monthly Savings", value: `${symbol}${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-600" : "text-ink-faint" },
+                        { label: "Original Total Interest", value: `${symbol}${result.originalTotalInterestFormatted}`, valueColor: "text-orange-600" },
+                        { label: "New Total Interest", value: `${symbol}${result.newTotalInterestFormatted}`, valueColor: "text-green-600" },
                         { label: "Original Total Payment", value: `${symbol}${result.originalTotalPaymentFormatted}` },
-                        { label: "New Total Payment", value: `${symbol}${result.newTotalPaymentFormatted}`, valueColor: "text-yellow-400" },
-                        { label: "Prepayment Penalty", value: `${symbol}${result.penaltyAmountFormatted}`, valueColor: "text-red-400" },
+                        { label: "New Total Payment", value: `${symbol}${result.newTotalPaymentFormatted}`, valueColor: "text-yellow-700" },
+                        { label: "Prepayment Penalty", value: `${symbol}${result.penaltyAmountFormatted}`, valueColor: "text-red-600" },
                         { label: "Balance at Prepayment", value: `${symbol}${result.balanceAtPrepayment.toFixed(2)}` },
                         { label: "Principal After Prepayment", value: `${symbol}${result.principalAfterPrepayment.toFixed(2)}` },
                         { label: "New Tenure", value: `${result.newTenure} months (${(result.newTenure / 12).toFixed(1)} years)` },
                         ...(result.penaltyAmount > 0 ? [
-                            { label: "Break-even Period", value: `${result.breakEvenMonths} months`, valueColor: "text-yellow-400" },
+                            { label: "Break-even Period", value: `${result.breakEvenMonths} months`, valueColor: "text-yellow-700" },
                         ] : []),
                     ] : []}
                 />
@@ -556,25 +556,25 @@ export default function LoanPrepaymentCalculator() {
             {/* Comparison Summary */}
             {result && (
                 <section className="mb-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">Prepayment Impact Summary</h2>
+                    <h2 className="text-xl font-semibold text-ink mb-4">Prepayment Impact Summary</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">Without Prepayment</h4>
-                            <p className="text-xl font-bold text-orange-400">${result.originalTotalInterestFormatted}</p>
-                            <p className="text-xs text-gray-500 mt-1">Total Interest</p>
-                            <p className="text-xs text-gray-500">{result.originalEmiFormatted} × {tenure} months</p>
+                        <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">Without Prepayment</h4>
+                            <p className="text-xl font-bold text-orange-600">${result.originalTotalInterestFormatted}</p>
+                            <p className="text-xs text-ink-faint mt-1">Total Interest</p>
+                            <p className="text-xs text-ink-faint">{result.originalEmiFormatted} × {tenure} months</p>
                         </div>
-                        <div className="bg-[#111827] border border-green-500/30 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">With Prepayment</h4>
-                            <p className="text-xl font-bold text-green-400">${result.newTotalInterestFormatted}</p>
-                            <p className="text-xs text-gray-500 mt-1">Total Interest</p>
-                            <p className="text-xs text-gray-500">${result.newEmiFormatted} × {result.newTenure} months</p>
+                        <div className="bg-surface border border-green-200 rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">With Prepayment</h4>
+                            <p className="text-xl font-bold text-green-600">${result.newTotalInterestFormatted}</p>
+                            <p className="text-xs text-ink-faint mt-1">Total Interest</p>
+                            <p className="text-xs text-ink-faint">${result.newEmiFormatted} × {result.newTenure} months</p>
                         </div>
-                        <div className="bg-[#111827] border border-yellow-500/30 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">You Save</h4>
-                            <p className="text-xl font-bold text-yellow-400">${result.interestSavedFormatted}</p>
-                            <p className="text-xs text-gray-500 mt-1">Total Savings</p>
-                            <p className="text-xs text-green-400">⏱️ {result.tenureReduction} months saved</p>
+                        <div className="bg-surface border border-yellow-200 rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">You Save</h4>
+                            <p className="text-xl font-bold text-yellow-700">${result.interestSavedFormatted}</p>
+                            <p className="text-xs text-ink-faint mt-1">Total Savings</p>
+                            <p className="text-xs text-green-600">⏱️ {result.tenureReduction} months saved</p>
                         </div>
                     </div>
                 </section>
@@ -584,75 +584,75 @@ export default function LoanPrepaymentCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Loan Prepayment Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Loan Prepayment Calculator</strong> helps you understand how making extra payments can save you money on interest and reduce your loan tenure. Whether you're planning a lump sum payment or want to increase your monthly EMI, this calculator shows you the financial impact.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Loan Prepayment Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Loan Prepayment Calculator</strong> helps you understand how making extra payments can save you money on interest and reduce your loan tenure. Whether you're planning a lump sum payment or want to increase your monthly EMI, this calculator shows you the financial impact.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Our calculator compares two scenarios: your current loan repayment plan and the plan with prepayment. You can see the interest saved, tenure reduced, and the impact of prepayment penalties. Choose between reducing your tenure or reducing your EMI after prepayment.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Paying a little extra early, when the balance is at its largest, saves far more than the same amount paid later. Use our calculator to find the optimal prepayment strategy for your financial goals.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Loan Prepayment Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Loan Prepayment Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">loan amount</strong>, <strong className="text-white">interest rate</strong>, and <strong className="text-white">tenure</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">prepayment amount</strong> you plan to make.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select the <strong className="text-white">prepayment month</strong> (when you'll make the extra payment).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Optionally enter the <strong className="text-white">prepayment penalty</strong> percentage.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Choose whether you want to <strong className="text-white">reduce tenure</strong> or <strong className="text-white">reduce EMI</strong> after prepayment.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Click <strong className="text-white">"Calculate Savings"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">loan amount</strong>, <strong className="text-ink">interest rate</strong>, and <strong className="text-ink">tenure</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">prepayment amount</strong> you plan to make.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">prepayment month</strong> (when you'll make the extra payment).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Optionally enter the <strong className="text-ink">prepayment penalty</strong> percentage.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Choose whether you want to <strong className="text-ink">reduce tenure</strong> or <strong className="text-ink">reduce EMI</strong> after prepayment.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Click <strong className="text-ink">"Calculate Savings"</strong> to see your results.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Loan Prepayment Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Loan Prepayment Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ See Your Savings</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See exactly how much money you'll save in interest by making prepayments. Compare your current loan with the prepayment scenario.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ See Your Savings</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See exactly how much money you'll save in interest by making prepayments. Compare your current loan with the prepayment scenario.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Options</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare reducing tenure versus reducing EMI. Choose the option that best fits your financial goals and monthly budget.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Options</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare reducing tenure versus reducing EMI. Choose the option that best fits your financial goals and monthly budget.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Penalty Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See if prepayment is still beneficial after considering penalties. Find your break-even point and make informed decisions.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Penalty Analysis</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See if prepayment is still beneficial after considering penalties. Find your break-even point and make informed decisions.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Optimal Timing</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand the best time to prepay. Early prepayments save the most interest because interest is calculated on the outstanding balance.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Optimal Timing</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand the best time to prepay. Early prepayments save the most interest because interest is calculated on the outstanding balance.</p>
                     </div>
                 </div>
             </section>
 
             {/* Prepayment Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">How Prepayment Works</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                <h2 className="text-xl font-semibold text-ink mb-4">How Prepayment Works</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-4">
                         When you prepay, you're reducing the outstanding principal. Since interest is calculated on the remaining balance, your total interest reduces. Here's how it works:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-[#0f1525] border border-gray-700 rounded-lg p-3">
-                            <p className="text-xs text-gray-500">Without Prepayment</p>
-                            <p className="text-sm text-white mt-1">Principal: $5,000,000</p>
-                            <p className="text-sm text-white">Rate: 9% p.a.</p>
-                            <p className="text-sm text-white">Tenure: 20 years</p>
-                            <p className="text-sm text-orange-400 mt-1">Total Interest: $5,797,000</p>
+                        <div className="bg-surface border border-hairline rounded-lg p-3">
+                            <p className="text-xs text-ink-faint">Without Prepayment</p>
+                            <p className="text-sm text-ink mt-1">Principal: $5,000,000</p>
+                            <p className="text-sm text-ink">Rate: 9% p.a.</p>
+                            <p className="text-sm text-ink">Tenure: 20 years</p>
+                            <p className="text-sm text-orange-600 mt-1">Total Interest: $5,797,000</p>
                         </div>
-                        <div className="bg-[#0f1525] border border-green-500/30 rounded-lg p-3">
-                            <p className="text-xs text-gray-500">With Prepayment ($50,000 at month 24)</p>
-                            <p className="text-sm text-white mt-1">Principal Reduced by: $500,000</p>
-                            <p className="text-sm text-white">New Balance: $4,500,000</p>
-                            <p className="text-sm text-green-400 mt-1">Interest Saved: $179,614</p>
-                            <p className="text-sm text-green-400">Tenure Reduced: 3 years</p>
+                        <div className="bg-surface border border-green-200 rounded-lg p-3">
+                            <p className="text-xs text-ink-faint">With Prepayment ($50,000 at month 24)</p>
+                            <p className="text-sm text-ink mt-1">Principal Reduced by: $500,000</p>
+                            <p className="text-sm text-ink">New Balance: $4,500,000</p>
+                            <p className="text-sm text-green-600 mt-1">Interest Saved: $179,614</p>
+                            <p className="text-sm text-green-600">Tenure Reduced: 3 years</p>
                         </div>
                     </div>
                 </div>
@@ -660,117 +660,117 @@ export default function LoanPrepaymentCalculator() {
 
             {/* Prepayment Comparison Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Prepayment Impact Comparison</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Prepayment Impact Comparison</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Prepayment Amount</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Interest Saved</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Tenure Reduced</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Monthly Savings</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Prepayment Amount</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Interest Saved</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Tenure Reduced</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly Savings</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$10,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$47,369</td>
-                                <td className="py-2 px-4 text-right text-gray-300">2 years 1 month</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-blue-600 font-bold">$10,000</td>
+                                <td className="py-2 px-4 text-right text-green-600">$47,369</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">2 years 1 month</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$25,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$105,693</td>
-                                <td className="py-2 px-4 text-right text-gray-300">4 years 11 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-blue-600 font-bold">$25,000</td>
+                                <td className="py-2 px-4 text-right text-green-600">$105,693</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">4 years 11 months</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$50,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$179,614</td>
-                                <td className="py-2 px-4 text-right text-gray-300">8 years 7 months</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-blue-600 font-bold">$50,000</td>
+                                <td className="py-2 px-4 text-right text-green-600">$179,614</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">8 years 7 months</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">$100,000</td>
-                                <td className="py-2 px-4 text-right text-green-400">$275,855</td>
-                                <td className="py-2 px-4 text-right text-gray-300">14 years 1 month</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-blue-600 font-bold">$100,000</td>
+                                <td className="py-2 px-4 text-right text-green-600">$275,855</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">14 years 1 month</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Based on a $350,000 loan at 6.5% for 30 years, with the prepayment made at month 24</p>
+                <p className="text-xs text-ink-faint mt-2">* Based on a $350,000 loan at 6.5% for 30 years, with the prepayment made at month 24</p>
             </section>
 
             {/* Tips for Prepayment */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart Tips for Loan Prepayment</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart Tips for Loan Prepayment</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Prepay Early:</strong> The earlier you prepay, the more interest you save. In the first few years, most of your EMI goes toward interest.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Prepay Early:</strong> The earlier you prepay, the more interest you save. In the first few years, most of your EMI goes toward interest.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check Penalty Terms:</strong> Always check your loan agreement for prepayment penalties. Floating rate loans usually have no penalty.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check Penalty Terms:</strong> Always check your loan agreement for prepayment penalties. Floating rate loans usually have no penalty.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Compare Prepayment vs Investment:</strong> If your loan rate is high, prepayment is better. If investments can give higher returns, consider investing.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Compare Prepayment vs Investment:</strong> If your loan rate is high, prepayment is better. If investments can give higher returns, consider investing.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Maintain Emergency Fund:</strong> Don't use all your savings for prepayment. Always keep 3-6 months of expenses in an emergency fund.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Maintain Emergency Fund:</strong> Don't use all your savings for prepayment. Always keep 3-6 months of expenses in an emergency fund.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose Between Tenure and EMI:</strong> Reduce tenure to save more interest. Reduce EMI for better monthly cash flow. Choose based on your goal.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Choose Between Tenure and EMI:</strong> Reduce tenure to save more interest. Reduce EMI for better monthly cash flow. Choose based on your goal.</span>
                     </li>
                 </ul>
             </section>
 
             {/* Common Mistakes */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Common Mistakes to Avoid When Prepaying</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Common Mistakes to Avoid When Prepaying</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Not Considering Penalty:</strong> Prepayment penalties can offset your savings. Always factor them into your decision.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Not Considering Penalty:</strong> Prepayment penalties can offset your savings. Always factor them into your decision.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Prepaying Too Late:</strong> Prepaying in the last few years saves less interest. Focus on early prepayments for maximum benefit.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Prepaying Too Late:</strong> Prepaying in the last few years saves less interest. Focus on early prepayments for maximum benefit.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Using All Savings:</strong> Don't drain your emergency fund. Prepay only surplus funds after keeping a safety net.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Using All Savings:</strong> Don't drain your emergency fund. Prepay only surplus funds after keeping a safety net.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Not Comparing Options:</strong> Use our calculator to compare reduce tenure vs reduce EMI. Choose what works best for you.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Not Comparing Options:</strong> Use our calculator to compare reduce tenure vs reduce EMI. Choose what works best for you.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Ignoring Tax Benefits:</strong> Home loans have tax benefits on interest paid. Consider the tax impact before prepaying.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Ignoring Tax Benefits:</strong> Home loans have tax benefits on interest paid. Consider the tax impact before prepaying.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

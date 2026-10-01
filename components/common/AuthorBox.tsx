@@ -37,46 +37,46 @@ export default function AuthorBox({ calculator }: { calculator: CalculatorType }
 
   return (
     <section
-      className="bg-[#111827] border border-gray-800 rounded-xl p-5 md:p-6 mb-8"
+      className="bg-surface border border-hairline rounded-xl p-5 md:p-6 mb-8"
       aria-label="About this calculator"
     >
       <div className="flex flex-col sm:flex-row sm:items-start gap-4">
         <div
-          className="w-11 h-11 rounded-full bg-blue-500/15 border border-blue-500/40 flex items-center justify-center text-blue-300 font-semibold text-sm flex-shrink-0"
+          className="w-11 h-11 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 font-semibold text-sm flex-shrink-0"
           aria-hidden="true"
         >
           {AUTHOR.initials}
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-ink-soft">
             Built and maintained by{" "}
             <a
               href={AUTHOR.profile}
               target="_blank"
               rel="noopener noreferrer me"
-              className="text-white font-semibold hover:text-blue-400 transition-colors"
+              className="text-ink font-semibold hover:text-blue-600 transition-colors"
             >
               {AUTHOR.name}
             </a>
-            <span className="text-gray-500"> · {AUTHOR.role}</span>
+            <span className="text-ink-faint"> · {AUTHOR.role}</span>
           </p>
 
-          <p className="text-xs text-gray-500 mt-1 leading-relaxed">{AUTHOR.bio}</p>
+          <p className="text-xs text-ink-faint mt-1 leading-relaxed">{AUTHOR.bio}</p>
 
-          <p className="text-xs text-gray-500 mt-3">
-            <span className="text-gray-400">Last updated:</span>{" "}
+          <p className="text-xs text-ink-faint mt-3">
+            <span className="text-ink-soft">Last updated:</span>{" "}
             <time dateTime={updated}>{formatDate(updated)}</time>
-            <span className="text-gray-600"> · </span>
+            <span className="text-ink-faint"> · </span>
             <span>Calculations run in your browser. Nothing you enter is sent to us or stored.</span>
           </p>
 
           {sources.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-gray-800">
-              <p className="text-xs text-gray-400 font-medium mb-1.5">
+            <div className="mt-3 pt-3 border-t border-hairline">
+              <p className="text-xs text-ink-soft font-medium mb-1.5">
                 Method and references
               </p>
-              <ul className="text-xs text-gray-500 space-y-1">
+              <ul className="text-xs text-ink-faint space-y-1">
                 {sources.map((s) => (
                   <li key={s.label}>
                     {s.url ? (
@@ -84,7 +84,7 @@ export default function AuthorBox({ calculator }: { calculator: CalculatorType }
                         href={s.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-700"
+                        className="hover:text-blue-600 transition-colors underline underline-offset-2 decoration-gray-300"
                       >
                         {s.label}
                       </a>

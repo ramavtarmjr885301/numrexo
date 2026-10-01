@@ -135,19 +135,19 @@ export default function SleepCalculator() {
 
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">Health Calculators</a>
+                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Sleep Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Sleep Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -156,23 +156,23 @@ export default function SleepCalculator() {
             {/* Calculator Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Wake-up Time</h3>
-                        <p className="text-xs text-gray-500 mt-1">Based on 90-minute sleep cycles</p>
+                        <p className="text-xs text-ink-faint mt-1">Based on 90-minute sleep cycles</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 What time do you need to wake up?
                             </label>
                             <input
                                 type="time"
                                 value={wakeTime}
                                 onChange={(e) => setWakeTime(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
                             />
-                            <p className="text-xs text-gray-500 mt-1">Choose your desired wake-up time</p>
+                            <p className="text-xs text-ink-faint mt-1">Choose your desired wake-up time</p>
                         </div>
 
                         <div className="flex gap-3">
@@ -184,7 +184,7 @@ export default function SleepCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -201,12 +201,12 @@ export default function SleepCalculator() {
                     mainResult={result ? {
                         label: "⭐ Best Sleep Duration",
                         value: `${result.bestCycle.hours} hours (${result.bestCycle.cycles} cycles)`,
-                        color: "text-purple-400"
+                        color: "text-purple-600"
                     } : undefined}
                     extraRows={result ? result.bedTimes.map((bt: any) => ({
                         label: bt.description,
                         value: `${bt.time} (${bt.hours}h)`,
-                        valueColor: bt.hours === 7.5 ? "text-green-400" : undefined
+                        valueColor: bt.hours === 7.5 ? "text-green-600" : undefined
                     })) : []}
                 />
             </div>
@@ -215,116 +215,116 @@ export default function SleepCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Sleep Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    Waking up feeling refreshed isn't just about total sleep time - it's about timing. Our <strong className="text-gray-300">sleep calculator</strong> uses the 90-minute sleep cycle method to find the optimal bedtime for your wake-up time. By timing your sleep to complete 90-minute cycles, you wake up naturally at the end of a cycle when you're in light sleep, feeling more rested and alert.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Sleep Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    Waking up feeling refreshed isn't just about total sleep time - it's about timing. Our <strong className="text-ink-soft">sleep calculator</strong> uses the 90-minute sleep cycle method to find the optimal bedtime for your wake-up time. By timing your sleep to complete 90-minute cycles, you wake up naturally at the end of a cycle when you're in light sleep, feeling more rested and alert.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Aiming for 5 complete cycles (7.5 hours) of sleep is ideal for most adults. Waking at the end of a sleep cycle leaves you feeling more refreshed than waking mid-cycle when you're in deep sleep. This is why the sleep calculator recommends bedtimes at 90-minute intervals.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding your sleep cycles is key to improving sleep quality. Our calculator helps you plan your bedtime based on science, not guesswork. Whether you need 6 hours or 9 hours, we show you the optimal times to fall asleep.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Sleep Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Sleep Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select the time you need to <strong className="text-white">wake up</strong> using the time picker.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Click <strong className="text-white">"Calculate Bedtime"</strong> to see your optimal bedtimes.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Review the <strong className="text-white">recommended bedtimes</strong> based on 90-minute sleep cycles.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Choose the bedtime that works best for your schedule.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Aim for <strong className="text-white">7.5 hours (5 cycles)</strong> for optimal health benefits.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to try different wake times.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the time you need to <strong className="text-ink">wake up</strong> using the time picker.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Click <strong className="text-ink">"Calculate Bedtime"</strong> to see your optimal bedtimes.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Review the <strong className="text-ink">recommended bedtimes</strong> based on 90-minute sleep cycles.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Choose the bedtime that works best for your schedule.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Aim for <strong className="text-ink">7.5 hours (5 cycles)</strong> for optimal health benefits.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to try different wake times.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Sleep Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Sleep Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Wake Up Refreshed</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Time your sleep to complete 90-minute cycles. Wake naturally at the end of a cycle when you're in light sleep, feeling more refreshed and alert.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Wake Up Refreshed</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Time your sleep to complete 90-minute cycles. Wake naturally at the end of a cycle when you're in light sleep, feeling more refreshed and alert.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Science-Based Timing</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Our calculator uses proven sleep cycle research to find optimal bedtimes. No guesswork - just science-backed recommendations.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Science-Based Timing</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Our calculator uses proven sleep cycle research to find optimal bedtimes. No guesswork - just science-backed recommendations.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Flexible Scheduling</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See multiple bedtime options based on different sleep durations. Find what works best with your daily routine and commitments.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Flexible Scheduling</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See multiple bedtime options based on different sleep durations. Find what works best with your daily routine and commitments.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Long-Term Health</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Consistent, cycle-aligned sleep improves mental clarity, immunity, mood, and reduces risk of chronic diseases.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Long-Term Health</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Consistent, cycle-aligned sleep improves mental clarity, immunity, mood, and reduces risk of chronic diseases.</p>
                     </div>
                 </div>
             </section>
 
             {/* Sleep Cycle Science */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sleep Cycle Science</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Sleep Cycle Science</h2>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-purple-300 transition-all">
                         <div className="text-2xl mb-1">🌙</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Stage 1: Light Sleep</h3>
-                        <p className="text-xs text-gray-400">5% of cycle</p>
-                        <p className="text-xs text-gray-500 mt-1">Transition to sleep, easy to wake</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Stage 1: Light Sleep</h3>
+                        <p className="text-xs text-ink-faint">5% of cycle</p>
+                        <p className="text-xs text-ink-faint mt-1">Transition to sleep, easy to wake</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-purple-300 transition-all">
                         <div className="text-2xl mb-1">💤</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Stage 2: Light Sleep</h3>
-                        <p className="text-xs text-gray-400">45% of cycle</p>
-                        <p className="text-xs text-gray-500 mt-1">Body temperature drops, heart rate slows</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Stage 2: Light Sleep</h3>
+                        <p className="text-xs text-ink-faint">45% of cycle</p>
+                        <p className="text-xs text-ink-faint mt-1">Body temperature drops, heart rate slows</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-purple-300 transition-all">
                         <div className="text-2xl mb-1">🔋</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Stage 3: Deep Sleep</h3>
-                        <p className="text-xs text-gray-400">25% of cycle</p>
-                        <p className="text-xs text-gray-500 mt-1">Body repairs, hard to wake</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Stage 3: Deep Sleep</h3>
+                        <p className="text-xs text-ink-faint">25% of cycle</p>
+                        <p className="text-xs text-ink-faint mt-1">Body repairs, hard to wake</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-purple-300 transition-all">
                         <div className="text-2xl mb-1">💭</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">REM Sleep</h3>
-                        <p className="text-xs text-gray-400">25% of cycle</p>
-                        <p className="text-xs text-gray-500 mt-1">Dreaming, memory consolidation</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">REM Sleep</h3>
+                        <p className="text-xs text-ink-faint">25% of cycle</p>
+                        <p className="text-xs text-ink-faint mt-1">Dreaming, memory consolidation</p>
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3 text-center">* Each cycle lasts ~90 minutes. Adults need 4-6 cycles per night for optimal health.</p>
+                <p className="text-xs text-ink-faint mt-3 text-center">* Each cycle lasts ~90 minutes. Adults need 4-6 cycles per night for optimal health.</p>
             </section>
 
             {/* Sleep Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sleep Cycle Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2">
+                <h2 className="text-xl font-semibold text-ink mb-4">Sleep Cycle Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2">
                         Bedtime = Wake Time - (90 minutes × Number of Cycles)
                     </p>
-                    <p className="text-gray-500 text-xs mb-2">
+                    <p className="text-ink-faint text-xs mb-2">
                         Example: Wake at 7:00 AM - 5 cycles (7.5 hours) = 11:30 PM bedtime
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3">
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center">
-                            <p className="text-xs text-gray-400">3 cycles</p>
-                            <p className="text-sm text-yellow-400">4.5 hours</p>
+                        <div className="bg-surface rounded-lg p-2 text-center">
+                            <p className="text-xs text-ink-faint">3 cycles</p>
+                            <p className="text-sm text-yellow-700">4.5 hours</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center">
-                            <p className="text-xs text-gray-400">4 cycles</p>
-                            <p className="text-sm text-yellow-400">6 hours</p>
+                        <div className="bg-surface rounded-lg p-2 text-center">
+                            <p className="text-xs text-ink-faint">4 cycles</p>
+                            <p className="text-sm text-yellow-700">6 hours</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center border border-purple-500/30">
-                            <p className="text-xs text-green-400">⭐ 5 cycles</p>
-                            <p className="text-sm text-green-400">7.5 hours</p>
+                        <div className="bg-surface rounded-lg p-2 text-center border border-purple-200">
+                            <p className="text-xs text-green-600">⭐ 5 cycles</p>
+                            <p className="text-sm text-green-600">7.5 hours</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center">
-                            <p className="text-xs text-gray-400">6 cycles</p>
-                            <p className="text-sm text-yellow-400">9 hours</p>
+                        <div className="bg-surface rounded-lg p-2 text-center">
+                            <p className="text-xs text-ink-faint">6 cycles</p>
+                            <p className="text-sm text-yellow-700">9 hours</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center">
-                            <p className="text-xs text-gray-400">7 cycles</p>
-                            <p className="text-sm text-yellow-400">10.5 hours</p>
+                        <div className="bg-surface rounded-lg p-2 text-center">
+                            <p className="text-xs text-ink-faint">7 cycles</p>
+                            <p className="text-sm text-yellow-700">10.5 hours</p>
                         </div>
                     </div>
                 </div>
@@ -332,45 +332,45 @@ export default function SleepCalculator() {
 
             {/* Sleep Recommendations Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Sleep Recommendations by Age</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Sleep Recommendations by Age</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400 font-semibold">Age Group</th>
-                                <th className="text-left py-3 px-4 text-gray-400 font-semibold">Recommended Sleep</th>
-                                <th className="text-left py-3 px-4 text-gray-400 font-semibold">Sleep Cycles</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint font-semibold">Age Group</th>
+                                <th className="text-left py-3 px-4 text-ink-faint font-semibold">Recommended Sleep</th>
+                                <th className="text-left py-3 px-4 text-ink-faint font-semibold">Sleep Cycles</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300">Adults (18-64)</td>
-                                <td className="py-3 px-4 text-green-400">7-9 hours</td>
-                                <td className="py-3 px-4 text-gray-400">5-6 cycles</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Adults (18-64)</td>
+                                <td className="py-3 px-4 text-green-600">7-9 hours</td>
+                                <td className="py-3 px-4 text-ink-faint">5-6 cycles</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300">Older Adults (65+)</td>
-                                <td className="py-3 px-4 text-green-400">7-8 hours</td>
-                                <td className="py-3 px-4 text-gray-400">5 cycles</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Older Adults (65+)</td>
+                                <td className="py-3 px-4 text-green-600">7-8 hours</td>
+                                <td className="py-3 px-4 text-ink-faint">5 cycles</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300">Teens (14-17)</td>
-                                <td className="py-3 px-4 text-yellow-400">8-10 hours</td>
-                                <td className="py-3 px-4 text-gray-400">5-6.5 cycles</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Teens (14-17)</td>
+                                <td className="py-3 px-4 text-yellow-700">8-10 hours</td>
+                                <td className="py-3 px-4 text-ink-faint">5-6.5 cycles</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300">School Children (6-13)</td>
-                                <td className="py-3 px-4 text-yellow-400">9-11 hours</td>
-                                <td className="py-3 px-4 text-gray-400">6-7.5 cycles</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">School Children (6-13)</td>
+                                <td className="py-3 px-4 text-yellow-700">9-11 hours</td>
+                                <td className="py-3 px-4 text-ink-faint">6-7.5 cycles</td>
                             </tr>
-                            <tr className="hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300">Preschool (3-5)</td>
-                                <td className="py-3 px-4 text-orange-400">10-13 hours</td>
-                                <td className="py-3 px-4 text-gray-400">7-8.5 cycles</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Preschool (3-5)</td>
+                                <td className="py-3 px-4 text-orange-600">10-13 hours</td>
+                                <td className="py-3 px-4 text-ink-faint">7-8.5 cycles</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Individual needs vary. Listen to your body and adjust based on how you feel during the day.
                     </p>
                 </div>
@@ -378,48 +378,48 @@ export default function SleepCalculator() {
 
             {/* Sleep Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Sleep Hygiene Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Sleep Hygiene Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consistent schedule:</strong> Go to bed and wake up at the same time daily - even on weekends! This strengthens your body's sleep-wake cycle.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consistent schedule:</strong> Go to bed and wake up at the same time daily - even on weekends! This strengthens your body's sleep-wake cycle.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Create a relaxing routine:</strong> Spend 30-60 minutes winding down before bed. Read, take a warm bath, or practice gentle stretching.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Create a relaxing routine:</strong> Spend 30-60 minutes winding down before bed. Read, take a warm bath, or practice gentle stretching.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Optimize your bedroom:</strong> Keep it dark (blackout curtains), cool (18-22°C), and quiet. Consider white noise or earplugs if needed.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Optimize your bedroom:</strong> Keep it dark (blackout curtains), cool (18-22°C), and quiet. Consider white noise or earplugs if needed.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Avoid sleep disruptors:</strong> No caffeine after 2pm, limit alcohol (disrupts REM sleep), avoid heavy meals 2-3 hours before bed.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Avoid sleep disruptors:</strong> No caffeine after 2pm, limit alcohol (disrupts REM sleep), avoid heavy meals 2-3 hours before bed.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Morning light exposure:</strong> Get 20-30 minutes of natural sunlight within 30 minutes of waking. This sets your circadian rhythm for the day.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Morning light exposure:</strong> Get 20-30 minutes of natural sunlight within 30 minutes of waking. This sets your circadian rhythm for the day.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>
                                     +
                                 </span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

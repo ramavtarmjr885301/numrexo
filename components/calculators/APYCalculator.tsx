@@ -156,19 +156,19 @@ export default function APYCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">Finance Calculators</a>
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">APY Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">APY Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -176,48 +176,48 @@ export default function APYCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">APY Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate true annual return with compound interest</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate true annual return with compound interest</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Principal Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Principal Amount ({symbol})</label>
                             <div className="relative">
-                                <input type="number" placeholder="10000" value={principal} onChange={(e) => setPrincipal(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <input type="number" placeholder="10000" value={principal} onChange={(e) => setPrincipal(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (%)</label>
                             <div className="relative">
-                                <input type="number" step="0.1" placeholder="5" value={rate} onChange={(e) => setRate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <input type="number" step="0.1" placeholder="5" value={rate} onChange={(e) => setRate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Compounding Frequency</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Compounding Frequency</label>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "daily" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCompoundFrequency("daily")}>Daily</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "monthly" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCompoundFrequency("monthly")}>Monthly</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "quarterly" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCompoundFrequency("quarterly")}>Quarterly</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "semi-annual" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCompoundFrequency("semi-annual")}>Semi-Annual</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "annual" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCompoundFrequency("annual")}>Annual</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "daily" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCompoundFrequency("daily")}>Daily</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "monthly" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCompoundFrequency("monthly")}>Monthly</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "quarterly" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCompoundFrequency("quarterly")}>Quarterly</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "semi-annual" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCompoundFrequency("semi-annual")}>Semi-Annual</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${compoundFrequency === "annual" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCompoundFrequency("annual")}>Annual</button>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Number of Years</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Number of Years</label>
                             <div className="relative">
-                                <input type="number" step="0.5" placeholder="1" value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
+                                <input type="number" step="0.5" placeholder="1" value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span>
                             </div>
                         </div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate APY →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate APY →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -228,9 +228,9 @@ export default function APYCalculator() {
                     isEmpty={!result}
                     emptyIcon="📊"
                     emptyText="Enter your investment details"
-                    mainResult={result ? { label: "Annual Percentage Yield (APY)", value: `${result.apy}%`, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Annual Percentage Yield (APY)", value: `${result.apy}%`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Final Amount", value: `${symbol}${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Final Amount", value: `${symbol}${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-600" },
                         { label: "Total Interest Earned", value: `${symbol}${parseFloat(result.totalInterest).toLocaleString()}` },
                         { label: "Principal Amount", value: `${symbol}${parseFloat(result.principal).toLocaleString()}` },
                         { label: "Interest Rate (APR)", value: `${result.rate}%` },
@@ -242,41 +242,41 @@ export default function APYCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About APY Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">The <strong className="text-gray-300">Annual Percentage Yield (APY) Calculator</strong> helps you calculate the true return on your savings or investments, including the effect of compound interest.</p>
-                <p className="text-gray-400 text-sm leading-relaxed">When comparing savings accounts, CDs, or investment products, always compare APY — it already includes the compounding effect.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About APY Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">The <strong className="text-ink-soft">Annual Percentage Yield (APY) Calculator</strong> helps you calculate the true return on your savings or investments, including the effect of compound interest.</p>
+                <p className="text-ink-faint text-sm leading-relaxed">When comparing savings accounts, CDs, or investment products, always compare APY — it already includes the compounding effect.</p>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">APY Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2 text-center">APY = (1 + r/n)^n - 1</p>
-                    <p className="text-gray-500 text-xs text-center">Where: r = interest rate, n = compounding frequency per year</p>
-                    <p className="text-gray-500 text-xs text-center mt-2">Example: 5% compounded monthly = (1 + 0.05/12)^12 - 1 = 5.12% APY</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">APY Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2 text-center">APY = (1 + r/n)^n - 1</p>
+                    <p className="text-ink-faint text-xs text-center">Where: r = interest rate, n = compounding frequency per year</p>
+                    <p className="text-ink-faint text-xs text-center mt-2">Example: 5% compounded monthly = (1 + 0.05/12)^12 - 1 = 5.12% APY</p>
                 </div>
             </section>
 
             {/* APY Comparison Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">APY Comparison by Compounding Frequency</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">APY Comparison by Compounding Frequency</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Interest Rate (APR)</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Monthly APY</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Daily APY</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Continuous APY</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Interest Rate (APR)</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Monthly APY</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Daily APY</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Continuous APY</th>
                             </tr>
                         </thead>
                         <tbody>
                             {APY_EXAMPLES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-yellow-400">{row.rate}%</td>
-                                    <td className="py-3 px-4 text-gray-300">{row.monthly}%</td>
-                                    <td className="py-3 px-4 text-gray-300">{row.daily}%</td>
-                                    <td className="py-3 px-4 text-gray-300">{row.continuous}%</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-yellow-700">{row.rate}%</td>
+                                    <td className="py-3 px-4 text-ink-soft">{row.monthly}%</td>
+                                    <td className="py-3 px-4 text-ink-soft">{row.daily}%</td>
+                                    <td className="py-3 px-4 text-ink-soft">{row.continuous}%</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -286,37 +286,37 @@ export default function APYCalculator() {
 
             {/* APY vs APR Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">APY vs APR — What's the Difference?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">APY vs APR — What's the Difference?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">APY (Annual Percentage Yield)</h3>
-                        <p className="text-xs text-gray-400">• Includes compound interest</p>
-                        <p className="text-xs text-gray-400">• Used for savings accounts, CDs, investments</p>
-                        <p className="text-xs text-gray-400">• Shows what you actually earn</p>
-                        <p className="text-xs text-gray-400">• Higher = better for savers</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">APY (Annual Percentage Yield)</h3>
+                        <p className="text-xs text-ink-faint">• Includes compound interest</p>
+                        <p className="text-xs text-ink-faint">• Used for savings accounts, CDs, investments</p>
+                        <p className="text-xs text-ink-faint">• Shows what you actually earn</p>
+                        <p className="text-xs text-ink-faint">• Higher = better for savers</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">APR (Annual Percentage Rate)</h3>
-                        <p className="text-xs text-gray-400">• Does NOT include compounding</p>
-                        <p className="text-xs text-gray-400">• Used for loans, credit cards, mortgages</p>
-                        <p className="text-xs text-gray-400">• Shows base interest rate</p>
-                        <p className="text-xs text-gray-400">• Lower = better for borrowers</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">APR (Annual Percentage Rate)</h3>
+                        <p className="text-xs text-ink-faint">• Does NOT include compounding</p>
+                        <p className="text-xs text-ink-faint">• Used for loans, credit cards, mortgages</p>
+                        <p className="text-xs text-ink-faint">• Shows base interest rate</p>
+                        <p className="text-xs text-ink-faint">• Lower = better for borrowers</p>
                     </div>
                 </div>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

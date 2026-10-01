@@ -60,14 +60,14 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       {/* Input Form */}
-      <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-800">
+      <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-hairline">
           <h3 className="font-semibold">{title}</h3>
         </div>
         <div className="p-6 space-y-4">
           {inputs.map((input) => (
             <div key={input.id}>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 {input.label}
               </label>
               {input.type === "number" && (
@@ -80,10 +80,10 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
                     min={input.min}
                     max={input.max}
                     step={input.step || "any"}
-                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                   {input.suffix && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">
                       {input.suffix}
                     </span>
                   )}
@@ -93,7 +93,7 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
                 <select
                   value={values[input.id] || input.options[0]?.value}
                   onChange={(e) => handleInputChange(input.id, e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors cursor-pointer"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors cursor-pointer"
                 >
                   {input.options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -108,8 +108,8 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
                     <button
                       key={opt.value}
                       className={`py-2 rounded-lg text-sm font-medium transition-all ${values[input.id] === opt.value
-                        ? "bg-blue-500 text-white"
-                        : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                        ? "bg-blue-600 text-white"
+                        : "bg-surface border border-hairline text-ink-faint hover:text-ink"
                         }`}
                       onClick={() => handleInputChange(input.id, opt.value)}
                     >
@@ -125,13 +125,13 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
             <button
               onClick={handleCalculate}
               disabled={!isFormValid()}
-              className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Calculate →
             </button>
             <button
               onClick={resetForm}
-              className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+              className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
             >
               Reset
             </button>

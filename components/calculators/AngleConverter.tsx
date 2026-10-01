@@ -133,38 +133,38 @@ export default function AngleConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">Converters</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Angle Converter</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Angle Converter</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Angle Converter</h3><p className="text-xs text-gray-500 mt-1">Convert between angle measurement units</p></div>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Angle Converter</h3><p className="text-xs text-ink-faint mt-1">Convert between angle measurement units</p></div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink" /></div>
                         <div className="flex items-center gap-3">
-                            <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{ANGLE_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
-                            <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600">🔄</button>
-                            <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{ANGLE_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+                            <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{ANGLE_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+                            <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200">🔄</button>
+                            <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{ANGLE_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
 
-                <ResultBox title="Converted Angle" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-indigo-400" } : undefined} extraRows={[]} />
+                <ResultBox title="Converted Angle" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-indigo-600" } : undefined} extraRows={[]} />
             </div>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Angle Converter</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Angle Converter</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Converts between degrees, radians, gradians, arcminutes and arcseconds. The four units exist
                     because four different trades needed different things from the same circle: degrees for anyone who
                     wants clean fractions, radians for mathematics and programming, gradians for European surveying,
@@ -174,16 +174,16 @@ export default function AngleConverter() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Why Radians Are the Natural Unit</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
-                    <p className="text-white font-mono text-sm">arc length = r × θ &nbsp;&nbsp;(θ in radians)</p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-4">Why Radians Are the Natural Unit</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 space-y-3">
+                    <p className="text-ink font-mono text-sm">arc length = r × θ &nbsp;&nbsp;(θ in radians)</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         A radian is the angle that cuts an arc as long as the radius. Because the unit is defined by
                         the circle itself, arc length needs no conversion factor — and neither does calculus. The
                         familiar result that the derivative of sin x is cos x holds only in radians; in degrees it
                         picks up a factor of π/180 that has to be carried through everything after it.
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         This is why every programming language&apos;s trigonometric functions take radians. Passing
                         degrees to Math.sin is one of the most common quiet bugs in graphics and physics code.
                     </p>
@@ -191,45 +191,45 @@ export default function AngleConverter() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Angles as Distance on the Ground</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Angles as Distance on the Ground</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Angle of latitude</th><th className="text-right py-3 px-4 text-gray-400">Distance on Earth</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Angle of latitude</th><th className="text-right py-3 px-4 text-ink-faint">Distance on Earth</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 degree</td><td className="py-2 px-4 text-right">≈ 111 km</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 arcminute (1′)</td><td className="py-2 px-4 text-right">1 nautical mile — 1,852 m</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 arcsecond (1″)</td><td className="py-2 px-4 text-right">≈ 31 m</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">0.1 arcsecond</td><td className="py-2 px-4 text-right">≈ 3 m</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 degree</td><td className="py-2 px-4 text-right">≈ 111 km</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 arcminute (1′)</td><td className="py-2 px-4 text-right">1 nautical mile — 1,852 m</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 arcsecond (1″)</td><td className="py-2 px-4 text-right">≈ 31 m</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">0.1 arcsecond</td><td className="py-2 px-4 text-right">≈ 3 m</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     The nautical mile was defined as one arcminute of latitude, which is why these two columns line up
                     so neatly. Longitude behaves differently — the same angle covers less ground the further you are
                     from the equator.
                 </p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Angle Conversions</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Common Angle Conversions</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">From</th><th className="text-left py-3 px-4 text-gray-400">To</th><th className="text-left py-3 px-4 text-gray-400">Value</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">From</th><th className="text-left py-3 px-4 text-ink-faint">To</th><th className="text-left py-3 px-4 text-ink-faint">Value</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">180°</td><td className="py-2 px-4">Radians</td><td className="py-2 px-4 text-yellow-400">π rad (3.14159 rad)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">90°</td><td className="py-2 px-4">Radians</td><td className="py-2 px-4 text-yellow-400">π/2 rad (1.5708 rad)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 Radian</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-400">57.2958°</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 Gradian</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-400">0.9°</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 Arcminute</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-400">0.0166667°</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 Arcsecond</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-400">0.00027778°</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">180°</td><td className="py-2 px-4">Radians</td><td className="py-2 px-4 text-yellow-700">π rad (3.14159 rad)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">90°</td><td className="py-2 px-4">Radians</td><td className="py-2 px-4 text-yellow-700">π/2 rad (1.5708 rad)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1 Radian</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-700">57.2958°</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1 Gradian</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-700">0.9°</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1 Arcminute</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-700">0.0166667°</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1 Arcsecond</td><td className="py-2 px-4">Degrees</td><td className="py-2 px-4 text-yellow-700">0.00027778°</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div>
             </section>
         </>
     );

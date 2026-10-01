@@ -182,19 +182,19 @@ export default function WallpaperCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-gray-300">Construction Calculators</a>
+                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Wallpaper Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Wallpaper Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -202,76 +202,76 @@ export default function WallpaperCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Wallpaper Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Estimate wallpaper rolls needed for your room</p>
+                        <p className="text-xs text-ink-faint mt-1">Estimate wallpaper rolls needed for your room</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Room Length (ft)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Room Length (ft)</label>
                                 <input
                                     type="number"
                                     step="0.5"
                                     placeholder="12"
                                     value={roomLength}
                                     onChange={(e) => setRoomLength(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Room Width (ft)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Room Width (ft)</label>
                                 <input
                                     type="number"
                                     step="0.5"
                                     placeholder="10"
                                     value={roomWidth}
                                     onChange={(e) => setRoomWidth(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Room Height (ft)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Room Height (ft)</label>
                             <input
                                 type="number"
                                 step="0.5"
                                 placeholder="8"
                                 value={roomHeight}
                                 onChange={(e) => setRoomHeight(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Number of Doors</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Number of Doors</label>
                                 <input
                                     type="number"
                                     placeholder="1"
                                     value={doorCount}
                                     onChange={(e) => setDoorCount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Number of Windows</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Number of Windows</label>
                                 <input
                                     type="number"
                                     placeholder="2"
                                     value={windowCount}
                                     onChange={(e) => setWindowCount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Pattern Repeat (cm)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Pattern Repeat (cm)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -279,22 +279,22 @@ export default function WallpaperCalculator() {
                                     placeholder="0"
                                     value={patternRepeat}
                                     onChange={(e) => setPatternRepeat(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">0 for solid, 25-64cm for patterned</p>
+                            <p className="text-xs text-ink-faint mt-1">0 for solid, 25-64cm for patterned</p>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Price per Roll ({symbol}) - Optional</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Price per Roll ({symbol}) - Optional</label>
                             <input
                                 type="number"
                                 step="100"
                                 placeholder="1500"
                                 value={pricePerRoll}
                                 onChange={(e) => setPricePerRoll(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                         </div>
 
@@ -307,7 +307,7 @@ export default function WallpaperCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -321,14 +321,14 @@ export default function WallpaperCalculator() {
                     isEmpty={!result}
                     emptyIcon="🖼️"
                     emptyText="Enter room dimensions"
-                    mainResult={result ? { label: "Rolls Required", value: `${result.rollsRequired} rolls`, color: "text-pink-400" } : undefined}
+                    mainResult={result ? { label: "Rolls Required", value: `${result.rollsRequired} rolls`, color: "text-pink-600" } : undefined}
                     extraRows={result ? [
                         { label: "Total Wall Area", value: `${result.wallArea} sq ft` },
-                        { label: "Net Wall Area (after doors/windows)", value: `${result.netWallArea} sq ft`, valueColor: "text-yellow-400" },
+                        { label: "Net Wall Area (after doors/windows)", value: `${result.netWallArea} sq ft`, valueColor: "text-yellow-700" },
                         { label: "Waste & Pattern Matching", value: `${result.wastePercent}%` },
                         { label: "Exact Rolls Needed", value: `${result.rollsNeeded} rolls` },
                         { label: "Pattern Repeat", value: `${result.patternRepeat} cm` },
-                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-400" }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-600" }] : []),
                     ] : []}
                 />
             </div>
@@ -337,89 +337,89 @@ export default function WallpaperCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Wallpaper Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Wallpaper Calculator</strong> helps you estimate exactly how many wallpaper rolls you need for your room. It accounts for room dimensions, doors, windows, and pattern matching waste to ensure you order the right amount.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Wallpaper Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Wallpaper Calculator</strong> helps you estimate exactly how many wallpaper rolls you need for your room. It accounts for room dimensions, doors, windows, and pattern matching waste to ensure you order the right amount.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Whether you're redecorating a single room or planning a full home renovation, this calculator prevents over-ordering (saving money) or under-ordering (avoiding color batch mismatch issues).
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our calculator uses standard Indian/European roll sizes (10m × 0.53m = 56.8 sq ft) and adjusts waste based on pattern repeat. It also provides cost estimates when you enter the price per roll.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Wallpaper Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Wallpaper Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">room dimensions</strong> (length, width, height in feet).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">number of doors and windows</strong> (to subtract from wall area).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">pattern repeat</strong> in cm (0 for solid, 25-64cm for patterned).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> (Optional) Enter the <strong className="text-white">price per roll</strong> for cost estimation.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Wallpaper"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">room dimensions</strong> (length, width, height in feet).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">number of doors and windows</strong> (to subtract from wall area).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">pattern repeat</strong> in cm (0 for solid, 25-64cm for patterned).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> (Optional) Enter the <strong className="text-ink">price per roll</strong> for cost estimation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate Wallpaper"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Wallpaper Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Wallpaper Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-pink-400 mb-2">✓ Accurate Quantity</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how many rolls to order. Avoid over-purchasing or running out of wallpaper mid-project.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-pink-600 mb-2">✓ Accurate Quantity</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how many rolls to order. Avoid over-purchasing or running out of wallpaper mid-project.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Cost Estimation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get a clear idea of your total wallpaper cost. Plan your renovation budget with confidence.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Cost Estimation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get a clear idea of your total wallpaper cost. Plan your renovation budget with confidence.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Waste Calculation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Our calculator automatically adds the right amount of waste based on pattern repeat. No more guesswork.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Waste Calculation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Our calculator automatically adds the right amount of waste based on pattern repeat. No more guesswork.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Batch Matching</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Order all your wallpaper at once from the same batch. Avoid color variations between different batches.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Batch Matching</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Order all your wallpaper at once from the same batch. Avoid color variations between different batches.</p>
                     </div>
                 </div>
             </section>
 
             {/* Standard Roll Specifications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Standard Wallpaper Roll Specifications</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Standard Wallpaper Roll Specifications</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Parameter</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Value</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Parameter</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Value</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Roll Length</td>
-                                <td className="py-3 px-4 text-yellow-400">10 meters (33 feet)</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Roll Length</td>
+                                <td className="py-3 px-4 text-yellow-700">10 meters (33 feet)</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Roll Width</td>
-                                <td className="py-3 px-4 text-yellow-400">0.53 meters (1.7 feet)</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Roll Width</td>
+                                <td className="py-3 px-4 text-yellow-700">0.53 meters (1.7 feet)</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Total Area per Roll</td>
-                                <td className="py-3 px-4 text-yellow-400">56.8 sq ft</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Total Area per Roll</td>
+                                <td className="py-3 px-4 text-yellow-700">56.8 sq ft</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">Usable Area (after waste)</td>
-                                <td className="py-3 px-4 text-gray-400">~45-50 sq ft</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">Usable Area (after waste)</td>
+                                <td className="py-3 px-4 text-ink-faint">~45-50 sq ft</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-3 px-4 text-gray-300">US Single Roll</td>
-                                <td className="py-3 px-4 text-gray-400">33ft × 21in (56.8 sq ft)</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft">US Single Roll</td>
+                                <td className="py-3 px-4 text-ink-faint">33ft × 21in (56.8 sq ft)</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Standard Indian and European rolls. Always check the specific roll dimensions before ordering.
                     </p>
                 </div>
@@ -427,31 +427,31 @@ export default function WallpaperCalculator() {
 
             {/* Wallpaper Types */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Wallpaper Types Comparison</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Wallpaper Types Comparison</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Price Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Durability</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Washable</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Best For</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Price Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Durability</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Washable</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Best For</th>
                             </tr>
                         </thead>
                         <tbody>
                             {WALLPAPER_TYPES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.type}</td>
-                                    <td className="py-3 px-4 text-yellow-400 text-xs">{row.price}</td>
-                                    <td className={`py-3 px-4 ${row.durability === "High" ? "text-green-400" : row.durability === "Medium" ? "text-yellow-400" : "text-red-400"}`}>{row.durability}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.washable}</td>
-                                    <td className="py-3 px-4 text-gray-400 text-xs">{row.bestFor}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.type}</td>
+                                    <td className="py-3 px-4 text-yellow-700 text-xs">{row.price}</td>
+                                    <td className={`py-3 px-4 ${row.durability === "High" ? "text-green-600" : row.durability === "Medium" ? "text-yellow-700" : "text-red-600"}`}>{row.durability}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.washable}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{row.bestFor}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Prices are approximate and vary by brand, design, and retailer.
                     </p>
                 </div>
@@ -459,31 +459,31 @@ export default function WallpaperCalculator() {
 
             {/* Pattern Repeat Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Pattern Repeat Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-3">Pattern Repeat Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-green-500/20">
-                            <p className="text-xs text-gray-400">Solid/No Pattern</p>
-                            <p className="text-sm text-green-400 font-bold">0 cm</p>
-                            <p className="text-xs text-gray-500">10% waste</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-green-100">
+                            <p className="text-xs text-ink-faint">Solid/No Pattern</p>
+                            <p className="text-sm text-green-600 font-bold">0 cm</p>
+                            <p className="text-xs text-ink-faint">10% waste</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-yellow-500/20">
-                            <p className="text-xs text-gray-400">Small Pattern</p>
-                            <p className="text-sm text-yellow-400 font-bold">25 cm</p>
-                            <p className="text-xs text-gray-500">15% waste</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-yellow-100">
+                            <p className="text-xs text-ink-faint">Small Pattern</p>
+                            <p className="text-sm text-yellow-700 font-bold">25 cm</p>
+                            <p className="text-xs text-ink-faint">15% waste</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-orange-500/20">
-                            <p className="text-xs text-gray-400">Medium Pattern</p>
-                            <p className="text-sm text-orange-400 font-bold">53 cm</p>
-                            <p className="text-xs text-gray-500">18% waste</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-orange-100">
+                            <p className="text-xs text-ink-faint">Medium Pattern</p>
+                            <p className="text-sm text-orange-600 font-bold">53 cm</p>
+                            <p className="text-xs text-ink-faint">18% waste</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-red-500/20">
-                            <p className="text-xs text-gray-400">Large Pattern</p>
-                            <p className="text-sm text-red-400 font-bold">64 cm+</p>
-                            <p className="text-xs text-gray-500">20-25% waste</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-red-100">
+                            <p className="text-xs text-ink-faint">Large Pattern</p>
+                            <p className="text-sm text-red-600 font-bold">64 cm+</p>
+                            <p className="text-xs text-ink-faint">20-25% waste</p>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs pt-3 border-t border-gray-800 mt-3 text-center">
+                    <p className="text-ink-faint text-xs pt-3 border-t border-hairline mt-3 text-center">
                         Higher pattern repeat = more waste when matching patterns across wallpaper strips.
                     </p>
                 </div>
@@ -491,46 +491,46 @@ export default function WallpaperCalculator() {
 
             {/* Wallpaper Installation Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Wallpaper Installation Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Wallpaper Installation Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-pink-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Order all rolls from the same batch:</strong> Different batches can have slight color variations. Order all your wallpaper at once to ensure color consistency.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-pink-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Order all rolls from the same batch:</strong> Different batches can have slight color variations. Order all your wallpaper at once to ensure color consistency.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-pink-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Prepare walls properly:</strong> Clean, smooth, and prime walls before hanging wallpaper. Use a wallpaper primer/sealer for best results.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-pink-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Prepare walls properly:</strong> Clean, smooth, and prime walls before hanging wallpaper. Use a wallpaper primer/sealer for best results.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-pink-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Buy extra for repairs:</strong> Keep at least 1 extra roll for future repairs (stains, damage, or future touch-ups).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-pink-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Buy extra for repairs:</strong> Keep at least 1 extra roll for future repairs (stains, damage, or future touch-ups).</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-pink-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check pattern match type:</strong> Different patterns require different matching methods. Read the instructions carefully before starting.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-pink-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check pattern match type:</strong> Different patterns require different matching methods. Read the instructions carefully before starting.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-pink-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Allow for drying time:</strong> Don't rush the installation. Allow proper drying time between hanging and trimming for best results.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-pink-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Allow for drying time:</strong> Don't rush the installation. Allow proper drying time between hanging and trimming for best results.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

@@ -104,23 +104,23 @@ export default function LumpsumCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: LUMPSUM_SCHEMA }} />
 
             <nav className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="/" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="/investment" className="hover:text-gray-300">Investment Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">Lumpsum Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="/" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="/investment" className="hover:text-ink-soft">Investment Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">Lumpsum Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Investment Details</h3>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Principal Amount
                             </label>
                             <div className="relative">
@@ -129,13 +129,13 @@ export default function LumpsumCalculator() {
                                     placeholder="100000"
                                     value={principal}
                                     onChange={(e) => setPrincipal(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Expected Annual Return
                             </label>
                             <div className="relative">
@@ -145,16 +145,16 @@ export default function LumpsumCalculator() {
                                     step="0.5"
                                     value={rate}
                                     onChange={(e) => setRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-ink-faint mt-1">
                                 Equity: 10-14% | Hybrid: 8-10% | Debt: 6-8%
                             </p>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Time Period
                             </label>
                             <div className="relative">
@@ -163,9 +163,9 @@ export default function LumpsumCalculator() {
                                     placeholder="10"
                                     value={years}
                                     onChange={(e) => setYears(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span>
                             </div>
                         </div>
                         <div className="flex gap-3">
@@ -177,7 +177,7 @@ export default function LumpsumCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -193,11 +193,11 @@ export default function LumpsumCalculator() {
                     mainResult={result ? {
                         label: "Maturity Amount",
                         value: `₹${result.maturity}`,
-                        color: "text-indigo-400"
+                        color: "text-indigo-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Principal Amount", value: `₹${result.principal}` },
-                        { label: "Total Interest", value: `₹${result.interest}`, valueColor: "text-green-400" },
+                        { label: "Total Interest", value: `₹${result.interest}`, valueColor: "text-green-600" },
                         { label: "CAGR Return", value: `${result.cagr}%` },
                         { label: "Tenure", value: `${result.years} years at ${result.rate}% p.a.` }
                     ] : undefined}
@@ -208,63 +208,63 @@ export default function LumpsumCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Lumpsum Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    A <strong className="text-gray-300">lumpsum investment</strong> involves investing a large amount of money all at once. This calculator helps you estimate the future value of your one-time investment based on expected annual returns and investment tenure.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Lumpsum Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    A <strong className="text-ink-soft">lumpsum investment</strong> involves investing a large amount of money all at once. This calculator helps you estimate the future value of your one-time investment based on expected annual returns and investment tenure.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Perfect for calculating returns on bonuses, inheritances, or any large sum you wish to invest for long-term wealth creation. See the power of compounding in action.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Lumpsum Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Lumpsum Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">principal amount</strong> you wish to invest as a one-time lumpsum.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">expected annual return</strong> percentage (based on investment type).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">investment tenure</strong> in years.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Lumpsum Returns"</strong> to see maturity amount.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> View principal, total interest earned, and CAGR returns.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">principal amount</strong> you wish to invest as a one-time lumpsum.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">expected annual return</strong> percentage (based on investment type).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">investment tenure</strong> in years.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Lumpsum Returns"</strong> to see maturity amount.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> View principal, total interest earned, and CAGR returns.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Lumpsum Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Lumpsum Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Financial Goal Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan for retirement, children's education, or buying a house. Know exactly how much your lumpsum will grow over time.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-indigo-600 mb-2">✓ Financial Goal Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan for retirement, children's education, or buying a house. Know exactly how much your lumpsum will grow over time.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Investment Options</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare FD (6-7%), Debt funds (7-9%), and Equity funds (10-14%). Choose the best option for your risk profile.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Investment Options</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare FD (6-7%), Debt funds (7-9%), and Equity funds (10-14%). Choose the best option for your risk profile.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Inflation Adjustment</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate real returns after inflation (5-6%). Know your actual purchasing power growth, not just nominal returns.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Inflation Adjustment</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate real returns after inflation (5-6%). Know your actual purchasing power growth, not just nominal returns.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Retirement Corpus Estimation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate how much your current savings will grow by retirement. Plan additional savings needed to reach your goal.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Retirement Corpus Estimation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate how much your current savings will grow by retirement. Plan additional savings needed to reach your goal.</p>
                     </div>
                 </div>
             </section>
 
             {/* Expected Returns by Investment Type */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Expected Returns by Investment Type</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Expected Returns by Investment Type</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Investment Type</th><th className="text-left py-3 px-4 text-gray-400">Expected Returns</th><th className="text-left py-3 px-4 text-gray-400">Risk Level</th><th className="text-left py-3 px-4 text-gray-400">Best For</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Investment Type</th><th className="text-left py-3 px-4 text-ink-faint">Expected Returns</th><th className="text-left py-3 px-4 text-ink-faint">Risk Level</th><th className="text-left py-3 px-4 text-ink-faint">Best For</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Equity Mutual Funds</td><td className="py-2 px-4 text-yellow-400">10-14%</td><td className="py-2 px-4">High</td><td className="py-2 px-4">Long-term (7+ years)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Hybrid Funds</td><td className="py-2 px-4 text-yellow-400">8-10%</td><td className="py-2 px-4">Moderate</td><td className="py-2 px-4">Medium-term (3-7 years)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Debt Funds</td><td className="py-2 px-4 text-yellow-400">6-8%</td><td className="py-2 px-4">Low</td><td className="py-2 px-4">Short-term (1-3 years)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Fixed Deposits</td><td className="py-2 px-4 text-yellow-400">6-7%</td><td className="py-2 px-4">Very Low</td><td className="py-2 px-4">Capital protection</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">PPF / EPF</td><td className="py-2 px-4 text-yellow-400">7-8%</td><td className="py-2 px-4">Very Low</td><td className="py-2 px-4">Tax-saving retirement</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Equity Mutual Funds</td><td className="py-2 px-4 text-yellow-700">10-14%</td><td className="py-2 px-4">High</td><td className="py-2 px-4">Long-term (7+ years)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Hybrid Funds</td><td className="py-2 px-4 text-yellow-700">8-10%</td><td className="py-2 px-4">Moderate</td><td className="py-2 px-4">Medium-term (3-7 years)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Debt Funds</td><td className="py-2 px-4 text-yellow-700">6-8%</td><td className="py-2 px-4">Low</td><td className="py-2 px-4">Short-term (1-3 years)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Fixed Deposits</td><td className="py-2 px-4 text-yellow-700">6-7%</td><td className="py-2 px-4">Very Low</td><td className="py-2 px-4">Capital protection</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">PPF / EPF</td><td className="py-2 px-4 text-yellow-700">7-8%</td><td className="py-2 px-4">Very Low</td><td className="py-2 px-4">Tax-saving retirement</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -272,56 +272,56 @@ export default function LumpsumCalculator() {
 
             {/* Power of Compounding Examples */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Power of Compounding: ₹1 Lakh Investment</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Power of Compounding: ₹1 Lakh Investment</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Tenure</th><th className="text-left py-3 px-4 text-gray-400">At 8% Returns</th><th className="text-left py-3 px-4 text-gray-400">At 10% Returns</th><th className="text-left py-3 px-4 text-gray-400">At 12% Returns</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Tenure</th><th className="text-left py-3 px-4 text-ink-faint">At 8% Returns</th><th className="text-left py-3 px-4 text-ink-faint">At 10% Returns</th><th className="text-left py-3 px-4 text-ink-faint">At 12% Returns</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">5 years</td><td className="py-2 px-4">₹1.47L</td><td className="py-2 px-4 text-yellow-400">₹1.61L</td><td className="py-2 px-4">₹1.76L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10 years</td><td className="py-2 px-4">₹2.16L</td><td className="py-2 px-4 text-yellow-400">₹2.59L</td><td className="py-2 px-4">₹3.10L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">15 years</td><td className="py-2 px-4">₹3.17L</td><td className="py-2 px-4 text-yellow-400">₹4.18L</td><td className="py-2 px-4">₹5.47L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">20 years</td><td className="py-2 px-4">₹4.66L</td><td className="py-2 px-4 text-yellow-400">₹6.73L</td><td className="py-2 px-4">₹9.65L</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">30 years</td><td className="py-2 px-4">₹10.06L</td><td className="py-2 px-4 text-yellow-400">₹17.45L</td><td className="py-2 px-4">₹29.96L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">5 years</td><td className="py-2 px-4">₹1.47L</td><td className="py-2 px-4 text-yellow-700">₹1.61L</td><td className="py-2 px-4">₹1.76L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">10 years</td><td className="py-2 px-4">₹2.16L</td><td className="py-2 px-4 text-yellow-700">₹2.59L</td><td className="py-2 px-4">₹3.10L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">15 years</td><td className="py-2 px-4">₹3.17L</td><td className="py-2 px-4 text-yellow-700">₹4.18L</td><td className="py-2 px-4">₹5.47L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">20 years</td><td className="py-2 px-4">₹4.66L</td><td className="py-2 px-4 text-yellow-700">₹6.73L</td><td className="py-2 px-4">₹9.65L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">30 years</td><td className="py-2 px-4">₹10.06L</td><td className="py-2 px-4 text-yellow-700">₹17.45L</td><td className="py-2 px-4">₹29.96L</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">*Higher returns over longer tenure = exponential growth due to compounding.</p>
+                <p className="text-xs text-ink-faint mt-2">*Higher returns over longer tenure = exponential growth due to compounding.</p>
             </section>
 
             {/* Lumpsum vs SIP Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Lumpsum vs SIP Comparison</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Lumpsum vs SIP Comparison</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Lumpsum</h3>
-                        <p className="text-xs text-gray-400">• One-time large investment</p>
-                        <p className="text-xs text-gray-400">• Higher potential returns if timed well</p>
-                        <p className="text-xs text-gray-400">• Market timing matters</p>
-                        <p className="text-xs text-gray-400">• Best for bull markets</p>
-                        <p className="text-xs text-gray-400">• Lower cost (no transaction fees)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Lumpsum</h3>
+                        <p className="text-xs text-ink-faint">• One-time large investment</p>
+                        <p className="text-xs text-ink-faint">• Higher potential returns if timed well</p>
+                        <p className="text-xs text-ink-faint">• Market timing matters</p>
+                        <p className="text-xs text-ink-faint">• Best for bull markets</p>
+                        <p className="text-xs text-ink-faint">• Lower cost (no transaction fees)</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">SIP</h3>
-                        <p className="text-xs text-gray-400">• Regular monthly investments</p>
-                        <p className="text-xs text-gray-400">• Rupee cost averaging benefits</p>
-                        <p className="text-xs text-gray-400">• No market timing needed</p>
-                        <p className="text-xs text-gray-400">• Best for volatile markets</p>
-                        <p className="text-xs text-gray-400">• Disciplined saving habit</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">SIP</h3>
+                        <p className="text-xs text-ink-faint">• Regular monthly investments</p>
+                        <p className="text-xs text-ink-faint">• Rupee cost averaging benefits</p>
+                        <p className="text-xs text-ink-faint">• No market timing needed</p>
+                        <p className="text-xs text-ink-faint">• Best for volatile markets</p>
+                        <p className="text-xs text-ink-faint">• Disciplined saving habit</p>
                     </div>
                 </div>
             </section>
 
             {/* Lumpsum Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Lumpsum Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2">
+                <h2 className="text-xl font-semibold text-ink mb-4">Lumpsum Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2">
                         A = P × (1 + r)^n
                     </p>
-                    <p className="text-gray-500 text-xs mb-2">
+                    <p className="text-ink-faint text-xs mb-2">
                         Where: A = Maturity Amount, P = Principal, r = Annual Return Rate, n = Number of Years
                     </p>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-ink-faint text-xs">
                         Example: ₹1,00,000 at 12% for 10 years = ₹3,10,584
                     </p>
                 </div>
@@ -329,46 +329,46 @@ export default function LumpsumCalculator() {
 
             {/* Lumpsum vs SIP Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">
+                <h2 className="text-xl font-semibold text-ink mb-4">
                     Lumpsum vs SIP Comparison
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Lumpsum</h3>
-                        <p className="text-xs text-gray-400">• One-time large investment</p>
-                        <p className="text-xs text-gray-400">• Higher potential returns if timed well</p>
-                        <p className="text-xs text-gray-400">• Market timing matters</p>
-                        <p className="text-xs text-gray-400">• Best for bull markets</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Lumpsum</h3>
+                        <p className="text-xs text-ink-faint">• One-time large investment</p>
+                        <p className="text-xs text-ink-faint">• Higher potential returns if timed well</p>
+                        <p className="text-xs text-ink-faint">• Market timing matters</p>
+                        <p className="text-xs text-ink-faint">• Best for bull markets</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">SIP</h3>
-                        <p className="text-xs text-gray-400">• Regular monthly investments</p>
-                        <p className="text-xs text-gray-400">• Rupee cost averaging benefits</p>
-                        <p className="text-xs text-gray-400">• No market timing needed</p>
-                        <p className="text-xs text-gray-400">• Best for volatile markets</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">SIP</h3>
+                        <p className="text-xs text-ink-faint">• Regular monthly investments</p>
+                        <p className="text-xs text-ink-faint">• Rupee cost averaging benefits</p>
+                        <p className="text-xs text-ink-faint">• No market timing needed</p>
+                        <p className="text-xs text-ink-faint">• Best for volatile markets</p>
                     </div>
                 </div>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">
+                <h2 className="text-xl font-semibold text-ink mb-4">
                     Frequently Asked Questions
                 </h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>
                                     +
                                 </span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

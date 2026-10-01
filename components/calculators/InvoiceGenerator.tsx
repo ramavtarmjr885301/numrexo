@@ -612,28 +612,28 @@ export default function InvoiceGenerator() {
         { id: "bank", label: "Bank" },
     ] as const;
 
-    const inputCls = "w-full px-3 py-2 bg-[#0d1117] border border-gray-700 rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-teal-500 transition-colors";
-    const labelCls = "text-xs text-gray-500 mb-1 block";
+    const inputCls = "w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:border-teal-500 transition-colors";
+    const labelCls = "text-xs text-ink-faint mb-1 block";
     const selectCls = inputCls + " cursor-pointer";
 
     return (
         <div className="space-y-6">
             <nav aria-label="Breadcrumb">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-600">
-                    <li><a href="https://numrexo.com" className="hover:text-gray-300 transition-colors">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="https://numrexo.com/business" className="hover:text-gray-300 transition-colors">Business Tools</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li className="text-gray-300">GST Invoice Generator</li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="https://numrexo.com" className="hover:text-ink-soft transition-colors">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="https://numrexo.com/business" className="hover:text-ink-soft transition-colors">Business Tools</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li className="text-ink-soft">GST Invoice Generator</li>
                 </ol>
             </nav>
 
             {sellerState && buyerState && (
                 <div className={`flex flex-wrap items-center gap-3 px-4 py-2.5 rounded-lg text-sm border ${autoGSTType === "igst"
-                    ? "bg-blue-950/40 border-blue-700/50 text-blue-300"
+                    ? "bg-blue-50 border-blue-200 text-blue-600"
                     : autoGSTType === "utgst"
-                        ? "bg-purple-950/40 border-purple-700/50 text-purple-300"
-                        : "bg-teal-950/40 border-teal-700/50 text-teal-300"
+                        ? "bg-purple-50 border-purple-200 text-purple-600"
+                        : "bg-teal-50 border-teal-200 text-teal-600"
                     }`}>
                     <span className="font-semibold">Auto-detected:</span>
                     <span className="font-bold">{getGSTLabel(autoGSTType)}</span>
@@ -644,24 +644,24 @@ export default function InvoiceGenerator() {
             )}
 
             {errors.length > 0 && (
-                <div className="bg-red-950/40 border border-red-700/50 rounded-lg p-4">
-                    <p className="text-red-400 text-sm font-semibold mb-2">Please fix the following:</p>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p className="text-red-600 text-sm font-semibold mb-2">Please fix the following:</p>
                     <ul className="space-y-1">
-                        {errors.map((e, i) => <li key={i} className="text-red-300 text-xs flex gap-2"><span>•</span>{e}</li>)}
+                        {errors.map((e, i) => <li key={i} className="text-red-600 text-xs flex gap-2"><span>•</span>{e}</li>)}
                     </ul>
                 </div>
             )}
 
             {/* Form Panel */}
-            <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                <div className="flex border-b border-gray-800 overflow-x-auto">
+            <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                <div className="flex border-b border-hairline overflow-x-auto">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`px-4 py-3 text-xs font-semibold whitespace-nowrap transition-colors border-b-2 ${activeTab === tab.id
-                                ? "text-teal-400 border-teal-400 bg-teal-950/20"
-                                : "text-gray-500 border-transparent hover:text-gray-300"
+                                ? "text-teal-600 border-teal-400 bg-teal-50"
+                                : "text-ink-faint border-transparent hover:text-ink-soft"
                                 }`}
                         >
                             {tab.label}
@@ -781,7 +781,7 @@ export default function InvoiceGenerator() {
                             </div>
                             <div className="flex items-center gap-3 mt-2">
                                 <input type="checkbox" id="rcm" checked={reverseCharge} onChange={e => setReverseCharge(e.target.checked)} className="w-4 h-4 accent-teal-500 rounded" />
-                                <label htmlFor="rcm" className="text-sm text-gray-300 cursor-pointer">
+                                <label htmlFor="rcm" className="text-sm text-ink-soft cursor-pointer">
                                     Reverse Charge Mechanism (RCM) applicable
                                 </label>
                             </div>
@@ -792,18 +792,18 @@ export default function InvoiceGenerator() {
                     {activeTab === "items" && (
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
-                                <p className="text-xs text-gray-500">Add items/services with HSN/SAC codes and per-item GST rate</p>
-                                <button onClick={addItem} className="text-xs px-3 py-1.5 bg-teal-500/10 text-teal-400 border border-teal-500/30 rounded-lg hover:bg-teal-500/20 transition-colors">
+                                <p className="text-xs text-ink-faint">Add items/services with HSN/SAC codes and per-item GST rate</p>
+                                <button onClick={addItem} className="text-xs px-3 py-1.5 bg-teal-50 text-teal-600 border border-teal-200 rounded-lg hover:bg-teal-50 transition-colors">
                                     + Add Row
                                 </button>
                             </div>
                             <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
                                 {items.map((item, idx) => (
-                                    <div key={item.id} className="bg-[#0d1117] border border-gray-800 rounded-lg p-3 space-y-2">
+                                    <div key={item.id} className="bg-surface border border-hairline rounded-lg p-3 space-y-2">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs text-gray-500 font-semibold">Item {idx + 1}</span>
+                                            <span className="text-xs text-ink-faint font-semibold">Item {idx + 1}</span>
                                             {items.length > 1 && (
-                                                <button onClick={() => removeItem(item.id)} className="text-red-500/60 hover:text-red-400 text-xs px-2 py-1 rounded transition-colors">Remove</button>
+                                                <button onClick={() => removeItem(item.id)} className="text-red-600 hover:text-red-600 text-xs px-2 py-1 rounded transition-colors">Remove</button>
                                             )}
                                         </div>
                                         <div className="grid grid-cols-3 gap-2">
@@ -834,24 +834,24 @@ export default function InvoiceGenerator() {
                                                         </optgroup>
                                                     ))}
                                                 </select>
-                                                <p className="text-[10px] text-gray-600 mt-1 leading-snug">
+                                                <p className="text-[10px] text-ink-faint mt-1 leading-snug">
                                                     Slabs changed on 22 Sep 2025. Verify your HSN/SAC rate with CBIC.
                                                 </p>
                                             </div>
                                         </div>
                                         {item.quantity && item.rate && (
-                                            <div className="text-xs text-gray-500 flex gap-3">
-                                                <span>Amount: <span className="text-gray-300">₹{fmt((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</span></span>
-                                                <span>GST: <span className="text-teal-400">₹{fmt((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0) * (parseFloat(item.gstRate) || 0) / 100)}</span></span>
+                                            <div className="text-xs text-ink-faint flex gap-3">
+                                                <span>Amount: <span className="text-ink-soft">₹{fmt((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</span></span>
+                                                <span>GST: <span className="text-teal-600">₹{fmt((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0) * (parseFloat(item.gstRate) || 0) / 100)}</span></span>
                                             </div>
                                         )}
                                     </div>
                                 ))}
                             </div>
                             {items.some(i => i.description && parseFloat(i.rate) > 0) && (
-                                <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-3 text-sm flex justify-between items-center">
-                                    <span className="text-gray-500">Subtotal (before tax)</span>
-                                    <span className="text-white font-semibold">₹{fmt(calcSubtotal())}</span>
+                                <div className="bg-surface border border-hairline rounded-lg p-3 text-sm flex justify-between items-center">
+                                    <span className="text-ink-faint">Subtotal (before tax)</span>
+                                    <span className="text-ink font-semibold">₹{fmt(calcSubtotal())}</span>
                                 </div>
                             )}
                         </div>
@@ -875,20 +875,20 @@ export default function InvoiceGenerator() {
                             </div>
                             <div className="flex items-center gap-3">
                                 <input type="checkbox" id="roundoff" checked={roundOff} onChange={e => setRoundOff(e.target.checked)} className="w-4 h-4 accent-teal-500" />
-                                <label htmlFor="roundoff" className="text-sm text-gray-300 cursor-pointer">Enable Round Off</label>
+                                <label htmlFor="roundoff" className="text-sm text-ink-soft cursor-pointer">Enable Round Off</label>
                             </div>
                             <div>
                                 <label className={labelCls}>Notes / Payment Instructions</label>
                                 <textarea rows={3} placeholder="Bank transfer preferred. Late payment: 2% per month interest after due date." value={notes} onChange={e => setNotes(e.target.value)} className={inputCls + " resize-none"} />
                             </div>
                             {calcSubtotal() > 0 && (
-                                <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-3 space-y-1.5 text-sm">
-                                    <div className="flex justify-between text-gray-500"><span>Subtotal</span><span className="text-gray-300">₹{fmt(calcSubtotal())}</span></div>
+                                <div className="bg-surface border border-hairline rounded-lg p-3 space-y-1.5 text-sm">
+                                    <div className="flex justify-between text-ink-faint"><span>Subtotal</span><span className="text-ink-soft">₹{fmt(calcSubtotal())}</span></div>
                                     {parseFloat(discountValue) > 0 && (
-                                        <div className="flex justify-between text-green-500/80"><span>Discount</span><span>-₹{fmt(calcDiscount(calcSubtotal()))}</span></div>
+                                        <div className="flex justify-between text-green-600"><span>Discount</span><span>-₹{fmt(calcDiscount(calcSubtotal()))}</span></div>
                                     )}
-                                    <div className="flex justify-between text-gray-500"><span>Taxable Amount</span><span className="text-gray-300">₹{fmt(calcTaxableAmount())}</span></div>
-                                    <div className="flex justify-between font-semibold text-teal-400 border-t border-gray-800 pt-1.5">
+                                    <div className="flex justify-between text-ink-faint"><span>Taxable Amount</span><span className="text-ink-soft">₹{fmt(calcTaxableAmount())}</span></div>
+                                    <div className="flex justify-between font-semibold text-teal-600 border-t border-hairline pt-1.5">
                                         <span>GST Type</span>
                                         <span>{getGSTLabel(autoGSTType)}</span>
                                     </div>
@@ -900,7 +900,7 @@ export default function InvoiceGenerator() {
                     {/* BANK */}
                     {activeTab === "bank" && (
                         <div className="space-y-3">
-                            <p className="text-xs text-gray-500">Optional: Bank details for payment (printed on invoice)</p>
+                            <p className="text-xs text-ink-faint">Optional: Bank details for payment (printed on invoice)</p>
                             <div>
                                 <label className={labelCls}>Account Holder Name</label>
                                 <input type="text" placeholder="ABC Pvt. Ltd." value={accountName} onChange={e => setAccountName(e.target.value)} className={inputCls} />
@@ -930,7 +930,7 @@ export default function InvoiceGenerator() {
                         >
                             Generate Invoice →
                         </button>
-                        <button onClick={reset} className="px-5 py-3 rounded-xl bg-gray-800 text-gray-300 font-semibold text-sm hover:bg-gray-700 transition-colors">
+                        <button onClick={reset} className="px-5 py-3 rounded-xl bg-gray-100 text-ink-soft font-semibold text-sm hover:bg-gray-100 transition-colors">
                             Reset
                         </button>
                     </div>
@@ -943,36 +943,36 @@ export default function InvoiceGenerator() {
                     {/* Summary Cards */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {[
-                            { label: "Invoice Total", value: `₹${fmtInt(result.grandTotal)}`, color: "text-teal-400" },
-                            { label: "Taxable Amount", value: `₹${fmtInt(result.taxableAmount)}`, color: "text-blue-400" },
+                            { label: "Invoice Total", value: `₹${fmtInt(result.grandTotal)}`, color: "text-teal-600" },
+                            { label: "Taxable Amount", value: `₹${fmtInt(result.taxableAmount)}`, color: "text-blue-600" },
                             {
                                 label: result.gstType === "igst" ? "Total IGST" : result.gstType === "utgst" ? "CGST + UTGST" : "CGST + SGST",
                                 value: `₹${fmtInt(result.totalCgst + result.totalSgst + result.totalIgst + result.totalUtgst)}`,
-                                color: "text-orange-400"
+                                color: "text-orange-600"
                             },
-                            { label: "GST Type", value: getGSTLabel(result.gstType), color: "text-purple-400" },
+                            { label: "GST Type", value: getGSTLabel(result.gstType), color: "text-purple-600" },
                         ].map((card, i) => (
-                            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl p-3">
-                                <p className="text-xs text-gray-500 mb-1">{card.label}</p>
+                            <div key={i} className="bg-surface border border-hairline rounded-xl p-3">
+                                <p className="text-xs text-ink-faint mb-1">{card.label}</p>
                                 <p className={`text-base font-bold ${card.color}`}>{card.value}</p>
                             </div>
                         ))}
                     </div>
 
                     <div className="flex justify-end">
-                        <button onClick={handlePrint} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-500 transition-colors">
+                        <button onClick={handlePrint} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-600 transition-colors">
                             🖨️ Print / Save PDF
                         </button>
                     </div>
 
                     {/* Printable Invoice */}
-                    <div ref={printRef} className="bg-white text-black rounded-xl overflow-hidden shadow-xl">
+                    <div ref={printRef} className="bg-white text-ink rounded-xl overflow-hidden shadow-xl">
                         {/* Header */}
                         <div className="bg-[#0f172a] text-white px-8 py-6 flex justify-between items-end">
                             <div>
                                 <h1 className="text-3xl font-bold tracking-widest text-white">INVOICE</h1>
                                 {result.reverseCharge && (
-                                    <span className="inline-block mt-2 bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 text-xs px-3 py-1 rounded">
+                                    <span className="inline-block mt-2 bg-yellow-50 border border-yellow-200 text-yellow-700 text-xs px-3 py-1 rounded">
                                         Reverse Charge: YES
                                     </span>
                                 )}
@@ -981,7 +981,7 @@ export default function InvoiceGenerator() {
                                 <p className="text-gray-400 text-xs">Invoice No.</p>
                                 <p className="text-white font-bold text-lg">{result.invoiceNumber}</p>
                                 <p className="text-gray-400 text-xs mt-1">Date: <span className="text-white">{result.invoiceDate}</span></p>
-                                <p className="text-gray-400 text-xs">Due: <span className="text-yellow-300">{result.dueDate}</span></p>
+                                <p className="text-gray-400 text-xs">Due: <span className="text-yellow-400">{result.dueDate}</span></p>
                                 {result.poNumber && <p className="text-gray-400 text-xs">PO: <span className="text-white">{result.poNumber}</span></p>}
                             </div>
                         </div>
@@ -997,24 +997,24 @@ export default function InvoiceGenerator() {
                         {/* Parties */}
                         <div className="grid grid-cols-2">
                             <div className="px-8 py-5 border-r border-b border-gray-200">
-                                <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Bill From</p>
+                                <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-3">Bill From</p>
                                 <p className="font-bold text-gray-900 text-base">{result.sellerName}</p>
-                                {result.sellerAddress && <p className="text-xs text-gray-500 mt-1 leading-relaxed">{result.sellerAddress}</p>}
-                                {result.sellerEmail && <p className="text-xs text-gray-500 mt-1">{result.sellerEmail}</p>}
-                                {result.sellerPhone && <p className="text-xs text-gray-500">{result.sellerPhone}</p>}
+                                {result.sellerAddress && <p className="text-xs text-ink-faint mt-1 leading-relaxed">{result.sellerAddress}</p>}
+                                {result.sellerEmail && <p className="text-xs text-ink-faint mt-1">{result.sellerEmail}</p>}
+                                {result.sellerPhone && <p className="text-xs text-ink-faint">{result.sellerPhone}</p>}
                                 {result.sellerGstin && (
                                     <span className="inline-block mt-2 bg-blue-50 border border-blue-200 text-blue-700 text-xs px-2 py-0.5 rounded font-mono">
                                         GSTIN: {result.sellerGstin}
                                     </span>
                                 )}
-                                {result.sellerPan && <p className="text-xs text-gray-400 mt-1 font-mono">PAN: {result.sellerPan}</p>}
+                                {result.sellerPan && <p className="text-xs text-ink-faint mt-1 font-mono">PAN: {result.sellerPan}</p>}
                             </div>
                             <div className="px-8 py-5 border-b border-gray-200">
-                                <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Bill To</p>
+                                <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-3">Bill To</p>
                                 <p className="font-bold text-gray-900 text-base">{result.buyerName}</p>
-                                {result.buyerAddress && <p className="text-xs text-gray-500 mt-1 leading-relaxed">{result.buyerAddress}</p>}
-                                {result.buyerEmail && <p className="text-xs text-gray-500 mt-1">{result.buyerEmail}</p>}
-                                {result.buyerPhone && <p className="text-xs text-gray-500">{result.buyerPhone}</p>}
+                                {result.buyerAddress && <p className="text-xs text-ink-faint mt-1 leading-relaxed">{result.buyerAddress}</p>}
+                                {result.buyerEmail && <p className="text-xs text-ink-faint mt-1">{result.buyerEmail}</p>}
+                                {result.buyerPhone && <p className="text-xs text-ink-faint">{result.buyerPhone}</p>}
                                 {result.buyerGstin && (
                                     <span className="inline-block mt-2 bg-blue-50 border border-blue-200 text-blue-700 text-xs px-2 py-0.5 rounded font-mono">
                                         GSTIN: {result.buyerGstin}
@@ -1027,7 +1027,7 @@ export default function InvoiceGenerator() {
                         <div className="px-8 py-5">
                             <table className="w-full text-sm border-collapse">
                                 <thead>
-                                    <tr className="bg-gray-900 text-white">
+                                    <tr className="bg-gray-100 text-ink">
                                         <th className="py-2.5 px-3 text-left text-xs font-semibold tracking-wide w-8">#</th>
                                         <th className="py-2.5 px-3 text-left text-xs font-semibold tracking-wide">Description</th>
                                         <th className="py-2.5 px-3 text-center text-xs font-semibold tracking-wide">HSN/SAC</th>
@@ -1041,13 +1041,13 @@ export default function InvoiceGenerator() {
                                 <tbody>
                                     {result.items.map((item, idx) => (
                                         <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                                            <td className="py-2.5 px-3 text-xs text-gray-400">{idx + 1}</td>
+                                            <td className="py-2.5 px-3 text-xs text-ink-faint">{idx + 1}</td>
                                             <td className="py-2.5 px-3 text-gray-800 font-medium">{item.description}</td>
-                                            <td className="py-2.5 px-3 text-center text-xs font-mono text-gray-500">{item.hsnSac || "—"}</td>
-                                            <td className="py-2.5 px-3 text-center text-xs text-gray-600">{item.quantity} {item.unit}</td>
-                                            <td className="py-2.5 px-3 text-right text-xs text-gray-600">{fmt(item.rate)}</td>
+                                            <td className="py-2.5 px-3 text-center text-xs font-mono text-ink-faint">{item.hsnSac || "—"}</td>
+                                            <td className="py-2.5 px-3 text-center text-xs text-ink-faint">{item.quantity} {item.unit}</td>
+                                            <td className="py-2.5 px-3 text-right text-xs text-ink-faint">{fmt(item.rate)}</td>
                                             <td className="py-2.5 px-3 text-right text-xs font-medium text-gray-800">{fmt(item.amount)}</td>
-                                            <td className="py-2.5 px-3 text-right text-xs text-gray-500">{item.gstRate}%</td>
+                                            <td className="py-2.5 px-3 text-right text-xs text-ink-faint">{item.gstRate}%</td>
                                             <td className="py-2.5 px-3 text-right text-xs font-medium text-blue-700">{fmt(item.gstAmount)}</td>
                                         </tr>
                                     ))}
@@ -1059,22 +1059,22 @@ export default function InvoiceGenerator() {
                         <div className="px-8 pb-5 grid grid-cols-2 gap-8">
                             {/* GST Breakup */}
                             <div>
-                                <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">GST Breakup</p>
+                                <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-2">GST Breakup</p>
                                 <table className="w-full text-xs border border-gray-200 rounded overflow-hidden">
                                     <thead>
                                         <tr className="bg-gray-100">
-                                            <th className="py-2 px-3 text-left text-gray-600 font-semibold">Rate</th>
-                                            <th className="py-2 px-3 text-right text-gray-600 font-semibold">Taxable</th>
+                                            <th className="py-2 px-3 text-left text-ink-faint font-semibold">Rate</th>
+                                            <th className="py-2 px-3 text-right text-ink-faint font-semibold">Taxable</th>
                                             {result.gstType === "cgst_sgst" && <>
-                                                <th className="py-2 px-3 text-right text-gray-600 font-semibold">CGST</th>
-                                                <th className="py-2 px-3 text-right text-gray-600 font-semibold">SGST</th>
+                                                <th className="py-2 px-3 text-right text-ink-faint font-semibold">CGST</th>
+                                                <th className="py-2 px-3 text-right text-ink-faint font-semibold">SGST</th>
                                             </>}
-                                            {result.gstType === "igst" && <th className="py-2 px-3 text-right text-gray-600 font-semibold">IGST</th>}
+                                            {result.gstType === "igst" && <th className="py-2 px-3 text-right text-ink-faint font-semibold">IGST</th>}
                                             {result.gstType === "utgst" && <>
-                                                <th className="py-2 px-3 text-right text-gray-600 font-semibold">CGST</th>
-                                                <th className="py-2 px-3 text-right text-gray-600 font-semibold">UTGST</th>
+                                                <th className="py-2 px-3 text-right text-ink-faint font-semibold">CGST</th>
+                                                <th className="py-2 px-3 text-right text-ink-faint font-semibold">UTGST</th>
                                             </>}
-                                            {result.gstType === "none" && <th className="py-2 px-3 text-right text-gray-600 font-semibold">GST</th>}
+                                            {result.gstType === "none" && <th className="py-2 px-3 text-right text-ink-faint font-semibold">GST</th>}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1087,8 +1087,8 @@ export default function InvoiceGenerator() {
                                             const tax = rateItems.reduce((s, i) => s + i.gstAmount, 0);
                                             return (
                                                 <tr key={rate} className="border-t border-gray-100">
-                                                    <td className="py-1.5 px-3 text-gray-700 font-medium">{rate}%</td>
-                                                    <td className="py-1.5 px-3 text-right text-gray-600">{fmt(taxable)}</td>
+                                                    <td className="py-1.5 px-3 text-ink-soft font-medium">{rate}%</td>
+                                                    <td className="py-1.5 px-3 text-right text-ink-faint">{fmt(taxable)}</td>
                                                     {result.gstType === "cgst_sgst" && <>
                                                         <td className="py-1.5 px-3 text-right text-blue-700">{fmt(tax / 2)}</td>
                                                         <td className="py-1.5 px-3 text-right text-blue-700">{fmt(tax / 2)}</td>
@@ -1122,16 +1122,16 @@ export default function InvoiceGenerator() {
 
                             {/* Summary Totals */}
                             <div>
-                                <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Summary</p>
+                                <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-2">Summary</p>
                                 <div className="space-y-1.5">
-                                    <div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{fmt(result.subtotal)}</span></div>
+                                    <div className="flex justify-between text-sm text-ink-faint"><span>Subtotal</span><span>₹{fmt(result.subtotal)}</span></div>
                                     {result.discountAmount > 0 && (
                                         <div className="flex justify-between text-sm text-green-700">
                                             <span>Discount ({result.discountType === "percentage" ? `${result.discountValue}%` : `₹${result.discountValue}`})</span>
                                             <span>-₹{fmt(result.discountAmount)}</span>
                                         </div>
                                     )}
-                                    <div className="flex justify-between text-sm text-gray-600 border-t border-gray-200 pt-1.5"><span>Taxable Amount</span><span className="font-semibold">₹{fmt(result.taxableAmount)}</span></div>
+                                    <div className="flex justify-between text-sm text-ink-faint border-t border-gray-200 pt-1.5"><span>Taxable Amount</span><span className="font-semibold">₹{fmt(result.taxableAmount)}</span></div>
                                     {result.gstType === "cgst_sgst" && <>
                                         <div className="flex justify-between text-sm text-blue-700"><span>CGST</span><span>₹{fmt(result.totalCgst)}</span></div>
                                         <div className="flex justify-between text-sm text-blue-700"><span>SGST</span><span>₹{fmt(result.totalSgst)}</span></div>
@@ -1142,9 +1142,9 @@ export default function InvoiceGenerator() {
                                         <div className="flex justify-between text-sm text-blue-700"><span>UTGST</span><span>₹{fmt(result.totalUtgst)}</span></div>
                                     </>}
                                     {result.roundOff !== 0 && (
-                                        <div className="flex justify-between text-xs text-gray-400"><span>Round Off</span><span>{result.roundOff >= 0 ? "+" : ""}{fmt(result.roundOff)}</span></div>
+                                        <div className="flex justify-between text-xs text-ink-faint"><span>Round Off</span><span>{result.roundOff >= 0 ? "+" : ""}{fmt(result.roundOff)}</span></div>
                                     )}
-                                    <div className="flex justify-between text-base font-bold text-gray-900 border-t-2 border-gray-900 pt-2 mt-2">
+                                    <div className="flex justify-between text-base font-bold text-gray-900 border-t-2 border-hairline pt-2 mt-2">
                                         <span>Grand Total</span>
                                         <span>₹{fmt(result.grandTotal)}</span>
                                     </div>
@@ -1154,7 +1154,7 @@ export default function InvoiceGenerator() {
 
                         {/* Amount in Words */}
                         <div className="mx-8 mb-4 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5">
-                            <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">Amount in Words</p>
+                            <p className="text-xs text-ink-faint font-semibold uppercase tracking-wide mb-0.5">Amount in Words</p>
                             <p className="text-sm font-semibold text-gray-800">{result.amountInWords}</p>
                         </div>
 
@@ -1162,20 +1162,20 @@ export default function InvoiceGenerator() {
                         <div className="px-8 pb-6 grid grid-cols-2 gap-6">
                             {result.bankName && (
                                 <div className="border border-gray-200 rounded-lg p-4">
-                                    <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Bank Details</p>
-                                    <div className="space-y-1 text-xs text-gray-600">
-                                        <div className="flex gap-2"><span className="w-24 text-gray-400">Account Name</span><span className="font-medium text-gray-800">{result.accountName || result.sellerName}</span></div>
-                                        <div className="flex gap-2"><span className="w-24 text-gray-400">Bank</span><span className="font-medium text-gray-800">{result.bankName}</span></div>
-                                        <div className="flex gap-2"><span className="w-24 text-gray-400">Account No.</span><span className="font-mono font-medium text-gray-800">{result.accountNumber}</span></div>
-                                        <div className="flex gap-2"><span className="w-24 text-gray-400">IFSC</span><span className="font-mono font-medium text-gray-800">{result.ifscCode}</span></div>
+                                    <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-3">Bank Details</p>
+                                    <div className="space-y-1 text-xs text-ink-faint">
+                                        <div className="flex gap-2"><span className="w-24 text-ink-faint">Account Name</span><span className="font-medium text-gray-800">{result.accountName || result.sellerName}</span></div>
+                                        <div className="flex gap-2"><span className="w-24 text-ink-faint">Bank</span><span className="font-medium text-gray-800">{result.bankName}</span></div>
+                                        <div className="flex gap-2"><span className="w-24 text-ink-faint">Account No.</span><span className="font-mono font-medium text-gray-800">{result.accountNumber}</span></div>
+                                        <div className="flex gap-2"><span className="w-24 text-ink-faint">IFSC</span><span className="font-mono font-medium text-gray-800">{result.ifscCode}</span></div>
                                     </div>
                                 </div>
                             )}
                             <div className={result.bankName ? "" : "col-span-2"}>
                                 {result.notes && (
                                     <div className="border border-gray-200 rounded-lg p-4">
-                                        <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Notes</p>
-                                        <p className="text-xs text-gray-600 leading-relaxed">{result.notes}</p>
+                                        <p className="text-xs font-bold tracking-widest text-ink-faint uppercase mb-2">Notes</p>
+                                        <p className="text-xs text-ink-faint leading-relaxed">{result.notes}</p>
                                     </div>
                                 )}
                             </div>
@@ -1183,13 +1183,13 @@ export default function InvoiceGenerator() {
 
                         {/* Footer */}
                         <div className="bg-gray-50 border-t border-gray-200 px-8 py-4 flex justify-between items-end">
-                            <div className="text-xs text-gray-400">
+                            <div className="text-xs text-ink-faint">
                                 <p>This is a computer-generated invoice.</p>
                                 {result.reverseCharge && <p className="text-orange-600 font-semibold mt-1">Tax payable on reverse charge basis.</p>}
                             </div>
                             <div className="text-right">
-                                <div className="w-36 border-t border-gray-400 pt-1 text-xs text-gray-500">Authorised Signatory</div>
-                                <p className="text-xs font-semibold text-gray-700 mt-0.5">{result.sellerName}</p>
+                                <div className="w-36 border-t border-gray-400 pt-1 text-xs text-ink-faint">Authorised Signatory</div>
+                                <p className="text-xs font-semibold text-ink-soft mt-0.5">{result.sellerName}</p>
                             </div>
                         </div>
                     </div>
@@ -1198,27 +1198,27 @@ export default function InvoiceGenerator() {
 
             {/* About */}
             <section>
-                <h2 className="text-xl font-semibold text-white mb-3">About GST Invoice Generator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-3">About GST Invoice Generator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Generate fully GST-compliant invoices with automatic tax type detection — CGST+SGST for intra-state, IGST for inter-state, and CGST+UTGST for Union Territory supplies. Supports HSN/SAC codes, per-item GST rates, reverse charge, detailed GST breakup table, amount in words, bank details, and round-off. Print or save as PDF in one click. Covers all 37 Indian states and union territories.
                 </p>
             </section>
 
             {/* FAQ */}
             <section>
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>
                             )}
                         </div>
                     ))}

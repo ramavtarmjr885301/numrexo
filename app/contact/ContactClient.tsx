@@ -81,24 +81,24 @@ export default function ContactClient() {
             <div className="max-w-6xl mx-auto">
                 {/* Breadcrumb */}
                 <nav aria-label="Breadcrumb" className="mb-8">
-                    <ol className="flex items-center gap-2 text-sm text-gray-500">
+                    <ol className="flex items-center gap-2 text-sm text-ink-faint">
                         <li>
-                            <a href="/" className="hover:text-white transition-colors">Home</a>
+                            <a href="/" className="hover:text-ink transition-colors">Home</a>
                         </li>
-                        <li aria-hidden="true" className="text-gray-700">/</li>
-                        <li className="text-gray-300" aria-current="page">Contact</li>
+                        <li aria-hidden="true" className="text-ink-soft">/</li>
+                        <li className="text-ink-soft" aria-current="page">Contact</li>
                     </ol>
                 </nav>
 
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 mb-6">
-                        <span className="text-sm font-semibold text-blue-400">Get in Touch</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200 bg-blue-50 mb-6">
+                        <span className="text-sm font-semibold text-blue-600">Get in Touch</span>
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold mb-3">
                         Contact Us
                     </h1>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                    <p className="text-ink-faint text-lg max-w-2xl mx-auto">
                         Have questions, feedback, or need assistance? We'd love to hear from you.
                         Reach out to us through any of the channels below.
                     </p>
@@ -109,19 +109,19 @@ export default function ContactClient() {
                     {contactInfo.map((info, index) => (
                         <div
                             key={index}
-                            className="bg-[#111827] border border-gray-800 rounded-xl p-6 hover:border-blue-500/50 transition-all group"
+                            className="bg-surface border border-hairline rounded-xl p-6 hover:border-blue-300 transition-all group"
                         >
-                            <info.icon className="w-10 h-10 text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-lg font-semibold text-white mb-3">{info.title}</h3>
+                            <info.icon className="w-10 h-10 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
+                            <h3 className="text-lg font-semibold text-ink mb-3">{info.title}</h3>
                             <div className="space-y-1">
                                 {info.details.map((detail, i) => (
-                                    <p key={i} className="text-sm text-gray-400">{detail}</p>
+                                    <p key={i} className="text-sm text-ink-faint">{detail}</p>
                                 ))}
                             </div>
                             {info.link && (
                                 <a
                                     href={info.link}
-                                    className="inline-block mt-3 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                                    className="inline-block mt-3 text-sm text-blue-600 hover:text-blue-600 transition-colors"
                                 >
                                     Get in touch →
                                 </a>
@@ -133,23 +133,23 @@ export default function ContactClient() {
                 {/* Contact Form and Map Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                     {/* Contact Form */}
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-8">
-                        <h2 className="text-2xl font-semibold text-white mb-2">Send us a Message</h2>
-                        <p className="text-gray-400 text-sm mb-6">
+                    <div className="bg-surface border border-hairline rounded-xl p-6 md:p-8">
+                        <h2 className="text-2xl font-semibold text-ink mb-2">Send us a Message</h2>
+                        <p className="text-ink-faint text-sm mb-6">
                             Fill out the form below and we'll get back to you as soon as possible.
                         </p>
 
                         {state.succeeded && (
-                            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-3">
-                                <CheckCircle className="w-5 h-5 text-green-400" />
-                                <p className="text-green-400 text-sm">Thank you! Your message has been sent successfully.</p>
+                            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
+                                <CheckCircle className="w-5 h-5 text-green-600" />
+                                <p className="text-green-600 text-sm">Thank you! Your message has been sent successfully.</p>
                             </div>
                         )}
 
                         {state.errors && state.errors.getFormErrors().length > 0 && (
-                            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center gap-3">
-                                <AlertCircle className="w-5 h-5 text-red-400" />
-                                <p className="text-red-400 text-sm">
+                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
+                                <AlertCircle className="w-5 h-5 text-red-600" />
+                                <p className="text-red-600 text-sm">
                                     {state.errors.getFormErrors().map((err: any) => err.message).join(', ')}
                                 </p>
                             </div>
@@ -157,7 +157,7 @@ export default function ContactClient() {
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                                <label htmlFor="name" className="block text-sm font-medium text-ink-soft mb-2">
                                     Full Name *
                                 </label>
                                 <input
@@ -167,19 +167,19 @@ export default function ContactClient() {
                                     required
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                                    className="w-full px-4 py-2.5 bg-gray-100/50 border border-hairline rounded-lg text-ink placeholder-gray-500 focus:border-blue-600 focus:outline-none transition-colors"
                                     placeholder="John Doe"
                                 />
                                 <ValidationError
                                     field="name"
                                     prefix="Name"
                                     errors={state.errors}
-                                    className="mt-1 text-sm text-red-400"
+                                    className="mt-1 text-sm text-red-600"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                                <label htmlFor="email" className="block text-sm font-medium text-ink-soft mb-2">
                                     Email Address *
                                 </label>
                                 <input
@@ -189,19 +189,19 @@ export default function ContactClient() {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                                    className="w-full px-4 py-2.5 bg-gray-100/50 border border-hairline rounded-lg text-ink placeholder-gray-500 focus:border-blue-600 focus:outline-none transition-colors"
                                     placeholder="john@example.com"
                                 />
                                 <ValidationError
                                     field="email"
                                     prefix="Email"
                                     errors={state.errors}
-                                    className="mt-1 text-sm text-red-400"
+                                    className="mt-1 text-sm text-red-600"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
+                                <label htmlFor="subject" className="block text-sm font-medium text-ink-soft mb-2">
                                     Subject *
                                 </label>
                                 <select
@@ -210,7 +210,7 @@ export default function ContactClient() {
                                     required
                                     value={formData.subject}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none transition-colors"
+                                    className="w-full px-4 py-2.5 bg-gray-100/50 border border-hairline rounded-lg text-ink focus:border-blue-600 focus:outline-none transition-colors"
                                 >
                                     <option value="">Select a subject</option>
                                     <option value="General Inquiry">General Inquiry</option>
@@ -224,12 +224,12 @@ export default function ContactClient() {
                                     field="subject"
                                     prefix="Subject"
                                     errors={state.errors}
-                                    className="mt-1 text-sm text-red-400"
+                                    className="mt-1 text-sm text-red-600"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                                <label htmlFor="message" className="block text-sm font-medium text-ink-soft mb-2">
                                     Message *
                                 </label>
                                 <textarea
@@ -239,14 +239,14 @@ export default function ContactClient() {
                                     rows={5}
                                     value={formData.message}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors resize-none"
+                                    className="w-full px-4 py-2.5 bg-gray-100/50 border border-hairline rounded-lg text-ink placeholder-gray-500 focus:border-blue-600 focus:outline-none transition-colors resize-none"
                                     placeholder="Tell us how we can help you..."
                                 />
                                 <ValidationError
                                     field="message"
                                     prefix="Message"
                                     errors={state.errors}
-                                    className="mt-1 text-sm text-red-400"
+                                    className="mt-1 text-sm text-red-600"
                                 />
                             </div>
 
@@ -254,7 +254,7 @@ export default function ContactClient() {
                                 <button
                                     type="submit"
                                     disabled={state.submitting}
-                                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {state.submitting ? (
                                         <>Sending...</>
@@ -269,14 +269,14 @@ export default function ContactClient() {
                                 <button
                                     type="button"
                                     onClick={handleDirectEmail}
-                                    className="px-6 py-3 rounded-xl bg-gray-700 text-white font-semibold hover:bg-gray-600 transition-all"
+                                    className="px-6 py-3 rounded-xl bg-gray-100 text-ink font-semibold hover:bg-gray-200 transition-all"
                                 >
                                     📧 Direct Email
                                 </button>
                             </div>
 
-                            <p className="text-xs text-gray-500 text-center mt-2">
-                                Or email us directly at: <a href="mailto:support@numrexo.com" className="text-blue-400 hover:underline">support@numrexo.com</a>
+                            <p className="text-xs text-ink-faint text-center mt-2">
+                                Or email us directly at: <a href="mailto:support@numrexo.com" className="text-blue-600 hover:underline">support@numrexo.com</a>
                             </p>
                         </form>
                     </div>
@@ -284,9 +284,9 @@ export default function ContactClient() {
                     {/* Map / FAQ Section */}
                     <div className="space-y-6">
                         {/* Map */}
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-white mb-3">Our Location</h3>
-                            <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden">
+                        <div className="bg-surface border border-hairline rounded-xl p-6">
+                            <h3 className="text-lg font-semibold text-ink mb-3">Our Location</h3>
+                            <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                                 <iframe
                                     src="https://www.google.com/maps?q=Noida,+Uttar+Pradesh+201309,+India&output=embed"
                                     width="100%"
@@ -299,22 +299,22 @@ export default function ContactClient() {
                                     className="w-full h-full"
                                 ></iframe>
                             </div>
-                            <p className="text-xs text-gray-500 mt-3">
+                            <p className="text-xs text-ink-faint mt-3">
                                 Noida, Uttar Pradesh, India
                             </p>
                         </div>
 
                         {/* Quick FAQ */}
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-white mb-3">Quick Answers</h3>
+                        <div className="bg-surface border border-hairline rounded-xl p-6">
+                            <h3 className="text-lg font-semibold text-ink mb-3">Quick Answers</h3>
                             <div className="space-y-3">
                                 {faqs.map((faq, index) => (
                                     <details key={index} className="group">
-                                        <summary className="flex items-center justify-between cursor-pointer text-sm text-gray-300 hover:text-blue-400 transition-colors">
+                                        <summary className="flex items-center justify-between cursor-pointer text-sm text-ink-soft hover:text-blue-600 transition-colors">
                                             {faq.q}
-                                            <span className="text-blue-400 group-open:rotate-180 transition-transform">▾</span>
+                                            <span className="text-blue-600 group-open:rotate-180 transition-transform">▾</span>
                                         </summary>
-                                        <p className="mt-2 text-xs text-gray-500 pl-2">{faq.a}</p>
+                                        <p className="mt-2 text-xs text-ink-faint pl-2">{faq.a}</p>
                                     </details>
                                 ))}
                             </div>
@@ -323,9 +323,9 @@ export default function ContactClient() {
                 </div>
 
                 {/* Social Media Section */}
-                <div className="bg-gradient-to-r from-blue-950/60 to-indigo-950/60 border border-blue-900/40 rounded-xl p-8 text-center">
-                    <h2 className="text-2xl font-semibold text-white mb-3">Connect With Us</h2>
-                    <p className="text-gray-400 text-sm mb-6">
+                <div className="bg-blue-50 border border-blue-100 rounded-xl p-8 text-center">
+                    <h2 className="text-2xl font-semibold text-ink mb-3">Connect With Us</h2>
+                    <p className="text-ink-soft text-sm mb-6">
                         Follow us on social media for updates, tips, and new calculator announcements.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
@@ -347,7 +347,7 @@ export default function ContactClient() {
                             href="https://x.com/numrexo"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-11 h-11 rounded-full bg-black/20 border border-gray-600 flex items-center justify-center text-gray-300 hover:bg-white hover:text-black transition-all duration-300 hover:scale-110"
+                            className="w-11 h-11 rounded-full bg-ink/10 border border-hairline flex items-center justify-center text-ink hover:bg-ink hover:text-white transition-all duration-300 hover:scale-110"
                             aria-label="X (Twitter)"
                         >
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

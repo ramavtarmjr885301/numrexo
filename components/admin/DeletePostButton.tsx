@@ -22,7 +22,7 @@ export default function DeletePostButton({ id, title }: { id: number; title: str
     <button
       onClick={handleDelete}
       disabled={busy}
-      className="text-sm text-red-400 hover:text-red-300 disabled:opacity-50 transition-colors"
+      className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50 transition-colors"
     >
       {busy ? '...' : 'Delete'}
     </button>

@@ -225,19 +225,19 @@ export default function AmortizationCalculator() {
 
         if (interestToPrincipalRatio <= 0.5) {
             rating = "Excellent ★★★★★";
-            ratingColor = "text-green-400";
+            ratingColor = "text-green-600";
         } else if (interestToPrincipalRatio <= 1.0) {
             rating = "Good ★★★★";
-            ratingColor = "text-blue-400";
+            ratingColor = "text-blue-600";
         } else if (interestToPrincipalRatio <= 1.5) {
             rating = "Moderate ★★★";
-            ratingColor = "text-yellow-400";
+            ratingColor = "text-yellow-700";
         } else if (interestToPrincipalRatio <= 2.0) {
             rating = "High ★★";
-            ratingColor = "text-orange-400";
+            ratingColor = "text-orange-600";
         } else {
             rating = "Very High ★";
-            ratingColor = "text-red-400";
+            ratingColor = "text-red-600";
         }
 
         setResult({
@@ -284,23 +284,23 @@ export default function AmortizationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Amortization Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Amortization Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -308,20 +308,20 @@ export default function AmortizationCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <div>
                             <h3 className="font-semibold">Amortization Calculator</h3>
-                            <p className="text-xs text-gray-500 mt-1">Generate your loan amortization schedule</p>
+                            <p className="text-xs text-ink-faint mt-1">Generate your loan amortization schedule</p>
                         </div>
                     </div>
 
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         {/* Loan Amount */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -329,16 +329,16 @@ export default function AmortizationCalculator() {
                                     placeholder="e.g., 350000"
                                     value={loanAmount}
                                     onChange={(e) => setLoanAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
                                         onClick={() => setLoanAmount(amount.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
                                     </button>
@@ -348,7 +348,7 @@ export default function AmortizationCalculator() {
 
                         {/* Interest Rate */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (% p.a.)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (% p.a.)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -356,16 +356,16 @@ export default function AmortizationCalculator() {
                                     placeholder="e.g., 9"
                                     value={interestRate}
                                     onChange={(e) => setInterestRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
                                         onClick={() => setInterestRate(rate.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
                                     </button>
@@ -375,7 +375,7 @@ export default function AmortizationCalculator() {
 
                         {/* Loan Tenure */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Tenure (months)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Tenure (months)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -383,16 +383,16 @@ export default function AmortizationCalculator() {
                                     placeholder="e.g., 240"
                                     value={tenure}
                                     onChange={(e) => setTenure(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">months</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
                                         onClick={() => setTenure(month.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 240 ? `${month / 12}Y` : `${month}M`}
                                     </button>
@@ -402,7 +402,7 @@ export default function AmortizationCalculator() {
 
                         {/* Extra Payment */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Extra Monthly Payment ({symbol}) <span className="text-gray-500">(Optional)</span></label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Extra Monthly Payment ({symbol}) <span className="text-ink-faint">(Optional)</span></label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -410,35 +410,35 @@ export default function AmortizationCalculator() {
                                     placeholder="e.g., 5000"
                                     value={extraPayment}
                                     onChange={(e) => setExtraPayment(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {presetExtraPayments.map((amount) => (
                                     <button
                                         key={amount}
                                         onClick={() => setExtraPayment(amount.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {amount === 0 ? "None" : `${symbol}${amount / 1000}K`}
                                     </button>
                                 ))}
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Even small extra payments can save significant interest</p>
+                            <p className="text-xs text-ink-faint mt-1">Even small extra payments can save significant interest</p>
                         </div>
 
                         {/* Buttons - Calculate and Reset side by side */}
                         <div className="flex gap-3">
                             <button
                                 onClick={calculateAmortization}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                             >
                                 Generate Schedule →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -455,25 +455,25 @@ export default function AmortizationCalculator() {
                     mainResult={result ? {
                         label: "Monthly EMI",
                         value: `${symbol}${result.emiFormatted}`,
-                        color: "text-blue-400"
+                        color: "text-blue-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Amortization Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Total Payment", value: `${symbol}${result.totalPaymentFormatted}`, valueColor: "text-yellow-400" },
-                        { label: "Total Interest", value: `${symbol}${result.totalInterestFormatted}`, valueColor: "text-orange-400" },
+                        { label: "Total Payment", value: `${symbol}${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
+                        { label: "Total Interest", value: `${symbol}${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
                         { label: "Principal Amount", value: `${symbol}${result.totalPrincipalFormatted}` },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(1)} years)` },
                         ...(result.extraPayment > 0 ? [
-                            { label: "Extra Payment", value: `${symbol}${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-400" },
-                            { label: "EMI with Extra Payment", value: `${symbol}${result.emiWithExtraFormatted}`, valueColor: "text-green-400" },
-                            { label: "Actual Repayment Period", value: `${result.actualMonths} months (${(result.actualMonths / 12).toFixed(1)} years)`, valueColor: "text-green-400" },
-                            { label: "Months Saved", value: `${result.monthsSaved} months ${result.monthsSaved > 0 ? '🎉' : ''}`, valueColor: "text-green-400" },
-                            { label: "Interest Saved", value: `${symbol}${result.interestSavedFormatted}`, valueColor: "text-green-400" },
+                            { label: "Extra Payment", value: `${symbol}${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-600" },
+                            { label: "EMI with Extra Payment", value: `${symbol}${result.emiWithExtraFormatted}`, valueColor: "text-green-600" },
+                            { label: "Actual Repayment Period", value: `${result.actualMonths} months (${(result.actualMonths / 12).toFixed(1)} years)`, valueColor: "text-green-600" },
+                            { label: "Months Saved", value: `${result.monthsSaved} months ${result.monthsSaved > 0 ? '🎉' : ''}`, valueColor: "text-green-600" },
+                            { label: "Interest Saved", value: `${symbol}${result.interestSavedFormatted}`, valueColor: "text-green-600" },
                         ] : []),
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-400" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-400" },
-                        { label: "Interest to Principal Ratio", value: result.interestToPrincipalRatio.toFixed(2), valueColor: result.interestToPrincipalRatio < 1 ? "text-green-400" : "text-orange-400" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Interest to Principal Ratio", value: result.interestToPrincipalRatio.toFixed(2), valueColor: result.interestToPrincipalRatio < 1 ? "text-green-600" : "text-orange-600" },
                     ] : []}
                 />
             </div>
@@ -481,32 +481,32 @@ export default function AmortizationCalculator() {
             {/* Amortization Schedule */}
             {result && result.schedule && (
                 <section className="mb-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">Full Amortization Schedule</h2>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                    <h2 className="text-xl font-semibold text-ink mb-4">Full Amortization Schedule</h2>
+                    <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="max-h-96 overflow-y-auto">
                             <table className="w-full text-sm">
-                                <thead className="sticky top-0 bg-[#111827]">
-                                    <tr className="border-b border-gray-800">
-                                        <th className="text-left py-3 px-4 text-gray-400">Month</th>
-                                        <th className="text-right py-3 px-4 text-gray-400">EMI</th>
-                                        <th className="text-right py-3 px-4 text-gray-400">Principal</th>
-                                        <th className="text-right py-3 px-4 text-gray-400">Interest</th>
-                                        <th className="text-right py-3 px-4 text-gray-400">Balance</th>
+                                <thead className="sticky top-0 bg-surface">
+                                    <tr className="border-b border-hairline">
+                                        <th className="text-left py-3 px-4 text-ink-faint">Month</th>
+                                        <th className="text-right py-3 px-4 text-ink-faint">EMI</th>
+                                        <th className="text-right py-3 px-4 text-ink-faint">Principal</th>
+                                        <th className="text-right py-3 px-4 text-ink-faint">Interest</th>
+                                        <th className="text-right py-3 px-4 text-ink-faint">Balance</th>
                                         {result.extraPayment > 0 && (
-                                            <th className="text-center py-3 px-4 text-green-400">Extra Payment 💰</th>
+                                            <th className="text-center py-3 px-4 text-green-600">Extra Payment 💰</th>
                                         )}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {result.schedule.map((row: any) => (
-                                        <tr key={row.month} className="border-b border-gray-800/50 hover:bg-white/5">
-                                            <td className="py-2 px-4 text-gray-300">{row.month}</td>
-                                            <td className="py-2 px-4 text-right text-gray-300">${row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-400">${row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-400">${row.interest.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-gray-300">${row.balance.toFixed(0)}</td>
+                                        <tr key={row.month} className="border-b border-hairline hover:bg-cream">
+                                            <td className="py-2 px-4 text-ink-soft">{row.month}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">${row.emi.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-600">${row.principal.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-600">${row.interest.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-ink-soft">${row.balance.toFixed(0)}</td>
                                             {result.extraPayment > 0 && (
-                                                <td className="py-2 px-4 text-center text-green-400">
+                                                <td className="py-2 px-4 text-center text-green-600">
                                                     {row.isExtraPayment ? '✅' : '-'}
                                                 </td>
                                             )}
@@ -517,9 +517,9 @@ export default function AmortizationCalculator() {
                         </div>
                     </div>
                     <div className="mt-2 flex gap-4 text-xs">
-                        <p className="text-gray-600">Showing complete amortization schedule</p>
+                        <p className="text-ink-faint">Showing complete amortization schedule</p>
                         {result.extraPayment > 0 && (
-                            <p className="text-green-400">✅ Extra payments applied</p>
+                            <p className="text-green-600">✅ Extra payments applied</p>
                         )}
                     </div>
                 </section>
@@ -528,22 +528,22 @@ export default function AmortizationCalculator() {
             {/* Payment Distribution Summary */}
             {result && (
                 <section className="mb-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">Payment Distribution</h2>
+                    <h2 className="text-xl font-semibold text-ink mb-4">Payment Distribution</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">Principal</h4>
-                            <p className="text-2xl font-bold text-green-400">{result.principalPercentage.toFixed(1)}%</p>
-                            <p className="text-xs text-gray-500 mt-1">${result.totalPrincipalFormatted}</p>
+                        <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">Principal</h4>
+                            <p className="text-2xl font-bold text-green-600">{result.principalPercentage.toFixed(1)}%</p>
+                            <p className="text-xs text-ink-faint mt-1">${result.totalPrincipalFormatted}</p>
                         </div>
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">Interest</h4>
-                            <p className="text-2xl font-bold text-orange-400">{result.interestPercentage.toFixed(1)}%</p>
-                            <p className="text-xs text-gray-500 mt-1">${result.totalInterestFormatted}</p>
+                        <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">Interest</h4>
+                            <p className="text-2xl font-bold text-orange-600">{result.interestPercentage.toFixed(1)}%</p>
+                            <p className="text-xs text-ink-faint mt-1">${result.totalInterestFormatted}</p>
                         </div>
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                            <h4 className="text-xs text-gray-500 mb-1">Total</h4>
-                            <p className="text-2xl font-bold text-yellow-400">100%</p>
-                            <p className="text-xs text-gray-500 mt-1">${result.totalPaymentFormatted}</p>
+                        <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                            <h4 className="text-xs text-ink-faint mb-1">Total</h4>
+                            <p className="text-2xl font-bold text-yellow-700">100%</p>
+                            <p className="text-xs text-ink-faint mt-1">${result.totalPaymentFormatted}</p>
                         </div>
                     </div>
                 </section>
@@ -553,256 +553,256 @@ export default function AmortizationCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Amortization Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Amortization Calculator</strong> helps you understand how your loan payments are distributed between principal and interest over time. It generates a complete amortization schedule showing every payment's breakdown, helping you plan your finances better.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Amortization Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Amortization Calculator</strong> helps you understand how your loan payments are distributed between principal and interest over time. It generates a complete amortization schedule showing every payment's breakdown, helping you plan your finances better.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Our calculator uses the standard amortization formula to generate accurate schedules for any loan type - home loans, car loans, personal loans, or any other installment loan. You can also see the impact of extra payments on your total interest and loan tenure.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding your amortization schedule helps you make informed decisions about prepayments, loan tenure, and interest rates. It's an essential tool for anyone with a long-term loan.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Amortization Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Amortization Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">loan amount</strong> (use preset buttons for quick input).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">interest rate</strong> offered by your lender.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select the <strong className="text-white">loan tenure</strong> in months.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Optionally add an <strong className="text-white">extra monthly payment</strong> to see interest savings.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Generate Schedule"</strong> to see your complete amortization schedule.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Review the <strong className="text-white">payment distribution</strong> and use <strong className="text-white">Reset</strong> to start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">loan amount</strong> (use preset buttons for quick input).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">interest rate</strong> offered by your lender.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">loan tenure</strong> in months.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Optionally add an <strong className="text-ink">extra monthly payment</strong> to see interest savings.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Generate Schedule"</strong> to see your complete amortization schedule.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Review the <strong className="text-ink">payment distribution</strong> and use <strong className="text-ink">Reset</strong> to start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an Amortization Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an Amortization Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ See Payment Breakdown</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand exactly how much of each payment goes toward principal versus interest. See how your loan balance decreases over time.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ See Payment Breakdown</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand exactly how much of each payment goes toward principal versus interest. See how your loan balance decreases over time.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Plan Prepayments</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Use extra payment analysis to see how additional payments reduce your total interest and shorten your loan tenure.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Plan Prepayments</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Use extra payment analysis to see how additional payments reduce your total interest and shorten your loan tenure.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Compare Loan Options</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare different interest rates, tenures, and extra payment scenarios to find the best loan structure for your needs.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Compare Loan Options</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare different interest rates, tenures, and extra payment scenarios to find the best loan structure for your needs.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Financial Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan your long-term finances by understanding when your loan will be paid off and how much interest you'll pay.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Financial Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan your long-term finances by understanding when your loan will be paid off and how much interest you'll pay.</p>
                     </div>
                 </div>
             </section>
 
             {/* Amortization Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Amortization Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 text-center">
-                    <p className="text-white font-mono text-lg mb-3">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">Amortization Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 text-center">
+                    <p className="text-ink font-mono text-lg mb-3">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mt-4">
                         <div>
-                            <span className="text-blue-400 font-bold">EMI</span>
-                            <span className="text-gray-500 block text-xs">Monthly Payment</span>
+                            <span className="text-blue-600 font-bold">EMI</span>
+                            <span className="text-ink-faint block text-xs">Monthly Payment</span>
                         </div>
                         <div>
-                            <span className="text-blue-400 font-bold">P</span>
-                            <span className="text-gray-500 block text-xs">Principal (Loan Amount)</span>
+                            <span className="text-blue-600 font-bold">P</span>
+                            <span className="text-ink-faint block text-xs">Principal (Loan Amount)</span>
                         </div>
                         <div>
-                            <span className="text-blue-400 font-bold">r</span>
-                            <span className="text-gray-500 block text-xs">Monthly Interest Rate</span>
+                            <span className="text-blue-600 font-bold">r</span>
+                            <span className="text-ink-faint block text-xs">Monthly Interest Rate</span>
                         </div>
                         <div>
-                            <span className="text-blue-400 font-bold">n</span>
-                            <span className="text-gray-500 block text-xs">Total Payments (months)</span>
+                            <span className="text-blue-600 font-bold">n</span>
+                            <span className="text-ink-faint block text-xs">Total Payments (months)</span>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-4">Each month: Interest = Balance × r | Principal = EMI - Interest | New Balance = Balance - Principal</p>
+                    <p className="text-ink-faint text-xs mt-4">Each month: Interest = Balance × r | Principal = EMI - Interest | New Balance = Balance - Principal</p>
                 </div>
             </section>
 
             {/* Amortization Example */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Amortization Example</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Amortization Example</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Month</th>
-                                <th className="text-right py-3 px-4 text-gray-400">EMI</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Principal</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Interest</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Balance</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Month</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">EMI</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Principal</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Interest</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Balance</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-400">$316</td>
-                                <td className="py-2 px-4 text-right text-orange-400">$1,896</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$349,684</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-600">$316</td>
+                                <td className="py-2 px-4 text-right text-orange-600">$1,896</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$349,684</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">2</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-400">$318</td>
-                                <td className="py-2 px-4 text-right text-orange-400">$1,894</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$349,365</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">2</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-600">$318</td>
+                                <td className="py-2 px-4 text-right text-orange-600">$1,894</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$349,365</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">3</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-400">$320</td>
-                                <td className="py-2 px-4 text-right text-orange-400">$1,892</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$349,046</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">3</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
+                                <td className="py-2 px-4 text-right text-green-600">$320</td>
+                                <td className="py-2 px-4 text-right text-orange-600">$1,892</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$349,046</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">...</td>
-                                <td className="py-2 px-4 text-right text-gray-300">...</td>
-                                <td className="py-2 px-4 text-right text-green-400">...</td>
-                                <td className="py-2 px-4 text-right text-orange-400">...</td>
-                                <td className="py-2 px-4 text-right text-gray-300">...</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">...</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">...</td>
+                                <td className="py-2 px-4 text-right text-green-600">...</td>
+                                <td className="py-2 px-4 text-right text-orange-600">...</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">...</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">240</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$44,986</td>
-                                <td className="py-2 px-4 text-right text-green-400">$44,653</td>
-                                <td className="py-2 px-4 text-right text-orange-400">$333</td>
-                                <td className="py-2 px-4 text-right text-gray-300">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">240</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$44,986</td>
+                                <td className="py-2 px-4 text-right text-green-600">$44,653</td>
+                                <td className="py-2 px-4 text-right text-orange-600">$333</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Example: $350,000 mortgage at 6.5% for 30 years (360 payments) — monthly payment $2,212</p>
+                <p className="text-xs text-ink-faint mt-2">* Example: $350,000 mortgage at 6.5% for 30 years (360 payments) — monthly payment $2,212</p>
             </section>
 
             {/* Extra Payment Impact */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Impact of Extra Payments</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Impact of Extra Payments</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Extra Payment</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Tenure Saved</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Interest Saved</th>
-                                <th className="text-right py-3 px-4 text-gray-400">Total Savings</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Extra Payment</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Tenure Saved</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Interest Saved</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Total Savings</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">$0</td>
-                                <td className="py-2 px-4 text-right text-gray-300">—</td>
-                                <td className="py-2 px-4 text-right text-green-400">$0</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">$0</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">$0</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">—</td>
+                                <td className="py-2 px-4 text-right text-green-600">$0</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">$0</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">$100</td>
-                                <td className="py-2 px-4 text-right text-gray-300">3 years 6 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">$62,627</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">$62,627</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">$100</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">3 years 6 months</td>
+                                <td className="py-2 px-4 text-right text-green-600">$62,627</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">$62,627</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">$250</td>
-                                <td className="py-2 px-4 text-right text-gray-300">7 years 3 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">$126,604</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">$126,604</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">$250</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">7 years 3 months</td>
+                                <td className="py-2 px-4 text-right text-green-600">$126,604</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">$126,604</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">$500</td>
-                                <td className="py-2 px-4 text-right text-gray-300">11 years 5 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">$193,603</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">$193,603</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">$500</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">11 years 5 months</td>
+                                <td className="py-2 px-4 text-right text-green-600">$193,603</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">$193,603</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">$1,000</td>
-                                <td className="py-2 px-4 text-right text-gray-300">16 years 2 months</td>
-                                <td className="py-2 px-4 text-right text-green-400">$265,954</td>
-                                <td className="py-2 px-4 text-right text-yellow-400">$265,954</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">$1,000</td>
+                                <td className="py-2 px-4 text-right text-ink-soft">16 years 2 months</td>
+                                <td className="py-2 px-4 text-right text-green-600">$265,954</td>
+                                <td className="py-2 px-4 text-right text-yellow-700">$265,954</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Based on a $350,000 mortgage at 6.5% for 30 years, with the extra amount paid every month</p>
+                <p className="text-xs text-ink-faint mt-2">* Based on a $350,000 mortgage at 6.5% for 30 years, with the extra amount paid every month</p>
             </section>
 
             {/* Tips for Using Amortization */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Tips for Using Amortization to Save Money</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Tips for Using Amortization to Save Money</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Make Extra Payments Early:</strong> Extra payments in the first few years save the most interest because interest is calculated on the outstanding balance.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Make Extra Payments Early:</strong> Extra payments in the first few years save the most interest because interest is calculated on the outstanding balance.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose Shorter Tenure:</strong> While EMI is higher, total interest is significantly lower. Use the amortization schedule to see the difference.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Choose Shorter Tenure:</strong> While EMI is higher, total interest is significantly lower. Use the amortization schedule to see the difference.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Bi-Weekly Payments:</strong> Making half-payments every two weeks results in 13 full payments per year instead of 12, saving interest.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Bi-Weekly Payments:</strong> Making half-payments every two weeks results in 13 full payments per year instead of 12, saving interest.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Refinance When Rates Drop:</strong> Even a 0.5% rate drop can save significant interest. Check your amortization schedule to see the impact.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Refinance When Rates Drop:</strong> Even a 0.5% rate drop can save significant interest. Check your amortization schedule to see the impact.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Round Up Your EMI:</strong> Rounding up your EMI to the nearest hundred or thousand can shave months off your loan tenure.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Round Up Your EMI:</strong> Rounding up your EMI to the nearest hundred or thousand can shave months off your loan tenure.</span>
                     </li>
                 </ul>
             </section>
 
             {/* Common Mistakes */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Common Mistakes to Avoid When Using Amortization</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Common Mistakes to Avoid When Using Amortization</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Ignoring Extra Payment Impact:</strong> Even small extra payments can save thousands in interest. Always consider making extra payments when possible.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Ignoring Extra Payment Impact:</strong> Even small extra payments can save thousands in interest. Always consider making extra payments when possible.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Not Understanding Early Payments:</strong> In early years, most of your payment goes toward interest. This is normal and part of the amortization process.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Not Understanding Early Payments:</strong> In early years, most of your payment goes toward interest. This is normal and part of the amortization process.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Overlooking Refinancing Opportunities:</strong> Regularly check if refinancing at lower rates can reduce your interest burden.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Overlooking Refinancing Opportunities:</strong> Regularly check if refinancing at lower rates can reduce your interest burden.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Choosing Longest Tenure:</strong> While it reduces EMI, it significantly increases total interest. Use amortization to see the difference.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Choosing Longest Tenure:</strong> While it reduces EMI, it significantly increases total interest. Use amortization to see the difference.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Not Using Extra Payment Feature:</strong> Our calculator shows exactly how extra payments affect your loan. Use this to plan your prepayments effectively.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Not Using Extra Payment Feature:</strong> Our calculator shows exactly how extra payments affect your loan. Use this to plan your prepayments effectively.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

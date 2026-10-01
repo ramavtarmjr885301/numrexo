@@ -29,20 +29,12 @@ const FAQ_DATA = [
         a: "GPA (Grade Point Average) is for a single semester/term. CGPA (Cumulative GPA) is the average of all semesters combined. CGPA gives your overall academic performance. Example: Semester 1 GPA 7.5, Semester 2 GPA 8.0 → CGPA = 7.75.",
     },
     {
-        q: "How is percentage calculated from marks?",
-        a: "Formula: (Marks Obtained ÷ Total Marks) × 100. Example: 85 out of 100 = 85%. For multiple subjects: Sum of obtained marks ÷ Sum of total marks × 100. Our calculator handles both single and multiple subjects automatically.",
+        q: "How does negative marking affect my percentage?",
+        a: "With negative marking, wrong answers subtract marks (often a fraction of the marks per question), so your obtained marks can be lower than your count of correct answers suggests. Percentage = (Correct marks − Penalty marks) ÷ Total possible marks × 100 — always use net marks after penalties, not the raw number of correct answers.",
     },
     {
-        q: "What is CGPA and how to convert to percentage?",
-        a: "CGPA is on a 0-10 scale. Multiply by 9.5 (CBSE standard) to get percentage. Example: CGPA 7.8 × 9.5 = 74.1%. Some universities use 10 as conversion factor. Check your institution's official formula.",
-    },
-    {
-        q: "What is a good percentage in exams?",
-        a: "90%+ = Outstanding (A+), 80-89% = Excellent (A), 70-79% = Very Good (B+), 60-69% = Good (B), 50-59% = Average (C), 40-49% = Pass (D). Competitive exams like JEE/NEET require 95%+ for top colleges.",
-    },
-    {
-        q: "How to calculate percentage of 6 subjects?",
-        a: "Add marks of all 6 subjects, add total marks (usually 600 if each subject is 100), divide obtained by total and multiply by 100. Example: 450/600 × 100 = 75%. Use our multi-subject mode for quick calculation.",
+        q: "What's the difference between percentage and percentile in exams like JEE or NEET?",
+        a: "Percentage reflects your raw score out of total marks. Percentile reflects your rank relative to everyone who took that exam session — a 95 percentile means you scored better than 95% of candidates. Exams like JEE Main use percentile specifically because papers across different sessions vary slightly in difficulty.",
     },
 ];
 
@@ -86,13 +78,13 @@ export default function PercentageMarksCalculator() {
         let grade = "";
         let gradeColor = "";
 
-        if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-400"; }
-        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-400"; }
-        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-400"; }
-        else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-400"; }
-        else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-400"; }
-        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-400"; }
-        else { grade = "F (Fail)"; gradeColor = "text-red-400"; }
+        if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
+        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
+        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
+        else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
+        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
             type: "single",
@@ -136,13 +128,13 @@ export default function PercentageMarksCalculator() {
         let grade = "";
         let gradeColor = "";
 
-        if (overallPercentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-400"; }
-        else if (overallPercentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-400"; }
-        else if (overallPercentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-400"; }
-        else if (overallPercentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-400"; }
-        else if (overallPercentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-400"; }
-        else if (overallPercentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-400"; }
-        else { grade = "F (Fail)"; gradeColor = "text-red-400"; }
+        if (overallPercentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
+        else if (overallPercentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
+        else if (overallPercentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (overallPercentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
+        else if (overallPercentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
+        else if (overallPercentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
             type: "multiple",
@@ -169,13 +161,13 @@ export default function PercentageMarksCalculator() {
         let grade = "";
         let gradeColor = "";
 
-        if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-400"; }
-        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-400"; }
-        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-400"; }
-        else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-400"; }
-        else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-400"; }
-        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-400"; }
-        else { grade = "F (Fail)"; gradeColor = "text-red-400"; }
+        if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
+        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
+        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
+        else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
+        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
             type: "cgpa",
@@ -209,38 +201,38 @@ export default function PercentageMarksCalculator() {
     return (
         <>
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-gray-300">Education Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">Percentage Marks Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">Percentage Marks Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Marks Calculator</h3>
-                        <p className="text-xs text-gray-500">Calculate percentage from marks or CGPA</p>
+                        <p className="text-xs text-ink-faint">Calculate percentage from marks or CGPA</p>
                     </div>
                     <div className="p-6 space-y-4">
                         {/* Mode Selection */}
-                        <div className="flex gap-2 p-1 bg-[#0f1525] rounded-lg">
-                            <button onClick={() => { setMode("single"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "single" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>Single Subject</button>
-                            <button onClick={() => { setMode("multiple"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "multiple" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>Multiple Subjects</button>
-                            <button onClick={() => { setMode("cgpa"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "cgpa" ? "bg-teal-500 text-white" : "text-gray-400 hover:text-white"}`}>CGPA to %</button>
+                        <div className="flex gap-2 p-1 bg-surface rounded-lg">
+                            <button onClick={() => { setMode("single"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "single" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Single Subject</button>
+                            <button onClick={() => { setMode("multiple"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "multiple" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Multiple Subjects</button>
+                            <button onClick={() => { setMode("cgpa"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "cgpa" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>CGPA to %</button>
                         </div>
 
                         {mode === "single" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Marks Obtained</label>
-                                    <input type="number" step="0.5" placeholder="e.g., 85" value={obtainedMarks} onChange={(e) => setObtainedMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Marks Obtained</label>
+                                    <input type="number" step="0.5" placeholder="e.g., 85" value={obtainedMarks} onChange={(e) => setObtainedMarks(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Total Marks</label>
-                                    <input type="number" step="1" placeholder="e.g., 100" value={totalMarks} onChange={(e) => setTotalMarks(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Total Marks</label>
+                                    <input type="number" step="1" placeholder="e.g., 100" value={totalMarks} onChange={(e) => setTotalMarks(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                             </>
                         )}
@@ -248,16 +240,16 @@ export default function PercentageMarksCalculator() {
                         {mode === "multiple" && (
                             <>
                                 <div className="flex justify-between items-center">
-                                    <label className="text-xs font-semibold text-gray-400">Subjects</label>
-                                    <button onClick={addSubject} className="text-xs px-2 py-1 bg-teal-500/20 text-teal-400 rounded hover:bg-teal-500/30">+ Add Subject</button>
+                                    <label className="text-xs font-semibold text-ink-faint">Subjects</label>
+                                    <button onClick={addSubject} className="text-xs px-2 py-1 bg-teal-50 text-teal-600 rounded hover:bg-teal-50">+ Add Subject</button>
                                 </div>
                                 <div className="space-y-3 max-h-64 overflow-y-auto">
                                     {subjects.map((sub, idx) => (
                                         <div key={sub.id} className="flex gap-2 items-center">
-                                            <div className="w-7 text-xs text-gray-500">{idx + 1}</div>
-                                            <div className="flex-1"><input type="number" step="0.5" placeholder="Obtained" value={sub.obtained} onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                            <div className="flex-1"><input type="number" step="1" placeholder="Total" value={sub.total} onChange={(e) => updateSubject(sub.id, "total", e.target.value)} className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                            {subjects.length > 1 && <button onClick={() => removeSubject(sub.id)} className="px-2 py-2 text-red-400">✕</button>}
+                                            <div className="w-7 text-xs text-ink-faint">{idx + 1}</div>
+                                            <div className="flex-1"><input type="number" step="0.5" placeholder="Obtained" value={sub.obtained} onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)} className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                            <div className="flex-1"><input type="number" step="1" placeholder="Total" value={sub.total} onChange={(e) => updateSubject(sub.id, "total", e.target.value)} className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                            {subjects.length > 1 && <button onClick={() => removeSubject(sub.id)} className="px-2 py-2 text-red-600">✕</button>}
                                         </div>
                                     ))}
                                 </div>
@@ -267,12 +259,12 @@ export default function PercentageMarksCalculator() {
                         {mode === "cgpa" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">CGPA (0-10 scale)</label>
-                                    <input type="number" step="0.01" placeholder="e.g., 8.5" value={cgpa} onChange={(e) => setCgpa(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">CGPA (0-10 scale)</label>
+                                    <input type="number" step="0.01" placeholder="e.g., 8.5" value={cgpa} onChange={(e) => setCgpa(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Conversion Factor</label>
-                                    <select value={conversionFactor} onChange={(e) => setConversionFactor(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Conversion Factor</label>
+                                    <select value={conversionFactor} onChange={(e) => setConversionFactor(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer">
                                         <option value="9.5">9.5 (Standard CBSE)</option>
                                         <option value="10">10 (Some Universities)</option>
                                         <option value="9">9 (Other Boards)</option>
@@ -283,7 +275,7 @@ export default function PercentageMarksCalculator() {
 
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -299,7 +291,7 @@ export default function PercentageMarksCalculator() {
                         ...(result.type === "single" ? [
                             { label: "Marks Obtained", value: result.obtained },
                             { label: "Total Marks", value: result.total },
-                            { label: "Marks Lost", value: result.marksLost, valueColor: "text-red-400" },
+                            { label: "Marks Lost", value: result.marksLost, valueColor: "text-red-600" },
                         ] : []),
                         ...(result.type === "multiple" ? [
                             { label: "Total Obtained", value: result.totalObtained },
@@ -315,14 +307,14 @@ export default function PercentageMarksCalculator() {
             </div>
 
             {result && result.type === "multiple" && result.subjectBreakdown && result.subjectBreakdown.length > 0 && (
-                <div className="mb-8 bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-white mb-3">Subject-wise Breakdown</h3>
+                <div className="mb-8 bg-surface border border-hairline rounded-xl p-5">
+                    <h3 className="text-sm font-semibold text-ink mb-3">Subject-wise Breakdown</h3>
                     <div className="space-y-2">
                         {result.subjectBreakdown.map((sub: any, idx: number) => (
-                            <div key={idx} className="flex justify-between text-sm border-b border-gray-700 pb-2">
-                                <span className="text-gray-400">Subject {idx + 1}</span>
-                                <span className="text-gray-400">{sub.obtained}/{sub.total}</span>
-                                <span className="text-white font-medium">{sub.percentage}%</span>
+                            <div key={idx} className="flex justify-between text-sm border-b border-hairline pb-2">
+                                <span className="text-ink-faint">Subject {idx + 1}</span>
+                                <span className="text-ink-faint">{sub.obtained}/{sub.total}</span>
+                                <span className="text-ink font-medium">{sub.percentage}%</span>
                             </div>
                         ))}
                     </div>
@@ -333,85 +325,85 @@ export default function PercentageMarksCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Percentage Marks Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Percentage Marks Calculator</strong> helps students, teachers, and parents calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Percentage Marks Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Percentage Marks Calculator</strong> helps students, teachers, and parents calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're calculating exam scores, board results, or semester grades, our calculator provides accurate results with grade classification.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Percentage Marks Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Percentage Marks Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">calculation mode</strong> — Single Subject, Multiple Subjects, or CGPA to %.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your marks or CGPA value in the input fields.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For multiple subjects, click <strong className="text-white">"+ Add Subject"</strong> to add more subjects.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate"</strong> to see your percentage and grade.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select <strong className="text-ink">calculation mode</strong> — Single Subject, Multiple Subjects, or CGPA to %.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your marks or CGPA value in the input fields.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For multiple subjects, click <strong className="text-ink">"+ Add Subject"</strong> to add more subjects.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate"</strong> to see your percentage and grade.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Percentage Marks Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Percentage Marks Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ Exam Results</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate your exam percentage instantly. Know your exact score without manual math errors.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Exam Results</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate your exam percentage instantly. Know your exact score without manual math errors.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Board Results</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate CBSE, ICSE, or state board percentages. Convert CGPA to percentage using official formulas.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Board Results</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate CBSE, ICSE, or state board percentages. Convert CGPA to percentage using official formulas.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Multiple Subjects</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Handle any number of subjects. Perfect for semester results, annual exams, and competitive exams.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Multiple Subjects</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Handle any number of subjects. Perfect for semester results, annual exams, and competitive exams.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Grade Classification</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See your letter grade along with percentage. Understand your performance level clearly.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Grade Classification</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See your letter grade along with percentage. Understand your performance level clearly.</p>
                     </div>
                 </div>
             </section>
 
             {/* Grading Scale Reference */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Grading Scale Reference</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Grading Scale Reference</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-purple-400 font-bold">90%+</span><p className="text-xs text-gray-500">A+ (Outstanding)</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-green-400 font-bold">80-89%</span><p className="text-xs text-gray-500">A (Excellent)</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-teal-400 font-bold">70-79%</span><p className="text-xs text-gray-500">B+ (Very Good)</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-blue-400 font-bold">60-69%</span><p className="text-xs text-gray-500">B (Good)</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-yellow-400 font-bold">50-59%</span><p className="text-xs text-gray-500">C (Average)</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-lg p-2 text-center"><span className="text-orange-400 font-bold">40-49%</span><p className="text-xs text-gray-500">D (Pass)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-purple-600 font-bold">90%+</span><p className="text-xs text-ink-faint">A+ (Outstanding)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-green-600 font-bold">80-89%</span><p className="text-xs text-ink-faint">A (Excellent)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-teal-600 font-bold">70-79%</span><p className="text-xs text-ink-faint">B+ (Very Good)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-blue-600 font-bold">60-69%</span><p className="text-xs text-ink-faint">B (Good)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-yellow-700 font-bold">50-59%</span><p className="text-xs text-ink-faint">C (Average)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-orange-600 font-bold">40-49%</span><p className="text-xs text-ink-faint">D (Pass)</p></div>
                 </div>
             </section>
 
             {/* Marks to Percentage Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Marks to Percentage Conversion Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Marks to Percentage Conversion Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Quick mental math:</strong> For exams out of 100, percentage is simply your marks. For others, use division.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">Multiple subjects:</strong> Always sum obtained marks and total marks separately, then apply formula.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">💡</span><span><strong className="text-gray-300">CGPA conversion:</strong> CBSE standard is 9.5. Some universities use 10 or 9. Check official notification.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Quick mental math:</strong> For exams out of 100, percentage is simply your marks. For others, use division.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Multiple subjects:</strong> Always sum obtained marks and total marks separately, then apply formula.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">CGPA conversion:</strong> CBSE standard is 9.5. Some universities use 10 or 9. Check official notification.</span></li>
                 </ul>
             </section>
 
             {/* CGPA to Percentage Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">CGPA to Percentage Conversion Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">CGPA to Percentage Conversion Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">CGPA</th><th className="text-left py-3 px-4 text-gray-400">CBSE (×9.5)</th><th className="text-left py-3 px-4 text-gray-400">Some Univ (×10)</th><th className="text-left py-3 px-4 text-gray-400">Grade</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">CGPA</th><th className="text-left py-3 px-4 text-ink-faint">CBSE (×9.5)</th><th className="text-left py-3 px-4 text-ink-faint">Some Univ (×10)</th><th className="text-left py-3 px-4 text-ink-faint">Grade</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10.0</td><td className="py-2 px-4 text-yellow-400">95%</td><td className="py-2 px-4">100%</td><td className="py-2 px-4 text-purple-400">A+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">9.0</td><td className="py-2 px-4 text-yellow-400">85.5%</td><td className="py-2 px-4">90%</td><td className="py-2 px-4 text-green-400">A</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">8.0</td><td className="py-2 px-4 text-yellow-400">76%</td><td className="py-2 px-4">80%</td><td className="py-2 px-4 text-teal-400">B+</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">7.0</td><td className="py-2 px-4 text-yellow-400">66.5%</td><td className="py-2 px-4">70%</td><td className="py-2 px-4 text-blue-400">B</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">6.0</td><td className="py-2 px-4 text-yellow-400">57%</td><td className="py-2 px-4">60%</td><td className="py-2 px-4 text-yellow-400">C</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">10.0</td><td className="py-2 px-4 text-yellow-700">95%</td><td className="py-2 px-4">100%</td><td className="py-2 px-4 text-purple-600">A+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">9.0</td><td className="py-2 px-4 text-yellow-700">85.5%</td><td className="py-2 px-4">90%</td><td className="py-2 px-4 text-green-600">A</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">8.0</td><td className="py-2 px-4 text-yellow-700">76%</td><td className="py-2 px-4">80%</td><td className="py-2 px-4 text-teal-600">B+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">7.0</td><td className="py-2 px-4 text-yellow-700">66.5%</td><td className="py-2 px-4">70%</td><td className="py-2 px-4 text-blue-600">B</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">6.0</td><td className="py-2 px-4 text-yellow-700">57%</td><td className="py-2 px-4">60%</td><td className="py-2 px-4 text-yellow-700">C</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -419,21 +411,21 @@ export default function PercentageMarksCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Percentage Marks Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Percentage Marks Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Calculate percentage from marks for single or multiple subjects. Also convert CGPA to percentage using standard conversion formulas.</p>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+                            {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
                         </div>
                     ))}
                 </div>

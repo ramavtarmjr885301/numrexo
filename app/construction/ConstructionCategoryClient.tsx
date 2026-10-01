@@ -45,7 +45,7 @@ export default function ConstructionCategoryClient() {
                 {/* Header Section - GREEN COLOR (consistent with health page) */}
                 <div className="text-center mb-10 md:mb-12">
                     {/* Category Badge - Green (like health page) */}
-                    <span className="text-sm font-semibold text-green-400 uppercase tracking-wider mb-2 inline-flex items-center gap-2">
+                    <span className="text-sm font-semibold text-green-600 uppercase tracking-wider mb-2 inline-flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
                         Construction & Engineering
                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
@@ -57,13 +57,13 @@ export default function ConstructionCategoryClient() {
                     </h1>
                     
                     {/* Subheading - Benefits + Trust */}
-                    <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                        Calculate <strong className="text-white">concrete volume, paint quantity, flooring materials, carpet area, built-up area, and land estimation</strong> instantly. 
-                        Plan your construction projects with <strong className="text-green-400">professional-grade accuracy</strong> — <strong className="text-white">100% free, no sign-up required.</strong>
+                    <p className="text-ink-soft max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                        Calculate <strong className="text-ink">concrete volume, paint quantity, flooring materials, carpet area, built-up area, and land estimation</strong> instantly. 
+                        Plan your construction projects with <strong className="text-green-600">professional-grade accuracy</strong> — <strong className="text-ink">100% free, no sign-up required.</strong>
                     </p>
                     
                     {/* Trust Badges - Green accent */}
-                    <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+                    <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-ink-faint">
                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
                         <span className="flex items-center gap-1">✓ Standard published formulas</span>
@@ -73,8 +73,8 @@ export default function ConstructionCategoryClient() {
                 </div>
                 
                 {/* Calculators Count - Green accent */}
-                <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
-                    🏗️ <span className="font-semibold text-green-400">{calculators.length}+ construction calculators</span> available — save time, reduce waste, estimate accurately
+                <div className="mb-5 text-sm text-ink-faint text-center border-b border-hairline pb-3">
+                    🏗️ <span className="font-semibold text-green-600">{calculators.length}+ construction calculators</span> available — save time, reduce waste, estimate accurately
                 </div>
                 
                 {/* Calculator Grid */}
@@ -89,52 +89,52 @@ export default function ConstructionCategoryClient() {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-12 bg-[#111827] rounded-xl border border-gray-800">
-                        <p className="text-gray-400">🏗️ More construction calculators coming soon!</p>
-                        <p className="text-sm text-gray-500 mt-2">Check back next week for concrete footing, brickwork, and steel calculation tools.</p>
+                    <div className="text-center py-12 bg-surface rounded-xl border border-hairline">
+                        <p className="text-ink-faint">🏗️ More construction calculators coming soon!</p>
+                        <p className="text-sm text-ink-faint mt-2">Check back next week for concrete footing, brickwork, and steel calculation tools.</p>
                     </div>
                 )}
                 
                 {/* SEO Content Section - NO FOOTER, only educational content */}
-                <div className="mt-16 pt-8 border-t border-gray-800">
+                <div className="mt-16 pt-8 border-t border-hairline">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         
                         {/* Left Column - Educational Content */}
-                        <div className="text-sm text-gray-400 space-y-3">
-                            <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Construction Calculators?</h2>
+                        <div className="text-sm text-ink-faint space-y-3">
+                            <h2 className="text-lg font-semibold text-ink mb-3">Why Use Numrexo Construction Calculators?</h2>
                             <p>
-                                Our <strong className="text-white">construction calculators</strong> are designed for contractors, civil engineers, architects, 
+                                Our <strong className="text-ink">construction calculators</strong> are designed for contractors, civil engineers, architects, 
                                 and DIY homeowners. Each tool uses industry-standard formulas to ensure accurate material estimation.
                             </p>
                             <p>
-                                The <strong className="text-white">Concrete Calculator</strong> helps you determine exact cubic yards/meters needed for slabs and footings. 
-                                The <strong className="text-white">Paint Calculator</strong> estimates gallons/liters based on wall area. 
-                                The <strong className="text-white">Flooring Calculator</strong> calculates tiles or laminate needed including waste factor.
+                                The <strong className="text-ink">Concrete Calculator</strong> helps you determine exact cubic yards/meters needed for slabs and footings. 
+                                The <strong className="text-ink">Paint Calculator</strong> estimates gallons/liters based on wall area. 
+                                The <strong className="text-ink">Flooring Calculator</strong> calculates tiles or laminate needed including waste factor.
                             </p>
                         </div>
                         
                         {/* Right Column - Popular Calculations List */}
-                        <div className="text-sm text-gray-400 space-y-3">
-                            <h2 className="text-lg font-semibold text-white mb-3">Popular Construction Calculations</h2>
+                        <div className="text-sm text-ink-faint space-y-3">
+                            <h2 className="text-lg font-semibold text-ink mb-3">Popular Construction Calculations</h2>
                             <ul className="space-y-2 list-disc list-inside">
-                                <li><strong className="text-white">Concrete Volume:</strong> Slabs, foundations, walls, columns</li>
-                                <li><strong className="text-white">Paint Quantity:</strong> Interior/exterior walls, multiple coats</li>
-                                <li><strong className="text-white">Flooring Materials:</strong> Tiles, hardwood, laminate with waste factor</li>
-                                <li><strong className="text-white">Carpet Area:</strong> Usable floor area inside walls</li>
-                                <li><strong className="text-white">Built-up Area:</strong> Total covered area including walls</li>
-                                <li><strong className="text-white">Land Area:</strong> Sq ft, sq m, acres, hectares, gunta, bigha</li>
+                                <li><strong className="text-ink">Concrete Volume:</strong> Slabs, foundations, walls, columns</li>
+                                <li><strong className="text-ink">Paint Quantity:</strong> Interior/exterior walls, multiple coats</li>
+                                <li><strong className="text-ink">Flooring Materials:</strong> Tiles, hardwood, laminate with waste factor</li>
+                                <li><strong className="text-ink">Carpet Area:</strong> Usable floor area inside walls</li>
+                                <li><strong className="text-ink">Built-up Area:</strong> Total covered area including walls</li>
+                                <li><strong className="text-ink">Land Area:</strong> Sq ft, sq m, acres, hectares, gunta, bigha</li>
                             </ul>
                         </div>
                     </div>
                     
                     {/* Pro Tip Box - Green accent */}
-                    <div className="mt-8 p-5 bg-[#111827] rounded-xl border border-gray-800">
-                        <h3 className="text-md font-semibold text-white mb-2 flex items-center gap-2">
+                    <div className="mt-8 p-5 bg-surface rounded-xl border border-hairline">
+                        <h3 className="text-md font-semibold text-ink mb-2 flex items-center gap-2">
                             <span>📐</span> Pro Tip for Accurate Material Estimation
                         </h3>
-                        <p className="text-sm text-gray-400">
-                            Always add <strong className="text-green-400">5-10% waste factor</strong> for concrete, tiles, and paint to account for breakage, spills, and cutting errors. 
-                            For flooring, add <strong className="text-green-400">10-15% waste factor</strong> — especially for patterned tiles or diagonal installation.
+                        <p className="text-sm text-ink-faint">
+                            Always add <strong className="text-green-600">5-10% waste factor</strong> for concrete, tiles, and paint to account for breakage, spills, and cutting errors. 
+                            For flooring, add <strong className="text-green-600">10-15% waste factor</strong> — especially for patterned tiles or diagonal installation.
                         </p>
                     </div>
                 </div>

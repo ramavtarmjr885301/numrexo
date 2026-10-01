@@ -35,16 +35,20 @@ const FAQ_DATA = [
         a: "Weighted grades assign different importance to assignments. Example: Final exam 50% of grade, homework 20%, quizzes 30%. Unweighted treats everything equally. Most college courses use weighted grading.",
     },
     {
-        q: "How to calculate what I need on my final exam?",
-        a: "Formula: Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100). Example: Desired 85%, Current 80%, Final 30% → Need 96.7% on final. If result >100%, goal impossible.",
-    },
-    {
         q: "What is a good GPA?",
         a: "3.5-4.0 = Excellent, 3.0-3.4 = Good, 2.5-2.9 = Average, Below 2.5 = Needs improvement. Top graduate schools expect 3.5+. Scholarships often require 3.0+.",
     },
     {
         q: "How to convert percentage to GPA?",
         a: "Common 4.0 scale: 90-100% = 4.0, 80-89% = 3.0, 70-79% = 2.0, 60-69% = 1.0. Some use plus/minus: A- = 3.7, B+ = 3.3. Check your school's scale.",
+    },
+    {
+        q: "How does extra credit affect my grade?",
+        a: "Extra credit usually adds points without adding to the total possible marks, which raises your percentage. Example: 88 out of 100 plus 3 extra credit points becomes 91 out of 100 (91%). Some courses cap extra credit or apply it after the weighted average is calculated — check with your instructor which method they use.",
+    },
+    {
+        q: "What does it mean when a teacher curves a test?",
+        a: "Curving adjusts scores based on how the whole class performed, usually to raise grades after a harder-than-expected test. Common methods include adding a fixed number of points to everyone, scaling scores so the highest becomes 100%, or ranking students on a bell curve. Ask your instructor which method applies before assuming a curve will help your grade.",
     },
 ];
 
@@ -238,19 +242,19 @@ export default function GradeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-gray-300">Education Calculators</a>
+                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Grade Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Grade Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -258,23 +262,23 @@ export default function GradeCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Grade Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate your course grade or what you need on the final</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate your course grade or what you need on the final</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">What do you want to calculate?</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">What do you want to calculate?</label>
                             <div className="grid grid-cols-2 gap-3">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "weighted" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "weighted" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("weighted")}
                                 >
                                     Current Grade
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "final" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "final" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("final")}
                                 >
                                     Final Exam Needed
@@ -285,10 +289,10 @@ export default function GradeCalculator() {
                         {calcType === "weighted" ? (
                             <>
                                 <div className="flex justify-between items-center">
-                                    <label className="text-xs font-semibold text-gray-400">Assignments</label>
+                                    <label className="text-xs font-semibold text-ink-faint">Assignments</label>
                                     <button
                                         onClick={addAssignment}
-                                        className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                                        className="text-xs text-blue-600 hover:text-blue-600 transition-colors"
                                     >
                                         + Add Assignment
                                     </button>
@@ -301,7 +305,7 @@ export default function GradeCalculator() {
                                                 placeholder="Name"
                                                 value={assignment.name}
                                                 onChange={(e) => updateAssignment(i, "name", e.target.value)}
-                                                className="w-24 px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                                className="w-24 px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none"
                                             />
                                             <div className="flex-1 relative">
                                                 <input
@@ -309,9 +313,9 @@ export default function GradeCalculator() {
                                                     placeholder="Score"
                                                     value={assignment.score}
                                                     onChange={(e) => updateAssignment(i, "score", e.target.value)}
-                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
-                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                             </div>
                                             <div className="flex-1 relative">
                                                 <input
@@ -319,14 +323,14 @@ export default function GradeCalculator() {
                                                     placeholder="Weight"
                                                     value={assignment.weight}
                                                     onChange={(e) => updateAssignment(i, "weight", e.target.value)}
-                                                    className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
-                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                             </div>
                                             {assignments.length > 1 && (
                                                 <button
                                                     onClick={() => removeAssignment(i)}
-                                                    className="px-2 py-2 text-red-400 hover:text-red-300"
+                                                    className="px-2 py-2 text-red-600 hover:text-red-600"
                                                 >
                                                     ✕
                                                 </button>
@@ -338,42 +342,42 @@ export default function GradeCalculator() {
                         ) : (
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Desired Overall Grade (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Desired Overall Grade (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="85"
                                             value={desiredGrade}
                                             onChange={(e) => setDesiredGrade(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Current Grade (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Current Grade (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="75"
                                             value={currentGrade}
                                             onChange={(e) => setCurrentGrade(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Final Exam Weight (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Final Exam Weight (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="30"
                                             value={finalWeight}
                                             onChange={(e) => setFinalWeight(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                             </div>
@@ -382,13 +386,13 @@ export default function GradeCalculator() {
                         <div className="flex gap-3">
                             <button
                                 onClick={calcType === "weighted" ? calculateWeighted : calculateFinal}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 {calcType === "weighted" ? "Calculate Grade →" : "Calculate Final Needed →"}
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -405,23 +409,23 @@ export default function GradeCalculator() {
                     mainResult={result ? (calcType === "weighted" ? {
                         label: "Current Grade",
                         value: `${result.currentGrade}%`,
-                        color: result.currentGrade >= 60 ? "text-green-400" : "text-red-400"
+                        color: result.currentGrade >= 60 ? "text-green-600" : "text-red-600"
                     } : {
                         label: "Final Exam Needed",
                         value: `${result.neededOnFinal}%`,
-                        color: result.possible ? "text-yellow-400" : "text-red-400"
+                        color: result.possible ? "text-yellow-700" : "text-red-600"
                     }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "weighted" ? [
-                            { label: "Letter Grade", value: result.letterGrade, valueColor: "text-yellow-400" },
+                            { label: "Letter Grade", value: result.letterGrade, valueColor: "text-yellow-700" },
                             { label: "GPA (4.0 scale)", value: result.gpa },
                             { label: "Performance", value: result.performance },
                             { label: "Total Weight", value: `${result.totalWeight}%` },
                         ] : [
                             { label: "Current Grade", value: `${result.currentGrade}%` },
-                            { label: "Desired Grade", value: `${result.desiredGrade}%`, valueColor: "text-green-400" },
+                            { label: "Desired Grade", value: `${result.desiredGrade}%`, valueColor: "text-green-600" },
                             { label: "Final Exam Weight", value: `${result.finalWeight}%` },
-                            { label: "Status", value: result.message, valueColor: result.possible ? "text-yellow-400" : "text-red-400" },
+                            { label: "Status", value: result.message, valueColor: result.possible ? "text-yellow-700" : "text-red-600" },
                         ]),
                     ] : []}
                 />
@@ -431,70 +435,70 @@ export default function GradeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Grade Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Grade Calculator</strong> helps you calculate your weighted course grade and determine what you need on your final exam. Perfect for students who want to track their progress and plan their study strategy.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Grade Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Grade Calculator</strong> helps you calculate your weighted course grade and determine what you need on your final exam. Perfect for students who want to track their progress and plan their study strategy.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Use the "Current Grade" mode to calculate your overall grade based on weighted assignments. Use the "Final Exam Needed" mode to find out exactly what score you need on your final to achieve your desired grade.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Grade Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Grade Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to calculate: <strong className="text-white">"Current Grade"</strong> or <strong className="text-white">"Final Exam Needed"</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> For Current Grade: Add assignments with their scores and weight percentages.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Final Exam Needed: Enter desired grade, current grade, and final exam weight.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select what you want to calculate: <strong className="text-ink">"Current Grade"</strong> or <strong className="text-ink">"Final Exam Needed"</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> For Current Grade: Add assignments with their scores and weight percentages.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For Final Exam Needed: Enter desired grade, current grade, and final exam weight.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Grade Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Grade Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Track Academic Progress</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know your exact standing at any point in the semester. Identify which assignments are dragging down your grade.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Track Academic Progress</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know your exact standing at any point in the semester. Identify which assignments are dragging down your grade.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Set Realistic Goals</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate what score you need on the final to achieve your target grade. Adjust goals based on feasibility.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Set Realistic Goals</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate what score you need on the final to achieve your target grade. Adjust goals based on feasibility.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Reduce Exam Stress</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Knowing exactly what you need on the final removes uncertainty. Focus study time effectively.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Reduce Exam Stress</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Knowing exactly what you need on the final removes uncertainty. Focus study time effectively.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Scholarship Eligibility</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track your GPA to ensure you maintain scholarship requirements. Plan ahead for grade improvement.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Scholarship Eligibility</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track your GPA to ensure you maintain scholarship requirements. Plan ahead for grade improvement.</p>
                     </div>
                 </div>
             </section>
 
             {/* Grade Scale Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Standard Grade Scale (4.0 GPA)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Standard Grade Scale (4.0 GPA)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Letter Grade</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Percentage Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">GPA</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Performance</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Letter Grade</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Percentage Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">GPA</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Performance</th>
                             </tr>
                         </thead>
                         <tbody>
                             {GRADE_LETTERS.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-2 px-4 text-gray-300">{row.letter}</td>
-                                    <td className="py-2 px-4 text-gray-400">{row.minPercent}-{row.maxPercent}%</td>
-                                    <td className="py-2 px-4 text-yellow-400">{row.gpa}</td>
-                                    <td className="py-2 px-4 text-gray-500">{row.performance}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-2 px-4 text-ink-soft">{row.letter}</td>
+                                    <td className="py-2 px-4 text-ink-faint">{row.minPercent}-{row.maxPercent}%</td>
+                                    <td className="py-2 px-4 text-yellow-700">{row.gpa}</td>
+                                    <td className="py-2 px-4 text-ink-faint">{row.performance}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -504,86 +508,86 @@ export default function GradeCalculator() {
 
             {/* Grade Calculation Formulas */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Grade Calculation Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Grade Calculation Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Weighted Grade</h3>
-                        <p className="text-white font-mono text-sm mb-2">Grade = Σ (Score × Weight ÷ 100)</p>
-                        <p className="text-gray-500 text-xs">Example: HW (85×20%) + Mid (78×30%) + Final (82×50%) = 81.4%</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Weighted Grade</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Grade = Σ (Score × Weight ÷ 100)</p>
+                        <p className="text-ink-faint text-xs">Example: HW (85×20%) + Mid (78×30%) + Final (82×50%) = 81.4%</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Final Exam Needed</h3>
-                        <p className="text-white font-mono text-sm mb-2">Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100)</p>
-                        <p className="text-gray-500 text-xs">Example: Desired 85%, Current 80%, Final 30% → Need 96.7%</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Final Exam Needed</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100)</p>
+                        <p className="text-ink-faint text-xs">Example: Desired 85%, Current 80%, Final 30% → Need 96.7%</p>
                     </div>
                 </div>
             </section>
 
             {/* Study Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Tips to Improve Your Grade</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Tips to Improve Your Grade</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">📝</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Do All Assignments</h3>
-                        <p className="text-xs text-gray-400">Even small assignments add up. Missing one could drop your grade significantly.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Do All Assignments</h3>
+                        <p className="text-xs text-ink-faint">Even small assignments add up. Missing one could drop your grade significantly.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">⏰</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Don't Procrastinate</h3>
-                        <p className="text-xs text-gray-400">Start studying early. Cramming the night before rarely works for finals.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Don't Procrastinate</h3>
+                        <p className="text-xs text-ink-faint">Start studying early. Cramming the night before rarely works for finals.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">👨‍🏫</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Ask for Help</h3>
-                        <p className="text-xs text-gray-400">Talk to your teacher, join study groups, or get a tutor if you're struggling.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Ask for Help</h3>
+                        <p className="text-xs text-ink-faint">Talk to your teacher, join study groups, or get a tutor if you're struggling.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">📊</div>
-                        <h3 className="text-sm font-semibold text-blue-400 mb-1">Track Your Progress</h3>
-                        <p className="text-xs text-gray-400">Use this calculator regularly to know where you stand before finals.</p>
+                        <h3 className="text-sm font-semibold text-blue-600 mb-1">Track Your Progress</h3>
+                        <p className="text-xs text-ink-faint">Use this calculator regularly to know where you stand before finals.</p>
                     </div>
                 </div>
             </section>
 
             {/* Important Things */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Weights should add to 100%</strong> — For accurate calculation, ensure your assignment weights total 100%.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Weights should add to 100%</strong> — For accurate calculation, ensure your assignment weights total 100%.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Grade scales vary by school</strong> — Some schools use plus/minus grading. Check your school's specific scale.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Grade scales vary by school</strong> — Some schools use plus/minus grading. Check your school's specific scale.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Extra credit not included</strong> — This calculator doesn't account for extra credit points that could boost your grade.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Extra credit not included</strong> — This calculator doesn't account for extra credit points that could boost your grade.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Check your syllabus</strong> — Always refer to your course syllabus for official grading policies.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Check your syllabus</strong> — Always refer to your course syllabus for official grading policies.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

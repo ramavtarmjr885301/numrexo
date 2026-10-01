@@ -45,12 +45,12 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
 
   return (
     <div>
-      <label className="block text-sm text-gray-400 mb-1.5">
-        {label} {hint && <span className="text-gray-600">({hint})</span>}
+      <label className="block text-sm text-ink-soft mb-1.5">
+        {label} {hint && <span className="text-ink-faint">({hint})</span>}
       </label>
 
       {value && (
-        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-[#0f1525] border border-gray-700">
+        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-cream border border-hairline">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={value} alt="" className="w-full h-full object-cover" />
         </div>
@@ -68,7 +68,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="px-3 py-1.5 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-200 text-sm hover:border-blue-500 disabled:opacity-50 transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
         >
           {uploading ? 'Upload ho raha hai...' : 'Computer se Upload karo'}
         </button>
@@ -76,20 +76,20 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
           <button
             type="button"
             onClick={() => onChange('')}
-            className="px-3 py-1.5 rounded-lg text-gray-500 text-sm hover:text-red-400 transition-colors"
+            className="px-3 py-1.5 rounded-lg text-ink-faint text-sm hover:text-red-600 transition-colors"
           >
             Remove
           </button>
         )}
       </div>
 
-      {error && <p className="text-sm text-red-400 mt-2">{error}</p>}
+      {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
 
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="...ya yahan seedha image ka URL paste karo"
-        className="mt-2 w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+        className="mt-2 w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
       />
     </div>
   );

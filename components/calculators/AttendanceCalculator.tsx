@@ -68,16 +68,16 @@ export default function AttendanceCalculator() {
         let statusColor = "";
         if (currentPercentage >= 85) {
             status = "Excellent - Safe Zone ✅";
-            statusColor = "text-green-400";
+            statusColor = "text-green-600";
         } else if (currentPercentage >= 75) {
             status = "Good - Minimum Met ✅";
-            statusColor = "text-teal-400";
+            statusColor = "text-teal-600";
         } else if (currentPercentage >= 65) {
             status = "Warning - Risk Zone ⚠️";
-            statusColor = "text-yellow-400";
+            statusColor = "text-yellow-700";
         } else {
             status = "Critical - High Risk ❌";
-            statusColor = "text-red-400";
+            statusColor = "text-red-600";
         }
 
         // Calculate needed classes to reach target
@@ -151,33 +151,33 @@ export default function AttendanceCalculator() {
     return (
         <>
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-gray-300">Education Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">Attendance Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">Attendance Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Attendance Details</h3>
-                        <p className="text-xs text-gray-500">Enter your current attendance record</p>
+                        <p className="text-xs text-ink-faint">Enter your current attendance record</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Classes Attended</label>
-                            <input type="number" step="1" placeholder="e.g., 45" value={classesAttended} onChange={(e) => setClassesAttended(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Total Classes Attended</label>
+                            <input type="number" step="1" placeholder="e.g., 45" value={classesAttended} onChange={(e) => setClassesAttended(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Total Classes Held</label>
-                            <input type="number" step="1" placeholder="e.g., 60" value={classesHeld} onChange={(e) => setClassesHeld(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Total Classes Held</label>
+                            <input type="number" step="1" placeholder="e.g., 60" value={classesHeld} onChange={(e) => setClassesHeld(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Target Attendance Percentage (%)</label>
-                            <select value={targetPercentage} onChange={(e) => setTargetPercentage(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Target Attendance Percentage (%)</label>
+                            <select value={targetPercentage} onChange={(e) => setTargetPercentage(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">
                                 <option value="60">60% (Minimum for some colleges)</option>
                                 <option value="65">65%</option>
                                 <option value="70">70%</option>
@@ -189,7 +189,7 @@ export default function AttendanceCalculator() {
                         </div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={reset} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -204,40 +204,40 @@ export default function AttendanceCalculator() {
                         { label: "Status", value: result.status, valueColor: result.statusColor },
                         { label: "Classes Attended", value: result.attended },
                         { label: "Classes Held", value: result.held },
-                        ...(result.shortfall > 0 ? [{ label: "Shortfall from 75%", value: `${result.shortfall}%`, valueColor: "text-red-400" }] : []),
-                        ...(result.excess > 0 ? [{ label: "Above 75%", value: `${result.excess}%`, valueColor: "text-green-400" }] : []),
-                        ...(result.canMiss > 0 ? [{ label: "Classes you can skip", value: result.canMiss, valueColor: "text-yellow-400" }] : []),
-                        ...(result.neededClasses > 0 && result.canReach ? [{ label: `Classes needed to reach ${result.targetPercentage}%`, value: result.neededClasses, valueColor: "text-orange-400" }] : []),
-                        ...(result.neededClasses > 0 && !result.canReach ? [{ label: "Target Unreachable", value: "Even attending all classes won't reach target", valueColor: "text-red-400" }] : []),
+                        ...(result.shortfall > 0 ? [{ label: "Shortfall from 75%", value: `${result.shortfall}%`, valueColor: "text-red-600" }] : []),
+                        ...(result.excess > 0 ? [{ label: "Above 75%", value: `${result.excess}%`, valueColor: "text-green-600" }] : []),
+                        ...(result.canMiss > 0 ? [{ label: "Classes you can skip", value: result.canMiss, valueColor: "text-yellow-700" }] : []),
+                        ...(result.neededClasses > 0 && result.canReach ? [{ label: `Classes needed to reach ${result.targetPercentage}%`, value: result.neededClasses, valueColor: "text-orange-600" }] : []),
+                        ...(result.neededClasses > 0 && !result.canReach ? [{ label: "Target Unreachable", value: "Even attending all classes won't reach target", valueColor: "text-red-600" }] : []),
                     ] : []}
                 />
             </div>
 
             {result && result.neededClasses > 0 && result.canReach && (
-                <div className="mb-8 bg-[#111827] border border-teal-500/30 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-teal-400 mb-2">📌 Action Plan</h3>
-                    <p className="text-gray-300 text-sm">
-                        You need to attend <span className="text-teal-400 font-bold">{result.neededClasses}</span> more classes out of the next{' '}
-                        <span className="text-teal-400 font-bold">{result.neededClasses}</span> classes without missing any to reach <span className="font-bold">{result.targetPercentage}%</span> attendance.
+                <div className="mb-8 bg-surface border border-teal-200 rounded-xl p-5">
+                    <h3 className="text-sm font-semibold text-teal-600 mb-2">📌 Action Plan</h3>
+                    <p className="text-ink-soft text-sm">
+                        You need to attend <span className="text-teal-600 font-bold">{result.neededClasses}</span> more classes out of the next{' '}
+                        <span className="text-teal-600 font-bold">{result.neededClasses}</span> classes without missing any to reach <span className="font-bold">{result.targetPercentage}%</span> attendance.
                     </p>
-                    <p className="text-gray-500 text-xs mt-2">
+                    <p className="text-ink-faint text-xs mt-2">
                         After attending {result.neededClasses} classes, total classes held will be {result.totalClassesAfterTarget} and you would have attended {result.projectedAttended} classes.
                     </p>
                 </div>
             )}
 
             {result && result.canMiss > 0 && (
-                <div className="mb-8 bg-[#111827] border border-green-500/30 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-green-400 mb-2">✅ Safe Zone</h3>
-                    <p className="text-gray-300 text-sm">
-                        You can afford to miss up to <span className="text-green-400 font-bold">{result.canMiss}</span> more classes and still maintain {result.targetPercentage}% attendance.
+                <div className="mb-8 bg-surface border border-green-200 rounded-xl p-5">
+                    <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Safe Zone</h3>
+                    <p className="text-ink-soft text-sm">
+                        You can afford to miss up to <span className="text-green-600 font-bold">{result.canMiss}</span> more classes and still maintain {result.targetPercentage}% attendance.
                     </p>
                 </div>
             )}
 
 <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Attendance Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Attendance Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Enter how many classes were held and how many you attended, and this gives your percentage
                     against your target — plus the number that people actually come here for: how many classes in a
                     row you have to attend to get back above the line, or how many you can still miss if you are
@@ -246,11 +246,11 @@ export default function AttendanceCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">The Arithmetic Behind the Answer</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
-                    <p className="text-white font-mono text-sm">classes needed = (target × held − attended) ÷ (1 − target)</p>
-                    <p className="text-white font-mono text-sm">classes you can miss = (attended − target × held) ÷ target</p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-4">The Arithmetic Behind the Answer</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 space-y-3">
+                    <p className="text-ink font-mono text-sm">classes needed = (target × held − attended) ÷ (1 − target)</p>
+                    <p className="text-ink font-mono text-sm">classes you can miss = (attended − target × held) ÷ target</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         The dividing line in both is the target itself, and it is why recovery is slow. A missed class
                         adds one to the denominator and nothing to the numerator; an attended class adds one to each.
                         Below target, every class you attend improves the fraction by less than the one you missed
@@ -260,69 +260,69 @@ export default function AttendanceCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Where You Stand at 75%</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Where You Stand at 75%</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Attendance so far</th><th className="text-right py-3 px-4 text-gray-400">Current</th><th className="text-right py-3 px-4 text-gray-400">Classes needed in a row</th><th className="text-right py-3 px-4 text-gray-400">Classes you can miss</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Attendance so far</th><th className="text-right py-3 px-4 text-ink-faint">Current</th><th className="text-right py-3 px-4 text-ink-faint">Classes needed in a row</th><th className="text-right py-3 px-4 text-ink-faint">Classes you can miss</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-400">40</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-400">20</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-400">18</td><td className="py-2 px-4 text-right text-green-400">—</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">0</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">12</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-400">on target</td><td className="py-2 px-4 text-right text-green-400">13</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-700">40</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-700">20</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-700">18</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">0</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">12</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">13</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     Both columns assume a 75% requirement and an unbroken run. One further absence and the
                     &quot;needed&quot; figure goes up again.
                 </p>
             </section>
 
                         <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Attendance Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Track your attendance percentage, find out how many more classes you need to meet requirements, and plan your attendance strategy for exams.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Attendance Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Track your attendance percentage, find out how many more classes you need to meet requirements, and plan your attendance strategy for exams.</p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Attendance Requirements in India</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Attendance Requirements in India</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center">
                         <div className="text-xl mb-1">🏫</div>
-                        <p className="text-xs font-semibold text-white">75%</p>
-                        <p className="text-xs text-gray-500">Most Universities</p>
+                        <p className="text-xs font-semibold text-ink">75%</p>
+                        <p className="text-xs text-ink-faint">Most Universities</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center">
                         <div className="text-xl mb-1">⚕️</div>
-                        <p className="text-xs font-semibold text-white">80-85%</p>
-                        <p className="text-xs text-gray-500">Medical Colleges</p>
+                        <p className="text-xs font-semibold text-ink">80-85%</p>
+                        <p className="text-xs text-ink-faint">Medical Colleges</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center">
                         <div className="text-xl mb-1">🔧</div>
-                        <p className="text-xs font-semibold text-white">75-80%</p>
-                        <p className="text-xs text-gray-500">Engineering Colleges</p>
+                        <p className="text-xs font-semibold text-ink">75-80%</p>
+                        <p className="text-xs text-ink-faint">Engineering Colleges</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center">
                         <div className="text-xl mb-1">🎓</div>
-                        <p className="text-xs font-semibold text-white">60-70%</p>
-                        <p className="text-xs text-gray-500">Open Universities</p>
+                        <p className="text-xs font-semibold text-ink">60-70%</p>
+                        <p className="text-xs text-ink-faint">Open Universities</p>
                     </div>
                 </div>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
-                            {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+                            {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
                         </div>
                     ))}
                 </div>

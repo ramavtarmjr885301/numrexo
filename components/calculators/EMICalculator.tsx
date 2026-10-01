@@ -137,56 +137,56 @@ export default function EMICalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: EMI_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-          <li className="text-gray-700">/</li>
-          <li><a href="https://numrexo.com/finance" className="hover:text-gray-300">Finance Calculators</a></li>
-          <li className="text-gray-700">/</li>
-          <li><span className="text-gray-300">EMI Calculator</span></li>
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><a href="https://numrexo.com/finance" className="hover:text-ink-soft">Finance Calculators</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><span className="text-ink-soft">EMI Calculator</span></li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">Loan Details</h3>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Amount (Principal)</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount (Principal)</label>
               <div className="relative">
-                <input type="number" placeholder="5000000" value={principal} onChange={(e) => setPrincipal(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                <input type="number" placeholder="5000000" value={principal} onChange={(e) => setPrincipal(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Annual Interest Rate</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Annual Interest Rate</label>
               <div className="relative">
-                <input type="number" placeholder="8.5" step="0.1" value={rate} onChange={(e) => setRate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                <input type="number" placeholder="8.5" step="0.1" value={rate} onChange={(e) => setRate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Tenure</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Tenure</label>
               <div className="grid grid-cols-2 gap-3">
-                <input type="number" placeholder="5" value={tenure} onChange={(e) => setTenure(e.target.value)} className="px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <select value={tenureType} onChange={(e) => setTenureType(e.target.value as "years" | "months")} className="px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">
+                <input type="number" placeholder="5" value={tenure} onChange={(e) => setTenure(e.target.value)} className="px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <select value={tenureType} onChange={(e) => setTenureType(e.target.value as "years" | "months")} className="px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer">
                   <option value="years">Years</option>
                   <option value="months">Months</option>
                 </select>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Prepayment (Optional)</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Prepayment (Optional)</label>
               <div className="relative">
-                <input type="number" placeholder="0" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                <input type="number" placeholder="0" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Extra payment to reduce loan tenure and interest</p>
+              <p className="text-xs text-ink-faint mt-1">Extra payment to reduce loan tenure and interest</p>
             </div>
             <div className="flex gap-3">
               <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Calculate EMI →</button>
-              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
             </div>
           </div>
         </div>
@@ -196,16 +196,16 @@ export default function EMICalculator() {
           isEmpty={!result}
           emptyIcon="🏦"
           emptyText="Enter loan details to calculate EMI"
-          mainResult={result ? { label: "Monthly EMI", value: `₹${result.emi}`, color: "text-purple-400" } : undefined}
+          mainResult={result ? { label: "Monthly EMI", value: `₹${result.emi}`, color: "text-purple-600" } : undefined}
           extraRows={result ? [
             { label: "Principal Amount", value: `₹${result.principal}` },
-            { label: "Total Interest Payable", value: `₹${result.totalInterest}`, valueColor: "text-red-400" },
+            { label: "Total Interest Payable", value: `₹${result.totalInterest}`, valueColor: "text-red-600" },
             { label: "Total Amount (Principal + Interest)", value: `₹${result.totalAmount}` },
             { label: "Interest % of Principal", value: `${result.intPct}%` },
             ...(result.prepay ? [
-              { label: "Prepayment Amount", value: `₹${result.prepay}`, valueColor: "text-green-400" },
-              { label: "Reduced Tenure", value: `${result.reducedTenure} months`, valueColor: "text-green-400" },
-              { label: "Interest Saved", value: `₹${result.interestSaved}`, valueColor: "text-green-400" },
+              { label: "Prepayment Amount", value: `₹${result.prepay}`, valueColor: "text-green-600" },
+              { label: "Reduced Tenure", value: `${result.reducedTenure} months`, valueColor: "text-green-600" },
+              { label: "Interest Saved", value: `₹${result.interestSaved}`, valueColor: "text-green-600" },
             ] : []),
           ] : undefined}
         />
@@ -215,137 +215,137 @@ export default function EMICalculator() {
 
       {/* About Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About EMI Calculator</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          Our <strong className="text-gray-300">EMI calculator</strong> helps you calculate monthly installments for home loans, car loans, personal loans, education loans, and any other fixed-rate loan. Based on the standard reducing balance method used by all major banks in India.
+        <h2 className="text-xl font-semibold text-ink mb-3">About EMI Calculator</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          Our <strong className="text-ink-soft">EMI calculator</strong> helps you calculate monthly installments for home loans, car loans, personal loans, education loans, and any other fixed-rate loan. Based on the standard reducing balance method used by all major banks in India.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           The calculator also shows prepayment benefits - how making extra payments can reduce your loan tenure and save thousands in interest.
         </p>
       </section>
 
       {/* How to Use Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">How to Use This EMI Calculator</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">How to Use This EMI Calculator</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">loan amount (principal)</strong> you wish to borrow.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">annual interest rate</strong> offered by your lender.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select the <strong className="text-white">loan tenure</strong> (in years or months).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> (Optional) Enter a <strong className="text-white">prepayment amount</strong> to see how extra payments reduce your loan.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Click <strong className="text-white">Calculate EMI</strong> to see your monthly payment and total interest.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different loan scenario.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">loan amount (principal)</strong> you wish to borrow.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">annual interest rate</strong> offered by your lender.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">loan tenure</strong> (in years or months).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> (Optional) Enter a <strong className="text-ink">prepayment amount</strong> to see how extra payments reduce your loan.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Click <strong className="text-ink">Calculate EMI</strong> to see your monthly payment and total interest.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and calculate a different loan scenario.</p>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Benefits of Using an EMI Calculator</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Using an EMI Calculator</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Financial Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Know your exact monthly obligation before taking a loan. Plan your budget around fixed EMI payments.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Financial Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly obligation before taking a loan. Plan your budget around fixed EMI payments.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Loan Offers</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Compare EMIs and total interest across different banks, interest rates, and tenures. Choose the most affordable option.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Loan Offers</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Compare EMIs and total interest across different banks, interest rates, and tenures. Choose the most affordable option.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Prepayment Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">See how extra payments reduce your loan tenure and save interest. Plan your prepayment strategy effectively.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Prepayment Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">See how extra payments reduce your loan tenure and save interest. Plan your prepayment strategy effectively.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Tax Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">For home loans, separate principal and interest components for tax benefits under Sections 80C and 24(b).</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Tax Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">For home loans, separate principal and interest components for tax benefits under Sections 80C and 24(b).</p>
           </div>
         </div>
       </section>
 
       {/* Prepayment Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Prepayment Benefits Explained</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-          <p className="text-gray-400 text-sm leading-relaxed mb-3">
+        <h2 className="text-xl font-semibold text-ink mb-3">Prepayment Benefits Explained</h2>
+        <div className="bg-surface border border-hairline rounded-xl p-5">
+          <p className="text-ink-faint text-sm leading-relaxed mb-3">
             Making prepayments (extra payments towards your loan) can significantly reduce:
           </p>
-          <ul className="space-y-2 text-sm text-gray-400 list-disc list-inside">
-            <li><strong className="text-white">Loan Tenure</strong> - You become debt-free earlier</li>
-            <li><strong className="text-white">Total Interest Payable</strong> - Every extra rupee reduces principal</li>
-            <li><strong className="text-white">Stress of Long-term Debt</strong> - Freedom from EMIs sooner</li>
+          <ul className="space-y-2 text-sm text-ink-faint list-disc list-inside">
+            <li><strong className="text-ink">Loan Tenure</strong> - You become debt-free earlier</li>
+            <li><strong className="text-ink">Total Interest Payable</strong> - Every extra rupee reduces principal</li>
+            <li><strong className="text-ink">Stress of Long-term Debt</strong> - Freedom from EMIs sooner</li>
           </ul>
-          <p className="text-gray-400 text-sm leading-relaxed mt-3">
+          <p className="text-ink-faint text-sm leading-relaxed mt-3">
             Example: ₹50L loan at 9% for 20 years. A single prepayment of ₹1L reduces tenure by 4 months and saves ₹1.5L in interest!
           </p>
         </div>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">EMI Formula</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-          <p className="text-white font-mono text-sm mb-2">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
+        <h2 className="text-xl font-semibold text-ink mb-4">EMI Formula</h2>
+        <div className="bg-surface border border-hairline rounded-xl p-5">
+          <p className="text-ink font-mono text-sm mb-2">EMI = P × r × (1+r)^n / ((1+r)^n - 1)</p>
           <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
-            <div><span className="text-gray-500">P =</span> <span className="text-white">Principal Loan Amount</span></div>
-            <div><span className="text-gray-500">r =</span> <span className="text-white">Monthly Interest Rate (Annual/12/100)</span></div>
-            <div><span className="text-gray-500">n =</span> <span className="text-white">Number of Monthly Installments</span></div>
+            <div><span className="text-ink-faint">P =</span> <span className="text-ink">Principal Loan Amount</span></div>
+            <div><span className="text-ink-faint">r =</span> <span className="text-ink">Monthly Interest Rate (Annual/12/100)</span></div>
+            <div><span className="text-ink-faint">n =</span> <span className="text-ink">Number of Monthly Installments</span></div>
           </div>
         </div>
       </section>
 
       {/* Loan EMI Examples */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Loan EMI Examples</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Loan EMI Examples</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-lg mb-1">🏠</div>
-            <h3 className="text-sm font-semibold text-white">Home Loan</h3>
-            <p className="text-xs text-gray-400 mt-2">₹50L, 9%, 20 years</p>
-            <p className="text-lg font-bold text-purple-400 mt-1">₹44,986</p>
-            <p className="text-xs text-gray-500">per month</p>
+            <h3 className="text-sm font-semibold text-ink">Home Loan</h3>
+            <p className="text-xs text-ink-faint mt-2">₹50L, 9%, 20 years</p>
+            <p className="text-lg font-bold text-purple-600 mt-1">₹44,986</p>
+            <p className="text-xs text-ink-faint">per month</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-lg mb-1">🚗</div>
-            <h3 className="text-sm font-semibold text-white">Car Loan</h3>
-            <p className="text-xs text-gray-400 mt-2">₹10L, 10%, 5 years</p>
-            <p className="text-lg font-bold text-purple-400 mt-1">₹21,247</p>
-            <p className="text-xs text-gray-500">per month</p>
+            <h3 className="text-sm font-semibold text-ink">Car Loan</h3>
+            <p className="text-xs text-ink-faint mt-2">₹10L, 10%, 5 years</p>
+            <p className="text-lg font-bold text-purple-600 mt-1">₹21,247</p>
+            <p className="text-xs text-ink-faint">per month</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
+          <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-lg mb-1">💳</div>
-            <h3 className="text-sm font-semibold text-white">Personal Loan</h3>
-            <p className="text-xs text-gray-400 mt-2">₹5L, 13%, 3 years</p>
-            <p className="text-lg font-bold text-purple-400 mt-1">₹16,830</p>
-            <p className="text-xs text-gray-500">per month</p>
+            <h3 className="text-sm font-semibold text-ink">Personal Loan</h3>
+            <p className="text-xs text-ink-faint mt-2">₹5L, 13%, 3 years</p>
+            <p className="text-lg font-bold text-purple-600 mt-1">₹16,830</p>
+            <p className="text-xs text-ink-faint">per month</p>
           </div>
         </div>
       </section>
 
       {/* Bank-wise Interest Rates */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Bank-wise Home Loan Interest Rates (2025-26)</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-3">Bank-wise Home Loan Interest Rates (2025-26)</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Bank</th><th className="text-left py-3 px-4 text-gray-400">Interest Rate (p.a.)</th><th className="text-left py-3 px-4 text-gray-400">Processing Fee</th></tr></thead>
+            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Bank</th><th className="text-left py-3 px-4 text-ink-faint">Interest Rate (p.a.)</th><th className="text-left py-3 px-4 text-ink-faint">Processing Fee</th></tr></thead>
             <tbody>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">SBI</td><td className="py-2 px-4 text-yellow-400">8.4% - 9.2%</td><td className="py-2 px-4">₹10,000 + GST</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">HDFC Ltd</td><td className="py-2 px-4 text-yellow-400">8.5% - 9.3%</td><td className="py-2 px-4">0.5% up to ₹10,000</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">ICICI Bank</td><td className="py-2 px-4 text-yellow-400">8.6% - 9.4%</td><td className="py-2 px-4">0.5% up to ₹15,000</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">PNB</td><td className="py-2 px-4 text-yellow-400">8.3% - 9.1%</td><td className="py-2 px-4">₹8,500 + GST</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">LIC Housing</td><td className="py-2 px-4 text-yellow-400">8.5% - 9.2%</td><td className="py-2 px-4">0.5% up to ₹15,000</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">SBI</td><td className="py-2 px-4 text-yellow-700">8.4% - 9.2%</td><td className="py-2 px-4">₹10,000 + GST</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">HDFC Ltd</td><td className="py-2 px-4 text-yellow-700">8.5% - 9.3%</td><td className="py-2 px-4">0.5% up to ₹10,000</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">ICICI Bank</td><td className="py-2 px-4 text-yellow-700">8.6% - 9.4%</td><td className="py-2 px-4">0.5% up to ₹15,000</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">PNB</td><td className="py-2 px-4 text-yellow-700">8.3% - 9.1%</td><td className="py-2 px-4">₹8,500 + GST</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">LIC Housing</td><td className="py-2 px-4 text-yellow-700">8.5% - 9.2%</td><td className="py-2 px-4">0.5% up to ₹15,000</td></tr>
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-gray-500 mt-2">*Rates vary by credit score (750+ gets best rates), loan amount, and LTV ratio</p>
+        <p className="text-xs text-ink-faint mt-2">*Rates vary by credit score (750+ gets best rates), loan amount, and LTV ratio</p>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
               <button className="w-full text-left px-5 py-4 flex items-center justify-between" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
-              {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+              {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
             </div>
           ))}
         </div>

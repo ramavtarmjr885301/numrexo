@@ -107,52 +107,52 @@
 //             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
 //             <nav aria-label="Breadcrumb" className="mb-5">
-//                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-//                     <li className="text-gray-700">/</li>
-//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">Converters</a><meta itemProp="position" content="2" /></li>
-//                     <li className="text-gray-700">/</li>
-//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Area Converter</span><meta itemProp="position" content="3" /></li>
+//                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+//                     <li className="text-ink-soft">/</li>
+//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
+//                     <li className="text-ink-soft">/</li>
+//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Converter</span><meta itemProp="position" content="3" /></li>
 //                 </ol>
 //             </nav>
 
 //             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-//                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-//                     <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Area Converter</h3><p className="text-xs text-gray-500 mt-1">Convert between area measurement units</p></div>
+//                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+//                     <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Area Converter</h3><p className="text-xs text-ink-faint mt-1">Convert between area measurement units</p></div>
 //                     <div className="p-6 space-y-4">
-//                         <div><label className="block text-xs font-semibold text-gray-400 mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+//                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
 //                         <div className="flex items-center gap-3">
-//                             <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
-//                             <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600">🔄</button>
-//                             <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+//                             <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+//                             <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200">🔄</button>
+//                             <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
 //                         </div>
 //                         <div className="flex gap-3">
 //                             <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
-//                             <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+//                             <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
 //                         </div>
 //                     </div>
 //                 </div>
 
-//                 <ResultBox title="Converted Area" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-teal-400" } : undefined} extraRows={[]} />
+//                 <ResultBox title="Converted Area" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-teal-600" } : undefined} extraRows={[]} />
 //             </div>
 
-//             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-3">About Area Converter</h2><p className="text-gray-400 text-sm leading-relaxed">Convert between square meters, square feet, acres, hectares, and more. Perfect for real estate, construction, and land measurement.</p></section>
+//             <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-3">About Area Converter</h2><p className="text-ink-faint text-sm leading-relaxed">Convert between square meters, square feet, acres, hectares, and more. Perfect for real estate, construction, and land measurement.</p></section>
 
-//             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Area Conversions</h2>
-//                 <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-//                     <table className="w-full text-sm"><thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">From</th><th className="text-left py-3 px-4 text-gray-400">To</th><th className="text-left py-3 px-4 text-gray-400">Multiply By</th></tr></thead>
+//             <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Common Area Conversions</h2>
+//                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+//                     <table className="w-full text-sm"><thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">From</th><th className="text-left py-3 px-4 text-ink-faint">To</th><th className="text-left py-3 px-4 text-ink-faint">Multiply By</th></tr></thead>
 //                         <tbody>
-//                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">10.7639</td></tr>
-//                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">43,560</td></tr>
-//                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-400">4,046.86</td></tr>
-//                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">2.471</td></tr>
-//                             <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">640</td></tr>
+//                             <tr className="border-b border-hairline"><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-700">10.7639</td></tr>
+//                             <tr className="border-b border-hairline"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-700">43,560</td></tr>
+//                             <tr className="border-b border-hairline"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-700">4,046.86</td></tr>
+//                             <tr className="border-b border-hairline"><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-700">2.471</td></tr>
+//                             <tr className="border-b border-hairline"><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-700">640</td></tr>
 //                         </tbody>
 //                     </table>
 //                 </div>
 //             </section>
 
-//             <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div></section>
+//             <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div></section>
 //         </>
 //     );
 // }
@@ -290,49 +290,49 @@ export default function AreaConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">Converters</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Area Converter</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Converter</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800"><h3 className="font-semibold">Area Converter</h3><p className="text-xs text-gray-500 mt-1">Convert between area measurement units</p></div>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Area Converter</h3><p className="text-xs text-ink-faint mt-1">Convert between area measurement units</p></div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex items-center gap-3">
-                            <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
-                            <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600">🔄</button>
-                            <div className="flex-1"><label className="block text-xs font-semibold text-gray-400 mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+                            <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">From</label><select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
+                            <button onClick={swapUnits} className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200">🔄</button>
+                            <div className="flex-1"><label className="block text-xs font-semibold text-ink-faint mb-2">To</label><select value={toUnit} onChange={(e) => setToUnit(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{AREA_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}</select></div>
                         </div>
                         <div className="flex gap-3">
                             <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
 
-                <ResultBox title="Converted Area" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-teal-400" } : undefined} extraRows={[]} />
+                <ResultBox title="Converted Area" isEmpty={!result} emptyIcon="📐" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-teal-600" } : undefined} extraRows={[]} />
             </div>
 
             {/* ── About Area Converter (SEO Content) ── */}
             <section aria-labelledby="about-area" className="mb-8">
-                <h2 id="about-area" className="text-xl font-semibold text-white mb-3">About the Area Converter</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 id="about-area" className="text-xl font-semibold text-ink mb-3">About the Area Converter</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Area is one of the most frequently measured quantities in everyday life, yet it is expressed in a
                     surprising variety of units depending on country, industry, and context. A real estate agent in
                     Delhi might quote a plot in square yards or Gaj, a farmer in rural Uttar Pradesh might describe a
                     field in Bigha, an American homebuyer thinks in square feet, and a surveyor working on a large
-                    tract of land might use acres or hectares. Our <strong className="text-gray-300">free area converter</strong>{" "}
+                    tract of land might use acres or hectares. Our <strong className="text-ink-soft">free area converter</strong>{" "}
                     removes the guesswork by instantly converting between seven common area units — square meters,
                     square kilometers, square miles, square feet, square yards, acres, and hectares — so you always
                     know exactly how much space you are dealing with.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you are comparing apartment listings, calculating how much land you own, estimating flooring
                     or landscaping material, or simply doing homework, this tool gives you accurate, instant results
                     without needing to remember complex conversion formulas.
@@ -341,11 +341,11 @@ export default function AreaConverter() {
 
             {/* ── Understanding Area Units (SEO Content) ── */}
             <section aria-labelledby="understanding-units" className="mb-8">
-                <h2 id="understanding-units" className="text-xl font-semibold text-white mb-4">Understanding Metric vs Imperial Area Units</h2>
+                <h2 id="understanding-units" className="text-xl font-semibold text-ink mb-4">Understanding Metric vs Imperial Area Units</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">Metric System</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">Metric System</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">
                             The metric system uses square meters (m²) as its base unit of area, scaling up to square
                             kilometers (km²) for large regions and hectares (ha) for land parcels. It is used officially
                             across most of the world, including India, Europe, and Australia, because it is
@@ -353,9 +353,9 @@ export default function AreaConverter() {
                             awkward fractions involved.
                         </p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Imperial System</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Imperial System</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">
                             The imperial system, still standard in the United States and common in property listings
                             worldwide, uses square feet (ft²) and square yards (yd²) for buildings and small plots, and
                             acres (ac) for larger land parcels. One acre historically represented the area a farmer
@@ -366,15 +366,15 @@ export default function AreaConverter() {
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Area Conversions</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <table className="w-full text-sm"><thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">From</th><th className="text-left py-3 px-4 text-gray-400">To</th><th className="text-left py-3 px-4 text-gray-400">Multiply By</th></tr></thead>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Common Area Conversions</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <table className="w-full text-sm"><thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">From</th><th className="text-left py-3 px-4 text-ink-faint">To</th><th className="text-left py-3 px-4 text-ink-faint">Multiply By</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">10.7639</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-400">43,560</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-400">4,046.86</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">2.471</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-400">640</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-700">10.7639</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Foot</td><td className="py-2 px-4 text-yellow-700">43,560</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Acre</td><td className="py-2 px-4">Square Meter</td><td className="py-2 px-4 text-yellow-700">4,046.86</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Hectare</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-700">2.471</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Square Mile</td><td className="py-2 px-4">Acre</td><td className="py-2 px-4 text-yellow-700">640</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -382,7 +382,7 @@ export default function AreaConverter() {
 
             {/* ── Real-World Use Cases (SEO Content) ── */}
             <section aria-labelledby="use-cases" className="mb-8">
-                <h2 id="use-cases" className="text-xl font-semibold text-white mb-4">Where Area Conversion Matters Most</h2>
+                <h2 id="use-cases" className="text-xl font-semibold text-ink mb-4">Where Area Conversion Matters Most</h2>
                 <ul className="space-y-3">
                     {[
                         {
@@ -402,9 +402,9 @@ export default function AreaConverter() {
                             desc: "Students and researchers dealing with geography, environmental science, or urban planning often need to convert between square kilometers and hectares when analysing land use, deforestation data, or city planning statistics.",
                         },
                     ].map((item, i) => (
-                        <li key={i} className="flex gap-3 text-sm text-gray-400">
-                            <span className="text-teal-400 mt-0.5 flex-shrink-0">•</span>
-                            <span><strong className="text-gray-300">{item.title} — </strong>{item.desc}</span>
+                        <li key={i} className="flex gap-3 text-sm text-ink-faint">
+                            <span className="text-teal-600 mt-0.5 flex-shrink-0">•</span>
+                            <span><strong className="text-ink-soft">{item.title} — </strong>{item.desc}</span>
                         </li>
                     ))}
                 </ul>
@@ -412,38 +412,38 @@ export default function AreaConverter() {
 
             {/* ── Indian Land Units Reference (SEO Content — long-tail keywords) ── */}
             <section aria-labelledby="indian-units" className="mb-8">
-                <h2 id="indian-units" className="text-xl font-semibold text-white mb-4">Traditional Indian Land Units Explained</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                <h2 id="indian-units" className="text-xl font-semibold text-ink mb-4">Traditional Indian Land Units Explained</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-4">
                     India uses a mix of metric, imperial, and regional land units, which can make property comparisons
                     confusing. Here is a quick reference for the most common traditional units still used in real
                     estate transactions across different states:
                 </p>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Unit</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Approx. Square Feet</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Common Region</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Unit</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Approx. Square Feet</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Common Region</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Gaj (1 sq. yard)</td><td className="py-2 px-4 text-yellow-400">9 sq ft</td><td className="py-2 px-4">Delhi, Haryana, Punjab</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Bigha (UP)</td><td className="py-2 px-4 text-yellow-400">~27,000 sq ft</td><td className="py-2 px-4">Uttar Pradesh</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Bigha (Punjab/Haryana)</td><td className="py-2 px-4 text-yellow-400">~9,070 sq ft</td><td className="py-2 px-4">Punjab, Haryana</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Guntha</td><td className="py-2 px-4 text-yellow-400">~1,089 sq ft</td><td className="py-2 px-4">Maharashtra, Karnataka</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Cent</td><td className="py-2 px-4 text-yellow-400">~435.6 sq ft</td><td className="py-2 px-4">Kerala, Tamil Nadu</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Gaj (1 sq. yard)</td><td className="py-2 px-4 text-yellow-700">9 sq ft</td><td className="py-2 px-4">Delhi, Haryana, Punjab</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Bigha (UP)</td><td className="py-2 px-4 text-yellow-700">~27,000 sq ft</td><td className="py-2 px-4">Uttar Pradesh</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Bigha (Punjab/Haryana)</td><td className="py-2 px-4 text-yellow-700">~9,070 sq ft</td><td className="py-2 px-4">Punjab, Haryana</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Guntha</td><td className="py-2 px-4 text-yellow-700">~1,089 sq ft</td><td className="py-2 px-4">Maharashtra, Karnataka</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Cent</td><td className="py-2 px-4 text-yellow-700">~435.6 sq ft</td><td className="py-2 px-4">Kerala, Tamil Nadu</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     Note: Bigha and similar traditional units vary significantly by state and even by district. Always
                     verify the local definition with a registered surveyor or the state land records department before
                     finalising any property transaction.
                 </p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div></section>
         </>
     );
 }

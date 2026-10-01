@@ -212,19 +212,19 @@ export default function MarkupCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
+                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Markup Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Markup Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -232,31 +232,31 @@ export default function MarkupCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Markup & Pricing Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Set your prices to make profit</p>
+                        <p className="text-xs text-ink-faint mt-1">Set your prices to make profit</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">What do you want to calculate?</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">What do you want to calculate?</label>
                             <div className="grid grid-cols-3 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "markup" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "markup" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("markup")}
                                 >
                                     Find Markup %
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "price" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "price" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("price")}
                                 >
                                     Find Selling Price
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "cost" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "cost" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("cost")}
                                 >
                                     Find Cost Price
@@ -267,29 +267,29 @@ export default function MarkupCalculator() {
                         {calcType === "markup" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Cost Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="100"
                                             value={costPrice}
                                             onChange={(e) => setCostPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Selling Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="150"
                                             value={sellingPrice}
                                             onChange={(e) => setSellingPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                                     </div>
                                 </div>
                             </>
@@ -298,29 +298,29 @@ export default function MarkupCalculator() {
                         {calcType === "price" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Cost Price ({symbol})</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Cost Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="100"
                                             value={costPrice}
                                             onChange={(e) => setCostPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Desired Markup (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Desired Markup (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="50"
                                             value={markupPercent}
                                             onChange={(e) => setMarkupPercent(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                             </>
@@ -329,29 +329,29 @@ export default function MarkupCalculator() {
                         {calcType === "cost" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Selling Price ({symbol})</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Selling Price ({symbol})</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="150"
                                             value={sellingPrice}
                                             onChange={(e) => setSellingPrice(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Markup Applied (%)</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Markup Applied (%)</label>
                                     <div className="relative">
                                         <input
                                             type="number"
                                             placeholder="50"
                                             value={markupPercent}
                                             onChange={(e) => setMarkupPercent(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                     </div>
                                 </div>
                             </>
@@ -366,7 +366,7 @@ export default function MarkupCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -383,11 +383,11 @@ export default function MarkupCalculator() {
                     mainResult={result ? {
                         label: calcType === "markup" ? "Markup Percentage" : calcType === "price" ? "Selling Price" : "Cost Price",
                         value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? money(result.sellingPrice, 2) : money(result.costPrice, 2),
-                        color: "text-green-400"
+                        color: "text-green-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Profit Margin", value: `${result.margin}%`, valueColor: "text-yellow-400" },
-                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-400" },
+                        { label: "Profit Margin", value: `${result.margin}%`, valueColor: "text-yellow-700" },
+                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-600" },
                         ...(calcType === "markup" ? [
                             { label: "Cost Price", value: money(result.cost, 2) },
                             { label: "Selling Price", value: money(result.selling, 2) },
@@ -406,64 +406,64 @@ export default function MarkupCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Markup Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Markup Calculator</strong> helps you set the right prices for your products. Whether you're a retailer, manufacturer, or service provider, knowing your markup is essential for profitability.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Markup Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Markup Calculator</strong> helps you set the right prices for your products. Whether you're a retailer, manufacturer, or service provider, knowing your markup is essential for profitability.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Markup is the percentage you add to your cost price to determine selling price. Don't confuse it with margin — markup is based on cost, margin is based on selling price. Use this calculator to find markup, selling price, or cost price.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Markup Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Markup Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select what you want to calculate: <strong className="text-white">Markup %</strong>, <strong className="text-white">Selling Price</strong>, or <strong className="text-white">Cost Price</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the two known values (Cost & Selling for markup, Cost & Markup for selling price, Selling & Markup for cost price).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> View markup percentage, profit margin, and profit amount.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select what you want to calculate: <strong className="text-ink">Markup %</strong>, <strong className="text-ink">Selling Price</strong>, or <strong className="text-ink">Cost Price</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the two known values (Cost & Selling for markup, Cost & Markup for selling price, Selling & Markup for cost price).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> View markup percentage, profit margin, and profit amount.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Markup Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Markup Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Set Profitable Prices</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Ensure every product sold covers costs and generates profit. Avoid under-pricing that eats your margins or over-pricing that kills sales.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Set Profitable Prices</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Ensure every product sold covers costs and generates profit. Avoid under-pricing that eats your margins or over-pricing that kills sales.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Compare Competitors</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Reverse-engineer competitor pricing. Calculate their markup and profit margin from selling price.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Compare Competitors</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Reverse-engineer competitor pricing. Calculate their markup and profit margin from selling price.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Multiple Products</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Apply different markups to different product categories. High markup for premium items, lower for volume products.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Multiple Products</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Apply different markups to different product categories. High markup for premium items, lower for volume products.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Discount Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate how much discount you can offer without losing money. Know your break-even point.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Discount Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate how much discount you can offer without losing money. Know your break-even point.</p>
                     </div>
                 </div>
             </section>
 
             {/* Markup vs Margin Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Markup vs Margin — Don't Confuse Them!</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-4">Markup vs Margin — Don't Confuse Them!</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <p className="text-sm text-gray-400"><strong className="text-white">Same Example:</strong> Cost $100, Selling $150</p>
-                            <p className="text-sm text-blue-400 mt-2">Markup = 50% (based on cost)</p>
-                            <p className="text-sm text-green-400">Margin = 33.3% (based on selling price)</p>
+                            <p className="text-sm text-ink-faint"><strong className="text-ink">Same Example:</strong> Cost $100, Selling $150</p>
+                            <p className="text-sm text-blue-600 mt-2">Markup = 50% (based on cost)</p>
+                            <p className="text-sm text-green-600">Margin = 33.3% (based on selling price)</p>
                         </div>
-                        <div className="border-t md:border-t-0 md:border-l border-gray-800 pt-4 md:pt-0 md:pl-4">
-                            <p className="text-sm text-gray-400"><strong className="text-white">Quick Conversion:</strong></p>
-                            <p className="text-sm text-gray-400">Margin = Markup ÷ (1 + Markup)</p>
-                            <p className="text-sm text-gray-400">Markup = Margin ÷ (1 - Margin)</p>
+                        <div className="border-t md:border-t-0 md:border-l border-hairline pt-4 md:pt-0 md:pl-4">
+                            <p className="text-sm text-ink-faint"><strong className="text-ink">Quick Conversion:</strong></p>
+                            <p className="text-sm text-ink-faint">Margin = Markup ÷ (1 + Markup)</p>
+                            <p className="text-sm text-ink-faint">Markup = Margin ÷ (1 - Margin)</p>
                         </div>
                     </div>
                 </div>
@@ -471,43 +471,43 @@ export default function MarkupCalculator() {
 
             {/* Markup Formulas */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Markup Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Markup Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Markup %</h3>
-                        <p className="text-white font-mono text-xs">(SP - CP) ÷ CP × 100</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Markup %</h3>
+                        <p className="text-ink font-mono text-xs">(SP - CP) ÷ CP × 100</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Selling Price</h3>
-                        <p className="text-white font-mono text-xs">CP × (1 + Markup/100)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Selling Price</h3>
+                        <p className="text-ink font-mono text-xs">CP × (1 + Markup/100)</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Cost Price</h3>
-                        <p className="text-white font-mono text-xs">SP ÷ (1 + Markup/100)</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">Cost Price</h3>
+                        <p className="text-ink font-mono text-xs">SP ÷ (1 + Markup/100)</p>
                     </div>
                 </div>
             </section>
 
             {/* Markup Examples Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Typical Markup by Industry</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Typical Markup by Industry</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Industry</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Typical Markup</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Equivalent Margin</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Industry</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Typical Markup</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Equivalent Margin</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {MARKUP_EXAMPLES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.industry}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.typicalMarkup}</td>
-                                    <td className="py-3 px-4 text-green-400">{row.typicalMargin}</td>
-                                    <td className="py-3 px-4 text-gray-500 text-xs">{row.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.industry}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.typicalMarkup}</td>
+                                    <td className="py-3 px-4 text-green-600">{row.typicalMargin}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{row.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -517,53 +517,53 @@ export default function MarkupCalculator() {
 
             {/* Pricing Strategy Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Pricing Strategy Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Pricing Strategy Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Research competitors:</strong> Don't price in a vacuum. Know what similar products sell for.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Consider perceived value:</strong> Higher price can signal higher quality for luxury items.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Test different prices:</strong> A/B test pricing to find the sweet spot between volume and margin.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Include all costs:</strong> Shipping, payment processing, returns, storage — all reduce your actual profit.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Research competitors:</strong> Don't price in a vacuum. Know what similar products sell for.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Consider perceived value:</strong> Higher price can signal higher quality for luxury items.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Test different prices:</strong> A/B test pricing to find the sweet spot between volume and margin.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Include all costs:</strong> Shipping, payment processing, returns, storage — all reduce your actual profit.</span></li>
                 </ul>
             </section>
 
             {/* Important Things */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Markup is not profit</strong> — Your actual profit also depends on how many units you sell. High markup with low sales = low profit.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Markup is not profit</strong> — Your actual profit also depends on how many units you sell. High markup with low sales = low profit.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Consider your market</strong> — Too high markup may reduce sales. Too low markup may leave money on the table. Research competitor pricing.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Consider your market</strong> — Too high markup may reduce sales. Too low markup may leave money on the table. Research competitor pricing.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Different products, different markups</strong> — You can have high markup on some items (loss leaders) and lower on others to drive traffic.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Different products, different markups</strong> — You can have high markup on some items (loss leaders) and lower on others to drive traffic.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Include all costs</strong> — Your cost price should include shipping, packaging, overhead, and other expenses, not just the product cost.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Include all costs</strong> — Your cost price should include shipping, packaging, overhead, and other expenses, not just the product cost.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

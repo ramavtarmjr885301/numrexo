@@ -122,31 +122,31 @@ export default function GSTCalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: GST_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-          <li className="text-gray-700">/</li>
-          <li><a href="https://numrexo.com/tax" className="hover:text-gray-300">Tax Calculators</a></li>
-          <li className="text-gray-700">/</li>
-          <li><span className="text-gray-300">GST Calculator</span></li>
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><a href="https://numrexo.com/tax" className="hover:text-ink-soft">Tax Calculators</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><span className="text-ink-soft">GST Calculator</span></li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">GST Calculation</h3>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Amount</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Amount</label>
               <div className="relative">
-                <input type="number" placeholder="10000" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                <input type="number" placeholder="10000" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">GST Rate</label>
-              <select value={gstRate} onChange={(e) => setGstRate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">GST Rate</label>
+              <select value={gstRate} onChange={(e) => setGstRate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer">
                 <option value="0">0% – Exempted (Essential goods)</option>
                 <option value="3">3% – Gold, Silver, Precious metals</option>
                 <option value="5">5% – Essential goods (edible oil, sugar)</option>
@@ -156,22 +156,22 @@ export default function GSTCalculator() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Type</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Calculation Type</label>
               <div className="grid grid-cols-2 gap-3">
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "exclusive" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("exclusive")}>Add GST</button>
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "inclusive" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("inclusive")}>Remove GST</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "exclusive" ? "bg-green-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("exclusive")}>Add GST</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "inclusive" ? "bg-green-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("inclusive")}>Remove GST</button>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Transaction Type</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Transaction Type</label>
               <div className="grid grid-cols-2 gap-3">
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${transactionType === "intrastate" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setTransactionType("intrastate")}>Intra-State (CGST+SGST)</button>
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${transactionType === "interstate" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setTransactionType("interstate")}>Inter-State (IGST)</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${transactionType === "intrastate" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setTransactionType("intrastate")}>Intra-State (CGST+SGST)</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${transactionType === "interstate" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setTransactionType("interstate")}>Inter-State (IGST)</button>
               </div>
             </div>
             <div className="flex gap-3">
               <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate GST →</button>
-              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
             </div>
           </div>
         </div>
@@ -181,17 +181,17 @@ export default function GSTCalculator() {
           isEmpty={!result}
           emptyIcon="🧾"
           emptyText="Enter amount to calculate GST"
-          mainResult={result ? { label: calcType === "exclusive" ? "Total Amount (with GST)" : "Original Amount (without GST)", value: `₹${formatNumber(calcType === "exclusive" ? result.post : result.pre)}`, color: "text-green-400" } : undefined}
+          mainResult={result ? { label: calcType === "exclusive" ? "Total Amount (with GST)" : "Original Amount (without GST)", value: `₹${formatNumber(calcType === "exclusive" ? result.post : result.pre)}`, color: "text-green-600" } : undefined}
           extraRows={result ? [
             { label: "Pre-GST Amount", value: `₹${formatNumber(result.pre)}` },
-            { label: `Total GST (${result.gstRate}%)`, value: `₹${formatNumber(result.gst)}`, valueColor: "text-green-400" },
+            { label: `Total GST (${result.gstRate}%)`, value: `₹${formatNumber(result.gst)}`, valueColor: "text-green-600" },
             ...(transactionType === "intrastate" ? [
               { label: `CGST (${parseFloat(result.gstRate) / 2}%)`, value: `₹${formatNumber(result.cgst)}` },
               { label: `SGST (${parseFloat(result.gstRate) / 2}%)`, value: `₹${formatNumber(result.sgst)}` },
             ] : [
               { label: `IGST (${result.gstRate}%)`, value: `₹${formatNumber(result.igst)}` },
             ]),
-            { label: "Final Amount", value: `₹${formatNumber(result.post)}`, valueColor: "text-green-400" },
+            { label: "Final Amount", value: `₹${formatNumber(result.post)}`, valueColor: "text-green-600" },
           ] : undefined}
         />
       </div>
@@ -200,86 +200,86 @@ export default function GSTCalculator() {
 
       {/* About Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About GST Calculator</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          Our <strong className="text-gray-300">GST calculator</strong> helps you compute Goods and Services Tax for all Indian GST slabs (0%, 3%, 5%, 12%, 18%, 28%). Perfect for businesses, accountants, and consumers to calculate tax on purchases, sales, and invoices.
+        <h2 className="text-xl font-semibold text-ink mb-3">About GST Calculator</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          Our <strong className="text-ink-soft">GST calculator</strong> helps you compute Goods and Services Tax for all Indian GST slabs (0%, 3%, 5%, 12%, 18%, 28%). Perfect for businesses, accountants, and consumers to calculate tax on purchases, sales, and invoices.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           The calculator supports both Add GST (calculate tax on original price) and Remove GST (extract original price from GST-inclusive amount), plus intra-state (CGST+SGST) and inter-state (IGST) transactions.
         </p>
       </section>
 
       {/* How to Use Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">How to Use This GST Calculator</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">How to Use This GST Calculator</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">amount</strong> (price of product/service).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select the <strong className="text-white">GST rate</strong> (0%, 3%, 5%, 12%, 18%, or 28%).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Choose <strong className="text-white">calculation type</strong> — Add GST (tax on original) or Remove GST (extract from total).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Select <strong className="text-white">transaction type</strong> — Intra-State (CGST+SGST) or Inter-State (IGST).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate GST"</strong> to see the tax breakdown.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different scenario.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">amount</strong> (price of product/service).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select the <strong className="text-ink">GST rate</strong> (0%, 3%, 5%, 12%, 18%, or 28%).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Choose <strong className="text-ink">calculation type</strong> — Add GST (tax on original) or Remove GST (extract from total).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Select <strong className="text-ink">transaction type</strong> — Intra-State (CGST+SGST) or Inter-State (IGST).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate GST"</strong> to see the tax breakdown.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and calculate a different scenario.</p>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Why Use a GST Calculator?</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Why Use a GST Calculator?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Business Invoicing</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Generate accurate GST invoices for customers. Calculate CGST, SGST, or IGST correctly based on transaction type.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Business Invoicing</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Generate accurate GST invoices for customers. Calculate CGST, SGST, or IGST correctly based on transaction type.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Tax Compliance</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Ensure correct GST calculation for GST return filing (GSTR-1, GSTR-3B). Avoid penalties for incorrect tax calculation.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Tax Compliance</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Ensure correct GST calculation for GST return filing (GSTR-1, GSTR-3B). Avoid penalties for incorrect tax calculation.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Input Tax Credit</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Calculate GST on purchases to claim input tax credit. Reduce your net GST liability legally.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Input Tax Credit</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Calculate GST on purchases to claim input tax credit. Reduce your net GST liability legally.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Price Comparison</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Compare GST-inclusive vs GST-exclusive prices. Know the actual tax you're paying as a consumer.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Price Comparison</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Compare GST-inclusive vs GST-exclusive prices. Know the actual tax you're paying as a consumer.</p>
           </div>
         </div>
       </section>
 
       {/* GST Rate Slabs Table */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">GST Rate Slabs by Category</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-4">GST Rate Slabs by Category</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-left py-3 px-4 text-gray-400">GST Rate</th>
-                <th className="text-left py-3 px-4 text-gray-400">Product / Service Category</th>
+              <tr className="border-b border-hairline">
+                <th className="text-left py-3 px-4 text-ink-faint">GST Rate</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Product / Service Category</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-green-400">0%</td>
-                <td className="py-2 px-4 text-gray-300">Fresh milk, eggs, vegetables, bread, salt, books, healthcare, education</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-green-600">0%</td>
+                <td className="py-2 px-4 text-ink-soft">Fresh milk, eggs, vegetables, bread, salt, books, healthcare, education</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-yellow-400">3%</td>
-                <td className="py-2 px-4 text-gray-300">Gold, silver, precious metals, jewellery</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-yellow-700">3%</td>
+                <td className="py-2 px-4 text-ink-soft">Gold, silver, precious metals, jewellery</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-yellow-400">5%</td>
-                <td className="py-2 px-4 text-gray-300">Packed food, tea, coffee, edible oil, sugar, medicine, railway tickets</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-yellow-700">5%</td>
+                <td className="py-2 px-4 text-ink-soft">Packed food, tea, coffee, edible oil, sugar, medicine, railway tickets</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-orange-400">12%</td>
-                <td className="py-2 px-4 text-gray-300">Processed food, butter, ghee, dry fruits, cell phones, Ayurvedic medicines</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-orange-600">12%</td>
+                <td className="py-2 px-4 text-ink-soft">Processed food, butter, ghee, dry fruits, cell phones, Ayurvedic medicines</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-orange-400">18%</td>
-                <td className="py-2 px-4 text-gray-300">Soaps, hair oil, toothpaste, AC, fridge, washing machine, computers, restaurant bills, telecom, financial services</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-orange-600">18%</td>
+                <td className="py-2 px-4 text-ink-soft">Soaps, hair oil, toothpaste, AC, fridge, washing machine, computers, restaurant bills, telecom, financial services</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
-                <td className="py-2 px-4 font-semibold text-red-400">28%</td>
-                <td className="py-2 px-4 text-gray-300">Cars (+1-22% cess), tobacco, aerated drinks, high-end motorcycles, luxury goods</td>
+              <tr className="border-b border-hairline">
+                <td className="py-2 px-4 font-semibold text-red-600">28%</td>
+                <td className="py-2 px-4 text-ink-soft">Cars (+1-22% cess), tobacco, aerated drinks, high-end motorcycles, luxury goods</td>
               </tr>
             </tbody>
           </table>
@@ -288,67 +288,67 @@ export default function GSTCalculator() {
 
       {/* GST Registration Thresholds */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">GST Registration Thresholds (India)</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-3">GST Registration Thresholds (India)</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
-            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Category</th><th className="text-left py-3 px-4 text-gray-400">Threshold Limit</th></tr></thead>
+            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Category</th><th className="text-left py-3 px-4 text-ink-faint">Threshold Limit</th></tr></thead>
             <tbody>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Goods (Normal States)</td><td className="py-2 px-4 text-yellow-400">₹40 lakhs</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Goods (Special Category States)</td><td className="py-2 px-4 text-yellow-400">₹20 lakhs</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Services</td><td className="py-2 px-4 text-yellow-400">₹20 lakhs</td></tr>
-              <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Special Category States (Services)</td><td className="py-2 px-4 text-yellow-400">₹10 lakhs</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Goods (Normal States)</td><td className="py-2 px-4 text-yellow-700">₹40 lakhs</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Goods (Special Category States)</td><td className="py-2 px-4 text-yellow-700">₹20 lakhs</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Services</td><td className="py-2 px-4 text-yellow-700">₹20 lakhs</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Special Category States (Services)</td><td className="py-2 px-4 text-yellow-700">₹10 lakhs</td></tr>
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-gray-500 mt-2">*Special category states: Himachal Pradesh, Uttarakhand, North-Eastern states, Jammu & Kashmir</p>
+        <p className="text-xs text-ink-faint mt-2">*Special category states: Himachal Pradesh, Uttarakhand, North-Eastern states, Jammu & Kashmir</p>
       </section>
 
       {/* GST Formula */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">GST Formula</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">GST Formula</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">Add GST</h3>
-            <p className="text-white font-mono text-xs">GST Amount = Original Price × (GST Rate ÷ 100)</p>
-            <p className="text-white font-mono text-xs mt-1">Total Price = Original Price + GST Amount</p>
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">Add GST</h3>
+            <p className="text-ink font-mono text-xs">GST Amount = Original Price × (GST Rate ÷ 100)</p>
+            <p className="text-ink font-mono text-xs mt-1">Total Price = Original Price + GST Amount</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">Remove GST</h3>
-            <p className="text-white font-mono text-xs">Original Price = Total Price ÷ (1 + GST Rate ÷ 100)</p>
-            <p className="text-white font-mono text-xs mt-1">GST Amount = Total Price - Original Price</p>
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">Remove GST</h3>
+            <p className="text-ink font-mono text-xs">Original Price = Total Price ÷ (1 + GST Rate ÷ 100)</p>
+            <p className="text-ink font-mono text-xs mt-1">GST Amount = Total Price - Original Price</p>
           </div>
         </div>
       </section>
 
       {/* GST Return Filing Guide */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">GST Return Filing Guide</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-3">GST Return Filing Guide</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-left py-3 px-4 text-gray-400">Return Form</th>
-                <th className="text-left py-3 px-4 text-gray-400">Due Date</th>
-                <th className="text-left py-3 px-4 text-gray-400">Details</th>
+              <tr className="border-b border-hairline">
+                <th className="text-left py-3 px-4 text-ink-faint">Return Form</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Due Date</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Details</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-800/50">
+              <tr className="border-b border-hairline">
                 <td className="py-2 px-4">GSTR-1</td>
                 <td className="py-2 px-4">11th of next month</td>
                 <td className="py-2 px-4">Outward supplies (sales)</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
+              <tr className="border-b border-hairline">
                 <td className="py-2 px-4">GSTR-3B</td>
                 <td className="py-2 px-4">20th of next month</td>
                 <td className="py-2 px-4">Monthly summary return</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
+              <tr className="border-b border-hairline">
                 <td className="py-2 px-4">GSTR-9</td>
                 <td className="py-2 px-4">December 31st</td>
                 <td className="py-2 px-4">Annual return</td>
               </tr>
-              <tr className="border-b border-gray-800/50">
+              <tr className="border-b border-hairline">
                 <td className="py-2 px-4">CMP-08</td>
                 <td className="py-2 px-4">18th of next month</td>
                 <td className="py-2 px-4">Composition scheme</td>
@@ -360,15 +360,15 @@ export default function GSTCalculator() {
 
       {/* FAQ Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-              <button className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+              <button className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
-              {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+              {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
             </div>
           ))}
         </div>

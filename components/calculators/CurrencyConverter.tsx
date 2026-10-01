@@ -169,39 +169,39 @@
 //       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CURRENCY_SCHEMA }} />
 
 //       <nav aria-label="Breadcrumb" className="mb-5">
-//         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-//           <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-//           <li className="text-gray-700">/</li>
-//           <li><a href="https://numrexo.com/conversion" className="hover:text-gray-300">Converters</a></li>
-//           <li className="text-gray-700">/</li>
-//           <li><span className="text-gray-300">Currency Converter</span></li>
+//         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+//           <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+//           <li className="text-ink-soft">/</li>
+//           <li><a href="https://numrexo.com/conversion" className="hover:text-ink-soft">Converters</a></li>
+//           <li className="text-ink-soft">/</li>
+//           <li><span className="text-ink-soft">Currency Converter</span></li>
 //         </ol>
 //       </nav>
 
 //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-//         <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-//           <div className="px-6 py-4 border-b border-gray-800">
+//         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+//           <div className="px-6 py-4 border-b border-hairline">
 //             <h3 className="font-semibold">Currency Converter</h3>
-//             <p className="text-xs text-gray-500 mt-1">Last updated: {lastUpdated}</p>
+//             <p className="text-xs text-ink-faint mt-1">Last updated: {lastUpdated}</p>
 //           </div>
 //           <div className="p-6 space-y-4">
 //             <div>
-//               <label className="block text-xs font-semibold text-gray-400 mb-2">Amount</label>
+//               <label className="block text-xs font-semibold text-ink-faint mb-2">Amount</label>
 //               <input
 //                 type="number"
 //                 placeholder="100"
 //                 value={amount}
 //                 onChange={(e) => setAmount(e.target.value)}
-//                 className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+//                 className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 //               />
 //             </div>
 //             <div className="flex items-center gap-3">
 //               <div className="flex-1">
-//                 <label className="block text-xs font-semibold text-gray-400 mb-2">From</label>
+//                 <label className="block text-xs font-semibold text-ink-faint mb-2">From</label>
 //                 <select
 //                   value={fromCurrency}
 //                   onChange={(e) => setFromCurrency(e.target.value)}
-//                   className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+//                   className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
 //                 >
 //                   {CURRENCIES.map((c) => (
 //                     <option key={c.code} value={c.code}>
@@ -212,17 +212,17 @@
 //               </div>
 //               <button
 //                 onClick={swapCurrencies}
-//                 className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-lg"
+//                 className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-lg"
 //                 aria-label="Swap currencies"
 //               >
 //                 🔄
 //               </button>
 //               <div className="flex-1">
-//                 <label className="block text-xs font-semibold text-gray-400 mb-2">To</label>
+//                 <label className="block text-xs font-semibold text-ink-faint mb-2">To</label>
 //                 <select
 //                   value={toCurrency}
 //                   onChange={(e) => setToCurrency(e.target.value)}
-//                   className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+//                   className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
 //                 >
 //                   {CURRENCIES.map((c) => (
 //                     <option key={c.code} value={c.code}>
@@ -241,7 +241,7 @@
 //               </button>
 //               <button
 //                 onClick={resetForm}
-//                 className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+//                 className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
 //               >
 //                 Reset
 //               </button>
@@ -257,7 +257,7 @@
 //           mainResult={result ? {
 //             label: `${result.fromSymbol}${result.fromAmount} ${result.fromCurrency} =`,
 //             value: `${result.toSymbol}${result.convertedAmount} ${result.toCurrency}`,
-//             color: "text-teal-400",
+//             color: "text-teal-600",
 //           } : undefined}
 //           extraRows={result ? [
 //             { label: `1 ${result.fromCurrency} =`, value: `${result.toSymbol}${result.rate} ${result.toCurrency}` },
@@ -271,54 +271,54 @@
 
 //       {/* About Section */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-3">About Currency Converter</h2>
-//         <p className="text-gray-400 text-sm leading-relaxed mb-3">
-//           Our <strong className="text-gray-300">free currency converter</strong> provides real-time exchange rates for 20+ major world currencies including USD, EUR, GBP, INR, JPY, and CNY. Whether you're planning international travel, sending money overseas, or tracking foreign investments, get accurate conversions instantly.
+//         <h2 className="text-xl font-semibold text-ink mb-3">About Currency Converter</h2>
+//         <p className="text-ink-faint text-sm leading-relaxed mb-3">
+//           Our <strong className="text-ink-soft">free currency converter</strong> provides real-time exchange rates for 20+ major world currencies including USD, EUR, GBP, INR, JPY, and CNY. Whether you're planning international travel, sending money overseas, or tracking foreign investments, get accurate conversions instantly.
 //         </p>
-//         <p className="text-gray-400 text-sm leading-relaxed">
+//         <p className="text-ink-faint text-sm leading-relaxed">
 //           Exchange rates are updated daily using market data from leading financial institutions. For the most accurate international money transfers, always check with your bank or transfer service for final rates including fees.
 //         </p>
 //       </section>
 
 //       {/* How to Use Section */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-3">How to Use This Currency Converter</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Currency Converter</h2>
 //         <div className="space-y-3">
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">amount</strong> you want to convert.</p>
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select your <strong className="text-white">from currency</strong> (the currency you have).</p>
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select your <strong className="text-white">to currency</strong> (the currency you want).</p>
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Convert"</strong> to see the converted amount and exchange rate.</p>
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">swap button (🔄)</strong> to quickly reverse the currencies.</p>
-//           <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Click <strong className="text-white">Reset</strong> to clear all inputs and start a new conversion.</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">amount</strong> you want to convert.</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select your <strong className="text-ink">from currency</strong> (the currency you have).</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select your <strong className="text-ink">to currency</strong> (the currency you want).</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Convert"</strong> to see the converted amount and exchange rate.</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">swap button (🔄)</strong> to quickly reverse the currencies.</p>
+//           <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Click <strong className="text-ink">Reset</strong> to clear all inputs and start a new conversion.</p>
 //         </div>
 //       </section>
 
 //       {/* Benefits Section */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-3">Why Use Our Currency Converter</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-3">Why Use Our Currency Converter</h2>
 //         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//           <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ International Travel</h3>
-//             <p className="text-gray-400 text-xs leading-relaxed">Plan your travel budget by converting your home currency to destination currency. Know exactly how much you'll spend on hotels, meals, and activities.</p>
+//           <div className="bg-surface border border-hairline rounded-xl p-4">
+//             <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ International Travel</h3>
+//             <p className="text-ink-faint text-xs leading-relaxed">Plan your travel budget by converting your home currency to destination currency. Know exactly how much you'll spend on hotels, meals, and activities.</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Online Shopping</h3>
-//             <p className="text-gray-400 text-xs leading-relaxed">Shop from international websites with confidence. Convert prices to your local currency before buying to avoid exchange rate surprises.</p>
+//           <div className="bg-surface border border-hairline rounded-xl p-4">
+//             <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Online Shopping</h3>
+//             <p className="text-ink-faint text-xs leading-relaxed">Shop from international websites with confidence. Convert prices to your local currency before buying to avoid exchange rate surprises.</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Freelance & Business</h3>
-//             <p className="text-gray-400 text-xs leading-relaxed">Calculate international payments, invoices, and earnings in your local currency. Track exchange rate fluctuations for better financial planning.</p>
+//           <div className="bg-surface border border-hairline rounded-xl p-4">
+//             <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Freelance & Business</h3>
+//             <p className="text-ink-faint text-xs leading-relaxed">Calculate international payments, invoices, and earnings in your local currency. Track exchange rate fluctuations for better financial planning.</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Investment Tracking</h3>
-//             <p className="text-gray-400 text-xs leading-relaxed">Monitor foreign stock, crypto, and real estate investments. Convert investment values to your home currency for accurate portfolio tracking.</p>
+//           <div className="bg-surface border border-hairline rounded-xl p-4">
+//             <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Investment Tracking</h3>
+//             <p className="text-ink-faint text-xs leading-relaxed">Monitor foreign stock, crypto, and real estate investments. Convert investment values to your home currency for accurate portfolio tracking.</p>
 //           </div>
 //         </div>
 //       </section>
 
 //       {/* Major Currency Pairs */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-4">Major Currency Pairs & Exchange Rates</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-4">Major Currency Pairs & Exchange Rates</h2>
 //         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 //           {[
 //             { from: "USD", to: "EUR", rate: EXCHANGE_RATES.EUR / EXCHANGE_RATES.USD },
@@ -328,9 +328,9 @@
 //             { from: "EUR", to: "USD", rate: EXCHANGE_RATES.USD / EXCHANGE_RATES.EUR },
 //             { from: "GBP", to: "USD", rate: EXCHANGE_RATES.USD / EXCHANGE_RATES.GBP },
 //           ].map((pair, i) => (
-//             <div key={i} className="bg-[#111827] border border-gray-800 rounded-lg p-3 text-center">
-//               <div className="text-sm font-semibold text-gray-300">{pair.from} → {pair.to}</div>
-//               <div className="text-lg font-mono text-teal-400">{pair.rate.toFixed(4)}</div>
+//             <div key={i} className="bg-surface border border-hairline rounded-lg p-3 text-center">
+//               <div className="text-sm font-semibold text-ink-soft">{pair.from} → {pair.to}</div>
+//               <div className="text-lg font-mono text-teal-600">{pair.rate.toFixed(4)}</div>
 //             </div>
 //           ))}
 //         </div>
@@ -338,41 +338,41 @@
 
 //       {/* Tips for Best Exchange Rates */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-3">Tips for Getting the Best Exchange Rates</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-3">Tips for Getting the Best Exchange Rates</h2>
 //         <ul className="space-y-2">
-//           <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Avoid airports & hotels:</strong> They charge 5-15% markup. Exchange at local banks or ATMs instead.</span></li>
-//           <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use online transfer services:</strong> Wise, Revolut, OFX offer 0.5-1% fees vs bank 3-5%.</span></li>
-//           <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Exchange larger amounts:</strong> Fees are often fixed, so larger amounts reduce percentage cost.</span></li>
-//           <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">Monitor rate trends:</strong> Use our currency converter daily to spot favorable rates before exchanging.</span></li>
-//           <li className="flex gap-3 text-sm text-gray-400"><span className="text-teal-400 mt-0.5">✓</span><span><strong className="text-gray-300">No-foreign-fee credit cards:</strong> Save 3% on international purchases compared to regular cards.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Avoid airports & hotels:</strong> They charge 5-15% markup. Exchange at local banks or ATMs instead.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use online transfer services:</strong> Wise, Revolut, OFX offer 0.5-1% fees vs bank 3-5%.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Exchange larger amounts:</strong> Fees are often fixed, so larger amounts reduce percentage cost.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Monitor rate trends:</strong> Use our currency converter daily to spot favorable rates before exchanging.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">No-foreign-fee credit cards:</strong> Save 3% on international purchases compared to regular cards.</span></li>
 //         </ul>
 //       </section>
 
 //       {/* Factors Affecting Exchange Rates */}
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-3">Factors That Affect Currency Exchange Rates</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-3">Factors That Affect Currency Exchange Rates</h2>
 //         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-//           <div className="bg-[#111827] border border-gray-800 rounded-lg p-3">
-//             <span className="text-blue-400 font-semibold">Interest Rates</span>
-//             <p className="text-gray-500 text-xs mt-1">Higher rates attract foreign investors → Currency strengthens</p>
+//           <div className="bg-surface border border-hairline rounded-lg p-3">
+//             <span className="text-blue-600 font-semibold">Interest Rates</span>
+//             <p className="text-ink-faint text-xs mt-1">Higher rates attract foreign investors → Currency strengthens</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-lg p-3">
-//             <span className="text-blue-400 font-semibold">Inflation</span>
-//             <p className="text-gray-500 text-xs mt-1">Lower inflation → Currency strengthens (purchasing power increases)</p>
+//           <div className="bg-surface border border-hairline rounded-lg p-3">
+//             <span className="text-blue-600 font-semibold">Inflation</span>
+//             <p className="text-ink-faint text-xs mt-1">Lower inflation → Currency strengthens (purchasing power increases)</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-lg p-3">
-//             <span className="text-blue-400 font-semibold">Political Stability</span>
-//             <p className="text-gray-500 text-xs mt-1">Stable countries attract investment → Currency strengthens</p>
+//           <div className="bg-surface border border-hairline rounded-lg p-3">
+//             <span className="text-blue-600 font-semibold">Political Stability</span>
+//             <p className="text-ink-faint text-xs mt-1">Stable countries attract investment → Currency strengthens</p>
 //           </div>
-//           <div className="bg-[#111827] border border-gray-800 rounded-lg p-3">
-//             <span className="text-blue-400 font-semibold">Trade Balance</span>
-//             <p className="text-gray-500 text-xs mt-1">Exports  Imports → Currency strengthens (higher demand)</p>
+//           <div className="bg-surface border border-hairline rounded-lg p-3">
+//             <span className="text-blue-600 font-semibold">Trade Balance</span>
+//             <p className="text-ink-faint text-xs mt-1">Exports  Imports → Currency strengthens (higher demand)</p>
 //           </div>
 //         </div>
 //       </section>
 
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-4">Popular Currency Pairs & Rates</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-4">Popular Currency Pairs & Rates</h2>
 //         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 //           {[
 //             { from: "USD", to: "EUR", rate: EXCHANGE_RATES.EUR / EXCHANGE_RATES.USD },
@@ -382,22 +382,22 @@
 //             { from: "EUR", to: "USD", rate: EXCHANGE_RATES.USD / EXCHANGE_RATES.EUR },
 //             { from: "GBP", to: "USD", rate: EXCHANGE_RATES.USD / EXCHANGE_RATES.GBP },
 //           ].map((pair, i) => (
-//             <div key={i} className="bg-[#111827] border border-gray-800 rounded-lg p-3 text-center">
-//               <div className="text-sm font-semibold text-gray-300">{pair.from} → {pair.to}</div>
-//               <div className="text-lg font-mono text-teal-400">{pair.rate.toFixed(4)}</div>
+//             <div key={i} className="bg-surface border border-hairline rounded-lg p-3 text-center">
+//               <div className="text-sm font-semibold text-ink-soft">{pair.from} → {pair.to}</div>
+//               <div className="text-lg font-mono text-teal-600">{pair.rate.toFixed(4)}</div>
 //             </div>
 //           ))}
 //         </div>
 //       </section>
 
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-4">Supported Currencies</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-4">Supported Currencies</h2>
 //         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
 //           {CURRENCIES.map((currency) => (
-//             <div key={currency.code} className="bg-[#111827] border border-gray-800 rounded-lg p-2 flex items-center justify-between">
+//             <div key={currency.code} className="bg-surface border border-hairline rounded-lg p-2 flex items-center justify-between">
 //               <div>
-//                 <span className="font-mono font-semibold text-gray-300">{currency.code}</span>
-//                 <p className="text-xs text-gray-500">{currency.name}</p>
+//                 <span className="font-mono font-semibold text-ink-soft">{currency.code}</span>
+//                 <p className="text-xs text-ink-faint">{currency.name}</p>
 //               </div>
 //               <span className="text-lg">{currency.symbol}</span>
 //             </div>
@@ -406,27 +406,27 @@
 //       </section>
 
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-4">Currency Conversion Formula</h2>
-//         <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-//           <p className="text-white font-mono text-sm mb-2">Converted Amount = (Amount ÷ From Rate) × To Rate</p>
-//           <p className="text-gray-500 text-xs">Example: Convert 100 USD to EUR at rate 0.92 = (100 ÷ 1) × 0.92 = 92 EUR</p>
+//         <h2 className="text-xl font-semibold text-ink mb-4">Currency Conversion Formula</h2>
+//         <div className="bg-surface border border-hairline rounded-xl p-5">
+//           <p className="text-ink font-mono text-sm mb-2">Converted Amount = (Amount ÷ From Rate) × To Rate</p>
+//           <p className="text-ink-faint text-xs">Example: Convert 100 USD to EUR at rate 0.92 = (100 ÷ 1) × 0.92 = 92 EUR</p>
 //         </div>
 //       </section>
 
 //       <section className="mb-8">
-//         <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+//         <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
 //         <div className="space-y-2">
 //           {FAQ_DATA.map((item, i) => (
-//             <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+//             <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
 //               <button
-//                 className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+//                 className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
 //                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
 //               >
-//                 <span className="text-sm font-medium text-gray-200">{item.q}</span>
-//                 <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+//                 <span className="text-sm font-medium text-ink">{item.q}</span>
+//                 <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
 //               </button>
 //               {openFaq === i && (
-//                 <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+//                 <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
 //                   {item.a}
 //                 </div>
 //               )}

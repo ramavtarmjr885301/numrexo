@@ -49,13 +49,13 @@ const FAQ_DATA = [
 ];
 
 const BMI_CLASSIFICATIONS = [
-  { category: "Severe Thinness", range: "< 16", color: "text-blue-400" },
-  { category: "Moderate Thinness", range: "16 – 17", color: "text-blue-400" },
-  { category: "Mild Thinness", range: "17 – 18.5", color: "text-blue-300" },
-  { category: "Normal", range: "18.5 – 25", color: "text-green-400" },
-  { category: "Overweight", range: "25 – 30", color: "text-yellow-400" },
-  { category: "Obese Class I", range: "30 – 35", color: "text-orange-400" },
-  { category: "Obese Class II", range: "35 – 40", color: "text-red-400" },
+  { category: "Severe Thinness", range: "< 16", color: "text-blue-600" },
+  { category: "Moderate Thinness", range: "16 – 17", color: "text-blue-600" },
+  { category: "Mild Thinness", range: "17 – 18.5", color: "text-blue-600" },
+  { category: "Normal", range: "18.5 – 25", color: "text-green-600" },
+  { category: "Overweight", range: "25 – 30", color: "text-yellow-700" },
+  { category: "Obese Class I", range: "30 – 35", color: "text-orange-600" },
+  { category: "Obese Class II", range: "35 – 40", color: "text-red-600" },
   { category: "Obese Class III", range: "> 40", color: "text-red-500" },
 ];
 
@@ -137,14 +137,14 @@ export default function BMICalculator() {
     const bmi = w / (h * h);
     let category: string, colorClass: string;
 
-    if (bmi < 16) { category = "Severe Thinness"; colorClass = "text-blue-400"; }
-    else if (bmi < 17) { category = "Moderate Thinness"; colorClass = "text-blue-400"; }
-    else if (bmi < 18.5) { category = "Mild Thinness"; colorClass = "text-blue-400"; }
-    else if (bmi < 25) { category = "Normal"; colorClass = "text-green-400"; }
-    else if (bmi < 30) { category = "Overweight"; colorClass = "text-yellow-400"; }
-    else if (bmi < 35) { category = "Obese I"; colorClass = "text-orange-400"; }
-    else if (bmi < 40) { category = "Obese II"; colorClass = "text-red-400"; }
-    else { category = "Obese III"; colorClass = "text-red-400"; }
+    if (bmi < 16) { category = "Severe Thinness"; colorClass = "text-blue-600"; }
+    else if (bmi < 17) { category = "Moderate Thinness"; colorClass = "text-blue-600"; }
+    else if (bmi < 18.5) { category = "Mild Thinness"; colorClass = "text-blue-600"; }
+    else if (bmi < 25) { category = "Normal"; colorClass = "text-green-600"; }
+    else if (bmi < 30) { category = "Overweight"; colorClass = "text-yellow-700"; }
+    else if (bmi < 35) { category = "Obese I"; colorClass = "text-orange-600"; }
+    else if (bmi < 40) { category = "Obese II"; colorClass = "text-red-600"; }
+    else { category = "Obese III"; colorClass = "text-red-600"; }
 
     let healthyRange: string;
     if (unit === "metric") {
@@ -182,26 +182,26 @@ export default function BMICalculator() {
 
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol
-          className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500"
+          className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint"
           itemScope
           itemType="https://schema.org/BreadcrumbList"
         >
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300 transition-colors">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft transition-colors">
               <span itemProp="name">Home</span>
             </a>
             <meta itemProp="position" content="1" />
           </li>
-          <li className="text-gray-700" aria-hidden="true">/</li>
+          <li className="text-ink-soft" aria-hidden="true">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300 transition-colors">
+            <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft transition-colors">
               <span itemProp="name">Health Calculators</span>
             </a>
             <meta itemProp="position" content="2" />
           </li>
-          <li className="text-gray-700" aria-hidden="true">/</li>
+          <li className="text-ink-soft" aria-hidden="true">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-gray-300">BMI Calculator</span>
+            <span itemProp="name" className="text-ink-soft">BMI Calculator</span>
             <meta itemProp="position" content="3" />
           </li>
         </ol>
@@ -209,12 +209,12 @@ export default function BMICalculator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="flex border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="flex border-b border-hairline">
             <button
               className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "metric"
-                ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
-                : "text-gray-500 hover:text-gray-300"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-ink-faint hover:text-ink-soft"
                 }`}
               onClick={() => setUnit("metric")}
             >
@@ -222,8 +222,8 @@ export default function BMICalculator() {
             </button>
             <button
               className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "imperial"
-                ? "text-blue-400 border-b-2 border-blue-500 bg-blue-500/5"
-                : "text-gray-500 hover:text-gray-300"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-ink-faint hover:text-ink-soft"
                 }`}
               onClick={() => setUnit("imperial")}
             >
@@ -235,36 +235,36 @@ export default function BMICalculator() {
             {unit === "metric" ? (
               <>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-2">Height (cm)</label>
+                  <label className="block text-xs font-semibold text-ink-faint mb-2">Height (cm)</label>
                   <div className="relative">
                     <input
                       type="number"
                       placeholder="170"
                       value={heightCm}
                       onChange={(e) => setHeightCm(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-2">Weight (kg)</label>
+                  <label className="block text-xs font-semibold text-ink-faint mb-2">Weight (kg)</label>
                   <div className="relative">
                     <input
                       type="number"
                       placeholder="65"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">kg</span>
                   </div>
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-2">Height</label>
+                  <label className="block text-xs font-semibold text-ink-faint mb-2">Height</label>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="relative">
                       <input
@@ -272,9 +272,9 @@ export default function BMICalculator() {
                         placeholder="5"
                         value={heightFt}
                         onChange={(e) => setHeightFt(e.target.value)}
-                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">ft</span>
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">ft</span>
                     </div>
                     <div className="relative">
                       <input
@@ -282,23 +282,23 @@ export default function BMICalculator() {
                         placeholder="10"
                         value={heightIn}
                         onChange={(e) => setHeightIn(e.target.value)}
-                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">in</span>
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">in</span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-2">Weight (lbs)</label>
+                  <label className="block text-xs font-semibold text-ink-faint mb-2">Weight (lbs)</label>
                   <div className="relative">
                     <input
                       type="number"
                       placeholder="160"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">lbs</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">lbs</span>
                   </div>
                 </div>
               </>
@@ -306,13 +306,13 @@ export default function BMICalculator() {
             <div className="flex gap-3">
               <button
                 onClick={calculate}
-                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
               >
                 Calculate BMI →
               </button>
               <button
                 onClick={resetForm}
-                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
               >
                 Reset
               </button>
@@ -341,14 +341,14 @@ export default function BMICalculator() {
           }
         >
           {result && (
-            <div className="mt-4 pt-4 border-t border-gray-800">
-              <div className="h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 via-yellow-400 to-red-400 relative">
+            <div className="mt-4 pt-4 border-t border-hairline">
+              <div className="h-2 rounded-full bg-gradient-to-r from-blue-500 via-green-400 via-yellow-400 to-red-400 relative">
                 <div
-                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-gray-800 rounded-full shadow-lg transition-all"
+                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-hairline rounded-full shadow-lg transition-all"
                   style={{ left: `${result.gaugePos}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] text-gray-500 mt-2">
+              <div className="flex justify-between text-[10px] text-ink-faint mt-2">
                 <span>Underweight</span>
                 <span>Normal</span>
                 <span>Overweight</span>
@@ -361,43 +361,43 @@ export default function BMICalculator() {
 
       {/* ── About BMI (SEO Content) ── */}
       <section aria-labelledby="about-bmi" className="mb-8">
-        <h2 id="about-bmi" className="text-xl font-semibold text-white mb-3">
+        <h2 id="about-bmi" className="text-xl font-semibold text-ink mb-3">
           About the BMI Calculator
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          The <strong className="text-gray-300">Body Mass Index (BMI)</strong> is one of the most widely
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          The <strong className="text-ink-soft">Body Mass Index (BMI)</strong> is one of the most widely
           used screening tools for assessing healthy body weight relative to height. Developed in the 19th
           century by Belgian mathematician Adolphe Quetelet, BMI provides a quick, free, and non-invasive
           way to estimate whether a person falls in an underweight, normal, overweight, or obese range.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           Our free BMI calculator supports both{" "}
-          <strong className="text-gray-300">metric units</strong> (centimetres and kilograms) and{" "}
-          <strong className="text-gray-300">US imperial units</strong> (feet, inches, and pounds), making
+          <strong className="text-ink-soft">metric units</strong> (centimetres and kilograms) and{" "}
+          <strong className="text-ink-soft">US imperial units</strong> (feet, inches, and pounds), making
           it suitable for users in the United States, United Kingdom, Canada, Australia, and worldwide.
         </p>
       </section>
 
       {/* ── Formula Section (SEO Content) ── */}
       <section aria-labelledby="bmi-formula" className="mb-8">
-        <h2 id="bmi-formula" className="text-xl font-semibold text-white mb-4">
+        <h2 id="bmi-formula" className="text-xl font-semibold text-ink mb-4">
           BMI Formula
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">Metric Formula</h3>
-            <p className="text-white font-mono text-sm mb-2">BMI = Weight (kg) ÷ Height² (m)</p>
-            <p className="text-gray-500 text-xs">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">Metric Formula</h3>
+            <p className="text-ink font-mono text-sm mb-2">BMI = Weight (kg) ÷ Height² (m)</p>
+            <p className="text-ink-faint text-xs">
               Example: 70 kg ÷ (1.75 × 1.75) ={" "}
-              <span className="text-green-400 font-semibold">22.9</span>
+              <span className="text-green-600 font-semibold">22.9</span>
             </p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">Imperial Formula</h3>
-            <p className="text-white font-mono text-sm mb-2">BMI = 703 × Weight (lbs) ÷ Height² (in)</p>
-            <p className="text-gray-500 text-xs">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">Imperial Formula</h3>
+            <p className="text-ink font-mono text-sm mb-2">BMI = 703 × Weight (lbs) ÷ Height² (in)</p>
+            <p className="text-ink-faint text-xs">
               Example: 703 × 154 ÷ (69 × 69) ={" "}
-              <span className="text-green-400 font-semibold">22.7</span>
+              <span className="text-green-600 font-semibold">22.7</span>
             </p>
           </div>
         </div>
@@ -405,73 +405,73 @@ export default function BMICalculator() {
 
       {/* ── BMI Classification Table (SEO Content) ── */}
       <section aria-labelledby="bmi-chart" className="mb-8">
-        <h2 id="bmi-chart" className="text-xl font-semibold text-white mb-4">
+        <h2 id="bmi-chart" className="text-xl font-semibold text-ink mb-4">
           BMI Classification Chart for Adults
         </h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-left py-3 px-4 text-gray-400 font-semibold">Classification</th>
-                <th className="text-right py-3 px-4 text-gray-400 font-semibold">BMI Range (kg/m²)</th>
+              <tr className="border-b border-hairline">
+                <th className="text-left py-3 px-4 text-ink-faint font-semibold">Classification</th>
+                <th className="text-right py-3 px-4 text-ink-faint font-semibold">BMI Range (kg/m²)</th>
               </tr>
             </thead>
             <tbody>
               {BMI_CLASSIFICATIONS.map((row, i) => (
                 <tr
                   key={i}
-                  className="border-b border-gray-800/50 hover:bg-white/5 transition-colors"
+                  className="border-b border-hairline hover:bg-cream transition-colors"
                 >
                   <td className={`py-3 px-4 font-medium ${row.color}`}>{row.category}</td>
-                  <td className="py-3 px-4 text-right text-gray-300">{row.range}</td>
+                  <td className="py-3 px-4 text-right text-ink-soft">{row.range}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-gray-600 mt-2">
+        <p className="text-xs text-ink-faint mt-2">
           Source: World Health Organization (WHO) BMI classification standards.
         </p>
       </section>
 
       {/* ── BMI by Demographics (SEO Content — targets long-tail keywords) ── */}
       <section aria-labelledby="bmi-by-group" className="mb-8">
-        <h2 id="bmi-by-group" className="text-xl font-semibold text-white mb-4">
+        <h2 id="bmi-by-group" className="text-xl font-semibold text-ink mb-4">
           BMI for Different Groups
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-pink-400 mb-2">BMI Calculator for Women</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-pink-600 mb-2">BMI Calculator for Women</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">
               Women naturally carry 6–11% more body fat than men at the same BMI. A healthy BMI range of{" "}
-              <span className="text-white font-medium">18.5–24.9</span> applies to women, but waist
+              <span className="text-ink font-medium">18.5–24.9</span> applies to women, but waist
               circumference under 35 inches (88 cm) is equally important. Postmenopausal women should
               monitor BMI more frequently due to hormonal fat redistribution.
             </p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">BMI Calculator for Men</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">BMI Calculator for Men</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">
               Men typically have higher muscle mass, which can raise BMI without excess fat. A BMI of{" "}
-              <span className="text-white font-medium">18.5–24.9</span> is healthy for men. Waist
+              <span className="text-ink font-medium">18.5–24.9</span> is healthy for men. Waist
               circumference over 40 inches (102 cm) signals abdominal obesity risk regardless of overall
               BMI score.
             </p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">BMI for Seniors (65+)</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">BMI for Seniors (65+)</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">
               Older adults often lose muscle mass (sarcopenia), so BMI can underestimate body fat. Many
               doctors consider a BMI of{" "}
-              <span className="text-white font-medium">23–27</span> acceptable for those over 65. Body
+              <span className="text-ink font-medium">23–27</span> acceptable for those over 65. Body
               composition testing is recommended for a more accurate health assessment in seniors.
             </p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">BMI for Children &amp; Teens</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">BMI for Children &amp; Teens</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">
               For children aged 2–19, BMI is calculated the same way but interpreted using{" "}
-              <span className="text-white font-medium">age- and sex-specific percentile charts</span>{" "}
+              <span className="text-ink font-medium">age- and sex-specific percentile charts</span>{" "}
               (CDC growth charts). A BMI at or above the 95th percentile is classified as obese. Use a
               dedicated paediatric BMI calculator for accurate results.
             </p>
@@ -481,10 +481,10 @@ export default function BMICalculator() {
 
       {/* ── Limitations (YMYL trust signal) ── */}
       <section aria-labelledby="bmi-limitations" className="mb-8">
-        <h2 id="bmi-limitations" className="text-xl font-semibold text-white mb-3">
+        <h2 id="bmi-limitations" className="text-xl font-semibold text-ink mb-3">
           Limitations of BMI
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           While BMI is a useful population-level screening tool, it has important limitations that every
           user should be aware of:
         </p>
@@ -507,10 +507,10 @@ export default function BMICalculator() {
               desc: "Always consult a qualified healthcare professional before drawing health conclusions from BMI alone. BMI is a screening metric, not a diagnosis.",
             },
           ].map((item, i) => (
-            <li key={i} className="flex gap-3 text-sm text-gray-400">
-              <span className="text-blue-400 mt-0.5 flex-shrink-0">•</span>
+            <li key={i} className="flex gap-3 text-sm text-ink-faint">
+              <span className="text-blue-600 mt-0.5 flex-shrink-0">•</span>
               <span>
-                <strong className="text-gray-300">{item.title} — </strong>
+                <strong className="text-ink-soft">{item.title} — </strong>
                 {item.desc}
               </span>
             </li>
@@ -520,29 +520,29 @@ export default function BMICalculator() {
 
       {/* ── FAQ Section (FAQPage schema targets + accordion UX) ── */}
       <section aria-labelledby="faq-heading" className="mb-8">
-        <h2 id="faq-heading" className="text-xl font-semibold text-white mb-4">
+        <h2 id="faq-heading" className="text-xl font-semibold text-ink mb-4">
           Frequently Asked Questions
         </h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
             <div
               key={i}
-              className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"
+              className="bg-surface border border-hairline rounded-xl overflow-hidden"
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
             >
               <button
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 aria-expanded={openFaq === i}
                 aria-controls={`faq-answer-${i}`}
               >
-                <span className="text-sm font-medium text-gray-200" itemProp="name">
+                <span className="text-sm font-medium text-ink" itemProp="name">
                   {item.q}
                 </span>
                 <span
-                  className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""
+                  className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""
                     }`}
                   aria-hidden="true"
                 >
@@ -561,7 +561,7 @@ export default function BMICalculator() {
                   }`}
               >
                 <p
-                  className="px-5 text-sm text-gray-400 leading-relaxed"
+                  className="px-5 text-sm text-ink-faint leading-relaxed"
                   itemProp="text"
                 >
                   {item.a}

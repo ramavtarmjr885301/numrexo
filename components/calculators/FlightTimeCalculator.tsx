@@ -170,31 +170,31 @@ export default function FlightTimeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Flight Time Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flight Time Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Flight Time Estimator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Estimate flight duration between cities</p>
+                        <p className="text-xs text-ink-faint mt-1">Estimate flight duration between cities</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-3">
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Distance</label><div className="relative"><input type="number" placeholder="3450" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit === "miles" ? "mi" : "km"}</span></div></div>
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Unit</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "miles" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("miles")}>Miles</button><button className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "km" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setUnit("km")}>Kilometers</button></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Distance</label><div className="relative"><input type="number" placeholder="3450" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit === "miles" ? "mi" : "km"}</span></div></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Unit</label><div className="grid grid-cols-2 gap-2"><button className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "miles" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setUnit("miles")}>Miles</button><button className={`py-2 rounded-lg text-sm font-medium transition-all ${unit === "km" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setUnit("km")}>Kilometers</button></div></div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Aircraft Type</label><select value={aircraft} onChange={(e) => setAircraft(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">{AIRPLANE_SPEEDS.map(a => <option key={a.aircraft} value={a.aircraft}>{a.icon} {a.aircraft}</option>)}</select></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Extra Time (takeoff, landing, taxi) - minutes</label><div className="relative"><input type="number" step="5" placeholder="30" value={addTime} onChange={(e) => setAddTime(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">min</span></div></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Aircraft Type</label><select value={aircraft} onChange={(e) => setAircraft(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">{AIRPLANE_SPEEDS.map(a => <option key={a.aircraft} value={a.aircraft}>{a.icon} {a.aircraft}</option>)}</select></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Extra Time (takeoff, landing, taxi) - minutes</label><div className="relative"><input type="number" step="5" placeholder="30" value={addTime} onChange={(e) => setAddTime(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">min</span></div></div>
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Flight Time →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -204,7 +204,7 @@ export default function FlightTimeCalculator() {
                     isEmpty={!result}
                     emptyIcon="✈️"
                     emptyText="Enter distance to calculate flight time"
-                    mainResult={result ? { label: "Estimated Flight Time", value: result.timeString, color: "text-cyan-400" } : undefined}
+                    mainResult={result ? { label: "Estimated Flight Time", value: result.timeString, color: "text-cyan-600" } : undefined}
                     extraRows={result ? [
                         { label: "Distance", value: `${result.distance.toLocaleString()} ${result.unit === "miles" ? "miles" : "km"}` },
                         { label: "Aircraft Speed", value: `${result.speed} ${result.unit === "miles" ? "mph" : "km/h"}` },
@@ -218,91 +218,91 @@ export default function FlightTimeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Flight Time Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Flight Time Calculator</strong> helps travelers, pilots, and aviation enthusiasts estimate flight duration between any two cities. Based on distance and aircraft speed, with extra time for takeoff, landing, and taxiing.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Flight Time Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Flight Time Calculator</strong> helps travelers, pilots, and aviation enthusiasts estimate flight duration between any two cities. Based on distance and aircraft speed, with extra time for takeoff, landing, and taxiing.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're planning a trip, comparing routes, or just curious about flight times, this calculator provides accurate estimates for commercial and private aircraft.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Flight Time Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Flight Time Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">flight distance</strong> in miles or kilometers.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select the <strong className="text-white">aircraft type</strong> (Boeing 737, Airbus A320, etc.) or use average commercial speed.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Add <strong className="text-white">extra time</strong> for takeoff, landing, and taxi (typically 30 minutes).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Flight Time"</strong> to see estimated duration.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">flight distance</strong> in miles or kilometers.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select the <strong className="text-ink">aircraft type</strong> (Boeing 737, Airbus A320, etc.) or use average commercial speed.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Add <strong className="text-ink">extra time</strong> for takeoff, landing, and taxi (typically 30 minutes).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Flight Time"</strong> to see estimated duration.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Why Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Flight Time Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Flight Time Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-400 mb-2">✓ Trip Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan your itinerary with accurate flight durations. Schedule connecting flights, hotel check-ins, and ground transportation.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">✓ Trip Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan your itinerary with accurate flight durations. Schedule connecting flights, hotel check-ins, and ground transportation.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Jet Lag Preparation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know your flight duration to prepare for time zone changes. Plan sleep schedules and hydration strategies.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Jet Lag Preparation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know your flight duration to prepare for time zone changes. Plan sleep schedules and hydration strategies.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Private Aviation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Private jet charter clients can estimate flight times and fuel costs for budget planning.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Private Aviation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Private jet charter clients can estimate flight times and fuel costs for budget planning.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Flight Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare different aircraft types and routes to choose the most time-efficient option.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Flight Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare different aircraft types and routes to choose the most time-efficient option.</p>
                     </div>
                 </div>
             </section>
 
             {/* Factors Affecting Flight Duration */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Factors That Affect Flight Duration</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Factors That Affect Flight Duration</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-cyan-400 mt-0.5">•</span><span><strong className="text-gray-300">Wind Speed & Direction:</strong> Headwind adds 5-15% to flight time, tailwind reduces time by 5-10%.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-cyan-400 mt-0.5">•</span><span><strong className="text-gray-300">Air Traffic Control:</strong> Congested airspace (NY, London, Dubai) adds 10-30 minutes due to holding patterns.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-cyan-400 mt-0.5">•</span><span><strong className="text-gray-300">Weather Conditions:</strong> Storms, turbulence, or extreme temperatures may require route deviations.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-cyan-400 mt-0.5">•</span><span><strong className="text-gray-300">Airport Congestion:</strong> Major airports add 15-30 minutes for taxi and takeoff queues.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-cyan-400 mt-0.5">•</span><span><strong className="text-gray-300">Aircraft Type:</strong> Different planes have different cruising speeds (private jets often faster).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-cyan-600 mt-0.5">•</span><span><strong className="text-ink-soft">Wind Speed & Direction:</strong> Headwind adds 5-15% to flight time, tailwind reduces time by 5-10%.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-cyan-600 mt-0.5">•</span><span><strong className="text-ink-soft">Air Traffic Control:</strong> Congested airspace (NY, London, Dubai) adds 10-30 minutes due to holding patterns.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-cyan-600 mt-0.5">•</span><span><strong className="text-ink-soft">Weather Conditions:</strong> Storms, turbulence, or extreme temperatures may require route deviations.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-cyan-600 mt-0.5">•</span><span><strong className="text-ink-soft">Airport Congestion:</strong> Major airports add 15-30 minutes for taxi and takeoff queues.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-cyan-600 mt-0.5">•</span><span><strong className="text-ink-soft">Aircraft Type:</strong> Different planes have different cruising speeds (private jets often faster).</span></li>
                 </ul>
             </section>
 
             {/* Time Zone & Jet Lag Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Time Zone & Jet Lag Guide</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Time Zone & Jet Lag Guide</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">🕐 Time Zone Calculation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Time difference = (Destination Longitude - Origin Longitude) ÷ 15. Flying west adds hours, flying east subtracts hours. Use our converter for accurate local arrival time.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">🕐 Time Zone Calculation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Time difference = (Destination Longitude - Origin Longitude) ÷ 15. Flying west adds hours, flying east subtracts hours. Use our converter for accurate local arrival time.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">🌙 Jet Lag Recovery</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Estimate 1 day recovery per time zone crossed. Example: NY to London (5 time zones) = 5 days adjustment. Stay hydrated, adjust sleep schedule before departure.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">🌙 Jet Lag Recovery</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Estimate 1 day recovery per time zone crossed. Example: NY to London (5 time zones) = 5 days adjustment. Stay hydrated, adjust sleep schedule before departure.</p>
                     </div>
                 </div>
             </section>
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Flight Time Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">Estimate flight duration based on distance and aircraft speed. Includes extra time for takeoff, landing, and taxiing.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About Flight Time Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">Estimate flight duration based on distance and aircraft speed. Includes extra time for takeoff, landing, and taxiing.</p>
             </section>
 
             {/* Major Route Flight Times */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Major Route Flight Times</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Major Route Flight Times</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Route</th><th className="text-left py-3 px-4 text-gray-400">Distance (mi)</th><th className="text-left py-3 px-4 text-gray-400">Est. Flight Time</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Route</th><th className="text-left py-3 px-4 text-ink-faint">Distance (mi)</th><th className="text-left py-3 px-4 text-ink-faint">Est. Flight Time</th></tr></thead>
                         <tbody>
-                            {MAJOR_ROUTES.map((route, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{route.route}</td><td className="py-2 px-4 text-yellow-400">{route.distance} mi</td><td className="py-2 px-4 text-cyan-400">{route.time}</td></tr>))}
+                            {MAJOR_ROUTES.map((route, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{route.route}</td><td className="py-2 px-4 text-yellow-700">{route.distance} mi</td><td className="py-2 px-4 text-cyan-600">{route.time}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -310,12 +310,12 @@ export default function FlightTimeCalculator() {
 
             {/* Aircraft Speed Reference */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Aircraft Speed Reference</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Aircraft Speed Reference</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Aircraft</th><th className="text-left py-3 px-4 text-gray-400">Speed (mph)</th><th className="text-left py-3 px-4 text-gray-400">Speed (km/h)</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Aircraft</th><th className="text-left py-3 px-4 text-ink-faint">Speed (mph)</th><th className="text-left py-3 px-4 text-ink-faint">Speed (km/h)</th></tr></thead>
                         <tbody>
-                            {AIRPLANE_SPEEDS.map((plane, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{plane.icon} {plane.aircraft}</td><td className="py-2 px-4 text-yellow-400">{plane.speedMph} mph</td><td className="py-2 px-4 text-gray-400">{plane.speedKmh} km/h</td></tr>))}
+                            {AIRPLANE_SPEEDS.map((plane, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{plane.icon} {plane.aircraft}</td><td className="py-2 px-4 text-yellow-700">{plane.speedMph} mph</td><td className="py-2 px-4 text-ink-faint">{plane.speedKmh} km/h</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -323,16 +323,16 @@ export default function FlightTimeCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

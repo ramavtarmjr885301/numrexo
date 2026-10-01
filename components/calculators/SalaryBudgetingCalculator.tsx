@@ -103,19 +103,19 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
     const savingsPercent = (savings / total) * 100;
 
     return (
-        <div className="bg-[#0f1525] rounded-xl p-4 border border-gray-800">
-            <h4 className="text-sm font-semibold text-white mb-3 text-center">Budget Distribution</h4>
+        <div className="bg-surface rounded-xl p-4 border border-hairline">
+            <h4 className="text-sm font-semibold text-ink mb-3 text-center">Budget Distribution</h4>
 
             {/* Bar Chart */}
             <div className="space-y-3">
                 <div>
                     <div className="flex justify-between text-xs mb-1">
-                        <span className="text-blue-400">Needs</span>
-                        <span className="text-gray-400">{needsPercent.toFixed(1)}%</span>
+                        <span className="text-blue-600">Needs</span>
+                        <span className="text-ink-faint">{needsPercent.toFixed(1)}%</span>
                     </div>
-                    <div className="w-full h-2.5 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-blue-500 rounded-full transition-all duration-500"
+                            className="h-full bg-blue-600 rounded-full transition-all duration-500"
                             style={{ width: `${needsPercent}%` }}
                         />
                     </div>
@@ -123,10 +123,10 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
 
                 <div>
                     <div className="flex justify-between text-xs mb-1">
-                        <span className="text-yellow-400">Wants</span>
-                        <span className="text-gray-400">{wantsPercent.toFixed(1)}%</span>
+                        <span className="text-yellow-700">Wants</span>
+                        <span className="text-ink-faint">{wantsPercent.toFixed(1)}%</span>
                     </div>
-                    <div className="w-full h-2.5 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                         <div
                             className="h-full bg-yellow-500 rounded-full transition-all duration-500"
                             style={{ width: `${wantsPercent}%` }}
@@ -136,10 +136,10 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
 
                 <div>
                     <div className="flex justify-between text-xs mb-1">
-                        <span className="text-green-400">Savings</span>
-                        <span className="text-gray-400">{savingsPercent.toFixed(1)}%</span>
+                        <span className="text-green-600">Savings</span>
+                        <span className="text-ink-faint">{savingsPercent.toFixed(1)}%</span>
                     </div>
-                    <div className="w-full h-2.5 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                         <div
                             className="h-full bg-green-500 rounded-full transition-all duration-500"
                             style={{ width: `${savingsPercent}%` }}
@@ -149,7 +149,7 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
             </div>
 
             {/* Donut Chart (CSS-based) */}
-            <div className="mt-4 pt-4 border-t border-gray-700">
+            <div className="mt-4 pt-4 border-t border-hairline">
                 <div className="flex items-center justify-center gap-6">
                     <div className="relative w-24 h-24">
                         <svg viewBox="0 0 100 100" className="transform -rotate-90">
@@ -178,25 +178,25 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
                                 className="transition-all duration-500"
                             />
                         </svg>
-                        <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                        <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-ink">
                             {total > 0 ? `$${Math.round(total).toLocaleString()}` : '0'}
                         </div>
                     </div>
                     <div className="space-y-1 text-xs">
                         <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-blue-500"></span>
-                            <span className="text-gray-300">Needs</span>
-                            <span className="text-gray-500 ml-auto">{needsPercent.toFixed(1)}%</span>
+                            <span className="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span className="text-ink-soft">Needs</span>
+                            <span className="text-ink-faint ml-auto">{needsPercent.toFixed(1)}%</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                            <span className="text-gray-300">Wants</span>
-                            <span className="text-gray-500 ml-auto">{wantsPercent.toFixed(1)}%</span>
+                            <span className="text-ink-soft">Wants</span>
+                            <span className="text-ink-faint ml-auto">{wantsPercent.toFixed(1)}%</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="w-3 h-3 rounded-full bg-green-500"></span>
-                            <span className="text-gray-300">Savings</span>
-                            <span className="text-gray-500 ml-auto">{savingsPercent.toFixed(1)}%</span>
+                            <span className="text-ink-soft">Savings</span>
+                            <span className="text-ink-faint ml-auto">{savingsPercent.toFixed(1)}%</span>
                         </div>
                     </div>
                 </div>
@@ -273,55 +273,55 @@ export default function SalaryBudgetingCalculator() {
         let needsRatingColor = "";
         if (needsTotal <= needsRecommended) {
             needsRating = "✅ On Track (50% or less)";
-            needsRatingColor = "text-green-400";
+            needsRatingColor = "text-green-600";
         } else if (needsTotal <= needsRecommended * 1.2) {
             needsRating = "⚠️ Slightly High (50-60%)";
-            needsRatingColor = "text-yellow-400";
+            needsRatingColor = "text-yellow-700";
         } else {
             needsRating = "❌ Too High (Above 60%)";
-            needsRatingColor = "text-red-400";
+            needsRatingColor = "text-red-600";
         }
 
         let wantsRating = "";
         let wantsRatingColor = "";
         if (wantsTotal <= wantsRecommended) {
             wantsRating = "✅ On Track (30% or less)";
-            wantsRatingColor = "text-green-400";
+            wantsRatingColor = "text-green-600";
         } else if (wantsTotal <= wantsRecommended * 1.2) {
             wantsRating = "⚠️ Slightly High (30-36%)";
-            wantsRatingColor = "text-yellow-400";
+            wantsRatingColor = "text-yellow-700";
         } else {
             wantsRating = "❌ Too High (Above 36%)";
-            wantsRatingColor = "text-red-400";
+            wantsRatingColor = "text-red-600";
         }
 
         let savingsRating = "";
         let savingsRatingColor = "";
         if (savingsTotal >= savingsRecommended) {
             savingsRating = "✅ On Track (20% or more)";
-            savingsRatingColor = "text-green-400";
+            savingsRatingColor = "text-green-600";
         } else if (savingsTotal >= savingsRecommended * 0.7) {
             savingsRating = "⚠️ Moderate (14-20%)";
-            savingsRatingColor = "text-yellow-400";
+            savingsRatingColor = "text-yellow-700";
         } else {
             savingsRating = "❌ Below Target (Less than 14%)";
-            savingsRatingColor = "text-red-400";
+            savingsRatingColor = "text-red-600";
         }
 
         let overallRating = "";
         let overallRatingColor = "";
         if (needsTotal <= needsRecommended && wantsTotal <= wantsRecommended && savingsTotal >= savingsRecommended) {
             overallRating = "Excellent ★★★★★";
-            overallRatingColor = "text-green-400";
+            overallRatingColor = "text-green-600";
         } else if (needsTotal <= needsRecommended * 1.2 && wantsTotal <= wantsRecommended * 1.2 && savingsTotal >= savingsRecommended * 0.7) {
             overallRating = "Good ★★★★";
-            overallRatingColor = "text-blue-400";
+            overallRatingColor = "text-blue-600";
         } else if (needsTotal <= needsRecommended * 1.4 && wantsTotal <= wantsRecommended * 1.4 && savingsTotal >= savingsRecommended * 0.5) {
             overallRating = "Fair ★★★";
-            overallRatingColor = "text-yellow-400";
+            overallRatingColor = "text-yellow-700";
         } else {
             overallRating = "Needs Improvement ★★";
-            overallRatingColor = "text-red-400";
+            overallRatingColor = "text-red-600";
         }
 
         setResult({
@@ -378,23 +378,23 @@ export default function SalaryBudgetingCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Salary Budgeting Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Salary Budgeting Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -402,20 +402,20 @@ export default function SalaryBudgetingCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <div>
                             <h3 className="font-semibold">Salary Budgeting Calculator</h3>
-                            <p className="text-xs text-gray-500 mt-1">Plan your monthly budget with 50/30/20 rule</p>
+                            <p className="text-xs text-ink-faint mt-1">Plan your monthly budget with 50/30/20 rule</p>
                         </div>
                     </div>
 
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         {/* Monthly Salary */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Monthly Salary ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Monthly Salary ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -423,171 +423,171 @@ export default function SalaryBudgetingCalculator() {
                                     placeholder="e.g., 50000"
                                     value={monthlySalary}
                                     onChange={(e) => setMonthlySalary(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-800 pt-4">
-                            <h4 className="text-sm font-semibold text-blue-400 mb-3">🏠 Needs (Essential Expenses)</h4>
+                        <div className="border-t border-hairline pt-4">
+                            <h4 className="text-sm font-semibold text-blue-600 mb-3">🏠 Needs (Essential Expenses)</h4>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Rent / Mortgage</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Rent / Mortgage</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={rent}
                                         onChange={(e) => setRent(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Groceries</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Groceries</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={groceries}
                                         onChange={(e) => setGroceries(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Utilities (Electricity, Water, Gas)</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Utilities (Electricity, Water, Gas)</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={utilities}
                                         onChange={(e) => setUtilities(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Transportation</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Transportation</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={transport}
                                         onChange={(e) => setTransport(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Insurance (Health, Life, Vehicle)</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Insurance (Health, Life, Vehicle)</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={insurance}
                                         onChange={(e) => setInsurance(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">EMI / Loan Payments</label>
+                                    <label className="block text-xs text-ink-faint mb-1">EMI / Loan Payments</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={emiPayments}
                                         onChange={(e) => setEmiPayments(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-800 pt-4">
-                            <h4 className="text-sm font-semibold text-yellow-400 mb-3">🎯 Wants (Discretionary Spending)</h4>
+                        <div className="border-t border-hairline pt-4">
+                            <h4 className="text-sm font-semibold text-yellow-700 mb-3">🎯 Wants (Discretionary Spending)</h4>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Dining Out</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Dining Out</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={diningOut}
                                         onChange={(e) => setDiningOut(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Entertainment & Leisure</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Entertainment & Leisure</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={entertainment}
                                         onChange={(e) => setEntertainment(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Shopping</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Shopping</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={shopping}
                                         onChange={(e) => setShopping(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Subscriptions (Netflix, Spotify, etc.)</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Subscriptions (Netflix, Spotify, etc.)</label>
                                     <input
                                         type="number"
                                         step="100"
                                         placeholder="0"
                                         value={subscriptions}
                                         onChange={(e) => setSubscriptions(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-800 pt-4">
-                            <h4 className="text-sm font-semibold text-green-400 mb-3">💰 Savings & Investments</h4>
+                        <div className="border-t border-hairline pt-4">
+                            <h4 className="text-sm font-semibold text-green-600 mb-3">💰 Savings & Investments</h4>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Emergency Fund</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Emergency Fund</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={emergencyFund}
                                         onChange={(e) => setEmergencyFund(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Investments (FD, SIP, PPF, etc.)</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Investments (FD, SIP, PPF, etc.)</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={investments}
                                         onChange={(e) => setInvestments(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Savings Goal</label>
+                                    <label className="block text-xs text-ink-faint mb-1">Savings Goal</label>
                                     <input
                                         type="number"
                                         step="500"
                                         placeholder="0"
                                         value={savingsGoal}
                                         onChange={(e) => setSavingsGoal(e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </div>
@@ -597,13 +597,13 @@ export default function SalaryBudgetingCalculator() {
                         <div className="flex gap-3 pt-2">
                             <button
                                 onClick={calculateBudget}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                             >
                                 Calculate Budget →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -621,7 +621,7 @@ export default function SalaryBudgetingCalculator() {
                         mainResult={result ? {
                             label: "Remaining Balance",
                             value: `${symbol}${result.remaining.toFixed(2)}`,
-                            color: result.remaining >= 0 ? "text-green-400" : "text-red-400"
+                            color: result.remaining >= 0 ? "text-green-600" : "text-red-600"
                         } : undefined}
                         extraRows={result ? [
                             { label: "Overall Budget Health", value: result.overallRating, valueColor: result.overallRatingColor },
@@ -652,65 +652,65 @@ export default function SalaryBudgetingCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Salary Budgeting Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Salary Budgeting Calculator</strong> helps you plan and track your monthly expenses effectively. By categorizing your spending into needs, wants, and savings, you can understand where your money goes and make informed financial decisions.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Salary Budgeting Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Salary Budgeting Calculator</strong> helps you plan and track your monthly expenses effectively. By categorizing your spending into needs, wants, and savings, you can understand where your money goes and make informed financial decisions.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    This calculator follows the popular <strong className="text-gray-300">50/30/20 budgeting rule</strong>, which suggests allocating 50% of your income to needs, 30% to wants, and 20% to savings and debt repayment. Whether you're saving for a goal, managing debt, or building an emergency fund, this tool provides a clear financial roadmap.
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    This calculator follows the popular <strong className="text-ink-soft">50/30/20 budgeting rule</strong>, which suggests allocating 50% of your income to needs, 30% to wants, and 20% to savings and debt repayment. Whether you're saving for a goal, managing debt, or building an emergency fund, this tool provides a clear financial roadmap.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding your spending patterns is the first step toward financial freedom. Use our calculator to create a budget that works for your lifestyle and goals.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Salary Budgeting Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Salary Budgeting Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">monthly salary</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">needs</strong> expenses: rent, groceries, utilities, transport, insurance, and EMI payments.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter your <strong className="text-white">wants</strong> expenses: dining out, entertainment, shopping, and subscriptions.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter your <strong className="text-white">savings & investments</strong>: emergency fund, investments, and savings goals.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Budget"</strong> to see your budget analysis and ratings.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Review your <strong className="text-white">budget health rating</strong> and make adjustments to optimize your spending.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">monthly salary</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your <strong className="text-ink">needs</strong> expenses: rent, groceries, utilities, transport, insurance, and EMI payments.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter your <strong className="text-ink">wants</strong> expenses: dining out, entertainment, shopping, and subscriptions.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter your <strong className="text-ink">savings & investments</strong>: emergency fund, investments, and savings goals.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate Budget"</strong> to see your budget analysis and ratings.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Review your <strong className="text-ink">budget health rating</strong> and make adjustments to optimize your spending.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Salary Budgeting Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Salary Budgeting Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Financial Awareness</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand exactly where your money goes each month. Identify areas where you can cut back and save more.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Financial Awareness</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand exactly where your money goes each month. Identify areas where you can cut back and save more.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Goal Setting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Set realistic savings goals and track your progress. Whether it's an emergency fund or a dream vacation, our calculator helps you plan.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Goal Setting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Set realistic savings goals and track your progress. Whether it's an emergency fund or a dream vacation, our calculator helps you plan.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ 50/30/20 Rule Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See how your spending compares to the recommended 50/30/20 rule. Get personalized ratings for each category.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ 50/30/20 Rule Analysis</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See how your spending compares to the recommended 50/30/20 rule. Get personalized ratings for each category.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Debt Management</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track your loan EMI payments and see how they impact your overall budget. Plan your debt repayment strategy effectively.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Debt Management</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track your loan EMI payments and see how they impact your overall budget. Plan your debt repayment strategy effectively.</p>
                     </div>
                 </div>
             </section>
 
             {/* 50/30/20 Rule Explanation */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Understanding the 50/30/20 Rule</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        The <strong className="text-gray-300">50/30/20 rule</strong> is a simple yet powerful budgeting framework popularized by Senator Elizabeth Warren. It divides your after-tax income into three categories:
+                <h2 className="text-xl font-semibold text-ink mb-4">Understanding the 50/30/20 Rule</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                        The <strong className="text-ink-soft">50/30/20 rule</strong> is a simple yet powerful budgeting framework popularized by Senator Elizabeth Warren. It divides your after-tax income into three categories:
                     </p>
                     <div className="space-y-3">
-                        <div className="bg-[#0f1525] border border-blue-500/30 rounded-lg p-3">
-                            <p className="text-sm font-semibold text-blue-400">🏠 50% - Needs (Essential Expenses)</p>
-                            <ul className="text-xs text-gray-400 mt-1 space-y-0.5">
+                        <div className="bg-surface border border-blue-200 rounded-lg p-3">
+                            <p className="text-sm font-semibold text-blue-600">🏠 50% - Needs (Essential Expenses)</p>
+                            <ul className="text-xs text-ink-faint mt-1 space-y-0.5">
                                 <li>• Rent or mortgage payments</li>
                                 <li>• Groceries and essential food</li>
                                 <li>• Utilities (electricity, water, gas)</li>
@@ -719,9 +719,9 @@ export default function SalaryBudgetingCalculator() {
                                 <li>• Minimum loan/EMI payments</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] border border-yellow-500/30 rounded-lg p-3">
-                            <p className="text-sm font-semibold text-yellow-400">🎯 30% - Wants (Discretionary Expenses)</p>
-                            <ul className="text-xs text-gray-400 mt-1 space-y-0.5">
+                        <div className="bg-surface border border-yellow-200 rounded-lg p-3">
+                            <p className="text-sm font-semibold text-yellow-700">🎯 30% - Wants (Discretionary Expenses)</p>
+                            <ul className="text-xs text-ink-faint mt-1 space-y-0.5">
                                 <li>• Dining out and restaurants</li>
                                 <li>• Entertainment (movies, concerts)</li>
                                 <li>• Shopping and non-essential purchases</li>
@@ -730,9 +730,9 @@ export default function SalaryBudgetingCalculator() {
                                 <li>• Travel and vacations</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] border border-green-500/30 rounded-lg p-3">
-                            <p className="text-sm font-semibold text-green-400">💰 20% - Savings & Debt Repayment</p>
-                            <ul className="text-xs text-gray-400 mt-1 space-y-0.5">
+                        <div className="bg-surface border border-green-200 rounded-lg p-3">
+                            <p className="text-sm font-semibold text-green-600">💰 20% - Savings & Debt Repayment</p>
+                            <ul className="text-xs text-ink-faint mt-1 space-y-0.5">
                                 <li>• Emergency fund contributions</li>
                                 <li>• Retirement savings (PPF, NPS, EPF)</li>
                                 <li>• Investments (mutual funds, stocks, FD)</li>
@@ -741,25 +741,25 @@ export default function SalaryBudgetingCalculator() {
                             </ul>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-4">* This rule is a guideline. Adjust the percentages based on your personal situation and financial goals.</p>
+                    <p className="text-xs text-ink-faint mt-4">* This rule is a guideline. Adjust the percentages based on your personal situation and financial goals.</p>
                 </div>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

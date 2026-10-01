@@ -76,41 +76,41 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-3xl">
       {error && (
-        <div className="px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+        <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
           {error}
         </div>
       )}
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Title</label>
+        <label className="block text-sm text-ink-soft mb-1.5">Title</label>
         <input
           value={values.title}
           onChange={(e) => update('title', e.target.value)}
           required
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">
+        <label className="block text-sm text-ink-soft mb-1.5">
           URL slug{' '}
-          <span className="text-gray-600">(khaali chhod do to title se auto-ban jayega)</span>
+          <span className="text-ink-faint">(khaali chhod do to title se auto-ban jayega)</span>
         </label>
         <input
           value={values.slug}
           onChange={(e) => update('slug', e.target.value)}
           placeholder="auto-generated-from-title"
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5">Category</label>
+          <label className="block text-sm text-ink-soft mb-1.5">Category</label>
           <select
             value={values.category}
             onChange={(e) => update('category', e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
           >
             {Object.entries(CATEGORY_LABELS).map(([slug, label]) => (
               <option key={slug} value={slug}>
@@ -120,11 +120,11 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
           </select>
         </div>
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5">Author</label>
+          <label className="block text-sm text-ink-soft mb-1.5">Author</label>
           <input
             value={values.author}
             onChange={(e) => update('author', e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
           />
         </div>
       </div>
@@ -137,32 +137,32 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
       />
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">
-          Excerpt <span className="text-gray-600">(blog list aur Google me dikhega, 1-2 line)</span>
+        <label className="block text-sm text-ink-soft mb-1.5">
+          Excerpt <span className="text-ink-faint">(blog list aur Google me dikhega, 1-2 line)</span>
         </label>
         <textarea
           value={values.excerpt}
           onChange={(e) => update('excerpt', e.target.value)}
           rows={2}
-          className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Content</label>
+        <label className="block text-sm text-ink-soft mb-1.5">Content</label>
         <RichMarkdownEditor
           value={values.contentMarkdown}
           onChange={(v) => update('contentMarkdown', v)}
         />
       </div>
 
-      <div className="p-4 rounded-lg bg-[#0d1220] border border-gray-800 space-y-4">
-        <h3 className="text-sm font-semibold text-gray-300">SEO (Google search result)</h3>
+      <div className="p-4 rounded-lg bg-cream border border-hairline space-y-4">
+        <h3 className="text-sm font-semibold text-ink-soft">SEO (Google search result)</h3>
 
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5">
+          <label className="block text-sm text-ink-soft mb-1.5">
             Meta Title{' '}
-            <span className="text-gray-600">
+            <span className="text-ink-faint">
               (optional - khaali chhod do to normal Title use hoga; 50-60 letters best hai)
             </span>
           </label>
@@ -170,14 +170,14 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
             value={values.metaTitle}
             onChange={(e) => update('metaTitle', e.target.value)}
             maxLength={70}
-            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-gray-400 mb-1.5">
+          <label className="block text-sm text-ink-soft mb-1.5">
             Meta Description{' '}
-            <span className="text-gray-600">
+            <span className="text-ink-faint">
               (optional - khaali chhod do to Excerpt use hoga; 150-160 letters best hai)
             </span>
           </label>
@@ -186,14 +186,14 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
             onChange={(e) => update('metaDescription', e.target.value)}
             rows={2}
             maxLength={200}
-            className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
           />
         </div>
       </div>
 
       <FaqEditor value={values.faqs} onChange={(v) => update('faqs', v)} />
 
-      <label className="flex items-center gap-2 text-sm text-gray-300">
+      <label className="flex items-center gap-2 text-sm text-ink-soft">
         <input
           type="checkbox"
           checked={values.published}
@@ -207,14 +207,14 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
         <button
           type="submit"
           disabled={saving}
-          className="px-5 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 disabled:opacity-50 transition-colors"
+          className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
         >
           {saving ? 'Saving...' : isEdit ? 'Save Changes' : 'Publish Post'}
         </button>
         <button
           type="button"
           onClick={() => router.push('/')}
-          className="px-5 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-300 hover:text-white transition-colors"
+          className="px-5 py-2 rounded-lg bg-cream border border-hairline text-ink-soft hover:text-ink transition-colors"
         >
           Cancel
         </button>

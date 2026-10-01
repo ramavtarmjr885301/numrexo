@@ -179,12 +179,12 @@ export default function AboutPage() {
                 <div className="max-w-6xl mx-auto">
                     {/* ── Breadcrumb (visible + SEO) ─────────────────── */}
                     <nav aria-label="Breadcrumb" className="mb-8">
-                        <ol className="flex items-center gap-2 text-sm text-gray-500">
+                        <ol className="flex items-center gap-2 text-sm text-ink-faint">
                             <li>
-                                <a href="/" className="hover:text-white transition-colors">Home</a>
+                                <a href="/" className="hover:text-ink transition-colors">Home</a>
                             </li>
-                            <li aria-hidden="true" className="text-gray-700">/</li>
-                            <li className="text-gray-300" aria-current="page">About</li>
+                            <li aria-hidden="true" className="text-ink-soft">/</li>
+                            <li className="text-ink-soft" aria-current="page">About</li>
                         </ol>
                     </nav>
 
@@ -192,7 +192,7 @@ export default function AboutPage() {
                     <h1 className="text-3xl md:text-4xl font-bold mb-3">
                         About Numrexo
                     </h1>
-                    <p className="text-gray-400 text-lg mb-10 leading-relaxed max-w-4xl">
+                    <p className="text-ink-faint text-lg mb-10 leading-relaxed max-w-4xl">
                         A free online calculator platform built for students, professionals,
                         and everyday users — making accurate calculations simple and
                         accessible for everyone, everywhere.
@@ -200,20 +200,20 @@ export default function AboutPage() {
 
                     {/* ── SECTION 1: Mission ─────────────────────────── */}
                     <section className="mb-10">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                        <div className="bg-surface border border-hairline rounded-xl p-6 md:p-10">
+                            <h2 className="text-xl md:text-2xl font-semibold text-ink mb-4">
                                 Our Mission
                             </h2>
-                            <p className="text-gray-300 leading-relaxed mb-4">
+                            <p className="text-ink-soft leading-relaxed mb-4">
                                 We built Numrexo with a single goal — to remove complexity from
                                 everyday calculations. Most calculator websites feel outdated,
                                 overloaded, or difficult to navigate. Numrexo focuses on
-                                <strong className="text-white"> speed, accuracy, mobile-friendly design,</strong> and
+                                <strong className="text-ink"> speed, accuracy, mobile-friendly design,</strong> and
                                 user simplicity — a clean, fast interface with no sign-up and no
                                 intrusive pop-ups. Numrexo is supported by advertising,
                                 which is what keeps every calculator free to use.
                             </p>
-                            <p className="text-gray-300 leading-relaxed">
+                            <p className="text-ink-soft leading-relaxed">
                                 Whether you are a student solving math problems, a professional
                                 managing financial decisions, or someone tracking personal health
                                 and fitness goals — Numrexo gives you accurate results instantly
@@ -224,11 +224,11 @@ export default function AboutPage() {
 
                     {/* ── SECTION 2: Calculator Categories (Internal Links) ── */}
                     <section className="mb-10">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-2">
+                        <div className="bg-surface border border-hairline rounded-xl p-6 md:p-10">
+                            <h2 className="text-xl md:text-2xl font-semibold text-ink mb-2">
                                 What We Offer
                             </h2>
-                            <p className="text-gray-400 text-sm mb-6">
+                            <p className="text-ink-faint text-sm mb-6">
                                 Numrexo covers 14 categories with 117 calculators and
                                 growing. Click any category to start calculating!
                             </p>
@@ -237,16 +237,16 @@ export default function AboutPage() {
                                     <li key={cat.name}>
                                         <a
                                             href={cat.href}
-                                            className="flex items-start gap-3 p-3 rounded-lg border border-gray-800 hover:border-blue-500/50 hover:bg-gray-800/40 transition-all group"
+                                            className="flex items-start gap-3 p-3 rounded-lg border border-hairline hover:border-blue-300 hover:bg-gray-100/40 transition-all group"
                                         >
                                             <span className="text-xl mt-0.5" aria-hidden="true">
                                                 {cat.icon}
                                             </span>
                                             <span>
-                                                <span className="block text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
+                                                <span className="block text-sm font-medium text-ink group-hover:text-blue-600 transition-colors">
                                                     {cat.name}
                                                 </span>
-                                                <span className="block text-xs text-gray-500 mt-0.5">
+                                                <span className="block text-xs text-ink-faint mt-0.5">
                                                     {cat.desc}
                                                 </span>
                                             </span>
@@ -257,7 +257,7 @@ export default function AboutPage() {
                             <div className="mt-5">
                                 <a
                                     href="/calculators"
-                                    className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                                    className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-600 transition-colors"
                                 >
                                     Browse all calculators
                                     <span aria-hidden="true">→</span>
@@ -268,8 +268,8 @@ export default function AboutPage() {
 
                     {/* ── SECTION 3: Why Numrexo (E-E-A-T + UX) ────── */}
                     <section className="mb-10">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
+                        <div className="bg-surface border border-hairline rounded-xl p-6 md:p-10">
+                            <h2 className="text-xl md:text-2xl font-semibold text-ink mb-6">
                                 Why People Use Numrexo
                             </h2>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -279,10 +279,10 @@ export default function AboutPage() {
                                             {f.icon}
                                         </span>
                                         <span>
-                                            <span className="block text-sm font-semibold text-white mb-1">
+                                            <span className="block text-sm font-semibold text-ink mb-1">
                                                 {f.title}
                                             </span>
-                                            <span className="block text-sm text-gray-400 leading-relaxed">
+                                            <span className="block text-sm text-ink-faint leading-relaxed">
                                                 {f.desc}
                                             </span>
                                         </span>
@@ -294,19 +294,19 @@ export default function AboutPage() {
 
                     {/* ── SECTION 4: Vision ──────────────────────────── */}
                     <section className="mb-10">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                        <div className="bg-surface border border-hairline rounded-xl p-6 md:p-10">
+                            <h2 className="text-xl md:text-2xl font-semibold text-ink mb-4">
                                 Our Vision
                             </h2>
-                            <p className="text-gray-300 leading-relaxed mb-4">
+                            <p className="text-ink-soft leading-relaxed mb-4">
                                 Our long-term vision is to grow Numrexo into one of the world's
                                 largest and most trusted free calculator platforms. We are at
                                 117 today and the goal is{" "}
-                                <strong className="text-white">1,000+ calculators</strong> covering
+                                <strong className="text-ink">1,000+ calculators</strong> covering
                                 real-world needs for students, professionals, businesses, and
                                 everyday users globally.
                             </p>
-                            <p className="text-gray-300 leading-relaxed">
+                            <p className="text-ink-soft leading-relaxed">
                                 We continuously improve our tools, user experience, and platform
                                 performance to deliver fast, accurate, and reliable calculations
                                 that users can trust — anytime, on any device, in any country.
@@ -316,26 +316,26 @@ export default function AboutPage() {
 
                     {/* ── SECTION 5: Founder (E-E-A-T — very important) ── */}
                     <section className="mb-10">
-                        <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-10">
-                            <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
+                        <div className="bg-surface border border-hairline rounded-xl p-6 md:p-10">
+                            <h2 className="text-xl md:text-2xl font-semibold text-ink mb-6">
                                 Meet the Founder
                             </h2>
                             <div className="flex items-start gap-5">
                                 <div
-                                    className="w-16 h-16 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl font-bold text-white flex-shrink-0"
+                                    className="w-16 h-16 rounded-full bg-gray-100 border border-hairline flex items-center justify-center text-xl font-bold text-ink flex-shrink-0"
                                     aria-hidden="true"
                                 >
                                     SS
                                 </div>
 
                                 <div>
-                                    <p className="text-white font-semibold text-base mb-0.5">
+                                    <p className="text-ink font-semibold text-base mb-0.5">
                                         Sanjay Singh
                                     </p>
-                                    <p className="text-gray-500 text-sm mb-3">
+                                    <p className="text-ink-faint text-sm mb-3">
                                         Founder & Entrepreneur
                                     </p>
-                                    <p className="text-gray-300 text-sm leading-relaxed">
+                                    <p className="text-ink-soft text-sm leading-relaxed">
                                         Sanjay Singh is an energetic entrepreneur focused on
                                         building practical digital tools that simplify everyday
                                         tasks. With Numrexo, his mission is to make accurate
@@ -349,10 +349,10 @@ export default function AboutPage() {
 
                     {/* ── CTA — Internal Link (UX + SEO link equity) ── */}
                     <section className="bg-gradient-to-r from-blue-950/60 to-indigo-950/60 border border-blue-900/40 rounded-xl p-6 md:p-10 text-center">
-                        <h2 className="text-xl md:text-2xl font-semibold text-white mb-2">
+                        <h2 className="text-xl md:text-2xl font-semibold text-ink mb-2">
                             Start Calculating — It's Free
                         </h2>
-                        <p className="text-gray-400 text-sm mb-6 max-w-md mx-auto">
+                        <p className="text-ink-faint text-sm mb-6 max-w-md mx-auto">
                             No account needed. Pick any calculator and get your answer in
                             seconds.
                         </p>

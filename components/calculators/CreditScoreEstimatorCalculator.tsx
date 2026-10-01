@@ -196,27 +196,27 @@ export default function CreditScoreEstimator() {
         if (estimatedScore >= 750) {
             scoreRange = "750-900";
             rating = "Excellent ★★★★★";
-            ratingColor = "text-green-400";
+            ratingColor = "text-green-600";
             creditworthiness = "Excellent credit. You'll get the best rates on loans and credit cards. Banks will compete to offer you products.";
         } else if (estimatedScore >= 700) {
             scoreRange = "700-749";
             rating = "Good ★★★★";
-            ratingColor = "text-blue-400";
+            ratingColor = "text-blue-600";
             creditworthiness = "Good credit. You'll get competitive rates on most loans. Some premium products may require higher scores.";
         } else if (estimatedScore >= 650) {
             scoreRange = "650-699";
             rating = "Fair ★★★";
-            ratingColor = "text-yellow-400";
+            ratingColor = "text-yellow-700";
             creditworthiness = "Fair credit. You may get loans but at slightly higher rates. Consider improving your score before major loan applications.";
         } else if (estimatedScore >= 600) {
             scoreRange = "600-649";
             rating = "Below Average ★★";
-            ratingColor = "text-orange-400";
+            ratingColor = "text-orange-600";
             creditworthiness = "Below average credit. Loan approval may be difficult with limited options. Focus on building your credit history.";
         } else {
             scoreRange = "Below 600";
             rating = "Poor ★";
-            ratingColor = "text-red-400";
+            ratingColor = "text-red-600";
             creditworthiness = "Poor credit. Loan approval is challenging. Work on improving your credit score before applying for any credit.";
         }
 
@@ -315,23 +315,23 @@ export default function CreditScoreEstimator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Finance Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Credit Score Estimator</span>
+                        <span itemProp="name" className="text-ink-soft">Credit Score Estimator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -339,20 +339,20 @@ export default function CreditScoreEstimator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <div>
                             <h3 className="font-semibold">Credit Score Estimator</h3>
-                            <p className="text-xs text-gray-500 mt-1">Estimate your credit score based on key factors</p>
+                            <p className="text-xs text-ink-faint mt-1">Estimate your credit score based on key factors</p>
                         </div>
                     </div>
 
                     <div className="p-6 space-y-4">
                         {/* Payment History (35%) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Payment History (35% weight)
-                                <span className="ml-1 text-gray-500">- On-time payments percentage</span>
+                                <span className="ml-1 text-ink-faint">- On-time payments percentage</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -363,16 +363,16 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 95"
                                     value={paymentHistory}
                                     onChange={(e) => setPaymentHistory(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {paymentOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => setPaymentHistory(option.value.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                         title={option.label}
                                     >
                                         {option.value}%
@@ -383,9 +383,9 @@ export default function CreditScoreEstimator() {
 
                         {/* Credit Utilization (30%) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Credit Utilization (30% weight)
-                                <span className="ml-1 text-gray-500">- % of credit used</span>
+                                <span className="ml-1 text-ink-faint">- % of credit used</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -396,30 +396,30 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 25"
                                     value={creditUtilization}
                                     onChange={(e) => setCreditUtilization(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {utilizationOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => setCreditUtilization(option.value.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                         title={option.label}
                                     >
                                         {option.value}%
                                     </button>
                                 ))}
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">💡 Aim for below 30% for good score</p>
+                            <p className="text-xs text-ink-faint mt-1">💡 Aim for below 30% for good score</p>
                         </div>
 
                         {/* Length of Credit History (15%) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Length of Credit History (15% weight)
-                                <span className="ml-1 text-gray-500">- Years of credit history</span>
+                                <span className="ml-1 text-ink-faint">- Years of credit history</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -430,16 +430,16 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 5"
                                     value={creditHistory}
                                     onChange={(e) => setCreditHistory(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {historyOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => setCreditHistory(option.value.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                         title={option.label}
                                     >
                                         {option.label}
@@ -450,9 +450,9 @@ export default function CreditScoreEstimator() {
 
                         {/* Credit Mix (10%) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Credit Mix (10% weight)
-                                <span className="ml-1 text-gray-500">- Diversity of credit types</span>
+                                <span className="ml-1 text-ink-faint">- Diversity of credit types</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -463,16 +463,16 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 70"
                                     value={creditMix}
                                     onChange={(e) => setCreditMix(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {mixOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => setCreditMix(option.value.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                         title={option.label}
                                     >
                                         {option.label}
@@ -483,9 +483,9 @@ export default function CreditScoreEstimator() {
 
                         {/* New Credit Inquiries (10%) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 New Credit Inquiries (10% weight)
-                                <span className="ml-1 text-gray-500">- Recent credit applications</span>
+                                <span className="ml-1 text-ink-faint">- Recent credit applications</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -496,30 +496,30 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 20"
                                     value={newCredit}
                                     onChange={(e) => setNewCredit(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
                                 {newCreditOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => setNewCredit(option.value.toString())}
-                                        className="text-xs px-2 py-0.5 rounded bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+                                        className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                         title={option.label}
                                     >
                                         {option.label}
                                     </button>
                                 ))}
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">💡 Lower percentage = fewer inquiries = better</p>
+                            <p className="text-xs text-ink-faint mt-1">💡 Lower percentage = fewer inquiries = better</p>
                         </div>
 
                         {/* Existing Score (Optional) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">
                                 Existing Score (Optional)
-                                <span className="ml-1 text-gray-500">- If you know your score</span>
+                                <span className="ml-1 text-ink-faint">- If you know your score</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -530,24 +530,24 @@ export default function CreditScoreEstimator() {
                                     placeholder="e.g., 720"
                                     value={existingScore}
                                     onChange={(e) => setExistingScore(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">score</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">score</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Enter your actual CIBIL score for more accurate estimation</p>
+                            <p className="text-xs text-ink-faint mt-1">Enter your actual CIBIL score for more accurate estimation</p>
                         </div>
 
                         {/* Buttons - Calculate and Reset side by side */}
                         <div className="flex gap-3 pt-2">
                             <button
                                 onClick={estimateScore}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                             >
                                 Estimate Score →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -569,13 +569,13 @@ export default function CreditScoreEstimator() {
                     extraRows={result ? [
                         { label: "Score Range", value: result.scoreRange, valueColor: result.ratingColor },
                         { label: "Rating", value: result.rating, valueColor: result.ratingColor },
-                        { label: "Creditworthiness", value: result.creditworthiness, valueColor: "text-gray-400" },
-                        { label: "Payment History", value: `${result.paymentHistory}%`, valueColor: result.paymentHistory >= 90 ? "text-green-400" : "text-orange-400" },
-                        { label: "Credit Utilization", value: `${result.creditUtilization}%`, valueColor: result.creditUtilization <= 30 ? "text-green-400" : "text-orange-400" },
-                        { label: "Credit History", value: `${result.creditHistory} years`, valueColor: result.creditHistory >= 5 ? "text-green-400" : "text-orange-400" },
-                        { label: "Credit Mix", value: `${result.creditMix}%`, valueColor: result.creditMix >= 70 ? "text-green-400" : "text-orange-400" },
-                        { label: "New Credit Inquiries", value: `${result.newCredit}%`, valueColor: result.newCredit <= 30 ? "text-green-400" : "text-orange-400" },
-                        { label: "Factor Breakdown", value: `📊 ${result.factorBreakdown.paymentHistory}/${result.factorBreakdown.creditUtilization}/${result.factorBreakdown.creditHistory}/${result.factorBreakdown.creditMix}/${result.factorBreakdown.newCredit}`, valueColor: "text-gray-400" },
+                        { label: "Creditworthiness", value: result.creditworthiness, valueColor: "text-ink-faint" },
+                        { label: "Payment History", value: `${result.paymentHistory}%`, valueColor: result.paymentHistory >= 90 ? "text-green-600" : "text-orange-600" },
+                        { label: "Credit Utilization", value: `${result.creditUtilization}%`, valueColor: result.creditUtilization <= 30 ? "text-green-600" : "text-orange-600" },
+                        { label: "Credit History", value: `${result.creditHistory} years`, valueColor: result.creditHistory >= 5 ? "text-green-600" : "text-orange-600" },
+                        { label: "Credit Mix", value: `${result.creditMix}%`, valueColor: result.creditMix >= 70 ? "text-green-600" : "text-orange-600" },
+                        { label: "New Credit Inquiries", value: `${result.newCredit}%`, valueColor: result.newCredit <= 30 ? "text-green-600" : "text-orange-600" },
+                        { label: "Factor Breakdown", value: `📊 ${result.factorBreakdown.paymentHistory}/${result.factorBreakdown.creditUtilization}/${result.factorBreakdown.creditHistory}/${result.factorBreakdown.creditMix}/${result.factorBreakdown.newCredit}`, valueColor: "text-ink-faint" },
                     ] : []}
                 />
             </div>
@@ -583,13 +583,13 @@ export default function CreditScoreEstimator() {
             {/* Suggestions Section */}
             {result && result.suggestions && (
                 <section className="mb-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">💡 Suggestions to Improve Your Credit Score</h2>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                    <h2 className="text-xl font-semibold text-ink mb-4">💡 Suggestions to Improve Your Credit Score</h2>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
                         <div className="space-y-2">
                             {result.suggestions.map((suggestion: string, index: number) => (
                                 <div key={index} className="flex items-start gap-3 text-sm">
-                                    <span className="text-blue-400 mt-0.5">•</span>
-                                    <span className={`text-gray-300 ${suggestion.startsWith('✅') ? 'text-green-400' : ''}`}>
+                                    <span className="text-blue-600 mt-0.5">•</span>
+                                    <span className={`text-ink-soft ${suggestion.startsWith('✅') ? 'text-green-600' : ''}`}>
                                         {suggestion}
                                     </span>
                                 </div>
@@ -603,39 +603,39 @@ export default function CreditScoreEstimator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Credit Score Estimator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Credit Score Estimator</strong> helps you understand your approximate credit score range based on key financial factors. It uses the same five factors that credit bureaus consider: payment history, credit utilization, length of credit history, credit mix, and new credit inquiries.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Credit Score Estimator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Credit Score Estimator</strong> helps you understand your approximate credit score range based on key financial factors. It uses the same five factors that credit bureaus consider: payment history, credit utilization, length of credit history, credit mix, and new credit inquiries.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Our estimator provides you with an estimated score range, a creditworthiness assessment, and personalized suggestions to improve your score. Whether you're planning to apply for a loan, credit card, or mortgage, knowing your credit score range helps you prepare better.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Remember, this is an estimate based on self-reported information. For an exact score, check your official credit report from CIBIL, Experian, Equifax, or CRIF High Mark.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Credit Score Estimator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Credit Score Estimator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">payment history</strong> percentage (how often you pay on time).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">credit utilization</strong> percentage (credit used ÷ total credit limit).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter your <strong className="text-white">length of credit history</strong> in years.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter your <strong className="text-white">credit mix</strong> score (diversity of credit types).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Enter your <strong className="text-white">new credit inquiries</strong> percentage (recent applications).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Optionally enter your <strong className="text-white">existing score</strong> for better accuracy.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 7:</strong> Click <strong className="text-white">"Estimate Score"</strong> to see your results and suggestions.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">payment history</strong> percentage (how often you pay on time).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your <strong className="text-ink">credit utilization</strong> percentage (credit used ÷ total credit limit).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter your <strong className="text-ink">length of credit history</strong> in years.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter your <strong className="text-ink">credit mix</strong> score (diversity of credit types).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Enter your <strong className="text-ink">new credit inquiries</strong> percentage (recent applications).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Optionally enter your <strong className="text-ink">existing score</strong> for better accuracy.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 7:</strong> Click <strong className="text-ink">"Estimate Score"</strong> to see your results and suggestions.</p>
                 </div>
             </section>
 
             {/* Credit Score Factors */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Five Factors That Affect Your Credit Score</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Five Factors That Affect Your Credit Score</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-red-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-red-400 mb-2">📅 Payment History (35%)</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-red-200 transition-all">
+                        <h3 className="text-sm font-semibold text-red-600 mb-2">📅 Payment History (35%)</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• On-time payments</li>
                             <li>• Late payments (30/60/90 days)</li>
                             <li>• Defaults and collections</li>
@@ -643,9 +643,9 @@ export default function CreditScoreEstimator() {
                             <li>• Most important factor</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-blue-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">💳 Credit Utilization (30%)</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">💳 Credit Utilization (30%)</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Credit used ÷ Total limit</li>
                             <li>• Below 30% is good</li>
                             <li>• Below 10% is excellent</li>
@@ -653,9 +653,9 @@ export default function CreditScoreEstimator() {
                             <li>• Second most important</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-green-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">📊 Credit History (15%)</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">📊 Credit History (15%)</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age of oldest account</li>
                             <li>• Average age of accounts</li>
                             <li>• 7+ years = Excellent</li>
@@ -663,9 +663,9 @@ export default function CreditScoreEstimator() {
                             <li>• Longer history = better</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-yellow-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">🏦 Credit Mix (10%)</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-yellow-200 transition-all">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">🏦 Credit Mix (10%)</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Secured loans (home, car)</li>
                             <li>• Unsecured loans (personal, CC)</li>
                             <li>• Healthy mix required</li>
@@ -673,9 +673,9 @@ export default function CreditScoreEstimator() {
                             <li>• Diversity is good</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-purple-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">🆕 New Credit (10%)</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-purple-200 transition-all">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">🆕 New Credit (10%)</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Hard inquiries</li>
                             <li>• Recent applications</li>
                             <li>• Too many = risk</li>
@@ -683,9 +683,9 @@ export default function CreditScoreEstimator() {
                             <li>• Space out applications</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-orange-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">⚡ Quick Tips</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">⚡ Quick Tips</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Pay all bills on time</li>
                             <li>• Keep utilization below 30%</li>
                             <li>• Don't close old cards</li>
@@ -698,131 +698,131 @@ export default function CreditScoreEstimator() {
 
             {/* Credit Score Range Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Credit Score Range Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Credit Score Range Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Score Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Rating</th>
-                                <th className="text-left py-3 px-4 text-gray-400">What It Means</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Recommended</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Score Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Rating</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">What It Means</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Recommended</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-green-400 font-bold">750-900</td>
-                                <td className="py-2 px-4 text-green-400">Excellent ★★★★★</td>
-                                <td className="py-2 px-4 text-gray-400 text-xs">Best rates on loans & credit cards</td>
-                                <td className="py-2 px-4 text-green-400 text-xs">✅ Keep maintaining</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-green-600 font-bold">750-900</td>
+                                <td className="py-2 px-4 text-green-600">Excellent ★★★★★</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Best rates on loans & credit cards</td>
+                                <td className="py-2 px-4 text-green-600 text-xs">✅ Keep maintaining</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-blue-400 font-bold">700-749</td>
-                                <td className="py-2 px-4 text-blue-400">Good ★★★★</td>
-                                <td className="py-2 px-4 text-gray-400 text-xs">Competitive rates on most loans</td>
-                                <td className="py-2 px-4 text-blue-400 text-xs">✅ Good to apply</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-blue-600 font-bold">700-749</td>
+                                <td className="py-2 px-4 text-blue-600">Good ★★★★</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Competitive rates on most loans</td>
+                                <td className="py-2 px-4 text-blue-600 text-xs">✅ Good to apply</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-yellow-400 font-bold">650-699</td>
-                                <td className="py-2 px-4 text-yellow-400">Fair ★★★</td>
-                                <td className="py-2 px-4 text-gray-400 text-xs">Higher rates, limited options</td>
-                                <td className="py-2 px-4 text-yellow-400 text-xs">⚠️ Improve before applying</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-yellow-700 font-bold">650-699</td>
+                                <td className="py-2 px-4 text-yellow-700">Fair ★★★</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Higher rates, limited options</td>
+                                <td className="py-2 px-4 text-yellow-700 text-xs">⚠️ Improve before applying</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-orange-400 font-bold">600-649</td>
-                                <td className="py-2 px-4 text-orange-400">Below Average ★★</td>
-                                <td className="py-2 px-4 text-gray-400 text-xs">Difficult approval, high rates</td>
-                                <td className="py-2 px-4 text-orange-400 text-xs">🔴 Build credit first</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-orange-600 font-bold">600-649</td>
+                                <td className="py-2 px-4 text-orange-600">Below Average ★★</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Difficult approval, high rates</td>
+                                <td className="py-2 px-4 text-orange-600 text-xs">🔴 Build credit first</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-red-400 font-bold">Below 600</td>
-                                <td className="py-2 px-4 text-red-400">Poor ★</td>
-                                <td className="py-2 px-4 text-gray-400 text-xs">Very limited options</td>
-                                <td className="py-2 px-4 text-red-400 text-xs">🔴 Urgent improvement needed</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-red-600 font-bold">Below 600</td>
+                                <td className="py-2 px-4 text-red-600">Poor ★</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Very limited options</td>
+                                <td className="py-2 px-4 text-red-600 text-xs">🔴 Urgent improvement needed</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">* Based on CIBIL/Indian credit bureau scoring system</p>
+                <p className="text-xs text-ink-faint mt-2">* Based on CIBIL/Indian credit bureau scoring system</p>
             </section>
 
             {/* Tips to Improve Score */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Practical Tips to Improve Your Credit Score</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Practical Tips to Improve Your Credit Score</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Set Up Automatic Payments:</strong> Never miss a payment by setting up auto-debit for all your loan and credit card payments.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Set Up Automatic Payments:</strong> Never miss a payment by setting up auto-debit for all your loan and credit card payments.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Keep Balances Low:</strong> Maintain credit card balances below 30% of your limit. Below 10% is even better for your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Keep Balances Low:</strong> Maintain credit card balances below 30% of your limit. Below 10% is even better for your score.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Don't Close Old Accounts:</strong> Keep your oldest credit cards active as they contribute to your credit history length.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Don't Close Old Accounts:</strong> Keep your oldest credit cards active as they contribute to your credit history length.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check Credit Report Regularly:</strong> Review your credit report yearly for errors. Dispute any incorrect information immediately.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check Credit Report Regularly:</strong> Review your credit report yearly for errors. Dispute any incorrect information immediately.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Limit Credit Applications:</strong> Space out your credit applications. Too many hard inquiries in short period can lower your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Limit Credit Applications:</strong> Space out your credit applications. Too many hard inquiries in short period can lower your score.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Maintain Credit Mix:</strong> A healthy mix of secured (home loan) and unsecured (credit card) credit improves your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Maintain Credit Mix:</strong> A healthy mix of secured (home loan) and unsecured (credit card) credit improves your score.</span>
                     </li>
                 </ul>
             </section>
 
             {/* Common Mistakes */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Common Mistakes That Lower Your Credit Score</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Common Mistakes That Lower Your Credit Score</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Late or Missed Payments:</strong> Even a single late payment can drop your score by 50-100 points. Set reminders or auto-pay.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Late or Missed Payments:</strong> Even a single late payment can drop your score by 50-100 points. Set reminders or auto-pay.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Maxing Out Credit Cards:</strong> Using more than 30% of your credit limit indicates credit dependency and lowers your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Maxing Out Credit Cards:</strong> Using more than 30% of your credit limit indicates credit dependency and lowers your score.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Closing Old Accounts:</strong> Closing old credit cards shortens your credit history and can lower your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Closing Old Accounts:</strong> Closing old credit cards shortens your credit history and can lower your score.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Multiple Loan Applications:</strong> Too many hard inquiries in a short period signals financial stress and lowers your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Too many hard inquiries in a short period signals financial stress and lowers your score.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Ignoring Credit Report Errors:</strong> Errors in your credit report can lower your score. Check and dispute errors regularly.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Ignoring Credit Report Errors:</strong> Errors in your credit report can lower your score. Check and dispute errors regularly.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-red-400 mt-0.5">⚠️</span>
-                        <span><strong className="text-gray-300">Only Using One Type of Credit:</strong> Having only credit cards or only loans can limit your credit mix and reduce your score.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-red-600 mt-0.5">⚠️</span>
+                        <span><strong className="text-ink-soft">Only Using One Type of Credit:</strong> Having only credit cards or only loans can limit your credit mix and reduce your score.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

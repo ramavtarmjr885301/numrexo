@@ -187,37 +187,37 @@ export default function CalorieCounter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">Health Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Calorie Counter</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Calorie Counter</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800 flex justify-between items-center">
-                        <div><h3 className="font-semibold">Food Log</h3><p className="text-xs text-gray-500 mt-1">Track what you eat today</p></div>
-                        <button onClick={addFood} className="px-3 py-1 text-sm bg-blue-500 rounded-lg hover:bg-blue-600">+ Add Food</button>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
+                        <div><h3 className="font-semibold">Food Log</h3><p className="text-xs text-ink-faint mt-1">Track what you eat today</p></div>
+                        <button onClick={addFood} className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600">+ Add Food</button>
                     </div>
                     <div className="p-6 space-y-3 max-h-96 overflow-y-auto">
                         {foods.map((food, i) => (
-                            <div key={i} className="flex flex-wrap gap-2 items-center border-b border-gray-800 pb-3">
-                                <input type="text" placeholder="Food name" value={food.name} onChange={(e) => updateFood(i, "name", e.target.value)} className="flex-1 min-w-[100px] px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm" />
-                                <div className="w-20 relative"><input type="number" placeholder="Cal" value={food.calories} onChange={(e) => updateFood(i, "calories", e.target.value)} className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">cal</span></div>
-                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="P" value={food.protein} onChange={(e) => updateFood(i, "protein", e.target.value)} className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">g</span></div>
-                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="C" value={food.carbs} onChange={(e) => updateFood(i, "carbs", e.target.value)} className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">g</span></div>
-                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="F" value={food.fat} onChange={(e) => updateFood(i, "fat", e.target.value)} className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">g</span></div>
-                                {foods.length > 1 && <button onClick={() => removeFood(i)} className="px-2 py-2 text-red-400 hover:text-red-300">✕</button>}
+                            <div key={i} className="flex flex-wrap gap-2 items-center border-b border-hairline pb-3">
+                                <input type="text" placeholder="Food name" value={food.name} onChange={(e) => updateFood(i, "name", e.target.value)} className="flex-1 min-w-[100px] px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm" />
+                                <div className="w-20 relative"><input type="number" placeholder="Cal" value={food.calories} onChange={(e) => updateFood(i, "calories", e.target.value)} className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cal</span></div>
+                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="P" value={food.protein} onChange={(e) => updateFood(i, "protein", e.target.value)} className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-faint">g</span></div>
+                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="C" value={food.carbs} onChange={(e) => updateFood(i, "carbs", e.target.value)} className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-faint">g</span></div>
+                                <div className="w-20 relative"><input type="number" step="0.1" placeholder="F" value={food.fat} onChange={(e) => updateFood(i, "fat", e.target.value)} className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-faint">g</span></div>
+                                {foods.length > 1 && <button onClick={() => removeFood(i)} className="px-2 py-2 text-red-600 hover:text-red-600">✕</button>}
                             </div>
                         ))}
                     </div>
-                    <div className="px-6 py-4 border-t border-gray-800">
+                    <div className="px-6 py-4 border-t border-hairline">
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Total →</button>
-                            <button onClick={resetForm} className="px-5 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-2 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -228,25 +228,25 @@ export default function CalorieCounter() {
                         isEmpty={!result}
                         emptyIcon="🥗"
                         emptyText="Add foods and press Calculate"
-                        mainResult={result ? { label: "Total Calories", value: `${result.totalCalories} kcal`, color: "text-orange-400" } : undefined}
+                        mainResult={result ? { label: "Total Calories", value: `${result.totalCalories} kcal`, color: "text-orange-600" } : undefined}
                         extraRows={result ? [
-                            { label: "Protein", value: `${result.totalProtein}g`, valueColor: "text-green-400" },
-                            { label: "Carbohydrates", value: `${result.totalCarbs}g`, valueColor: "text-yellow-400" },
-                            { label: "Fat", value: `${result.totalFat}g`, valueColor: "text-red-400" },
+                            { label: "Protein", value: `${result.totalProtein}g`, valueColor: "text-green-600" },
+                            { label: "Carbohydrates", value: `${result.totalCarbs}g`, valueColor: "text-yellow-700" },
+                            { label: "Fat", value: `${result.totalFat}g`, valueColor: "text-red-600" },
                         ] : []}
                     />
 
                     {/* Quick Add Section */}
-                    <div className="mt-6 bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gray-800">
+                    <div className="mt-6 bg-surface border border-hairline rounded-xl overflow-hidden">
+                        <div className="px-6 py-4 border-b border-hairline">
                             <h3 className="font-semibold">Quick Add Foods</h3>
-                            <p className="text-xs text-gray-500 mt-1">Click to add common foods</p>
+                            <p className="text-xs text-ink-faint mt-1">Click to add common foods</p>
                         </div>
                         <div className="p-6">
                             <div className="grid grid-cols-2 gap-2">
                                 {CALORIE_FOODS.map((food, i) => (
-                                    <button key={i} onClick={() => addSampleFood(food)} className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 hover:text-blue-400 transition-all">
-                                        {food.food}<br /><span className="text-xs text-gray-500">{food.calories} cal</span>
+                                    <button key={i} onClick={() => addSampleFood(food)} className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 hover:text-blue-600 transition-all">
+                                        {food.food}<br /><span className="text-xs text-ink-faint">{food.calories} cal</span>
                                     </button>
                                 ))}
                             </div>
@@ -257,72 +257,72 @@ export default function CalorieCounter() {
 
             {/* About Section - Expanded */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Calorie Counter</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-3">About Calorie Counter</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Track your daily calorie and macronutrient intake with our free calorie counter. Add foods manually or use our quick-add database of common foods including fruits, proteins, grains, and oils. Perfect for weight loss, muscle gain, or maintaining a healthy lifestyle.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Understanding your calorie intake is the first step toward achieving your health and fitness goals. Whether you want to lose weight, build muscle, or simply eat healthier, tracking what you eat helps you make informed decisions about your nutrition.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Calorie Counter</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Calorie Counter</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Click <strong className="text-white">"+ Add Food"</strong> to add items to your daily food log.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">food name, calories, protein, carbs, and fat</strong> for each item (use nutrition labels or our quick-add database).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Use the <strong className="text-white">Quick Add Foods</strong> section to instantly add common items with pre-filled nutrition data.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Total"</strong> to see your daily totals for calories, protein, carbs, and fat.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all foods and start a fresh log for a new day.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Click <strong className="text-ink">"+ Add Food"</strong> to add items to your daily food log.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">food name, calories, protein, carbs, and fat</strong> for each item (use nutrition labels or our quick-add database).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Use the <strong className="text-ink">Quick Add Foods</strong> section to instantly add common items with pre-filled nutrition data.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Total"</strong> to see your daily totals for calories, protein, carbs, and fat.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all foods and start a fresh log for a new day.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Benefits of Tracking Your Calories</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Tracking Your Calories</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Weight Management</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how many calories you consume vs. burn. Create accurate deficits for weight loss or surpluses for muscle gain.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Weight Management</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how many calories you consume vs. burn. Create accurate deficits for weight loss or surpluses for muscle gain.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Macronutrient Awareness</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track protein, carbs, and fat to ensure balanced nutrition. Hit your macro targets for optimal health and performance.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Macronutrient Awareness</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track protein, carbs, and fat to ensure balanced nutrition. Hit your macro targets for optimal health and performance.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Mindful Eating</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Become more aware of portion sizes and food choices. Reduce mindless snacking and emotional eating.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Mindful Eating</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Become more aware of portion sizes and food choices. Reduce mindless snacking and emotional eating.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Goal Tracking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Monitor progress toward weight loss, muscle gain, or maintenance goals. Adjust your intake based on real data.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Goal Tracking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Monitor progress toward weight loss, muscle gain, or maintenance goals. Adjust your intake based on real data.</p>
                     </div>
                 </div>
             </section>
 
             {/* Sample Meal Plan */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Sample Daily Meal Plan (1,500 calories)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Sample Daily Meal Plan (1,500 calories)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-2 px-3 text-gray-400">Meal</th><th className="text-left py-2 px-3 text-gray-400">Food</th><th className="text-right py-2 px-3 text-gray-400">Calories</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-2 px-3 text-ink-faint">Meal</th><th className="text-left py-2 px-3 text-ink-faint">Food</th><th className="text-right py-2 px-3 text-ink-faint">Calories</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-3">Breakfast</td><td className="py-2 px-3">2 eggs + 1 slice whole grain bread + 1 banana</td><td className="py-2 px-3 text-right text-yellow-400">350</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-3">Lunch</td><td className="py-2 px-3">150g chicken breast + 1 cup brown rice + 1 cup broccoli</td><td className="py-2 px-3 text-right text-yellow-400">500</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-3">Snack</td><td className="py-2 px-3">1 apple + 1 tbsp peanut butter</td><td className="py-2 px-3 text-right text-yellow-400">150</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-3">Dinner</td><td className="py-2 px-3">150g fish + 1 cup quinoa + mixed vegetables</td><td className="py-2 px-3 text-right text-yellow-400">500</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-3">Breakfast</td><td className="py-2 px-3">2 eggs + 1 slice whole grain bread + 1 banana</td><td className="py-2 px-3 text-right text-yellow-700">350</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-3">Lunch</td><td className="py-2 px-3">150g chicken breast + 1 cup brown rice + 1 cup broccoli</td><td className="py-2 px-3 text-right text-yellow-700">500</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-3">Snack</td><td className="py-2 px-3">1 apple + 1 tbsp peanut butter</td><td className="py-2 px-3 text-right text-yellow-700">150</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-3">Dinner</td><td className="py-2 px-3">150g fish + 1 cup quinoa + mixed vegetables</td><td className="py-2 px-3 text-right text-yellow-700">500</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">*Adjust portions based on your calorie needs. Active individuals may need 2,000-2,500 calories.</p>
+                <p className="text-xs text-ink-faint mt-2">*Adjust portions based on your calorie needs. Active individuals may need 2,000-2,500 calories.</p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Daily Calorie Reference</h2><div className="bg-[#111827] border border-gray-800 rounded-xl p-5"><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><div><h3 className="text-sm font-semibold text-blue-400 mb-2">For Weight Loss</h3><p className="text-gray-400 text-sm">• Reduce 500 calories/day = 0.5 kg/week</p><p className="text-gray-400 text-sm">• Reduce 1000 calories/day = 1 kg/week</p><p className="text-gray-400 text-sm">• Minimum: 1200 (women) / 1500 (men)</p></div><div><h3 className="text-sm font-semibold text-green-400 mb-2">For Weight Gain</h3><p className="text-gray-400 text-sm">• Add 300-500 calories/day = 0.25-0.5 kg/week</p><p className="text-gray-400 text-sm">• Focus on protein-rich foods</p><p className="text-gray-400 text-sm">• Combine with strength training</p></div></div></div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Daily Calorie Reference</h2><div className="bg-surface border border-hairline rounded-xl p-5"><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><div><h3 className="text-sm font-semibold text-blue-600 mb-2">For Weight Loss</h3><p className="text-ink-faint text-sm">• Reduce 500 calories/day = 0.5 kg/week</p><p className="text-ink-faint text-sm">• Reduce 1000 calories/day = 1 kg/week</p><p className="text-ink-faint text-sm">• Minimum: 1200 (women) / 1500 (men)</p></div><div><h3 className="text-sm font-semibold text-green-600 mb-2">For Weight Gain</h3><p className="text-ink-faint text-sm">• Add 300-500 calories/day = 0.25-0.5 kg/week</p><p className="text-ink-faint text-sm">• Focus on protein-rich foods</p><p className="text-ink-faint text-sm">• Combine with strength training</p></div></div></div></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Macro Guidelines</h2><div className="grid grid-cols-3 gap-4 text-center"><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🍗</div><div className="text-sm font-semibold text-green-400">Protein</div><div className="text-xs text-gray-400">10-35% of calories</div><div className="text-xs text-gray-500 mt-1">~0.8g per kg body weight</div></div><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🍚</div><div className="text-sm font-semibold text-yellow-400">Carbs</div><div className="text-xs text-gray-400">45-65% of calories</div><div className="text-xs text-gray-500 mt-1">Main energy source</div></div><div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🧈</div><div className="text-sm font-semibold text-red-400">Fat</div><div className="text-xs text-gray-400">20-35% of calories</div><div className="text-xs text-gray-500 mt-1">Essential for hormones</div></div></div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Macro Guidelines</h2><div className="grid grid-cols-3 gap-4 text-center"><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍗</div><div className="text-sm font-semibold text-green-600">Protein</div><div className="text-xs text-ink-faint">10-35% of calories</div><div className="text-xs text-ink-faint mt-1">~0.8g per kg body weight</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍚</div><div className="text-sm font-semibold text-yellow-700">Carbs</div><div className="text-xs text-ink-faint">45-65% of calories</div><div className="text-xs text-ink-faint mt-1">Main energy source</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🧈</div><div className="text-sm font-semibold text-red-600">Fat</div><div className="text-xs text-ink-faint">20-35% of calories</div><div className="text-xs text-ink-faint mt-1">Essential for hormones</div></div></div></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span><span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span><span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
         </>
     );
 }

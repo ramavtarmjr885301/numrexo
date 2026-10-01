@@ -285,19 +285,19 @@ export default function RecipeConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-gray-300">Cooking Calculators</a>
+                        <a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Recipe Converter</span>
+                        <span itemProp="name" className="text-ink-soft">Recipe Converter</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -305,23 +305,23 @@ export default function RecipeConverter() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Recipe Converter</h3>
-                        <p className="text-xs text-gray-500 mt-1">Scale recipes or convert units</p>
+                        <p className="text-xs text-ink-faint mt-1">Scale recipes or convert units</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Conversion Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Conversion Type</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "scale" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "scale" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("scale")}
                                 >
                                     Scale Recipe
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "unit" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "unit" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setCalcType("unit")}
                                 >
                                     Convert Units
@@ -333,29 +333,29 @@ export default function RecipeConverter() {
                             <>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Original Servings</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Original Servings</label>
                                         <input
                                             type="number"
                                             placeholder="4"
                                             value={originalServings}
                                             onChange={(e) => setOriginalServings(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">Desired Servings</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">Desired Servings</label>
                                         <input
                                             type="number"
                                             placeholder="8"
                                             value={servings}
                                             onChange={(e) => setServings(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <label className="text-xs font-semibold text-gray-400">Ingredients</label>
-                                    <button onClick={addIngredient} className="text-xs text-blue-400 hover:text-blue-300">+ Add Ingredient</button>
+                                    <label className="text-xs font-semibold text-ink-faint">Ingredients</label>
+                                    <button onClick={addIngredient} className="text-xs text-blue-600 hover:text-blue-600">+ Add Ingredient</button>
                                 </div>
                                 <div className="space-y-3 max-h-80 overflow-y-auto">
                                     {ingredients.map(ing => (
@@ -365,7 +365,7 @@ export default function RecipeConverter() {
                                                 placeholder="Ingredient"
                                                 value={ing.name}
                                                 onChange={(e) => updateIngredient(ing.id, "name", e.target.value)}
-                                                className="flex-1 px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                                className="flex-1 px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none"
                                             />
                                             <div className="w-24 relative">
                                                 <input
@@ -374,14 +374,14 @@ export default function RecipeConverter() {
                                                     placeholder="Amount"
                                                     value={ing.amount}
                                                     onChange={(e) => updateIngredient(ing.id, "amount", e.target.value)}
-                                                    className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
                                             </div>
                                             <div className="w-28">
                                                 <select
                                                     value={ing.unit}
                                                     onChange={(e) => updateIngredient(ing.id, "unit", e.target.value)}
-                                                    className="w-full px-2 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none"
+                                                    className="w-full px-2 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none"
                                                 >
                                                     <option value="tsp">tsp</option>
                                                     <option value="tbsp">Tbsp</option>
@@ -394,7 +394,7 @@ export default function RecipeConverter() {
                                                 </select>
                                             </div>
                                             {ingredients.length > 1 && (
-                                                <button onClick={() => removeIngredient(ing.id)} className="px-2 py-2 text-red-400 hover:text-red-300">
+                                                <button onClick={() => removeIngredient(ing.id)} className="px-2 py-2 text-red-600 hover:text-red-600">
                                                     ✕
                                                 </button>
                                             )}
@@ -405,39 +405,39 @@ export default function RecipeConverter() {
                         ) : (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Value</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Value</label>
                                     <input
                                         type="number"
                                         step="0.1"
                                         placeholder="1"
                                         value={convertValue}
                                         onChange={(e) => setConvertValue(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="flex-1">
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">From</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">From</label>
                                         <select
                                             value={fromUnit}
                                             onChange={(e) => setFromUnit(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                                         >
                                             {MEASUREMENT_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}
                                         </select>
                                     </div>
                                     <button
                                         onClick={() => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); }}
-                                        className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-all"
+                                        className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all"
                                     >
                                         🔄
                                     </button>
                                     <div className="flex-1">
-                                        <label className="block text-xs font-semibold text-gray-400 mb-2">To</label>
+                                        <label className="block text-xs font-semibold text-ink-faint mb-2">To</label>
                                         <select
                                             value={toUnit}
                                             onChange={(e) => setToUnit(e.target.value)}
-                                            className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                            className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                                         >
                                             {MEASUREMENT_UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}
                                         </select>
@@ -455,7 +455,7 @@ export default function RecipeConverter() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -469,12 +469,12 @@ export default function RecipeConverter() {
                     isEmpty={!result}
                     emptyIcon="📖"
                     emptyText={calcType === "scale" ? "Add ingredients and servings" : "Enter value and units"}
-                    mainResult={result ? (calcType === "scale" ? { label: "Scaling Factor", value: `${(result as ScaleResult).factor}x`, color: "text-orange-400" } : { label: "Converted Value", value: `${(result as UnitResult).converted} ${(result as UnitResult).toUnit}`, color: "text-orange-400" }) : undefined}
+                    mainResult={result ? (calcType === "scale" ? { label: "Scaling Factor", value: `${(result as ScaleResult).factor}x`, color: "text-orange-600" } : { label: "Converted Value", value: `${(result as UnitResult).converted} ${(result as UnitResult).toUnit}`, color: "text-orange-600" }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "scale" ? [
                             { label: "Original Servings", value: `${(result as ScaleResult).originalServings}` },
                             { label: "New Servings", value: `${(result as ScaleResult).targetServings}` },
-                            ...(result as ScaleResult).scaledIngredients.map((ing: ScaledIngredient, i: number) => ({ label: ing.name, value: `${ing.scaled} (was ${ing.original})`, valueColor: "text-yellow-400" })),
+                            ...(result as ScaleResult).scaledIngredients.map((ing: ScaledIngredient, i: number) => ({ label: ing.name, value: `${ing.scaled} (was ${ing.original})`, valueColor: "text-yellow-700" })),
                         ] : [
                             { label: "Original Value", value: `${(result as UnitResult).fromValue} ${(result as UnitResult).fromUnit}` },
                         ]),
@@ -486,110 +486,110 @@ export default function RecipeConverter() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Recipe Converter</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Recipe Converter</strong> is a versatile tool that helps you scale recipes up or down for any number of servings and convert between different measurement units. Whether you're cooking for a large family gathering or scaling down a recipe for two, this tool makes recipe adjustment effortless and accurate.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Recipe Converter</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Recipe Converter</strong> is a versatile tool that helps you scale recipes up or down for any number of servings and convert between different measurement units. Whether you're cooking for a large family gathering or scaling down a recipe for two, this tool makes recipe adjustment effortless and accurate.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our converter supports both volume measurements (teaspoons, tablespoons, cups, milliliters, liters) and weight measurements (grams, kilograms, ounces, pounds). With real-time calculation and easy-to-use interface, you can quickly adapt any recipe to your needs without manual math.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Recipe Converter</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Recipe Converter</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Choose between <strong className="text-white">"Scale Recipe"</strong> or <strong className="text-white">"Convert Units"</strong> mode.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> For scaling: Enter <strong className="text-white">original servings</strong> and <strong className="text-white">desired servings</strong>, then add ingredients with their amounts.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For unit conversion: Enter the <strong className="text-white">value</strong>, select <strong className="text-white">"From"</strong> and <strong className="text-white">"To"</strong> units.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Scale Recipe"</strong> or <strong className="text-white">"Convert"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Use <strong className="text-white">"Add Ingredient"</strong> for multi-ingredient recipes.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Choose between <strong className="text-ink">"Scale Recipe"</strong> or <strong className="text-ink">"Convert Units"</strong> mode.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> For scaling: Enter <strong className="text-ink">original servings</strong> and <strong className="text-ink">desired servings</strong>, then add ingredients with their amounts.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For unit conversion: Enter the <strong className="text-ink">value</strong>, select <strong className="text-ink">"From"</strong> and <strong className="text-ink">"To"</strong> units.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Scale Recipe"</strong> or <strong className="text-ink">"Convert"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Use <strong className="text-ink">"Add Ingredient"</strong> for multi-ingredient recipes.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Recipe Converter?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Recipe Converter?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Perfect Portions</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Never waste food again. Scale any recipe to match your exact serving needs, whether cooking for 2 or 20 people.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Perfect Portions</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Never waste food again. Scale any recipe to match your exact serving needs, whether cooking for 2 or 20 people.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ International Recipes</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Easily convert between US (cups, ounces) and metric (ml, grams) measurements. Cook any recipe from any country.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ International Recipes</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Easily convert between US (cups, ounces) and metric (ml, grams) measurements. Cook any recipe from any country.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Baking Accuracy</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Achieve perfect baking results with accurate weight measurements. Professional bakers prefer grams for consistent results.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Baking Accuracy</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Achieve perfect baking results with accurate weight measurements. Professional bakers prefer grams for consistent results.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Batch Cooking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Scale your favorite recipes for meal prep. Cook once, eat multiple times with perfectly proportioned ingredients.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Batch Cooking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Scale your favorite recipes for meal prep. Cook once, eat multiple times with perfectly proportioned ingredients.</p>
                     </div>
                 </div>
             </section>
 
             {/* Common Conversions Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Common Kitchen Measurement Conversions</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Common Kitchen Measurement Conversions</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">From</th>
-                                <th className="text-left py-3 px-4 text-gray-400">To</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Value</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">From</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">To</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Value</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 cup</td>
-                                <td className="py-2 px-4 text-gray-400">ml</td>
-                                <td className="py-2 px-4 text-yellow-400">240 ml</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">US standard cup</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 cup</td>
+                                <td className="py-2 px-4 text-ink-faint">ml</td>
+                                <td className="py-2 px-4 text-yellow-700">240 ml</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">US standard cup</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 tbsp</td>
-                                <td className="py-2 px-4 text-gray-400">tsp</td>
-                                <td className="py-2 px-4 text-yellow-400">3 tsp</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">Standard ratio</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 tbsp</td>
+                                <td className="py-2 px-4 text-ink-faint">tsp</td>
+                                <td className="py-2 px-4 text-yellow-700">3 tsp</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Standard ratio</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 oz</td>
-                                <td className="py-2 px-4 text-gray-400">g</td>
-                                <td className="py-2 px-4 text-yellow-400">28.35 g</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">Weight conversion</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 oz</td>
+                                <td className="py-2 px-4 text-ink-faint">g</td>
+                                <td className="py-2 px-4 text-yellow-700">28.35 g</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Weight conversion</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 lb</td>
-                                <td className="py-2 px-4 text-gray-400">g</td>
-                                <td className="py-2 px-4 text-yellow-400">453.6 g</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">1 pound = 16 oz</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 lb</td>
+                                <td className="py-2 px-4 text-ink-faint">g</td>
+                                <td className="py-2 px-4 text-yellow-700">453.6 g</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">1 pound = 16 oz</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 liter</td>
-                                <td className="py-2 px-4 text-gray-400">cups</td>
-                                <td className="py-2 px-4 text-yellow-400">4.227 cups</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">Metric to imperial</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 liter</td>
+                                <td className="py-2 px-4 text-ink-faint">cups</td>
+                                <td className="py-2 px-4 text-yellow-700">4.227 cups</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Metric to imperial</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 kg</td>
-                                <td className="py-2 px-4 text-gray-400">lb</td>
-                                <td className="py-2 px-4 text-yellow-400">2.204 lb</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">Kilogram to pound</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 kg</td>
+                                <td className="py-2 px-4 text-ink-faint">lb</td>
+                                <td className="py-2 px-4 text-yellow-700">2.204 lb</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">Kilogram to pound</td>
                             </tr>
-                            <tr className="hover:bg-white/5">
-                                <td className="py-2 px-4 text-gray-300">1 stick butter</td>
-                                <td className="py-2 px-4 text-gray-400">g</td>
-                                <td className="py-2 px-4 text-yellow-400">113 g</td>
-                                <td className="py-2 px-4 text-gray-500 text-xs">½ cup = 8 tbsp</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-2 px-4 text-ink-soft">1 stick butter</td>
+                                <td className="py-2 px-4 text-ink-faint">g</td>
+                                <td className="py-2 px-4 text-yellow-700">113 g</td>
+                                <td className="py-2 px-4 text-ink-faint text-xs">½ cup = 8 tbsp</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * These are standard US measurements. Some countries use metric cups (250ml) or imperial units. Our converter handles all variations.
                     </p>
                 </div>
@@ -597,45 +597,45 @@ export default function RecipeConverter() {
 
             {/* Recipe Scaling Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Recipe Scaling Tips for Perfect Results</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Recipe Scaling Tips for Perfect Results</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use weight measurements:</strong> For baking, always use grams for accuracy. 1 cup of flour can vary by 20-30g depending on how you scoop.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use weight measurements:</strong> For baking, always use grams for accuracy. 1 cup of flour can vary by 20-30g depending on how you scoop.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Adjust leavening agents:</strong> When doubling, use 1.5x baking powder/soda, not 2x. Too much can make your baked goods bitter and affect texture.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Adjust leavening agents:</strong> When doubling, use 1.5x baking powder/soda, not 2x. Too much can make your baked goods bitter and affect texture.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Monitor cooking time:</strong> Larger portions need more time, but not double. Use the recipe's doneness indicators (toothpick test, internal temperature).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Monitor cooking time:</strong> Larger portions need more time, but not double. Use the recipe's doneness indicators (toothpick test, internal temperature).</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Adjust pan size:</strong> When scaling, use pans with similar surface area. A 9x13 pan vs two 8x8 pans can affect baking time and results.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Adjust pan size:</strong> When scaling, use pans with similar surface area. A 9x13 pan vs two 8x8 pans can affect baking time and results.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Season to taste:</strong> For spices and herbs, start with 1.5x for double recipes. You can always add more, but can't remove excess.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Season to taste:</strong> For spices and herbs, start with 1.5x for double recipes. You can always add more, but can't remove excess.</span>
                     </li>
                 </ul>
             </section>
 
             {/* Volume vs Weight Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Volume vs Weight: Which is Better?</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                        <strong className="text-white">Weight measurements</strong> (grams, ounces) are superior for baking and precise cooking because they eliminate the variability caused by how ingredients are packed. A cup of flour can weigh anywhere from 120g to 150g depending on the scooping method, while 120g of flour is always exactly 120g.
+                <h2 className="text-xl font-semibold text-ink mb-3">Volume vs Weight: Which is Better?</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 space-y-3">
+                    <p className="text-ink-faint text-sm leading-relaxed">
+                        <strong className="text-ink">Weight measurements</strong> (grams, ounces) are superior for baking and precise cooking because they eliminate the variability caused by how ingredients are packed. A cup of flour can weigh anywhere from 120g to 150g depending on the scooping method, while 120g of flour is always exactly 120g.
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                        <strong className="text-white">Volume measurements</strong> (cups, tablespoons) are more convenient for everyday cooking and are widely used in US recipes. They work well for liquids and when precision is less critical. For best results, use a kitchen scale for baking and volume measurements for cooking.
+                    <p className="text-ink-faint text-sm leading-relaxed">
+                        <strong className="text-ink">Volume measurements</strong> (cups, tablespoons) are more convenient for everyday cooking and are widely used in US recipes. They work well for liquids and when precision is less critical. For best results, use a kitchen scale for baking and volume measurements for cooking.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-800">
+                    <div className="grid grid-cols-2 gap-4 pt-2 border-t border-hairline">
                         <div>
-                            <h4 className="text-xs font-semibold text-gray-400 mb-1">Weight Advantages</h4>
-                            <ul className="text-xs text-gray-500 space-y-1">
+                            <h4 className="text-xs font-semibold text-ink-faint mb-1">Weight Advantages</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• 100% accurate</li>
                                 <li>• Consistent results</li>
                                 <li>• Easy to scale</li>
@@ -643,8 +643,8 @@ export default function RecipeConverter() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-xs font-semibold text-gray-400 mb-1">Volume Advantages</h4>
-                            <ul className="text-xs text-gray-500 space-y-1">
+                            <h4 className="text-xs font-semibold text-ink-faint mb-1">Volume Advantages</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Quick to measure</li>
                                 <li>• No scale needed</li>
                                 <li>• Common in US recipes</li>
@@ -657,19 +657,19 @@ export default function RecipeConverter() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

@@ -183,19 +183,19 @@ export default function WorkingDaysCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
+                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Working Days Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Working Days Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -203,28 +203,28 @@ export default function WorkingDaysCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Working Days Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate business days between two dates (Mon-Fri)</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate business days between two dates (Mon-Fri)</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Start Date</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Start Date</label>
                             <input
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">End Date</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">End Date</label>
                             <input
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
                             />
                         </div>
                         <div className="flex gap-3">
@@ -236,7 +236,7 @@ export default function WorkingDaysCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -250,10 +250,10 @@ export default function WorkingDaysCalculator() {
                     isEmpty={!result}
                     emptyIcon="💼"
                     emptyText="Select start and end dates"
-                    mainResult={result ? { label: "Working Days", value: `${result.workingDays} days`, color: "text-green-400" } : undefined}
+                    mainResult={result ? { label: "Working Days", value: `${result.workingDays} days`, color: "text-green-600" } : undefined}
                     extraRows={result ? [
                         { label: "Total Days (including weekends)", value: `${result.totalDays} days` },
-                        { label: "Weekends", value: `${result.weekends} days`, valueColor: "text-yellow-400" },
+                        { label: "Weekends", value: `${result.weekends} days`, valueColor: "text-yellow-700" },
                         { label: "Weeks Breakdown", value: `${result.weeks} weeks + ${result.remainingDays} days` },
                         { label: "Period", value: `${result.startDate} → ${result.endDate}` },
                     ] : []}
@@ -264,120 +264,120 @@ export default function WorkingDaysCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Working Days Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Working Days Calculator</strong> helps you calculate the number of business days (Monday-Friday) between any two dates. Perfect for project planning, delivery estimates, and business timelines.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Working Days Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Working Days Calculator</strong> helps you calculate the number of business days (Monday-Friday) between any two dates. Perfect for project planning, delivery estimates, and business timelines.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Unlike calendar days which include weekends, working days are more useful for business contexts where work typically doesn't happen on Saturdays and Sundays. Both the start and end dates are included in the calculation.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're estimating project completion dates, shipping delivery times, or calculating work periods, this calculator provides accurate working day counts instantly.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Working Days Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Working Days Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select your <strong className="text-white">start date</strong> using the date picker.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select your <strong className="text-white">end date</strong> using the date picker.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Working Days"</strong> to see the result.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Review your <strong className="text-white">working days, total days, and weekend days</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Use the quick example buttons to test the calculator.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select your <strong className="text-ink">start date</strong> using the date picker.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select your <strong className="text-ink">end date</strong> using the date picker.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate Working Days"</strong> to see the result.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Review your <strong className="text-ink">working days, total days, and weekend days</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Use the quick example buttons to test the calculator.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Working Days Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Working Days Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Project Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Estimate project completion dates accurately. Know exactly how many working days you have to complete deliverables.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Project Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Estimate project completion dates accurately. Know exactly how many working days you have to complete deliverables.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Delivery Estimates</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate shipping and delivery times. Know when packages will arrive based on business days.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Delivery Estimates</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate shipping and delivery times. Know when packages will arrive based on business days.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Work Schedule Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan work schedules, shifts, and staffing needs. Understand how many working days are available.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Work Schedule Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan work schedules, shifts, and staffing needs. Understand how many working days are available.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Contract Deadlines</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate business day deadlines for contracts, payments, and legal documents. Ensure compliance with timelines.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Contract Deadlines</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate business day deadlines for contracts, payments, and legal documents. Ensure compliance with timelines.</p>
                     </div>
                 </div>
             </section>
 
             {/* Quick Examples */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Quick Examples</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Quick Examples</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <button
                         onClick={() => setExample("2024-12-16", "2024-12-20")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 Dec 16-20, 2024<br /><span className="text-gray-500 text-xs">5 working days</span>
+                        📅 Dec 16-20, 2024<br /><span className="text-ink-faint text-xs">5 working days</span>
                     </button>
                     <button
                         onClick={() => setExample("2024-12-16", "2024-12-23")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 Dec 16-23, 2024<br /><span className="text-gray-500 text-xs">6 working days</span>
+                        📅 Dec 16-23, 2024<br /><span className="text-ink-faint text-xs">6 working days</span>
                     </button>
                     <button
                         onClick={() => setExample("2024-12-01", "2024-12-31")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 December 2024<br /><span className="text-gray-500 text-xs">22 working days</span>
+                        📅 December 2024<br /><span className="text-ink-faint text-xs">22 working days</span>
                     </button>
                     <button
                         onClick={() => setExample("2025-01-01", "2025-12-31")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 Full Year 2025<br /><span className="text-gray-500 text-xs">~261 working days</span>
+                        📅 Full Year 2025<br /><span className="text-ink-faint text-xs">~261 working days</span>
                     </button>
                     <button
                         onClick={() => setExample("2025-01-01", "2025-01-15")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 Jan 1-15, 2025<br /><span className="text-gray-500 text-xs">10 working days</span>
+                        📅 Jan 1-15, 2025<br /><span className="text-ink-faint text-xs">10 working days</span>
                     </button>
                     <button
                         onClick={() => setExample("2025-02-01", "2025-02-28")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-green-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-green-300 transition-all"
                     >
-                        📅 February 2025<br /><span className="text-gray-500 text-xs">20 working days</span>
+                        📅 February 2025<br /><span className="text-ink-faint text-xs">20 working days</span>
                     </button>
                 </div>
             </section>
 
             {/* Monthly Working Days Reference */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Working Days by Month (2025)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Working Days by Month (2025)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Month</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Working Days</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Month</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Working Days</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {MONTHLY_WORKING_DAYS.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-2 px-4 text-gray-300">{row.month}</td>
-                                    <td className="py-2 px-4 text-yellow-400">{row.workingDays}</td>
-                                    <td className="py-2 px-4 text-gray-500 text-xs">{row.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-2 px-4 text-ink-soft">{row.month}</td>
+                                    <td className="py-2 px-4 text-yellow-700">{row.workingDays}</td>
+                                    <td className="py-2 px-4 text-ink-faint text-xs">{row.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Approximate working days per month (excluding weekends). Actual days vary by year and public holidays.
                     </p>
                 </div>
@@ -385,73 +385,73 @@ export default function WorkingDaysCalculator() {
 
             {/* Project Timeline Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Project Timeline Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Project Timeline Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Always add buffer time:</strong> Add 15-20% extra working days to your estimates for unexpected delays. Projects almost always take longer than planned.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Always add buffer time:</strong> Add 15-20% extra working days to your estimates for unexpected delays. Projects almost always take longer than planned.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider holidays:</strong> Check if any public holidays fall within your date range. These reduce available working days significantly.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider holidays:</strong> Check if any public holidays fall within your date range. These reduce available working days significantly.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Plan in working days, not calendar days:</strong> When communicating deadlines with clients or team members, use working days to avoid confusion about weekend availability.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Plan in working days, not calendar days:</strong> When communicating deadlines with clients or team members, use working days to avoid confusion about weekend availability.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use project management tools:</strong> Integrate working day calculations into your project management software for accurate milestone planning.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use project management tools:</strong> Integrate working day calculations into your project management software for accurate milestone planning.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Account for team schedules:</strong> If your team works a different schedule (e.g., 4-day work week), adjust your working day definition accordingly.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Account for team schedules:</strong> If your team works a different schedule (e.g., 4-day work week), adjust your working day definition accordingly.</span>
                     </li>
                 </ul>
             </section>
 
             {/* Working Days Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Working Days Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Working Days Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Both dates are included:</strong> Our calculator includes both the start and end dates in the count. If you want to exclude the start date, use the day after.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Both dates are included:</strong> Our calculator includes both the start and end dates in the count. If you want to exclude the start date, use the day after.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Weekend definition:</strong> Our calculator considers Saturday and Sunday as weekends. Some countries have different weekend days (e.g., Friday-Saturday).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Weekend definition:</strong> Our calculator considers Saturday and Sunday as weekends. Some countries have different weekend days (e.g., Friday-Saturday).</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Legal and financial use:</strong> Many legal documents use 'business days' for deadlines. Always clarify if the count includes the start date or excludes it.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Legal and financial use:</strong> Many legal documents use 'business days' for deadlines. Always clarify if the count includes the start date or excludes it.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Shipping estimates:</strong> Shipping carriers typically count business days from the pickup date. Check their specific business day policy.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Shipping estimates:</strong> Shipping carriers typically count business days from the pickup date. Check their specific business day policy.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-green-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Save your results:</strong> Take a screenshot or note your working day count for reference. Useful for project documentation.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Save your results:</strong> Take a screenshot or note your working day count for reference. Useful for project documentation.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

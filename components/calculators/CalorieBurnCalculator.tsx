@@ -111,46 +111,46 @@ export default function CalorieBurnCalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CALORIE_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-          <li className="text-gray-700">/</li>
-          <li><a href="https://numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
-          <li className="text-gray-700">/</li>
-          <li><span className="text-gray-300">Calorie Burn Calculator</span></li>
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><a href="https://numrexo.com/fitness" className="hover:text-ink-soft">Fitness Calculators</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><span className="text-ink-soft">Calorie Burn Calculator</span></li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">Activity Details</h3>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Your Weight</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Your Weight</label>
               <div className="relative">
-                <input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span>
+                <input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">kg</span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Heavier individuals burn more calories for the same activity</p>
+              <p className="text-xs text-ink-faint mt-1">Heavier individuals burn more calories for the same activity</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Activity Type</label>
-              <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Activity Type</label>
+              <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer">
                 {ACTIVITIES.map((act) => (<option key={act.value} value={act.value}>{act.label}</option>))}
               </select>
-              <p className="text-xs text-gray-500 mt-1">{ACTIVITIES.find(a => a.value === activity)?.detail}</p>
+              <p className="text-xs text-ink-faint mt-1">{ACTIVITIES.find(a => a.value === activity)?.detail}</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Duration</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Duration</label>
               <div className="relative">
-                <input type="number" placeholder="30" value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">minutes</span>
+                <input type="number" placeholder="30" value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">minutes</span>
               </div>
             </div>
             <div className="flex gap-3">
               <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold hover:shadow-lg transition-all">Calculate Calories Burned →</button>
-              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
             </div>
           </div>
         </div>
@@ -160,139 +160,139 @@ export default function CalorieBurnCalculator() {
           isEmpty={!result}
           emptyIcon="🔥"
           emptyText="Enter your weight, activity, and duration"
-          mainResult={result ? { label: "Total Calories Burned", value: `${result.totalCalories} kcal`, color: "text-orange-400" } : undefined}
+          mainResult={result ? { label: "Total Calories Burned", value: `${result.totalCalories} kcal`, color: "text-orange-600" } : undefined}
           extraRows={result ? [
             { label: "Activity Intensity", value: `${result.intensity} (${result.met} METs)` },
             { label: "Calories per Minute", value: `${result.caloriesPerMinute} kcal` },
             { label: "Calories per 30 Minutes", value: `${result.caloriesPer30Min} kcal` },
             { label: "Calories per Hour", value: `${result.caloriesPerHour} kcal` },
-            { label: "Weekly (5 sessions)", value: `${result.weeklyCalories} kcal`, valueColor: "text-yellow-400" },
-            { label: "Monthly (20 sessions)", value: `${result.monthlyCalories} kcal`, valueColor: "text-green-400" },
+            { label: "Weekly (5 sessions)", value: `${result.weeklyCalories} kcal`, valueColor: "text-yellow-700" },
+            { label: "Monthly (20 sessions)", value: `${result.monthlyCalories} kcal`, valueColor: "text-green-600" },
           ] : undefined}
         />
       </div>
 
       {/* About Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About Calorie Burn Calculator</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          Our calorie burn calculator uses <strong className="text-gray-300">MET (Metabolic Equivalent of Task)</strong> values from the Compendium of Physical Activities, the scientific standard for exercise energy expenditure. Whether you're tracking workouts for weight loss or fitness goals, get accurate estimates for any activity.
+        <h2 className="text-xl font-semibold text-ink mb-3">About Calorie Burn Calculator</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          Our calorie burn calculator uses <strong className="text-ink-soft">MET (Metabolic Equivalent of Task)</strong> values from the Compendium of Physical Activities, the scientific standard for exercise energy expenditure. Whether you're tracking workouts for weight loss or fitness goals, get accurate estimates for any activity.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
           Understanding how many calories you burn during different activities is essential for weight management and fitness planning. This calculator helps you make informed decisions about which activities give you the best return on your exercise time investment.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           For best results, combine exercise tracking with proper nutrition. A calorie deficit of 500-700 calories daily leads to healthy weight loss of 0.5 kg per week. Remember that consistency matters more than intensity — regular moderate exercise beats sporadic intense workouts.
         </p>
       </section>
 
       {/* How to Use Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">How to Use This Calorie Burn Calculator</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Calorie Burn Calculator</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">body weight</strong> in kilograms — this is the most important factor for accuracy.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Select your <strong className="text-white">activity type</strong> from 20+ options including running, cycling, swimming, gym workouts, and more.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">duration</strong> of your activity in minutes.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">Calculate Calories Burned</strong> to see your results.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different activity.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">body weight</strong> in kilograms — this is the most important factor for accuracy.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Select your <strong className="text-ink">activity type</strong> from 20+ options including running, cycling, swimming, gym workouts, and more.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">duration</strong> of your activity in minutes.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">Calculate Calories Burned</strong> to see your results.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and calculate a different activity.</p>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Benefits of Tracking Calories Burned</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Tracking Calories Burned</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Weight Loss Management</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Create accurate calorie deficits by knowing exactly how much you burn. Track daily exercise calories to achieve your weight loss goals scientifically.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Weight Loss Management</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Create accurate calorie deficits by knowing exactly how much you burn. Track daily exercise calories to achieve your weight loss goals scientifically.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Workout Optimization</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Compare different activities to see which gives you the best calorie burn per minute. Maximize your limited workout time effectively.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Workout Optimization</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Compare different activities to see which gives you the best calorie burn per minute. Maximize your limited workout time effectively.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Progress Tracking</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Monitor weekly and monthly calorie burn totals to stay motivated. Set achievable goals and celebrate milestones.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Progress Tracking</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Monitor weekly and monthly calorie burn totals to stay motivated. Set achievable goals and celebrate milestones.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Nutrition Planning</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Balance your calorie intake with expenditure. Know how much you can eat while maintaining or losing weight.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Nutrition Planning</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Balance your calorie intake with expenditure. Know how much you can eat while maintaining or losing weight.</p>
           </div>
         </div>
       </section>
 
       {/* Calorie Burn Formula */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Calorie Burn Formula</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-          <p className="text-white font-mono text-sm mb-2">Calories/Minute = (MET × 3.5 × Weight in kg) ÷ 200</p>
-          <p className="text-gray-500 text-xs">Example: 70kg person running (MET=8) for 30 minutes = (8 × 3.5 × 70) ÷ 200 × 30 = 294 calories burned</p>
-          <p className="text-gray-500 text-xs mt-2">This formula is based on the standard metabolic equation used in exercise physiology research since the 1980s.</p>
+        <h2 className="text-xl font-semibold text-ink mb-4">Calorie Burn Formula</h2>
+        <div className="bg-surface border border-hairline rounded-xl p-5">
+          <p className="text-ink font-mono text-sm mb-2">Calories/Minute = (MET × 3.5 × Weight in kg) ÷ 200</p>
+          <p className="text-ink-faint text-xs">Example: 70kg person running (MET=8) for 30 minutes = (8 × 3.5 × 70) ÷ 200 × 30 = 294 calories burned</p>
+          <p className="text-ink-faint text-xs mt-2">This formula is based on the standard metabolic equation used in exercise physiology research since the 1980s.</p>
         </div>
       </section>
 
       {/* Calorie Burn by Activity Table */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Calories Burned per Hour (70kg person)</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">
+        <h2 className="text-xl font-semibold text-ink mb-4">Calories Burned per Hour (70kg person)</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-96 overflow-y-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                <th className="text-left py-3 px-4 text-gray-400">Activity</th>
-                <th className="text-right py-3 px-4 text-gray-400">MET</th>
-                <th className="text-right py-3 px-4 text-gray-400">Calories/Hour</th>
+              <tr className="border-b border-hairline sticky top-0 bg-surface">
+                <th className="text-left py-3 px-4 text-ink-faint">Activity</th>
+                <th className="text-right py-3 px-4 text-ink-faint">MET</th>
+                <th className="text-right py-3 px-4 text-ink-faint">Calories/Hour</th>
               </tr>
             </thead>
             <tbody>
               {ACTIVITIES.map((act, i) => {
                 const calPerHour = (act.met * 3.5 * 70) / 200 * 60;
                 return (
-                  <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                    <td className="py-2 px-4 text-gray-300 truncate max-w-[200px]">{act.label}</td>
-                    <td className="py-2 px-4 text-right text-yellow-400">{act.met}</td>
-                    <td className="py-2 px-4 text-right text-green-400">{Math.round(calPerHour)} kcal</td>
+                  <tr key={i} className="border-b border-hairline hover:bg-cream">
+                    <td className="py-2 px-4 text-ink-soft truncate max-w-[200px]">{act.label}</td>
+                    <td className="py-2 px-4 text-right text-yellow-700">{act.met}</td>
+                    <td className="py-2 px-4 text-right text-green-600">{Math.round(calPerHour)} kcal</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-gray-500 mt-2">*Calories vary based on your actual weight. Heavier individuals burn more.</p>
+        <p className="text-xs text-ink-faint mt-2">*Calories vary based on your actual weight. Heavier individuals burn more.</p>
       </section>
 
       {/* Activity Intensity Guide */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Activity Intensity Guide</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Activity Intensity Guide</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center"><div className="text-2xl mb-1">💚</div><div className="text-sm font-semibold text-green-400">Light</div><div className="text-xs text-gray-500">MET &lt; 3</div><div className="text-xs text-gray-600 mt-1">Walking, Yoga, Light stretching</div></div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center"><div className="text-2xl mb-1">💛</div><div className="text-sm font-semibold text-yellow-400">Moderate</div><div className="text-xs text-gray-500">MET 3-6</div><div className="text-xs text-gray-600 mt-1">Jogging, Cycling (leisure), Dancing</div></div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center"><div className="text-2xl mb-1">🧡</div><div className="text-sm font-semibold text-orange-400">Vigorous</div><div className="text-xs text-gray-500">MET 6-9</div><div className="text-xs text-gray-600 mt-1">Running, HIIT, Swimming laps</div></div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center"><div className="text-2xl mb-1">❤️</div><div className="text-sm font-semibold text-red-400">Very Vigorous</div><div className="text-xs text-gray-500">MET 9+</div><div className="text-xs text-gray-600 mt-1">Jump Rope, Rowing (race pace)</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">💚</div><div className="text-sm font-semibold text-green-600">Light</div><div className="text-xs text-ink-faint">MET &lt; 3</div><div className="text-xs text-ink-faint mt-1">Walking, Yoga, Light stretching</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">💛</div><div className="text-sm font-semibold text-yellow-700">Moderate</div><div className="text-xs text-ink-faint">MET 3-6</div><div className="text-xs text-ink-faint mt-1">Jogging, Cycling (leisure), Dancing</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">🧡</div><div className="text-sm font-semibold text-orange-600">Vigorous</div><div className="text-xs text-ink-faint">MET 6-9</div><div className="text-xs text-ink-faint mt-1">Running, HIIT, Swimming laps</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">❤️</div><div className="text-sm font-semibold text-red-600">Very Vigorous</div><div className="text-xs text-ink-faint">MET 9+</div><div className="text-xs text-ink-faint mt-1">Jump Rope, Rowing (race pace)</div></div>
         </div>
       </section>
 
       {/* Weekly/Monthly Planning */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Weekly & Monthly Calorie Burn Planning</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Weekly & Monthly Calorie Burn Planning</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Weight Loss Goal (0.5 kg/week):</strong> Create a 3,850 calorie weekly deficit → Burn 385 calories daily through exercise + reduce 385 calories from diet.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Weight Loss Goal (1 kg/week):</strong> Create a 7,700 calorie weekly deficit → Burn 550 calories daily through exercise + reduce 550 calories from diet. Consult doctor before attempting.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Maintenance Goal:</strong> Match your daily calorie burn with intake. Use this calculator to see how much you can eat without gaining weight.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Progressive Overload:</strong> As you get fitter, increase duration or intensity to continue burning the same calories. Your body adapts and becomes more efficient over time.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Weight Loss Goal (0.5 kg/week):</strong> Create a 3,850 calorie weekly deficit → Burn 385 calories daily through exercise + reduce 385 calories from diet.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Weight Loss Goal (1 kg/week):</strong> Create a 7,700 calorie weekly deficit → Burn 550 calories daily through exercise + reduce 550 calories from diet. Consult doctor before attempting.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Maintenance Goal:</strong> Match your daily calorie burn with intake. Use this calculator to see how much you can eat without gaining weight.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Progressive Overload:</strong> As you get fitter, increase duration or intensity to continue burning the same calories. Your body adapts and becomes more efficient over time.</p>
         </div>
       </section>
 
       {/* FAQ Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-              <button className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+              <button className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
-              {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+              {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
             </div>
           ))}
         </div>

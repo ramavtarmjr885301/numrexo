@@ -190,19 +190,19 @@ export default function Stopwatch() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
+                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Stopwatch</span>
+                        <span itemProp="name" className="text-ink-soft">Stopwatch</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -210,13 +210,13 @@ export default function Stopwatch() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Stopwatch Display */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Online Stopwatch</h3>
-                        <p className="text-xs text-gray-500 mt-1">Accurate to 0.01 seconds • Keyboard shortcuts: Space (Start/Pause), L (Lap), R (Reset)</p>
+                        <p className="text-xs text-ink-faint mt-1">Accurate to 0.01 seconds • Keyboard shortcuts: Space (Start/Pause), L (Lap), R (Reset)</p>
                     </div>
                     <div className="p-6 text-center">
-                        <div className="text-5xl md:text-6xl font-mono font-bold text-blue-400 mb-6 tracking-wider">
+                        <div className="text-5xl md:text-6xl font-mono font-bold text-blue-600 mb-6 tracking-wider">
                             {totalTimeFormatted}
                         </div>
                         <div className="flex flex-wrap gap-3 justify-center">
@@ -241,8 +241,8 @@ export default function Stopwatch() {
                                 onClick={handleLap}
                                 disabled={!isRunning}
                                 className={`px-6 py-3 rounded-lg font-semibold transition-all hover:shadow-lg min-w-[80px] ${isRunning
-                                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                                    : "bg-gray-600 cursor-not-allowed text-gray-400"
+                                    ? "bg-blue-600 hover:bg-blue-600 text-white"
+                                    : "bg-gray-200 cursor-not-allowed text-ink-faint"
                                     }`}
                                 aria-label="Record lap time"
                             >
@@ -259,18 +259,18 @@ export default function Stopwatch() {
 
                         {/* Lap Statistics */}
                         {laps.length > 0 && (
-                            <div className="mt-6 pt-4 border-t border-gray-700 grid grid-cols-3 gap-2 text-xs">
+                            <div className="mt-6 pt-4 border-t border-hairline grid grid-cols-3 gap-2 text-xs">
                                 <div>
-                                    <p className="text-gray-500">Total Laps</p>
-                                    <p className="text-white font-semibold text-lg">{totalLaps}</p>
+                                    <p className="text-ink-faint">Total Laps</p>
+                                    <p className="text-ink font-semibold text-lg">{totalLaps}</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-500">Best Lap</p>
-                                    <p className="text-green-400 font-semibold text-lg">{formatLapTime(bestLap)}</p>
+                                    <p className="text-ink-faint">Best Lap</p>
+                                    <p className="text-green-600 font-semibold text-lg">{formatLapTime(bestLap)}</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-500">Avg Lap</p>
-                                    <p className="text-yellow-400 font-semibold text-lg">{formatLapTime(averageLap)}</p>
+                                    <p className="text-ink-faint">Avg Lap</p>
+                                    <p className="text-yellow-700 font-semibold text-lg">{formatLapTime(averageLap)}</p>
                                 </div>
                             </div>
                         )}
@@ -283,11 +283,11 @@ export default function Stopwatch() {
                     isEmpty={laps.length === 0}
                     emptyIcon="⏱️"
                     emptyText="Press 'Lap' to record split times • Spacebar to start/pause"
-                    mainResult={laps.length > 0 ? { label: "Latest Lap", value: formatLapTime(laps[0]), color: "text-green-400" } : undefined}
+                    mainResult={laps.length > 0 ? { label: "Latest Lap", value: formatLapTime(laps[0]), color: "text-green-600" } : undefined}
                     extraRows={laps.slice(0, 10).map((lap, i) => ({
                         label: `Lap ${laps.length - i}`,
                         value: formatLapTime(lap),
-                        valueColor: lap === bestLap && laps.length > 1 ? "text-green-400" : undefined
+                        valueColor: lap === bestLap && laps.length > 1 ? "text-green-600" : undefined
                     }))}
                 />
             </div>
@@ -296,143 +296,143 @@ export default function Stopwatch() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Stopwatch</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Online Stopwatch</strong> is a free, accurate timing tool perfect for workouts, cooking, races, presentations, and any activity requiring precise timing. With millisecond accuracy (0.01 seconds), it provides reliable timing for everyday use.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Stopwatch</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Online Stopwatch</strong> is a free, accurate timing tool perfect for workouts, cooking, races, presentations, and any activity requiring precise timing. With millisecond accuracy (0.01 seconds), it provides reliable timing for everyday use.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Features include lap timing to track split times, keyboard shortcuts for hands-free operation, and a clean, easy-to-use interface. The stopwatch runs in your browser with no downloads or installations required.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're timing a workout, tracking cooking times, or measuring performance, our stopwatch gives you the precision and features you need. All lap times are displayed and can be used to analyze your performance.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Stopwatch</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Stopwatch</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Click <strong className="text-white">Start</strong> (or press <strong className="text-white">Spacebar</strong>) to begin timing.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Click <strong className="text-white">Lap</strong> (or press <strong className="text-white">L</strong>) to record split times during your activity.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">Pause</strong> (or press <strong className="text-white">Spacebar</strong>) to temporarily stop the timer.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">Reset</strong> (or press <strong className="text-white">R</strong>) to clear all times and start over.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> View your <strong className="text-white">lap history</strong> in the right panel, with the latest lap highlighted.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Track your <strong className="text-white">best lap, average lap, and total laps</strong> to analyze performance.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Click <strong className="text-ink">Start</strong> (or press <strong className="text-ink">Spacebar</strong>) to begin timing.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Click <strong className="text-ink">Lap</strong> (or press <strong className="text-ink">L</strong>) to record split times during your activity.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">Pause</strong> (or press <strong className="text-ink">Spacebar</strong>) to temporarily stop the timer.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">Reset</strong> (or press <strong className="text-ink">R</strong>) to clear all times and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> View your <strong className="text-ink">lap history</strong> in the right panel, with the latest lap highlighted.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Track your <strong className="text-ink">best lap, average lap, and total laps</strong> to analyze performance.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use This Stopwatch?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use This Stopwatch?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Accurate Timing</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Precise to 10 milliseconds (0.01 seconds). Reliable timing for workouts, cooking, and performance tracking.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Accurate Timing</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Precise to 10 milliseconds (0.01 seconds). Reliable timing for workouts, cooking, and performance tracking.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Lap Recording</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Record unlimited laps to track split times and analyze performance over intervals. See your best and average laps.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Lap Recording</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Record unlimited laps to track split times and analyze performance over intervals. See your best and average laps.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Keyboard Shortcuts</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Control the stopwatch hands-free with keyboard shortcuts: Space (Start/Pause), L (Lap), R (Reset).</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Keyboard Shortcuts</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Control the stopwatch hands-free with keyboard shortcuts: Space (Start/Pause), L (Lap), R (Reset).</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Works Offline</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">No internet connection needed. Perfect for gyms, outdoor activities, and anywhere without WiFi.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Works Offline</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">No internet connection needed. Perfect for gyms, outdoor activities, and anywhere without WiFi.</p>
                     </div>
                 </div>
             </section>
 
             {/* Use Cases */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Stopwatch Use Cases</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Stopwatch Use Cases</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🏃</div>
-                        <p className="text-sm font-semibold text-gray-200">Workouts</p>
-                        <p className="text-xs text-gray-500">Track intervals and laps</p>
+                        <p className="text-sm font-semibold text-ink">Workouts</p>
+                        <p className="text-xs text-ink-faint">Track intervals and laps</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🍳</div>
-                        <p className="text-sm font-semibold text-gray-200">Cooking</p>
-                        <p className="text-xs text-gray-500">Perfect timing for recipes</p>
+                        <p className="text-sm font-semibold text-ink">Cooking</p>
+                        <p className="text-xs text-ink-faint">Perfect timing for recipes</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🏁</div>
-                        <p className="text-sm font-semibold text-gray-200">Races</p>
-                        <p className="text-xs text-gray-500">Time races and events</p>
+                        <p className="text-sm font-semibold text-ink">Races</p>
+                        <p className="text-xs text-ink-faint">Time races and events</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">📊</div>
-                        <p className="text-sm font-semibold text-gray-200">Presentations</p>
-                        <p className="text-xs text-gray-500">Time speaking slots</p>
+                        <p className="text-sm font-semibold text-ink">Presentations</p>
+                        <p className="text-xs text-ink-faint">Time speaking slots</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🧘</div>
-                        <p className="text-sm font-semibold text-gray-200">Meditation</p>
-                        <p className="text-xs text-gray-500">Track session duration</p>
+                        <p className="text-sm font-semibold text-ink">Meditation</p>
+                        <p className="text-xs text-ink-faint">Track session duration</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🏊</div>
-                        <p className="text-sm font-semibold text-gray-200">Swimming</p>
-                        <p className="text-xs text-gray-500">Time laps and sets</p>
+                        <p className="text-sm font-semibold text-ink">Swimming</p>
+                        <p className="text-xs text-ink-faint">Time laps and sets</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🎯</div>
-                        <p className="text-sm font-semibold text-gray-200">Practice</p>
-                        <p className="text-xs text-gray-500">Track improvement over time</p>
+                        <p className="text-sm font-semibold text-ink">Practice</p>
+                        <p className="text-xs text-ink-faint">Track improvement over time</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">⏰</div>
-                        <p className="text-sm font-semibold text-gray-200">Productivity</p>
-                        <p className="text-xs text-gray-500">Time work sessions</p>
+                        <p className="text-sm font-semibold text-ink">Productivity</p>
+                        <p className="text-xs text-ink-faint">Time work sessions</p>
                     </div>
                 </div>
             </section>
 
             {/* Stopwatch Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Stopwatch Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Stopwatch Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use lap times for interval training:</strong> Record a lap at the end of each interval to track your pace and consistency. This helps you maintain even splits throughout your workout.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use lap times for interval training:</strong> Record a lap at the end of each interval to track your pace and consistency. This helps you maintain even splits throughout your workout.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Keyboard shortcuts save time:</strong> Use Spacebar to start/pause, L for lap, and R for reset. This keeps your hands free and your focus on your activity.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Keyboard shortcuts save time:</strong> Use Spacebar to start/pause, L for lap, and R for reset. This keeps your hands free and your focus on your activity.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Analyze your lap data:</strong> The best lap and average lap help you understand your performance. Consistent laps indicate good pacing, while varied laps may suggest fatigue or technique issues.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Analyze your lap data:</strong> The best lap and average lap help you understand your performance. Consistent laps indicate good pacing, while varied laps may suggest fatigue or technique issues.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use for cooking:</strong> The stopwatch is perfect for timing recipes that require precise cooking times. Pause if you need to step away, and record laps for different stages of cooking.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use for cooking:</strong> The stopwatch is perfect for timing recipes that require precise cooking times. Pause if you need to step away, and record laps for different stages of cooking.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Works offline:</strong> No internet needed after loading. Bookmark the page for quick access anytime, anywhere - even without WiFi.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Works offline:</strong> No internet needed after loading. Bookmark the page for quick access anytime, anywhere - even without WiFi.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

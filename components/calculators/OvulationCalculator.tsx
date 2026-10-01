@@ -33,20 +33,12 @@ const FAQ_DATA = [
         a: "Absolutely. High stress can delay or even prevent ovulation because your body prioritizes survival over reproduction. Cortisol (stress hormone) interferes with the hormones needed for egg release. You might notice longer cycles, missed periods, or anovulatory cycles (no ovulation at all). Relaxation techniques, enough sleep, and moderate exercise can help get things back on track.",
     },
     {
-        q: "What if my cycles are irregular?",
-        a: "If your cycle length varies a lot month to month, calculator predictions become less reliable. Your body might be dealing with stress, hormonal changes, perimenopause, or conditions like PCOS. In this case, tracking physical signs (cervical mucus, basal body temperature) or using ovulation test strips gives you more accurate, real-time info.",
+        q: "Can an ovulation calculator be used as birth control?",
+        a: "No. It estimates a fertile window from your average cycle length, but it can't account for month-to-month variation, so it isn't reliable for avoiding pregnancy on its own. If you want a fertility-awareness method, talk to a doctor about approaches that track daily basal temperature and cervical mucus together, or consider another form of contraception.",
     },
     {
-        q: "Can I ovulate twice in one cycle?",
-        a: "Nope - your body releases only one egg per cycle (occasionally two, which can lead to fraternal twins, but that's still a single event within a 24-hour window). Once ovulation happens, the remaining follicles shut down until next cycle.",
-    },
-    {
-        q: "What are common signs of ovulation?",
-        a: "Your body gives pretty clear hints: 1) Egg white discharge, 2) Mild cramping on one side, 3) Slight rise in basal body temperature after ovulation, 4) Increased sex drive, 5) Breast tenderness, 6) Light spotting. Paying attention to these signs helps you confirm what the calculator is predicting.",
-    },
-    {
-        q: "Does stress affect ovulation?",
-        a: "Absolutely. High stress can delay or even prevent ovulation because your body prioritizes survival over reproduction. Cortisol (stress hormone) interferes with the hormones needed for egg release. You might notice longer cycles, missed periods, or anovulatory cycles.",
+        q: "Does age affect ovulation and fertility?",
+        a: "Yes. Fertility gradually declines through the 30s and drops more noticeably after 35, as egg quantity and quality both decrease with age. Cycles can also become shorter or more irregular over time, which makes ovulation timing harder to predict from cycle length alone.",
     },
 ];
 
@@ -222,37 +214,37 @@ export default function OvulationCalculator() {
 
             {/* ── Breadcrumb Nav ── */}
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Home</span>
                         </a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-gray-300">
+                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">
                             <span itemProp="name">Health Calculators</span>
                         </a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Ovulation Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Ovulation Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Your Cycle Information</h3>
-                        <p className="text-xs text-gray-500 mt-1">Track from the first day of your period</p>
+                        <p className="text-xs text-ink-faint mt-1">Track from the first day of your period</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Average Cycle Length (days)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Average Cycle Length (days)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -261,21 +253,21 @@ export default function OvulationCalculator() {
                                     max="45"
                                     value={cycleLength}
                                     onChange={(e) => setCycleLength(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">days</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">days</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Count from day 1 of your period to the day before your next period starts</p>
+                            <p className="text-xs text-ink-faint mt-1">Count from day 1 of your period to the day before your next period starts</p>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">First Day of Last Period (optional)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">First Day of Last Period (optional)</label>
                             <input
                                 type="date"
                                 value={lastPeriod}
                                 onChange={(e) => setLastPeriod(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                             />
-                            <p className="text-xs text-gray-500 mt-1">Add this to see your specific fertile dates</p>
+                            <p className="text-xs text-ink-faint mt-1">Add this to see your specific fertile dates</p>
                         </div>
                         <div className="flex gap-3">
                             <button
@@ -286,7 +278,7 @@ export default function OvulationCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -299,10 +291,10 @@ export default function OvulationCalculator() {
                     isEmpty={!result}
                     emptyIcon="🌸"
                     emptyText="Enter your cycle length and press Calculate"
-                    mainResult={result ? { label: "Estimated Ovulation Day", value: `Day ${result.ovulationDay} of your cycle`, color: "text-pink-400" } : undefined}
+                    mainResult={result ? { label: "Estimated Ovulation Day", value: `Day ${result.ovulationDay} of your cycle`, color: "text-pink-600" } : undefined}
                     extraRows={result ? [
                         { label: "Fertile Window", value: `Days ${result.fertileStart} – ${result.fertileEnd} (about 6 days)` },
-                        { label: "Best Time to Try", value: `Days ${result.fertileStart + 2} – ${result.fertileEnd - 1}`, valueColor: "text-green-400" },
+                        { label: "Best Time to Try", value: `Days ${result.fertileStart + 2} – ${result.fertileEnd - 1}`, valueColor: "text-green-600" },
                         ...(result.predictedDates ? [
                             { label: "Predicted Ovulation Date", value: result.predictedDates.ovulation },
                             { label: "Fertile Window Starts", value: result.predictedDates.fertileStart },
@@ -317,54 +309,54 @@ export default function OvulationCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Ovulation Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">Trying to conceive? Or maybe you're just trying to understand your body better. This tool helps you figure out when you're most likely to ovulate based on your cycle length. The math is pretty simple - most women ovulate about 14 days before their next period starts.</p>
-                <p className="text-gray-400 text-sm leading-relaxed">Keep in mind that every body is different. Stress, illness, travel, and lots of other things can shift your ovulation day. This calculator gives you a solid estimate, but paying attention to your body's natural signs (like changes in cervical mucus) gives you even better information.</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Ovulation Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">Trying to conceive? Or maybe you're just trying to understand your body better. This tool helps you figure out when you're most likely to ovulate based on your cycle length. The math is pretty simple - most women ovulate about 14 days before their next period starts.</p>
+                <p className="text-ink-faint text-sm leading-relaxed">Keep in mind that every body is different. Stress, illness, travel, and lots of other things can shift your ovulation day. This calculator gives you a solid estimate, but paying attention to your body's natural signs (like changes in cervical mucus) gives you even better information.</p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Ovulation Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Ovulation Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">average cycle length</strong> (number of days from day 1 of your period to the day before your next period starts).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> (Optional) Enter the <strong className="text-white">first day of your last period</strong> to get specific calendar dates.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Fertile Window"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> View your ovulation day, fertile window, and best days to try.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">average cycle length</strong> (number of days from day 1 of your period to the day before your next period starts).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> (Optional) Enter the <strong className="text-ink">first day of your last period</strong> to get specific calendar dates.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate Fertile Window"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> View your ovulation day, fertile window, and best days to try.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an Ovulation Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an Ovulation Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-pink-400 mb-2">✓ Plan Pregnancy</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know your most fertile days to maximize chances of conception. Time intercourse for the best results.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-pink-600 mb-2">✓ Plan Pregnancy</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know your most fertile days to maximize chances of conception. Time intercourse for the best results.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Track Cycle Patterns</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand your menstrual cycle better. Predict when your next period will arrive.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Track Cycle Patterns</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand your menstrual cycle better. Predict when your next period will arrive.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Natural Family Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">If you're avoiding pregnancy, identify fertile windows to avoid unprotected sex.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Natural Family Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">If you're avoiding pregnancy, identify fertile windows to avoid unprotected sex.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Understand Your Body</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Learn when you ovulate and what your body's signals mean. Empower yourself with knowledge.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Understand Your Body</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Learn when you ovulate and what your body's signals mean. Empower yourself with knowledge.</p>
                     </div>
                 </div>
             </section>
 
             {/* Ovulation Timing Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Ovulation Timing by Cycle Length</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Ovulation Timing by Cycle Length</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Cycle Length</th><th className="text-left py-3 px-4 text-gray-400">Ovulation Day</th><th className="text-left py-3 px-4 text-gray-400">Fertile Window</th><th className="text-left py-3 px-4 text-gray-400">How Common?</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Cycle Length</th><th className="text-left py-3 px-4 text-ink-faint">Ovulation Day</th><th className="text-left py-3 px-4 text-ink-faint">Fertile Window</th><th className="text-left py-3 px-4 text-ink-faint">How Common?</th></tr></thead>
                         <tbody>
-                            {OVULATION_TABLE.map((row, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-3 px-4 text-gray-300">{row.cycleLength}</td><td className="py-3 px-4 text-pink-400">{row.ovulationDay}</td><td className="py-3 px-4 text-gray-300">{row.fertileWindow}</td><td className="py-3 px-4 text-gray-400">{row.chance}</td></tr>))}
+                            {OVULATION_TABLE.map((row, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-3 px-4 text-ink-soft">{row.cycleLength}</td><td className="py-3 px-4 text-pink-600">{row.ovulationDay}</td><td className="py-3 px-4 text-ink-soft">{row.fertileWindow}</td><td className="py-3 px-4 text-ink-faint">{row.chance}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -372,38 +364,38 @@ export default function OvulationCalculator() {
 
             {/* Signs of Ovulation */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Signs Your Body is Ovulating</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Signs Your Body is Ovulating</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🥚</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Egg White Discharge</h3><p className="text-xs text-gray-400">Clear, stretchy, slippery - looks like raw egg whites. This is your most fertile sign.</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">🌡️</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Temperature Rise</h3><p className="text-xs text-gray-400">Your basal body temperature jumps about half a degree after ovulation (good for confirming it happened).</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">💕</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Higher Sex Drive</h3><p className="text-xs text-gray-400">Many women notice they're more interested in sex around ovulation (nature's way of helping things along).</p></div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4"><div className="text-2xl mb-1">📍</div><h3 className="text-sm font-semibold text-pink-400 mb-1">Mild Cramping</h3><p className="text-xs text-gray-400">Some women feel a small ache on one side - that's the egg being released.</p></div>
+                    <div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🥚</div><h3 className="text-sm font-semibold text-pink-600 mb-1">Egg White Discharge</h3><p className="text-xs text-ink-faint">Clear, stretchy, slippery - looks like raw egg whites. This is your most fertile sign.</p></div>
+                    <div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🌡️</div><h3 className="text-sm font-semibold text-pink-600 mb-1">Temperature Rise</h3><p className="text-xs text-ink-faint">Your basal body temperature jumps about half a degree after ovulation (good for confirming it happened).</p></div>
+                    <div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">💕</div><h3 className="text-sm font-semibold text-pink-600 mb-1">Higher Sex Drive</h3><p className="text-xs text-ink-faint">Many women notice they're more interested in sex around ovulation (nature's way of helping things along).</p></div>
+                    <div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">📍</div><h3 className="text-sm font-semibold text-pink-600 mb-1">Mild Cramping</h3><p className="text-xs text-ink-faint">Some women feel a small ache on one side - that's the egg being released.</p></div>
                 </div>
             </section>
 
             {/* Important Things */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">A Few Things to Keep in Mind</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">This calculator works great for women with regular cycles, but it's not perfect for everyone:</p>
+                <h2 className="text-xl font-semibold text-ink mb-3">A Few Things to Keep in Mind</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-4">This calculator works great for women with regular cycles, but it's not perfect for everyone:</p>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Irregular cycles?</strong> — If your cycle length changes by more than a few days each month, your ovulation day probably shifts too. Consider tracking physical signs or using ovulation test strips.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Recent pregnancy or birth control?</strong> — Your cycles might need a few months to regulate after stopping birth control or having a baby.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-pink-400 mt-0.5">•</span><span><strong className="text-gray-300">Not a birth control method</strong> — If you're trying to avoid pregnancy, don't rely on this calculator alone. Use actual fertility awareness methods or other contraception.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Irregular cycles?</strong> — If your cycle length changes by more than a few days each month, your ovulation day probably shifts too. Consider tracking physical signs or using ovulation test strips.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Recent pregnancy or birth control?</strong> — Your cycles might need a few months to regulate after stopping birth control or having a baby.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-pink-600 mt-0.5">•</span><span><strong className="text-ink-soft">Not a birth control method</strong> — If you're trying to avoid pregnancy, don't rely on this calculator alone. Use actual fertility awareness methods or other contraception.</span></li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed">{item.a}</p>
                             </div>
                         </div>
                     ))}

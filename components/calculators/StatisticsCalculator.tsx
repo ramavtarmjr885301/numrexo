@@ -206,19 +206,19 @@ export default function StatisticsCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a>
+                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Statistics Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Statistics Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -226,34 +226,34 @@ export default function StatisticsCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Statistics Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Enter numbers separated by commas</p>
+                        <p className="text-xs text-ink-faint mt-1">Enter numbers separated by commas</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Data Set</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Data Set</label>
                             <textarea
                                 placeholder="Example: 2, 4, 6, 8, 10, 12"
                                 value={dataInput}
                                 onChange={(e) => setDataInput(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none resize-none font-mono text-sm"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none resize-none font-mono text-sm"
                                 rows={4}
                             />
-                            <p className="text-xs text-gray-500 mt-1">Separate numbers with commas (e.g., 10, 20, 30, 40)</p>
+                            <p className="text-xs text-ink-faint mt-1">Separate numbers with commas (e.g., 10, 20, 30, 40)</p>
                         </div>
 
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Statistics →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -267,14 +267,14 @@ export default function StatisticsCalculator() {
                     isEmpty={!result}
                     emptyIcon="📊"
                     emptyText="Enter numbers and press Calculate"
-                    mainResult={result ? { label: "Mean (Average)", value: result.mean, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Mean (Average)", value: result.mean, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Median", value: result.median, valueColor: "text-yellow-400" },
+                        { label: "Median", value: result.median, valueColor: "text-yellow-700" },
                         { label: "Mode", value: result.mode },
                         { label: "Range", value: result.range },
-                        { label: "Sum", value: result.sum, valueColor: "text-green-400" },
-                        { label: "Variance", value: result.variance, valueColor: "text-purple-400" },
-                        { label: "Standard Deviation", value: result.stdDev, valueColor: "text-orange-400" },
+                        { label: "Sum", value: result.sum, valueColor: "text-green-600" },
+                        { label: "Variance", value: result.variance, valueColor: "text-purple-600" },
+                        { label: "Standard Deviation", value: result.stdDev, valueColor: "text-orange-600" },
                         { label: "Minimum", value: result.min },
                         { label: "Maximum", value: result.max },
                         { label: "Q1 (25th percentile)", value: result.q1 },
@@ -290,145 +290,145 @@ export default function StatisticsCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Statistics Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Statistics Calculator</strong> computes essential descriptive statistics for any dataset. Calculate mean, median, mode, range, sum, variance, standard deviation, quartiles, and interquartile range (IQR) in seconds.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Statistics Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Statistics Calculator</strong> computes essential descriptive statistics for any dataset. Calculate mean, median, mode, range, sum, variance, standard deviation, quartiles, and interquartile range (IQR) in seconds.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Statistics is fundamental in data analysis, research, and decision-making. Understanding measures of central tendency (mean, median, mode) and measures of spread (range, variance, standard deviation) helps you interpret data accurately and make informed conclusions.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Perfect for students, researchers, data analysts, and anyone working with numerical data. Our calculator handles datasets of any size and provides clear, organized results.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Statistics Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Statistics Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">numbers</strong> separated by commas in the text area.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Click <strong className="text-white">"Calculate Statistics"</strong> to analyze your data.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Review the <strong className="text-white">complete statistical summary</strong> including mean, median, mode, and more.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Use the example datasets below to test the calculator.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">numbers</strong> separated by commas in the text area.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Click <strong className="text-ink">"Calculate Statistics"</strong> to analyze your data.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Review the <strong className="text-ink">complete statistical summary</strong> including mean, median, mode, and more.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Use the example datasets below to test the calculator.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Statistics Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Statistics Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Quick Data Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get instant statistical measures without manual calculations. Perfect for homework, research, and data exploration.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Quick Data Analysis</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get instant statistical measures without manual calculations. Perfect for homework, research, and data exploration.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Comprehensive Results</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get all key statistics in one place: mean, median, mode, range, variance, standard deviation, quartiles, and IQR.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Comprehensive Results</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get all key statistics in one place: mean, median, mode, range, variance, standard deviation, quartiles, and IQR.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Educational Tool</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Learn statistics by seeing results for different datasets. Perfect for students learning statistical concepts.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Educational Tool</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Learn statistics by seeing results for different datasets. Perfect for students learning statistical concepts.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Data Understanding</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand your data's central tendency, spread, and distribution. Make better decisions with statistical insights.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Data Understanding</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand your data's central tendency, spread, and distribution. Make better decisions with statistical insights.</p>
                     </div>
                 </div>
             </section>
 
             {/* Formulas Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Statistics Formulas</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Statistics Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-blue-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Mean</h3>
-                        <p className="text-white font-mono text-sm">x̄ = Σx / n</p>
-                        <p className="text-xs text-gray-500 mt-1">Sum divided by count</p>
-                        <p className="text-xs text-gray-600 mt-1">Example: (2+4+6)/3 = 4</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-blue-300 transition-all">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Mean</h3>
+                        <p className="text-ink font-mono text-sm">x̄ = Σx / n</p>
+                        <p className="text-xs text-ink-faint mt-1">Sum divided by count</p>
+                        <p className="text-xs text-ink-faint mt-1">Example: (2+4+6)/3 = 4</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-yellow-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">Median</h3>
-                        <p className="text-white font-mono text-sm">Middle value</p>
-                        <p className="text-xs text-gray-500 mt-1">Average of two middle for even count</p>
-                        <p className="text-xs text-gray-600 mt-1">Example: 2,4,6 → median = 4</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-yellow-300 transition-all">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">Median</h3>
+                        <p className="text-ink font-mono text-sm">Middle value</p>
+                        <p className="text-xs text-ink-faint mt-1">Average of two middle for even count</p>
+                        <p className="text-xs text-ink-faint mt-1">Example: 2,4,6 → median = 4</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-green-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Standard Deviation</h3>
-                        <p className="text-white font-mono text-sm">σ = √[Σ(x-μ)²/n]</p>
-                        <p className="text-xs text-gray-500 mt-1">Square root of variance</p>
-                        <p className="text-xs text-gray-600 mt-1">Measures data spread</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-green-300 transition-all">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Standard Deviation</h3>
+                        <p className="text-ink font-mono text-sm">σ = √[Σ(x-μ)²/n]</p>
+                        <p className="text-xs text-ink-faint mt-1">Square root of variance</p>
+                        <p className="text-xs text-ink-faint mt-1">Measures data spread</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">Variance</h3>
-                        <p className="text-white font-mono text-sm">σ² = Σ(x-μ)²/n</p>
-                        <p className="text-xs text-gray-500 mt-1">Average squared deviation</p>
-                        <p className="text-xs text-gray-600 mt-1">Measures data spread</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-purple-300 transition-all">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">Variance</h3>
+                        <p className="text-ink font-mono text-sm">σ² = Σ(x-μ)²/n</p>
+                        <p className="text-xs text-ink-faint mt-1">Average squared deviation</p>
+                        <p className="text-xs text-ink-faint mt-1">Measures data spread</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-orange-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">IQR</h3>
-                        <p className="text-white font-mono text-sm">IQR = Q3 - Q1</p>
-                        <p className="text-xs text-gray-500 mt-1">Range of middle 50%</p>
-                        <p className="text-xs text-gray-600 mt-1">Robust measure of spread</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-orange-300 transition-all">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">IQR</h3>
+                        <p className="text-ink font-mono text-sm">IQR = Q3 - Q1</p>
+                        <p className="text-xs text-ink-faint mt-1">Range of middle 50%</p>
+                        <p className="text-xs text-ink-faint mt-1">Robust measure of spread</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-center hover:border-red-500/50 transition-all">
-                        <h3 className="text-sm font-semibold text-red-400 mb-2">Range</h3>
-                        <p className="text-white font-mono text-sm">Max - Min</p>
-                        <p className="text-xs text-gray-500 mt-1">Difference between extremes</p>
-                        <p className="text-xs text-gray-600 mt-1">Simple measure of spread</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 text-center hover:border-red-300 transition-all">
+                        <h3 className="text-sm font-semibold text-red-600 mb-2">Range</h3>
+                        <p className="text-ink font-mono text-sm">Max - Min</p>
+                        <p className="text-xs text-ink-faint mt-1">Difference between extremes</p>
+                        <p className="text-xs text-ink-faint mt-1">Simple measure of spread</p>
                     </div>
                 </div>
             </section>
 
             {/* Example Datasets */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Example Datasets</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Example Datasets</h2>
                 <div className="grid grid-cols-2 gap-3">
                     <button
                         onClick={() => setDataInput("2, 4, 6, 8, 10")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Even numbers: 2,4,6,8,10
                     </button>
                     <button
                         onClick={() => setDataInput("10, 20, 30, 40, 50, 60")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Multiples of 10: 10,20,30,40,50,60
                     </button>
                     <button
                         onClick={() => setDataInput("5, 10, 15, 20, 25, 30")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Sequence: 5,10,15,20,25,30
                     </button>
                     <button
                         onClick={() => setDataInput("1, 2, 2, 3, 3, 3, 4, 4, 5")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 With mode: 1,2,2,3,3,3,4,4,5
                     </button>
                     <button
                         onClick={() => setDataInput("10, 12, 14, 16, 18, 20, 22")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Odd count: 10,12,14,16,18,20,22
                     </button>
                     <button
                         onClick={() => setDataInput("1, 2, 3, 4, 5, 6, 7, 8, 9, 10")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 1-10: 1,2,3,4,5,6,7,8,9,10
                     </button>
                     <button
                         onClick={() => setDataInput("100, 200, 300, 400, 500")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Large numbers: 100,200,300,400,500
                     </button>
                     <button
                         onClick={() => setDataInput("1, 1, 1, 2, 2, 3, 3, 3, 3")}
-                        className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg text-gray-300 hover:border-blue-500/50 transition-all"
+                        className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg text-ink-soft hover:border-blue-300 transition-all"
                     >
                         📊 Multiple modes: 1,1,1,2,2,3,3,3,3
                     </button>
@@ -437,46 +437,46 @@ export default function StatisticsCalculator() {
 
             {/* Statistics Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Statistics Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Statistics Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose the right measure:</strong> Use mean for normal distributions, median for skewed data, and mode for categorical data. Understanding your data's distribution helps select the most appropriate measure.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Choose the right measure:</strong> Use mean for normal distributions, median for skewed data, and mode for categorical data. Understanding your data's distribution helps select the most appropriate measure.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check for outliers:</strong> Use IQR to identify outliers. Values below Q1 - 1.5×IQR or above Q3 + 1.5×IQR are considered outliers and may need investigation.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check for outliers:</strong> Use IQR to identify outliers. Values below Q1 - 1.5×IQR or above Q3 + 1.5×IQR are considered outliers and may need investigation.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Variance vs Standard Deviation:</strong> Variance is in squared units, while standard deviation is in the same units as your data. Standard deviation is easier to interpret and more commonly reported.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Variance vs Standard Deviation:</strong> Variance is in squared units, while standard deviation is in the same units as your data. Standard deviation is easier to interpret and more commonly reported.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Sample vs Population:</strong> For sample data, use (n-1) in variance formula for unbiased estimate. Our calculator uses population formula (n) for simplicity.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Sample vs Population:</strong> For sample data, use (n-1) in variance formula for unbiased estimate. Our calculator uses population formula (n) for simplicity.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Visualize your data:</strong> Use box plots (based on quartiles) to visualize data distribution. This helps identify outliers and understand data spread at a glance.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Visualize your data:</strong> Use box plots (based on quartiles) to visualize data distribution. This helps identify outliers and understand data spread at a glance.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

@@ -69,10 +69,10 @@ const FAQ_DATA = [
 ];
 
 const LOAN_TERMS = [
-    { years: 30, months: 360, color: "text-blue-400" },
-    { years: 20, months: 240, color: "text-green-400" },
-    { years: 15, months: 180, color: "text-yellow-400" },
-    { years: 10, months: 120, color: "text-orange-400" },
+    { years: 30, months: 360, color: "text-blue-600" },
+    { years: 20, months: 240, color: "text-green-600" },
+    { years: 15, months: 180, color: "text-yellow-700" },
+    { years: 10, months: 120, color: "text-orange-600" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -255,28 +255,28 @@ export default function MortgageCalculator() {
 
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Home</span> {/* ✅ Yahan span add kiya hai */}
             </a>
             <meta itemProp="position" content="1" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Finance Calculators</span> {/* ✅ Yahan span add kiya hai */}
             </a>
             <meta itemProp="position" content="2" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-gray-300">Mortgage Calculator</span>
+            <span itemProp="name" className="text-ink-soft">Mortgage Calculator</span>
             <meta itemProp="position" content="3" />
         </li>
         
@@ -286,42 +286,42 @@ export default function MortgageCalculator() {
             {/* Calculator Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Mortgage Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Enter your loan details</p>
+                        <p className="text-xs text-ink-faint mt-1">Enter your loan details</p>
                     </div>
 
                     <div className="p-6 space-y-4">
                         {/* Home Price */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Home Price ($)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Home Price ($)</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="300000"
                                     value={homePrice}
                                     onChange={(e) => handleHomePriceChange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                             </div>
                         </div>
 
                         {/* Down Payment */}
                         <div>
                             <div className="flex justify-between mb-2">
-                                <label className="text-xs font-semibold text-gray-400">Down Payment</label>
+                                <label className="text-xs font-semibold text-ink-faint">Down Payment</label>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setInputMethod("percent")}
-                                        className={`text-xs px-2 py-0.5 rounded ${inputMethod === "percent" ? "bg-blue-500 text-white" : "text-gray-500"}`}
+                                        className={`text-xs px-2 py-0.5 rounded ${inputMethod === "percent" ? "bg-blue-600 text-white" : "text-ink-faint"}`}
                                     >
                                         %
                                     </button>
                                     <button
                                         onClick={() => setInputMethod("amount")}
-                                        className={`text-xs px-2 py-0.5 rounded ${inputMethod === "amount" ? "bg-blue-500 text-white" : "text-gray-500"}`}
+                                        className={`text-xs px-2 py-0.5 rounded ${inputMethod === "amount" ? "bg-blue-600 text-white" : "text-ink-faint"}`}
                                     >
                                         $
                                     </button>
@@ -336,9 +336,9 @@ export default function MortgageCalculator() {
                                         placeholder="20"
                                         value={downPaymentPercent}
                                         onChange={(e) => handleDownPaymentPercentChange(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                                 </div>
                             ) : (
                                 <div className="relative">
@@ -347,24 +347,24 @@ export default function MortgageCalculator() {
                                         placeholder="60000"
                                         value={downPayment}
                                         onChange={(e) => setDownPayment(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                                 </div>
                             )}
                         </div>
 
                         {/* Loan Term */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Loan Term (years)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Loan Term (years)</label>
                             <div className="grid grid-cols-4 gap-2">
                                 {LOAN_TERMS.map((term) => (
                                     <button
                                         key={term.years}
                                         onClick={() => setLoanTerm(term.years)}
                                         className={`py-2 rounded-lg text-sm font-medium transition-all ${loanTerm === term.years
-                                            ? "bg-blue-500 text-white"
-                                            : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-surface border border-hairline text-ink-faint hover:text-ink"
                                             }`}
                                     >
                                         {term.years}
@@ -375,7 +375,7 @@ export default function MortgageCalculator() {
 
                         {/* Interest Rate */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Interest Rate (%)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Interest Rate (%)</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -383,68 +383,68 @@ export default function MortgageCalculator() {
                                     placeholder="6.5"
                                     value={interestRate}
                                     onChange={(e) => setInterestRate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">%</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                         </div>
 
                         {/* Property Tax & Insurance */}
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Property Tax (annual)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Property Tax (annual)</label>
                                 <div className="relative">
                                     <input
                                         type="number"
                                         placeholder="3000"
                                         value={propertyTax}
                                         onChange={(e) => setPropertyTax(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Home Insurance (annual)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Home Insurance (annual)</label>
                                 <div className="relative">
                                     <input
                                         type="number"
                                         placeholder="1200"
                                         value={homeInsurance}
                                         onChange={(e) => setHomeInsurance(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* PMI (optional) */}
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">PMI (annual, if applicable)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">PMI (annual, if applicable)</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="0"
                                     value={pmi}
                                     onChange={(e) => setPmi(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Typically required when down payment &lt; 20%</p>
+                            <p className="text-xs text-ink-faint mt-1">Typically required when down payment &lt; 20%</p>
                         </div>
 
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all"
                             >
                                 Calculate Mortgage →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -460,16 +460,16 @@ export default function MortgageCalculator() {
                     emptyText="Enter your loan details and press Calculate"
                     mainResult={
                         result
-                            ? { label: "Monthly Payment", value: `$${result.monthlyPayment}`, color: "text-blue-400" }
+                            ? { label: "Monthly Payment", value: `$${result.monthlyPayment}`, color: "text-blue-600" }
                             : undefined
                     }
                     extraRows={
                         result
                             ? [
                                 { label: "Principal & Interest", value: `$${result.monthlyPrincipalInterest}` },
-                                { label: "Property Tax", value: `$${result.monthlyTax}`, valueColor: "text-yellow-400" },
-                                { label: "Home Insurance", value: `$${result.monthlyInsurance}`, valueColor: "text-green-400" },
-                                { label: "PMI", value: `$${result.monthlyPMI}`, valueColor: "text-orange-400" },
+                                { label: "Property Tax", value: `$${result.monthlyTax}`, valueColor: "text-yellow-700" },
+                                { label: "Home Insurance", value: `$${result.monthlyInsurance}`, valueColor: "text-green-600" },
+                                { label: "PMI", value: `$${result.monthlyPMI}`, valueColor: "text-orange-600" },
                                 { label: "Loan Amount", value: `$${result.loanAmount}` },
                                 { label: "Down Payment", value: `$${result.downPayment} (${result.downPaymentPercent}%)` },
                                 { label: "Loan-to-Value (LTV)", value: `${result.ltv}%` },
@@ -485,83 +485,83 @@ export default function MortgageCalculator() {
 
             {/* About Mortgage Calculator */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Mortgage Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Mortgage Calculator</strong> helps you estimate your monthly home loan payments including principal, interest, property taxes, home insurance, and PMI. Whether you're a first-time homebuyer or looking to refinance, this tool provides accurate payment estimates.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Mortgage Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Mortgage Calculator</strong> helps you estimate your monthly home loan payments including principal, interest, property taxes, home insurance, and PMI. Whether you're a first-time homebuyer or looking to refinance, this tool provides accurate payment estimates.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Use it to plan your home purchase budget, compare different loan terms (10, 15, 20, or 30 years), and understand how much house you can afford. The calculator also shows your total interest paid over the life of the loan and your loan-to-value ratio.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Mortgage Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Mortgage Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">home price</strong> you're considering.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">down payment</strong> (as amount or percentage).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select <strong className="text-white">loan term</strong> (10, 15, 20, or 30 years).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter the <strong className="text-white">interest rate</strong> offered by your lender.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> (Optional) Enter <strong className="text-white">property tax, home insurance, and PMI</strong> for accurate total payment.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Click <strong className="text-white">"Calculate Mortgage"</strong> to see your monthly payment breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 7:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">home price</strong> you're considering.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your <strong className="text-ink">down payment</strong> (as amount or percentage).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select <strong className="text-ink">loan term</strong> (10, 15, 20, or 30 years).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter the <strong className="text-ink">interest rate</strong> offered by your lender.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> (Optional) Enter <strong className="text-ink">property tax, home insurance, and PMI</strong> for accurate total payment.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Click <strong className="text-ink">"Calculate Mortgage"</strong> to see your monthly payment breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 7:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Mortgage Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Mortgage Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly what your monthly payment will be before you buy. Plan your household budget with confidence.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly what your monthly payment will be before you buy. Plan your household budget with confidence.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Compare Loan Offers</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare different interest rates and loan terms from multiple lenders. Find the most affordable option.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Loan Offers</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare different interest rates and loan terms from multiple lenders. Find the most affordable option.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Down Payment Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See how different down payment amounts affect your monthly payment. Find the sweet spot between upfront cost and monthly payment.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Down Payment Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See how different down payment amounts affect your monthly payment. Find the sweet spot between upfront cost and monthly payment.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Total Cost Visibility</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See total interest paid over the life of the loan. Understand the true cost of homeownership.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Total Cost Visibility</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See total interest paid over the life of the loan. Understand the true cost of homeownership.</p>
                     </div>
                 </div>
             </section>
 
             {/* Mortgage Rate by Credit Score */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Mortgage Rates by Credit Score (2025-26)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Mortgage Rates by Credit Score (2025-26)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Credit Score</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Avg. Interest Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Monthly Payment ($300K loan)</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Credit Score</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Avg. Interest Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Monthly Payment ($300K loan)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50">
-                                <td className="py-2 px-4 text-green-400">760+</td>
-                                <td className="py-2 px-4 text-yellow-400">6.5%</td>
+                            <tr className="border-b border-hairline">
+                                <td className="py-2 px-4 text-green-600">760+</td>
+                                <td className="py-2 px-4 text-yellow-700">6.5%</td>
                                 <td className="py-2 px-4">$1,896</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50">
-                                <td className="py-2 px-4 text-blue-400">700-759</td>
-                                <td className="py-2 px-4 text-yellow-400">6.9%</td>
+                            <tr className="border-b border-hairline">
+                                <td className="py-2 px-4 text-blue-600">700-759</td>
+                                <td className="py-2 px-4 text-yellow-700">6.9%</td>
                                 <td className="py-2 px-4">$1,975</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50">
-                                <td className="py-2 px-4 text-orange-400">660-699</td>
-                                <td className="py-2 px-4 text-yellow-400">7.4%</td>
+                            <tr className="border-b border-hairline">
+                                <td className="py-2 px-4 text-orange-600">660-699</td>
+                                <td className="py-2 px-4 text-yellow-700">7.4%</td>
                                 <td className="py-2 px-4">$2,075</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50">
-                                <td className="py-2 px-4 text-red-400">620-659</td>
-                                <td className="py-2 px-4 text-yellow-400">8.0%</td>
+                            <tr className="border-b border-hairline">
+                                <td className="py-2 px-4 text-red-600">620-659</td>
+                                <td className="py-2 px-4 text-yellow-700">8.0%</td>
                                 <td className="py-2 px-4">$2,200</td>
                             </tr>
                         </tbody>
@@ -571,75 +571,75 @@ export default function MortgageCalculator() {
 
             {/* Loan Term Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Loan Term Comparison</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Loan Term Comparison</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Loan Term</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Monthly Payment</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Total Interest</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Total Cost</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Loan Term</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Monthly Payment</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Total Interest</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Total Cost</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-blue-400 font-medium">30 Years</td>
-                                <td className="py-3 px-4 text-gray-300">Lowest</td>
-                                <td className="py-3 px-4 text-yellow-400">Highest</td>
-                                <td className="py-3 px-4 text-gray-300">Highest</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-blue-600 font-medium">30 Years</td>
+                                <td className="py-3 px-4 text-ink-soft">Lowest</td>
+                                <td className="py-3 px-4 text-yellow-700">Highest</td>
+                                <td className="py-3 px-4 text-ink-soft">Highest</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-green-400 font-medium">20 Years</td>
-                                <td className="py-3 px-4 text-gray-300">Moderate</td>
-                                <td className="py-3 px-4 text-yellow-400">Moderate</td>
-                                <td className="py-3 px-4 text-gray-300">Moderate</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-green-600 font-medium">20 Years</td>
+                                <td className="py-3 px-4 text-ink-soft">Moderate</td>
+                                <td className="py-3 px-4 text-yellow-700">Moderate</td>
+                                <td className="py-3 px-4 text-ink-soft">Moderate</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                                <td className="py-3 px-4 text-orange-400 font-medium">15 Years</td>
-                                <td className="py-3 px-4 text-gray-300">Highest</td>
-                                <td className="py-3 px-4 text-green-400">Lowest</td>
-                                <td className="py-3 px-4 text-gray-300">Lowest</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-orange-600 font-medium">15 Years</td>
+                                <td className="py-3 px-4 text-ink-soft">Highest</td>
+                                <td className="py-3 px-4 text-green-600">Lowest</td>
+                                <td className="py-3 px-4 text-ink-soft">Lowest</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     Shorter loan terms have higher monthly payments but save thousands in interest over the life of the loan.
                 </p>
             </section>
 
             {/* Mortgage Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Mortgage Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-blue-400 mb-2">Monthly Payment Formula</h3>
-                    <p className="text-white font-mono text-sm mb-3">M = P × [ r(1+r)^n ] / [ (1+r)^n - 1 ]</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">Mortgage Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <h3 className="text-sm font-semibold text-blue-600 mb-2">Monthly Payment Formula</h3>
+                    <p className="text-ink font-mono text-sm mb-3">M = P × [ r(1+r)^n ] / [ (1+r)^n - 1 ]</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                        <div><span className="text-blue-400">M</span> <span className="text-gray-500">= Monthly Payment</span></div>
-                        <div><span className="text-blue-400">P</span> <span className="text-gray-500">= Principal (Loan Amount)</span></div>
-                        <div><span className="text-blue-400">r</span> <span className="text-gray-500">= Monthly Interest Rate</span></div>
-                        <div><span className="text-blue-400">n</span> <span className="text-gray-500">= Total Payments (months)</span></div>
+                        <div><span className="text-blue-600">M</span> <span className="text-ink-faint">= Monthly Payment</span></div>
+                        <div><span className="text-blue-600">P</span> <span className="text-ink-faint">= Principal (Loan Amount)</span></div>
+                        <div><span className="text-blue-600">r</span> <span className="text-ink-faint">= Monthly Interest Rate</span></div>
+                        <div><span className="text-blue-600">n</span> <span className="text-ink-faint">= Total Payments (months)</span></div>
                     </div>
-                    <p className="text-gray-500 text-xs mt-4">Total Monthly Payment = Principal & Interest + Property Tax + Insurance + PMI</p>
+                    <p className="text-ink-faint text-xs mt-4">Total Monthly Payment = Principal & Interest + Property Tax + Insurance + PMI</p>
                 </div>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

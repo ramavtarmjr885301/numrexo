@@ -47,11 +47,11 @@ const FAQ_DATA = [
 ];
 
 const BODY_FAT_TABLE = [
-  { category: "Essential Fat (Men/Women)", men: "2-5%", women: "10-13%", color: "text-blue-400" },
-  { category: "Athletes", men: "6-13%", women: "14-20%", color: "text-green-400" },
+  { category: "Essential Fat (Men/Women)", men: "2-5%", women: "10-13%", color: "text-blue-600" },
+  { category: "Athletes", men: "6-13%", women: "14-20%", color: "text-green-600" },
   { category: "Fitness", men: "14-17%", women: "21-24%", color: "text-emerald-400" },
-  { category: "Average/Acceptable", men: "18-24%", women: "25-31%", color: "text-yellow-400" },
-  { category: "Obese/High Risk", men: "25%+", women: "32%+", color: "text-red-400" },
+  { category: "Average/Acceptable", men: "18-24%", women: "25-31%", color: "text-yellow-700" },
+  { category: "Obese/High Risk", men: "25%+", women: "32%+", color: "text-red-600" },
 ];
 
 const BODY_FAT_SCHEMA = JSON.stringify({
@@ -96,20 +96,20 @@ export default function BodyFatCalculator() {
     if (gender === "male") {
       bodyFatPercentage = 86.010 * Math.log10(wa - n) - 70.041 * Math.log10(h) + 36.76;
 
-      if (bodyFatPercentage < 6) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-400"; }
-      else if (bodyFatPercentage < 14) { category = "Athlete"; colorClass = "text-green-400"; }
+      if (bodyFatPercentage < 6) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
+      else if (bodyFatPercentage < 14) { category = "Athlete"; colorClass = "text-green-600"; }
       else if (bodyFatPercentage < 18) { category = "Fitness"; colorClass = "text-emerald-400"; }
-      else if (bodyFatPercentage < 25) { category = "Average"; colorClass = "text-yellow-400"; }
-      else { category = "Obese (High Risk)"; colorClass = "text-red-400"; }
+      else if (bodyFatPercentage < 25) { category = "Average"; colorClass = "text-yellow-700"; }
+      else { category = "Obese (High Risk)"; colorClass = "text-red-600"; }
     } else {
       if (!hi) { setResult(null); return; }
       bodyFatPercentage = 163.205 * Math.log10(wa + hi - n) - 97.684 * Math.log10(h) - 78.387;
 
-      if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-400"; }
-      else if (bodyFatPercentage < 21) { category = "Athlete"; colorClass = "text-green-400"; }
+      if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
+      else if (bodyFatPercentage < 21) { category = "Athlete"; colorClass = "text-green-600"; }
       else if (bodyFatPercentage < 25) { category = "Fitness"; colorClass = "text-emerald-400"; }
-      else if (bodyFatPercentage < 32) { category = "Average"; colorClass = "text-yellow-400"; }
-      else { category = "Obese (High Risk)"; colorClass = "text-red-400"; }
+      else if (bodyFatPercentage < 32) { category = "Average"; colorClass = "text-yellow-700"; }
+      else { category = "Obese (High Risk)"; colorClass = "text-red-600"; }
     }
 
     bodyFatPercentage = Math.max(4, Math.min(50, bodyFatPercentage));
@@ -147,37 +147,37 @@ export default function BodyFatCalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BODY_FAT_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-          <li><a href="https://numrexo.com" className="hover:text-gray-300">Home</a></li>
-          <li className="text-gray-700">/</li>
-          <li><a href="https://numrexo.com/fitness" className="hover:text-gray-300">Fitness Calculators</a></li>
-          <li className="text-gray-700">/</li>
-          <li><span className="text-gray-300">Body Fat Calculator</span></li>
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><a href="https://numrexo.com/fitness" className="hover:text-ink-soft">Fitness Calculators</a></li>
+          <li className="text-ink-soft">/</li>
+          <li><span className="text-ink-soft">Body Fat Calculator</span></li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">Body Fat Measurements (US Navy Method)</h3>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Gender</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Gender</label>
               <div className="grid grid-cols-2 gap-3">
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("male")}>Male</button>
-                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female" ? "bg-pink-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setGender("female")}>Female</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setGender("male")}>Male</button>
+                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female" ? "bg-pink-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setGender("female")}>Female</button>
               </div>
             </div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Age</label><input type="number" placeholder="30" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Weight</label><div className="relative"><input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">kg</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><div className="relative"><input type="number" placeholder="170" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Neck Circumference</label><div className="relative"><input type="number" placeholder="38" step="0.5" value={neck} onChange={(e) => setNeck(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span></div></div>
-            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Waist Circumference</label><div className="relative"><input type="number" placeholder="82" step="0.5" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at belly button level, relaxed</p></div></div>
-            {gender === "female" && (<div><label className="block text-xs font-semibold text-gray-400 mb-2">Hip Circumference</label><div className="relative"><input type="number" placeholder="95" step="0.5" value={hip} onChange={(e) => setHip(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">cm</span><p className="text-xs text-gray-500 mt-1">Measure at widest part of hips/buttocks</p></div></div>)}
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Age</label><input type="number" placeholder="30" value={age} onChange={(e) => setAge(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Weight</label><div className="relative"><input type="number" placeholder="70" value={weight} onChange={(e) => setWeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">kg</span></div></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Height</label><div className="relative"><input type="number" placeholder="170" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Neck Circumference</label><div className="relative"><input type="number" placeholder="38" step="0.5" value={neck} onChange={(e) => setNeck(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span></div></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Waist Circumference</label><div className="relative"><input type="number" placeholder="82" step="0.5" value={waist} onChange={(e) => setWaist(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span><p className="text-xs text-ink-faint mt-1">Measure at belly button level, relaxed</p></div></div>
+            {gender === "female" && (<div><label className="block text-xs font-semibold text-ink-faint mb-2">Hip Circumference</label><div className="relative"><input type="number" placeholder="95" step="0.5" value={hip} onChange={(e) => setHip(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span><p className="text-xs text-ink-faint mt-1">Measure at widest part of hips/buttocks</p></div></div>)}
             <div className="flex gap-3">
               <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Body Fat →</button>
-              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+              <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
             </div>
           </div>
         </div>
@@ -198,28 +198,28 @@ export default function BodyFatCalculator() {
       </div>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About Body Fat Calculator</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">The <strong className="text-gray-300">US Navy body fat method</strong> is one of the most accurate at-home body fat measurement techniques. Developed by the Naval Health Research Center, it uses simple circumference measurements to estimate body fat percentage with 95-98% accuracy compared to hydrostatic weighing.</p>
-        <p className="text-gray-400 text-sm leading-relaxed">Unlike BMI which can't distinguish muscle from fat, body fat percentage directly measures your body composition. This is crucial for athletes, fitness enthusiasts, and anyone serious about health tracking.</p>
+        <h2 className="text-xl font-semibold text-ink mb-3">About Body Fat Calculator</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">The <strong className="text-ink-soft">US Navy body fat method</strong> is one of the most accurate at-home body fat measurement techniques. Developed by the Naval Health Research Center, it uses simple circumference measurements to estimate body fat percentage with 95-98% accuracy compared to hydrostatic weighing.</p>
+        <p className="text-ink-faint text-sm leading-relaxed">Unlike BMI which can't distinguish muscle from fat, body fat percentage directly measures your body composition. This is crucial for athletes, fitness enthusiasts, and anyone serious about health tracking.</p>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Body Fat Classification Chart</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <h2 className="text-xl font-semibold text-ink mb-4">Body Fat Classification Chart</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-left py-3 px-4 text-gray-400">Category</th>
-                <th className="text-left py-3 px-4 text-gray-400">Men</th>
-                <th className="text-left py-3 px-4 text-gray-400">Women</th>
+              <tr className="border-b border-hairline">
+                <th className="text-left py-3 px-4 text-ink-faint">Category</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Men</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Women</th>
               </tr>
             </thead>
             <tbody>
               {BODY_FAT_TABLE.map((row, i) => (
-                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
+                <tr key={i} className="border-b border-hairline hover:bg-cream">
                   <td className={`py-3 px-4 font-medium ${row.color}`}>{row.category}</td>
-                  <td className="py-3 px-4 text-gray-300">{row.men}</td>
-                  <td className="py-3 px-4 text-gray-300">{row.women}</td>
+                  <td className="py-3 px-4 text-ink-soft">{row.men}</td>
+                  <td className="py-3 px-4 text-ink-soft">{row.women}</td>
                 </tr>
               ))}
             </tbody>
@@ -228,22 +228,22 @@ export default function BodyFatCalculator() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">US Navy Body Fat Formula</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">US Navy Body Fat Formula</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">For Men</h3>
-            <p className="text-white font-mono text-xs">% Body Fat = 86.010 × log₁₀(Waist - Neck) - 70.041 × log₁₀(Height) + 36.76</p>
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">For Men</h3>
+            <p className="text-ink font-mono text-xs">% Body Fat = 86.010 × log₁₀(Waist - Neck) - 70.041 × log₁₀(Height) + 36.76</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-pink-400 mb-2">For Women</h3>
-            <p className="text-white font-mono text-xs">% Body Fat = 163.205 × log₁₀(Waist + Hip - Neck) - 97.684 × log₁₀(Height) - 78.387</p>
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-pink-600 mb-2">For Women</h3>
+            <p className="text-ink font-mono text-xs">% Body Fat = 163.205 × log₁₀(Waist + Hip - Neck) - 97.684 × log₁₀(Height) - 78.387</p>
           </div>
         </div>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">How to Take Accurate Measurements</h2>
-        <ul className="space-y-2 text-gray-400 text-sm">
+        <h2 className="text-xl font-semibold text-ink mb-4">How to Take Accurate Measurements</h2>
+        <ul className="space-y-2 text-ink-faint text-sm">
           <li>• <strong>Neck:</strong> Measure just below the Adam's apple (men) or voice box (women), tape sloping slightly downward at front</li>
           <li>• <strong>Waist:</strong> Measure at belly button level (navel), tape snug but not compressing skin, after exhaling normally</li>
           <li>• <strong>Hip (women only):</strong> Measure at widest point of hips/buttocks, tape parallel to floor</li>
@@ -255,15 +255,15 @@ export default function BodyFatCalculator() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-              <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+              <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
-              {openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}
+              {openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}
             </div>
           ))}
         </div>

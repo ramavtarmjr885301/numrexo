@@ -221,19 +221,19 @@ export default function LTCGCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-gray-300">Tax Calculators</a>
+                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">LTCG Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">LTCG Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -241,35 +241,35 @@ export default function LTCGCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Capital Gains Details</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate tax on your long-term investments</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate tax on your long-term investments</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Asset Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Asset Type</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "equity" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "equity" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setAssetType("equity")}
                                 >
                                     Shares / Equity Funds
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "realestate" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "realestate" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setAssetType("realestate")}
                                 >
                                     Real Estate
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "debt" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "debt" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setAssetType("debt")}
                                 >
                                     Debt Funds / Bonds
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "gold" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${assetType === "gold" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setAssetType("gold")}
                                 >
                                     Gold / Jewellery
@@ -277,39 +277,39 @@ export default function LTCGCalculator() {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Purchase Price (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Purchase Price (₹)</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="100000"
                                     value={purchasePrice}
                                     onChange={(e) => setPurchasePrice(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Sale Price (₹)</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Sale Price (₹)</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="250000"
                                     value={salePrice}
                                     onChange={(e) => setSalePrice(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                             </div>
                         </div>
                         {assetType !== "equity" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Year of Purchase</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Year of Purchase</label>
                                     <select
                                         value={purchaseYear}
                                         onChange={(e) => setPurchaseYear(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
                                     >
                                         <option value="">Select year</option>
                                         {years.map((year) => (
@@ -318,11 +318,11 @@ export default function LTCGCalculator() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Year of Sale</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Year of Sale</label>
                                     <select
                                         value={saleYear}
                                         onChange={(e) => setSaleYear(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
                                     >
                                         <option value="">Select year</option>
                                         {years.map((year) => (
@@ -335,13 +335,13 @@ export default function LTCGCalculator() {
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate LTCG Tax →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -358,12 +358,12 @@ export default function LTCGCalculator() {
                     mainResult={result ? {
                         label: result.isLoss ? "Capital Loss" : "Tax Payable",
                         value: result.isLoss ? `₹${result.lossAmount} (No Tax)` : `₹${result.tax}`,
-                        color: result.isLoss ? "text-yellow-400" : "text-red-400"
+                        color: result.isLoss ? "text-yellow-700" : "text-red-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Asset Type", value: result.assetType },
                         ...(result.isLoss ? [] : [
-                            { label: "Total Capital Gain", value: `₹${result.gain}`, valueColor: "text-yellow-400" },
+                            { label: "Total Capital Gain", value: `₹${result.gain}`, valueColor: "text-yellow-700" },
                             ...(result.taxableGain ? [{ label: "Taxable Gain", value: `₹${result.taxableGain}` }] : []),
                             ...(result.indexedCost ? [{ label: "Indexed Cost of Acquisition", value: `₹${result.indexedCost}` }] : []),
                             { label: "Tax Rate", value: `${result.taxRate}%` },
@@ -377,70 +377,70 @@ export default function LTCGCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About LTCG Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Long Term Capital Gains (LTCG) Tax Calculator</strong> helps you estimate the tax you need to pay when selling assets held for the long term. Whether you're selling shares, property, gold, or mutual funds, this calculator gives you accurate tax liability.
+                <h2 className="text-xl font-semibold text-ink mb-3">About LTCG Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Long Term Capital Gains (LTCG) Tax Calculator</strong> helps you estimate the tax you need to pay when selling assets held for the long term. Whether you're selling shares, property, gold, or mutual funds, this calculator gives you accurate tax liability.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     For shares and equity funds, gains up to ₹1 lakh per year are tax-free. For property, debt funds, and gold, you get indexation benefits that reduce your taxable gains by accounting for inflation.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This LTCG Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This LTCG Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select the <strong className="text-white">asset type</strong> (Shares, Real Estate, Debt Funds, or Gold).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter <strong className="text-white">purchase price</strong> and <strong className="text-white">sale price</strong> of the asset.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For non-equity assets, select <strong className="text-white">purchase year</strong> and <strong className="text-white">sale year</strong> (for indexation).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate LTCG Tax"</strong> to see your tax liability.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and calculate a different asset.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">asset type</strong> (Shares, Real Estate, Debt Funds, or Gold).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter <strong className="text-ink">purchase price</strong> and <strong className="text-ink">sale price</strong> of the asset.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For non-equity assets, select <strong className="text-ink">purchase year</strong> and <strong className="text-ink">sale year</strong> (for indexation).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate LTCG Tax"</strong> to see your tax liability.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and calculate a different asset.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an LTCG Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an LTCG Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Tax Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan your asset sales to minimize taxes. Use the ₹1 lakh exemption for shares. Time your property sales with indexation benefits.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Tax Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan your asset sales to minimize taxes. Use the ₹1 lakh exemption for shares. Time your property sales with indexation benefits.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Estimate Tax Liability</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how much tax you'll pay before selling. Set aside money for tax payment. Avoid surprises at filing time.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Estimate Tax Liability</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much tax you'll pay before selling. Set aside money for tax payment. Avoid surprises at filing time.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Compare Asset Types</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate tax for different asset types. Decide which investment is more tax-efficient. Plan your portfolio accordingly.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Compare Asset Types</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate tax for different asset types. Decide which investment is more tax-efficient. Plan your portfolio accordingly.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ ITR Filing Preparation</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Accurate LTCG calculation helps in ITR filing. Use results for Schedule CG. Avoid tax notice for incorrect reporting.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ ITR Filing Preparation</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Accurate LTCG calculation helps in ITR filing. Use results for Schedule CG. Avoid tax notice for incorrect reporting.</p>
                     </div>
                 </div>
             </section>
 
             {/* LTCG Rates Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">LTCG Tax Rates by Asset Type</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">LTCG Tax Rates by Asset Type</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Asset Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Holding Period</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Tax Rate</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Indexation</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Asset Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Holding Period</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Tax Rate</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Indexation</th>
                             </tr>
                         </thead>
                         <tbody>
                             {LTCG_RATES.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.assetType}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.holdingPeriod}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.taxRate}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.indexation}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.assetType}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.holdingPeriod}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.taxRate}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.indexation}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -450,32 +450,32 @@ export default function LTCGCalculator() {
 
             {/* Indexation Benefit Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Indexation Benefit Explained</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        <strong className="text-white">What is Indexation?</strong> Indexation allows you to adjust the purchase price of an asset for inflation using the Cost Inflation Index (CII). This reduces your taxable capital gains.
+                <h2 className="text-xl font-semibold text-ink mb-3">Indexation Benefit Explained</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                        <strong className="text-ink">What is Indexation?</strong> Indexation allows you to adjust the purchase price of an asset for inflation using the Cost Inflation Index (CII). This reduces your taxable capital gains.
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed mb-2">
-                        <strong className="text-white">Formula:</strong> Indexed Cost = Purchase Price × (CII of Sale Year ÷ CII of Purchase Year)
+                    <p className="text-ink-faint text-sm leading-relaxed mb-2">
+                        <strong className="text-ink">Formula:</strong> Indexed Cost = Purchase Price × (CII of Sale Year ÷ CII of Purchase Year)
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                        <strong className="text-white">Example:</strong> Property bought in 2010-11 for ₹50 lakhs, sold in 2024-25 for ₹1.5 crore. CII 2010-11=167, CII 2024-25=363. Indexed Cost = ₹50L × (363÷167) = ₹1,08,68,263. Taxable Gain = ₹1.5Cr - ₹1.08Cr = ₹41.32L. Tax @20% = ₹8.26L (vs ₹20L without indexation!)
+                    <p className="text-ink-faint text-sm leading-relaxed">
+                        <strong className="text-ink">Example:</strong> Property bought in 2010-11 for ₹50 lakhs, sold in 2024-25 for ₹1.5 crore. CII 2010-11=167, CII 2024-25=363. Indexed Cost = ₹50L × (363÷167) = ₹1,08,68,263. Taxable Gain = ₹1.5Cr - ₹1.08Cr = ₹41.32L. Tax @20% = ₹8.26L (vs ₹20L without indexation!)
                     </p>
                 </div>
             </section>
 
             {/* Grandfathering Rule */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Grandfathering Rule for Shares (Pre-Feb 1, 2018)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                        For shares acquired before February 1, 2018, the cost of acquisition is the <strong className="text-white">higher of</strong>:
+                <h2 className="text-xl font-semibold text-ink mb-3">Grandfathering Rule for Shares (Pre-Feb 1, 2018)</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                        For shares acquired before February 1, 2018, the cost of acquisition is the <strong className="text-ink">higher of</strong>:
                     </p>
-                    <ul className="space-y-2 text-sm text-gray-400 list-disc list-inside mb-3">
+                    <ul className="space-y-2 text-sm text-ink-faint list-disc list-inside mb-3">
                         <li>Actual purchase price, or</li>
                         <li>Fair Market Value (FMV) as of January 31, 2018 (highest price on that date)</li>
                     </ul>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         Gains up to January 31, 2018 are grandfathered (tax-free). Only gains after that date are taxable. Example: Bought shares at ₹100 in 2015, FMV on 31/1/18 = ₹300, sold at ₹500 in 2025. Cost taken as ₹300, gain = ₹200. Taxable gain after ₹1L exemption.
                     </p>
                 </div>
@@ -483,59 +483,59 @@ export default function LTCGCalculator() {
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">LTCG Calculation Formula</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">LTCG Calculation Formula</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">For Shares / Equity Funds</h3>
-                        <p className="text-white font-mono text-sm mb-2">Tax = (Gain - ₹1,00,000) × 10%</p>
-                        <p className="text-gray-500 text-xs">Example: ₹1,50,000 gain → Tax = ₹50,000 × 10% = ₹5,000</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">For Shares / Equity Funds</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Tax = (Gain - ₹1,00,000) × 10%</p>
+                        <p className="text-ink-faint text-xs">Example: ₹1,50,000 gain → Tax = ₹50,000 × 10% = ₹5,000</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">For Property / Debt / Gold</h3>
-                        <p className="text-white font-mono text-sm mb-2">Indexed Cost = Purchase × (CII Sale ÷ CII Purchase)</p>
-                        <p className="text-white font-mono text-sm">Tax = (Sale - Indexed Cost) × 20%</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">For Property / Debt / Gold</h3>
+                        <p className="text-ink font-mono text-sm mb-2">Indexed Cost = Purchase × (CII Sale ÷ CII Purchase)</p>
+                        <p className="text-ink font-mono text-sm">Tax = (Sale - Indexed Cost) × 20%</p>
                     </div>
                 </div>
             </section>
 
             {/* Important Things */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">LTCG applies only if held for more than 1 year</strong> — For shares, holding period is 1 year. For property, debt funds, gold, it's 3 years.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">LTCG applies only if held for more than 1 year</strong> — For shares, holding period is 1 year. For property, debt funds, gold, it's 3 years.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">₹1 lakh exemption is per financial year</strong> — You can have multiple transactions, but total exempt gain is ₹1 lakh.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">₹1 lakh exemption is per financial year</strong> — You can have multiple transactions, but total exempt gain is ₹1 lakh.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Indexation benefit reduces tax significantly</strong> — For long-held assets, indexation can reduce or eliminate tax liability.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Indexation benefit reduces tax significantly</strong> — For long-held assets, indexation can reduce or eliminate tax liability.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Consult a tax advisor</strong> — This calculator provides estimates. For exact tax calculation, consult a qualified professional.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Consult a tax advisor</strong> — This calculator provides estimates. For exact tax calculation, consult a qualified professional.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

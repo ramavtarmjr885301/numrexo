@@ -17,14 +17,14 @@ export default function CurrencySwitcher({ className = "" }: { className?: strin
 
   return (
     <div className={`flex items-center justify-between gap-3 ${className}`}>
-      <label htmlFor="numrexo-currency" className="text-xs font-semibold text-gray-400">
+      <label htmlFor="numrexo-currency" className="text-xs font-semibold text-ink-soft">
         Currency
       </label>
       <select
         id="numrexo-currency"
         value={currency}
         onChange={(event) => setCurrency(event.target.value as CurrencyCode)}
-        className="bg-[#0b1220] border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 transition-colors"
+        className="bg-surface border border-hairline text-ink text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-blue-600 transition-colors"
       >
         {CURRENCY_ORDER.map((code) => (
           <option key={code} value={code}>

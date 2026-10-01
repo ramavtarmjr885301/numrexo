@@ -233,27 +233,27 @@ export default function XIRRCalculator() {
         for (const guide of XIRR_GUIDE) {
             if (xirr >= 20) {
                 rating = XIRR_GUIDE[0].rating;
-                ratingColor = "text-green-400";
+                ratingColor = "text-green-600";
                 break;
             } else if (xirr >= 15) {
                 rating = XIRR_GUIDE[1].rating;
-                ratingColor = "text-blue-400";
+                ratingColor = "text-blue-600";
                 break;
             } else if (xirr >= 12) {
                 rating = XIRR_GUIDE[2].rating;
-                ratingColor = "text-yellow-400";
+                ratingColor = "text-yellow-700";
                 break;
             } else if (xirr >= 8) {
                 rating = XIRR_GUIDE[3].rating;
-                ratingColor = "text-orange-400";
+                ratingColor = "text-orange-600";
                 break;
             } else if (xirr >= 0) {
                 rating = XIRR_GUIDE[4].rating;
-                ratingColor = "text-red-400";
+                ratingColor = "text-red-600";
                 break;
             } else {
                 rating = XIRR_GUIDE[5].rating;
-                ratingColor = "text-red-400";
+                ratingColor = "text-red-600";
                 break;
             }
         }
@@ -291,31 +291,31 @@ export default function XIRRCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
         
         {/* Item 1: Home */}
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Home</span> {/* ✅ Span added */}
             </a>
             <meta itemProp="position" content="1" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         {/* Item 2: Investment Calculators */}
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-gray-300">
+            <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Investment Calculators</span> {/* ✅ Span added */}
             </a>
             <meta itemProp="position" content="2" />
         </li>
         
-        <li className="text-gray-700">/</li>
+        <li className="text-ink-soft">/</li>
         
         {/* Item 3: XIRR Calculator */}
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-gray-300">XIRR Calculator</span> {/* ✅ Span added */}
+            <span itemProp="name" className="text-ink-soft">XIRR Calculator</span> {/* ✅ Span added */}
             <meta itemProp="position" content="3" />
         </li>
         
@@ -324,15 +324,15 @@ export default function XIRRCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800 flex justify-between items-center">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
                             <h3 className="font-semibold">Cash Flows</h3>
-                            <p className="text-xs text-gray-500 mt-1">Enter all investments (negative) and final value (positive)</p>
+                            <p className="text-xs text-ink-faint mt-1">Enter all investments (negative) and final value (positive)</p>
                         </div>
                         <button
                             onClick={addCashFlow}
-                            className="px-3 py-1 text-sm bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
+                            className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600 transition-colors"
                         >
                             + Add Investment
                         </button>
@@ -340,13 +340,13 @@ export default function XIRRCalculator() {
                     <div className="p-6 space-y-3 max-h-80 overflow-y-auto">
                         {cashFlows.map((cf, i) => (
                             <div key={cf.id} className="flex gap-2 items-center">
-                                <div className="w-6 text-sm text-gray-500">{i + 1}</div>
+                                <div className="w-6 text-sm text-ink-faint">{i + 1}</div>
                                 <div className="flex-1">
                                     <input
                                         type="date"
                                         value={cf.date}
                                         onChange={(e) => updateCashFlow(cf.id, "date", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
                                     />
                                 </div>
                                 <div className="flex-1 relative">
@@ -356,14 +356,14 @@ export default function XIRRCalculator() {
                                         placeholder="Amount"
                                         value={cf.amount}
                                         onChange={(e) => updateCashFlow(cf.id, "amount", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span>
                                 </div>
                                 {cashFlows.length > 1 && (
                                     <button
                                         onClick={() => removeCashFlow(cf.id)}
-                                        className="px-2 py-2 text-red-400 hover:text-red-300 transition-colors"
+                                        className="px-2 py-2 text-red-600 hover:text-red-600 transition-colors"
                                     >
                                         ✕
                                     </button>
@@ -371,26 +371,26 @@ export default function XIRRCalculator() {
                             </div>
                         ))}
                     </div>
-                    <div className="p-6 border-t border-gray-800 space-y-4">
+                    <div className="p-6 border-t border-hairline space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Current/Final Value (₹)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Current/Final Value (₹)</label>
                                 <input
                                     type="number"
                                     step="100"
                                     placeholder="100000"
                                     value={finalValue}
                                     onChange={(e) => setFinalValue(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">As on Date</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">As on Date</label>
                                 <input
                                     type="date"
                                     value={finalDate}
                                     onChange={(e) => setFinalDate(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-70"
                                 />
                             </div>
                         </div>
@@ -403,7 +403,7 @@ export default function XIRRCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -420,13 +420,13 @@ export default function XIRRCalculator() {
                     mainResult={result ? {
                         label: "XIRR (Annualized Return)",
                         value: `${result.xirr}%`,
-                        color: "text-teal-400"
+                        color: "text-teal-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Performance Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Investment", value: `₹${parseFloat(result.totalInvestment).toLocaleString()}` },
-                        { label: "Final Value", value: `₹${parseFloat(result.finalValue).toLocaleString()}`, valueColor: "text-yellow-400" },
-                        { label: "Total Return", value: `₹${parseFloat(result.totalReturn).toLocaleString()}`, valueColor: "text-green-400" },
+                        { label: "Final Value", value: `₹${parseFloat(result.finalValue).toLocaleString()}`, valueColor: "text-yellow-700" },
+                        { label: "Total Return", value: `₹${parseFloat(result.totalReturn).toLocaleString()}`, valueColor: "text-green-600" },
                         { label: "Absolute Return", value: `${result.absoluteReturn}%` },
                         { label: "Investment Period", value: `${result.years} years (${result.days} days)` },
                         { label: "Number of Investments", value: result.cashFlowCount },
@@ -438,71 +438,71 @@ export default function XIRRCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About XIRR Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">XIRR Calculator</strong> helps you calculate the Extended Internal Rate of Return for irregular cash flows. Perfect for SIP investments, multiple stock purchases, and portfolios with partial withdrawals.
+                <h2 className="text-xl font-semibold text-ink mb-3">About XIRR Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">XIRR Calculator</strong> helps you calculate the Extended Internal Rate of Return for irregular cash flows. Perfect for SIP investments, multiple stock purchases, and portfolios with partial withdrawals.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     XIRR is the industry standard for calculating returns on mutual fund SIPs, stock portfolios, and any investment with multiple cash flows over time. Unlike simple CAGR, XIRR accounts for the timing of each investment, giving you the true annualized return.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're tracking your mutual fund investments, calculating returns on your stock portfolio, or evaluating real estate investments, XIRR provides the most accurate picture of your investment performance.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This XIRR Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This XIRR Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter each <strong className="text-white">investment amount</strong> and its date (these are negative cash flows).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">current/final value</strong> and its date (this is a positive cash flow).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Add Investment"</strong> to add more investments.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate XIRR"</strong> to see your annualized return.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Review your <strong className="text-white">XIRR, absolute return, and performance rating</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter each <strong className="text-ink">investment amount</strong> and its date (these are negative cash flows).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">current/final value</strong> and its date (this is a positive cash flow).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Add Investment"</strong> to add more investments.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate XIRR"</strong> to see your annualized return.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review your <strong className="text-ink">XIRR, absolute return, and performance rating</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an XIRR Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an XIRR Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">✓ SIP Return Tracking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate the true annualized return of your SIP investments. XIRR accounts for each installment's timing for accurate results.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ SIP Return Tracking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate the true annualized return of your SIP investments. XIRR accounts for each installment's timing for accurate results.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Portfolio Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track returns across multiple investments made at different times. Perfect for stock portfolios and mutual fund holdings.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Portfolio Analysis</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track returns across multiple investments made at different times. Perfect for stock portfolios and mutual fund holdings.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Performance Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare XIRR with benchmark returns. Know if your investments are beating the market or index.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Performance Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare XIRR with benchmark returns. Know if your investments are beating the market or index.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Investment Decisions</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Use XIRR to decide whether to continue, increase, or exit an investment. Make data-driven investment decisions.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Investment Decisions</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Use XIRR to decide whether to continue, increase, or exit an investment. Make data-driven investment decisions.</p>
                     </div>
                 </div>
             </section>
 
             {/* XIRR Formula */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">XIRR Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 text-center">
-                    <p className="text-white font-mono text-sm mb-2">Σ [CFᵢ / (1 + XIRR)^(dᵢ/365)] = 0</p>
-                    <p className="text-gray-500 text-xs">Where CFᵢ = cash flow, dᵢ = days from first investment</p>
-                    <p className="text-gray-500 text-xs mt-2">The calculator iteratively solves for XIRR using the Newton-Raphson method.</p>
+                <h2 className="text-xl font-semibold text-ink mb-4">XIRR Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 text-center">
+                    <p className="text-ink font-mono text-sm mb-2">Σ [CFᵢ / (1 + XIRR)^(dᵢ/365)] = 0</p>
+                    <p className="text-ink-faint text-xs">Where CFᵢ = cash flow, dᵢ = days from first investment</p>
+                    <p className="text-ink-faint text-xs mt-2">The calculator iteratively solves for XIRR using the Newton-Raphson method.</p>
                 </div>
             </section>
 
             {/* XIRR vs CAGR Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">XIRR vs CAGR Comparison</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">XIRR vs CAGR Comparison</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-blue-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">📊 CAGR</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">📊 CAGR</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Single investment only</li>
                             <li>• One start date, one end date</li>
                             <li>• No intermediate cash flows</li>
@@ -510,9 +510,9 @@ export default function XIRRCalculator() {
                             <li>• Simple to calculate</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-teal-500/30 transition-all">
-                        <h3 className="text-sm font-semibold text-teal-400 mb-2">📈 XIRR</h3>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-teal-200 transition-all">
+                        <h3 className="text-sm font-semibold text-teal-600 mb-2">📈 XIRR</h3>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Multiple investments supported</li>
                             <li>• Different dates for each cash flow</li>
                             <li>• Handles partial withdrawals</li>
@@ -525,32 +525,32 @@ export default function XIRRCalculator() {
 
             {/* XIRR Interpretation Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">XIRR Interpretation Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">XIRR Interpretation Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">XIRR Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Rating</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Description</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">XIRR Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Rating</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             {XIRR_GUIDE.map((row, i) => (
-                                <tr key={i} className={`border-b border-gray-800/50 hover:bg-white/5 ${i === 0 ? 'text-green-400' :
-                                    i === 1 ? 'text-blue-400' :
-                                        i === 2 ? 'text-yellow-400' :
-                                            i === 3 ? 'text-orange-400' :
-                                                'text-red-400'
+                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === 0 ? 'text-green-600' :
+                                    i === 1 ? 'text-blue-600' :
+                                        i === 2 ? 'text-yellow-700' :
+                                            i === 3 ? 'text-orange-600' :
+                                                'text-red-600'
                                     }`}>
                                     <td className="py-2 px-4 font-bold">{row.range}</td>
                                     <td className="py-2 px-4">{row.rating}</td>
-                                    <td className="py-2 px-4 text-gray-400 text-xs">{row.description}</td>
+                                    <td className="py-2 px-4 text-ink-faint text-xs">{row.description}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * These are general guidelines. Context matters - consider risk, investment type, and market conditions.
                     </p>
                 </div>
@@ -558,46 +558,46 @@ export default function XIRRCalculator() {
 
             {/* Investment Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Investment Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Investment Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-teal-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Start early:</strong> The earlier you invest, the more time your money has to compound. Even small amounts invested early can significantly increase your XIRR.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Start early:</strong> The earlier you invest, the more time your money has to compound. Even small amounts invested early can significantly increase your XIRR.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-teal-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Invest during market corrections:</strong> Buying more when markets are down improves your XIRR. SIPs automatically do this through rupee cost averaging.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Invest during market corrections:</strong> Buying more when markets are down improves your XIRR. SIPs automatically do this through rupee cost averaging.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-teal-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Stay invested long-term:</strong> XIRR improves with time. Avoid frequent withdrawals that reduce compounding. Long-term investing (5-10+ years) historically yields higher XIRR.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Stay invested long-term:</strong> XIRR improves with time. Avoid frequent withdrawals that reduce compounding. Long-term investing (5-10+ years) historically yields higher XIRR.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-teal-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Choose the right investments:</strong> Equity funds historically give higher XIRR than debt funds. Match your investment choice with your risk tolerance and goals.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Choose the right investments:</strong> Equity funds historically give higher XIRR than debt funds. Match your investment choice with your risk tolerance and goals.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-teal-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Review your XIRR regularly:</strong> Track your XIRR annually. If it's consistently below benchmarks, consider reviewing your investment strategy.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Review your XIRR regularly:</strong> Track your XIRR annually. If it's consistently below benchmarks, consider reviewing your investment strategy.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

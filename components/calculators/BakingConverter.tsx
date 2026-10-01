@@ -170,38 +170,38 @@ export default function BakingConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-gray-300">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Baking Converter</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Baking Converter</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Baking Converter</h3>
-                        <p className="text-xs text-gray-500 mt-1">Convert cups to grams for accurate baking</p>
+                        <p className="text-xs text-ink-faint mt-1">Convert cups to grams for accurate baking</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Ingredient</label>
-                            <select value={ingredient} onChange={(e) => setIngredient(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white">
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Ingredient</label>
+                            <select value={ingredient} onChange={(e) => setIngredient(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">
                                 {INGREDIENTS.map(i => <option key={i.name} value={i.name}>{i.name}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Conversion Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Conversion Type</label>
                             <div className="grid grid-cols-2 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${conversionType === "cupsToGrams" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setConversionType("cupsToGrams")}>Cups → Grams</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${conversionType === "gramsToCups" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setConversionType("gramsToCups")}>Grams → Cups</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${conversionType === "cupsToGrams" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setConversionType("cupsToGrams")}>Cups → Grams</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${conversionType === "gramsToCups" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setConversionType("gramsToCups")}>Grams → Cups</button>
                             </div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">{conversionType === "cupsToGrams" ? "Cups" : "Grams"}</label><input type="number" step="0.1" placeholder="1" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">{conversionType === "cupsToGrams" ? "Cups" : "Grams"}</label><input type="number" step="0.1" placeholder="1" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex gap-3">
                             <button onClick={convert} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-700 text-white font-semibold hover:shadow-lg transition-all">Convert →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -211,7 +211,7 @@ export default function BakingConverter() {
                     isEmpty={!result}
                     emptyIcon="🥄"
                     emptyText="Enter value to convert"
-                    mainResult={result ? { label: `${result.originalValue} ${result.fromUnit} =`, value: `${result.convertedValue} ${result.toUnit}`, color: "text-yellow-400" } : undefined}
+                    mainResult={result ? { label: `${result.originalValue} ${result.fromUnit} =`, value: `${result.convertedValue} ${result.toUnit}`, color: "text-yellow-700" } : undefined}
                     extraRows={result ? [
                         { label: "Ingredient", value: result.ingredient },
                         { label: "Conversion", value: conversionType === "cupsToGrams" ? "Cups to Grams" : "Grams to Cups" },
@@ -220,30 +220,30 @@ export default function BakingConverter() {
             </div>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Baking Converter</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Baking Converter</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Converts common baking ingredients between cups, tablespoons and grams. Each ingredient has its
                     own conversion because each has its own density — a cup of flour and a cup of honey are the same
                     volume and nowhere near the same weight.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     If you are converting a recipe rather than a single ingredient, it is worth writing the gram
                     figures onto the recipe itself. You only have to do it once.
                 </p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Why a Cup of Flour Has No Fixed Weight</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-4">Why a Cup of Flour Has No Fixed Weight</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
                         Flour compresses. How much ends up in the cup depends entirely on how it got there.
                     </p>
-                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
-                        <li>Spooned in loosely and levelled: <span className="text-white">~120 g</span></li>
-                        <li>Scooped straight from the bag: <span className="text-white">~140-150 g</span></li>
-                        <li>Scooped and tapped down: <span className="text-white">160 g or more</span></li>
+                    <ul className="text-ink-faint text-sm space-y-1.5 list-disc list-inside mb-3">
+                        <li>Spooned in loosely and levelled: <span className="text-ink">~120 g</span></li>
+                        <li>Scooped straight from the bag: <span className="text-ink">~140-150 g</span></li>
+                        <li>Scooped and tapped down: <span className="text-ink">160 g or more</span></li>
                     </ul>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-ink-faint text-xs">
                         Across three cups that spread is well over 100 g of flour — roughly an extra cup you never
                         meant to add. It is the most common reason a cake comes out dry when the recipe was followed
                         to the letter.
@@ -252,63 +252,63 @@ export default function BakingConverter() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">One Cup, by Ingredient</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">One Cup, by Ingredient</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Ingredient</th><th className="text-right py-3 px-4 text-gray-400">1 cup ≈</th><th className="text-right py-3 px-4 text-gray-400">1 tbsp ≈</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Ingredient</th><th className="text-right py-3 px-4 text-ink-faint">1 cup ≈</th><th className="text-right py-3 px-4 text-ink-faint">1 tbsp ≈</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Plain / all-purpose flour</td><td className="py-2 px-4 text-right">120 g</td><td className="py-2 px-4 text-right">8 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Granulated sugar</td><td className="py-2 px-4 text-right">200 g</td><td className="py-2 px-4 text-right">12.5 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Brown sugar, packed</td><td className="py-2 px-4 text-right">215 g</td><td className="py-2 px-4 text-right">13.5 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Butter</td><td className="py-2 px-4 text-right">227 g (2 sticks)</td><td className="py-2 px-4 text-right">14 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Water or milk</td><td className="py-2 px-4 text-right">240 g</td><td className="py-2 px-4 text-right">15 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Honey or syrup</td><td className="py-2 px-4 text-right">340 g</td><td className="py-2 px-4 text-right">21 g</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Cocoa powder</td><td className="py-2 px-4 text-right">85 g</td><td className="py-2 px-4 text-right">5 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Plain / all-purpose flour</td><td className="py-2 px-4 text-right">120 g</td><td className="py-2 px-4 text-right">8 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Granulated sugar</td><td className="py-2 px-4 text-right">200 g</td><td className="py-2 px-4 text-right">12.5 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Brown sugar, packed</td><td className="py-2 px-4 text-right">215 g</td><td className="py-2 px-4 text-right">13.5 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Butter</td><td className="py-2 px-4 text-right">227 g (2 sticks)</td><td className="py-2 px-4 text-right">14 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Water or milk</td><td className="py-2 px-4 text-right">240 g</td><td className="py-2 px-4 text-right">15 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Honey or syrup</td><td className="py-2 px-4 text-right">340 g</td><td className="py-2 px-4 text-right">21 g</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Cocoa powder</td><td className="py-2 px-4 text-right">85 g</td><td className="py-2 px-4 text-right">5 g</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     Figures are for a US cup of 240 ml, flour spooned and levelled. Treat them as close approximations —
                     brands and grinds vary by a few grams either way.
                 </p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Not Every Cup Is the Same Cup</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Not Every Cup Is the Same Cup</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Where</th><th className="text-right py-3 px-4 text-gray-400">Volume</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Where</th><th className="text-right py-3 px-4 text-ink-faint">Volume</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US customary cup</td><td className="py-2 px-4 text-right">236.6 ml</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">US legal cup (nutrition labels)</td><td className="py-2 px-4 text-right">240 ml</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Australia and New Zealand</td><td className="py-2 px-4 text-right">250 ml</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Imperial cup (older UK recipes)</td><td className="py-2 px-4 text-right">284 ml</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">US customary cup</td><td className="py-2 px-4 text-right">236.6 ml</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">US legal cup (nutrition labels)</td><td className="py-2 px-4 text-right">240 ml</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Australia and New Zealand</td><td className="py-2 px-4 text-right">250 ml</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Imperial cup (older UK recipes)</td><td className="py-2 px-4 text-right">284 ml</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     A US cup against an Australian one is about 6% apart. Negligible in a stew, noticeable in a sponge,
                     and worth checking where a recipe came from before you scale it up.
                 </p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Common Baking Conversions</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Common Baking Conversions</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-96 overflow-y-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800 sticky top-0 bg-[#111827]"><th className="text-left py-3 px-4 text-gray-400">Ingredient</th><th className="text-left py-3 px-4 text-gray-400">1 Cup = Grams</th><th className="text-left py-3 px-4 text-gray-400">1 Gram = Cups</th></tr></thead>
+                        <thead><tr className="border-b border-hairline sticky top-0 bg-surface"><th className="text-left py-3 px-4 text-ink-faint">Ingredient</th><th className="text-left py-3 px-4 text-ink-faint">1 Cup = Grams</th><th className="text-left py-3 px-4 text-ink-faint">1 Gram = Cups</th></tr></thead>
                         <tbody>
-                            {INGREDIENTS.map((item, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{item.name}</td><td className="py-2 px-4 text-yellow-400">{item.cupsToGrams}g</td><td className="py-2 px-4 text-gray-400">{item.gramsToCups.toFixed(4)} cups</td></tr>))}
+                            {INGREDIENTS.map((item, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{item.name}</td><td className="py-2 px-4 text-yellow-700">{item.cupsToGrams}g</td><td className="py-2 px-4 text-ink-faint">{item.gramsToCups.toFixed(4)} cups</td></tr>))}
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div>
             </section>
         </>
     );

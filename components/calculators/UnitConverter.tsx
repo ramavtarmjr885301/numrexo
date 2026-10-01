@@ -315,19 +315,19 @@ export default function UnitConverter() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
       <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
             <meta itemProp="position" content="1" />
           </li>
-          <li className="text-gray-700">/</li>
+          <li className="text-ink-soft">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-gray-300">Converters</a>
+            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
             <meta itemProp="position" content="2" />
           </li>
-          <li className="text-gray-700">/</li>
+          <li className="text-ink-soft">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-gray-300">Unit Converter</span>
+            <span itemProp="name" className="text-ink-soft">Unit Converter</span>
             <meta itemProp="position" content="3" />
           </li>
         </ol>
@@ -335,19 +335,19 @@ export default function UnitConverter() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">Unit Converter</h3>
-            <p className="text-xs text-gray-500 mt-1">Convert between 6 different unit types</p>
+            <p className="text-xs text-ink-faint mt-1">Convert between 6 different unit types</p>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Conversion Type</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Conversion Type</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {CONVERSION_TYPES.map((type) => (
                   <button
                     key={type}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1 ${conversionType === type ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700 text-gray-400 hover:text-white"
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1 ${conversionType === type ? "bg-blue-600 text-white" : "bg-surface border border-hairline text-ink-faint hover:text-ink"
                       }`}
                     onClick={() => handleTypeChange(type)}
                   >
@@ -359,24 +359,24 @@ export default function UnitConverter() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">Value</label>
+              <label className="block text-xs font-semibold text-ink-faint mb-2">Value</label>
               <input
                 type="number"
                 step="any"
                 placeholder="100"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
 
             <div className="flex items-center gap-3">
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-400 mb-2">From</label>
+                <label className="block text-xs font-semibold text-ink-faint mb-2">From</label>
                 <select
                   value={fromUnit}
                   onChange={(e) => setFromUnit(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
                 >
                   {units.map((unit) => (
                     <option key={unit} value={unit}>{unit}</option>
@@ -385,17 +385,17 @@ export default function UnitConverter() {
               </div>
               <button
                 onClick={swapUnits}
-                className="mt-6 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-lg"
+                className="mt-6 p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-lg"
                 aria-label="Swap units"
               >
                 🔄
               </button>
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-400 mb-2">To</label>
+                <label className="block text-xs font-semibold text-ink-faint mb-2">To</label>
                 <select
                   value={toUnit}
                   onChange={(e) => setToUnit(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
                 >
                   {units.map((unit) => (
                     <option key={unit} value={unit}>{unit}</option>
@@ -413,7 +413,7 @@ export default function UnitConverter() {
               </button>
               <button
                 onClick={resetForm}
-                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
               >
                 Reset
               </button>
@@ -430,7 +430,7 @@ export default function UnitConverter() {
           mainResult={result ? {
             label: `${result.value} ${result.fromUnit} =`,
             value: `${result.convertedValue} ${result.toUnit}`,
-            color: "text-cyan-400",
+            color: "text-cyan-600",
           } : undefined}
           extraRows={result ? [
             { label: "Conversion Type", value: result.type },
@@ -444,65 +444,65 @@ export default function UnitConverter() {
 
       {/* About Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">About Unit Converter</h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
-          Our <strong className="text-gray-300">free unit converter</strong> handles all common unit conversions: length (meters to feet, km to miles), weight (kg to lbs, grams to ounces), volume (liters to gallons), temperature (Celsius to Fahrenheit), area (square feet to acres), and speed (km/h to mph).
+        <h2 className="text-xl font-semibold text-ink mb-3">About Unit Converter</h2>
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
+          Our <strong className="text-ink-soft">free unit converter</strong> handles all common unit conversions: length (meters to feet, km to miles), weight (kg to lbs, grams to ounces), volume (liters to gallons), temperature (Celsius to Fahrenheit), area (square feet to acres), and speed (km/h to mph).
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
           Perfect for students, engineers, travelers, cooks, and anyone needing quick, accurate unit conversions. Supports both metric and imperial systems with high precision (6 decimal places). The converter uses the most common US customary units for volume and other measurements.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           With 6 conversion types and support for over 30 different units, this is the most comprehensive unit conversion tool you'll find. All conversions are processed client-side for instant results without internet delays.
         </p>
       </section>
 
       {/* How to Use Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">How to Use This Unit Converter</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Unit Converter</h2>
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select the <strong className="text-white">conversion type</strong> (Length, Weight, Volume, Temperature, Area, or Speed).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">value</strong> you want to convert.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select the <strong className="text-white">"From"</strong> unit (your current unit).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Select the <strong className="text-white">"To"</strong> unit (your target unit).</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Convert"</strong> to see the result with 6 decimal precision.</p>
-          <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">conversion type</strong> (Length, Weight, Volume, Temperature, Area, or Speed).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">value</strong> you want to convert.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select the <strong className="text-ink">"From"</strong> unit (your current unit).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Select the <strong className="text-ink">"To"</strong> unit (your target unit).</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Convert"</strong> to see the result with 6 decimal precision.</p>
+          <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Why Use a Unit Converter?</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Unit Converter?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-cyan-400 mb-2">✓ Instant Results</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Get accurate conversions in real-time. No need for manual calculations or lookup tables. Simply enter values and get results instantly.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-cyan-600 mb-2">✓ Instant Results</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Get accurate conversions in real-time. No need for manual calculations or lookup tables. Simply enter values and get results instantly.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ 6 Conversion Types</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Length, weight, volume, temperature, area, and speed - all in one tool. Switch between types with a single click.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ 6 Conversion Types</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Length, weight, volume, temperature, area, and speed - all in one tool. Switch between types with a single click.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ High Precision</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Results are displayed with 6 decimal places for maximum accuracy. Perfect for engineering, science, and precise cooking measurements.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ High Precision</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Results are displayed with 6 decimal places for maximum accuracy. Perfect for engineering, science, and precise cooking measurements.</p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Metric & Imperial</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Convert between metric (meters, kilograms, liters) and imperial (feet, pounds, gallons) systems. Also handles US customary units.</p>
+          <div className="bg-surface border border-hairline rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Metric & Imperial</h3>
+            <p className="text-ink-faint text-xs leading-relaxed">Convert between metric (meters, kilograms, liters) and imperial (feet, pounds, gallons) systems. Also handles US customary units.</p>
           </div>
         </div>
       </section>
 
       {/* Quick Reference Conversions */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Quick Reference Conversions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Quick Reference Conversions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(commonConversions).map(([type, conversions]) => (
-            <div key={type} className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-blue-400 mb-3 capitalize">{type}</h3>
+            <div key={type} className="bg-surface border border-hairline rounded-xl p-4">
+              <h3 className="text-sm font-semibold text-blue-600 mb-3 capitalize">{type}</h3>
               {conversions.map((conv, i) => (
-                <div key={i} className="flex justify-between text-sm py-1 border-b border-gray-800 last:border-0">
-                  <span className="text-gray-400">{conv.from} → {conv.to}</span>
-                  <span className="text-gray-300 font-mono text-xs">{conv.factor}</span>
+                <div key={i} className="flex justify-between text-sm py-1 border-b border-hairline last:border-0">
+                  <span className="text-ink-faint">{conv.from} → {conv.to}</span>
+                  <span className="text-ink-soft font-mono text-xs">{conv.factor}</span>
                 </div>
               ))}
             </div>
@@ -512,69 +512,69 @@ export default function UnitConverter() {
 
       {/* Conversion Factor Table */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Common Conversion Factors</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+        <h2 className="text-xl font-semibold text-ink mb-4">Common Conversion Factors</h2>
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                <th className="text-left py-3 px-4 text-gray-400">Category</th>
-                <th className="text-left py-3 px-4 text-gray-400">From</th>
-                <th className="text-left py-3 px-4 text-gray-400">To</th>
-                <th className="text-left py-3 px-4 text-gray-400">Multiply By</th>
+              <tr className="border-b border-hairline sticky top-0 bg-surface">
+                <th className="text-left py-3 px-4 text-ink-faint">Category</th>
+                <th className="text-left py-3 px-4 text-ink-faint">From</th>
+                <th className="text-left py-3 px-4 text-ink-faint">To</th>
+                <th className="text-left py-3 px-4 text-ink-faint">Multiply By</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Length</td>
-                <td className="py-2 px-4 text-gray-400">1 inch</td>
-                <td className="py-2 px-4 text-gray-400">cm</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">2.54</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Length</td>
+                <td className="py-2 px-4 text-ink-faint">1 inch</td>
+                <td className="py-2 px-4 text-ink-faint">cm</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">2.54</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Length</td>
-                <td className="py-2 px-4 text-gray-400">1 foot</td>
-                <td className="py-2 px-4 text-gray-400">m</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">0.3048</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Length</td>
+                <td className="py-2 px-4 text-ink-faint">1 foot</td>
+                <td className="py-2 px-4 text-ink-faint">m</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">0.3048</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Length</td>
-                <td className="py-2 px-4 text-gray-400">1 mile</td>
-                <td className="py-2 px-4 text-gray-400">km</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">1.609</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Length</td>
+                <td className="py-2 px-4 text-ink-faint">1 mile</td>
+                <td className="py-2 px-4 text-ink-faint">km</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">1.609</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Weight</td>
-                <td className="py-2 px-4 text-gray-400">1 lb</td>
-                <td className="py-2 px-4 text-gray-400">kg</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">0.4536</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Weight</td>
+                <td className="py-2 px-4 text-ink-faint">1 lb</td>
+                <td className="py-2 px-4 text-ink-faint">kg</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">0.4536</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Weight</td>
-                <td className="py-2 px-4 text-gray-400">1 oz</td>
-                <td className="py-2 px-4 text-gray-400">g</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">28.35</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Weight</td>
+                <td className="py-2 px-4 text-ink-faint">1 oz</td>
+                <td className="py-2 px-4 text-ink-faint">g</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">28.35</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Volume</td>
-                <td className="py-2 px-4 text-gray-400">1 gallon</td>
-                <td className="py-2 px-4 text-gray-400">L</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">3.785</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Volume</td>
+                <td className="py-2 px-4 text-ink-faint">1 gallon</td>
+                <td className="py-2 px-4 text-ink-faint">L</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">3.785</td>
               </tr>
-              <tr className="border-b border-gray-800/50 hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Volume</td>
-                <td className="py-2 px-4 text-gray-400">1 cup</td>
-                <td className="py-2 px-4 text-gray-400">ml</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">236.588</td>
+              <tr className="border-b border-hairline hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Volume</td>
+                <td className="py-2 px-4 text-ink-faint">1 cup</td>
+                <td className="py-2 px-4 text-ink-faint">ml</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">236.588</td>
               </tr>
-              <tr className="hover:bg-white/5">
-                <td className="py-2 px-4 text-gray-300">Area</td>
-                <td className="py-2 px-4 text-gray-400">1 acre</td>
-                <td className="py-2 px-4 text-gray-400">sq ft</td>
-                <td className="py-2 px-4 text-yellow-400 font-mono">43,560</td>
+              <tr className="hover:bg-cream">
+                <td className="py-2 px-4 text-ink-soft">Area</td>
+                <td className="py-2 px-4 text-ink-faint">1 acre</td>
+                <td className="py-2 px-4 text-ink-faint">sq ft</td>
+                <td className="py-2 px-4 text-yellow-700 font-mono">43,560</td>
               </tr>
             </tbody>
           </table>
-          <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+          <p className="text-xs text-ink-faint p-4 border-t border-hairline">
             * These are standard conversion factors. Our calculator uses these exact values for precise conversions.
           </p>
         </div>
@@ -582,33 +582,33 @@ export default function UnitConverter() {
 
       {/* Metric vs Imperial Guide */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Metric vs Imperial Guide</h2>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+        <h2 className="text-xl font-semibold text-ink mb-3">Metric vs Imperial Guide</h2>
+        <div className="bg-surface border border-hairline rounded-xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h4 className="text-sm font-semibold text-blue-400 mb-2">📏 Metric System</h4>
-              <ul className="text-xs text-gray-400 space-y-1">
-                <li>• <span className="text-gray-300">Length:</span> Millimeters, Centimeters, Meters, Kilometers</li>
-                <li>• <span className="text-gray-300">Weight:</span> Milligrams, Grams, Kilograms, Tonnes</li>
-                <li>• <span className="text-gray-300">Volume:</span> Milliliters, Liters, Cubic Meters</li>
-                <li>• <span className="text-gray-300">Temperature:</span> Celsius (°C), Kelvin (K)</li>
+              <h4 className="text-sm font-semibold text-blue-600 mb-2">📏 Metric System</h4>
+              <ul className="text-xs text-ink-faint space-y-1">
+                <li>• <span className="text-ink-soft">Length:</span> Millimeters, Centimeters, Meters, Kilometers</li>
+                <li>• <span className="text-ink-soft">Weight:</span> Milligrams, Grams, Kilograms, Tonnes</li>
+                <li>• <span className="text-ink-soft">Volume:</span> Milliliters, Liters, Cubic Meters</li>
+                <li>• <span className="text-ink-soft">Temperature:</span> Celsius (°C), Kelvin (K)</li>
                 <li>• Used in most countries worldwide</li>
                 <li>• Base 10 system (easy to convert)</li>
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-yellow-400 mb-2">🇺🇸 Imperial/US Customary</h4>
-              <ul className="text-xs text-gray-400 space-y-1">
-                <li>• <span className="text-gray-300">Length:</span> Inches, Feet, Yards, Miles</li>
-                <li>• <span className="text-gray-300">Weight:</span> Ounces, Pounds, Tons</li>
-                <li>• <span className="text-gray-300">Volume:</span> Fluid Ounces, Cups, Pints, Quarts, Gallons</li>
-                <li>• <span className="text-gray-300">Temperature:</span> Fahrenheit (°F)</li>
+              <h4 className="text-sm font-semibold text-yellow-700 mb-2">🇺🇸 Imperial/US Customary</h4>
+              <ul className="text-xs text-ink-faint space-y-1">
+                <li>• <span className="text-ink-soft">Length:</span> Inches, Feet, Yards, Miles</li>
+                <li>• <span className="text-ink-soft">Weight:</span> Ounces, Pounds, Tons</li>
+                <li>• <span className="text-ink-soft">Volume:</span> Fluid Ounces, Cups, Pints, Quarts, Gallons</li>
+                <li>• <span className="text-ink-soft">Temperature:</span> Fahrenheit (°F)</li>
                 <li>• Used mainly in USA, Liberia, Myanmar</li>
                 <li>• Based on historical measurements</li>
               </ul>
             </div>
           </div>
-          <p className="text-gray-500 text-xs pt-3 border-t border-gray-800 mt-3">
+          <p className="text-ink-faint text-xs pt-3 border-t border-hairline mt-3">
             Our converter handles both systems seamlessly. Select any unit from either system and convert instantly.
           </p>
         </div>
@@ -616,46 +616,46 @@ export default function UnitConverter() {
 
       {/* Unit Converter Tips */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-3">Unit Converter Tips</h2>
+        <h2 className="text-xl font-semibold text-ink mb-3">Unit Converter Tips</h2>
         <ul className="space-y-2">
-          <li className="flex gap-3 text-sm text-gray-400">
-            <span className="text-cyan-400 mt-0.5">💡</span>
-            <span><strong className="text-gray-300">Remember common conversions:</strong> 1 inch = 2.54 cm, 1 kg = 2.204 lbs, 1 gallon = 3.785 L. These are useful for quick mental estimates.</span>
+          <li className="flex gap-3 text-sm text-ink-faint">
+            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span><strong className="text-ink-soft">Remember common conversions:</strong> 1 inch = 2.54 cm, 1 kg = 2.204 lbs, 1 gallon = 3.785 L. These are useful for quick mental estimates.</span>
           </li>
-          <li className="flex gap-3 text-sm text-gray-400">
-            <span className="text-cyan-400 mt-0.5">💡</span>
-            <span><strong className="text-gray-300">Use the swap button:</strong> Click 🔄 to quickly reverse the conversion. Great for checking reciprocal conversions (e.g., mph to km/h and back).</span>
+          <li className="flex gap-3 text-sm text-ink-faint">
+            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span><strong className="text-ink-soft">Use the swap button:</strong> Click 🔄 to quickly reverse the conversion. Great for checking reciprocal conversions (e.g., mph to km/h and back).</span>
           </li>
-          <li className="flex gap-3 text-sm text-gray-400">
-            <span className="text-cyan-400 mt-0.5">💡</span>
-            <span><strong className="text-gray-300">Temperature tip:</strong> -40°C = -40°F (the crossover point). This is a good reference for extreme cold conversions.</span>
+          <li className="flex gap-3 text-sm text-ink-faint">
+            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span><strong className="text-ink-soft">Temperature tip:</strong> -40°C = -40°F (the crossover point). This is a good reference for extreme cold conversions.</span>
           </li>
-          <li className="flex gap-3 text-sm text-gray-400">
-            <span className="text-cyan-400 mt-0.5">💡</span>
-            <span><strong className="text-gray-300">Cooking conversions:</strong> 1 cup = 16 tablespoons = 48 teaspoons. Our volume converter handles all cooking measurements.</span>
+          <li className="flex gap-3 text-sm text-ink-faint">
+            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span><strong className="text-ink-soft">Cooking conversions:</strong> 1 cup = 16 tablespoons = 48 teaspoons. Our volume converter handles all cooking measurements.</span>
           </li>
-          <li className="flex gap-3 text-sm text-gray-400">
-            <span className="text-cyan-400 mt-0.5">💡</span>
-            <span><strong className="text-gray-300">Precision matters:</strong> Use 6 decimal places for engineering and scientific calculations. For everyday use, 2-3 decimal places are usually sufficient.</span>
+          <li className="flex gap-3 text-sm text-ink-faint">
+            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span><strong className="text-ink-soft">Precision matters:</strong> Use 6 decimal places for engineering and scientific calculations. For everyday use, 2-3 decimal places are usually sufficient.</span>
           </li>
         </ul>
       </section>
 
       {/* FAQ Section */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQ_DATA.map((item, i) => (
-            <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
               <button
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
               >
-                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                <span className="text-sm font-medium text-ink">{item.q}</span>
+                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
               {openFaq === i && (
-                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                   {item.a}
                 </div>
               )}

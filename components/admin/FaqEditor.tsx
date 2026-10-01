@@ -31,25 +31,25 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
 
   return (
     <div>
-      <label className="block text-sm text-gray-400 mb-1.5">
-        FAQ <span className="text-gray-600">(optional - Google search me FAQ dikhta hai, SEO ke liye acha hai)</span>
+      <label className="block text-sm text-ink-soft mb-1.5">
+        FAQ <span className="text-ink-faint">(optional - Google search me FAQ dikhta hai, SEO ke liye acha hai)</span>
       </label>
 
       <div className="space-y-3">
         {value.map((faq, index) => (
-          <div key={index} className="p-3 rounded-lg bg-[#0f1525] border border-gray-700">
+          <div key={index} className="p-3 rounded-lg bg-cream border border-hairline">
             <div className="flex items-start gap-2 mb-2">
               <input
                 value={faq.question}
                 onChange={(e) => updateRow(index, 'question', e.target.value)}
                 placeholder={`Sawaal ${index + 1}`}
-                className="flex-1 px-3 py-2 rounded-lg bg-[#1a2236] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
               />
               <button
                 type="button"
                 onClick={() => removeRow(index)}
                 title="Hatao"
-                className="px-2.5 py-2 rounded-lg text-gray-500 hover:text-red-400 transition-colors"
+                className="px-2.5 py-2 rounded-lg text-ink-faint hover:text-red-600 transition-colors"
               >
                 ✕
               </button>
@@ -59,7 +59,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
               onChange={(e) => updateRow(index, 'answer', e.target.value)}
               placeholder="Jawaab"
               rows={2}
-              className="w-full px-3 py-2 rounded-lg bg-[#1a2236] border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
             />
           </div>
         ))}
@@ -68,7 +68,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
       <button
         type="button"
         onClick={addRow}
-        className="mt-3 px-3 py-1.5 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-200 text-sm hover:border-blue-500 transition-colors"
+        className="mt-3 px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 transition-colors"
       >
         + FAQ Add karo
       </button>

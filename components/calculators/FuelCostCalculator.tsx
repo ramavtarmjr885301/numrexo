@@ -69,51 +69,51 @@ export default function FuelCostCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FUEL_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                    <li><a href="/" className="hover:text-gray-300">Home</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><a href="/travel" className="hover:text-gray-300">Travel Calculators</a></li>
-                    <li className="text-gray-700">/</li>
-                    <li><span className="text-gray-300">Fuel Cost Calculator</span></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                    <li><a href="/" className="hover:text-ink-soft">Home</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><a href="/travel" className="hover:text-ink-soft">Travel Calculators</a></li>
+                    <li className="text-ink-soft">/</li>
+                    <li><span className="text-ink-soft">Fuel Cost Calculator</span></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Trip Details</h3>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Distance</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Distance</label>
                             <div className="relative">
-                                <input type="number" placeholder="500" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">km</span>
+                                <input type="number" placeholder="500" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">km</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Fuel Price</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Fuel Price</label>
                             <div className="relative">
-                                <input type="number" placeholder="105" value={fuelPrice} onChange={(e) => setFuelPrice(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$/liter</span>
+                                <input type="number" placeholder="105" value={fuelPrice} onChange={(e) => setFuelPrice(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$/liter</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Fuel Efficiency</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Fuel Efficiency</label>
                             <div className="grid grid-cols-2 gap-3 mb-2">
-                                <button className={`py-1 text-sm rounded ${unit === "kml" ? "bg-blue-500" : "bg-gray-700"}`} onClick={() => setUnit("kml")}>km/liter</button>
-                                <button className={`py-1 text-sm rounded ${unit === "lp100km" ? "bg-blue-500" : "bg-gray-700"}`} onClick={() => setUnit("lp100km")}>liters/100km</button>
+                                <button className={`py-1 text-sm rounded ${unit === "kml" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => setUnit("kml")}>km/liter</button>
+                                <button className={`py-1 text-sm rounded ${unit === "lp100km" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => setUnit("lp100km")}>liters/100km</button>
                             </div>
                             <div className="relative">
-                                <input type="number" placeholder={unit === "kml" ? "18" : "8"} value={mileage} onChange={(e) => setMileage(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{unit === "kml" ? "km/l" : "L/100km"}</span>
+                                <input type="number" placeholder={unit === "kml" ? "18" : "8"} value={mileage} onChange={(e) => setMileage(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit === "kml" ? "km/l" : "L/100km"}</span>
                             </div>
                         </div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Fuel Cost →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Fuel Cost →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ export default function FuelCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="⛽"
                     emptyText="Enter trip details to calculate fuel cost"
-                    mainResult={result ? { label: "Total Fuel Cost", value: `${symbol}${result.totalCost}`, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Total Fuel Cost", value: `${symbol}${result.totalCost}`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
                         { label: "Fuel Needed", value: `${result.fuelNeeded} liters` },
                         { label: "Distance", value: `${result.distance} km` },
@@ -136,63 +136,63 @@ export default function FuelCostCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Fuel Cost Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Fuel Cost Calculator</strong> helps you estimate total fuel expenses for any road trip. Whether you're planning a family vacation, daily commute, or business travel, know exactly how much you'll spend on fuel before you start driving.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Fuel Cost Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Fuel Cost Calculator</strong> helps you estimate total fuel expenses for any road trip. Whether you're planning a family vacation, daily commute, or business travel, know exactly how much you'll spend on fuel before you start driving.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Simply enter distance, fuel price, and your vehicle's mileage (km/l or liters/100km). The calculator instantly shows total fuel cost, liters needed, and cost per kilometer. Perfect for budgeting road trips and comparing vehicle efficiency.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Fuel Cost Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Fuel Cost Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">trip distance</strong> in kilometers.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter current <strong className="text-white">fuel price</strong> per liter ($/liter).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Select <strong className="text-white">fuel efficiency unit</strong> — km/liter or liters/100km.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Enter your vehicle's <strong className="text-white">mileage</strong> (e.g., 18 km/l or 8 L/100km).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate Fuel Cost"</strong> to see total cost.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">trip distance</strong> in kilometers.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter current <strong className="text-ink">fuel price</strong> per liter ($/liter).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Select <strong className="text-ink">fuel efficiency unit</strong> — km/liter or liters/100km.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Enter your vehicle's <strong className="text-ink">mileage</strong> (e.g., 18 km/l or 8 L/100km).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate Fuel Cost"</strong> to see total cost.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Fuel Cost Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Fuel Cost Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Trip Budgeting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Plan your travel budget accurately. Know fuel costs before you start — no surprises. Compare costs across different routes or vehicles.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Trip Budgeting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Plan your travel budget accurately. Know fuel costs before you start — no surprises. Compare costs across different routes or vehicles.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Vehicle Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare fuel costs between your cars. Decide which vehicle is more economical for long trips. Calculate savings potential.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Vehicle Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare fuel costs between your cars. Decide which vehicle is more economical for long trips. Calculate savings potential.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Carpool Savings</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Divide total fuel cost by passengers. Show friends how much they save by carpooling. Split costs fairly without arguments.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Carpool Savings</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Divide total fuel cost by passengers. Show friends how much they save by carpooling. Split costs fairly without arguments.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Business Reimbursement</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate exact fuel cost for business trips. Use for expense reports and client billing. Standard mileage rate alternative.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Business Reimbursement</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate exact fuel cost for business trips. Use for expense reports and client billing. Standard mileage rate alternative.</p>
                     </div>
                 </div>
             </section>
 
             {/* Fuel Economy Guide */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Fuel Economy Guide by Vehicle Type</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Fuel Economy Guide by Vehicle Type</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Vehicle Type</th><th className="text-left py-3 px-4 text-gray-400">City (km/l)</th><th className="text-left py-3 px-4 text-gray-400">Highway (km/l)</th><th className="text-left py-3 px-4 text-gray-400">Combined (km/l)</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Vehicle Type</th><th className="text-left py-3 px-4 text-ink-faint">City (km/l)</th><th className="text-left py-3 px-4 text-ink-faint">Highway (km/l)</th><th className="text-left py-3 px-4 text-ink-faint">Combined (km/l)</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Small Hatchback (800-1200cc)</td><td className="py-2 px-4 text-yellow-400">15-18</td><td className="py-2 px-4 text-yellow-400">20-25</td><td className="py-2 px-4 text-yellow-400">18-22</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Sedan (1200-1500cc)</td><td className="py-2 px-4 text-yellow-400">12-15</td><td className="py-2 px-4 text-yellow-400">18-22</td><td className="py-2 px-4 text-yellow-400">15-18</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">SUV (1500-2000cc)</td><td className="py-2 px-4 text-yellow-400">8-12</td><td className="py-2 px-4 text-yellow-400">14-18</td><td className="py-2 px-4 text-yellow-400">10-15</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">MUV/MPV (7-seater)</td><td className="py-2 px-4 text-yellow-400">8-11</td><td className="py-2 px-4 text-yellow-400">13-16</td><td className="py-2 px-4 text-yellow-400">10-13</td></tr>
-                            <tr><td className="py-2 px-4">Motorcycle (100-150cc)</td><td className="py-2 px-4 text-yellow-400">35-45</td><td className="py-2 px-4 text-yellow-400">45-55</td><td className="py-2 px-4 text-yellow-400">40-50</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Small Hatchback (800-1200cc)</td><td className="py-2 px-4 text-yellow-700">15-18</td><td className="py-2 px-4 text-yellow-700">20-25</td><td className="py-2 px-4 text-yellow-700">18-22</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Sedan (1200-1500cc)</td><td className="py-2 px-4 text-yellow-700">12-15</td><td className="py-2 px-4 text-yellow-700">18-22</td><td className="py-2 px-4 text-yellow-700">15-18</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">SUV (1500-2000cc)</td><td className="py-2 px-4 text-yellow-700">8-12</td><td className="py-2 px-4 text-yellow-700">14-18</td><td className="py-2 px-4 text-yellow-700">10-15</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">MUV/MPV (7-seater)</td><td className="py-2 px-4 text-yellow-700">8-11</td><td className="py-2 px-4 text-yellow-700">13-16</td><td className="py-2 px-4 text-yellow-700">10-13</td></tr>
+                            <tr><td className="py-2 px-4">Motorcycle (100-150cc)</td><td className="py-2 px-4 text-yellow-700">35-45</td><td className="py-2 px-4 text-yellow-700">45-55</td><td className="py-2 px-4 text-yellow-700">40-50</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -200,27 +200,27 @@ export default function FuelCostCalculator() {
 
             {/* Fuel Saving Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Fuel Saving Tips for Better Mileage</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Fuel Saving Tips for Better Mileage</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Maintain proper tire pressure:</strong> Under-inflated tires increase fuel consumption by 3-5%. Check monthly.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Drive smoothly:</strong> Aggressive acceleration and braking wastes 10-30% fuel. Anticipate traffic flow.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Remove roof carriers:</strong> Empty roof racks increase drag, reducing mileage by 10-25% on highways.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Use A/C wisely:</strong> Above 80 km/h, A/C uses less fuel than open windows. Below 60 km/h, windows down saves fuel.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Reduce weight:</strong> Remove unnecessary items. Every 50 kg reduces mileage by 1-2%.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain proper tire pressure:</strong> Under-inflated tires increase fuel consumption by 3-5%. Check monthly.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Drive smoothly:</strong> Aggressive acceleration and braking wastes 10-30% fuel. Anticipate traffic flow.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Remove roof carriers:</strong> Empty roof racks increase drag, reducing mileage by 10-25% on highways.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use A/C wisely:</strong> Above 80 km/h, A/C uses less fuel than open windows. Below 60 km/h, windows down saves fuel.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce weight:</strong> Remove unnecessary items. Every 50 kg reduces mileage by 1-2%.</span></li>
                 </ul>
             </section>
 
             {/* Fuel Price Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Fuel Price Comparison by Fuel Type (India)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">Fuel Price Comparison by Fuel Type (India)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Fuel Type</th><th className="text-left py-3 px-4 text-gray-400">Price Range ($/liter)</th><th className="text-left py-3 px-4 text-gray-400">Fuel Economy</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Fuel Type</th><th className="text-left py-3 px-4 text-ink-faint">Price Range ($/liter)</th><th className="text-left py-3 px-4 text-ink-faint">Fuel Economy</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Petrol</td><td className="py-2 px-4 text-yellow-400">95-110</td><td className="py-2 px-4">15-20 km/l (cars)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Diesel</td><td className="py-2 px-4 text-yellow-400">85-95</td><td className="py-2 px-4">18-25 km/l (cars)</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">CNG</td><td className="py-2 px-4 text-yellow-400">70-85</td><td className="py-2 px-4">20-25 km/kg</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Electric ($/kWh)</td><td className="py-2 px-4 text-yellow-400">6-10</td><td className="py-2 px-4">6-8 km/kWh</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Petrol</td><td className="py-2 px-4 text-yellow-700">95-110</td><td className="py-2 px-4">15-20 km/l (cars)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Diesel</td><td className="py-2 px-4 text-yellow-700">85-95</td><td className="py-2 px-4">18-25 km/l (cars)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">CNG</td><td className="py-2 px-4 text-yellow-700">70-85</td><td className="py-2 px-4">20-25 km/kg</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Electric ($/kWh)</td><td className="py-2 px-4 text-yellow-700">6-10</td><td className="py-2 px-4">6-8 km/kWh</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -228,16 +228,16 @@ export default function FuelCostCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

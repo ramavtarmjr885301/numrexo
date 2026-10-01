@@ -114,19 +114,19 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-[#0f1525] border border-gray-700">
+      <div className="flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-cream border border-hairline">
         {buttons.map((btn) => (
           <button
             key={btn.label}
             type="button"
             title={btn.title}
             onClick={btn.onClick}
-            className="px-2.5 py-1 rounded bg-[#1a2236] text-gray-200 text-xs font-medium hover:bg-blue-500/20 hover:text-blue-300 transition-colors"
+            className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors"
           >
             {btn.label}
           </button>
         ))}
-        <span className="w-px h-5 bg-gray-700 mx-1" />
+        <span className="w-px h-5 bg-hairline mx-1" />
         <input
           ref={fileInputRef}
           type="file"
@@ -139,20 +139,20 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
           title="Insert image"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="px-2.5 py-1 rounded bg-[#1a2236] text-gray-200 text-xs font-medium hover:bg-blue-500/20 hover:text-blue-300 disabled:opacity-50 transition-colors"
+          className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50 transition-colors"
         >
           {uploading ? 'Uploading...' : '🖼 Insert Image'}
         </button>
       </div>
 
-      {error && <p className="text-sm text-red-400 mb-2">{error}</p>}
+      {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
       <textarea
         ref={textareaRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={20}
-        className="w-full px-3 py-2 rounded-lg bg-[#0f1525] border border-gray-700 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
+        className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink font-mono text-sm focus:outline-none focus:border-blue-600"
       />
     </div>
   );

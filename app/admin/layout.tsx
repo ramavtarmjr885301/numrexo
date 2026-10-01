@@ -6,5 +6,5 @@
 // and there's a robots.txt rule for the host as a second layer of defense.
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-screen bg-[#0a0e1a] text-[#e2e8f0]">{children}</div>;
+  return <div className="min-h-screen bg-cream text-ink">{children}</div>;
 }

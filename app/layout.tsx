@@ -61,9 +61,9 @@ export default function RootLayout({
   const isAdmin = headers().get("x-numrexo-admin") === "1";
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sora.variable} ${jetbrainsMono.variable} font-sans bg-[#0a0e1a] text-[#e2e8f0] antialiased`}
+        className={`${sora.variable} ${jetbrainsMono.variable} font-sans bg-cream text-ink antialiased`}
         suppressHydrationWarning
       >
         {!isAdmin && (

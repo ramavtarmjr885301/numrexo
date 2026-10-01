@@ -252,19 +252,19 @@ export default function Timer() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a>
+                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Timer</span>
+                        <span itemProp="name" className="text-ink-soft">Timer</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -272,15 +272,15 @@ export default function Timer() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Countdown Timer</h3>
-                        <p className="text-xs text-gray-500 mt-1">Set hours, minutes, and seconds • Keyboard: Space (Start/Pause), R (Reset)</p>
+                        <p className="text-xs text-ink-faint mt-1">Set hours, minutes, and seconds • Keyboard: Space (Start/Pause), R (Reset)</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-3 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Hours</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Hours</label>
                                 <input
                                     type="number"
                                     placeholder="0"
@@ -288,11 +288,11 @@ export default function Timer() {
                                     max="99"
                                     value={hours}
                                     onChange={(e) => setHours(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-center focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink text-center focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Minutes</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Minutes</label>
                                 <input
                                     type="number"
                                     placeholder="0"
@@ -300,11 +300,11 @@ export default function Timer() {
                                     max="59"
                                     value={minutes}
                                     onChange={(e) => setMinutes(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-center focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink text-center focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Seconds</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Seconds</label>
                                 <input
                                     type="number"
                                     placeholder="0"
@@ -312,7 +312,7 @@ export default function Timer() {
                                     max="59"
                                     value={seconds}
                                     onChange={(e) => setSeconds(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-center focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink text-center focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
@@ -322,7 +322,7 @@ export default function Timer() {
                                 onClick={startTimer}
                                 disabled={isRunning || isComplete}
                                 className={`flex-1 py-3 rounded-lg font-semibold transition-all ${isRunning || isComplete
-                                    ? "bg-gray-600 cursor-not-allowed text-gray-400"
+                                    ? "bg-gray-200 cursor-not-allowed text-ink-faint"
                                     : "bg-green-500 text-white hover:bg-green-600"
                                     }`}
                             >
@@ -347,20 +347,20 @@ export default function Timer() {
                         {!isRunning && timeLeft > 0 && !isComplete && (
                             <button
                                 onClick={resumeTimer}
-                                className="w-full py-3 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-all"
+                                className="w-full py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-600 transition-all"
                             >
                                 Resume
                             </button>
                         )}
 
-                        <div className="pt-4 border-t border-gray-800">
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Quick Set</label>
+                        <div className="pt-4 border-t border-hairline">
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Quick Set</label>
                             <div className="grid grid-cols-4 gap-2">
                                 {QUICK_TIMES.map((qt, i) => (
                                     <button
                                         key={i}
                                         onClick={() => setQuickTime(qt.h, qt.m, qt.s)}
-                                        className="px-2 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg hover:border-blue-500 transition-all text-gray-300 hover:text-white"
+                                        className="px-2 py-2 text-sm bg-surface border border-hairline rounded-lg hover:border-blue-600 transition-all text-ink-soft hover:text-ink"
                                     >
                                         {qt.label}
                                     </button>
@@ -378,17 +378,17 @@ export default function Timer() {
                     emptyText="Set a time and press Start • Spacebar to start/pause"
                     mainResult={
                         isComplete
-                            ? { label: "Time's Up!", value: "Timer Complete! 🎉", color: "text-green-400" }
+                            ? { label: "Time's Up!", value: "Timer Complete! 🎉", color: "text-green-600" }
                             : timeLeft > 0
-                                ? { label: "Time Remaining", value: displayTime, color: "text-blue-400" }
+                                ? { label: "Time Remaining", value: displayTime, color: "text-blue-600" }
                                 : undefined
                     }
                     extraRows={
                         isComplete
-                            ? [{ label: "Status", value: "Completed", valueColor: "text-green-400" }]
+                            ? [{ label: "Status", value: "Completed", valueColor: "text-green-600" }]
                             : timeLeft > 0
                                 ? [
-                                    { label: "Status", value: isRunning ? "Running ⏳" : "Paused ⏸️", valueColor: isRunning ? "text-green-400" : "text-yellow-400" },
+                                    { label: "Status", value: isRunning ? "Running ⏳" : "Paused ⏸️", valueColor: isRunning ? "text-green-600" : "text-yellow-700" },
                                     { label: "Remaining", value: displayTime },
                                 ]
                                 : []
@@ -400,127 +400,127 @@ export default function Timer() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Timer</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Online Timer</strong> is a free, accurate countdown timer perfect for cooking, studying, workouts, presentations, and any activity that requires precise timing. Set hours, minutes, and seconds, then start the countdown.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Timer</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Online Timer</strong> is a free, accurate countdown timer perfect for cooking, studying, workouts, presentations, and any activity that requires precise timing. Set hours, minutes, and seconds, then start the countdown.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Features include pause/resume functionality, quick-set buttons for common times, keyboard shortcuts for hands-free control, and a sound notification when time is up. The timer works offline after the page loads.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're using the Pomodoro Technique for studying, timing your workout intervals, or cooking a perfect meal, our timer provides reliable countdown functionality with a clean, easy-to-use interface.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Timer</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Timer</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter <strong className="text-white">hours, minutes, and seconds</strong> in the input fields.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Or use <strong className="text-white">Quick Set</strong> buttons for common times (30 sec to 2 hours).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">Start</strong> (or press <strong className="text-white">Spacebar</strong>) to begin the countdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">Pause</strong> (or press <strong className="text-white">Spacebar</strong>) to temporarily stop.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">Resume</strong> to continue the countdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Click <strong className="text-white">Reset</strong> (or press <strong className="text-white">R</strong>) to clear and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter <strong className="text-ink">hours, minutes, and seconds</strong> in the input fields.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Or use <strong className="text-ink">Quick Set</strong> buttons for common times (30 sec to 2 hours).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">Start</strong> (or press <strong className="text-ink">Spacebar</strong>) to begin the countdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">Pause</strong> (or press <strong className="text-ink">Spacebar</strong>) to temporarily stop.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">Resume</strong> to continue the countdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Click <strong className="text-ink">Reset</strong> (or press <strong className="text-ink">R</strong>) to clear and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use This Timer?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use This Timer?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Hands-Free Control</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Keyboard shortcuts (Spacebar to start/pause, R to reset) let you control the timer without interrupting your activity.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Hands-Free Control</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Keyboard shortcuts (Spacebar to start/pause, R to reset) let you control the timer without interrupting your activity.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Quick Presets</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">12 common timer presets from 30 seconds to 2 hours. One click to set your timer for cooking, studying, or workouts.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Quick Presets</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">12 common timer presets from 30 seconds to 2 hours. One click to set your timer for cooking, studying, or workouts.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Offline Functionality</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Works without internet after page load. Perfect for kitchens, gyms, and anywhere without WiFi.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Offline Functionality</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Works without internet after page load. Perfect for kitchens, gyms, and anywhere without WiFi.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Sound Notification</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get an audible alert when your timer completes. Helps you notice the timer even when not watching the screen.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Sound Notification</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get an audible alert when your timer completes. Helps you notice the timer even when not watching the screen.</p>
                     </div>
                 </div>
             </section>
 
             {/* Common Timer Presets */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Common Timer Presets</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Common Timer Presets</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🍳</div>
-                        <p className="text-sm font-semibold text-gray-200">Boiled Eggs</p>
-                        <p className="text-xs text-gray-500">6-10 minutes</p>
-                        <button onClick={() => setQuickTime(0, 7, 0)} className="mt-2 px-4 py-1 text-xs bg-[#0f1525] border border-gray-700 rounded-lg hover:border-blue-500">Set 7 min</button>
+                        <p className="text-sm font-semibold text-ink">Boiled Eggs</p>
+                        <p className="text-xs text-ink-faint">6-10 minutes</p>
+                        <button onClick={() => setQuickTime(0, 7, 0)} className="mt-2 px-4 py-1 text-xs bg-surface border border-hairline rounded-lg hover:border-blue-600">Set 7 min</button>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">📚</div>
-                        <p className="text-sm font-semibold text-gray-200">Pomodoro</p>
-                        <p className="text-xs text-gray-500">25 min focus</p>
-                        <button onClick={() => setQuickTime(0, 25, 0)} className="mt-2 px-4 py-1 text-xs bg-[#0f1525] border border-gray-700 rounded-lg hover:border-blue-500">Set 25 min</button>
+                        <p className="text-sm font-semibold text-ink">Pomodoro</p>
+                        <p className="text-xs text-ink-faint">25 min focus</p>
+                        <button onClick={() => setQuickTime(0, 25, 0)} className="mt-2 px-4 py-1 text-xs bg-surface border border-hairline rounded-lg hover:border-blue-600">Set 25 min</button>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">💪</div>
-                        <p className="text-sm font-semibold text-gray-200">Plank Hold</p>
-                        <p className="text-xs text-gray-500">1-2 minutes</p>
-                        <button onClick={() => setQuickTime(0, 1, 0)} className="mt-2 px-4 py-1 text-xs bg-[#0f1525] border border-gray-700 rounded-lg hover:border-blue-500">Set 1 min</button>
+                        <p className="text-sm font-semibold text-ink">Plank Hold</p>
+                        <p className="text-xs text-ink-faint">1-2 minutes</p>
+                        <button onClick={() => setQuickTime(0, 1, 0)} className="mt-2 px-4 py-1 text-xs bg-surface border border-hairline rounded-lg hover:border-blue-600">Set 1 min</button>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-3 text-center hover:border-blue-500/50 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-3 text-center hover:border-blue-300 transition-all">
                         <div className="text-2xl mb-1">🧘</div>
-                        <p className="text-sm font-semibold text-gray-200">Meditation</p>
-                        <p className="text-xs text-gray-500">5-20 minutes</p>
-                        <button onClick={() => setQuickTime(0, 10, 0)} className="mt-2 px-4 py-1 text-xs bg-[#0f1525] border border-gray-700 rounded-lg hover:border-blue-500">Set 10 min</button>
+                        <p className="text-sm font-semibold text-ink">Meditation</p>
+                        <p className="text-xs text-ink-faint">5-20 minutes</p>
+                        <button onClick={() => setQuickTime(0, 10, 0)} className="mt-2 px-4 py-1 text-xs bg-surface border border-hairline rounded-lg hover:border-blue-600">Set 10 min</button>
                     </div>
                 </div>
             </section>
 
             {/* Timer Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Timer Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Timer Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use keyboard shortcuts:</strong> Spacebar starts/pauses the timer, R resets it. This keeps your hands free for your activity.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use keyboard shortcuts:</strong> Spacebar starts/pauses the timer, R resets it. This keeps your hands free for your activity.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Pomodoro Technique:</strong> Set 25 minutes of focused work, then take a 5-minute break. Repeat 4 times, then take a longer break (15-30 minutes).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Pomodoro Technique:</strong> Set 25 minutes of focused work, then take a 5-minute break. Repeat 4 times, then take a longer break (15-30 minutes).</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Cooking timing:</strong> Use the quick-set buttons for common cooking times. Start the timer when you put food on the stove to avoid overcooking.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Cooking timing:</strong> Use the quick-set buttons for common cooking times. Start the timer when you put food on the stove to avoid overcooking.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Workout intervals:</strong> Use the timer for interval training. Set work and rest periods, and use the pause button between rounds.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Workout intervals:</strong> Use the timer for interval training. Set work and rest periods, and use the pause button between rounds.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Bookmark for quick access:</strong> Bookmark the timer in your browser for instant access. Works offline after the first load.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Bookmark for quick access:</strong> Bookmark the timer in your browser for instant access. Works offline after the first load.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

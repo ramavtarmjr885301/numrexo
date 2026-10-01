@@ -109,13 +109,13 @@ export default function TravelBudgetCalculator() {
     const [tripDays, setTripDays] = useState("7");
     const [peopleCount, setPeopleCount] = useState("1");
     const [budgetItems, setBudgetItems] = useState<BudgetItem[]>([
-        { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-400" },
-        { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-400" },
-        { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-400" },
-        { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-400" },
-        { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-400" },
-        { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-400" },
-        { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-gray-400" },
+        { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-600" },
+        { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-600" },
+        { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-700" },
+        { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-600" },
+        { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-600" },
+        { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-600" },
+        { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-ink-faint" },
     ]);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -124,13 +124,13 @@ export default function TravelBudgetCalculator() {
         setTripDays("");
         setPeopleCount("1");
         setBudgetItems([
-            { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-400" },
-            { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-400" },
-            { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-400" },
-            { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-400" },
-            { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-400" },
-            { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-400" },
-            { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-gray-400" },
+            { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-600" },
+            { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-600" },
+            { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-700" },
+            { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-600" },
+            { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-600" },
+            { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-600" },
+            { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-ink-faint" },
         ]);
         setResult(null);
     };
@@ -201,19 +201,19 @@ export default function TravelBudgetCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a>
+                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Travel Budget Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Travel Budget Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -221,43 +221,43 @@ export default function TravelBudgetCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Travel Budget Planner</h3>
-                        <p className="text-xs text-gray-500 mt-1">Plan your trip expenses</p>
+                        <p className="text-xs text-ink-faint mt-1">Plan your trip expenses</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Trip Duration (days)</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Trip Duration (days)</label>
                                 <input
                                     type="number"
                                     placeholder="7"
                                     min="1"
                                     value={tripDays}
                                     onChange={(e) => setTripDays(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Number of People</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Number of People</label>
                                 <input
                                     type="number"
                                     placeholder="1"
                                     min="1"
                                     value={peopleCount}
                                     onChange={(e) => setPeopleCount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Expense Categories</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Expense Categories</label>
                             {budgetItems.map((item) => (
                                 <div key={item.id} className="flex items-center gap-2">
                                     <div className="w-8 text-lg">{item.icon}</div>
-                                    <div className="w-28 text-sm text-gray-400">{item.name}</div>
+                                    <div className="w-28 text-sm text-ink-faint">{item.name}</div>
                                     <div className="flex-1 relative">
                                         <input
                                             type="number"
@@ -265,9 +265,9 @@ export default function TravelBudgetCalculator() {
                                             placeholder="0"
                                             value={item.amount}
                                             onChange={(e) => updateBudgetItem(item.id, e.target.value)}
-                                            className="w-full px-4 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
-                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span>
                                     </div>
                                 </div>
                             ))}
@@ -276,13 +276,13 @@ export default function TravelBudgetCalculator() {
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Budget →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -296,11 +296,11 @@ export default function TravelBudgetCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter trip details and expenses"
-                    mainResult={result ? { label: "Total Budget", value: `$${parseFloat(result.totalBudget).toLocaleString()}`, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: "Total Budget", value: `$${parseFloat(result.totalBudget).toLocaleString()}`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Per Day", value: `$${result.perDayBudget}`, valueColor: "text-yellow-400" },
+                        { label: "Per Day", value: `$${result.perDayBudget}`, valueColor: "text-yellow-700" },
                         { label: "Per Person", value: `$${result.perPersonBudget}` },
-                        { label: "Per Person Per Day", value: `$${result.perPersonPerDay}`, valueColor: "text-green-400" },
+                        { label: "Per Person Per Day", value: `$${result.perPersonPerDay}`, valueColor: "text-green-600" },
                         ...result.breakdown.map((item: any) => ({
                             label: `${item.icon} ${item.name}`,
                             value: `$${item.amount.toLocaleString()} (${item.percentage}%)`,
@@ -316,81 +316,81 @@ export default function TravelBudgetCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Travel Budget Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Travel Budget Calculator</strong> helps you plan your trip expenses accurately. Enter your trip duration, number of travelers, and estimated costs for flights, accommodation, food, activities, and more to get a complete budget breakdown.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Travel Budget Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Travel Budget Calculator</strong> helps you plan your trip expenses accurately. Enter your trip duration, number of travelers, and estimated costs for flights, accommodation, food, activities, and more to get a complete budget breakdown.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Whether you're planning a weekend getaway, a family vacation, or a long-term backpacking trip, our calculator provides essential insights including total budget, daily costs, per-person expenses, and category breakdowns with percentages.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     With built-in destination guides, saving tips, and seasonal advice, you'll be able to plan your dream trip without breaking the bank.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Travel Budget Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Travel Budget Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">trip duration</strong> in days.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">number of people</strong> traveling.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter estimated <strong className="text-white">expenses for each category</strong> (flights, accommodation, food, etc.).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate Budget"</strong> to see your trip budget breakdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Review your <strong className="text-white">total budget, daily costs, and category percentages</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">trip duration</strong> in days.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">number of people</strong> traveling.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter estimated <strong className="text-ink">expenses for each category</strong> (flights, accommodation, food, etc.).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate Budget"</strong> to see your trip budget breakdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review your <strong className="text-ink">total budget, daily costs, and category percentages</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Travel Budget Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Travel Budget Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Accurate Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know exactly how much your trip will cost before you go. Avoid financial surprises and plan with confidence.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Accurate Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much your trip will cost before you go. Avoid financial surprises and plan with confidence.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Category Breakdown</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See where your money is going. Identify which categories take the most budget and where you can save.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Category Breakdown</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See where your money is going. Identify which categories take the most budget and where you can save.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Per Person Analysis</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Understand costs per person and per day. Perfect for group travel and family vacation planning.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Per Person Analysis</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Understand costs per person and per day. Perfect for group travel and family vacation planning.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Budget Optimization</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Adjust expense estimates to find the right balance between comfort and cost. Optimize your travel budget.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Budget Optimization</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Adjust expense estimates to find the right balance between comfort and cost. Optimize your travel budget.</p>
                     </div>
                 </div>
             </section>
 
             {/* Destination Budget Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Daily Budget by Destination</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Daily Budget by Destination</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Region</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Budget</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Mid-Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Luxury</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Notes</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Region</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Budget</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Mid-Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Luxury</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {DESTINATION_BUDGETS.map((dest, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{dest.region}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{dest.budget}</td>
-                                    <td className="py-3 px-4 text-gray-400">{dest.midRange}</td>
-                                    <td className="py-3 px-4 text-gray-400">{dest.luxury}</td>
-                                    <td className="py-3 px-4 text-gray-500 text-xs">{dest.notes}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{dest.region}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{dest.budget}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{dest.midRange}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{dest.luxury}</td>
+                                    <td className="py-3 px-4 text-ink-faint text-xs">{dest.notes}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Daily budgets include accommodation, food, transport, and basic activities. Excludes flights and shopping.
                     </p>
                 </div>
@@ -398,42 +398,42 @@ export default function TravelBudgetCalculator() {
 
             {/* Savings Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Travel Money Saving Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Travel Money Saving Tips</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-blue-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
                         <div className="text-2xl mb-1">✈️</div>
-                        <h4 className="text-sm font-semibold text-blue-400 mb-1">Flights</h4>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                        <h4 className="text-sm font-semibold text-blue-600 mb-1">Flights</h4>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Book 2-3 months in advance</li>
                             <li>• Fly on Tuesdays or Wednesdays</li>
                             <li>• Use incognito mode for searches</li>
                             <li>• Consider nearby airports</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-green-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
                         <div className="text-2xl mb-1">🏨</div>
-                        <h4 className="text-sm font-semibold text-green-400 mb-1">Accommodation</h4>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                        <h4 className="text-sm font-semibold text-green-600 mb-1">Accommodation</h4>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Book in advance for better deals</li>
                             <li>• Consider hostels or shared rooms</li>
                             <li>• Look for last-minute deals</li>
                             <li>• Stay outside city center</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-orange-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
                         <div className="text-2xl mb-1">🍽️</div>
-                        <h4 className="text-sm font-semibold text-orange-400 mb-1">Food</h4>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                        <h4 className="text-sm font-semibold text-orange-600 mb-1">Food</h4>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Eat street food and local markets</li>
                             <li>• Cook some meals yourself</li>
                             <li>• Look for lunch specials</li>
                             <li>• Drink tap water (if safe)</li>
                         </ul>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-purple-500/30 transition-all">
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-purple-200 transition-all">
                         <div className="text-2xl mb-1">🎯</div>
-                        <h4 className="text-sm font-semibold text-purple-400 mb-1">Activities</h4>
-                        <ul className="text-xs text-gray-400 space-y-1">
+                        <h4 className="text-sm font-semibold text-purple-600 mb-1">Activities</h4>
+                        <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Free walking tours</li>
                             <li>• City passes for discounts</li>
                             <li>• Museums on free days</li>
@@ -445,29 +445,29 @@ export default function TravelBudgetCalculator() {
 
             {/* Seasonal Budgeting */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Seasonal Budget Planning</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-3">Seasonal Budget Planning</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-3 bg-[#0f1525] rounded-lg border border-green-500/20">
+                        <div className="text-center p-3 bg-surface rounded-lg border border-green-100">
                             <div className="text-2xl mb-1">🌸</div>
-                            <h4 className="text-sm font-semibold text-green-400">Shoulder Season</h4>
-                            <p className="text-xs text-gray-400">Spring & Fall</p>
-                            <p className="text-xs text-yellow-400 mt-1">Best value: 30-50% cheaper</p>
-                            <p className="text-xs text-gray-500">Good weather, fewer crowds</p>
+                            <h4 className="text-sm font-semibold text-green-600">Shoulder Season</h4>
+                            <p className="text-xs text-ink-faint">Spring & Fall</p>
+                            <p className="text-xs text-yellow-700 mt-1">Best value: 30-50% cheaper</p>
+                            <p className="text-xs text-ink-faint">Good weather, fewer crowds</p>
                         </div>
-                        <div className="text-center p-3 bg-[#0f1525] rounded-lg border border-yellow-500/20">
+                        <div className="text-center p-3 bg-surface rounded-lg border border-yellow-100">
                             <div className="text-2xl mb-1">☀️</div>
-                            <h4 className="text-sm font-semibold text-yellow-400">Peak Season</h4>
-                            <p className="text-xs text-gray-400">Summer & Holidays</p>
-                            <p className="text-xs text-red-400 mt-1">Highest prices (50-100% more)</p>
-                            <p className="text-xs text-gray-500">Best weather, busy</p>
+                            <h4 className="text-sm font-semibold text-yellow-700">Peak Season</h4>
+                            <p className="text-xs text-ink-faint">Summer & Holidays</p>
+                            <p className="text-xs text-red-600 mt-1">Highest prices (50-100% more)</p>
+                            <p className="text-xs text-ink-faint">Best weather, busy</p>
                         </div>
-                        <div className="text-center p-3 bg-[#0f1525] rounded-lg border border-blue-500/20">
+                        <div className="text-center p-3 bg-surface rounded-lg border border-blue-100">
                             <div className="text-2xl mb-1">❄️</div>
-                            <h4 className="text-sm font-semibold text-blue-400">Off-Season</h4>
-                            <p className="text-xs text-gray-400">Winter (excluding holidays)</p>
-                            <p className="text-xs text-green-400 mt-1">Cheapest (60-70% less)</p>
-                            <p className="text-xs text-gray-500">Limited activities, cooler</p>
+                            <h4 className="text-sm font-semibold text-blue-600">Off-Season</h4>
+                            <p className="text-xs text-ink-faint">Winter (excluding holidays)</p>
+                            <p className="text-xs text-green-600 mt-1">Cheapest (60-70% less)</p>
+                            <p className="text-xs text-ink-faint">Limited activities, cooler</p>
                         </div>
                     </div>
                 </div>
@@ -475,46 +475,46 @@ export default function TravelBudgetCalculator() {
 
             {/* Travel Budget Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Travel Budget Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Travel Budget Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Add a 15% buffer:</strong> Always add 15-20% to your calculated budget for unexpected expenses. Hidden costs like baggage fees, tourist taxes, and emergency medical expenses can add up.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Add a 15% buffer:</strong> Always add 15-20% to your calculated budget for unexpected expenses. Hidden costs like baggage fees, tourist taxes, and emergency medical expenses can add up.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Research local prices:</strong> Use websites and apps to research current prices for accommodation, food, and activities. Prices change seasonally and by location.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Research local prices:</strong> Use websites and apps to research current prices for accommodation, food, and activities. Prices change seasonally and by location.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Track your spending:</strong> During your trip, track expenses daily to stay on budget. Use apps or a simple notebook to log purchases.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Track your spending:</strong> During your trip, track expenses daily to stay on budget. Use apps or a simple notebook to log purchases.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider travel insurance:</strong> Budget $30-100 for travel insurance. It covers medical emergencies, trip cancellations, and lost luggage. Peace of mind is worth the cost.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider travel insurance:</strong> Budget $30-100 for travel insurance. It covers medical emergencies, trip cancellations, and lost luggage. Peace of mind is worth the cost.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use no-foreign-fee cards:</strong> Credit/debit cards without foreign transaction fees save 2-5% on every purchase. Get a travel-friendly card before your trip.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use no-foreign-fee cards:</strong> Credit/debit cards without foreign transaction fees save 2-5% on every purchase. Get a travel-friendly card before your trip.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

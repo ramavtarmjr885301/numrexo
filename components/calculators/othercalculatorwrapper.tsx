@@ -382,9 +382,9 @@
 //             // Add more cases for other calculators
 //             default:
 //                 return (
-//                     <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-8 text-center">
-//                         <p className="text-yellow-400">⚠️ Calculator coming soon!</p>
-//                         <p className="text-gray-400 text-sm mt-2">
+//                     <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-8 text-center">
+//                         <p className="text-yellow-700">⚠️ Calculator coming soon!</p>
+//                         <p className="text-ink-faint text-sm mt-2">
 //                             This calculator is under development.
 //                         </p>
 //                     </div>
@@ -415,7 +415,7 @@
 //                 {/* Related Calculators */}
 //                 <div>
 //                     <div className="text-center mb-6">
-//                         <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">
+//                         <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
 //                             Related Tools
 //                         </span>
 //                         <h2 className="text-2xl font-bold mt-1">Other Calculators</h2>
@@ -425,11 +425,11 @@
 //                             <button
 //                                 key={calc.id}
 //                                 onClick={() => router.push(calc.path)}
-//                                 className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-left transition-all hover:border-blue-500/50 hover:-translate-y-1"
+//                                 className="bg-surface border border-hairline rounded-xl p-4 text-left transition-all hover:border-blue-300 hover:-translate-y-1"
 //                             >
 //                                 <div className="text-2xl mb-2">{calc.icon}</div>
 //                                 <h4 className="font-semibold mb-1">{calc.name}</h4>
-//                                 <p className="text-xs text-gray-500">
+//                                 <p className="text-xs text-ink-faint">
 //                                     {calc.desc.slice(0, 60)}…
 //                                 </p>
 //                             </button>

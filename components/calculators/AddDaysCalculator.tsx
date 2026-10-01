@@ -141,33 +141,33 @@ export default function AddDaysCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Add Days to Date Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Add Days to Date Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Add or Subtract Days</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate future or past dates</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate future or past dates</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Start Date</label><input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Operation</label>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Start Date</label><input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Operation</label>
                             <div className="grid grid-cols-2 gap-3">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${operation === "add" ? "bg-green-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setOperation("add")}>Add Days</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${operation === "subtract" ? "bg-orange-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setOperation("subtract")}>Subtract Days</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${operation === "add" ? "bg-green-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setOperation("add")}>Add Days</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${operation === "subtract" ? "bg-orange-500 text-white" : "bg-surface border border-hairline"}`} onClick={() => setOperation("subtract")}>Subtract Days</button>
                             </div>
                         </div>
-                        <div><label className="block text-xs font-semibold text-gray-400 mb-2">Number of Days</label><input type="number" placeholder="30" value={days} onChange={(e) => setDays(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white" /></div>
+                        <div><label className="block text-xs font-semibold text-ink-faint mb-2">Number of Days</label><input type="number" placeholder="30" value={days} onChange={(e) => setDays(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink" /></div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -177,40 +177,40 @@ export default function AddDaysCalculator() {
                     isEmpty={!result}
                     emptyIcon="📅"
                     emptyText="Enter date and days to calculate"
-                    mainResult={result ? { label: `${operation === "add" ? "New Date" : "Past Date"}`, value: result.resultDate, color: "text-blue-400" } : undefined}
+                    mainResult={result ? { label: `${operation === "add" ? "New Date" : "Past Date"}`, value: result.resultDate, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
                         { label: "Start Date", value: result.startDate },
-                        { label: "Day of Week", value: result.dayOfWeek, valueColor: "text-yellow-400" },
+                        { label: "Day of Week", value: result.dayOfWeek, valueColor: "text-yellow-700" },
                         { label: "Days", value: `${operation === "add" ? "Added" : "Subtracted"}: ${result.daysAdded}` },
                     ] : []}
                 />
             </div>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Date Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Date Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Add or subtract days from any date and get the answer as a date and a weekday. It walks the real
                     calendar — actual month lengths, leap years, century rules — rather than assuming 30-day months,
                     which is where counting on your fingers tends to fall over.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Most people arrive here with a deadline: a notice period, a return window, a visa validity, a
                     probation end date. For those, the weekday in the result is worth as much as the date itself.
                 </p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">The Off-by-One Problem</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-4">The Off-by-One Problem</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
                         The single most common error in date arithmetic is disagreeing about whether the start date
                         counts as day one.
                     </p>
-                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside mb-3">
-                        <li>This calculator treats the start date as day zero: 1 January + 30 days = <span className="text-white">31 January</span>.</li>
-                        <li>Counting the start date as day one gives <span className="text-white">30 January</span> for the same span.</li>
+                    <ul className="text-ink-faint text-sm space-y-1.5 list-disc list-inside mb-3">
+                        <li>This calculator treats the start date as day zero: 1 January + 30 days = <span className="text-ink">31 January</span>.</li>
+                        <li>Counting the start date as day one gives <span className="text-ink">30 January</span> for the same span.</li>
                     </ul>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-ink-faint text-xs">
                         A day either way rarely matters for a holiday countdown and matters a great deal for a legal
                         notice. If a contract sets out how to count, follow it. Where nothing is stated, the common
                         convention is to exclude the first day and include the last.
@@ -219,37 +219,37 @@ export default function AddDaysCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Calendar Days vs Business Days</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Calendar Days vs Business Days</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Span</th><th className="text-right py-3 px-4 text-gray-400">Calendar days</th><th className="text-right py-3 px-4 text-gray-400">Roughly, in business days</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Span</th><th className="text-right py-3 px-4 text-ink-faint">Calendar days</th><th className="text-right py-3 px-4 text-ink-faint">Roughly, in business days</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One week</td><td className="py-2 px-4 text-right">7</td><td className="py-2 px-4 text-right">5</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Two weeks</td><td className="py-2 px-4 text-right">14</td><td className="py-2 px-4 text-right">10</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">One month</td><td className="py-2 px-4 text-right">30</td><td className="py-2 px-4 text-right">21-22</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Three months</td><td className="py-2 px-4 text-right">90</td><td className="py-2 px-4 text-right">64-65</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">One week</td><td className="py-2 px-4 text-right">7</td><td className="py-2 px-4 text-right">5</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Two weeks</td><td className="py-2 px-4 text-right">14</td><td className="py-2 px-4 text-right">10</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">One month</td><td className="py-2 px-4 text-right">30</td><td className="py-2 px-4 text-right">21-22</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">Three months</td><td className="py-2 px-4 text-right">90</td><td className="py-2 px-4 text-right">64-65</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     This calculator counts calendar days. Business-day figures above exclude weekends only — public
                     holidays would shorten them further, and they differ by country.
                 </p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Examples</h2>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Examples</h2>
                 <div className="grid grid-cols-2 gap-3">
-                    <button onClick={() => { setStartDate(new Date().toISOString().split('T')[0]); setDays("30"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg">30 days from today</button>
-                    <button onClick={() => { setStartDate(new Date().toISOString().split('T')[0]); setDays("90"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg">90 days from today</button>
-                    <button onClick={() => { setStartDate("2024-12-25"); setDays("7"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg">1 week after Christmas</button>
-                    <button onClick={() => { setStartDate("2024-01-01"); setDays("30"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-[#0f1525] border border-gray-700 rounded-lg">30 days after New Year</button>
+                    <button onClick={() => { setStartDate(new Date().toISOString().split('T')[0]); setDays("30"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg">30 days from today</button>
+                    <button onClick={() => { setStartDate(new Date().toISOString().split('T')[0]); setDays("90"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg">90 days from today</button>
+                    <button onClick={() => { setStartDate("2024-12-25"); setDays("7"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg">1 week after Christmas</button>
+                    <button onClick={() => { setStartDate("2024-01-01"); setDays("30"); setOperation("add"); }} className="text-left px-3 py-2 text-sm bg-surface border border-hairline rounded-lg">30 days after New Year</button>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div>
             </section>
         </>
     );

@@ -207,29 +207,29 @@ export default function BirthdayCountdown() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-gray-300">Time Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Birthday Countdown</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Birthday Countdown</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Birthday Countdown</h3>
-                        <p className="text-xs text-gray-500 mt-1">Count days until your next birthday</p>
+                        <p className="text-xs text-ink-faint mt-1">Count days until your next birthday</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Your Birth Date</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Your Birth Date</label>
                             <input
                                 type="date"
                                 value={birthDate}
                                 onChange={(e) => setBirthDate(e.target.value)}
-                                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                             />
                         </div>
                         <div className="flex gap-3">
@@ -241,7 +241,7 @@ export default function BirthdayCountdown() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -254,36 +254,36 @@ export default function BirthdayCountdown() {
                     isEmpty={!result}
                     emptyIcon="🎂"
                     emptyText="Enter your birth date"
-                    mainResult={result ? { label: "Days Until Your Next Birthday", value: `${result.daysUntil} days`, color: "text-pink-400" } : undefined}
+                    mainResult={result ? { label: "Days Until Your Next Birthday", value: `${result.daysUntil} days`, color: "text-pink-600" } : undefined}
                     extraRows={result ? [
                         { label: "Your Age", value: `${result.age} years, ${result.monthsOld} months, ${result.daysOld} days` },
                         { label: "Next Birthday", value: result.nextBirthday },
-                        { label: "You'll Turn", value: `${result.nextAge} years old`, valueColor: "text-yellow-400" },
-                        { label: "Zodiac Sign", value: `${result.zodiacSymbol} ${result.zodiacSign} (${result.zodiacElement})`, valueColor: "text-purple-400" },
+                        { label: "You'll Turn", value: `${result.nextAge} years old`, valueColor: "text-yellow-700" },
+                        { label: "Zodiac Sign", value: `${result.zodiacSymbol} ${result.zodiacSign} (${result.zodiacElement})`, valueColor: "text-purple-600" },
                     ] : []}
                 />
             </div>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Birthday Countdown</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Birthday Countdown</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Enter a birth date and this gives three things at once: how many days remain until the next
                     birthday, the exact age today in years, months and days, and the running total of days lived.
                     The countdown rolls to next year on its own once this year&apos;s birthday has passed.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     It runs entirely in your browser, so nothing you type is sent anywhere.
                 </p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Why the Weekday Moves Every Year</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-4">Why the Weekday Moves Every Year</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
                         An ordinary year is 52 weeks and one day. That leftover day pushes your birthday forward one
                         weekday each year, and two whenever a 29 February falls in between.
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         So a Tuesday birthday becomes Wednesday next year, then Thursday, then jumps to Saturday if a
                         leap day intervenes. Over a long enough run the whole pattern repeats every 28 years. If you
                         are hoping for a weekend birthday to plan something around, it is worth looking a few years
@@ -293,40 +293,40 @@ export default function BirthdayCountdown() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Day Milestones Worth Watching</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Day Milestones Worth Watching</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Milestone</th><th className="text-right py-3 px-4 text-gray-400">Arrives at roughly</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Milestone</th><th className="text-right py-3 px-4 text-ink-faint">Arrives at roughly</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1,000 days</td><td className="py-2 px-4 text-right">2 years 9 months</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">5,000 days</td><td className="py-2 px-4 text-right">13 years 8 months</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">10,000 days</td><td className="py-2 px-4 text-right">27 years 4 months</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 billion seconds</td><td className="py-2 px-4 text-right">31 years 8 months</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">20,000 days</td><td className="py-2 px-4 text-right">54 years 9 months</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">30,000 days</td><td className="py-2 px-4 text-right">82 years 1 month</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1,000 days</td><td className="py-2 px-4 text-right">2 years 9 months</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">5,000 days</td><td className="py-2 px-4 text-right">13 years 8 months</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">10,000 days</td><td className="py-2 px-4 text-right">27 years 4 months</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 billion seconds</td><td className="py-2 px-4 text-right">31 years 8 months</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">20,000 days</td><td className="py-2 px-4 text-right">54 years 9 months</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">30,000 days</td><td className="py-2 px-4 text-right">82 years 1 month</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-ink-faint mt-2">
                     Compare these against the total-days figure above to see which one you are closest to.
                 </p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Zodiac Signs</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Zodiac Signs</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Sign</th><th className="text-left py-3 px-4 text-gray-400">Dates</th><th className="text-left py-3 px-4 text-gray-400">Symbol</th><th className="text-left py-3 px-4 text-gray-400">Element</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Sign</th><th className="text-left py-3 px-4 text-ink-faint">Dates</th><th className="text-left py-3 px-4 text-ink-faint">Symbol</th><th className="text-left py-3 px-4 text-ink-faint">Element</th></tr></thead>
                         <tbody>
-                            {ZODIAC_SIGNS.map((zodiac, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-yellow-400">{zodiac.sign}</td><td className="py-2 px-4 text-gray-300">{zodiac.start} to {zodiac.end}</td><td className="py-2 px-4 text-center text-xl">{zodiac.symbol}</td><td className="py-2 px-4 text-gray-400">{zodiac.element}</td></tr>))}
+                            {ZODIAC_SIGNS.map((zodiac, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-yellow-700">{zodiac.sign}</td><td className="py-2 px-4 text-ink-soft">{zodiac.start} to {zodiac.end}</td><td className="py-2 px-4 text-center text-xl">{zodiac.symbol}</td><td className="py-2 px-4 text-ink-faint">{zodiac.element}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200">{item.q}</span><span className={`text-gray-500 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">{item.a}</div>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink">{item.q}</span><span className={`text-ink-faint text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span></button>{openFaq === i && <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">{item.a}</div>}</div>))}</div>
             </section>
         </>
     );

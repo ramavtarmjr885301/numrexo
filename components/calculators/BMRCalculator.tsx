@@ -206,19 +206,19 @@ export default function BMRCalculator() {
         450;
       if (bodyFat < 10) {
         bodyFatCategory = "Athlete / Very Low";
-        bodyFatColor = "text-blue-400";
+        bodyFatColor = "text-blue-600";
       } else if (bodyFat < 16) {
         bodyFatCategory = "Lean / Fit";
-        bodyFatColor = "text-green-400";
+        bodyFatColor = "text-green-600";
       } else if (bodyFat < 24) {
         bodyFatCategory = "Average / Acceptable";
-        bodyFatColor = "text-yellow-400";
+        bodyFatColor = "text-yellow-700";
       } else if (bodyFat < 30) {
         bodyFatCategory = "Above Average";
-        bodyFatColor = "text-orange-400";
+        bodyFatColor = "text-orange-600";
       } else {
         bodyFatCategory = "Obese / High Risk";
-        bodyFatColor = "text-red-400";
+        bodyFatColor = "text-red-600";
       }
     }
 
@@ -265,7 +265,7 @@ export default function BMRCalculator() {
       {/* ── Breadcrumb ── */}
       <nav aria-label="Breadcrumb" className="mb-5">
         <ol
-          className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500"
+          className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint"
           itemScope
           itemType="https://schema.org/BreadcrumbList"
         >
@@ -277,13 +277,13 @@ export default function BMRCalculator() {
             <a
               href="https://numrexo.com"
               itemProp="item"
-              className="hover:text-gray-300 transition-colors"
+              className="hover:text-ink-soft transition-colors"
             >
               <span itemProp="name">Home</span>
             </a>
             <meta itemProp="position" content="1" />
           </li>
-          <li className="text-gray-700">/</li>
+          <li className="text-ink-soft">/</li>
           <li
             itemScope
             itemProp="itemListElement"
@@ -292,19 +292,19 @@ export default function BMRCalculator() {
             <a
               href="https://numrexo.com/fitness"
               itemProp="item"
-              className="hover:text-gray-300 transition-colors"
+              className="hover:text-ink-soft transition-colors"
             >
               <span itemProp="name">Fitness Calculators</span>
             </a>
             <meta itemProp="position" content="2" />
           </li>
-          <li className="text-gray-700">/</li>
+          <li className="text-ink-soft">/</li>
           <li
             itemScope
             itemProp="itemListElement"
             itemType="https://schema.org/ListItem"
           >
-            <span itemProp="name" className="text-gray-300">
+            <span itemProp="name" className="text-ink-soft">
               BMR Calculator
             </span>
             <meta itemProp="position" content="3" />
@@ -315,20 +315,20 @@ export default function BMRCalculator() {
       {/* ── Calculator Grid (UNCHANGED) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-800">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-hairline">
             <h3 className="font-semibold">Personal Details</h3>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Gender
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "male"
-                      ? "bg-blue-500 text-white"
-                      : "bg-[#0f1525] border border-gray-700"
+                      ? "bg-blue-600 text-white"
+                      : "bg-surface border border-hairline"
                     }`}
                   onClick={() => setGender("male")}
                 >
@@ -337,7 +337,7 @@ export default function BMRCalculator() {
                 <button
                   className={`py-2 rounded-lg text-sm font-medium transition-all ${gender === "female"
                       ? "bg-pink-500 text-white"
-                      : "bg-[#0f1525] border border-gray-700"
+                      : "bg-surface border border-hairline"
                     }`}
                   onClick={() => setGender("female")}
                 >
@@ -346,7 +346,7 @@ export default function BMRCalculator() {
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Age
               </label>
               <div className="relative">
@@ -355,15 +355,15 @@ export default function BMRCalculator() {
                   placeholder="30"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">
                   years
                 </span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Weight
               </label>
               <div className="relative">
@@ -372,15 +372,15 @@ export default function BMRCalculator() {
                   placeholder="70"
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">
                   kg
                 </span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Height
               </label>
               <div className="relative">
@@ -389,21 +389,21 @@ export default function BMRCalculator() {
                   placeholder="170"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">
                   cm
                 </span>
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Activity Level
               </label>
               <select
                 value={activityLevel}
                 onChange={(e) => setActivityLevel(e.target.value)}
-                className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none cursor-pointer"
+                className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none cursor-pointer"
               >
                 {ACTIVITY_LEVELS.map((level) => (
                   <option key={level.value} value={level.value}>
@@ -413,14 +413,14 @@ export default function BMRCalculator() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-2">
+              <label className="block text-xs font-semibold text-ink-faint mb-2">
                 Formula
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   className={`py-2 rounded-lg text-sm font-medium transition-all ${formula === "mifflin"
-                      ? "bg-blue-500 text-white"
-                      : "bg-[#0f1525] border border-gray-700"
+                      ? "bg-blue-600 text-white"
+                      : "bg-surface border border-hairline"
                     }`}
                   onClick={() => setFormula("mifflin")}
                 >
@@ -428,8 +428,8 @@ export default function BMRCalculator() {
                 </button>
                 <button
                   className={`py-2 rounded-lg text-sm font-medium transition-all ${formula === "harris"
-                      ? "bg-blue-500 text-white"
-                      : "bg-[#0f1525] border border-gray-700"
+                      ? "bg-blue-600 text-white"
+                      : "bg-surface border border-hairline"
                     }`}
                   onClick={() => setFormula("harris")}
                 >
@@ -457,7 +457,7 @@ export default function BMRCalculator() {
               ? {
                 label: "Basal Metabolic Rate",
                 value: `${result.bmr} calories/day`,
-                color: "text-red-400",
+                color: "text-red-600",
               }
               : undefined
           }
@@ -467,7 +467,7 @@ export default function BMRCalculator() {
                 {
                   label: "Total Daily Energy Expenditure",
                   value: `${result.tdee} calories/day`,
-                  valueColor: "text-yellow-400",
+                  valueColor: "text-yellow-700",
                 },
                 {
                   label: "For Weight Loss",
@@ -476,12 +476,12 @@ export default function BMRCalculator() {
                 {
                   label: "For Extreme Weight Loss",
                   value: `${result.extremeWeightLoss} calories/day`,
-                  valueColor: "text-orange-400",
+                  valueColor: "text-orange-600",
                 },
                 {
                   label: "For Weight Gain",
                   value: `${result.weightGain} calories/day`,
-                  valueColor: "text-green-400",
+                  valueColor: "text-green-600",
                 },
               ]
               : undefined
@@ -491,15 +491,15 @@ export default function BMRCalculator() {
 
       {/* ── About Section ── */}
       <section aria-labelledby="about-bmr" className="mb-8">
-        <h2 id="about-bmr" className="text-xl font-semibold text-white mb-3">
+        <h2 id="about-bmr" className="text-xl font-semibold text-ink mb-3">
           About the BMR Calculator
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
           Most people trying to manage their weight focus entirely on what they
           eat — but the more foundational question is:{" "}
           <em>how much does your body actually need just to function?</em> That
           answer is your{" "}
-          <strong className="text-gray-300">
+          <strong className="text-ink-soft">
             Basal Metabolic Rate (BMR)
           </strong>
           . It's the number of calories your body burns every single day simply
@@ -507,27 +507,27 @@ export default function BMRCalculator() {
           kidneys filtering, and your billions of cells doing their jobs. No
           exercise required. Just existing.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed mb-3">
+        <p className="text-ink-faint text-sm leading-relaxed mb-3">
           Here's what surprises most people: BMR accounts for{" "}
-          <strong className="text-gray-300">60–75%</strong> of everything you
+          <strong className="text-ink-soft">60–75%</strong> of everything you
           burn in a day. Exercise, walking around, and digesting food make up
           the rest. This means the single biggest lever in your calorie equation
           isn't how hard you work out — it's your resting metabolism.
           Understanding it changes how you approach everything from meal
           planning to training.
         </p>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-ink-faint text-sm leading-relaxed">
           Our calculator uses both the{" "}
-          <strong className="text-gray-300">Mifflin-St Jeor equation</strong>{" "}
+          <strong className="text-ink-soft">Mifflin-St Jeor equation</strong>{" "}
           (the gold standard recommended by most dietitians for the general
           population) and the{" "}
-          <strong className="text-gray-300">
+          <strong className="text-ink-soft">
             revised Harris-Benedict formula
           </strong>{" "}
           (the historically trusted method, still widely used in clinical
           settings). Both are free, research-validated, and take under 30
           seconds to use. Once you have your BMR, we also calculate your{" "}
-          <strong className="text-gray-300">
+          <strong className="text-ink-soft">
             Total Daily Energy Expenditure (TDEE)
           </strong>{" "}
           — your real-world daily calorie burn adjusted for how active you
@@ -540,28 +540,28 @@ export default function BMRCalculator() {
       <section aria-labelledby="bmr-formula" className="mb-8">
         <h2
           id="bmr-formula"
-          className="text-xl font-semibold text-white mb-3"
+          className="text-xl font-semibold text-ink mb-3"
         >
           BMR Formulas Explained
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           Both formulas use the same four variables — weight (W in kg), height
           (H in cm), age (A in years), and biological sex — but were developed
           decades apart using different population samples. Here's what each one
           calculates, and when to use which.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">
               Mifflin-St Jeor Equation (1990)
             </h3>
-            <p className="text-white font-mono text-xs mb-1">
+            <p className="text-ink font-mono text-xs mb-1">
               Men: BMR = 10×W + 6.25×H − 5×A + 5
             </p>
-            <p className="text-white font-mono text-xs mb-3">
+            <p className="text-ink font-mono text-xs mb-3">
               Women: BMR = 10×W + 6.25×H − 5×A − 161
             </p>
-            <p className="text-gray-500 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Developed in 1990 using a more diverse and modern population
               sample, this formula consistently outperforms others in validation
               studies. The Academy of Nutrition and Dietetics considers it the
@@ -570,17 +570,17 @@ export default function BMRCalculator() {
               people.
             </p>
           </div>
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">
               Harris-Benedict Equation (Revised 1984)
             </h3>
-            <p className="text-white font-mono text-xs mb-1">
+            <p className="text-ink font-mono text-xs mb-1">
               Men: BMR = 88.362 + 13.397×W + 4.799×H − 5.677×A
             </p>
-            <p className="text-white font-mono text-xs mb-3">
+            <p className="text-ink font-mono text-xs mb-3">
               Women: BMR = 447.593 + 9.247×W + 3.098×H − 4.330×A
             </p>
-            <p className="text-gray-500 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Originally published in 1919 and significantly revised in 1984,
               this formula remains one of the most widely cited in nutrition
               research and clinical practice. It tends to slightly overestimate
@@ -596,15 +596,15 @@ export default function BMRCalculator() {
       <section aria-labelledby="activity-table" className="mb-8">
         <h2
           id="activity-table"
-          className="text-xl font-semibold text-white mb-3"
+          className="text-xl font-semibold text-ink mb-3"
         >
           Activity Level Multipliers — How TDEE Is Calculated
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           Your BMR tells you how many calories you burn at rest. But in real
           life, you move — and that movement multiplies your calorie needs. To
           find your{" "}
-          <strong className="text-gray-300">
+          <strong className="text-ink-soft">
             Total Daily Energy Expenditure (TDEE)
           </strong>
           , we multiply your BMR by an activity factor based on your typical
@@ -612,17 +612,17 @@ export default function BMRCalculator() {
           activity level, which leads to eating more than their body actually
           needs.
         </p>
-        <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+        <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-left py-3 px-4 text-gray-400 font-semibold">
+              <tr className="border-b border-hairline">
+                <th className="text-left py-3 px-4 text-ink-faint font-semibold">
                   Activity Level
                 </th>
-                <th className="text-left py-3 px-4 text-gray-400 font-semibold hidden md:table-cell">
+                <th className="text-left py-3 px-4 text-ink-faint font-semibold hidden md:table-cell">
                   Who It's For
                 </th>
-                <th className="text-right py-3 px-4 text-gray-400 font-semibold">
+                <th className="text-right py-3 px-4 text-ink-faint font-semibold">
                   Multiplier
                 </th>
               </tr>
@@ -652,13 +652,13 @@ export default function BMRCalculator() {
               ].map((level, i) => (
                 <tr
                   key={i}
-                  className="border-b border-gray-800/50 hover:bg-white/5"
+                  className="border-b border-hairline hover:bg-cream"
                 >
-                  <td className="py-3 px-4 text-gray-300">{level.label}</td>
-                  <td className="py-3 px-4 text-gray-500 text-xs hidden md:table-cell">
+                  <td className="py-3 px-4 text-ink-soft">{level.label}</td>
+                  <td className="py-3 px-4 text-ink-faint text-xs hidden md:table-cell">
                     {level.desc}
                   </td>
-                  <td className="py-3 px-4 text-right text-gray-400 font-mono">
+                  <td className="py-3 px-4 text-right text-ink-faint font-mono">
                     ×{level.multiplier}
                   </td>
                 </tr>
@@ -672,11 +672,11 @@ export default function BMRCalculator() {
       <section aria-labelledby="bmr-groups" className="mb-8">
         <h2
           id="bmr-groups"
-          className="text-xl font-semibold text-white mb-3"
+          className="text-xl font-semibold text-ink mb-3"
         >
           BMR Across Different Groups
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           The same BMR formula applies to everyone, but the numbers — and what
           they mean — vary considerably across age groups, fitness levels, and
           biological differences. Here's what you need to know about your
@@ -685,11 +685,11 @@ export default function BMRCalculator() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Women */}
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-pink-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-pink-600 mb-2">
               BMR for Women
             </h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Women naturally carry a higher percentage of body fat compared to
               men at the same BMI, which means a lower proportion of metabolically
               active muscle tissue — and therefore a lower BMR. On average,
@@ -704,11 +704,11 @@ export default function BMRCalculator() {
           </div>
 
           {/* Men */}
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-blue-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">
               BMR for Men
             </h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Higher testosterone levels and greater natural muscle mass give men
               a metabolic advantage at rest. Because muscle tissue burns
               significantly more calories than fat at rest, men tend to have
@@ -721,11 +721,11 @@ export default function BMRCalculator() {
           </div>
 
           {/* Seniors */}
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-yellow-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-yellow-700 mb-2">
               BMR for Older Adults (65+)
             </h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Ageing brings a gradual but meaningful metabolic slowdown. After 60,
               muscle loss accelerates (sarcopenia) and organ function can
               decline — both reducing the body's resting energy demands. Standard
@@ -739,11 +739,11 @@ export default function BMRCalculator() {
           </div>
 
           {/* Athletes */}
-          <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-400 mb-2">
+          <div className="bg-surface border border-hairline rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-green-600 mb-2">
               BMR for Athletes &amp; Highly Active People
             </h3>
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <p className="text-ink-faint text-xs leading-relaxed">
               Standard BMR formulas significantly underestimate calorie needs for
               athletes and muscular individuals because they rely on total body
               weight — not lean body mass. A competitive athlete can have a true
@@ -762,11 +762,11 @@ export default function BMRCalculator() {
       <section aria-labelledby="bmr-limitations" className="mb-8">
         <h2
           id="bmr-limitations"
-          className="text-xl font-semibold text-white mb-3"
+          className="text-xl font-semibold text-ink mb-3"
         >
           Limitations of BMR Calculators
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           BMR calculators are useful tools, but they're estimates — not
           measurements. Understanding where they fall short helps you use the
           results more intelligently and avoid common mistakes.
@@ -775,32 +775,32 @@ export default function BMRCalculator() {
           {[
             {
               title: "They estimate, not measure",
-              color: "text-red-400",
+              color: "text-red-600",
               desc:
                 "No formula can measure your actual metabolic rate — only indirect calorimetry (a clinical test using breath analysis) can do that. Expect your true BMR to be within ±10% of the calculated figure. Use the number as a starting point, then adjust based on real-world results over 2–4 weeks.",
             },
             {
               title: "Body composition is invisible to the formula",
-              color: "text-orange-400",
+              color: "text-orange-600",
               desc:
                 "A 180 lb person who is 15% body fat has far more muscle — and a higher BMR — than a 180 lb person who is 35% body fat. Both get the same formula result. If you have above-average muscle mass or above-average body fat, your actual BMR will differ meaningfully from the estimate.",
             },
             {
               title: "Thyroid and hormonal health matter enormously",
-              color: "text-yellow-400",
+              color: "text-yellow-700",
               desc:
                 "Hypothyroidism can suppress BMR by 20–40%. Hyperthyroidism can elevate it by 40–80%. PCOS, insulin resistance, and cortisol imbalances all affect metabolism in ways the formula can't capture. If your results feel wildly off from your real experience, consider a hormonal panel with your doctor.",
             },
             {
               title: "Metabolic adaptation isn't factored in",
-              color: "text-blue-400",
+              color: "text-blue-600",
               desc:
                 "Extended calorie restriction causes metabolic adaptation — your body actively lowers its BMR in response to perceived food scarcity. Someone who has dieted aggressively for months may have a true BMR 15–30% below their calculated value. This is one reason why recalculating BMR regularly during a weight loss journey is important.",
             },
           ].map((item, i) => (
             <div
               key={i}
-              className="bg-[#111827] border border-gray-800 rounded-xl p-5 flex gap-4"
+              className="bg-surface border border-hairline rounded-xl p-5 flex gap-4"
             >
               <div className="flex-shrink-0 mt-0.5">
                 <div
@@ -813,15 +813,15 @@ export default function BMRCalculator() {
                 >
                   {item.title}
                 </p>
-                <p className="text-gray-400 text-xs leading-relaxed">
+                <p className="text-ink-faint text-xs leading-relaxed">
                   {item.desc}
                 </p>
               </div>
             </div>
           ))}
         </div>
-        <p className="text-gray-500 text-xs mt-4 leading-relaxed">
-          <strong className="text-gray-400">Medical Disclaimer:</strong> BMR
+        <p className="text-ink-faint text-xs mt-4 leading-relaxed">
+          <strong className="text-ink-faint">Medical Disclaimer:</strong> BMR
           calculations are for informational and educational purposes only. They
           are not a substitute for professional medical or nutritional advice.
           Always consult a qualified healthcare provider before making
@@ -834,11 +834,11 @@ export default function BMRCalculator() {
       <section aria-labelledby="how-to-use" className="mb-8">
         <h2
           id="how-to-use"
-          className="text-xl font-semibold text-white mb-3"
+          className="text-xl font-semibold text-ink mb-3"
         >
           How to Use Your BMR Result
         </h2>
-        <p className="text-gray-400 text-sm leading-relaxed mb-4">
+        <p className="text-ink-faint text-sm leading-relaxed mb-4">
           Getting your BMR number is step one. Here's what to actually do with
           it — whether your goal is losing fat, building muscle, or simply
           maintaining your current weight without constant calorie counting.
@@ -847,8 +847,8 @@ export default function BMRCalculator() {
           {[
             {
               goal: "Weight Loss",
-              color: "text-orange-400",
-              border: "border-orange-400/20",
+              color: "text-orange-600",
+              border: "border-orange-100",
               steps: [
                 "Calculate your TDEE (BMR × activity multiplier)",
                 "Subtract 300–500 calories from TDEE for a sustainable deficit",
@@ -858,8 +858,8 @@ export default function BMRCalculator() {
             },
             {
               goal: "Weight Maintenance",
-              color: "text-blue-400",
-              border: "border-blue-400/20",
+              color: "text-blue-600",
+              border: "border-blue-100",
               steps: [
                 "Eat at your TDEE (BMR × activity multiplier)",
                 "Adjust by ±100–200 calories based on weekly weight trends",
@@ -869,8 +869,8 @@ export default function BMRCalculator() {
             },
             {
               goal: "Muscle Gain",
-              color: "text-green-400",
-              border: "border-green-400/20",
+              color: "text-green-600",
+              border: "border-green-100",
               steps: [
                 "Add 250–500 calories above TDEE for a lean bulk",
                 "Prioritise protein: 0.7–1g per pound of body weight",
@@ -881,14 +881,14 @@ export default function BMRCalculator() {
           ].map((item, i) => (
             <div
               key={i}
-              className={`bg-[#111827] border ${item.border} rounded-xl p-5`}
+              className={`bg-surface border ${item.border} rounded-xl p-5`}
             >
               <h3 className={`text-sm font-semibold ${item.color} mb-3`}>
                 {item.goal}
               </h3>
               <ul className="space-y-2">
                 {item.steps.map((step, j) => (
-                  <li key={j} className="flex gap-2 text-xs text-gray-400">
+                  <li key={j} className="flex gap-2 text-xs text-ink-faint">
                     <span className={`${item.color} flex-shrink-0 font-bold`}>
                       {j + 1}.
                     </span>
@@ -910,7 +910,7 @@ export default function BMRCalculator() {
       >
         <h2
           id="faq-heading"
-          className="text-xl font-semibold text-white mb-4"
+          className="text-xl font-semibold text-ink mb-4"
         >
           Frequently Asked Questions
         </h2>
@@ -918,24 +918,24 @@ export default function BMRCalculator() {
           {FAQ_DATA.map((item, i) => (
             <div
               key={i}
-              className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden"
+              className="bg-surface border border-hairline rounded-xl overflow-hidden"
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
             >
               <button
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 aria-expanded={openFaq === i}
               >
                 <span
-                  className="text-sm font-medium text-gray-200"
+                  className="text-sm font-medium text-ink"
                   itemProp="name"
                 >
                   {item.q}
                 </span>
                 <span
-                  className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""
+                  className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""
                     }`}
                 >
                   +
@@ -949,7 +949,7 @@ export default function BMRCalculator() {
                 itemType="https://schema.org/Answer"
               >
                 <p
-                  className="px-5 text-sm text-gray-400 leading-relaxed"
+                  className="px-5 text-sm text-ink-faint leading-relaxed"
                   itemProp="text"
                 >
                   {item.a}

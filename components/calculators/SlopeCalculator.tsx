@@ -172,19 +172,19 @@ export default function SlopeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a>
+                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Slope Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Slope Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -192,57 +192,57 @@ export default function SlopeCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Slope Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Find slope between two points (x₁,y₁) and (x₂,y₂)</p>
+                        <p className="text-xs text-ink-faint mt-1">Find slope between two points (x₁,y₁) and (x₂,y₂)</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">x₁</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">x₁</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="1"
                                     value={x1}
                                     onChange={(e) => setX1(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">y₁</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">y₁</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="2"
                                     value={y1}
                                     onChange={(e) => setY1(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">x₂</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">x₂</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="4"
                                     value={x2}
                                     onChange={(e) => setX2(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">y₂</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">y₂</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="8"
                                     value={y2}
                                     onChange={(e) => setY2(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         </div>
@@ -256,7 +256,7 @@ export default function SlopeCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -270,17 +270,17 @@ export default function SlopeCalculator() {
                     isEmpty={!result}
                     emptyIcon="📈"
                     emptyText="Enter two points and press Calculate"
-                    mainResult={result ? { label: "Slope (m)", value: result.isVertical ? "Undefined" : result.slope, color: "text-orange-400" } : undefined}
+                    mainResult={result ? { label: "Slope (m)", value: result.isVertical ? "Undefined" : result.slope, color: "text-orange-600" } : undefined}
                     extraRows={result ? [
                         ...(result.isVertical ? [] : [
                             { label: "Slope Type", value: result.slopeType },
-                            { label: "Equation (Slope-Intercept)", value: result.equation, valueColor: "text-green-400" },
+                            { label: "Equation (Slope-Intercept)", value: result.equation, valueColor: "text-green-600" },
                             { label: "y-intercept (b)", value: result.intercept },
                             { label: "Angle of Inclination", value: `${result.angle}°` },
                         ]),
                         { label: "Points", value: `${result.point1} → ${result.point2}` },
                         ...(result.isVertical ? [
-                            { label: "Equation", value: result.equation, valueColor: "text-green-400" },
+                            { label: "Equation", value: result.equation, valueColor: "text-green-600" },
                         ] : []),
                     ] : []}
                 />
@@ -290,83 +290,83 @@ export default function SlopeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Slope Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Slope Calculator</strong> helps you find the slope of a line passing through any two points. Simply enter the coordinates of two points (x₁,y₁) and (x₂,y₂), and our calculator will instantly compute the slope, line equation, y-intercept, and angle of inclination.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Slope Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Slope Calculator</strong> helps you find the slope of a line passing through any two points. Simply enter the coordinates of two points (x₁,y₁) and (x₂,y₂), and our calculator will instantly compute the slope, line equation, y-intercept, and angle of inclination.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Slope is a fundamental concept in mathematics that measures the steepness of a line. It's used extensively in algebra, geometry, calculus, physics, economics, and real-world applications like construction, engineering, and data analysis.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Whether you're a student learning coordinate geometry, a professional working with data trends, or someone needing to calculate grade or pitch, our calculator provides accurate results with step-by-step insights.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Slope Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Slope Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter the <strong className="text-white">x₁</strong> and <strong className="text-white">y₁</strong> coordinates for the first point.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">x₂</strong> and <strong className="text-white">y₂</strong> coordinates for the second point.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Slope"</strong> to get your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Review the <strong className="text-white">slope, equation, y-intercept, and angle</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different points.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter the <strong className="text-ink">x₁</strong> and <strong className="text-ink">y₁</strong> coordinates for the first point.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">x₂</strong> and <strong className="text-ink">y₂</strong> coordinates for the second point.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate Slope"</strong> to get your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Review the <strong className="text-ink">slope, equation, y-intercept, and angle</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different points.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Slope Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Slope Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Instant Results</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">No more manual formula calculations. Get accurate slope, equation, and angle in seconds. Perfect for homework and real-world applications.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Instant Results</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">No more manual formula calculations. Get accurate slope, equation, and angle in seconds. Perfect for homework and real-world applications.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Multiple Outputs</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get slope value, line equation, y-intercept, angle of inclination, and slope type all in one place. Comprehensive results for complete understanding.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Multiple Outputs</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get slope value, line equation, y-intercept, angle of inclination, and slope type all in one place. Comprehensive results for complete understanding.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Educational Tool</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Perfect for students learning slope concepts. See the relationship between points and slope visually through clear, structured output.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Educational Tool</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Perfect for students learning slope concepts. See the relationship between points and slope visually through clear, structured output.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Real-World Applications</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Use for construction (roof pitch), physics (acceleration), economics (trends), and more. Practical tool for professionals and students.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Real-World Applications</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Use for construction (roof pitch), physics (acceleration), economics (trends), and more. Practical tool for professionals and students.</p>
                     </div>
                 </div>
             </section>
 
             {/* Slope Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Slope Formula & Concepts</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-4">Slope Formula & Concepts</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="text-center mb-4">
-                        <p className="text-white font-mono text-xl mb-2">m = (y₂ - y₁) / (x₂ - x₁)</p>
-                        <p className="text-gray-500 text-sm">Slope-Intercept Form: y = mx + b</p>
-                        <p className="text-gray-500 text-sm mt-1">Point-Slope Form: y - y₁ = m(x - x₁)</p>
-                        <p className="text-gray-500 text-sm">Standard Form: Ax + By = C</p>
+                        <p className="text-ink font-mono text-xl mb-2">m = (y₂ - y₁) / (x₂ - x₁)</p>
+                        <p className="text-ink-faint text-sm">Slope-Intercept Form: y = mx + b</p>
+                        <p className="text-ink-faint text-sm mt-1">Point-Slope Form: y - y₁ = m(x - x₁)</p>
+                        <p className="text-ink-faint text-sm">Standard Form: Ax + By = C</p>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center border border-green-500/20">
+                        <div className="bg-surface rounded-lg p-2 text-center border border-green-100">
                             <div className="text-2xl">📈</div>
-                            <p className="text-xs text-green-400">Positive</p>
-                            <p className="text-xs text-gray-500">m &gt; 0</p>
+                            <p className="text-xs text-green-600">Positive</p>
+                            <p className="text-xs text-ink-faint">m &gt; 0</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center border border-red-500/20">
+                        <div className="bg-surface rounded-lg p-2 text-center border border-red-100">
                             <div className="text-2xl">📉</div>
-                            <p className="text-xs text-red-400">Negative</p>
-                            <p className="text-xs text-gray-500">m &lt; 0</p>
+                            <p className="text-xs text-red-600">Negative</p>
+                            <p className="text-xs text-ink-faint">m &lt; 0</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center border border-yellow-500/20">
+                        <div className="bg-surface rounded-lg p-2 text-center border border-yellow-100">
                             <div className="text-2xl">➡️</div>
-                            <p className="text-xs text-yellow-400">Zero</p>
-                            <p className="text-xs text-gray-500">m = 0</p>
+                            <p className="text-xs text-yellow-700">Zero</p>
+                            <p className="text-xs text-ink-faint">m = 0</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-2 text-center border border-purple-500/20">
+                        <div className="bg-surface rounded-lg p-2 text-center border border-purple-100">
                             <div className="text-2xl">⬆️</div>
-                            <p className="text-xs text-purple-400">Undefined</p>
-                            <p className="text-xs text-gray-500">Vertical</p>
+                            <p className="text-xs text-purple-600">Undefined</p>
+                            <p className="text-xs text-ink-faint">Vertical</p>
                         </div>
                     </div>
                 </div>
@@ -374,45 +374,45 @@ export default function SlopeCalculator() {
 
             {/* Slope Examples Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Slope Examples</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Slope Examples</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Points</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Slope</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Equation</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Description</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Points</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Slope</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Equation</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Description</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300 font-mono text-xs">(1,2) and (4,8)</td>
-                                <td className="py-3 px-4 text-yellow-400 font-mono">2</td>
-                                <td className="py-3 px-4 text-green-400 font-mono text-xs">y = 2x + 0</td>
-                                <td className="py-3 px-4 text-gray-400">Positive ↗</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-mono text-xs">(1,2) and (4,8)</td>
+                                <td className="py-3 px-4 text-yellow-700 font-mono">2</td>
+                                <td className="py-3 px-4 text-green-600 font-mono text-xs">y = 2x + 0</td>
+                                <td className="py-3 px-4 text-ink-faint">Positive ↗</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300 font-mono text-xs">(1,8) and (4,2)</td>
-                                <td className="py-3 px-4 text-yellow-400 font-mono">-2</td>
-                                <td className="py-3 px-4 text-green-400 font-mono text-xs">y = -2x + 10</td>
-                                <td className="py-3 px-4 text-gray-400">Negative ↘</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-mono text-xs">(1,8) and (4,2)</td>
+                                <td className="py-3 px-4 text-yellow-700 font-mono">-2</td>
+                                <td className="py-3 px-4 text-green-600 font-mono text-xs">y = -2x + 10</td>
+                                <td className="py-3 px-4 text-ink-faint">Negative ↘</td>
                             </tr>
-                            <tr className="border-b border-gray-800/50 hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300 font-mono text-xs">(1,5) and (4,5)</td>
-                                <td className="py-3 px-4 text-yellow-400 font-mono">0</td>
-                                <td className="py-3 px-4 text-green-400 font-mono text-xs">y = 5</td>
-                                <td className="py-3 px-4 text-gray-400">Zero →</td>
+                            <tr className="border-b border-hairline hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-mono text-xs">(1,5) and (4,5)</td>
+                                <td className="py-3 px-4 text-yellow-700 font-mono">0</td>
+                                <td className="py-3 px-4 text-green-600 font-mono text-xs">y = 5</td>
+                                <td className="py-3 px-4 text-ink-faint">Zero →</td>
                             </tr>
-                            <tr className="hover:bg-gray-800/20">
-                                <td className="py-3 px-4 text-gray-300 font-mono text-xs">(2,1) and (2,5)</td>
-                                <td className="py-3 px-4 text-red-400 font-mono">Undefined</td>
-                                <td className="py-3 px-4 text-green-400 font-mono text-xs">x = 2</td>
-                                <td className="py-3 px-4 text-gray-400">Vertical ⬆️</td>
+                            <tr className="hover:bg-cream">
+                                <td className="py-3 px-4 text-ink-soft font-mono text-xs">(2,1) and (2,5)</td>
+                                <td className="py-3 px-4 text-red-600 font-mono">Undefined</td>
+                                <td className="py-3 px-4 text-green-600 font-mono text-xs">x = 2</td>
+                                <td className="py-3 px-4 text-ink-faint">Vertical ⬆️</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * Understanding slope types helps in graphing, data analysis, and real-world applications.
                     </p>
                 </div>
@@ -420,69 +420,69 @@ export default function SlopeCalculator() {
 
             {/* Real-World Applications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Real-World Slope Applications</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Real-World Slope Applications</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-orange-500/30 transition-all">
-                        <h4 className="text-sm font-semibold text-orange-400 mb-1">🏗️ Construction</h4>
-                        <p className="text-xs text-gray-400">Roof pitch (6/12 = slope 0.5), road grade (6% = 0.06), wheelchair ramps (max 1:12 = 0.083).</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
+                        <h4 className="text-sm font-semibold text-orange-600 mb-1">🏗️ Construction</h4>
+                        <p className="text-xs text-ink-faint">Roof pitch (6/12 = slope 0.5), road grade (6% = 0.06), wheelchair ramps (max 1:12 = 0.083).</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-blue-400/30 transition-all">
-                        <h4 className="text-sm font-semibold text-blue-400 mb-1">📊 Economics</h4>
-                        <p className="text-xs text-gray-400">Supply/demand curves (positive/negative slopes), cost functions, market trends, profit margins.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
+                        <h4 className="text-sm font-semibold text-blue-600 mb-1">📊 Economics</h4>
+                        <p className="text-xs text-ink-faint">Supply/demand curves (positive/negative slopes), cost functions, market trends, profit margins.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-yellow-400/30 transition-all">
-                        <h4 className="text-sm font-semibold text-yellow-400 mb-1">⚛️ Physics</h4>
-                        <p className="text-xs text-gray-400">Velocity-time graphs (acceleration), position-time graphs (speed), force-displacement relationships.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-yellow-200 transition-all">
+                        <h4 className="text-sm font-semibold text-yellow-700 mb-1">⚛️ Physics</h4>
+                        <p className="text-xs text-ink-faint">Velocity-time graphs (acceleration), position-time graphs (speed), force-displacement relationships.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 hover:border-green-400/30 transition-all">
-                        <h4 className="text-sm font-semibold text-green-400 mb-1">🌍 Geography</h4>
-                        <p className="text-xs text-gray-400">River gradients, terrain analysis, elevation maps, slope stability assessment, hiking trail difficulty.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
+                        <h4 className="text-sm font-semibold text-green-600 mb-1">🌍 Geography</h4>
+                        <p className="text-xs text-ink-faint">River gradients, terrain analysis, elevation maps, slope stability assessment, hiking trail difficulty.</p>
                     </div>
                 </div>
             </section>
 
             {/* Math Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Slope Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Slope Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Remember the formula order:</strong> Always subtract y₂ - y₁ and x₂ - x₁ in the same order. Mixing up the order gives the wrong sign!</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Remember the formula order:</strong> Always subtract y₂ - y₁ and x₂ - x₁ in the same order. Mixing up the order gives the wrong sign!</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Visualize slope:</strong> "Rise over Run" - rise is vertical change (up/down), run is horizontal change (left/right). This makes slope intuitive.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Visualize slope:</strong> "Rise over Run" - rise is vertical change (up/down), run is horizontal change (left/right). This makes slope intuitive.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check for vertical lines:</strong> If x₁ = x₂, slope is undefined. The equation is x = constant. These are not functions.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check for vertical lines:</strong> If x₁ = x₂, slope is undefined. The equation is x = constant. These are not functions.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use slope to find relationships:</strong> Positive slope = direct relationship, negative slope = inverse relationship. This helps in data interpretation.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use slope to find relationships:</strong> Positive slope = direct relationship, negative slope = inverse relationship. This helps in data interpretation.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-orange-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Parallel and perpendicular:</strong> Parallel lines have same slope. Perpendicular lines have slopes that multiply to -1 (negative reciprocals).</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Parallel and perpendicular:</strong> Parallel lines have same slope. Perpendicular lines have slopes that multiply to -1 (negative reciprocals).</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

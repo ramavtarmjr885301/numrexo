@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   CalculatorType,
   CALCULATORS_REGISTRY,
@@ -8,6 +9,7 @@ import Breadcrumb from "@/components/common/Breadcrumb";
 import AuthorBox from "@/components/common/AuthorBox";
 import PageHeader from "@/components/common/PageHeader";
 import { useRouter } from "next/navigation";
+import { recordRecentCalculator } from "@/lib/recentCalculators";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
 import GSTCalculator from "./GSTCalculator";
@@ -137,6 +139,15 @@ export default function CalculatorWrapper({
 }: CalculatorWrapperProps) {
   const router = useRouter();
 
+  // Feeds the homepage's "Pick up where you left off" card - see
+  // lib/recentCalculators.ts. Runs once per visit, browser-only.
+  useEffect(() => {
+    recordRecentCalculator({
+      name: calculator.name,
+      path: calculator.path,
+      icon: calculator.icon,
+    });
+  }, [calculator.id, calculator.name, calculator.path, calculator.icon]);
 
   const sameCategoryCalcs = CALCULATORS_REGISTRY.filter(
     (c: CalculatorType) => c.id !== calculator.id && c.category === calculator.category,
@@ -389,9 +400,9 @@ export default function CalculatorWrapper({
       // Add more cases for other calculators
       default:
         return (
-          <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-8 text-center">
-            <p className="text-yellow-400">⚠️ Calculator coming soon!</p>
-            <p className="text-gray-400 text-sm mt-2">
+          <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-8 text-center">
+            <p className="text-yellow-700">⚠️ Calculator coming soon!</p>
+            <p className="text-ink-faint text-sm mt-2">
               This calculator is under development.
             </p>
           </div>
@@ -425,7 +436,7 @@ export default function CalculatorWrapper({
         {/* Related Calculators */}
         <div>
           <div className="text-center mb-6">
-            <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
               Related Tools
             </span>
             <h2 className="text-2xl font-bold mt-1">Other Calculators</h2>
@@ -435,11 +446,11 @@ export default function CalculatorWrapper({
               <button
                 key={calc.id}
                 onClick={() => router.push(calc.path)}
-                className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-left transition-all hover:border-blue-500/50 hover:-translate-y-1"
+                className="bg-surface border border-hairline rounded-xl p-4 text-left transition-all hover:border-blue-300 hover:-translate-y-1"
               >
                 <div className="text-2xl mb-2">{calc.icon}</div>
                 <h4 className="font-semibold mb-1">{calc.name}</h4>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-ink-faint">
                   {calc.desc.slice(0, 60)}…
                 </p>
               </button>
@@ -881,9 +892,9 @@ export default function CalculatorWrapper({
 //       // Add more cases for other calculators
 //       default:
 //         return (
-//           <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-8 text-center">
-//             <p className="text-yellow-400">⚠️ Calculator coming soon!</p>
-//             <p className="text-gray-400 text-sm mt-2">
+//           <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-8 text-center">
+//             <p className="text-yellow-700">⚠️ Calculator coming soon!</p>
+//             <p className="text-ink-faint text-sm mt-2">
 //               This calculator is under development.
 //             </p>
 //           </div>
@@ -914,19 +925,19 @@ export default function CalculatorWrapper({
 //         {/* SEO Content - Only show if seo exists */}
 //         {seo && (
 //           <>
-//             <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
+//             <div className="bg-surface border border-hairline rounded-xl p-6 md:p-8 mb-6">
 //               <h2 className="text-xl font-bold mb-4">
 //                 About the {calculator.name}
 //               </h2>
-//               <p className="text-gray-400 leading-relaxed mb-6">{seo.intro}</p>
+//               <p className="text-ink-faint leading-relaxed mb-6">{seo.intro}</p>
 
 //               <h3 className="text-lg font-semibold mb-3">Formula</h3>
-//               <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-4 font-mono text-sm text-blue-400 mb-6">
+//               <div className="bg-surface border border-hairline rounded-lg p-4 font-mono text-sm text-blue-600 mb-6">
 //                 {seo.formula}
 //               </div>
 
 //               {seo.formulaUS && (
-//                 <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-4 font-mono text-sm text-blue-400 mb-6">
+//                 <div className="bg-surface border border-hairline rounded-lg p-4 font-mono text-sm text-blue-600 mb-6">
 //                   {seo.formulaUS}
 //                 </div>
 //               )}
@@ -957,8 +968,8 @@ export default function CalculatorWrapper({
 //                   <div className="overflow-x-auto">
 //                     <table className="w-full text-sm">
 //                       <thead>
-//                         <tr className="border-b border-gray-800">
-//                           <th className="text-left py-3 px-4 text-gray-500 font-semibold">
+//                         <tr className="border-b border-hairline">
+//                           <th className="text-left py-3 px-4 text-ink-faint font-semibold">
 //                             {calculator.id === "bmi"
 //                               ? "Classification"
 //                               : calculator.id === "emi"
@@ -967,7 +978,7 @@ export default function CalculatorWrapper({
 //                                   ? "GST Rate"
 //                                   : "Category"}
 //                           </th>
-//                           <th className="text-left py-3 px-4 text-gray-500 font-semibold">
+//                           <th className="text-left py-3 px-4 text-ink-faint font-semibold">
 //                             {calculator.id === "bmi"
 //                               ? "BMI Range (kg/m²)"
 //                               : calculator.id === "emi"
@@ -982,10 +993,10 @@ export default function CalculatorWrapper({
 //                         {seo.table.map((row: TableRow, index: number) => (
 //                           <tr
 //                             key={index}
-//                             className="border-b border-gray-800/50 hover:bg-gray-800/30"
+//                             className="border-b border-hairline hover:bg-cream"
 //                           >
-//                             <td className="py-2 px-4 text-gray-300">{row[0]}</td>
-//                             <td className="py-2 px-4 text-gray-400">{row[1]}</td>
+//                             <td className="py-2 px-4 text-ink-soft">{row[0]}</td>
+//                             <td className="py-2 px-4 text-ink-faint">{row[1]}</td>
 //                           </tr>
 //                         ))}
 //                       </tbody>
@@ -997,7 +1008,7 @@ export default function CalculatorWrapper({
 
 //             {/* FAQ */}
 //             {/* {seo.faqs && (
-//               <div className="bg-[#111827] border border-gray-800 rounded-xl p-6 md:p-8 mb-8">
+//               <div className="bg-surface border border-hairline rounded-xl p-6 md:p-8 mb-8">
 //                 <h2 className="text-xl font-bold mb-6">
 //                   Frequently Asked Questions
 //                 </h2>
@@ -1010,7 +1021,7 @@ export default function CalculatorWrapper({
 //         {/* Related Calculators */}
 //         <div>
 //           <div className="text-center mb-6">
-//             <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">
+//             <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
 //               Related Tools
 //             </span>
 //             <h2 className="text-2xl font-bold mt-1">Other Calculators</h2>
@@ -1020,11 +1031,11 @@ export default function CalculatorWrapper({
 //               <button
 //                 key={calc.id}
 //                 onClick={() => router.push(calc.path)}
-//                 className="bg-[#111827] border border-gray-800 rounded-xl p-4 text-left transition-all hover:border-blue-500/50 hover:-translate-y-1"
+//                 className="bg-surface border border-hairline rounded-xl p-4 text-left transition-all hover:border-blue-300 hover:-translate-y-1"
 //               >
 //                 <div className="text-2xl mb-2">{calc.icon}</div>
 //                 <h4 className="font-semibold mb-1">{calc.name}</h4>
-//                 <p className="text-xs text-gray-500">
+//                 <p className="text-xs text-ink-faint">
 //                   {calc.desc.slice(0, 60)}…
 //                 </p>
 //               </button>

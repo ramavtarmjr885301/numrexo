@@ -217,19 +217,19 @@ export default function VolumeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a>
+                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">Volume Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">Volume Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -237,41 +237,41 @@ export default function VolumeCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Volume Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate volume of 3D shapes</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate volume of 3D shapes</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Select Shape</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Select Shape</label>
                             <div className="grid grid-cols-3 gap-2">
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cube" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cube" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setShape("cube")}
                                 >
                                     📦 Cube
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "prism" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "prism" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setShape("prism")}
                                 >
                                     📐 Prism
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cylinder" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cylinder" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setShape("cylinder")}
                                 >
                                     🥫 Cylinder
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "sphere" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "sphere" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setShape("sphere")}
                                 >
                                     ⚽ Sphere
                                 </button>
                                 <button
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cone" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`}
+                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "cone" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`}
                                     onClick={() => setShape("cone")}
                                 >
                                     🍦 Cone
@@ -281,14 +281,14 @@ export default function VolumeCalculator() {
 
                         {shape === "cube" && (
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Side Length</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Side Length</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="5"
                                     value={side}
                                     onChange={(e) => setSide(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         )}
@@ -296,36 +296,36 @@ export default function VolumeCalculator() {
                         {shape === "prism" && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Length</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Length</label>
                                     <input
                                         type="number"
                                         step="any"
                                         placeholder="10"
                                         value={length}
                                         onChange={(e) => setLength(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Width</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Width</label>
                                     <input
                                         type="number"
                                         step="any"
                                         placeholder="5"
                                         value={width}
                                         onChange={(e) => setWidth(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Height</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Height</label>
                                     <input
                                         type="number"
                                         step="any"
                                         placeholder="4"
                                         value={height}
                                         onChange={(e) => setHeight(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </>
@@ -334,25 +334,25 @@ export default function VolumeCalculator() {
                         {(shape === "cylinder" || shape === "cone") && (
                             <>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Radius</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Radius</label>
                                     <input
                                         type="number"
                                         step="any"
                                         placeholder="5"
                                         value={radius}
                                         onChange={(e) => setRadius(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-400 mb-2">Height</label>
+                                    <label className="block text-xs font-semibold text-ink-faint mb-2">Height</label>
                                     <input
                                         type="number"
                                         step="any"
                                         placeholder="10"
                                         value={height}
                                         onChange={(e) => setHeight(e.target.value)}
-                                        className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                             </>
@@ -360,14 +360,14 @@ export default function VolumeCalculator() {
 
                         {shape === "sphere" && (
                             <div>
-                                <label className="block text-xs font-semibold text-gray-400 mb-2">Radius</label>
+                                <label className="block text-xs font-semibold text-ink-faint mb-2">Radius</label>
                                 <input
                                     type="number"
                                     step="any"
                                     placeholder="6"
                                     value={radius}
                                     onChange={(e) => setRadius(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                         )}
@@ -381,7 +381,7 @@ export default function VolumeCalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -395,7 +395,7 @@ export default function VolumeCalculator() {
                     isEmpty={!result}
                     emptyIcon="🧊"
                     emptyText="Enter measurements and press Calculate"
-                    mainResult={result ? { label: "Volume", value: `${result.volume} cu units`, color: "text-purple-400" } : undefined}
+                    mainResult={result ? { label: "Volume", value: `${result.volume} cu units`, color: "text-purple-600" } : undefined}
                     extraRows={result ? [
                         { label: "Shape", value: result.shape },
                         { label: "Formula", value: result.formula },
@@ -408,77 +408,77 @@ export default function VolumeCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Volume Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Volume Calculator</strong> helps you calculate the volume of common 3D shapes including cubes, rectangular prisms, cylinders, spheres, and cones. Whether you're a student, engineer, teacher, or professional, this calculator provides instant volume calculations.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Volume Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Volume Calculator</strong> helps you calculate the volume of common 3D shapes including cubes, rectangular prisms, cylinders, spheres, and cones. Whether you're a student, engineer, teacher, or professional, this calculator provides instant volume calculations.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     Volume is the measure of three-dimensional space occupied by an object. It's essential in mathematics, physics, engineering, architecture, and everyday life. Understanding volume helps with construction, packaging, shipping, and scientific calculations.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our calculator shows the formula and step-by-step calculation for each shape, making it perfect for learning and teaching as well as practical applications.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Volume Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Volume Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select the <strong className="text-white">shape</strong> (Cube, Rectangular Prism, Cylinder, Sphere, or Cone).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">required measurements</strong> (side, length, width, height, or radius).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Click <strong className="text-white">"Calculate Volume"</strong> to get the result.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Review the <strong className="text-white">volume, formula, and step-by-step calculation</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Change the shape or measurements to calculate different volumes.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use <strong className="text-white">Reset</strong> to clear all inputs and start over.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select the <strong className="text-ink">shape</strong> (Cube, Rectangular Prism, Cylinder, Sphere, or Cone).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">required measurements</strong> (side, length, width, height, or radius).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Click <strong className="text-ink">"Calculate Volume"</strong> to get the result.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Review the <strong className="text-ink">volume, formula, and step-by-step calculation</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Change the shape or measurements to calculate different volumes.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use <strong className="text-ink">Reset</strong> to clear all inputs and start over.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Volume Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Volume Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Quick Calculations</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Get instant volume calculations without manual math. Perfect for homework, projects, and professional work.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Quick Calculations</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Get instant volume calculations without manual math. Perfect for homework, projects, and professional work.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ 5 Common Shapes</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Cubes, rectangular prisms, cylinders, spheres, and cones - all in one tool. The most commonly used 3D shapes.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ 5 Common Shapes</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Cubes, rectangular prisms, cylinders, spheres, and cones - all in one tool. The most commonly used 3D shapes.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Step-by-Step Results</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">See the formula and calculation process. Understand how the volume is calculated for each shape.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Step-by-Step Results</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">See the formula and calculation process. Understand how the volume is calculated for each shape.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Educational & Practical</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Perfect for students learning geometry, teachers preparing lessons, and professionals needing quick volume calculations.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Educational & Practical</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Perfect for students learning geometry, teachers preparing lessons, and professionals needing quick volume calculations.</p>
                     </div>
                 </div>
             </section>
 
             {/* Volume Formulas Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Volume Formulas</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Volume Formulas</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Shape</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Formula</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Example</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Shape</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Formula</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Example</th>
                             </tr>
                         </thead>
                         <tbody>
                             {VOLUME_FORMULAS.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-yellow-400">{row.shape}</td>
-                                    <td className="py-3 px-4 text-gray-300">{row.formula}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.example}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-yellow-700">{row.shape}</td>
+                                    <td className="py-3 px-4 text-ink-soft">{row.formula}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.example}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * π (pi) ≈ 3.14159. All measurements should be in the same unit (e.g., all in cm, all in inches).
                     </p>
                 </div>
@@ -486,13 +486,13 @@ export default function VolumeCalculator() {
 
             {/* Real-World Applications */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Real-World Applications</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Real-World Applications</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {REAL_WORLD_EXAMPLES.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl p-3 hover:border-purple-500/30 transition-all">
-                            <h4 className="text-sm font-semibold text-gray-200">{item.item}</h4>
-                            <p className="text-xs text-blue-400">{item.shape}</p>
-                            <p className="text-xs text-gray-500 mt-1">{item.application}</p>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl p-3 hover:border-purple-200 transition-all">
+                            <h4 className="text-sm font-semibold text-ink">{item.item}</h4>
+                            <p className="text-xs text-blue-600">{item.shape}</p>
+                            <p className="text-xs text-ink-faint mt-1">{item.application}</p>
                         </div>
                     ))}
                 </div>
@@ -500,26 +500,26 @@ export default function VolumeCalculator() {
 
             {/* Volume Comparison */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Volume Comparison Guide</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
+                <h2 className="text-xl font-semibold text-ink mb-3">Volume Comparison Guide</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-green-500/20">
-                            <p className="text-xs text-gray-400">Cube (side 5cm)</p>
-                            <p className="text-lg text-green-400 font-bold">125 cm³</p>
-                            <p className="text-xs text-gray-500">Smallest volume</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-green-100">
+                            <p className="text-xs text-ink-faint">Cube (side 5cm)</p>
+                            <p className="text-lg text-green-600 font-bold">125 cm³</p>
+                            <p className="text-xs text-ink-faint">Smallest volume</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-yellow-500/20">
-                            <p className="text-xs text-gray-400">Sphere (r=5cm)</p>
-                            <p className="text-lg text-yellow-400 font-bold">523.6 cm³</p>
-                            <p className="text-xs text-gray-500">4.2× cube volume</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-yellow-100">
+                            <p className="text-xs text-ink-faint">Sphere (r=5cm)</p>
+                            <p className="text-lg text-yellow-700 font-bold">523.6 cm³</p>
+                            <p className="text-xs text-ink-faint">4.2× cube volume</p>
                         </div>
-                        <div className="bg-[#0f1525] rounded-lg p-3 text-center border border-purple-500/20">
-                            <p className="text-xs text-gray-400">Cylinder (r=5cm, h=10cm)</p>
-                            <p className="text-lg text-purple-400 font-bold">785.4 cm³</p>
-                            <p className="text-xs text-gray-500">6.3× cube volume</p>
+                        <div className="bg-surface rounded-lg p-3 text-center border border-purple-100">
+                            <p className="text-xs text-ink-faint">Cylinder (r=5cm, h=10cm)</p>
+                            <p className="text-lg text-purple-600 font-bold">785.4 cm³</p>
+                            <p className="text-xs text-ink-faint">6.3× cube volume</p>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-xs pt-3 border-t border-gray-800 mt-3 text-center">
+                    <p className="text-ink-faint text-xs pt-3 border-t border-hairline mt-3 text-center">
                         Different shapes with same dimensions can have vastly different volumes. The cylinder holds the most volume among these examples.
                     </p>
                 </div>
@@ -527,46 +527,46 @@ export default function VolumeCalculator() {
 
             {/* Volume Calculator Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Volume Calculation Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Volume Calculation Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use consistent units:</strong> All measurements must be in the same unit (e.g., all cm, all inches). Mixing units will give incorrect results.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use consistent units:</strong> All measurements must be in the same unit (e.g., all cm, all inches). Mixing units will give incorrect results.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Remember π (pi):</strong> π ≈ 3.14159. For quick estimates, 3.14 is usually sufficient. For exact calculations, use the π button on your calculator.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Remember π (pi):</strong> π ≈ 3.14159. For quick estimates, 3.14 is usually sufficient. For exact calculations, use the π button on your calculator.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Volume increases exponentially:</strong> Doubling the side length of a cube increases volume by 8 times. Doubling the radius of a sphere increases volume by 8 times.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Volume increases exponentially:</strong> Doubling the side length of a cube increases volume by 8 times. Doubling the radius of a sphere increases volume by 8 times.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Use the right formula:</strong> Each shape has a specific formula. Using the wrong formula is the most common mistake. Our calculator selects the correct formula automatically.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Use the right formula:</strong> Each shape has a specific formula. Using the wrong formula is the most common mistake. Our calculator selects the correct formula automatically.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-purple-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Check your answer:</strong> Volume should be in cubic units. If you get a result in square units, you've used the wrong formula. Our calculator shows both the formula and result.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-purple-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Check your answer:</strong> Volume should be in cubic units. If you get a result in square units, you've used the wrong formula. Our calculator shows both the formula and result.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

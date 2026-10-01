@@ -127,10 +127,10 @@ export default function ROICalculator() {
 
         let performanceRating = "";
         let ratingColor = "";
-        if (roi >= 20) { performanceRating = "Excellent"; ratingColor = "text-green-400"; }
-        else if (roi >= 10) { performanceRating = "Good"; ratingColor = "text-blue-400"; }
-        else if (roi >= 0) { performanceRating = "Average"; ratingColor = "text-yellow-400"; }
-        else { performanceRating = "Poor"; ratingColor = "text-red-400"; }
+        if (roi >= 20) { performanceRating = "Excellent"; ratingColor = "text-green-600"; }
+        else if (roi >= 10) { performanceRating = "Good"; ratingColor = "text-blue-600"; }
+        else if (roi >= 0) { performanceRating = "Average"; ratingColor = "text-yellow-700"; }
+        else { performanceRating = "Poor"; ratingColor = "text-red-600"; }
 
         setResult({
             netProfit: netProfit.toFixed(2),
@@ -163,19 +163,19 @@ export default function ROICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-gray-300">Business Calculators</a>
+                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">ROI Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">ROI Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -183,64 +183,64 @@ export default function ROICalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Investment Details</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate your investment returns</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate your investment returns</p>
                     </div>
                     <div className="p-6 space-y-4">
-                        <CurrencySwitcher className="pb-2 border-b border-gray-800" />
+                        <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Initial Investment ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Initial Investment ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="100000"
                                     value={investmentCost}
                                     onChange={(e) => setInvestmentCost(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Final Value ({symbol})</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Final Value ({symbol})</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="150000"
                                     value={finalValue}
                                     onChange={(e) => setFinalValue(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">{symbol}</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Investment Period (Years) - Optional</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Investment Period (Years) - Optional</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     placeholder="5"
                                     value={years}
                                     onChange={(e) => setYears(e.target.value)}
-                                    className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">years</span>
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Add to see annualized returns (CAGR)</p>
+                            <p className="text-xs text-ink-faint mt-1">Add to see annualized returns (CAGR)</p>
                         </div>
                         <div className="flex gap-3">
                             <button
                                 onClick={calculate}
-                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate ROI →
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -257,15 +257,15 @@ export default function ROICalculator() {
                     mainResult={result ? {
                         label: "Return on Investment (ROI)",
                         value: `${result.roi}%`,
-                        color: result.isProfit ? "text-green-400" : "text-red-400"
+                        color: result.isProfit ? "text-green-600" : "text-red-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Net Profit / Loss", value: `${symbol}${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-400" : "text-red-400" },
+                        { label: "Net Profit / Loss", value: `${symbol}${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-600" : "text-red-600" },
                         { label: "Performance Rating", value: result.performanceRating, valueColor: result.ratingColor },
                         { label: "Initial Investment", value: `${symbol}${parseFloat(result.cost).toLocaleString()}` },
                         { label: "Final Value", value: `${symbol}${parseFloat(result.final).toLocaleString()}` },
-                        ...(result.cagr ? [{ label: "Annualized Return (CAGR)", value: `${result.cagr}%`, valueColor: "text-yellow-400" }] : []),
-                        { label: "Status", value: result.isProfit ? "💰 Profit" : "⚠️ Loss", valueColor: result.isProfit ? "text-green-400" : "text-red-400" },
+                        ...(result.cagr ? [{ label: "Annualized Return (CAGR)", value: `${result.cagr}%`, valueColor: "text-yellow-700" }] : []),
+                        { label: "Status", value: result.isProfit ? "💰 Profit" : "⚠️ Loss", valueColor: result.isProfit ? "text-green-600" : "text-red-600" },
                     ] : []}
                 />
             </div>
@@ -274,102 +274,102 @@ export default function ROICalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About ROI Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Return on Investment (ROI) Calculator</strong> helps you measure the profitability of your investments. Whether you're investing in stocks, real estate, business, or marketing campaigns, this calculator gives you instant ROI calculations with detailed analysis.
+                <h2 className="text-xl font-semibold text-ink mb-3">About ROI Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Return on Investment (ROI) Calculator</strong> helps you measure the profitability of your investments. Whether you're investing in stocks, real estate, business, or marketing campaigns, this calculator gives you instant ROI calculations with detailed analysis.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
                     ROI is expressed as a percentage and helps you compare different investment opportunities objectively. A positive ROI means profit, while negative ROI indicates loss. For multi-year investments, we also calculate CAGR (Compound Annual Growth Rate) to give you time-adjusted annualized returns.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Our ROI calculator provides performance ratings (Excellent, Good, Average, Poor) to help you quickly assess your investment's performance against industry benchmarks. Whether you're a seasoned investor or just starting, this tool provides the insights you need for informed decision-making.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This ROI Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This ROI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Enter your <strong className="text-white">initial investment amount</strong> (the total money you put in).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter the <strong className="text-white">final value</strong> (the total amount you received or the current value).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> (Optional) Enter the <strong className="text-white">investment period</strong> in years to calculate CAGR.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate ROI"</strong> to see your results.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Review your <strong className="text-white">ROI, net profit, performance rating, and CAGR</strong> (if applicable).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and try different scenarios.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Enter your <strong className="text-ink">initial investment amount</strong> (the total money you put in).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter the <strong className="text-ink">final value</strong> (the total amount you received or the current value).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> (Optional) Enter the <strong className="text-ink">investment period</strong> in years to calculate CAGR.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate ROI"</strong> to see your results.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Review your <strong className="text-ink">ROI, net profit, performance rating, and CAGR</strong> (if applicable).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and try different scenarios.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use an ROI Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use an ROI Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Investment Comparison</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Compare ROI across different investments (stocks, real estate, business, etc.) to identify the most profitable opportunities.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Investment Comparison</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Compare ROI across different investments (stocks, real estate, business, etc.) to identify the most profitable opportunities.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Performance Tracking</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Track your investment performance over time. See if your investments are meeting your return expectations.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Performance Tracking</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Track your investment performance over time. See if your investments are meeting your return expectations.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Goal Setting</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Set realistic ROI goals for your investments. Understand what returns you need to achieve your financial objectives.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Goal Setting</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Set realistic ROI goals for your investments. Understand what returns you need to achieve your financial objectives.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Quick Decisions</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Make faster investment decisions with instant ROI calculations. No complex spreadsheet formulas needed.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Quick Decisions</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Make faster investment decisions with instant ROI calculations. No complex spreadsheet formulas needed.</p>
                     </div>
                 </div>
             </section>
 
             {/* Formula Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">ROI Formula & Calculation Methodology</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">ROI Formula & Calculation Methodology</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">Basic ROI Formula</h3>
-                        <p className="text-white font-mono text-sm mb-2">ROI = (Net Profit ÷ Cost of Investment) × 100</p>
-                        <p className="text-gray-500 text-xs mb-2">Where: Net Profit = Final Value - Initial Investment</p>
-                        <p className="text-gray-500 text-xs">Example: $100,000 to $150,000 → ROI = (50,000 ÷ 100,000) × 100 = 50%</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">Basic ROI Formula</h3>
+                        <p className="text-ink font-mono text-sm mb-2">ROI = (Net Profit ÷ Cost of Investment) × 100</p>
+                        <p className="text-ink-faint text-xs mb-2">Where: Net Profit = Final Value - Initial Investment</p>
+                        <p className="text-ink-faint text-xs">Example: $100,000 to $150,000 → ROI = (50,000 ÷ 100,000) × 100 = 50%</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">Annualized ROI (CAGR)</h3>
-                        <p className="text-white font-mono text-sm mb-2">CAGR = (Final ÷ Initial)^(1/years) - 1 × 100</p>
-                        <p className="text-gray-500 text-xs mb-2">Use when comparing investments of different durations</p>
-                        <p className="text-gray-500 text-xs">Example: 50% ROI over 5 years → CAGR = (1.5)^(1/5) - 1 × 100 = 8.45% annually</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">Annualized ROI (CAGR)</h3>
+                        <p className="text-ink font-mono text-sm mb-2">CAGR = (Final ÷ Initial)^(1/years) - 1 × 100</p>
+                        <p className="text-ink-faint text-xs mb-2">Use when comparing investments of different durations</p>
+                        <p className="text-ink-faint text-xs">Example: 50% ROI over 5 years → CAGR = (1.5)^(1/5) - 1 × 100 = 8.45% annually</p>
                     </div>
                 </div>
             </section>
 
             {/* ROI Examples Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Typical ROI by Investment Type</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Typical ROI by Investment Type</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-80 overflow-y-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800 sticky top-0 bg-[#111827]">
-                                <th className="text-left py-3 px-4 text-gray-400">Investment Type</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Typical ROI</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Risk Level</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Time Horizon</th>
+                            <tr className="border-b border-hairline sticky top-0 bg-surface">
+                                <th className="text-left py-3 px-4 text-ink-faint">Investment Type</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Typical ROI</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Risk Level</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Time Horizon</th>
                             </tr>
                         </thead>
                         <tbody>
                             {ROI_EXAMPLES.map((row, i) => (
-                                <tr key={i} className={`border-b border-gray-800/50 hover:bg-white/5 ${i === ROI_EXAMPLES.length - 1 ? 'border-b-0' : ''}`}>
-                                    <td className="py-3 px-4 text-gray-300 font-medium">{row.investment}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.typicalROI}</td>
-                                    <td className={`py-3 px-4 ${row.risk === "High" ? "text-red-400" :
-                                        row.risk === "Medium" ? "text-yellow-400" :
-                                            row.risk === "Low" ? "text-green-400" :
-                                                "text-blue-400"
+                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === ROI_EXAMPLES.length - 1 ? 'border-b-0' : ''}`}>
+                                    <td className="py-3 px-4 text-ink-soft font-medium">{row.investment}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.typicalROI}</td>
+                                    <td className={`py-3 px-4 ${row.risk === "High" ? "text-red-600" :
+                                        row.risk === "Medium" ? "text-yellow-700" :
+                                            row.risk === "Low" ? "text-green-600" :
+                                                "text-blue-600"
                                         }`}>{row.risk}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.timeHorizon}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.timeHorizon}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p className="text-xs text-gray-500 p-4 border-t border-gray-800">
+                    <p className="text-xs text-ink-faint p-4 border-t border-hairline">
                         * These are historical average returns. Actual returns may vary based on market conditions and specific investment choices.
                     </p>
                 </div>
@@ -377,42 +377,42 @@ export default function ROICalculator() {
 
             {/* Risk vs Return Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Understanding Risk vs Return</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                        There's a fundamental relationship between risk and return in investing. Generally, <strong className="text-white">higher potential returns come with higher risk</strong> of loss. Understanding this relationship is crucial for making informed investment decisions.
+                <h2 className="text-xl font-semibold text-ink mb-3">Understanding Risk vs Return</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-4">
+                        There's a fundamental relationship between risk and return in investing. Generally, <strong className="text-ink">higher potential returns come with higher risk</strong> of loss. Understanding this relationship is crucial for making informed investment decisions.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-3">
-                            <h4 className="text-xs font-semibold text-red-400 mb-2">High Risk (20-30% ROI)</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface border border-hairline rounded-lg p-3">
+                            <h4 className="text-xs font-semibold text-red-600 mb-2">High Risk (20-30% ROI)</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Business investments</li>
                                 <li>• Startup equity</li>
                                 <li>• Cryptocurrency</li>
                                 <li>• Small-cap stocks</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-3">
-                            <h4 className="text-xs font-semibold text-yellow-400 mb-2">Medium Risk (10-15% ROI)</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface border border-hairline rounded-lg p-3">
+                            <h4 className="text-xs font-semibold text-yellow-700 mb-2">Medium Risk (10-15% ROI)</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Large-cap stocks</li>
                                 <li>• Mutual funds</li>
                                 <li>• Real estate</li>
                                 <li>• Index funds</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-3">
-                            <h4 className="text-xs font-semibold text-green-400 mb-2">Low Risk (6-8% ROI)</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface border border-hairline rounded-lg p-3">
+                            <h4 className="text-xs font-semibold text-green-600 mb-2">Low Risk (6-8% ROI)</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Fixed deposits</li>
                                 <li>• Government bonds</li>
                                 <li>• Gold</li>
                                 <li>• Savings accounts</li>
                             </ul>
                         </div>
-                        <div className="bg-[#0f1525] border border-gray-800 rounded-lg p-3">
-                            <h4 className="text-xs font-semibold text-blue-400 mb-2">Very Low Risk (3-5% ROI)</h4>
-                            <ul className="text-xs text-gray-400 space-y-1">
+                        <div className="bg-surface border border-hairline rounded-lg p-3">
+                            <h4 className="text-xs font-semibold text-blue-600 mb-2">Very Low Risk (3-5% ROI)</h4>
+                            <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Savings accounts</li>
                                 <li>• Treasury bills</li>
                                 <li>• Money market funds</li>
@@ -425,46 +425,46 @@ export default function ROICalculator() {
 
             {/* Investment Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Smart Investment Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Smart Investment Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Diversify your portfolio:</strong> Don't put all your money in one investment. Spread across different asset classes to manage risk.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Diversify your portfolio:</strong> Don't put all your money in one investment. Spread across different asset classes to manage risk.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Consider the time factor:</strong> Use CAGR for multi-year investments. A 50% ROI over 5 years is different from 50% over 1 year.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Consider the time factor:</strong> Use CAGR for multi-year investments. A 50% ROI over 5 years is different from 50% over 1 year.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Account for all costs:</strong> Include transaction fees, taxes, maintenance, and management charges for accurate ROI calculation.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Account for all costs:</strong> Include transaction fees, taxes, maintenance, and management charges for accurate ROI calculation.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Set realistic expectations:</strong> Historical returns don't guarantee future performance. Research thoroughly before investing.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Set realistic expectations:</strong> Historical returns don't guarantee future performance. Research thoroughly before investing.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-blue-400 mt-0.5">💡</span>
-                        <span><strong className="text-gray-300">Review regularly:</strong> Monitor your investments quarterly. Use ROI calculations to decide whether to hold, sell, or buy more.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-blue-600 mt-0.5">💡</span>
+                        <span><strong className="text-ink-soft">Review regularly:</strong> Monitor your investments quarterly. Use ROI calculations to decide whether to hold, sell, or buy more.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

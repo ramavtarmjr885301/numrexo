@@ -204,44 +204,44 @@ export default function AreaCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-gray-300">Math Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Area Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Area Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Calculate area of any shape</p>
+                        <p className="text-xs text-ink-faint mt-1">Calculate area of any shape</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Select Shape</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Select Shape</label>
                             <div className="grid grid-cols-3 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "square" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("square")}>Square</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "rectangle" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("rectangle")}>Rectangle</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "circle" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("circle")}>Circle</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "triangle" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("triangle")}>Triangle</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "parallelogram" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("parallelogram")}>Parallelogram</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "trapezoid" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setShape("trapezoid")}>Trapezoid</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "square" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("square")}>Square</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "rectangle" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("rectangle")}>Rectangle</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "circle" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("circle")}>Circle</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "triangle" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("triangle")}>Triangle</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "parallelogram" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("parallelogram")}>Parallelogram</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${shape === "trapezoid" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setShape("trapezoid")}>Trapezoid</button>
                             </div>
                         </div>
 
-                        {shape === "square" && <div><label className="block text-xs font-semibold text-gray-400 mb-2">Side Length</label><input type="number" placeholder="5" value={side} onChange={(e) => setSide(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>}
-                        {shape === "rectangle" && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Length</label><input type="number" placeholder="10" value={length} onChange={(e) => setLength(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Width</label><input type="number" placeholder="5" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
-                        {shape === "circle" && <div><label className="block text-xs font-semibold text-gray-400 mb-2">Radius</label><input type="number" placeholder="5" value={radius} onChange={(e) => setRadius(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>}
-                        {shape === "triangle" && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Base</label><input type="number" placeholder="10" value={base} onChange={(e) => setBase(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><input type="number" placeholder="6" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
-                        {shape === "parallelogram" && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Base</label><input type="number" placeholder="8" value={base} onChange={(e) => setBase(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><input type="number" placeholder="4" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
-                        {shape === "trapezoid" && (<><div><label className="block text-xs font-semibold text-gray-400 mb-2">Base a (top)</label><input type="number" placeholder="8" value={baseA} onChange={(e) => setBaseA(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Base b (bottom)</label><input type="number" placeholder="12" value={baseB} onChange={(e) => setBaseB(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-gray-400 mb-2">Height</label><input type="number" placeholder="5" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
+                        {shape === "square" && <div><label className="block text-xs font-semibold text-ink-faint mb-2">Side Length</label><input type="number" placeholder="5" value={side} onChange={(e) => setSide(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>}
+                        {shape === "rectangle" && (<><div><label className="block text-xs font-semibold text-ink-faint mb-2">Length</label><input type="number" placeholder="10" value={length} onChange={(e) => setLength(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Width</label><input type="number" placeholder="5" value={width} onChange={(e) => setWidth(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
+                        {shape === "circle" && <div><label className="block text-xs font-semibold text-ink-faint mb-2">Radius</label><input type="number" placeholder="5" value={radius} onChange={(e) => setRadius(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>}
+                        {shape === "triangle" && (<><div><label className="block text-xs font-semibold text-ink-faint mb-2">Base</label><input type="number" placeholder="10" value={base} onChange={(e) => setBase(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Height</label><input type="number" placeholder="6" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
+                        {shape === "parallelogram" && (<><div><label className="block text-xs font-semibold text-ink-faint mb-2">Base</label><input type="number" placeholder="8" value={base} onChange={(e) => setBase(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Height</label><input type="number" placeholder="4" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
+                        {shape === "trapezoid" && (<><div><label className="block text-xs font-semibold text-ink-faint mb-2">Base a (top)</label><input type="number" placeholder="8" value={baseA} onChange={(e) => setBaseA(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Base b (bottom)</label><input type="number" placeholder="12" value={baseB} onChange={(e) => setBaseB(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div><div><label className="block text-xs font-semibold text-ink-faint mb-2">Height</label><input type="number" placeholder="5" value={height} onChange={(e) => setHeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></>)}
 
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Area →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -251,7 +251,7 @@ export default function AreaCalculator() {
                     isEmpty={!result}
                     emptyIcon="📏"
                     emptyText="Enter measurements and press Calculate"
-                    mainResult={result ? { label: "Area", value: `${result.area} sq units`, color: "text-teal-400" } : undefined}
+                    mainResult={result ? { label: "Area", value: `${result.area} sq units`, color: "text-teal-600" } : undefined}
                     extraRows={result ? [
                         { label: "Formula", value: result.formula },
                         { label: "Calculation", value: result.calculation },
@@ -260,8 +260,8 @@ export default function AreaCalculator() {
             </div>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About This Area Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-3">About This Area Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Works out the area of a square, rectangle, circle, triangle, parallelogram or trapezoid from the
                     measurements you have. Most people arrive here with a practical job behind the question — paint,
                     flooring, turf, a plot of land — so the sections below cover the two things that actually cause
@@ -270,14 +270,14 @@ export default function AreaCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Getting the Units Right</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                <h2 className="text-xl font-semibold text-ink mb-4">Getting the Units Right</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5 space-y-3">
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         When you convert a length you use the factor once. When you convert an area you use it twice,
                         because both dimensions convert.
                     </p>
-                    <p className="text-white font-mono text-sm">1 m = 3.28084 ft &nbsp;→&nbsp; 1 m² = 3.28084² = 10.7639 ft²</p>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-ink font-mono text-sm">1 m = 3.28084 ft &nbsp;→&nbsp; 1 m² = 3.28084² = 10.7639 ft²</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">
                         So a 40 m² apartment is 431 ft², not 131 ft². The same trap catches inches to feet — there are
                         144 square inches in a square foot, not 12 — and it is why a quote that looks an order of
                         magnitude out usually is.
@@ -286,17 +286,17 @@ export default function AreaCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Common Area Units, Side by Side</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">Common Area Units, Side by Side</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                            <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Unit</th><th className="text-right py-3 px-4 text-gray-400">In square metres</th><th className="text-right py-3 px-4 text-gray-400">In square feet</th></tr></thead>
+                            <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Unit</th><th className="text-right py-3 px-4 text-ink-faint">In square metres</th><th className="text-right py-3 px-4 text-ink-faint">In square feet</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square foot</td><td className="py-2 px-4 text-right">0.0929</td><td className="py-2 px-4 text-right">1</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square yard</td><td className="py-2 px-4 text-right">0.8361</td><td className="py-2 px-4 text-right">9</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 square metre</td><td className="py-2 px-4 text-right">1</td><td className="py-2 px-4 text-right">10.764</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 acre</td><td className="py-2 px-4 text-right">4,046.86</td><td className="py-2 px-4 text-right">43,560</td></tr>
-                                <tr className="border-b border-gray-800/50"><td className="py-2 px-4">1 hectare</td><td className="py-2 px-4 text-right">10,000</td><td className="py-2 px-4 text-right">107,639</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 square foot</td><td className="py-2 px-4 text-right">0.0929</td><td className="py-2 px-4 text-right">1</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 square yard</td><td className="py-2 px-4 text-right">0.8361</td><td className="py-2 px-4 text-right">9</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 square metre</td><td className="py-2 px-4 text-right">1</td><td className="py-2 px-4 text-right">10.764</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 acre</td><td className="py-2 px-4 text-right">4,046.86</td><td className="py-2 px-4 text-right">43,560</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">1 hectare</td><td className="py-2 px-4 text-right">10,000</td><td className="py-2 px-4 text-right">107,639</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -304,38 +304,38 @@ export default function AreaCalculator() {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Working Out an Irregular Room</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                <h2 className="text-xl font-semibold text-ink mb-4">Working Out an Irregular Room</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink-faint text-sm leading-relaxed mb-3">
                         Almost no real room is a clean rectangle. The reliable method is to break it into shapes you
                         can measure and add them up.
                     </p>
-                    <ul className="text-gray-400 text-sm space-y-1.5 list-disc list-inside">
+                    <ul className="text-ink-faint text-sm space-y-1.5 list-disc list-inside">
                         <li>An L-shaped room: two rectangles. Measure both, add.</li>
                         <li>A room with an alcove: the main rectangle plus the alcove rectangle.</li>
                         <li>A bay window: a rectangle plus a trapezoid, using the depth of the bay as the height.</li>
                         <li>A rounded corner: subtract the corner square, add a quarter circle.</li>
                     </ul>
-                    <p className="text-gray-500 text-xs mt-3">
+                    <p className="text-ink-faint text-xs mt-3">
                         Measure at floor level rather than at waist height — skirting boards, radiators and out-of-square
                         walls all mean the two are not the same number.
                     </p>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Area Formulas</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Area Formulas</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Shape</th><th className="text-left py-3 px-4 text-gray-400">Formula</th><th className="text-left py-3 px-4 text-gray-400">Example</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Shape</th><th className="text-left py-3 px-4 text-ink-faint">Formula</th><th className="text-left py-3 px-4 text-ink-faint">Example</th></tr></thead>
                         <tbody>
-                            {SHAPE_FORMULAS.map((row, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-3 px-4 text-yellow-400">{row.shape}</td><td className="py-3 px-4 text-gray-300">{row.formula}</td><td className="py-3 px-4 text-gray-400">{row.example}</td></tr>))}
+                            {SHAPE_FORMULAS.map((row, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-3 px-4 text-yellow-700">{row.shape}</td><td className="py-3 px-4 text-ink-soft">{row.formula}</td><td className="py-3 px-4 text-ink-faint">{row.example}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span><span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
+                <div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span><span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div>
             </section>
         </>
     );

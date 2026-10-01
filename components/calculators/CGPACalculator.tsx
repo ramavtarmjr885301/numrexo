@@ -179,19 +179,19 @@ export default function CGPACalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a>
+                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
                         <meta itemProp="position" content="1" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-gray-300">Education Calculators</a>
+                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
                         <meta itemProp="position" content="2" />
                     </li>
-                    <li className="text-gray-700">/</li>
+                    <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-gray-300">CGPA Calculator</span>
+                        <span itemProp="name" className="text-ink-soft">CGPA Calculator</span>
                         <meta itemProp="position" content="3" />
                     </li>
                 </ol>
@@ -199,15 +199,15 @@ export default function CGPACalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800 flex justify-between items-center">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
                             <h3 className="font-semibold">Semester Details</h3>
-                            <p className="text-xs text-gray-500 mt-1">Enter GPA and credits for each semester</p>
+                            <p className="text-xs text-ink-faint mt-1">Enter GPA and credits for each semester</p>
                         </div>
                         <button
                             onClick={addSemester}
-                            className="px-3 py-1 text-sm bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
+                            className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600 transition-colors"
                         >
                             + Add Semester
                         </button>
@@ -215,7 +215,7 @@ export default function CGPACalculator() {
                     <div className="p-6 space-y-3">
                         {semesters.map((semester, i) => (
                             <div key={i} className="flex gap-2 items-center">
-                                <div className="w-16 text-sm text-gray-400">Sem {i + 1}</div>
+                                <div className="w-16 text-sm text-ink-faint">Sem {i + 1}</div>
                                 <div className="flex-1 relative">
                                     <input
                                         type="number"
@@ -223,7 +223,7 @@ export default function CGPACalculator() {
                                         placeholder="GPA"
                                         value={semester.gpa}
                                         onChange={(e) => updateSemester(i, "gpa", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div className="flex-1 relative">
@@ -232,13 +232,13 @@ export default function CGPACalculator() {
                                         placeholder="Credits"
                                         value={semester.credits}
                                         onChange={(e) => updateSemester(i, "credits", e.target.value)}
-                                        className="w-full px-3 py-2 bg-[#0f1525] border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 {semesters.length > 1 && (
                                     <button
                                         onClick={() => removeSemester(i)}
-                                        className="px-2 py-2 text-red-400 hover:text-red-300 transition-colors"
+                                        className="px-2 py-2 text-red-600 hover:text-red-600 transition-colors"
                                     >
                                         ✕
                                     </button>
@@ -254,7 +254,7 @@ export default function CGPACalculator() {
                             </button>
                             <button
                                 onClick={resetForm}
-                                className="mt-4 px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all"
+                                className="mt-4 px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all"
                             >
                                 Reset
                             </button>
@@ -271,10 +271,10 @@ export default function CGPACalculator() {
                     mainResult={result ? {
                         label: "Cumulative CGPA",
                         value: result.cgpa,
-                        color: "text-indigo-400"
+                        color: "text-indigo-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Percentage (approx)", value: `${result.percentage}%`, valueColor: "text-yellow-400" },
+                        { label: "Percentage (approx)", value: `${result.percentage}%`, valueColor: "text-yellow-700" },
                         { label: "Performance Level", value: result.performance },
                         { label: "Total Credits", value: result.totalCredits },
                         { label: "Semesters Completed", value: result.semesterCount },
@@ -286,81 +286,81 @@ export default function CGPACalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About CGPA Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">CGPA Calculator</strong> helps you calculate your Cumulative Grade Point Average across all semesters. Perfect for university students who need to track their overall academic performance, plan for placements, or apply for higher studies abroad.
+                <h2 className="text-xl font-semibold text-ink mb-3">About CGPA Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">CGPA Calculator</strong> helps you calculate your Cumulative Grade Point Average across all semesters. Perfect for university students who need to track their overall academic performance, plan for placements, or apply for higher studies abroad.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Enter your SGPA (Semester GPA) and credit hours for each semester. The calculator will compute your overall CGPA, approximate percentage, and performance level. Understanding your CGPA helps you set realistic academic goals and identify areas for improvement.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This CGPA Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This CGPA Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Click <strong className="text-white">"+ Add Semester"</strong> for each completed semester in your academic program.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> Enter your <strong className="text-white">Semester GPA (SGPA)</strong> for each semester (typically on a 10-point scale).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> Enter the <strong className="text-white">total credits</strong> for each semester (sum of all course credits).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Click <strong className="text-white">"Calculate CGPA"</strong> to see your overall CGPA, approximate percentage, and performance level.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 5:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Click <strong className="text-ink">"+ Add Semester"</strong> for each completed semester in your academic program.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> Enter your <strong className="text-ink">Semester GPA (SGPA)</strong> for each semester (typically on a 10-point scale).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> Enter the <strong className="text-ink">total credits</strong> for each semester (sum of all course credits).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Click <strong className="text-ink">"Calculate CGPA"</strong> to see your overall CGPA, approximate percentage, and performance level.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 5:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Tracking Your CGPA Matters</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Tracking Your CGPA Matters</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-indigo-400 mb-2">✓ Placement Eligibility</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Most companies have CGPA cutoffs (6.0-8.5). Track your CGPA to ensure you meet eligibility criteria for campus placements and internships.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-indigo-600 mb-2">✓ Placement Eligibility</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Most companies have CGPA cutoffs (6.0-8.5). Track your CGPA to ensure you meet eligibility criteria for campus placements and internships.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Higher Studies Abroad</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Top universities require 8.5+ CGPA for MS/MBA programs. Knowing your CGPA helps you plan which universities to target.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Higher Studies Abroad</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Top universities require 8.5+ CGPA for MS/MBA programs. Knowing your CGPA helps you plan which universities to target.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Scholarship Eligibility</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Many scholarships (merit-based, government, private) require minimum CGPA thresholds. Track to stay eligible.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Scholarship Eligibility</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Many scholarships (merit-based, government, private) require minimum CGPA thresholds. Track to stay eligible.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-purple-400 mb-2">✓ Academic Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Identify which semesters need improvement. Plan course selection and study strategies to boost your overall CGPA.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Academic Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Identify which semesters need improvement. Plan course selection and study strategies to boost your overall CGPA.</p>
                     </div>
                 </div>
             </section>
 
             {/* University-Specific Conversion Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">University-Specific CGPA to Percentage Formulas</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">University-Specific CGPA to Percentage Formulas</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">University</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Conversion Formula</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Example (CGPA 8.0)</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">University</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Conversion Formula</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Example (CGPA 8.0)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">DTU / NSIT / IIIT-Delhi</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 10</td><td className="py-2 px-4 text-green-400">80%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Mumbai University</td><td className="py-2 px-4 text-yellow-400">Percentage = (CGPA - 0.75) × 10</td><td className="py-2 px-4 text-green-400">72.5%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Anna University</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 10 - 7.5</td><td className="py-2 px-4 text-green-400">72.5%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">VTU (Visvesvaraya Tech)</td><td className="py-2 px-4 text-yellow-400">Percentage = (CGPA - 0.5) × 10</td><td className="py-2 px-4 text-green-400">75%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Pune University</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 8.8</td><td className="py-2 px-4 text-green-400">70.4%</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Most Other Universities</td><td className="py-2 px-4 text-yellow-400">Percentage = CGPA × 9.5</td><td className="py-2 px-4 text-green-400">76%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">DTU / NSIT / IIIT-Delhi</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10</td><td className="py-2 px-4 text-green-600">80%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Mumbai University</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.75) × 10</td><td className="py-2 px-4 text-green-600">72.5%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Anna University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10 - 7.5</td><td className="py-2 px-4 text-green-600">72.5%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">VTU (Visvesvaraya Tech)</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.5) × 10</td><td className="py-2 px-4 text-green-600">75%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Pune University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 8.8</td><td className="py-2 px-4 text-green-600">70.4%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Most Other Universities</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 9.5</td><td className="py-2 px-4 text-green-600">76%</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">*Always verify with your university's official conversion policy. Our calculator uses 9.5 as default.</p>
+                <p className="text-xs text-ink-faint mt-2">*Always verify with your university's official conversion policy. Our calculator uses 9.5 as default.</p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-white mb-4">CGPA Formula</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
-                    <p className="text-white font-mono text-sm mb-2 text-center">
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">CGPA Formula</h2>
+                <div className="bg-surface border border-hairline rounded-xl p-5">
+                    <p className="text-ink font-mono text-sm mb-2 text-center">
                         CGPA = (Σ GPA × Credits) ÷ Σ Credits
                     </p>
-                    <p className="text-gray-500 text-xs text-center">
+                    <p className="text-ink-faint text-xs text-center">
                         Example: Sem1 (GPA 7.5, Credits 20), Sem2 (GPA 8.0, Credits 22) → CGPA = (7.5×20 + 8.0×22) ÷ 42 = 7.76
                     </p>
                 </div>
@@ -368,35 +368,35 @@ export default function CGPACalculator() {
 
             {/* Semester Planning Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Semester Planning Tips to Improve CGPA</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Semester Planning Tips to Improve CGPA</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Focus on high-credit courses:</strong> A 4-credit course affects CGPA more than a 2-credit course. Perform better in high-credit subjects.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Aim for A/A+ in electives:</strong> Choose elective courses that interest you and where scoring high is achievable.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Retake failed subjects:</strong> Repeating a failed subject can significantly improve your CGPA.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">✓</span><span><strong className="text-gray-300">Maintain consistency:</strong> Consistent 7.5+ across all semesters is better than one 9.0 and one 6.0.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Focus on high-credit courses:</strong> A 4-credit course affects CGPA more than a 2-credit course. Perform better in high-credit subjects.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Aim for A/A+ in electives:</strong> Choose elective courses that interest you and where scoring high is achievable.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Retake failed subjects:</strong> Repeating a failed subject can significantly improve your CGPA.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain consistency:</strong> Consistent 7.5+ across all semesters is better than one 9.0 and one 6.0.</span></li>
                 </ul>
             </section>
 
             {/* Grade Scale Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">10-Point CGPA Scale (Most Universities)</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-4">10-Point CGPA Scale (Most Universities)</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-gray-800">
-                                <th className="text-left py-3 px-4 text-gray-400">Letter Grade</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Grade Points</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Percentage Range</th>
-                                <th className="text-left py-3 px-4 text-gray-400">Performance</th>
+                            <tr className="border-b border-hairline">
+                                <th className="text-left py-3 px-4 text-ink-faint">Letter Grade</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Grade Points</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Percentage Range</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">Performance</th>
                             </tr>
                         </thead>
                         <tbody>
                             {GRADE_SCALE.map((row, i) => (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-white/5">
-                                    <td className="py-3 px-4 text-gray-300">{row.grade}</td>
-                                    <td className="py-3 px-4 text-yellow-400">{row.points}</td>
-                                    <td className="py-3 px-4 text-gray-400">{row.percentage}</td>
-                                    <td className="py-3 px-4 text-gray-500">{row.performance}</td>
+                                <tr key={i} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-3 px-4 text-ink-soft">{row.grade}</td>
+                                    <td className="py-3 px-4 text-yellow-700">{row.points}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.percentage}</td>
+                                    <td className="py-3 px-4 text-ink-faint">{row.performance}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -406,42 +406,42 @@ export default function CGPACalculator() {
 
             {/* Important Things Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Important Things to Know About CGPA</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Important Things to Know About CGPA</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-indigo-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Different universities, different scales</strong> — Some use 10-point, others use 4-point. Our calculator uses the 10-point scale common in India.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-indigo-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Different universities, different scales</strong> — Some use 10-point, others use 4-point. Our calculator uses the 10-point scale common in India.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-indigo-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Include all semesters</strong> — For accurate CGPA, include every completed semester, even if you had low grades.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-indigo-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Include all semesters</strong> — For accurate CGPA, include every completed semester, even if you had low grades.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-indigo-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Check your university's formula</strong> — Percentage conversion varies. Use our result as an estimate, not official calculation.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-indigo-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Check your university's formula</strong> — Percentage conversion varies. Use our result as an estimate, not official calculation.</span>
                     </li>
-                    <li className="flex gap-3 text-sm text-gray-400">
-                        <span className="text-indigo-400 mt-0.5">•</span>
-                        <span><strong className="text-gray-300">Keep improving</strong> — CGPA can increase in later semesters. Focus on consistent performance.</span>
+                    <li className="flex gap-3 text-sm text-ink-faint">
+                        <span className="text-indigo-600 mt-0.5">•</span>
+                        <span><strong className="text-ink-soft">Keep improving</strong> — CGPA can increase in later semesters. Focus on consistent performance.</span>
                     </li>
                 </ul>
             </section>
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                             <button
-                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"
                                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                             >
-                                <span className="text-sm font-medium text-gray-200" itemProp="name">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                                <span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}>
-                                <p className="px-5 text-sm text-gray-400 leading-relaxed" itemProp="text">{item.a}</p>
+                                <p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p>
                             </div>
                             {openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}
                         </div>

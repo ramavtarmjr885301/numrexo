@@ -184,48 +184,48 @@ export default function LuggageAllowanceCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-gray-300">Home</a><meta itemProp="position" content="1" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-gray-300">Travel Calculators</a><meta itemProp="position" content="2" /></li>
-                    <li className="text-gray-700">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-gray-300">Luggage Allowance Calculator</span><meta itemProp="position" content="3" /></li>
+                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li className="text-ink-soft">/</li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Luggage Allowance Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>
             </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-800">
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                    <div className="px-6 py-4 border-b border-hairline">
                         <h3 className="font-semibold">Baggage Calculator</h3>
-                        <p className="text-xs text-gray-500 mt-1">Check allowances or calculate excess fees</p>
+                        <p className="text-xs text-ink-faint mt-1">Check allowances or calculate excess fees</p>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-2">Calculation Type</label>
+                            <label className="block text-xs font-semibold text-ink-faint mb-2">Calculation Type</label>
                             <div className="grid grid-cols-2 gap-2">
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "allowance" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("allowance")}>Baggage Allowance</button>
-                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "excess" ? "bg-blue-500 text-white" : "bg-[#0f1525] border border-gray-700"}`} onClick={() => setCalcType("excess")}>Excess Baggage Fee</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "allowance" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("allowance")}>Baggage Allowance</button>
+                                <button className={`py-2 rounded-lg text-sm font-medium transition-all ${calcType === "excess" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("excess")}>Excess Baggage Fee</button>
                             </div>
                         </div>
 
                         {calcType === "allowance" ? (
-                            <div><label className="block text-xs font-semibold text-gray-400 mb-2">Select Airline</label><select value={airline} onChange={(e) => setAirline(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white cursor-pointer">{AIRLINE_BAGGAGE.map(a => <option key={a.airline} value={a.airline}>{a.airline}</option>)}</select></div>
+                            <div><label className="block text-xs font-semibold text-ink-faint mb-2">Select Airline</label><select value={airline} onChange={(e) => setAirline(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink cursor-pointer">{AIRLINE_BAGGAGE.map(a => <option key={a.airline} value={a.airline}>{a.airline}</option>)}</select></div>
                         ) : (
                             <>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Excess Weight (kg)</label><input type="number" placeholder="5" value={excessWeight} onChange={(e) => setExcessWeight(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Extra Bags</label><input type="number" placeholder="1" value={excessBags} onChange={(e) => setExcessBags(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                    <div><label className="block text-xs font-semibold text-ink-faint mb-2">Excess Weight (kg)</label><input type="number" placeholder="5" value={excessWeight} onChange={(e) => setExcessWeight(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+                                    <div><label className="block text-xs font-semibold text-ink-faint mb-2">Extra Bags</label><input type="number" placeholder="1" value={excessBags} onChange={(e) => setExcessBags(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Fee per kg ($)</label><div className="relative"><input type="number" step="1" placeholder="15" value={feePerKg} onChange={(e) => setFeePerKg(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span></div></div>
-                                    <div><label className="block text-xs font-semibold text-gray-400 mb-2">Fee per extra bag ($)</label><div className="relative"><input type="number" step="10" placeholder="75" value={feePerBag} onChange={(e) => setFeePerBag(e.target.value)} className="w-full px-4 py-3 bg-[#0f1525] border border-gray-700 rounded-lg text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">$</span></div></div>
+                                    <div><label className="block text-xs font-semibold text-ink-faint mb-2">Fee per kg ($)</label><div className="relative"><input type="number" step="1" placeholder="15" value={feePerKg} onChange={(e) => setFeePerKg(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span></div></div>
+                                    <div><label className="block text-xs font-semibold text-ink-faint mb-2">Fee per extra bag ($)</label><div className="relative"><input type="number" step="10" placeholder="75" value={feePerBag} onChange={(e) => setFeePerBag(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$</span></div></div>
                                 </div>
                             </>
                         )}
 
                         <div className="flex gap-3">
                             <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
-                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-[#0f1525] border border-gray-700 text-gray-400 font-semibold hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-all">Reset</button>
+                            <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -235,10 +235,10 @@ export default function LuggageAllowanceCalculator() {
                     isEmpty={!result}
                     emptyIcon="🧳"
                     emptyText="Enter baggage details"
-                    mainResult={result ? (calcType === "allowance" ? { label: result.airline, value: "Allowance", color: "text-orange-400" } : { label: "Total Excess Fee", value: `$${result.totalFee}`, color: "text-orange-400" }) : undefined}
+                    mainResult={result ? (calcType === "allowance" ? { label: result.airline, value: "Allowance", color: "text-orange-600" } : { label: "Total Excess Fee", value: `$${result.totalFee}`, color: "text-orange-600" }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "allowance" ? [
-                            { label: "Checked Baggage", value: result.checked, valueColor: "text-yellow-400" },
+                            { label: "Checked Baggage", value: result.checked, valueColor: "text-yellow-700" },
                             { label: "Carry-on Allowance", value: result.carryon },
                             { label: "Cabin Size", value: result.cabin },
                         ] : [
@@ -253,84 +253,84 @@ export default function LuggageAllowanceCalculator() {
 
             {/* About Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">About Luggage Allowance Calculator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    The <strong className="text-gray-300">Luggage Allowance Calculator</strong> helps travelers check baggage allowances for major airlines and calculate excess baggage fees. Avoid surprise charges at the airport by knowing your limits before you fly.
+                <h2 className="text-xl font-semibold text-ink mb-3">About Luggage Allowance Calculator</h2>
+                <p className="text-ink-faint text-sm leading-relaxed mb-3">
+                    The <strong className="text-ink-soft">Luggage Allowance Calculator</strong> helps travelers check baggage allowances for major airlines and calculate excess baggage fees. Avoid surprise charges at the airport by knowing your limits before you fly.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-ink-faint text-sm leading-relaxed">
                     Compare 8 major airlines including Emirates, Singapore Airlines, Qatar Airways, American Airlines, Delta, United, Ryanair, and EasyJet. Check checked baggage limits, carry-on allowances, and cabin size restrictions.
                 </p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">How to Use This Luggage Allowance Calculator</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Luggage Allowance Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 1:</strong> Select <strong className="text-white">calculation type</strong> — Baggage Allowance or Excess Baggage Fee.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 2:</strong> For Allowance: Choose your <strong className="text-white">airline</strong> from the dropdown.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 3:</strong> For Excess Fee: Enter <strong className="text-white">excess weight</strong> and/or <strong className="text-white">extra bags</strong>.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 4:</strong> Adjust fee per kg and fee per bag (airline specific).</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-gray-300">Step 5:</strong> Click <strong className="text-white">"Calculate"</strong> to see your baggage allowance or excess fees.</p>
-                    <p className="text-gray-400 text-sm leading-relaxed"><strong className="text-white">Step 6:</strong> Use the <strong className="text-white">Reset</strong> button to clear all inputs and start a new calculation.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 1:</strong> Select <strong className="text-ink">calculation type</strong> — Baggage Allowance or Excess Baggage Fee.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 2:</strong> For Allowance: Choose your <strong className="text-ink">airline</strong> from the dropdown.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 3:</strong> For Excess Fee: Enter <strong className="text-ink">excess weight</strong> and/or <strong className="text-ink">extra bags</strong>.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 4:</strong> Adjust fee per kg and fee per bag (airline specific).</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink-soft">Step 5:</strong> Click <strong className="text-ink">"Calculate"</strong> to see your baggage allowance or excess fees.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed"><strong className="text-ink">Step 6:</strong> Use the <strong className="text-ink">Reset</strong> button to clear all inputs and start a new calculation.</p>
                 </div>
             </section>
 
             {/* Benefits Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Why Use a Luggage Allowance Calculator?</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Luggage Allowance Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-400 mb-2">✓ Avoid Excess Fees</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Airports charge $50-200 for overweight/extra bags. Know your limits before packing to avoid surprise charges at check-in.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Avoid Excess Fees</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Airports charge $50-200 for overweight/extra bags. Know your limits before packing to avoid surprise charges at check-in.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-blue-400 mb-2">✓ Compare Airlines</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Different airlines have different baggage policies. Compare before booking to choose the most luggage-friendly airline.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Compare Airlines</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Different airlines have different baggage policies. Compare before booking to choose the most luggage-friendly airline.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-400 mb-2">✓ Budget Planning</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Calculate total travel cost including baggage fees. Budget airlines may have cheap tickets but expensive baggage.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Calculate total travel cost including baggage fees. Budget airlines may have cheap tickets but expensive baggage.</p>
                     </div>
-                    <div className="bg-[#111827] border border-gray-800 rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-400 mb-2">✓ Packing Strategy</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed">Know weight limits before packing. Distribute weight across multiple bags. Avoid last-minute repacking at airport.</p>
+                    <div className="bg-surface border border-hairline rounded-xl p-4">
+                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Packing Strategy</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">Know weight limits before packing. Distribute weight across multiple bags. Avoid last-minute repacking at airport.</p>
                     </div>
                 </div>
             </section>
 
             {/* Airline Baggage Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Airline Baggage Allowance Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Airline Baggage Allowance Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-orange-400 mt-0.5">✓</span><span><strong className="text-gray-300">Full-service airlines (Emirates, Singapore, Qatar):</strong> Include 1-2 checked bags (23kg each) + carry-on. Best for long-haul international travel.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-orange-400 mt-0.5">✓</span><span><strong className="text-gray-300">US airlines (American, Delta, United):</strong> Economy includes 1 checked bag (23kg) + carry-on + personal item. Additional bags cost $50-100 each.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-orange-400 mt-0.5">✓</span><span><strong className="text-gray-300">Budget airlines (Ryanair, EasyJet, Spirit):</strong> No free checked bags. Pay extra for every bag ($25-50). Carry-on limited to small personal item.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-orange-400 mt-0.5">✓</span><span><strong className="text-gray-300">Elite status and credit cards:</strong> Frequent flyer status or airline credit cards often include free checked bags (1-2 bags). Sign up for status match programs.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Full-service airlines (Emirates, Singapore, Qatar):</strong> Include 1-2 checked bags (23kg each) + carry-on. Best for long-haul international travel.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">US airlines (American, Delta, United):</strong> Economy includes 1 checked bag (23kg) + carry-on + personal item. Additional bags cost $50-100 each.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Budget airlines (Ryanair, EasyJet, Spirit):</strong> No free checked bags. Pay extra for every bag ($25-50). Carry-on limited to small personal item.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Elite status and credit cards:</strong> Frequent flyer status or airline credit cards often include free checked bags (1-2 bags). Sign up for status match programs.</span></li>
                 </ul>
             </section>
 
             {/* Excess Baggage Fee Tips */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Excess Baggage Fee Saving Tips</h2>
+                <h2 className="text-xl font-semibold text-ink mb-3">Excess Baggage Fee Saving Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">💡</span><span><strong className="text-gray-300">Prepay online:</strong> Baggage fees 20-50% cheaper when prepaid online vs airport counter. Book at least 24 hours before flight.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">💡</span><span><strong className="text-gray-300">Ship instead:</strong> For very heavy bags, shipping via FedEx/UPS often cheaper than airline excess fees ($100-200 for 50lb).</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">💡</span><span><strong className="text-gray-300">Wear heavy items:</strong> Wear jackets, boots, heavy sweaters on plane. Put camera gear in jacket pockets.</span></li>
-                    <li className="flex gap-3 text-sm text-gray-400"><span className="text-green-400 mt-0.5">💡</span><span><strong className="text-gray-300">Use luggage scale:</strong> $10 luggage scale saves $100+ in overweight fees. Check weight before leaving home.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Prepay online:</strong> Baggage fees 20-50% cheaper when prepaid online vs airport counter. Book at least 24 hours before flight.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Ship instead:</strong> For very heavy bags, shipping via FedEx/UPS often cheaper than airline excess fees ($100-200 for 50lb).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Wear heavy items:</strong> Wear jackets, boots, heavy sweaters on plane. Put camera gear in jacket pockets.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Use luggage scale:</strong> $10 luggage scale saves $100+ in overweight fees. Check weight before leaving home.</span></li>
                 </ul>
             </section>
 
             {/* International vs Domestic */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">International vs Domestic Baggage Rules</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
+                <h2 className="text-xl font-semibold text-ink mb-3">International vs Domestic Baggage Rules</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800"><th className="text-left py-3 px-4 text-gray-400">Route</th><th className="text-left py-3 px-4 text-gray-400">Checked Baggage</th><th className="text-left py-3 px-4 text-gray-400">Weight Limit</th><th className="text-left py-3 px-4 text-gray-400">Carry-on</th></tr></thead>
+                        <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Route</th><th className="text-left py-3 px-4 text-ink-faint">Checked Baggage</th><th className="text-left py-3 px-4 text-ink-faint">Weight Limit</th><th className="text-left py-3 px-4 text-ink-faint">Carry-on</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">International (Economy)</td><td className="py-2 px-4 text-yellow-400">1-2 bags</td><td className="py-2 px-4">23kg (50lbs) each</td><td className="py-2 px-4">7kg + personal item</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Domestic US (Economy)</td><td className="py-2 px-4 text-yellow-400">1 bag</td><td className="py-2 px-4">23kg (50lbs)</td><td className="py-2 px-4">1 bag + 1 personal</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Domestic India (Economy)</td><td className="py-2 px-4 text-yellow-400">1 bag</td><td className="py-2 px-4">15-20kg</td><td className="py-2 px-4">7kg</td></tr>
-                            <tr className="border-b border-gray-800/50"><td className="py-2 px-4">Domestic Europe (Budget)</td><td className="py-2 px-4 text-yellow-400">Paid only</td><td className="py-2 px-4">15-20kg (paid)</td><td className="py-2 px-4">1 small bag</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">International (Economy)</td><td className="py-2 px-4 text-yellow-700">1-2 bags</td><td className="py-2 px-4">23kg (50lbs) each</td><td className="py-2 px-4">7kg + personal item</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Domestic US (Economy)</td><td className="py-2 px-4 text-yellow-700">1 bag</td><td className="py-2 px-4">23kg (50lbs)</td><td className="py-2 px-4">1 bag + 1 personal</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Domestic India (Economy)</td><td className="py-2 px-4 text-yellow-700">1 bag</td><td className="py-2 px-4">15-20kg</td><td className="py-2 px-4">7kg</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Domestic Europe (Budget)</td><td className="py-2 px-4 text-yellow-700">Paid only</td><td className="py-2 px-4">15-20kg (paid)</td><td className="py-2 px-4">1 small bag</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -338,12 +338,12 @@ export default function LuggageAllowanceCalculator() {
 
             {/* Airline Baggage Comparison Table */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Airline Baggage Comparison</h2>
-                <div className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden max-h-96 overflow-y-auto">
+                <h2 className="text-xl font-semibold text-ink mb-4">Airline Baggage Comparison</h2>
+                <div className="bg-surface border border-hairline rounded-xl overflow-hidden max-h-96 overflow-y-auto">
                     <table className="w-full text-sm">
-                        <thead><tr className="border-b border-gray-800 sticky top-0 bg-[#111827]"><th className="text-left py-3 px-4 text-gray-400">Airline</th><th className="text-left py-3 px-4 text-gray-400">Checked</th><th className="text-left py-3 px-4 text-gray-400">Carry-on</th><th className="text-left py-3 px-4 text-gray-400">Cabin Size</th></tr></thead>
+                        <thead><tr className="border-b border-hairline sticky top-0 bg-surface"><th className="text-left py-3 px-4 text-ink-faint">Airline</th><th className="text-left py-3 px-4 text-ink-faint">Checked</th><th className="text-left py-3 px-4 text-ink-faint">Carry-on</th><th className="text-left py-3 px-4 text-ink-faint">Cabin Size</th></tr></thead>
                         <tbody>
-                            {AIRLINE_BAGGAGE.map((bag, i) => (<tr key={i} className="border-b border-gray-800/50 hover:bg-white/5"><td className="py-2 px-4 text-gray-300">{bag.airline}</td><td className="py-2 px-4 text-yellow-400">{bag.checked}</td><td className="py-2 px-4 text-gray-400">{bag.carryon}</td><td className="py-2 px-4 text-gray-500 text-xs">{bag.cabin}</td></tr>))}
+                            {AIRLINE_BAGGAGE.map((bag, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-2 px-4 text-ink-soft">{bag.airline}</td><td className="py-2 px-4 text-yellow-700">{bag.checked}</td><td className="py-2 px-4 text-ink-faint">{bag.carryon}</td><td className="py-2 px-4 text-ink-faint text-xs">{bag.cabin}</td></tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -351,16 +351,16 @@ export default function LuggageAllowanceCalculator() {
 
             {/* FAQ Section */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
                     {FAQ_DATA.map((item, i) => (
-                        <div key={i} className="bg-[#111827] border border-gray-800 rounded-xl overflow-hidden">
-                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                                <span className="text-sm font-medium text-gray-200">{item.q}</span>
-                                <span className={`text-gray-500 text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                        <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
+                            <button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                                <span className="text-sm font-medium text-ink">{item.q}</span>
+                                <span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                             </button>
                             {openFaq === i && (
-                                <div className="px-5 pb-4 text-sm text-gray-400 leading-relaxed">
+                                <div className="px-5 pb-4 text-sm text-ink-faint leading-relaxed">
                                     {item.a}
                                 </div>
                             )}

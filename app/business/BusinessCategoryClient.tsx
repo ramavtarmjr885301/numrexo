@@ -50,7 +50,7 @@ export default function BusinessCategoryClient() {
                 {/* Header Section - SEO Optimized with Trust Signals */}
                 <div className="text-center mb-10 md:mb-12">
                     {/* Category Badge - Shows site structure */}
-                    <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-2 inline-flex items-center gap-2">
+                    <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2 inline-flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
                         Finance & Business
                         <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
@@ -62,13 +62,13 @@ export default function BusinessCategoryClient() {
                     </h1>
                     
                     {/* Subheading - Benefits + Trust + Global Appeal */}
-                    <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                        Calculate <strong className="text-white">profit margin, ROI, discount, break-even point, markup, and commission</strong> instantly. 
-                        Make smarter, data-driven business decisions. <strong className="text-blue-400">100% free — no sign-up required.</strong>
+                    <p className="text-ink-soft max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                        Calculate <strong className="text-ink">profit margin, ROI, discount, break-even point, markup, and commission</strong> instantly. 
+                        Make smarter, data-driven business decisions. <strong className="text-blue-600">100% free — no sign-up required.</strong>
                     </p>
                     
                     {/* Trust Badge - Social Proof */}
-                    <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-gray-500">
+                    <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-ink-faint">
                         <span className="flex items-center gap-1">✓ Free — no sign-up</span>
                         <span className="flex items-center gap-1">✓ Works on any device</span>
                         <span className="flex items-center gap-1">✓ No data storage</span>
@@ -77,8 +77,8 @@ export default function BusinessCategoryClient() {
                 </div>
                 
                 {/* Calculators Count - Shows comprehensiveness */}
-                <div className="mb-5 text-sm text-gray-500 text-center border-b border-gray-800 pb-3">
-                    📊 <span className="font-semibold text-blue-400">{calculators.length}+ business calculators</span> available — all free to use
+                <div className="mb-5 text-sm text-ink-faint text-center border-b border-hairline pb-3">
+                    📊 <span className="font-semibold text-blue-600">{calculators.length}+ business calculators</span> available — all free to use
                 </div>
                 
                 {/* Calculator Grid - Optimized Layout */}
@@ -95,47 +95,47 @@ export default function BusinessCategoryClient() {
                 </div>
                 
                 {/* SEO Content Section - Builds Authority & Targets Long-Tail Keywords */}
-                <div className="mt-16 pt-8 border-t border-gray-800">
+                <div className="mt-16 pt-8 border-t border-hairline">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         
                         {/* Left Column - Educational Content */}
-                        <div className="text-sm text-gray-400 space-y-3">
-                            <h2 className="text-lg font-semibold text-white mb-3">Why Use Numrexo Business Calculators?</h2>
+                        <div className="text-sm text-ink-faint space-y-3">
+                            <h2 className="text-lg font-semibold text-ink mb-3">Why Use Numrexo Business Calculators?</h2>
                             <p>
-                                Our <strong className="text-white">business calculators</strong> are built for entrepreneurs, small business owners, 
+                                Our <strong className="text-ink">business calculators</strong> are built for entrepreneurs, small business owners, 
                                 financial analysts, and students. Each tool uses industry-standard formulas to ensure accuracy you can trust.
                             </p>
                             <p>
-                                The <strong className="text-white">Profit Margin Calculator</strong> helps you determine your gross margin, net margin, 
-                                and markup percentage. The <strong className="text-white">ROI Calculator</strong> evaluates investment returns over any period. 
-                                Our <strong className="text-white">Break-Even Calculator</strong> shows exactly how many units you need to sell to cover costs.
+                                The <strong className="text-ink">Profit Margin Calculator</strong> helps you determine your gross margin, net margin, 
+                                and markup percentage. The <strong className="text-ink">ROI Calculator</strong> evaluates investment returns over any period. 
+                                Our <strong className="text-ink">Break-Even Calculator</strong> shows exactly how many units you need to sell to cover costs.
                             </p>
                             <p>
-                                <strong className="text-white">No hidden fees, no subscriptions, no data collection.</strong> All calculations happen locally 
+                                <strong className="text-ink">No hidden fees, no subscriptions, no data collection.</strong> All calculations happen locally 
                                 in your browser — your business data stays private and secure.
                             </p>
                         </div>
                         
                         {/* Right Column - Use Cases & Keywords */}
-                        <div className="text-sm text-gray-400 space-y-3">
-                            <h2 className="text-lg font-semibold text-white mb-3">Popular Business Calculations</h2>
+                        <div className="text-sm text-ink-faint space-y-3">
+                            <h2 className="text-lg font-semibold text-ink mb-3">Popular Business Calculations</h2>
                             <ul className="space-y-2 list-disc list-inside">
-                                <li><strong className="text-white">Profit Margin:</strong> Calculate gross profit, operating margin, and net profit percentage</li>
-                                <li><strong className="text-white">Return on Investment (ROI):</strong> Measure investment efficiency and compare opportunities</li>
-                                <li><strong className="text-white">Discount & Sale Price:</strong> Determine final price after percentage or fixed discounts</li>
-                                <li><strong className="text-white">Break-Even Analysis:</strong> Find minimum sales volume to avoid losses</li>
-                                <li><strong className="text-white">Markup Calculator:</strong> Set optimal selling prices based on cost and desired margin</li>
-                                <li><strong className="text-white">Sales Commission:</strong> Calculate earnings for sales teams with tiered rates</li>
+                                <li><strong className="text-ink">Profit Margin:</strong> Calculate gross profit, operating margin, and net profit percentage</li>
+                                <li><strong className="text-ink">Return on Investment (ROI):</strong> Measure investment efficiency and compare opportunities</li>
+                                <li><strong className="text-ink">Discount & Sale Price:</strong> Determine final price after percentage or fixed discounts</li>
+                                <li><strong className="text-ink">Break-Even Analysis:</strong> Find minimum sales volume to avoid losses</li>
+                                <li><strong className="text-ink">Markup Calculator:</strong> Set optimal selling prices based on cost and desired margin</li>
+                                <li><strong className="text-ink">Sales Commission:</strong> Calculate earnings for sales teams with tiered rates</li>
                             </ul>
                         </div>
                     </div>
                     
                     {/* Internal Linking - Helps Search Engines Crawl */}
-                    <div className="mt-8 pt-6 border-t border-gray-800/50 text-xs text-gray-500 text-center">
+                    <div className="mt-8 pt-6 border-t border-hairline text-xs text-ink-faint text-center">
                         <p>Related: 
-                            <a href="/calculators" className="text-blue-400 hover:underline mx-1">All Calculators</a> • 
-                            <a href="/finance" className="text-blue-400 hover:underline mx-1">Finance Calculators</a> • 
-                            <a href="/tax" className="text-blue-400 hover:underline mx-1">Tax Calculators</a>
+                            <a href="/calculators" className="text-blue-600 hover:underline mx-1">All Calculators</a> • 
+                            <a href="/finance" className="text-blue-600 hover:underline mx-1">Finance Calculators</a> • 
+                            <a href="/tax" className="text-blue-600 hover:underline mx-1">Tax Calculators</a>
                         </p>
                         
                     </div>
