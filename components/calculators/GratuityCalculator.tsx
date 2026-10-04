@@ -1,7 +1,7 @@
 // components/calculators/GratuityCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 const FAQ_DATA = [
@@ -58,24 +58,27 @@ const GRATUITY_SCHEMA = JSON.stringify({
 });
 
 export default function GratuityCalculator() {
-    const [lastSalary, setLastSalary] = useState("");
-    const [years, setYears] = useState("");
+    const [lastSalary, setLastSalary] = useState("60000");
+    const [years, setYears] = useState("8");
     const [months, setMonths] = useState("0");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-    const calculate = () => {
+    // `fromButton` is true only for an explicit button press: the alert() prompts are kept for that
+    // case, while the live (effect-driven) recalculation stays silent as the user types.
+    const calculate = (fromButton = false) => {
         const salary = parseFloat(lastSalary);
         let y = parseFloat(years);
         const m = parseFloat(months);
 
         if (!salary || salary <= 0) {
-            alert("Please enter your last drawn salary");
+            if (fromButton) alert("Please enter your last drawn salary");
+            setResult(null);
             return;
         }
 
         if (!y || y < 5) {
-            alert("Gratuity requires minimum 5 years of continuous service");
+            if (fromButton) alert("Gratuity requires minimum 5 years of continuous service");
             setResult({ eligible: false, message: "You need at least 5 years of service to be eligible for gratuity." });
             return;
         }
@@ -101,11 +104,14 @@ export default function GratuityCalculator() {
     };
 
     const resetForm = () => {
-        setLastSalary("");
-        setYears("");
+        setLastSalary("60000");
+        setYears("8");
         setMonths("0");
-        setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [lastSalary, years, months]);
 
     return (
         <>
@@ -120,7 +126,7 @@ export default function GratuityCalculator() {
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Last Drawn Basic Salary + DA</label><div className="relative"><input type="number" placeholder="50000" value={lastSalary} onChange={(e) => setLastSalary(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span></div><p className="text-xs text-ink-faint mt-1">Basic salary + Dearness Allowance (if applicable)</p></div>
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Total Years of Service</label><div className="grid grid-cols-2 gap-3"><div className="relative"><input type="number" placeholder="10" value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span></div><div className="relative"><input type="number" placeholder="0" value={months} onChange={(e) => setMonths(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span></div></div><p className="text-xs text-ink-faint mt-1">Need at least 5 years of continuous service to qualify</p></div>
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Gratuity →</button>
+                            <button onClick={() => calculate(true)} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold hover:shadow-lg transition-all">Calculate Gratuity →</button>
                             <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>

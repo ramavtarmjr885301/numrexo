@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -112,28 +112,73 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Market profiles ──────────────────────────────────────────────────────────
+// Worked-example defaults and preset buttons for rupees (india) vs USD/GBP/EUR/CAD/AUD (west).
+
+const PROFILES: Record<"india" | "west", {
+    defaults: { loan: string; rate: string; tenure: string; prepay: string; month: string; penalty: string };
+    presets: { amounts: number[]; rates: number[]; tenures: number[]; prepayments: number[]; months: number[] };
+}> = {
+    india: {
+        defaults: { loan: "5000000", rate: "9", tenure: "240", prepay: "500000", month: "24", penalty: "0" },
+        presets: {
+            amounts: [1000000, 2500000, 5000000, 7500000, 10000000],
+            rates: [7, 8, 9, 10, 11],
+            tenures: [60, 120, 180, 240, 300, 360],
+            prepayments: [50000, 100000, 250000, 500000, 1000000],
+            months: [12, 24, 36, 48, 60],
+        },
+    },
+    west: {
+        defaults: { loan: "250000", rate: "6.5", tenure: "360", prepay: "10000", month: "24", penalty: "0" },
+        presets: {
+            amounts: [100000, 250000, 350000, 500000, 750000],
+            rates: [5.5, 6, 6.5, 7, 7.5],
+            tenures: [120, 180, 240, 300, 360],
+            prepayments: [5000, 10000, 25000, 50000, 100000],
+            months: [12, 24, 36, 48, 60],
+        },
+    },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LoanPrepaymentCalculator() {
-    const { symbol } = useCurrency();
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
-    const [prepaymentAmount, setPrepaymentAmount] = useState("");
-    const [prepaymentMonth, setPrepaymentMonth] = useState("");
-    const [prepaymentPenalty, setPrepaymentPenalty] = useState("");
+    const { symbol, compact, market } = useCurrency();
+    const profile = PROFILES[market];
+    // Start from the western defaults: SSR and the first client render use USD, so a worked
+    // example is on screen immediately. INR users are switched to rupee defaults in the effect below.
+    const [loanAmount, setLoanAmount] = useState(PROFILES.west.defaults.loan);
+    const [interestRate, setInterestRate] = useState(PROFILES.west.defaults.rate);
+    const [tenure, setTenure] = useState(PROFILES.west.defaults.tenure);
+    const [prepaymentAmount, setPrepaymentAmount] = useState(PROFILES.west.defaults.prepay);
+    const [prepaymentMonth, setPrepaymentMonth] = useState(PROFILES.west.defaults.month);
+    const [prepaymentPenalty, setPrepaymentPenalty] = useState(PROFILES.west.defaults.penalty);
     const [prepaymentOption, setPrepaymentOption] = useState<"reduce-tenure" | "reduce-emi">("reduce-tenure");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m].defaults;
+        setLoanAmount(d.loan);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+        setPrepaymentAmount(d.prepay);
+        setPrepaymentMonth(d.month);
+        setPrepaymentPenalty(d.penalty);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setTenure("");
-        setPrepaymentAmount("");
-        setPrepaymentMonth("");
-        setPrepaymentPenalty("");
-        setResult(null);
+        touched.current = false;
+        setPrepaymentOption("reduce-tenure");
+        applyDefaults(market);
     };
 
     const calculatePrepayment = () => {
@@ -269,12 +314,12 @@ export default function LoanPrepaymentCalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { calculatePrepayment(); }, [loanAmount, interestRate, tenure, prepaymentAmount, prepaymentMonth, prepaymentPenalty, prepaymentOption]);
 
-    // Preset values
-    const presetAmounts = [1000000, 2500000, 5000000, 7500000, 10000000];
-    const presetRates = [7, 8, 9, 10, 11];
-    const presetTenures = [60, 120, 180, 240, 300, 360];
-    const presetPrepayments = [50000, 100000, 250000, 500000, 1000000];
-    const presetPrepayMonths = [12, 24, 36, 48, 60];
+    // Preset values (market-specific)
+    const presetAmounts = profile.presets.amounts;
+    const presetRates = profile.presets.rates;
+    const presetTenures = profile.presets.tenures;
+    const presetPrepayments = profile.presets.prepayments;
+    const presetPrepayMonths = profile.presets.months;
 
     return (
         <>
@@ -327,7 +372,7 @@ export default function LoanPrepaymentCalculator() {
                                     step="100000"
                                     placeholder="e.g., 5000000"
                                     value={loanAmount}
-                                    onChange={(e) => setLoanAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setLoanAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -336,10 +381,10 @@ export default function LoanPrepaymentCalculator() {
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setLoanAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setLoanAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        {amount >= 10000000 ? `${symbol}${amount / 10000000}Cr` : `${symbol}${amount / 100000}L`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -354,7 +399,7 @@ export default function LoanPrepaymentCalculator() {
                                     step="0.1"
                                     placeholder="e.g., 9"
                                     value={interestRate}
-                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setInterestRate(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -363,7 +408,7 @@ export default function LoanPrepaymentCalculator() {
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
-                                        onClick={() => setInterestRate(rate.toString())}
+                                        onClick={() => { touched.current = true; setInterestRate(rate.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
@@ -381,7 +426,7 @@ export default function LoanPrepaymentCalculator() {
                                     step="1"
                                     placeholder="e.g., 240"
                                     value={tenure}
-                                    onChange={(e) => setTenure(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTenure(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
@@ -390,7 +435,7 @@ export default function LoanPrepaymentCalculator() {
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setTenure(month.toString())}
+                                        onClick={() => { touched.current = true; setTenure(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 240 ? `${month / 12}Y` : `${month}M`}
@@ -408,7 +453,7 @@ export default function LoanPrepaymentCalculator() {
                                     step="10000"
                                     placeholder="e.g., 500000"
                                     value={prepaymentAmount}
-                                    onChange={(e) => setPrepaymentAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setPrepaymentAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -417,10 +462,10 @@ export default function LoanPrepaymentCalculator() {
                                 {presetPrepayments.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setPrepaymentAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setPrepaymentAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
-                                        {amount >= 1000000 ? `${symbol}${amount / 1000000}L` : `${symbol}${amount / 1000}K`}
+                                        {compact(amount)}
                                     </button>
                                 ))}
                             </div>
@@ -436,7 +481,7 @@ export default function LoanPrepaymentCalculator() {
                                     min="1"
                                     placeholder="e.g., 24"
                                     value={prepaymentMonth}
-                                    onChange={(e) => setPrepaymentMonth(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setPrepaymentMonth(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">month</span>
@@ -445,7 +490,7 @@ export default function LoanPrepaymentCalculator() {
                                 {presetPrepayMonths.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setPrepaymentMonth(month.toString())}
+                                        onClick={() => { touched.current = true; setPrepaymentMonth(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month}M
@@ -466,7 +511,7 @@ export default function LoanPrepaymentCalculator() {
                                     max="10"
                                     placeholder="e.g., 2"
                                     value={prepaymentPenalty}
-                                    onChange={(e) => setPrepaymentPenalty(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setPrepaymentPenalty(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -479,7 +524,7 @@ export default function LoanPrepaymentCalculator() {
                             <label className="block text-xs font-semibold text-ink-faint mb-2">After Prepayment, I Want To</label>
                             <div className="grid grid-cols-2 gap-2">
                                 <button
-                                    onClick={() => setPrepaymentOption("reduce-tenure")}
+                                    onClick={() => { touched.current = true; setPrepaymentOption("reduce-tenure"); }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${prepaymentOption === "reduce-tenure"
                                         ? "bg-blue-600 text-white"
                                         : "bg-surface border border-hairline text-ink-faint hover:text-ink"
@@ -488,7 +533,7 @@ export default function LoanPrepaymentCalculator() {
                                     ⏱️ Reduce Tenure
                                 </button>
                                 <button
-                                    onClick={() => setPrepaymentOption("reduce-emi")}
+                                    onClick={() => { touched.current = true; setPrepaymentOption("reduce-emi"); }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${prepaymentOption === "reduce-emi"
                                         ? "bg-green-500 text-white"
                                         : "bg-surface border border-hairline text-ink-faint hover:text-ink"
@@ -560,19 +605,19 @@ export default function LoanPrepaymentCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">Without Prepayment</h4>
-                            <p className="text-xl font-bold text-orange-600">${result.originalTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-orange-600">{symbol}{result.originalTotalInterestFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Interest</p>
                             <p className="text-xs text-ink-faint">{result.originalEmiFormatted} × {tenure} months</p>
                         </div>
                         <div className="bg-surface border border-green-200 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">With Prepayment</h4>
-                            <p className="text-xl font-bold text-green-600">${result.newTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-green-600">{symbol}{result.newTotalInterestFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Interest</p>
-                            <p className="text-xs text-ink-faint">${result.newEmiFormatted} × {result.newTenure} months</p>
+                            <p className="text-xs text-ink-faint">{symbol}{result.newEmiFormatted} × {result.newTenure} months</p>
                         </div>
                         <div className="bg-surface border border-yellow-200 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">You Save</h4>
-                            <p className="text-xl font-bold text-yellow-700">${result.interestSavedFormatted}</p>
+                            <p className="text-xl font-bold text-yellow-700">{symbol}{result.interestSavedFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Savings</p>
                             <p className="text-xs text-green-600">⏱️ {result.tenureReduction} months saved</p>
                         </div>

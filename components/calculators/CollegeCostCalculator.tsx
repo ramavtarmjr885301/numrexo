@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -48,17 +48,42 @@ const FAQ_DATA = [
     },
 ];
 
+// Default worked example per market (rupee-scale for India, US in-state public university for the rest).
+const PROFILES = {
+    india: { tuition: "200000", roomBoard: "80000", books: "15000", transport: "10000", other: "20000", years: "4", inflation: "5" },
+    west: { tuition: "11600", roomBoard: "12700", books: "1200", transport: "1300", other: "2400", years: "4", inflation: "5" },
+};
+
 export default function CollegeCostCalculator() {
-    const { symbol } = useCurrency();
-    const [tuition, setTuition] = useState("");
-    const [roomBoard, setRoomBoard] = useState("");
-    const [books, setBooks] = useState("");
-    const [transport, setTransport] = useState("");
-    const [other, setOther] = useState("");
-    const [years, setYears] = useState("4");
-    const [inflation, setInflation] = useState("5");
+    const { symbol, market } = useCurrency();
+    // Start from the western defaults (SSR / default currency is USD); INR users are switched in the effect below.
+    const [tuition, setTuition] = useState(PROFILES.west.tuition);
+    const [roomBoard, setRoomBoard] = useState(PROFILES.west.roomBoard);
+    const [books, setBooks] = useState(PROFILES.west.books);
+    const [transport, setTransport] = useState(PROFILES.west.transport);
+    const [other, setOther] = useState(PROFILES.west.other);
+    const [years, setYears] = useState(PROFILES.west.years);
+    const [inflation, setInflation] = useState(PROFILES.west.inflation);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m];
+        setTuition(d.tuition);
+        setRoomBoard(d.roomBoard);
+        setBooks(d.books);
+        setTransport(d.transport);
+        setOther(d.other);
+        setYears(d.years);
+        setInflation(d.inflation);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const calculate = () => {
         const annualTuition = parseFloat(tuition) || 0;
@@ -93,14 +118,8 @@ export default function CollegeCostCalculator() {
     useEffect(() => { calculate(); }, [tuition, roomBoard, books, transport, other, years, inflation]);
 
     const reset = () => {
-        setTuition("");
-        setRoomBoard("");
-        setBooks("");
-        setTransport("");
-        setOther("");
-        setYears("4");
-        setInflation("5");
-        setResult(null);
+        touched.current = false;
+        applyDefaults(market);
     };
 
     return (
@@ -139,35 +158,35 @@ export default function CollegeCostCalculator() {
 
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Tuition & Fees ($/year)</label>
-                            <input type="number" step="10000" placeholder="e.g., 200000" value={tuition} onChange={(e) => setTuition(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <input type="number" step="10000" placeholder="e.g., 200000" value={tuition} onChange={(e) => { touched.current = true; setTuition(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Room & Board ($/year)</label>
-                            <input type="number" step="5000" placeholder="e.g., 80000" value={roomBoard} onChange={(e) => setRoomBoard(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <input type="number" step="5000" placeholder="e.g., 80000" value={roomBoard} onChange={(e) => { touched.current = true; setRoomBoard(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Books & Supplies ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 15000" value={books} onChange={(e) => setBooks(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <input type="number" step="1000" placeholder="e.g., 15000" value={books} onChange={(e) => { touched.current = true; setBooks(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Transportation ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 10000" value={transport} onChange={(e) => setTransport(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <input type="number" step="1000" placeholder="e.g., 10000" value={transport} onChange={(e) => { touched.current = true; setTransport(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Personal/Miscellaneous ($/year)</label>
-                            <input type="number" step="1000" placeholder="e.g., 20000" value={other} onChange={(e) => setOther(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                            <input type="number" step="1000" placeholder="e.g., 20000" value={other} onChange={(e) => { touched.current = true; setOther(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <label className="block text-xs font-semibold text-ink-faint mb-2">Number of Years</label>
-                                <select value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">
+                                <select value={years} onChange={(e) => { touched.current = true; setYears(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink">
                                     <option value="1">1 year</option><option value="2">2 years</option><option value="3">3 years</option>
                                     <option value="4">4 years</option><option value="5">5 years</option><option value="6">6+ years</option>
                                 </select>
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-ink-faint mb-2">Annual Inflation (%)</label>
-                                <input type="number" step="0.5" placeholder="5" value={inflation} onChange={(e) => setInflation(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <input type="number" step="0.5" placeholder="5" value={inflation} onChange={(e) => { touched.current = true; setInflation(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                             </div>
                         </div>
                         <div className="flex gap-3">

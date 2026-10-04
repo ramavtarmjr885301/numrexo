@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -86,29 +86,67 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Market profiles (worked-example defaults) ───────────────────────────────
+
+const PROFILES = {
+    india: {
+        totalCost: "300000",
+        merit: "50000",
+        need: "30000",
+        external: "15000",
+        grants: "20000",
+        workStudy: "10000",
+        family: "100000",
+    },
+    west: {
+        totalCost: "30000",
+        merit: "5000",
+        need: "3000",
+        external: "1500",
+        grants: "4000",
+        workStudy: "2500",
+        family: "8000",
+    },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ScholarshipCalculator() {
-    const { symbol } = useCurrency();
-    const [totalCost, setTotalCost] = useState("");
-    const [meritScholarship, setMeritScholarship] = useState("0");
-    const [needScholarship, setNeedScholarship] = useState("0");
-    const [externalScholarship, setExternalScholarship] = useState("0");
-    const [grants, setGrants] = useState("0");
-    const [workStudy, setWorkStudy] = useState("0");
-    const [familyContribution, setFamilyContribution] = useState("0");
+    const { symbol, market } = useCurrency();
+    // Start from the western defaults: SSR and the first client render use USD, so a worked
+    // example is on screen immediately. INR users are switched to rupee defaults in the effect below.
+    const W = PROFILES.west;
+    const [totalCost, setTotalCost] = useState(W.totalCost);
+    const [meritScholarship, setMeritScholarship] = useState(W.merit);
+    const [needScholarship, setNeedScholarship] = useState(W.need);
+    const [externalScholarship, setExternalScholarship] = useState(W.external);
+    const [grants, setGrants] = useState(W.grants);
+    const [workStudy, setWorkStudy] = useState(W.workStudy);
+    const [familyContribution, setFamilyContribution] = useState(W.family);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m];
+        setTotalCost(d.totalCost);
+        setMeritScholarship(d.merit);
+        setNeedScholarship(d.need);
+        setExternalScholarship(d.external);
+        setGrants(d.grants);
+        setWorkStudy(d.workStudy);
+        setFamilyContribution(d.family);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setTotalCost("");
-        setMeritScholarship("");
-        setNeedScholarship("");
-        setExternalScholarship("");
-        setGrants("");
-        setWorkStudy("");
-        setFamilyContribution("");
-        setResult(null);
+        touched.current = false;
+        applyDefaults(market);
     };
 
     const calculate = () => {
@@ -213,7 +251,7 @@ export default function ScholarshipCalculator() {
                                     step="10000"
                                     placeholder="e.g., 300000"
                                     value={totalCost}
-                                    onChange={(e) => setTotalCost(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTotalCost(e.target.value); }}
                                     className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -231,7 +269,7 @@ export default function ScholarshipCalculator() {
                                             step="5000"
                                             placeholder="0"
                                             value={meritScholarship}
-                                            onChange={(e) => setMeritScholarship(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setMeritScholarship(e.target.value); }}
                                             className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -245,7 +283,7 @@ export default function ScholarshipCalculator() {
                                             step="5000"
                                             placeholder="0"
                                             value={needScholarship}
-                                            onChange={(e) => setNeedScholarship(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setNeedScholarship(e.target.value); }}
                                             className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -259,7 +297,7 @@ export default function ScholarshipCalculator() {
                                             step="5000"
                                             placeholder="0"
                                             value={externalScholarship}
-                                            onChange={(e) => setExternalScholarship(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setExternalScholarship(e.target.value); }}
                                             className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -279,7 +317,7 @@ export default function ScholarshipCalculator() {
                                             step="5000"
                                             placeholder="0"
                                             value={grants}
-                                            onChange={(e) => setGrants(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setGrants(e.target.value); }}
                                             className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -293,7 +331,7 @@ export default function ScholarshipCalculator() {
                                             step="2000"
                                             placeholder="0"
                                             value={workStudy}
-                                            onChange={(e) => setWorkStudy(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setWorkStudy(e.target.value); }}
                                             className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -312,7 +350,7 @@ export default function ScholarshipCalculator() {
                                         step="5000"
                                         placeholder="0"
                                         value={familyContribution}
-                                        onChange={(e) => setFamilyContribution(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setFamilyContribution(e.target.value); }}
                                         className="w-full px-4 py-2 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>

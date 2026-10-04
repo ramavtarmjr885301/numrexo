@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
+import { calcEmi } from "@/lib/emi";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
-const FAQ_DATA = [
+// India version (rupee examples, Indian lending terms). Shown only when INR is selected.
+const FAQ_DATA_IN = [
     {
         q: "What is a car loan EMI calculator?",
         a: "It tells you the monthly cost of financing a car before the showroom does. A car loan sits between a home loan and a personal loan: it is secured against the vehicle, so rates are moderate, but the asset loses value far faster than the loan balance falls. That gap — owing more than the car is worth — is the thing worth understanding before you pick a tenure.",
@@ -70,17 +72,89 @@ const FAQ_DATA = [
     },
 ];
 
+// Western version (USD default; also GBP/EUR/CAD/AUD). Every dollar figure below was computed with
+// EMI = P·r·(1+r)^n / ((1+r)^n − 1), r = APR/12, and the assumptions are stated in each answer.
+const FAQ_DATA_WEST = [
+    {
+        q: "What is a car loan EMI calculator?",
+        a: "It tells you the monthly cost of financing a car before the dealer's finance office does. In the US this is simply your monthly car payment; \"EMI\" is the term used for it in many other countries. A car loan is secured against the vehicle, so rates are usually lower than on credit cards or personal loans, but the car loses value faster than the balance falls. That gap, owing more than the car is worth (often called negative equity or being \"upside down\"), is the thing worth understanding before you pick a term.",
+    },
+    {
+        q: "How is car loan EMI calculated?",
+        a: "Payment = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the amount financed, r the monthly rate (APR ÷ 12) and n the number of months. On a $30,000 loan at 7% APR, 36 months costs $926.31 a month with $3,347 in total interest; 72 months drops the payment to $511.47 but the interest climbs to $6,826. Same car, about $3,479 apart.",
+    },
+    {
+        q: "What is the current car loan interest rate?",
+        a: "Rates move with the market and with your credit score, so treat any published range as a starting point rather than a quote. As a rough guide, borrowers with good credit often see new-car rates in the mid-to-high single digits and used-car rates a couple of points above that, while borrowers with lower scores can be quoted well into double digits. The term, the vehicle's age, your down payment and the lender (credit union, bank, online lender or the dealer's lending partners) all move the number too. Dealers can add a markup to the rate a lender approves you for, so a pre-approval from your own credit union or bank is the cheapest half-hour of work in the purchase: it gives you a figure to hold the dealer's offer against.",
+    },
+    {
+        q: "What is the maximum tenure for a car loan?",
+        a: "Terms commonly run from 24 to 72 months, and many lenders go to 84 months on new cars. Used-car terms are usually shorter, often capped around 60 months and sometimes less for older, high-mileage vehicles, because the collateral loses value sooner. Stretching has a cost. On $35,000 at 7% APR, 60 months is $693.04 a month with $6,583 in interest; 72 months is $596.72 with $7,963; 84 months is $528.24 with $9,372. The longer terms also keep you owing more than the car is worth for longer.",
+    },
+    {
+        q: "What is the difference between new car and used car loan rates?",
+        a: "Lenders usually price used-car loans higher than new-car loans. As a rough guide for borrowers with good credit, that is around 5-8% for new versus 7-11% for used, though your credit score and the market on the day matter more than any range. New cars also tend to qualify for longer terms (up to 72-84 months) than used ones (often up to 60). A used vehicle is less predictable collateral, so the lender protects itself with a higher rate and a shorter term. Used can still win on total cost because the loan starts smaller; compare the total repayable, not just the rate.",
+    },
+    {
+        q: "How does credit score affect car loan interest rate?",
+        a: "Your FICO score decides which pricing tier a lender puts you in, and on a secured car loan the tiers are still wide enough to matter. One percentage point is easy to quantify: on $35,000 over 60 months, 7% APR is $693.04 a month and 8% is $709.67, which is $16.63 more a month and $998 more over the term. Between a prime score and a subprime one the gap is far larger than a single point. Check your credit reports at AnnualCreditReport.com before applying; an error you can dispute, or a paid-off account still showing a balance, is a common reason a good file gets priced badly.",
+    },
+    {
+        q: "What is the down payment required for a car loan?",
+        a: "There is no legal minimum, but lenders and dealers commonly look for 10-20% of the price, and 20% is a common target on a new car because a new car's value drops fastest in the first year. On a $40,000 vehicle that is $4,000 to $8,000. At 7% over 60 months, financing $36,000 (10% down) is $712.84 a month; financing $32,000 (20% down) is $633.64, about $79 less each month and $752 less interest. Zero-down offers exist, but they leave you owing more than the car is worth from day one. A trade-in with equity in it counts toward the down payment.",
+    },
+    {
+        q: "What documents are required for a car loan?",
+        a: "Typically a valid driver's license, proof of income (recent pay stubs, or for self-employed borrowers the last one or two years of tax returns plus bank statements), proof of residence such as a utility bill, proof of auto insurance, and the buyer's order or purchase agreement for the specific vehicle, since the loan is made against it. The lender also needs your Social Security number to check credit. For a private-party purchase expect to supply the VIN, mileage and the seller's title details. The lender is recorded as lienholder on the title, so after your final payment make sure you receive the lien release or a clean title; that step is easy to forget.",
+    },
+    {
+        q: "Can I prepay my car loan?",
+        a: "In most cases yes. Most US auto loans are simple-interest loans, where interest accrues daily on the remaining balance, so extra principal payments reduce the interest you pay. Prepayment penalties are uncommon on prime loans but do exist, particularly on some subprime and precomputed-interest loans, and rules vary by state. Check the contract for a prepayment clause before signing, and when you pay extra, confirm the lender applies it to principal rather than treating it as an early payment on next month's bill.",
+    },
+    {
+        q: "What is the monthly payment on a $25,000 car loan?",
+        a: "At 7% APR on $25,000: 36 months is $771.93 a month with $2,789 in total interest; 60 months is $495.03 with $4,702; 84 months is $377.32 with $6,695. These figures cover the loan only. Sales tax, title and registration fees and any add-ons rolled into the loan raise the amount financed, so use the calculator with your actual out-the-door numbers.",
+    },
+    {
+        q: "How does loan tenure affect EMI and total interest?",
+        a: "A car is a depreciating asset, which makes the term choice sharper than it is on a mortgage. On $35,000 at 7% APR: 36 months is $1,081 a month and $3,905 in interest; 60 months is $693 and $6,583; 84 months is $528 and $9,372. Going from 36 to 84 months cuts the payment by $552 a month but costs $5,467 more in interest. Past about five years, many owners owe more than the car would fetch. If the car is totaled or you need to sell, that shortfall is yours, which is the situation GAP insurance is designed to cover (check what a given policy excludes).",
+    },
+    {
+        q: "What is the difference between fixed and floating rates for car loans?",
+        a: "Nearly all US auto loans are fixed-rate: the APR and the payment stay the same for the whole term, which makes budgeting simple. Variable-rate car loans exist but are uncommon. A better question to ask than fixed versus variable is whether the loan is simple-interest or precomputed, and what APR the Truth in Lending disclosure shows, because those two things determine what you actually pay.",
+    },
+    {
+        q: "What is the processing fee for car loans?",
+        a: "The costs show up under different names: dealer documentation (\"doc\") fees, which some states cap and others do not; lender origination fees, which are less common; sales tax; title and registration; and optional add-ons such as GAP insurance, extended warranties or credit insurance that the dealer can roll into the loan. Anything rolled in is financed and earns interest. Ask for an itemized out-the-door price, and on the Truth in Lending disclosure compare the APR, the amount financed and the total of payments between lenders rather than the advertised rate. GAP in particular can be priced very differently by your auto insurer or credit union than by the dealer.",
+    },
+    {
+        q: "Can I get a car loan with a low credit score?",
+        a: "Often yes, but at a price. Scores below roughly 600 are commonly treated as subprime, and rates can be far higher. As an illustration, $25,000 over 60 months at 15% APR is $594.75 a month with $10,685 in interest, versus $495.03 and $4,702 at 7%: $99.72 more a month and $5,983 more interest. You can improve your odds with a larger down payment, a less expensive vehicle, or a co-signer with stronger credit (who becomes equally responsible for the debt). Apply to a credit union or bank first, and read the terms of any buy-here-pay-here offer carefully.",
+    },
+    {
+        q: "How to reduce car loan EMI?",
+        a: "In order of effect: a larger down payment, since it cuts the financed amount directly; a pre-approval from your own bank or credit union rather than relying on the dealer's offer; and declining the add-ons the dealer wants to roll into the loan. On $35,000 at 7% over 60 months, putting $5,000 more down (financing $30,000) cuts the payment from $693.04 to $594.04, about $99 a month and $940 in interest. Extending the term lowers the payment too, but on a car that is a trade you are making against an asset that is losing value the whole time.",
+    },
+];
+
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
 
-const FAQ_SCHEMA = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: FAQ_DATA.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.a },
-    })),
-});
+function buildFaqSchema(items: { q: string; a: string }[]) {
+    return JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: items.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+    });
+}
+
+// SSR / default currency is USD, so the crawlable FAQ schema is the western version.
+// The India schema is only emitted when INR is selected, matching the FAQ shown on screen.
+const FAQ_SCHEMA = buildFaqSchema(FAQ_DATA_WEST);
+const FAQ_SCHEMA_IN = buildFaqSchema(FAQ_DATA_IN);
 
 const WEBAPP_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
@@ -112,24 +186,211 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Market profiles ──────────────────────────────────────────────────────────
+// Everything that depends on whether the visitor is looking at rupees (India) or at
+// USD/GBP/EUR/CAD/AUD (west): input defaults, preset buttons, the base figures behind the
+// comparison tables, and the static lending copy. The component picks one with `market`.
+
+type Fmt = {
+    money: (value: number, decimals?: number) => string;
+    compact: (value: number) => string;
+};
+type Item = { title: string; body: string };
+
+interface MarketProfile {
+    defaults: { price: string; down: string; rate: string; tenure: string };
+    /** Rate pre-filled when the user switches to "Used Car". */
+    usedRate: string;
+    presets: { price: number[]; rates: number[]; tenures: number[]; down: number[] };
+    priceStep: string;
+    placeholders: { price: string; down: string; rateNew: string; rateUsed: string };
+    carTypeHint: { new: string; used: string };
+    newCar: string[];
+    usedCar: string[];
+    newUsedNote: string;
+    /** Base figures for the two comparison tables (all rows are computed with calcEmi). */
+    rateTable: { principal: number; rates: number[]; months: number };
+    tenureTable: { principal: number; rate: number; months: number[] };
+    salaried: (f: Fmt) => string[];
+    selfEmployed: (f: Fmt) => string[];
+    eligibilityNote: string;
+    tips: (f: Fmt, lowerRateSaving: number) => Item[];
+    mistakes: Item[];
+}
+
+const PROFILES: Record<"india" | "west", MarketProfile> = {
+    india: {
+        defaults: { price: "800000", down: "100000", rate: "9", tenure: "60" },
+        usedRate: "10.5",
+        presets: {
+            price: [300000, 500000, 800000, 1000000, 1500000],
+            rates: [7, 8, 9, 10, 11],
+            tenures: [24, 36, 48, 60, 72],
+            down: [50000, 100000, 150000, 200000, 300000],
+        },
+        priceStep: "10000",
+        placeholders: { price: "e.g., 800000", down: "e.g., 100000", rateNew: "e.g., 9", rateUsed: "e.g., 10.5" },
+        carTypeHint: {
+            new: "Interest rates: 7.5-9.5% | Tenure: Up to 7 years",
+            used: "Interest rates: 9-12% | Tenure: Up to 5 years",
+        },
+        newCar: [
+            "Interest Rate: 7.5-9.5% p.a.",
+            "Tenure: Up to 7 years (84 months)",
+            "Down Payment: 10-20%",
+            "LTV: Up to 90%",
+            "Lower interest rates",
+            "Longer repayment period",
+        ],
+        usedCar: [
+            "Interest Rate: 9-12% p.a.",
+            "Tenure: Up to 5 years (60 months)",
+            "Down Payment: 20-30%",
+            "LTV: Up to 80%",
+            "Higher interest rates",
+            "Shorter repayment period",
+        ],
+        newUsedNote: "* New cars generally get better loan terms due to higher resale value and lower risk",
+        rateTable: { principal: 800000, rates: [7, 8, 9, 10, 11], months: 60 },
+        tenureTable: { principal: 800000, rate: 9, months: [36, 48, 60, 72, 84] },
+        salaried: ({ money }) => [
+            "Age: 21-60 years",
+            `Minimum monthly income: ${money(25000)}`,
+            "Work experience: 1+ years",
+            "CIBIL score: 700+ preferred",
+            "Valid identity and address proof",
+        ],
+        selfEmployed: ({ compact }) => [
+            "Age: 25-65 years",
+            "ITR filing: 2+ years",
+            "Business vintage: 3+ years",
+            `Annual turnover: ${compact(500000)}+`,
+            "Profitability track record",
+        ],
+        eligibilityNote: "* Your own bank will usually beat the showroom's tie-up. Get that quote before you sit down to sign.",
+        tips: ({ money, compact }, saving) => [
+            { title: "Make a Larger Down Payment", body: "A higher down payment reduces the loan amount, lowering both EMI and total interest. Aim for 20% or more." },
+            { title: "Improve Credit Score", body: "Check your credit report before you apply, not after. A closed loan still showing as active is the usual culprit behind an unexpectedly high quote." },
+            { title: "Choose New Car Over Used", body: "New cars get lower interest rates (7.5-9.5%) compared to used cars (9-12%). This can save you thousands in interest." },
+            { title: "Compare Multiple Lenders", body: `Different lenders offer different rates. Even a 0.5% difference can save you about ${money(saving, 0)} in interest on a ${compact(PROFILES.india.rateTable.principal)} loan over the tenure.` },
+            { title: "Choose Optimal Tenure", body: "Choose a tenure that balances EMI affordability with total interest. Don't go for the longest tenure just for lower EMI." },
+            { title: "Negotiate Processing Fees", body: "Many lenders offer zero or discounted processing fees. Don't hesitate to negotiate or ask for a waiver." },
+        ],
+        mistakes: [
+            { title: "Ignoring On-Road Price", body: "Always calculate EMI based on the on-road price (ex-showroom + RTO + insurance), not just the ex-showroom price." },
+            { title: "Not Factoring in Insurance", body: "Car insurance is mandatory and adds to your monthly cost. Factor it into your budget." },
+            { title: "Choosing Longest Tenure", body: "While it reduces EMI, it significantly increases total interest. Only choose long tenure if you absolutely need lower EMI." },
+            { title: "Missing Processing Fees", body: "Compare the total amount repayable, not the advertised rate. A low rate with a heavy fee and a bundled warranty can cost more than a plain higher rate." },
+            { title: "Multiple Loan Applications", body: "Dealerships often push your file to several financiers at once. Every one of those is a hard enquiry — ask them to try a single lender first." },
+        ],
+    },
+    west: {
+        defaults: { price: "35000", down: "5000", rate: "7", tenure: "60" },
+        usedRate: "9",
+        presets: {
+            price: [20000, 30000, 40000, 50000, 70000],
+            rates: [5, 6, 7, 8, 9],
+            tenures: [36, 48, 60, 72, 84],
+            down: [2000, 3000, 5000, 7500, 10000],
+        },
+        priceStep: "500",
+        placeholders: { price: "e.g., 35000", down: "e.g., 5000", rateNew: "e.g., 7", rateUsed: "e.g., 9" },
+        carTypeHint: {
+            new: "Typical rates: 5-8% | Terms: up to 72-84 months",
+            used: "Typical rates: 7-11% | Terms: up to 60 months",
+        },
+        newCar: [
+            "Interest Rate: roughly 5-8% APR",
+            "Term: up to 72-84 months",
+            "Down Payment: 10-20%",
+            "LTV: lenders cap the loan at a share of the car's value",
+            "Lower interest rates",
+            "Longer repayment period",
+        ],
+        usedCar: [
+            "Interest Rate: roughly 7-11% APR",
+            "Term: up to 60 months",
+            "Down Payment: 15-20% or more",
+            "LTV: lower caps, especially on older cars",
+            "Higher interest rates",
+            "Shorter repayment period",
+        ],
+        newUsedNote: "* Typical ranges for borrowers with good credit. Your credit score, the lender and market conditions set your actual rate.",
+        rateTable: { principal: 35000, rates: [5, 6, 7, 8, 9], months: 60 },
+        tenureTable: { principal: 35000, rate: 7, months: [36, 48, 60, 72, 84] },
+        salaried: ({ money }) => [
+            "Age: 18+ (the legal age to sign a contract varies by state)",
+            `Minimum monthly income: about ${money(2500, 0)}`,
+            "Stable employment history preferred",
+            "Credit score: 660+ (FICO) generally gets better rates",
+            "Valid driver's license and proof of residence",
+        ],
+        selfEmployed: () => [
+            "Age: 18+",
+            "Tax returns: 1-2 years",
+            "Business history: 1-2+ years",
+            "Income shown on bank statements or 1099s",
+            "Steady, verifiable income and manageable debts",
+        ],
+        eligibilityNote: "* A pre-approval from a credit union or bank gives you a rate to compare against the dealer's financing offer. Get it before you sit down to sign.",
+        tips: ({ money, compact }, saving) => [
+            { title: "Make a Larger Down Payment", body: "A higher down payment reduces the loan amount, lowering both the monthly payment and total interest. Aim for 20% or more." },
+            { title: "Improve Your Credit Score", body: "Check your credit reports and FICO score before you apply, not after. Pay down card balances and dispute any errors; an account that is closed but still showing a balance is a common reason for an unexpectedly high quote." },
+            { title: "Compare New and Used Rates", body: "New-car loans often carry lower rates (roughly 5-8%) than used-car loans (roughly 7-11%), but a used car's lower price can still mean a smaller loan and less interest overall. Run both." },
+            { title: "Compare Multiple Lenders", body: `Different lenders offer different rates. Even a 0.5% difference can save you about ${money(saving, 0)} in interest on a ${compact(PROFILES.west.rateTable.principal)} loan over the term.` },
+            { title: "Choose an Optimal Term", body: "Choose a term that balances an affordable payment with total interest. Don't go for the longest term just for a lower payment." },
+            { title: "Negotiate Fees and Add-ons", body: "Ask the dealer to itemize the documentation fee, and decline add-ons you do not want, such as extended warranties or credit insurance, rather than rolling them into the loan." },
+        ],
+        mistakes: [
+            { title: "Ignoring Taxes and Fees", body: "Calculate the payment on the out-the-door price: the vehicle price plus sales tax, title and registration fees, and dealer fees, minus your down payment or trade-in credit, not just the sticker price." },
+            { title: "Not Factoring in Insurance", body: "Auto insurance is required, and lenders typically require full coverage (collision and comprehensive) while you have a loan. It adds to your monthly cost, so factor it into your budget." },
+            { title: "Choosing the Longest Term", body: "While it reduces the payment, it significantly increases total interest and keeps you owing more than the car is worth for longer. Only choose a long term if you truly need the lower payment." },
+            { title: "Ignoring Fees and Add-ons", body: "Compare the APR, the amount financed and the total of payments, not the advertised rate. A low rate with a heavy doc fee and a bundled warranty can cost more than a plain higher rate." },
+            { title: "Multiple Loan Applications", body: "Dealerships often send your application to several lenders at once, and each can result in a hard inquiry. Scoring models typically count auto-loan inquiries made within a short window as one, but ask which lenders they will submit to, and get a pre-approval from your own bank or credit union first." },
+        ],
+    },
+};
+
+/** Row colour classes for the two comparison tables (position-based, as before). */
+const RATE_ROW_LABEL = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const RATE_ROW_INTEREST = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_ROW_LABEL = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const TENURE_ROW_INTEREST = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CarLoanEMICalculator() {
-    const { symbol, money, compact } = useCurrency();
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
+    const { symbol, money, compact, market } = useCurrency();
+    const profile = PROFILES[market];
+    // Start from the western defaults: SSR and the first client render use USD, so a worked
+    // example is on screen immediately. INR users are switched to rupee defaults in the effect below.
+    const [loanAmount, setLoanAmount] = useState(PROFILES.west.defaults.price);
+    const [interestRate, setInterestRate] = useState(PROFILES.west.defaults.rate);
+    const [tenure, setTenure] = useState(PROFILES.west.defaults.tenure);
     const [carType, setCarType] = useState("new");
-    const [downPayment, setDownPayment] = useState("");
+    const [downPayment, setDownPayment] = useState(PROFILES.west.defaults.down);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m].defaults;
+        setLoanAmount(d.price);
+        setDownPayment(d.down);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setTenure("");
-        setDownPayment("");
-        setResult(null);
+        touched.current = false;
+        setCarType("new");
+        applyDefaults(market);
     };
 
     const calculateEMI = () => {
@@ -244,15 +505,25 @@ export default function CarLoanEMICalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, carType, downPayment]);
 
-    // Preset values
-    const presetAmounts = [300000, 500000, 800000, 1000000, 1500000];
-    const presetRates = [7, 8, 9, 10, 11];
-    const presetTenures = [24, 36, 48, 60, 72];
-    const presetDownPayments = [50000, 100000, 150000, 200000, 300000];
+    // Preset values (market-specific)
+    const presetAmounts = profile.presets.price;
+    const presetRates = profile.presets.rates;
+    const presetTenures = profile.presets.tenures;
+    const presetDownPayments = profile.presets.down;
+
+    // Comparison tables: every figure comes from calcEmi() for the selected market's base case.
+    const { rateTable, tenureTable } = profile;
+    const rateRows = rateTable.rates.map((r) => ({ rate: r, ...calcEmi(rateTable.principal, r, rateTable.months) }));
+    const tenureRows = tenureTable.months.map((m) => ({ months: m, ...calcEmi(tenureTable.principal, tenureTable.rate, m) }));
+    const baseRate = parseFloat(profile.defaults.rate);
+    const lowerRateSaving =
+        calcEmi(rateTable.principal, baseRate, rateTable.months).totalInterest -
+        calcEmi(rateTable.principal, baseRate - 0.5, rateTable.months).totalInterest;
+    const fmt = { money, compact };
 
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: market === "india" ? FAQ_SCHEMA_IN : FAQ_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
@@ -298,8 +569,9 @@ export default function CarLoanEMICalculator() {
                             <div className="grid grid-cols-2 gap-2">
                                 <button
                                     onClick={() => {
+                                        touched.current = true;
                                         setCarType("new");
-                                        setInterestRate("");
+                                        setInterestRate(profile.defaults.rate);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${carType === "new"
                                         ? "bg-blue-600 text-white"
@@ -310,8 +582,9 @@ export default function CarLoanEMICalculator() {
                                 </button>
                                 <button
                                     onClick={() => {
+                                        touched.current = true;
                                         setCarType("used");
-                                        setInterestRate("");
+                                        setInterestRate(profile.usedRate);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${carType === "used"
                                         ? "bg-orange-500 text-white"
@@ -322,7 +595,7 @@ export default function CarLoanEMICalculator() {
                                 </button>
                             </div>
                             <p className="text-xs text-ink-faint mt-1">
-                                {carType === "new" ? "Interest rates: 7.5-9.5% | Tenure: Up to 7 years" : "Interest rates: 9-12% | Tenure: Up to 5 years"}
+                                {carType === "new" ? profile.carTypeHint.new : profile.carTypeHint.used}
                             </p>
                         </div>
 
@@ -332,10 +605,10 @@ export default function CarLoanEMICalculator() {
                             <div className="relative">
                                 <input
                                     type="number"
-                                    step="10000"
-                                    placeholder="e.g., 800000"
+                                    step={profile.priceStep}
+                                    placeholder={profile.placeholders.price}
                                     value={loanAmount}
-                                    onChange={(e) => setLoanAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setLoanAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -344,7 +617,7 @@ export default function CarLoanEMICalculator() {
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setLoanAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setLoanAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -359,10 +632,10 @@ export default function CarLoanEMICalculator() {
                             <div className="relative">
                                 <input
                                     type="number"
-                                    step="10000"
-                                    placeholder="e.g., 100000"
+                                    step={profile.priceStep}
+                                    placeholder={profile.placeholders.down}
                                     value={downPayment}
-                                    onChange={(e) => setDownPayment(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setDownPayment(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -371,7 +644,7 @@ export default function CarLoanEMICalculator() {
                                 {presetDownPayments.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setDownPayment(amount.toString())}
+                                        onClick={() => { touched.current = true; setDownPayment(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -388,9 +661,9 @@ export default function CarLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="0.1"
-                                    placeholder={carType === "new" ? "e.g., 9" : "e.g., 10.5"}
+                                    placeholder={carType === "new" ? profile.placeholders.rateNew : profile.placeholders.rateUsed}
                                     value={interestRate}
-                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setInterestRate(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -399,7 +672,7 @@ export default function CarLoanEMICalculator() {
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
-                                        onClick={() => setInterestRate(rate.toString())}
+                                        onClick={() => { touched.current = true; setInterestRate(rate.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
@@ -417,7 +690,7 @@ export default function CarLoanEMICalculator() {
                                     step="1"
                                     placeholder="e.g., 60"
                                     value={tenure}
-                                    onChange={(e) => setTenure(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTenure(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
@@ -426,7 +699,7 @@ export default function CarLoanEMICalculator() {
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setTenure(month.toString())}
+                                        onClick={() => { touched.current = true; setTenure(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 60 ? `${month/12}Y` : `${month}M`}
@@ -524,7 +797,7 @@ export default function CarLoanEMICalculator() {
                     A car depreciates every month you own it, but the loan against it doesn't fall anywhere near as fast — especially in the first two or three years. That gap is the one number showroom conversations tend to skip, and it's the reason an EMI calculator is more useful here than the salesperson's monthly-payment quote: the quote tells you what you'll pay, not what you'll still owe if you need to sell or trade in early.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Enter the on-road price, your down payment, the rate you've been quoted, and the tenure, and this calculator works out the EMI, the total interest over the loan, and a month-by-month amortization schedule showing exactly how the split between principal and interest shifts over time.
+                    Enter the full price you will pay (taxes and registration included), your down payment, the rate you've been quoted, and the tenure, and this calculator works out the EMI, the total interest over the loan, and a month-by-month amortization schedule showing exactly how the split between principal and interest shifts over time.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
                     It's also the fastest way to see what a dealer's "zero down payment, low EMI" offer actually costs versus a shorter loan with more money down — run both and compare the total interest line, not just the monthly figure.
@@ -538,34 +811,28 @@ export default function CarLoanEMICalculator() {
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
                         <h3 className="text-sm font-semibold text-blue-600 mb-2">🚗 New Car</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Interest Rate: 7.5-9.5% p.a.</li>
-                            <li>• Tenure: Up to 7 years (84 months)</li>
-                            <li>• Down Payment: 10-20%</li>
-                            <li>• LTV: Up to 90%</li>
-                            <li>• Lower interest rates</li>
-                            <li>• Longer repayment period</li>
+                            {profile.newCar.map((line) => (
+                                <li key={line}>• {line}</li>
+                            ))}
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
                         <h3 className="text-sm font-semibold text-orange-600 mb-2">🚘 Used Car</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Interest Rate: 9-12% p.a.</li>
-                            <li>• Tenure: Up to 5 years (60 months)</li>
-                            <li>• Down Payment: 20-30%</li>
-                            <li>• LTV: Up to 80%</li>
-                            <li>• Higher interest rates</li>
-                            <li>• Shorter repayment period</li>
+                            {profile.usedCar.map((line) => (
+                                <li key={line}>• {line}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-ink-faint mt-3">* New cars generally get better loan terms due to higher resale value and lower risk</p>
+                <p className="text-xs text-ink-faint mt-3">{profile.newUsedNote}</p>
             </section>
 
             {/* How to Use Section */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Car Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed">Start by picking <strong className="text-ink">New Car</strong> or <strong className="text-ink">Used Car</strong> — it changes which preset rates and tenures make sense. Then enter the <strong className="text-ink">on-road car price</strong>, either by typing it in or tapping one of the preset amounts.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Start by picking <strong className="text-ink">New Car</strong> or <strong className="text-ink">Used Car</strong> — it changes which preset rates and tenures make sense. Then enter the <strong className="text-ink">full car price</strong> (taxes and registration included), either by typing it in or tapping one of the preset amounts.</p>
                     <p className="text-ink-faint text-sm leading-relaxed">If you're planning a down payment, add it next — even a rough figure is useful, since it directly reduces the amount you're financing. Then fill in the <strong className="text-ink">interest rate</strong> your lender or dealer has quoted, and the <strong className="text-ink">tenure</strong> in months.</p>
                     <p className="text-ink-faint text-sm leading-relaxed">Hit <strong className="text-ink">Calculate EMI</strong> and you'll get the monthly payment, total interest, and a full amortization table below. The <strong className="text-ink">affordability rating</strong> gives you a quick read on whether the EMI fits comfortably against typical income levels — use <strong className="text-ink">Reset</strong> to try a different price, rate, or tenure combination.</p>
                 </div>
@@ -629,46 +896,24 @@ export default function CarLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(800000)}, 5Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(rateTable.principal)}, {rateTable.months / 12}Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">7%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(15843)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{compact(151000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(951000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">8%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16212)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{compact(173000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(973000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">9%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16605)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(196000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(996000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16999)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(220000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1020000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">11%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(17394)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(244000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1044000)}</td>
-                            </tr>
+                            {rateRows.map((row, i) => (
+                                <tr key={row.rate} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 ${RATE_ROW_LABEL[i]} font-bold`}>{row.rate}%</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${RATE_ROW_INTEREST[i]}`}>{compact(row.totalInterest)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{compact(row.totalPayment)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(800000)} car loan over 5 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(rateTable.principal)} car loan over {rateTable.months / 12} years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -679,42 +924,20 @@ export default function CarLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(800000)}, 9%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(tenureTable.principal)}, {tenureTable.rate}%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600 font-bold">3 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(25440)}</td>
-                                <td className="py-2 px-4 text-right text-green-600">{compact(116000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(916000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">4 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(19893)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{compact(155000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(955000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">5 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16605)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(196000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(996000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">6 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(14418)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(238000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1038000)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">7 Years</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(12857)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{compact(280000)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{compact(1080000)}</td>
-                            </tr>
+                            {tenureRows.map((row, i) => (
+                                <tr key={row.months} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 ${TENURE_ROW_LABEL[i]} font-bold`}>{row.months / 12} Years</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${TENURE_ROW_INTEREST[i]}`}>{compact(row.totalInterest)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{compact(row.totalPayment)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -728,55 +951,33 @@ export default function CarLoanEMICalculator() {
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: {money(25000)}</li>
-                            <li>• Work experience: 1+ years</li>
-                            <li>• CIBIL score: 700+ preferred</li>
-                            <li>• Valid identity and address proof</li>
+                            {profile.salaried(fmt).map((line) => (
+                                <li key={line}>• {line}</li>
+                            ))}
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✅ Self-Employed</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 25-65 years</li>
-                            <li>• ITR filing: 2+ years</li>
-                            <li>• Business vintage: 3+ years</li>
-                            <li>• Annual turnover: {compact(500000)}+</li>
-                            <li>• Profitability track record</li>
+                            {profile.selfEmployed(fmt).map((line) => (
+                                <li key={line}>• {line}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>
-                <p className="text-xs text-ink-faint mt-3">* Your own bank will usually beat the showroom&apos;s tie-up. Get that quote before you sit down to sign.</p>
+                <p className="text-xs text-ink-faint mt-3">{profile.eligibilityNote}</p>
             </section>
 
             {/* Tips for Lower Car Loan EMI */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Tips for Lower Car Loan EMI</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Make a Larger Down Payment:</strong> A higher down payment reduces the loan amount, lowering both EMI and total interest. Aim for 20% or more.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Improve Credit Score:</strong> Check your credit report before you apply, not after. A closed loan still showing as active is the usual culprit behind an unexpectedly high quote.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Choose New Car Over Used:</strong> New cars get lower interest rates (7.5-9.5%) compared to used cars (9-12%). This can save you thousands in interest.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 0.5% difference can save you {compact(20000)}+ over the loan tenure.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Choose Optimal Tenure:</strong> Choose a tenure that balances EMI affordability with total interest. Don't go for the longest tenure just for lower EMI.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Negotiate Processing Fees:</strong> Many lenders offer zero or discounted processing fees. Don't hesitate to negotiate or ask for a waiver.</span>
-                    </li>
+                    {profile.tips(fmt, lowerRateSaving).map((tip) => (
+                        <li key={tip.title} className="flex gap-3 text-sm text-ink-faint">
+                            <span className="text-blue-600 mt-0.5">💡</span>
+                            <span><strong className="text-ink-soft">{tip.title}:</strong> {tip.body}</span>
+                        </li>
+                    ))}
                 </ul>
             </section>
 
@@ -784,26 +985,12 @@ export default function CarLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Common Mistakes to Avoid When Taking a Car Loan</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Ignoring On-Road Price:</strong> Always calculate EMI based on the on-road price (ex-showroom + RTO + insurance), not just the ex-showroom price.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Not Factoring in Insurance:</strong> Car insurance is mandatory and adds to your monthly cost. Factor it into your budget.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Choosing Longest Tenure:</strong> While it reduces EMI, it significantly increases total interest. Only choose long tenure if you absolutely need lower EMI.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Missing Processing Fees:</strong> Compare the total amount repayable, not the advertised rate. A low rate with a heavy fee and a bundled warranty can cost more than a plain higher rate.</span>
-                    </li>
-                    <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Dealerships often push your file to several financiers at once. Every one of those is a hard enquiry — ask them to try a single lender first.</span>
-                    </li>
+                    {profile.mistakes.map((m) => (
+                        <li key={m.title} className="flex gap-3 text-sm text-ink-faint">
+                            <span className="text-red-600 mt-0.5">⚠️</span>
+                            <span><strong className="text-ink-soft">{m.title}:</strong> {m.body}</span>
+                        </li>
+                    ))}
                 </ul>
             </section>
 
@@ -811,7 +998,7 @@ export default function CarLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
-                    {FAQ_DATA.map((item, i) => (
+                    {(market === "india" ? FAQ_DATA_IN : FAQ_DATA_WEST).map((item, i) => (
                         <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
                                 className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"

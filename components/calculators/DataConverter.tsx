@@ -97,7 +97,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function DataConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("mb");
     const [toUnit, setToUnit] = useState("gb");
     const [result, setResult] = useState<any>(null);
@@ -122,10 +122,9 @@ export default function DataConverter() {
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("100");
         setFromUnit("mb");
         setToUnit("gb");
-        setResult(null);
     };
 
     return (

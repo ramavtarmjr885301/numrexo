@@ -97,14 +97,14 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function AreaCalculator() {
     const [shape, setShape] = useState<"square" | "rectangle" | "circle" | "triangle" | "parallelogram" | "trapezoid">("square");
-    const [side, setSide] = useState("");
-    const [length, setLength] = useState("");
-    const [width, setWidth] = useState("");
-    const [radius, setRadius] = useState("");
-    const [base, setBase] = useState("");
-    const [height, setHeight] = useState("");
-    const [baseA, setBaseA] = useState("");
-    const [baseB, setBaseB] = useState("");
+    const [side, setSide] = useState("5");
+    const [length, setLength] = useState("10");
+    const [width, setWidth] = useState("5");
+    const [radius, setRadius] = useState("5");
+    const [base, setBase] = useState("10");
+    const [height, setHeight] = useState("6");
+    const [baseA, setBaseA] = useState("8");
+    const [baseB, setBaseB] = useState("12");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -178,15 +178,14 @@ export default function AreaCalculator() {
 
     const resetForm = () => {
         setShape("square");
-        setSide("");
-        setLength("");
-        setWidth("");
-        setRadius("");
-        setBase("");
-        setHeight("");
-        setBaseA("");
-        setBaseB("");
-        setResult(null);
+        setSide("5");
+        setLength("10");
+        setWidth("5");
+        setRadius("5");
+        setBase("10");
+        setHeight("6");
+        setBaseA("8");
+        setBaseB("12");
     };
 
     const getShapeName = () => {

@@ -47,8 +47,8 @@ const FAQ_DATA = [
 ];
 
 export default function AttendanceCalculator() {
-    const [classesAttended, setClassesAttended] = useState("");
-    const [classesHeld, setClassesHeld] = useState("");
+    const [classesAttended, setClassesAttended] = useState("40");
+    const [classesHeld, setClassesHeld] = useState("60");
     const [targetPercentage, setTargetPercentage] = useState("75");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -142,10 +142,9 @@ export default function AttendanceCalculator() {
     useEffect(() => { calculate(); }, [classesAttended, classesHeld, targetPercentage]);
 
     const reset = () => {
-        setClassesAttended("");
-        setClassesHeld("");
+        setClassesAttended("40");
+        setClassesHeld("60");
         setTargetPercentage("75");
-        setResult(null);
     };
 
     return (

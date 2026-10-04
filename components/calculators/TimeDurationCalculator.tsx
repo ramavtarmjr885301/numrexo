@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -84,26 +84,39 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+const DEFAULTS = {
+    startTime: "09:00",
+    endTime: "17:00",
+    hours: "3",
+    minutes: "30",
+    baseTime: "09:00",
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function TimeDurationCalculator() {
     const [calcType, setCalcType] = useState<"difference" | "add" | "subtract">("difference");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [hours, setHours] = useState("");
-    const [minutes, setMinutes] = useState("");
-    const [baseTime, setBaseTime] = useState("");
+    const [startTime, setStartTime] = useState(DEFAULTS.startTime);
+    const [endTime, setEndTime] = useState(DEFAULTS.endTime);
+    const [hours, setHours] = useState(DEFAULTS.hours);
+    const [minutes, setMinutes] = useState(DEFAULTS.minutes);
+    const [baseTime, setBaseTime] = useState(DEFAULTS.baseTime);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
         setCalcType("difference");
-        setStartTime("");
-        setEndTime("");
-        setHours("");
-        setMinutes("");
-        setBaseTime("");
-        setResult(null);
+        setStartTime(DEFAULTS.startTime);
+        setEndTime(DEFAULTS.endTime);
+        setHours(DEFAULTS.hours);
+        setMinutes(DEFAULTS.minutes);
+        setBaseTime(DEFAULTS.baseTime);
+    };
+
+    // Button presses show alerts for bad input; live (effect-driven) runs stay silent and just clear the result.
+    const fail = (silent: boolean, message: string) => {
+        if (silent) setResult(null);
+        else alert(message);
     };
 
     const timeToMinutes = (time: string): number => {
@@ -127,9 +140,9 @@ export default function TimeDurationCalculator() {
         return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
     };
 
-    const calculateDifference = () => {
+    const calculateDifference = (silent = false) => {
         if (!startTime || !endTime) {
-            alert("Please enter both start and end times");
+            fail(silent, "Please enter both start and end times");
             return;
         }
 
@@ -137,7 +150,7 @@ export default function TimeDurationCalculator() {
         let endMinutes = timeToMinutes(endTime);
 
         if (isNaN(startMinutes) || isNaN(endMinutes)) {
-            alert("Please enter valid times");
+            fail(silent, "Please enter valid times");
             return;
         }
 
@@ -163,9 +176,9 @@ export default function TimeDurationCalculator() {
         });
     };
 
-    const calculateAddSubtract = () => {
+    const calculateAddSubtract = (silent = false) => {
         if (!baseTime) {
-            alert("Please enter a base time");
+            fail(silent, "Please enter a base time");
             return;
         }
 
@@ -173,13 +186,13 @@ export default function TimeDurationCalculator() {
         const minutesNum = parseInt(minutes) || 0;
 
         if (hoursNum === 0 && minutesNum === 0) {
-            alert("Please enter hours or minutes to add/subtract");
+            fail(silent, "Please enter hours or minutes to add/subtract");
             return;
         }
 
         let baseMinutes = timeToMinutes(baseTime);
         if (isNaN(baseMinutes)) {
-            alert("Please enter a valid base time");
+            fail(silent, "Please enter a valid base time");
             return;
         }
 
@@ -205,13 +218,17 @@ export default function TimeDurationCalculator() {
         });
     };
 
-    const calculate = () => {
+    const calculate = (silent = false) => {
         if (calcType === "difference") {
-            calculateDifference();
+            calculateDifference(silent);
         } else {
-            calculateAddSubtract();
+            calculateAddSubtract(silent);
         }
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [calcType, startTime, endTime, hours, minutes, baseTime]);
 
     return (
         <>
@@ -331,7 +348,7 @@ export default function TimeDurationCalculator() {
 
                         <div className="flex gap-3">
                             <button
-                                onClick={calculate}
+                                onClick={() => calculate()}
                                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate →

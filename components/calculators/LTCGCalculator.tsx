@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -102,28 +102,34 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// Worked example shown on first load: shares bought at ₹1,00,000 and sold at ₹2,50,000.
+// The years are used only for non-equity assets (indexation) when the visitor switches asset type.
+const DEFAULTS = { purchasePrice: "100000", salePrice: "250000", purchaseYear: "2015-16", saleYear: "2024-25" };
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LTCGCalculator() {
     const [assetType, setAssetType] = useState<"equity" | "realestate" | "debt" | "gold">("equity");
-    const [purchasePrice, setPurchasePrice] = useState("");
-    const [salePrice, setSalePrice] = useState("");
-    const [purchaseYear, setPurchaseYear] = useState("");
-    const [saleYear, setSaleYear] = useState("");
+    const [purchasePrice, setPurchasePrice] = useState(DEFAULTS.purchasePrice);
+    const [salePrice, setSalePrice] = useState(DEFAULTS.salePrice);
+    const [purchaseYear, setPurchaseYear] = useState(DEFAULTS.purchaseYear);
+    const [saleYear, setSaleYear] = useState(DEFAULTS.saleYear);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-    const calculate = () => {
+    // `silent` is used by the live-update effect: no alert() popups while the visitor is mid-typing.
+    const calculate = (silent = false) => {
         const purchase = parseFloat(purchasePrice);
         const sale = parseFloat(salePrice);
 
         if (!purchase || !sale || purchase <= 0 || sale <= 0) {
-            alert("Please enter valid purchase and sale prices");
+            if (silent) setResult(null);
+            else alert("Please enter valid purchase and sale prices");
             return;
         }
 
         if (sale <= purchase) {
-            alert("This is a loss. No tax applicable on capital loss.");
+            if (!silent) alert("This is a loss. No tax applicable on capital loss.");
             setResult({
                 gain: "0",
                 tax: "0",
@@ -165,7 +171,8 @@ export default function LTCGCalculator() {
         const sy = saleYear;
 
         if (!py || !sy) {
-            alert("Please select purchase and sale years for indexation benefit");
+            if (silent) setResult(null);
+            else alert("Please select purchase and sale years for indexation benefit");
             return;
         }
 
@@ -173,7 +180,8 @@ export default function LTCGCalculator() {
         const ciiSale = CII_VALUES[sy];
 
         if (!ciiPurchase || !ciiSale) {
-            alert("Please select valid years from the dropdown");
+            if (silent) setResult(null);
+            else alert("Please select valid years from the dropdown");
             return;
         }
 
@@ -205,12 +213,15 @@ export default function LTCGCalculator() {
 
     const resetForm = () => {
         setAssetType("equity");
-        setPurchasePrice("");
-        setSalePrice("");
-        setPurchaseYear("");
-        setSaleYear("");
-        setResult(null);
+        setPurchasePrice(DEFAULTS.purchasePrice);
+        setSalePrice(DEFAULTS.salePrice);
+        setPurchaseYear(DEFAULTS.purchaseYear);
+        setSaleYear(DEFAULTS.saleYear);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [assetType, purchasePrice, salePrice, purchaseYear, saleYear]);
 
     const years = Object.keys(CII_VALUES);
 
@@ -334,7 +345,7 @@ export default function LTCGCalculator() {
                         )}
                         <div className="flex gap-3">
                             <button
-                                onClick={calculate}
+                                onClick={() => calculate(false)}
                                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate LTCG Tax →

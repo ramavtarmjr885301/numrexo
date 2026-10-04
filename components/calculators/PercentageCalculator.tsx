@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -30,11 +30,20 @@ const PERCENTAGE_SCHEMA = JSON.stringify({
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
 
+// Worked example for each tab so the first view always shows an answer.
+const TAB_DEFAULTS: Record<CalcType, { v1: string; v2: string }> = {
+  percentage: { v1: "15", v2: "200" },    // 15% of 200 = 30.00
+  percentageOf: { v1: "30", v2: "200" },  // 30 is 15% of 200
+  increase: { v1: "50", v2: "70" },       // +40%
+  decrease: { v1: "80", v2: "60" },       // -25%
+};
+
 export default function PercentageCalculator() {
     const { symbol } = useCurrency();
   const [calcType, setCalcType] = useState<CalcType>("percentage");
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
+  const [value1, setValue1] = useState(TAB_DEFAULTS.percentage.v1);
+  const [value2, setValue2] = useState(TAB_DEFAULTS.percentage.v2);
+  const touched = useRef(false);
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -83,11 +92,20 @@ export default function PercentageCalculator() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { calculate(); }, [calcType, value1, value2]);
 
+  // Switching tabs loads that tab's worked example, unless the visitor has typed their own numbers.
+  const selectTab = (t: CalcType) => {
+    setCalcType(t);
+    if (!touched.current) {
+      setValue1(TAB_DEFAULTS[t].v1);
+      setValue2(TAB_DEFAULTS[t].v2);
+    }
+  };
+
   const resetForm = () => {
+    touched.current = false;
     setCalcType("percentage");
-    setValue1("");
-    setValue2("");
-    setResult(null);
+    setValue1(TAB_DEFAULTS.percentage.v1);
+    setValue2(TAB_DEFAULTS.percentage.v2);
   };
 
   return (
@@ -111,14 +129,14 @@ export default function PercentageCalculator() {
             <div>
               <label className="block text-xs font-semibold text-ink-faint mb-2">Calculation Type</label>
               <div className="grid grid-cols-2 gap-2">
-                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "percentage" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("percentage")}>% of Number</button>
-                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "percentageOf" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("percentageOf")}>is what %?</button>
-                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "increase" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("increase")}>% Increase</button>
-                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "decrease" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => setCalcType("decrease")}>% Decrease</button>
+                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "percentage" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => selectTab("percentage")}>% of Number</button>
+                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "percentageOf" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => selectTab("percentageOf")}>is what %?</button>
+                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "increase" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => selectTab("increase")}>% Increase</button>
+                <button className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${calcType === "decrease" ? "bg-blue-600 text-white" : "bg-surface border border-hairline"}`} onClick={() => selectTab("decrease")}>% Decrease</button>
               </div>
             </div>
-            <div><label className="block text-xs font-semibold text-ink-faint mb-2">{calcType === "percentage" ? "Percentage" : calcType === "percentageOf" ? "First Number" : "Original Value"}</label><input type="number" placeholder={calcType === "percentage" ? "15" : "50"} value={value1} onChange={(e) => setValue1(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
-            <div><label className="block text-xs font-semibold text-ink-faint mb-2">{calcType === "percentage" ? "Number" : calcType === "percentageOf" ? "Second Number" : "New Value"}</label><input type="number" placeholder={calcType === "percentage" ? "200" : "200"} value={value2} onChange={(e) => setValue2(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">{calcType === "percentage" ? "Percentage" : calcType === "percentageOf" ? "First Number" : "Original Value"}</label><input type="number" placeholder={calcType === "percentage" ? "15" : "50"} value={value1} onChange={(e) => { touched.current = true; setValue1(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
+            <div><label className="block text-xs font-semibold text-ink-faint mb-2">{calcType === "percentage" ? "Number" : calcType === "percentageOf" ? "Second Number" : "New Value"}</label><input type="number" placeholder={calcType === "percentage" ? "200" : "200"} value={value2} onChange={(e) => { touched.current = true; setValue2(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
             <div className="flex gap-3">
               <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all">Calculate →</button>
               <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>

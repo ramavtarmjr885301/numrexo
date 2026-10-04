@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
+import { calcEmi } from "@/lib/emi";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
-const FAQ_DATA = [
+const FAQ_DATA_IN = [
     {
         q: "What is a bike loan EMI calculator?",
         a: "It works out the monthly instalment on a two-wheeler loan before you sign anything at the showroom. Two-wheeler finance is a different market from car finance: the amounts are small (usually ₹50,000 to ₹1.5 lakh), most of the lending is done by NBFCs rather than banks, and the paperwork is often filled in at the dealership in under an hour. That speed is convenient, and it is also why people agree to a tenure and a rate they have not checked. Working out the EMI yourself first is the whole point.",
@@ -70,12 +71,164 @@ const FAQ_DATA = [
     },
 ];
 
+// US-default version of the FAQ. Every dollar figure below was computed with the
+// standard reducing-balance formula (EMI = P*r*(1+r)^n / ((1+r)^n - 1), r = APR/12);
+// the assumptions (amount, APR, term) are stated in each answer.
+const FAQ_DATA_WEST = [
+    {
+        q: "What is a motorcycle loan payment calculator?",
+        a: "It works out the monthly payment on a motorcycle or scooter loan before you sign anything at the dealership. Powersports financing is a different market from car financing: balances are smaller, terms are shorter, and a lot of it is arranged at the dealer's finance desk, sometimes through a lender tied to the manufacturer and sometimes through a bank or credit union you approached yourself. As a worked example, a $9,000 bike with $1,500 down leaves $7,500 to finance, and at 8% APR over 48 months that comes to about $183 a month. Doing that arithmetic before you walk in is the whole point.",
+    },
+    {
+        q: "How is the monthly payment on a motorcycle loan calculated?",
+        a: "Payment = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the amount financed, r is the monthly rate (APR ÷ 12) and n is the number of monthly payments. On a small balance the rate matters less than most people expect: on $7,500 over 48 months, moving from 8% to 9% APR lifts the payment from about $183 to about $187 and adds roughly $170 in total interest. What moves the number most is how much you finance and for how long.",
+    },
+    {
+        q: "What interest rate should I expect on a motorcycle loan?",
+        a: "Motorcycle and powersports loans commonly land somewhere around 6-14% APR, depending on your credit score, the term, the age of the bike and the lender. Credit unions and banks often price below dealer-arranged financing for borrowers with good credit, although a manufacturer promotional rate can beat both. On $7,500 over 48 months, 6% APR costs about $176 a month and $955 in interest, while 14% costs about $205 a month and $2,338. Treat any rate you read online as a starting point and get a written quote from at least two lenders.",
+    },
+    {
+        q: "How long should a motorcycle loan run?",
+        a: "Lenders commonly offer 24 to 72 months, but a long term is not automatically a good one. On $7,500 at 8% APR, 24 months is about $339 a month with $641 in interest; 48 months is about $183 with $1,289; 72 months drops the payment to about $131 but the interest rises to $1,968, roughly three times the 24-month figure. Motorcycles lose value quickly, and on a long term you can owe more than the bike is worth for years. Many riders find 36 to 48 months a workable middle.",
+    },
+    {
+        q: "How much down payment should I make?",
+        a: "Most lenders like to see 10-20% down, and a dealer advertising $0 down is making the payment look small, not the loan cheap. Take a $9,000 bike at 8% APR over 48 months: financing all $9,000 is about $220 a month with $1,546 in interest. Put 20% down ($1,800) and you finance $7,200, which is about $176 a month with $1,237 in interest, so roughly $44 a month and $309 less. A larger down payment also lowers the chance of owing more than the bike is worth, and can help you qualify for a better rate.",
+    },
+    {
+        q: "What does the out-the-door price include, and what gets financed?",
+        a: "The advertised price is only the start. The out-the-door price adds sales tax, title and registration fees, the dealer's documentation fee, and often freight or destination and prep charges, plus any accessories or extended warranty you agree to. All of it can be rolled into the loan. For illustration, assume a $9,000 bike, 6% sales tax ($540) and $300 in title, registration and documentation fees: that is $9,840 financed. At 8% APR over 48 months it is about $240 a month, against about $220 on $9,000 alone, and $145 more interest. Sales tax and fees vary by state, so ask for the out-the-door price in writing and enter only what you actually want to finance.",
+    },
+    {
+        q: "Can I get a loan on a used motorcycle?",
+        a: "Yes, but expect tighter terms than for a new bike. Many lenders shorten the maximum term or decline older bikes altogether, and rates run higher. Buying from a private seller usually means a bank or credit-union loan rather than dealer financing, and you will need a clean title with no existing lien, a bill of sale, and a VIN that matches the paperwork. As an illustration, $6,000 over 36 months costs about $188 a month with $769 in interest at 8% APR, and about $199 with $1,174 in interest at 12%: roughly $11 more a month and $405 more in total. For an older, cheaper bike, saving part of the price first can be the cheaper route.",
+    },
+    {
+        q: "What documents do I need?",
+        a: "Less than for a home loan, but more than most buyers expect to hand over at the counter. Plan on a government photo ID, your Social Security number for the credit check, proof of income (recent pay stubs, or tax returns and bank statements if you are self-employed), proof of address, and proof of insurance before the lender releases funds. Some lenders also ask to see a motorcycle license or endorsement. For the purchase itself you will sign a buyer's order or bill of sale and apply for title and registration; on a private-party deal, the seller's signed title is the key document.",
+    },
+    {
+        q: "What happens if I want to pay the loan off early?",
+        a: "Most motorcycle loans use simple interest, so paying early reduces the interest you owe, but you should check the contract for a prepayment penalty before relying on that. On $7,500 at 8% APR over 48 months, the balance after 24 payments is about $4,048. Paying it off at that point avoids roughly $346 in interest that the remaining 24 payments would have carried. Ask the lender for a written payoff quote, which includes interest accrued to the payoff date, and compare it with simply continuing to make payments.",
+    },
+    {
+        q: "What is the payment on a $7,500 motorcycle loan?",
+        a: "At 8% APR: 36 months is about $235 a month with $961 in total interest; 48 months is about $183 with $1,289; 60 months is about $152 with $1,624. At 12% APR over 48 months the same loan costs about $198 a month and $1,980 in interest. Change the figures above to match the quote you were actually given rather than relying on any of these.",
+    },
+    {
+        q: "Why does the same motorcycle cost more when I pay monthly?",
+        a: "Because you are buying money as well as a bike. A $12,000 loan at 10% APR over 72 months is about $222 a month, and over the full term you pay about $4,006 in interest, roughly a third of the bike's price again, for the convenience of paying later. That is not an argument against financing; it is an argument for knowing the number. The total interest line in the result above is the price of the loan itself.",
+    },
+    {
+        q: "Do I need insurance on a financed motorcycle?",
+        a: "Yes. Lenders require proof of insurance before they release funds, usually comprehensive and collision coverage with the lender listed as lienholder, and you must keep it in force until the loan is paid off. That cost is not part of the payment this calculator shows, so budget for it separately: for illustration only, a $600-a-year policy adds $50 a month. Premiums vary with the bike, where you live and your riding and claims history, so get quotes before you choose the bike, not after. You are free to shop around rather than take the dealer's offer.",
+    },
+    {
+        q: "What fees should I watch for besides interest?",
+        a: "Look for a documentation fee (some states cap it, others do not), a loan origination fee if the lender charges one, title and registration charges, and freight or prep on a new bike. Ask whether each fee is paid up front or added to the loan, because anything added to the loan accrues interest for the whole term. As an illustration, $300 in fees added to a $7,500 loan is 4% of the balance; at 8% APR over 48 months it lifts the payment from about $183 to about $190 and costs about $351 in total, of which about $51 is extra interest.",
+    },
+    {
+        q: "Can I get a motorcycle loan with a low credit score?",
+        a: "Often yes, at a higher price. Credit score is the biggest lever on your APR. Using illustrative rates (not quotes) on $7,500 over 48 months: 6% is about $176 a month with $955 in interest, 12% is about $198 with $1,980, and 18% is about $220 with $3,075. If your score is low, a co-signer, a bigger down payment or a credit-union membership can help. Check your credit report for errors first, and use a lender's pre-qualification, which many offer with a soft credit check, to see an estimated rate before the dealer runs a full application.",
+    },
+    {
+        q: "What actually reduces the monthly payment?",
+        a: "In order of how much they move the number: a bigger down payment, fewer dealer add-ons, and a better APR, often from a credit-union or bank pre-approval or an improved credit score. On $7,500 at 8% APR over 48 months (about $183 a month), paying $1,000 more up front drops the loan to $6,500 and the payment to about $159; cutting the APR to 6% brings it to about $176. Stretching to 60 months also lowers the payment to about $152, but it adds about $335 in interest, so compare total interest and not just the monthly figure.",
+    },
+];
+
+// ─── Per-market defaults, presets and example-table configs ──────────────────
+// The preset buttons, defaults and every worked example are sized for the
+// selected market: INR gets rupee-scale two-wheeler values, every other
+// currency gets a motorcycle/scooter loan sized for US/UK-style lending.
+
+type MarketKey = "india" | "west";
+
+interface BikeProfile {
+    defaults: { price: string; down: string; rate: string; tenure: string };
+    rateByType: { new: string; used: string };
+    placeholders: { price: string; down: string; rateNew: string; rateUsed: string; tenure: string };
+    priceStep: number;
+    amounts: number[];
+    rates: number[];
+    tenures: number[];
+    downs: number[];
+    benefitStep: number;
+    rateTable: { principal: number; months: number; rates: number[] };
+    tenureTable: { principal: number; rate: number; months: number[] };
+    modelTable: { rate: number; months: number; rows: { name: string; price: number }[] };
+    stretch: { principal: number; rate: number; shortMonths: number; longMonths: number };
+    rateSavingPoint?: { principal: number; months: number; lowRate: number; highRate: number };
+}
+
+const PROFILES: Record<MarketKey, BikeProfile> = {
+    india: {
+        defaults: { price: "100000", down: "15000", rate: "11", tenure: "36" },
+        rateByType: { new: "11", used: "13" },
+        placeholders: { price: "e.g., 100000", down: "e.g., 20000", rateNew: "e.g., 10", rateUsed: "e.g., 12", tenure: "e.g., 36" },
+        priceStep: 5000,
+        amounts: [50000, 80000, 100000, 150000, 200000],
+        rates: [8, 9, 10, 11, 12, 14],
+        tenures: [12, 18, 24, 36, 48],
+        downs: [10000, 15000, 20000, 30000, 50000],
+        benefitStep: 10000,
+        rateTable: { principal: 100000, months: 36, rates: [8, 9, 10, 12, 14] },
+        tenureTable: { principal: 100000, rate: 10, months: [12, 18, 24, 36, 48] },
+        modelTable: {
+            rate: 10,
+            months: 36,
+            rows: [
+                { name: "Honda Activa", price: 85000 },
+                { name: "TVS Jupiter", price: 75000 },
+                { name: "Hero Splendor", price: 65000 },
+                { name: "Bajaj Pulsar", price: 120000 },
+                { name: "Royal Enfield", price: 200000 },
+            ],
+        },
+        stretch: { principal: 80000, rate: 11, shortMonths: 24, longMonths: 48 },
+    },
+    west: {
+        defaults: { price: "9000", down: "1500", rate: "8", tenure: "48" },
+        rateByType: { new: "8", used: "11" },
+        placeholders: { price: "e.g., 9000", down: "e.g., 1500", rateNew: "e.g., 8", rateUsed: "e.g., 11", tenure: "e.g., 48" },
+        priceStep: 500,
+        amounts: [4000, 6000, 9000, 12000, 18000],
+        rates: [6, 8, 10, 12, 14],
+        tenures: [24, 36, 48, 60, 72],
+        downs: [500, 1000, 1500, 2000, 3000],
+        benefitStep: 1000,
+        rateTable: { principal: 9000, months: 48, rates: [6, 8, 10, 12, 14] },
+        tenureTable: { principal: 9000, rate: 8, months: [24, 36, 48, 60, 72] },
+        modelTable: {
+            rate: 8,
+            months: 48,
+            rows: [
+                { name: "Entry scooter or used commuter", price: 4000 },
+                { name: "Used or entry-level motorcycle", price: 6000 },
+                { name: "Mid-range motorcycle", price: 9000 },
+                { name: "Cruiser or adventure bike", price: 12000 },
+                { name: "Premium touring or performance bike", price: 18000 },
+            ],
+        },
+        stretch: { principal: 7500, rate: 8, shortMonths: 24, longMonths: 48 },
+        rateSavingPoint: { principal: 7500, months: 48, lowRate: 8, highRate: 9 },
+    },
+};
+
+// Row colour classes for the example tables (kept from the original static tables).
+const RATE_ROW_RATE_CLS = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const RATE_ROW_INT_CLS = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_ROW_TERM_CLS = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const TENURE_ROW_INT_CLS = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+
+const termLabel = (months: number) => (months % 12 === 0 && months >= 12 ? `${months / 12}Y` : `${months}M`);
+
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
 
 const FAQ_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_DATA.map((item) => ({
+    mainEntity: FAQ_DATA_WEST.map((item) => ({
         "@type": "Question",
         name: item.q,
         acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -115,21 +268,36 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BikeLoanEMICalculator() {
-    const { symbol, money, compact } = useCurrency();
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
+    const { symbol, money, compact, market } = useCurrency();
+    const profile = PROFILES[market];
+    const isIN = market === "india";
+    // SSR and the default currency (USD) render the west defaults, so a worked result shows on first paint.
+    const [loanAmount, setLoanAmount] = useState(PROFILES.west.defaults.price);
+    const [interestRate, setInterestRate] = useState(PROFILES.west.defaults.rate);
+    const [tenure, setTenure] = useState(PROFILES.west.defaults.tenure);
     const [bikeType, setBikeType] = useState("new");
-    const [downPayment, setDownPayment] = useState("");
+    const [downPayment, setDownPayment] = useState(PROFILES.west.defaults.down);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // Set once the visitor edits anything, so a later currency switch never overwrites their numbers.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: MarketKey) => {
+        const d = PROFILES[m].defaults;
+        setLoanAmount(d.price);
+        setDownPayment(d.down);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+        setBikeType("new");
+    };
+
+    useEffect(() => {
+        if (!touched.current) applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setTenure("");
-        setDownPayment("");
-        setResult(null);
+        touched.current = false;
+        applyDefaults(market);
     };
 
     const calculateEMI = () => {
@@ -241,11 +409,16 @@ export default function BikeLoanEMICalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure, bikeType, downPayment]);
 
-    // Preset values
-    const presetAmounts = [50000, 80000, 100000, 150000, 200000];
-    const presetRates = [8, 9, 10, 11, 12, 14];
-    const presetTenures = [12, 18, 24, 36, 48];
-    const presetDownPayments = [10000, 15000, 20000, 30000, 50000];
+    // Example-table rows, computed from the standard EMI formula for the selected market.
+    const rateRows = profile.rateTable.rates.map((r) => ({ rate: r, ...calcEmi(profile.rateTable.principal, r, profile.rateTable.months) }));
+    const tenureRows = profile.tenureTable.months.map((m) => ({ months: m, ...calcEmi(profile.tenureTable.principal, profile.tenureTable.rate, m) }));
+    const modelRows = profile.modelTable.rows.map((row) => ({ ...row, ...calcEmi(row.price, profile.modelTable.rate, profile.modelTable.months) }));
+    const stretchShort = calcEmi(profile.stretch.principal, profile.stretch.rate, profile.stretch.shortMonths);
+    const stretchLong = calcEmi(profile.stretch.principal, profile.stretch.rate, profile.stretch.longMonths);
+    const sp = profile.rateSavingPoint;
+    const rateSaving = sp
+        ? calcEmi(sp.principal, sp.highRate, sp.months).totalInterest - calcEmi(sp.principal, sp.lowRate, sp.months).totalInterest
+        : 0;
 
     return (
         <>
@@ -295,8 +468,9 @@ export default function BikeLoanEMICalculator() {
                             <div className="grid grid-cols-2 gap-2">
                                 <button
                                     onClick={() => {
+                                        touched.current = true;
                                         setBikeType("new");
-                                        setInterestRate("");
+                                        setInterestRate(profile.rateByType.new);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${bikeType === "new"
                                         ? "bg-blue-600 text-white"
@@ -307,8 +481,9 @@ export default function BikeLoanEMICalculator() {
                                 </button>
                                 <button
                                     onClick={() => {
+                                        touched.current = true;
                                         setBikeType("used");
-                                        setInterestRate("");
+                                        setInterestRate(profile.rateByType.used);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${bikeType === "used"
                                         ? "bg-orange-500 text-white"
@@ -319,7 +494,9 @@ export default function BikeLoanEMICalculator() {
                                 </button>
                             </div>
                             <p className="text-xs text-ink-faint mt-1">
-                                {bikeType === "new" ? "Interest rates: 8-12% | Tenure: Up to 4 years" : "Interest rates: 10-16% | Tenure: Up to 3 years"}
+                                {isIN
+                                    ? (bikeType === "new" ? "Interest rates: 8-12% | Tenure: Up to 4 years" : "Interest rates: 10-16% | Tenure: Up to 3 years")
+                                    : (bikeType === "new" ? "Typical APR: 6-10% | Terms: 24-72 months" : "Typical APR: 9-14% | Terms: 24-48 months")}
                             </p>
                         </div>
 
@@ -329,19 +506,19 @@ export default function BikeLoanEMICalculator() {
                             <div className="relative">
                                 <input
                                     type="number"
-                                    step="5000"
-                                    placeholder="e.g., 100000"
+                                    step={profile.priceStep}
+                                    placeholder={profile.placeholders.price}
                                     value={loanAmount}
-                                    onChange={(e) => setLoanAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setLoanAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
-                                {presetAmounts.map((amount) => (
+                                {profile.amounts.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setLoanAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setLoanAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -356,19 +533,19 @@ export default function BikeLoanEMICalculator() {
                             <div className="relative">
                                 <input
                                     type="number"
-                                    step="5000"
-                                    placeholder="e.g., 20000"
+                                    step={profile.priceStep}
+                                    placeholder={profile.placeholders.down}
                                     value={downPayment}
-                                    onChange={(e) => setDownPayment(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setDownPayment(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
-                                {presetDownPayments.map((amount) => (
+                                {profile.downs.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setDownPayment(amount.toString())}
+                                        onClick={() => { touched.current = true; setDownPayment(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -385,18 +562,18 @@ export default function BikeLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="0.1"
-                                    placeholder={bikeType === "new" ? "e.g., 10" : "e.g., 12"}
+                                    placeholder={bikeType === "new" ? profile.placeholders.rateNew : profile.placeholders.rateUsed}
                                     value={interestRate}
-                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setInterestRate(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
-                                {presetRates.map((rate) => (
+                                {profile.rates.map((rate) => (
                                     <button
                                         key={rate}
-                                        onClick={() => setInterestRate(rate.toString())}
+                                        onClick={() => { touched.current = true; setInterestRate(rate.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
@@ -412,18 +589,18 @@ export default function BikeLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="1"
-                                    placeholder="e.g., 36"
+                                    placeholder={profile.placeholders.tenure}
                                     value={tenure}
-                                    onChange={(e) => setTenure(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTenure(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
                             </div>
                             <div className="mt-1.5 flex flex-wrap gap-1.5">
-                                {presetTenures.map((month) => (
+                                {profile.tenures.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setTenure(month.toString())}
+                                        onClick={() => { touched.current = true; setTenure(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 36 ? `${month / 12}Y` : `${month}M`}
@@ -455,7 +632,7 @@ export default function BikeLoanEMICalculator() {
                     title="Your Monthly EMI"
                     isEmpty={!result}
                     emptyIcon="🏍️"
-                    emptyText="Enter bike details and press Calculate"
+                    emptyText="Enter bike details to see your monthly payment"
                     mainResult={result ? {
                         label: "Monthly EMI",
                         value: money(result.emi),
@@ -518,10 +695,12 @@ export default function BikeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">About Bike Loan EMI Calculator</h2>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Two-wheeler financing moves fast — most of it is arranged on the spot at the dealership, often by an NBFC rather than your own bank, with paperwork done in under an hour. That speed is exactly why so many buyers never actually see the EMI math before agreeing to a tenure, and why a quick calculation before you sit down at the counter is worth more here than on almost any other kind of loan.
+                    {isIN
+                        ? "Two-wheeler financing moves fast — most of it is arranged on the spot at the dealership, often by an NBFC rather than your own bank, with paperwork done in under an hour. That speed is exactly why so many buyers never actually see the EMI math before agreeing to a tenure, and why a quick calculation before you sit down at the counter is worth more here than on almost any other kind of loan."
+                        : "Motorcycle and scooter financing moves fast — much of it is arranged on the spot at the dealership's finance desk, often through a lender the dealer chose rather than your own bank or credit union, with paperwork done in under an hour. That speed is exactly why so many buyers never actually see the payment math before agreeing to a term, and why a quick calculation before you sit down at the counter is worth more here than on almost any other kind of loan."}
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed mb-3">
-                    Enter the bike's on-road price, anything you're putting down, the rate quoted, and the tenure, and you'll get the monthly EMI, total interest over the loan, and a schedule showing how the balance comes down month by month.
+                    Enter the bike's {isIN ? "on-road" : "out-the-door"} price, anything you're putting down, the rate quoted, and the tenure, and you'll get the monthly EMI, total interest over the loan, and a schedule showing how the balance comes down month by month.
                 </p>
                 <p className="text-ink-faint text-sm leading-relaxed">
                     It's particularly useful for sanity-checking a "zero down payment" offer — those are built to make the EMI look small, not to make the loan cheap, and the numbers below show exactly what that convenience costs in interest.
@@ -534,25 +713,47 @@ export default function BikeLoanEMICalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
                         <h3 className="text-sm font-semibold text-blue-600 mb-2">🏍️ New Bike</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Interest Rate: 8-12% p.a.</li>
-                            <li>• Tenure: Up to 4 years (48 months)</li>
-                            <li>• Down Payment: 10-15%</li>
-                            <li>• LTV: Up to 90%</li>
-                            <li>• Lower interest rates</li>
-                            <li>• Longer repayment period</li>
-                        </ul>
+                        {isIN ? (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Interest Rate: 8-12% p.a.</li>
+                                <li>• Tenure: Up to 4 years (48 months)</li>
+                                <li>• Down Payment: 10-15%</li>
+                                <li>• LTV: Up to 90%</li>
+                                <li>• Lower interest rates</li>
+                                <li>• Longer repayment period</li>
+                            </ul>
+                        ) : (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• APR: commonly 6-10%, depending on credit score</li>
+                                <li>• Term: 24-72 months</li>
+                                <li>• Down Payment: 10-20%</li>
+                                <li>• Taxes and fees can often be financed</li>
+                                <li>• Lower interest rates</li>
+                                <li>• Longer repayment period</li>
+                            </ul>
+                        )}
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
                         <h3 className="text-sm font-semibold text-orange-600 mb-2">🛵 Used Bike</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Interest Rate: 10-16% p.a.</li>
-                            <li>• Tenure: Up to 3 years (36 months)</li>
-                            <li>• Down Payment: 20-30%</li>
-                            <li>• LTV: Up to 80%</li>
-                            <li>• Higher interest rates</li>
-                            <li>• Shorter repayment period</li>
-                        </ul>
+                        {isIN ? (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Interest Rate: 10-16% p.a.</li>
+                                <li>• Tenure: Up to 3 years (36 months)</li>
+                                <li>• Down Payment: 20-30%</li>
+                                <li>• LTV: Up to 80%</li>
+                                <li>• Higher interest rates</li>
+                                <li>• Shorter repayment period</li>
+                            </ul>
+                        ) : (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• APR: commonly 9-14%, higher for older bikes</li>
+                                <li>• Term: 24-48 months, shorter for older bikes</li>
+                                <li>• Down Payment: lenders often want 20% or more</li>
+                                <li>• Clean title with no existing lien required</li>
+                                <li>• Higher interest rates</li>
+                                <li>• Shorter repayment period</li>
+                            </ul>
+                        )}
                     </div>
                 </div>
                 <p className="text-xs text-ink-faint mt-3">* New bikes generally get better loan terms due to higher resale value and lower risk</p>
@@ -562,7 +763,7 @@ export default function BikeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Use This Bike Loan EMI Calculator</h2>
                 <div className="space-y-3">
-                    <p className="text-ink-faint text-sm leading-relaxed">Pick <strong className="text-ink">New Bike</strong> or <strong className="text-ink">Used Bike</strong> first, since the typical rates and tenures differ quite a bit between the two. Enter the <strong className="text-ink">on-road price</strong> — not just the ex-showroom figure, since RTO charges, insurance and accessories usually get financed along with it.</p>
+                    <p className="text-ink-faint text-sm leading-relaxed">Pick <strong className="text-ink">New Bike</strong> or <strong className="text-ink">Used Bike</strong> first, since the typical rates and tenures differ quite a bit between the two. Enter the <strong className="text-ink">{isIN ? "on-road price" : "out-the-door price"}</strong> — not just the {isIN ? "ex-showroom" : "advertised"} figure, since {isIN ? "RTO charges, insurance and accessories" : "sales tax, title and registration fees, dealer fees and accessories"} usually get financed along with it.</p>
                     <p className="text-ink-faint text-sm leading-relaxed">Add a <strong className="text-ink">down payment</strong> if you're planning one — try the calculation with and without it to see how much interest a small upfront payment actually saves. Then enter the <strong className="text-ink">interest rate</strong> and <strong className="text-ink">tenure</strong> you've been quoted.</p>
                     <p className="text-ink-faint text-sm leading-relaxed">Press <strong className="text-ink">Calculate EMI</strong> for the monthly payment, total interest, and the full repayment schedule. The <strong className="text-ink">affordability rating</strong> flags whether the EMI looks heavy for a typical income at that level — <strong className="text-ink">Reset</strong> clears everything if you want to try a different dealership's numbers.</p>
                 </div>
@@ -577,16 +778,16 @@ export default function BikeLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Two-wheeler loans are often approved and signed in the same sitting at the dealership. Having your own EMI figure beforehand means you're not just accepting whatever the finance desk quotes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Bank vs NBFC Tie-Up</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Dealership financing is usually an NBFC tie-up chosen for speed, not price. Run the same bike price through your own bank's rate to see if a day's delay is worth the saving.</p>
+                        <h3 className="text-sm font-semibold text-green-600 mb-2">{isIN ? "✓ Bank vs NBFC Tie-Up" : "✓ Dealer Financing vs Your Own Lender"}</h3>
+                        <p className="text-ink-faint text-xs leading-relaxed">{isIN ? "Dealership financing is usually an NBFC tie-up chosen for speed, not price. Run the same bike price through your own bank's rate to see if a day's delay is worth the saving." : "Dealer financing is arranged for speed and convenience, not always for the lowest rate. Run the same bike price through a credit union or bank pre-approval to see if a day's delay is worth the saving."}</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✓ Down Payment Analysis</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra {compact(10000)} upfront saves you over the full tenure.</p>
+                        <p className="text-ink-faint text-xs leading-relaxed">Zero-down offers are the dealership's best sales tool and your most expensive option. See what each extra {compact(profile.benefitStep)} upfront saves you over the full {isIN ? "tenure" : "term"}.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-purple-600 mb-2">✓ Weigh a Shorter Loan Against a Lower EMI</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">On a small loan, stretching the tenure barely moves the EMI but can push the total interest up by thousands. Test a 2-year and a 4-year tenure side by side before you pick one.</p>
+                        <p className="text-ink-faint text-xs leading-relaxed">On a small loan, stretching the {isIN ? "tenure" : "term"} barely moves the {isIN ? "EMI" : "payment"} but can push the total interest up sharply. Test a 2-year and a 4-year {isIN ? "tenure" : "term"} side by side before you pick one.</p>
                     </div>
                 </div>
             </section>
@@ -626,46 +827,24 @@ export default function BikeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(100000)}, 3Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(profile.rateTable.principal)}, {termLabel(profile.rateTable.months)})</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">8%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3134, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(12824, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(112824, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">9%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3180, 0)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{money(14480, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(114480, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3226, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(16136, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(116136, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">12%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3322, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(19592, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(119592, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">14%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3419, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(23084, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(123084, 0)}</td>
-                            </tr>
+                            {rateRows.map((row, i) => (
+                                <tr key={row.rate} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 font-bold ${RATE_ROW_RATE_CLS[i]}`}>{row.rate}%</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${RATE_ROW_INT_CLS[i]}`}>{money(row.totalInterest, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.totalPayment, 0)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(100000)} bike loan over 3 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(profile.rateTable.principal)} bike loan over {profile.rateTable.months / 12} years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -676,42 +855,20 @@ export default function BikeLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(100000)}, 10%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(profile.tenureTable.principal)}, {profile.tenureTable.rate}%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600 font-bold">12 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(8790, 0)}</td>
-                                <td className="py-2 px-4 text-right text-green-600">{money(5480, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(105480, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">18 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(6002, 0)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{money(8036, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(108036, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">24 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(4614, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(10736, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(110736, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">36 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3226, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(16136, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(116136, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">48 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(2535, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(21680, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(121680, 0)}</td>
-                            </tr>
+                            {tenureRows.map((row, i) => (
+                                <tr key={row.months} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 font-bold ${TENURE_ROW_TERM_CLS[i]}`}>{row.months} Months</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${TENURE_ROW_INT_CLS[i]}`}>{money(row.totalInterest, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.totalPayment, 0)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -720,80 +877,83 @@ export default function BikeLoanEMICalculator() {
 
             {/* Popular Bike Models with EMI */}
             <section className="mb-8">
-                <h2 className="text-xl font-semibold text-ink mb-4">Popular Bike Models & Estimated EMI</h2>
+                <h2 className="text-xl font-semibold text-ink mb-4">{isIN ? "Popular Bike Models & Estimated EMI" : "Estimated Payment by Bike Price"}</h2>
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-hairline">
-                                <th className="text-left py-3 px-4 text-ink-faint">Bike Model</th>
+                                <th className="text-left py-3 px-4 text-ink-faint">{isIN ? "Bike Model" : "Bike Type"}</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Price ({symbol})</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">EMI (10%, 3Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">EMI ({profile.modelTable.rate}%, {termLabel(profile.modelTable.months)})</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600">Honda Activa</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(85000, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(2742, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(13712, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600">TVS Jupiter</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(75000, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(2420, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(12120, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600">Hero Splendor</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(65000, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(2097, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(10492, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600">Bajaj Pulsar</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(120000, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(3871, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(19356, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600">Royal Enfield</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(200000, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(6452, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(32272, 0)}</td>
-                            </tr>
+                            {modelRows.map((row) => (
+                                <tr key={row.name} className="border-b border-hairline hover:bg-cream">
+                                    <td className="py-2 px-4 text-blue-600">{row.name}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.price, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-yellow-700">{money(row.totalInterest, 0)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* EMI calculated with 10% interest rate and 3-year tenure. Prices are indicative.</p>
+                <p className="text-xs text-ink-faint mt-2">* EMI calculated with {profile.modelTable.rate}% interest rate and {profile.modelTable.months / 12}-year tenure{isIN ? "" : ", with the full price financed"}. Prices are indicative.</p>
             </section>
 
             {/* Bike Loan Eligibility */}
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-4">Bike Loan Eligibility Criteria</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: {money(15000)}</li>
-                            <li>• Work experience: 6+ months</li>
-                            <li>• CIBIL score: 700+ preferred, though a thin file is common for a first bike</li>
-                            <li>• Aadhaar and PAN, plus address proof if the two differ</li>
-                        </ul>
+                {isIN ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-surface border border-hairline rounded-xl p-4">
+                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 21-60 years</li>
+                                <li>• Minimum monthly income: {money(15000)}</li>
+                                <li>• Work experience: 6+ months</li>
+                                <li>• CIBIL score: 700+ preferred, though a thin file is common for a first bike</li>
+                                <li>• Aadhaar and PAN, plus address proof if the two differ</li>
+                            </ul>
+                        </div>
+                        <div className="bg-surface border border-hairline rounded-xl p-4">
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✅ Self-Employed</h3>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 25-65 years</li>
+                                <li>• ITR filing: 1+ years</li>
+                                <li>• Business vintage: 2+ years</li>
+                                <li>• Annual turnover: {compact(200000)}+</li>
+                                <li>• Six months of bank statements showing steady inflow</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-yellow-700 mb-2">✅ Self-Employed</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 25-65 years</li>
-                            <li>• ITR filing: 1+ years</li>
-                            <li>• Business vintage: 2+ years</li>
-                            <li>• Annual turnover: {compact(200000)}+</li>
-                            <li>• Six months of bank statements showing steady inflow</li>
-                        </ul>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-surface border border-hairline rounded-xl p-4">
+                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Employed Applicants</h3>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 18+ (the age of majority where you live)</li>
+                                <li>• Steady, verifiable income, shown by recent pay stubs</li>
+                                <li>• Credit score: higher tiers get the lowest rates, though fair or limited credit is often still financed at a higher APR</li>
+                                <li>• Government photo ID, plus a motorcycle license or endorsement if the lender asks</li>
+                                <li>• Proof of insurance before the lender releases funds</li>
+                            </ul>
+                        </div>
+                        <div className="bg-surface border border-hairline rounded-xl p-4">
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">✅ Self-Employed</h3>
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 18+ (the age of majority where you live)</li>
+                                <li>• Tax returns for the last two years, where available</li>
+                                <li>• Recent bank statements showing steady deposits</li>
+                                <li>• 1099 or business income records if your income is irregular</li>
+                                <li>• A larger down payment can offset a thin or short credit history</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <p className="text-xs text-ink-faint mt-3">* Two-wheeler lending is dominated by NBFCs, and their criteria are looser and their rates higher than a bank's. Check both.</p>
+                )}
+                <p className="text-xs text-ink-faint mt-3">{isIN ? "* Two-wheeler lending is dominated by NBFCs, and their criteria are looser and their rates higher than a bank's. Check both." : "* Dealer financing is convenient, but a credit-union or bank pre-approval gives you a rate to compare it against. Check both."}</p>
             </section>
 
             {/* Tips for Lower Bike Loan EMI */}
@@ -810,19 +970,19 @@ export default function BikeLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Choose New Bike Over Used:</strong> New bikes get lower interest rates (8-12%) compared to used bikes (10-16%). This can save you thousands in interest.</span>
+                        <span><strong className="text-ink-soft">Choose New Bike Over Used:</strong> New bikes get lower interest rates ({isIN ? "8-12%" : "commonly 6-10%"}) compared to used bikes ({isIN ? "10-16%" : "commonly 9-14%"}). This can save you real money in interest.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 1% difference can save you {money(5000)}+ over the loan tenure.</span>
+                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. {isIN ? <>Even a 1% difference can save you {money(5000)}+ over the loan tenure.</> : <>On {money(sp!.principal)} over {sp!.months} months, one point of APR ({sp!.lowRate}% vs {sp!.highRate}%) is worth about {money(rateSaving, 0)} in interest — more on a larger loan or a longer term.</>}</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Choose Optimal Tenure:</strong> Match the tenure to how long you will actually keep the bike. Paying for a commuter bike in year four of ownership is how people end up with an EMI on something they no longer ride.</span>
+                        <span><strong className="text-ink-soft">Choose Optimal {isIN ? "Tenure" : "Term"}:</strong> Match the {isIN ? "tenure" : "term"} to how long you will actually keep the bike. Paying for a commuter bike in year four of ownership is how people end up with a monthly payment on something they no longer ride.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Look for Promotional Offers:</strong> Many lenders offer zero processing fees or lower rates during festive seasons. Plan your purchase during such periods.</span>
+                        <span><strong className="text-ink-soft">Look for Promotional Offers:</strong> {isIN ? "Many lenders offer zero processing fees or lower rates during festive seasons. Plan your purchase during such periods." : "Manufacturer and dealer promotions come and go. Ask whether a promotional APR or rebate applies, then compare the total cost against a credit-union or bank quote rather than the headline rate alone."}</span>
                     </li>
                 </ul>
             </section>
@@ -833,23 +993,25 @@ export default function BikeLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Ignoring On-Road Price:</strong> Dealers quote ex-showroom. The loan is written against the on-road figure — RTO, road tax, insurance and any accessories they add — which is routinely 20-25% higher.</span>
+                        <span>{isIN
+                            ? <><strong className="text-ink-soft">Ignoring On-Road Price:</strong> Dealers quote ex-showroom. The loan is written against the on-road figure — RTO, road tax, insurance and any accessories they add — which is routinely 20-25% higher.</>
+                            : <><strong className="text-ink-soft">Ignoring the Out-the-Door Price:</strong> Dealers advertise the sticker price. The loan is written against the out-the-door figure — sales tax, title and registration, documentation fees, freight or prep charges and any accessories they add — which is always higher than the sticker.</>}</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Not Factoring in Insurance:</strong> Bike insurance is mandatory and adds to your monthly cost. Factor it into your budget.</span>
+                        <span><strong className="text-ink-soft">Not Factoring in Insurance:</strong> {isIN ? "Bike insurance is mandatory and adds to your monthly cost. Factor it into your budget." : "Lenders require comprehensive and collision coverage until the loan is paid off, and it adds to your monthly cost. Get quotes before you pick the bike."}</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Choosing Longest Tenure:</strong> Stretching {money(80000)} from two years to four cuts the EMI by {money(1661)} and adds {money(9760)} in interest. Take that trade only if the shorter EMI genuinely does not fit.</span>
+                        <span><strong className="text-ink-soft">Choosing Longest {isIN ? "Tenure" : "Term"}:</strong> Stretching {money(profile.stretch.principal)} from {profile.stretch.shortMonths / 12} years to {profile.stretch.longMonths / 12} years at {profile.stretch.rate}% cuts the {isIN ? "EMI" : "payment"} by {money(stretchShort.emi - stretchLong.emi, 0)} and adds {money(stretchLong.totalInterest - stretchShort.totalInterest, 0)} in interest. Take that trade only if the shorter {isIN ? "EMI" : "payment"} genuinely does not fit.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Missing Processing Fees:</strong> On small loans the flat minimum processing fee matters more than the percentage. Ask for the rupee figure, not the rate.</span>
+                        <span><strong className="text-ink-soft">{isIN ? "Missing Processing Fees:" : "Missing Dealer and Loan Fees:"}</strong> {isIN ? "On small loans the flat minimum processing fee matters more than the percentage. Ask for the rupee figure, not the rate." : "On small loans, flat documentation and origination fees matter more than the APR. Ask for the dollar figure, and whether it is paid up front or added to the loan."}</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Each application leaves a hard enquiry. Dealerships often submit to several financiers at once to get you approved fast — ask them to apply to one first.</span>
+                        <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> {isIN ? "Each application leaves a hard enquiry. Dealerships often submit to several financiers at once to get you approved fast — ask them to apply to one first." : "Each full application can leave a hard inquiry on your credit report. Scoring models usually treat several inquiries for the same kind of loan inside a short window as one, but the window varies — ask the dealer which lenders it will submit to, and use pre-qualification where offered."}</span>
                     </li>
                 </ul>
             </section>
@@ -858,7 +1020,7 @@ export default function BikeLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
-                    {FAQ_DATA.map((item, i) => (
+                    {(isIN ? FAQ_DATA_IN : FAQ_DATA_WEST).map((item, i) => (
                         <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
                                 className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"

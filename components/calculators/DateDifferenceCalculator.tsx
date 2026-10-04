@@ -1,7 +1,7 @@
 // components/calculators/DateDifferenceCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -85,17 +85,18 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function DateDifferenceCalculator() {
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [startDate, setStartDate] = useState("2026-01-01");
+    const [endDate, setEndDate] = useState("2026-12-31");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-    const calculate = () => {
+    const calculate = (showAlert = false) => {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            alert("Please select valid dates");
+            if (showAlert) alert("Please select valid dates");
+            setResult(null);
             return;
         }
 
@@ -130,10 +131,13 @@ export default function DateDifferenceCalculator() {
     };
 
     const resetForm = () => {
-        setStartDate("");
-        setEndDate("");
-        setResult(null);
+        setStartDate("2026-01-01");
+        setEndDate("2026-12-31");
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(); }, [startDate, endDate]);
 
     return (
         <>
@@ -192,7 +196,7 @@ export default function DateDifferenceCalculator() {
                         </div>
                         <div className="flex gap-3">
                             <button
-                                onClick={calculate}
+                                onClick={() => calculate(true)}
                                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Difference →

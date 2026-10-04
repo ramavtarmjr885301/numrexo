@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -83,6 +83,22 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Example dates ────────────────────────────────────────────────────────────
+// Relative to today, so the worked example is always a current pregnancy (LMP 10 weeks ago,
+// conception 8 weeks ago). Only ever called from effects / event handlers, never during render,
+// so it cannot cause a hydration mismatch.
+function toInputDate(d: Date): string {
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${mm}-${dd}`;
+}
+function exampleDates() {
+    const now = new Date();
+    const lmp = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 70);
+    const conception = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 56);
+    return { lmp: toInputDate(lmp), conception: toInputDate(conception) };
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PregnancyDueDateCalculator() {
@@ -93,7 +109,16 @@ export default function PregnancyDueDateCalculator() {
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-    const calculate = () => {
+    // Fill in example dates after mount (today-relative, so not in the useState initialisers).
+    useEffect(() => {
+        const ex = exampleDates();
+        setLmpDate(ex.lmp);
+        setConceptionDate(ex.conception);
+    }, []);
+
+    // Invalid input: warn only when the user pressed Calculate; while typing (silent) just clear the result.
+    const calculate = (silent = false) => {
+        const alert = (msg: string) => { if (silent) setResult(null); else window.alert(msg); };
         let dueDate: Date;
         let currentDate = new Date();
 
@@ -116,6 +141,8 @@ export default function PregnancyDueDateCalculator() {
             dueDate.setDate(conception.getDate() + 266);
         }
 
+        if (isNaN(dueDate.getTime())) { setResult(null); return; }
+
         const today = new Date();
         let currentWeek = 0;
         let daysLeft = 0;
@@ -128,8 +155,11 @@ export default function PregnancyDueDateCalculator() {
         } else if (today < dueDate) {
             const diffTime = dueDate.getTime() - today.getTime();
             daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            // Gestational age counts from the first day of the last period. With an
+            // LMP date that is the date itself; with a conception date, LMP is the
+            // date 14 days earlier.
             const lmpForWeek = calcMethod === "lmp" ? new Date(lmpDate) : new Date(conceptionDate);
-            lmpForWeek.setDate(lmpForWeek.getDate() - 14);
+            if (calcMethod !== "lmp") lmpForWeek.setDate(lmpForWeek.getDate() - 14);
             const weeksPassed = (today.getTime() - lmpForWeek.getTime()) / (1000 * 60 * 60 * 24 * 7);
             currentWeek = Math.min(40, Math.max(1, Math.floor(weeksPassed)));
 
@@ -152,11 +182,15 @@ export default function PregnancyDueDateCalculator() {
 
     const resetForm = () => {
         setCalcMethod("lmp");
-        setLmpDate("");
-        setConceptionDate("");
+        const ex = exampleDates();
+        setLmpDate(ex.lmp);
+        setConceptionDate(ex.conception);
         setCycleLength("28");
-        setResult(null);
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [calcMethod, lmpDate, conceptionDate, cycleLength]);
 
     return (
         <>
@@ -199,7 +233,7 @@ export default function PregnancyDueDateCalculator() {
                         )}
 
                         <div className="flex gap-3">
-                            <button onClick={calculate} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all">Calculate Due Date →</button>
+                            <button onClick={() => calculate()} className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all">Calculate Due Date →</button>
                             <button onClick={resetForm} className="px-5 py-3 rounded-lg bg-surface border border-hairline text-ink-faint font-semibold hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all">Reset</button>
                         </div>
                     </div>

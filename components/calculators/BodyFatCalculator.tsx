@@ -67,12 +67,12 @@ const BODY_FAT_SCHEMA = JSON.stringify({
 
 export default function BodyFatCalculator() {
   const [gender, setGender] = useState<"male" | "female">("male");
-  const [age, setAge] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [neck, setNeck] = useState("");
-  const [waist, setWaist] = useState("");
-  const [hip, setHip] = useState("");
+  const [age, setAge] = useState("30");
+  const [weight, setWeight] = useState("80");
+  const [height, setHeight] = useState("178");
+  const [neck, setNeck] = useState("38");
+  const [waist, setWaist] = useState("85");
+  const [hip, setHip] = useState("95");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -94,7 +94,8 @@ export default function BodyFatCalculator() {
     let colorClass = "";
 
     if (gender === "male") {
-      bodyFatPercentage = 86.010 * Math.log10(wa - n) - 70.041 * Math.log10(h) + 36.76;
+      // The Navy formulas below take INCHES; the form collects centimetres.
+      bodyFatPercentage = 86.010 * Math.log10((wa - n) / 2.54) - 70.041 * Math.log10(h / 2.54) + 36.76;
 
       if (bodyFatPercentage < 6) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
       else if (bodyFatPercentage < 14) { category = "Athlete"; colorClass = "text-green-600"; }
@@ -103,7 +104,7 @@ export default function BodyFatCalculator() {
       else { category = "Obese (High Risk)"; colorClass = "text-red-600"; }
     } else {
       if (!hi) { setResult(null); return; }
-      bodyFatPercentage = 163.205 * Math.log10(wa + hi - n) - 97.684 * Math.log10(h) - 78.387;
+      bodyFatPercentage = 163.205 * Math.log10((wa + hi - n) / 2.54) - 97.684 * Math.log10(h / 2.54) - 78.387;
 
       if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
       else if (bodyFatPercentage < 21) { category = "Athlete"; colorClass = "text-green-600"; }
@@ -133,13 +134,12 @@ export default function BodyFatCalculator() {
 
   const resetForm = () => {
     setGender("male");
-    setAge("");
-    setWeight("");
-    setHeight("");
-    setNeck("");
-    setWaist("");
-    setHip("");
-    setResult(null);
+    setAge("30");
+    setWeight("80");
+    setHeight("178");
+    setNeck("38");
+    setWaist("85");
+    setHip("95");
   };
 
   return (
@@ -233,10 +233,12 @@ export default function BodyFatCalculator() {
           <div className="bg-surface border border-hairline rounded-xl p-5">
             <h3 className="text-sm font-semibold text-blue-600 mb-2">For Men</h3>
             <p className="text-ink font-mono text-xs">% Body Fat = 86.010 × log₁₀(Waist - Neck) - 70.041 × log₁₀(Height) + 36.76</p>
+            <p className="text-ink-faint text-xs mt-2">Measurements in inches. The calculator converts your centimetres (÷ 2.54) first.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-5">
             <h3 className="text-sm font-semibold text-pink-600 mb-2">For Women</h3>
             <p className="text-ink font-mono text-xs">% Body Fat = 163.205 × log₁₀(Waist + Hip - Neck) - 97.684 × log₁₀(Height) - 78.387</p>
+            <p className="text-ink-faint text-xs mt-2">Measurements in inches. The calculator converts your centimetres (÷ 2.54) first.</p>
           </div>
         </div>
       </section>

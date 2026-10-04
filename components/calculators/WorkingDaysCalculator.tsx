@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -101,29 +101,36 @@ const MONTHLY_WORKING_DAYS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+// Fixed example dates (never new Date() in initial state — avoids hydration mismatch)
+const DEFAULT_START = "2026-01-01";
+const DEFAULT_END = "2026-03-31";
+
 export default function WorkingDaysCalculator() {
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [startDate, setStartDate] = useState(DEFAULT_START);
+    const [endDate, setEndDate] = useState(DEFAULT_END);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setStartDate("");
-        setEndDate("");
-        setResult(null);
+        setStartDate(DEFAULT_START);
+        setEndDate(DEFAULT_END);
     };
 
-    const calculate = () => {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
+    // Button presses show alerts for bad input; live (effect-driven) runs stay silent and just clear the result.
+    const calculate = (silent = false) => {
+        // "T00:00:00" parses as local midnight so weekdays and displayed dates match the picked date in every timezone
+        const start = new Date(`${startDate}T00:00:00`);
+        const end = new Date(`${endDate}T00:00:00`);
 
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            alert("Please select valid start and end dates");
+            if (silent) setResult(null);
+            else alert("Please select valid start and end dates");
             return;
         }
 
         if (start > end) {
-            alert("Start date must be before end date");
+            if (silent) setResult(null);
+            else alert("Start date must be before end date");
             return;
         }
 
@@ -162,18 +169,14 @@ export default function WorkingDaysCalculator() {
         });
     };
 
-    // Helper to set quick examples
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [startDate, endDate]);
+
+    // Helper to set quick examples (the effect above recalculates)
     const setExample = (start: string, end: string) => {
         setStartDate(start);
         setEndDate(end);
-        // Auto-calculate after setting
-        setTimeout(() => {
-            const s = new Date(start);
-            const e = new Date(end);
-            if (!isNaN(s.getTime()) && !isNaN(e.getTime()) && s <= e) {
-                calculate();
-            }
-        }, 50);
     };
 
     return (
@@ -229,7 +232,7 @@ export default function WorkingDaysCalculator() {
                         </div>
                         <div className="flex gap-3">
                             <button
-                                onClick={calculate}
+                                onClick={() => calculate()}
                                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Working Days →

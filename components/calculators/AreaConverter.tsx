@@ -252,7 +252,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AreaConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("sq_meter");
     const [toUnit, setToUnit] = useState("sq_foot");
     const [result, setResult] = useState<any>(null);
@@ -277,10 +277,9 @@ export default function AreaConverter() {
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("100");
         setFromUnit("sq_meter");
         setToUnit("sq_foot");
-        setResult(null);
     };
 
     return (

@@ -1,7 +1,7 @@
 // components/calculators/OvulationCalculator.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import ResultBox from "@/components/common/ResultBox";
 
@@ -118,6 +118,16 @@ const HOWTO_SCHEMA = JSON.stringify({
     ],
 });
 
+// Example "last period" date: 14 days ago in the visitor's local time (yyyy-mm-dd).
+// Only ever called from effects / event handlers (never during render) so SSR and hydration match.
+const exampleLastPeriod = () => {
+    const d = new Date();
+    d.setDate(d.getDate() - 14);
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${mm}-${dd}`;
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function OvulationCalculator() {
@@ -126,10 +136,12 @@ export default function OvulationCalculator() {
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-    const calculate = () => {
+    // `silent` is used by the live-update effect: no alert() popups while the visitor is mid-typing.
+    const calculate = (silent = false) => {
         const cycle = parseInt(cycleLength);
         if (!cycle || cycle < 21 || cycle > 45) {
-            alert("Please enter a cycle length between 21 and 45 days");
+            if (silent) setResult(null);
+            else alert("Please enter a cycle length between 21 and 45 days");
             return;
         }
 
@@ -174,9 +186,16 @@ export default function OvulationCalculator() {
 
     const resetForm = () => {
         setCycleLength("28");
-        setLastPeriod("");
-        setResult(null);
+        setLastPeriod(exampleLastPeriod());
     };
+
+    // Seed a worked example (last period 14 days ago) after mount, so the server render and
+    // first client render stay identical.
+    useEffect(() => { setLastPeriod(exampleLastPeriod()); }, []);
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [cycleLength, lastPeriod]);
 
     return (
         <>
@@ -271,7 +290,7 @@ export default function OvulationCalculator() {
                         </div>
                         <div className="flex gap-3">
                             <button
-                                onClick={calculate}
+                                onClick={() => calculate(false)}
                                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-lg transition-all"
                             >
                                 Calculate Fertile Window →

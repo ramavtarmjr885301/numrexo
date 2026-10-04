@@ -93,8 +93,16 @@ interface Room {
     name: string;
 }
 
+// Example 2-bedroom flat so the first render shows a worked result.
+const DEFAULT_ROOMS: Room[] = [
+    { id: 1, length: "15", width: "12", name: "Living Room" },
+    { id: 2, length: "12", width: "14", name: "Master Bedroom" },
+    { id: 3, length: "8", width: "10", name: "Kitchen" },
+    { id: 4, length: "5", width: "7", name: "Bathroom" },
+];
+
 export default function CarpetAreaCalculator() {
-    const [rooms, setRooms] = useState<Room[]>([{ id: 1, length: "", width: "", name: "Living Room" }]);
+    const [rooms, setRooms] = useState<Room[]>(DEFAULT_ROOMS.map(r => ({ ...r })));
     const [builtUpArea, setBuiltUpArea] = useState("");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -164,9 +172,8 @@ export default function CarpetAreaCalculator() {
     useEffect(() => { calculate(); }, [rooms, builtUpArea]);
 
     const resetForm = () => {
-        setRooms([{ id: 1, length: "", width: "", name: "Living Room" }]);
+        setRooms(DEFAULT_ROOMS.map(r => ({ ...r })));
         setBuiltUpArea("");
-        setResult(null);
     };
 
     return (

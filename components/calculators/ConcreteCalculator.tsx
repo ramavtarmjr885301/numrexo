@@ -64,7 +64,7 @@ export default function ConcreteCalculator() {
     const [shape, setShape] = useState<"slab" | "column" | "footing">("slab");
     const [length, setLength] = useState("10");
     const [width, setWidth] = useState("10");
-    const [height, setHeight] = useState("");
+    const [height, setHeight] = useState("0.33");
     const [diameter, setDiameter] = useState("1");
     const [unit, setUnit] = useState<"feet" | "meters">("feet");
     const [mixRatio, setMixRatio] = useState("1:1.5:3");
@@ -139,13 +139,12 @@ export default function ConcreteCalculator() {
 
     const resetForm = () => {
         setShape("slab");
-        setLength("");
-        setWidth("");
-        setHeight("");
-        setDiameter("");
+        setLength("10");
+        setWidth("10");
+        setHeight("0.33");
+        setDiameter("1");
         setUnit("feet");
         setMixRatio("1:1.5:3");
-        setResult(null);
     };
 
     return (

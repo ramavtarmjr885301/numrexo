@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -112,23 +112,61 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Market profiles ──────────────────────────────────────────────────────────
+// Default inputs and preset buttons per market (rupees for India, US-scale for everything else).
+
+const PROFILES = {
+    india: {
+        defaults: { amount: "5000000", rate: "8.5", tenure: "240", extra: "" },
+        presets: {
+            amounts: [1000000, 2500000, 5000000, 7500000, 10000000],
+            rates: [7.5, 8, 8.5, 9, 10],
+            tenures: [60, 120, 180, 240, 300, 360],
+            extras: [0, 5000, 10000, 25000, 50000],
+        },
+    },
+    west: {
+        defaults: { amount: "350000", rate: "6.5", tenure: "360", extra: "" },
+        presets: {
+            amounts: [150000, 250000, 350000, 500000, 750000],
+            rates: [5.5, 6, 6.5, 7, 7.5],
+            tenures: [60, 120, 180, 240, 300, 360],
+            extras: [0, 100, 250, 500, 1000],
+        },
+    },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AmortizationCalculator() {
-    const { symbol, compact } = useCurrency();
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
-    const [extraPayment, setExtraPayment] = useState("");
+    const { symbol, compact, market } = useCurrency();
+    const profile = PROFILES[market];
+    // Start from the western defaults (SSR / default currency is USD); INR visitors are switched below.
+    const [loanAmount, setLoanAmount] = useState(PROFILES.west.defaults.amount);
+    const [interestRate, setInterestRate] = useState(PROFILES.west.defaults.rate);
+    const [tenure, setTenure] = useState(PROFILES.west.defaults.tenure);
+    const [extraPayment, setExtraPayment] = useState(PROFILES.west.defaults.extra);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m].defaults;
+        setLoanAmount(d.amount);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+        setExtraPayment(d.extra);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setTenure("");
-        setExtraPayment("");
-        setResult(null);
+        touched.current = false;
+        applyDefaults(market);
     };
 
     const calculateAmortization = () => {
@@ -272,10 +310,10 @@ export default function AmortizationCalculator() {
     useEffect(() => { calculateAmortization(); }, [loanAmount, interestRate, tenure, extraPayment]);
 
     // Preset values
-    const presetAmounts = [150000, 250000, 350000, 500000, 750000];
-    const presetRates = [5.5, 6, 6.5, 7, 7.5];
-    const presetTenures = [60, 120, 180, 240, 300, 360];
-    const presetExtraPayments = [0, 100, 250, 500, 1000];
+    const presetAmounts = profile.presets.amounts;
+    const presetRates = profile.presets.rates;
+    const presetTenures = profile.presets.tenures;
+    const presetExtraPayments = profile.presets.extras;
 
     return (
         <>
@@ -328,7 +366,7 @@ export default function AmortizationCalculator() {
                                     step="10000"
                                     placeholder="e.g., 350000"
                                     value={loanAmount}
-                                    onChange={(e) => setLoanAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setLoanAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -337,7 +375,7 @@ export default function AmortizationCalculator() {
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setLoanAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setLoanAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -355,7 +393,7 @@ export default function AmortizationCalculator() {
                                     step="0.1"
                                     placeholder="e.g., 9"
                                     value={interestRate}
-                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setInterestRate(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -364,7 +402,7 @@ export default function AmortizationCalculator() {
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
-                                        onClick={() => setInterestRate(rate.toString())}
+                                        onClick={() => { touched.current = true; setInterestRate(rate.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
@@ -382,7 +420,7 @@ export default function AmortizationCalculator() {
                                     step="1"
                                     placeholder="e.g., 240"
                                     value={tenure}
-                                    onChange={(e) => setTenure(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTenure(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
@@ -391,7 +429,7 @@ export default function AmortizationCalculator() {
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setTenure(month.toString())}
+                                        onClick={() => { touched.current = true; setTenure(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month >= 240 ? `${month / 12}Y` : `${month}M`}
@@ -409,7 +447,7 @@ export default function AmortizationCalculator() {
                                     step="500"
                                     placeholder="e.g., 5000"
                                     value={extraPayment}
-                                    onChange={(e) => setExtraPayment(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setExtraPayment(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -418,7 +456,7 @@ export default function AmortizationCalculator() {
                                 {presetExtraPayments.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setExtraPayment(amount.toString())}
+                                        onClick={() => { touched.current = true; setExtraPayment(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {amount === 0 ? "None" : `${symbol}${amount / 1000}K`}

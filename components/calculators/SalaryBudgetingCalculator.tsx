@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -205,43 +205,112 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
     );
 }
 
+// ─── Market profiles (worked-example defaults) ───────────────────────────────
+
+interface BudgetDefaults {
+    salary: string;
+    rent: string;
+    groceries: string;
+    utilities: string;
+    transport: string;
+    insurance: string;
+    emi: string;
+    diningOut: string;
+    entertainment: string;
+    shopping: string;
+    subscriptions: string;
+    emergencyFund: string;
+    investments: string;
+    savingsGoal: string;
+}
+
+const PROFILES: Record<"india" | "west", BudgetDefaults> = {
+    india: {
+        salary: "60000",
+        rent: "15000",
+        groceries: "6000",
+        utilities: "2500",
+        transport: "2500",
+        insurance: "1500",
+        emi: "2500",
+        diningOut: "4000",
+        entertainment: "3000",
+        shopping: "6000",
+        subscriptions: "1000",
+        emergencyFund: "5000",
+        investments: "8000",
+        savingsGoal: "2000",
+    },
+    west: {
+        salary: "5000",
+        rent: "1300",
+        groceries: "500",
+        utilities: "200",
+        transport: "250",
+        insurance: "150",
+        emi: "100",
+        diningOut: "400",
+        entertainment: "300",
+        shopping: "500",
+        subscriptions: "100",
+        emergencyFund: "500",
+        investments: "500",
+        savingsGoal: "100",
+    },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SalaryBudgetingCalculator() {
-    const { symbol } = useCurrency();
-    const [monthlySalary, setMonthlySalary] = useState("");
-    const [rent, setRent] = useState("0");
-    const [groceries, setGroceries] = useState("0");
-    const [utilities, setUtilities] = useState("0");
-    const [transport, setTransport] = useState("0");
-    const [insurance, setInsurance] = useState("0");
-    const [emiPayments, setEmiPayments] = useState("0");
-    const [diningOut, setDiningOut] = useState("0");
-    const [entertainment, setEntertainment] = useState("0");
-    const [shopping, setShopping] = useState("0");
-    const [subscriptions, setSubscriptions] = useState("0");
-    const [emergencyFund, setEmergencyFund] = useState("0");
-    const [investments, setInvestments] = useState("0");
-    const [savingsGoal, setSavingsGoal] = useState("0");
+    const { symbol, market } = useCurrency();
+    // Start from the western defaults: SSR and the first client render use USD, so a worked
+    // example is on screen immediately. INR users are switched to rupee defaults in the effect below.
+    const W = PROFILES.west;
+    const [monthlySalary, setMonthlySalary] = useState(W.salary);
+    const [rent, setRent] = useState(W.rent);
+    const [groceries, setGroceries] = useState(W.groceries);
+    const [utilities, setUtilities] = useState(W.utilities);
+    const [transport, setTransport] = useState(W.transport);
+    const [insurance, setInsurance] = useState(W.insurance);
+    const [emiPayments, setEmiPayments] = useState(W.emi);
+    const [diningOut, setDiningOut] = useState(W.diningOut);
+    const [entertainment, setEntertainment] = useState(W.entertainment);
+    const [shopping, setShopping] = useState(W.shopping);
+    const [subscriptions, setSubscriptions] = useState(W.subscriptions);
+    const [emergencyFund, setEmergencyFund] = useState(W.emergencyFund);
+    const [investments, setInvestments] = useState(W.investments);
+    const [savingsGoal, setSavingsGoal] = useState(W.savingsGoal);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m];
+        setMonthlySalary(d.salary);
+        setRent(d.rent);
+        setGroceries(d.groceries);
+        setUtilities(d.utilities);
+        setTransport(d.transport);
+        setInsurance(d.insurance);
+        setEmiPayments(d.emi);
+        setDiningOut(d.diningOut);
+        setEntertainment(d.entertainment);
+        setShopping(d.shopping);
+        setSubscriptions(d.subscriptions);
+        setEmergencyFund(d.emergencyFund);
+        setInvestments(d.investments);
+        setSavingsGoal(d.savingsGoal);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
-        setMonthlySalary("");
-        setRent("");
-        setGroceries("");
-        setUtilities("");
-        setTransport("");
-        setInsurance("");
-        setEmiPayments("");
-        setDiningOut("");
-        setEntertainment("");
-        setShopping("");
-        setSubscriptions("");
-        setEmergencyFund("");
-        setInvestments("");
-        setSavingsGoal("");
-        setResult(null);
+        touched.current = false;
+        applyDefaults(market);
     };
 
     const calculateBudget = () => {
@@ -422,7 +491,7 @@ export default function SalaryBudgetingCalculator() {
                                     step="1000"
                                     placeholder="e.g., 50000"
                                     value={monthlySalary}
-                                    onChange={(e) => setMonthlySalary(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setMonthlySalary(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -440,7 +509,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={rent}
-                                        onChange={(e) => setRent(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setRent(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -451,7 +520,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={groceries}
-                                        onChange={(e) => setGroceries(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setGroceries(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -462,7 +531,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={utilities}
-                                        onChange={(e) => setUtilities(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setUtilities(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -473,7 +542,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={transport}
-                                        onChange={(e) => setTransport(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setTransport(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -484,7 +553,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={insurance}
-                                        onChange={(e) => setInsurance(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setInsurance(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -495,7 +564,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={emiPayments}
-                                        onChange={(e) => setEmiPayments(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setEmiPayments(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -513,7 +582,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={diningOut}
-                                        onChange={(e) => setDiningOut(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setDiningOut(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -524,7 +593,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={entertainment}
-                                        onChange={(e) => setEntertainment(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setEntertainment(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -535,7 +604,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={shopping}
-                                        onChange={(e) => setShopping(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setShopping(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -546,7 +615,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="100"
                                         placeholder="0"
                                         value={subscriptions}
-                                        onChange={(e) => setSubscriptions(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setSubscriptions(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -564,7 +633,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={emergencyFund}
-                                        onChange={(e) => setEmergencyFund(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setEmergencyFund(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -575,7 +644,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={investments}
-                                        onChange={(e) => setInvestments(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setInvestments(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -586,7 +655,7 @@ export default function SalaryBudgetingCalculator() {
                                         step="500"
                                         placeholder="0"
                                         value={savingsGoal}
-                                        onChange={(e) => setSavingsGoal(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setSavingsGoal(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>

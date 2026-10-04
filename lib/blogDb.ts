@@ -20,6 +20,7 @@
 
 import { neon } from '@neondatabase/serverless';
 import { BlogPost, BlogFaq } from './blogTypes';
+import { HIDDEN_PUBLIC_SLUGS } from './hiddenBlogSlugs';
 
 const DATABASE_URL = process.env.DATABASE_URL || '';
 
@@ -28,6 +29,10 @@ const DATABASE_URL = process.env.DATABASE_URL || '';
 function getSql() {
   if (!DATABASE_URL) return null;
   return neon(DATABASE_URL);
+}
+
+function isPublic(post: { slug: string }): boolean {
+  return !HIDDEN_PUBLIC_SLUGS.has(post.slug);
 }
 
 type Row = {
@@ -109,21 +114,17 @@ export async function listPublishedPosts(page = 1, perPage = 9): Promise<PostsPa
     'listPublishedPosts',
     async () => {
       const sql = getSql()!;
+      // The blog is small, so fetch every published post and filter/paginate
+      // here - that keeps HIDDEN_PUBLIC_SLUGS exact for both the list and the
+      // total count without relying on array-parameter SQL.
+      const rows = (await sql`
+        SELECT * FROM blog_posts WHERE published = true ORDER BY published_at DESC
+      `) as unknown as Row[];
+      const visible = rows.map(rowToPost).filter(isPublic);
+      const total = visible.length;
       const offset = (page - 1) * perPage;
-      const [rows, countRows] = await Promise.all([
-        sql`
-          SELECT * FROM blog_posts
-          WHERE published = true
-          ORDER BY published_at DESC
-          LIMIT ${perPage} OFFSET ${offset}
-        ` as unknown as Promise<Row[]>,
-        sql`SELECT COUNT(*)::int AS count FROM blog_posts WHERE published = true` as unknown as Promise<
-          { count: number }[]
-        >,
-      ]);
-      const total = countRows[0]?.count || 0;
       return {
-        posts: rows.map(rowToPost),
+        posts: visible.slice(offset, offset + perPage),
         total,
         totalPages: Math.max(1, Math.ceil(total / perPage)),
         currentPage: page,
@@ -141,7 +142,8 @@ export async function getPublishedPostBySlug(slug: string): Promise<BlogPost | n
       const rows = (await sql`
         SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true LIMIT 1
       `) as unknown as Row[];
-      return rows[0] ? rowToPost(rows[0]) : null;
+      const post = rows[0] ? rowToPost(rows[0]) : null;
+      return post && isPublic(post) ? post : null;
     },
     null,
   );
@@ -155,7 +157,7 @@ export async function listAllSlugs(): Promise<string[]> {
       const rows = (await sql`
         SELECT slug FROM blog_posts WHERE published = true
       `) as unknown as { slug: string }[];
-      return rows.map((r) => r.slug);
+      return rows.map((r) => r.slug).filter((slug) => !HIDDEN_PUBLIC_SLUGS.has(slug));
     },
     [],
   );
@@ -167,13 +169,16 @@ export async function listCategoriesWithCounts(): Promise<{ slug: string; count:
     async () => {
       const sql = getSql()!;
       const rows = (await sql`
-        SELECT category AS slug, COUNT(*)::int AS count
-        FROM blog_posts
-        WHERE published = true
-        GROUP BY category
-        ORDER BY count DESC
-      `) as unknown as { slug: string; count: number }[];
-      return rows;
+        SELECT slug, category FROM blog_posts WHERE published = true
+      `) as unknown as { slug: string; category: string }[];
+      const counts = new Map<string, number>();
+      for (const r of rows) {
+        if (HIDDEN_PUBLIC_SLUGS.has(r.slug)) continue;
+        counts.set(r.category, (counts.get(r.category) || 0) + 1);
+      }
+      return Array.from(counts.entries())
+        .map(([slug, count]) => ({ slug, count }))
+        .sort((x, y) => y.count - x.count);
     },
     [],
   );
@@ -188,22 +193,16 @@ export async function listPostsByCategory(
     `listPostsByCategory(${categorySlug})`,
     async () => {
       const sql = getSql()!;
+      const rows = (await sql`
+        SELECT * FROM blog_posts
+        WHERE published = true AND category = ${categorySlug}
+        ORDER BY published_at DESC
+      `) as unknown as Row[];
+      const visible = rows.map(rowToPost).filter(isPublic);
+      const total = visible.length;
       const offset = (page - 1) * perPage;
-      const [rows, countRows] = await Promise.all([
-        sql`
-          SELECT * FROM blog_posts
-          WHERE published = true AND category = ${categorySlug}
-          ORDER BY published_at DESC
-          LIMIT ${perPage} OFFSET ${offset}
-        ` as unknown as Promise<Row[]>,
-        sql`
-          SELECT COUNT(*)::int AS count FROM blog_posts
-          WHERE published = true AND category = ${categorySlug}
-        ` as unknown as Promise<{ count: number }[]>,
-      ]);
-      const total = countRows[0]?.count || 0;
       return {
-        posts: rows.map(rowToPost),
+        posts: visible.slice(offset, offset + perPage),
         total,
         totalPages: Math.max(1, Math.ceil(total / perPage)),
         currentPage: page,
@@ -226,9 +225,9 @@ export async function getRelatedPosts(
         SELECT * FROM blog_posts
         WHERE published = true AND category = ${category} AND slug != ${excludeSlug}
         ORDER BY published_at DESC
-        LIMIT ${limit}
+        LIMIT ${limit + HIDDEN_PUBLIC_SLUGS.size}
       `) as unknown as Row[];
-      return rows.map(rowToPost);
+      return rows.map(rowToPost).filter(isPublic).slice(0, limit);
     },
     [],
   );

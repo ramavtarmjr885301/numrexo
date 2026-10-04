@@ -93,7 +93,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PressureConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("psi");
     const [toUnit, setToUnit] = useState("bar");
     const [result, setResult] = useState<any>(null);
@@ -118,10 +118,9 @@ export default function PressureConverter() {
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("100");
         setFromUnit("psi");
         setToUnit("bar");
-        setResult(null);
     };
 
     return (

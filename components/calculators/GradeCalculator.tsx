@@ -105,12 +105,20 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+// Worked example shown on first load (weights add to 100%).
+const DEFAULT_ASSIGNMENTS = [
+    { name: "Homework", score: "90", weight: "20" },
+    { name: "Quizzes", score: "84", weight: "15" },
+    { name: "Midterm", score: "78", weight: "25" },
+    { name: "Project", score: "86", weight: "40" },
+];
+
 export default function GradeCalculator() {
     const [calcType, setCalcType] = useState<"weighted" | "final">("weighted");
-    const [assignments, setAssignments] = useState([{ name: "Assignment 1", score: "", weight: "" }]);
-    const [desiredGrade, setDesiredGrade] = useState("");
-    const [currentGrade, setCurrentGrade] = useState("");
-    const [finalWeight, setFinalWeight] = useState("");
+    const [assignments, setAssignments] = useState(() => DEFAULT_ASSIGNMENTS.map((a) => ({ ...a })));
+    const [desiredGrade, setDesiredGrade] = useState("85");
+    const [currentGrade, setCurrentGrade] = useState("82");
+    const [finalWeight, setFinalWeight] = useState("30");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -162,7 +170,7 @@ export default function GradeCalculator() {
         let performance = "";
 
         for (let i = 0; i < GRADE_LETTERS.length; i++) {
-            if (currentGradeValue >= GRADE_LETTERS[i].minPercent && currentGradeValue <= GRADE_LETTERS[i].maxPercent) {
+            if (currentGradeValue >= GRADE_LETTERS[i].minPercent) {
                 letterGrade = GRADE_LETTERS[i].letter;
                 gpa = GRADE_LETTERS[i].gpa;
                 performance = GRADE_LETTERS[i].performance;
@@ -224,11 +232,10 @@ export default function GradeCalculator() {
 
     const resetForm = () => {
         setCalcType("weighted");
-        setAssignments([{ name: "Assignment 1", score: "", weight: "" }]);
-        setDesiredGrade("");
-        setCurrentGrade("");
-        setFinalWeight("");
-        setResult(null);
+        setAssignments(DEFAULT_ASSIGNMENTS.map((a) => ({ ...a })));
+        setDesiredGrade("85");
+        setCurrentGrade("82");
+        setFinalWeight("30");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

@@ -113,23 +113,22 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CreditScoreEstimator() {
-    const [paymentHistory, setPaymentHistory] = useState("");
-    const [creditUtilization, setCreditUtilization] = useState("");
-    const [creditHistory, setCreditHistory] = useState("");
-    const [creditMix, setCreditMix] = useState("");
-    const [newCredit, setNewCredit] = useState("");
+    const [paymentHistory, setPaymentHistory] = useState("95");
+    const [creditUtilization, setCreditUtilization] = useState("25");
+    const [creditHistory, setCreditHistory] = useState("5");
+    const [creditMix, setCreditMix] = useState("70");
+    const [newCredit, setNewCredit] = useState("20");
     const [existingScore, setExistingScore] = useState("");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setPaymentHistory("");
-        setCreditUtilization("");
-        setCreditHistory("");
-        setCreditMix("");
-        setNewCredit("");
+        setPaymentHistory("95");
+        setCreditUtilization("25");
+        setCreditHistory("5");
+        setCreditMix("70");
+        setNewCredit("20");
         setExistingScore("");
-        setResult(null);
     };
 
     const estimateScore = () => {

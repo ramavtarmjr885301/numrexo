@@ -38,14 +38,21 @@ const FAQ_DATA = [
     },
 ];
 
+const DEFAULT_SUBJECTS = [
+    { id: 1, obtained: "85", total: "100" },
+    { id: 2, obtained: "78", total: "100" },
+    { id: 3, obtained: "92", total: "100" },
+    { id: 4, obtained: "88", total: "100" },
+];
+
 export default function PercentageMarksCalculator() {
     const [mode, setMode] = useState<"single" | "multiple" | "cgpa">("single");
-    const [obtainedMarks, setObtainedMarks] = useState("");
-    const [totalMarks, setTotalMarks] = useState("");
+    const [obtainedMarks, setObtainedMarks] = useState("425");
+    const [totalMarks, setTotalMarks] = useState("500");
     const [subjects, setSubjects] = useState<{ id: number; obtained: string; total: string }[]>([
-        { id: 1, obtained: "", total: "" },
+        ...DEFAULT_SUBJECTS,
     ]);
-    const [cgpa, setCgpa] = useState("");
+    const [cgpa, setCgpa] = useState("8.5");
     const [conversionFactor, setConversionFactor] = useState("9.5");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -186,12 +193,11 @@ export default function PercentageMarksCalculator() {
     };
 
     const reset = () => {
-        setObtainedMarks("");
-        setTotalMarks("");
-        setSubjects([{ id: 1, obtained: "", total: "" }]);
-        setCgpa("");
+        setObtainedMarks("425");
+        setTotalMarks("500");
+        setSubjects([...DEFAULT_SUBJECTS]);
+        setCgpa("8.5");
         setConversionFactor("9.5");
-        setResult(null);
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.
@@ -219,9 +225,9 @@ export default function PercentageMarksCalculator() {
                     <div className="p-6 space-y-4">
                         {/* Mode Selection */}
                         <div className="flex gap-2 p-1 bg-surface rounded-lg">
-                            <button onClick={() => { setMode("single"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "single" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Single Subject</button>
-                            <button onClick={() => { setMode("multiple"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "multiple" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Multiple Subjects</button>
-                            <button onClick={() => { setMode("cgpa"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "cgpa" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>CGPA to %</button>
+                            <button onClick={() => setMode("single")} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "single" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Single Subject</button>
+                            <button onClick={() => setMode("multiple")} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "multiple" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Multiple Subjects</button>
+                            <button onClick={() => setMode("cgpa")} className={`flex-1 py-2 text-sm rounded-md transition ${mode === "cgpa" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>CGPA to %</button>
                         </div>
 
                         {mode === "single" && (

@@ -1,7 +1,7 @@
 // components/calculators/FuelCostCalculator.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -29,14 +29,36 @@ const FUEL_SCHEMA = JSON.stringify({
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 });
 
+// Market-specific example inputs (distance in km, price per liter, efficiency in km/l).
+// SSR / default currency is USD, so state starts from the west profile; INR users are switched
+// to the India profile in the effect below unless they have already edited something.
+const PROFILES: Record<"india" | "west", { distance: string; fuelPrice: string; mileage: string }> = {
+    india: { distance: "500", fuelPrice: "105", mileage: "18" },
+    west: { distance: "500", fuelPrice: "1.6", mileage: "12" },
+};
+
 export default function FuelCostCalculator() {
-    const { symbol, locale } = useCurrency();
-    const [distance, setDistance] = useState("");
-    const [fuelPrice, setFuelPrice] = useState("105");
-    const [mileage, setMileage] = useState("");
+    const { symbol, locale, market } = useCurrency();
+    const [distance, setDistance] = useState(PROFILES.west.distance);
+    const [fuelPrice, setFuelPrice] = useState(PROFILES.west.fuelPrice);
+    const [mileage, setMileage] = useState(PROFILES.west.mileage);
     const [unit, setUnit] = useState<"kml" | "lp100km">("kml");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m];
+        setDistance(d.distance);
+        setFuelPrice(d.fuelPrice);
+        setMileage(d.mileage);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const calculate = () => {
         const d = parseFloat(distance);
@@ -57,11 +79,9 @@ export default function FuelCostCalculator() {
     useEffect(() => { calculate(); }, [distance, fuelPrice, mileage, unit]);
 
     const resetForm = () => {
-        setDistance("");
-        setFuelPrice("105");
-        setMileage("");
+        touched.current = false;
+        applyDefaults(market);
         setUnit("kml");
-        setResult(null);
     };
 
     return (
@@ -89,25 +109,25 @@ export default function FuelCostCalculator() {
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Distance</label>
                             <div className="relative">
-                                <input type="number" placeholder="500" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <input type="number" placeholder="500" value={distance} onChange={(e) => { touched.current = true; setDistance(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">km</span>
                             </div>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Fuel Price</label>
                             <div className="relative">
-                                <input type="number" placeholder="105" value={fuelPrice} onChange={(e) => setFuelPrice(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <input type="number" placeholder="105" value={fuelPrice} onChange={(e) => { touched.current = true; setFuelPrice(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">$/liter</span>
                             </div>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-ink-faint mb-2">Fuel Efficiency</label>
                             <div className="grid grid-cols-2 gap-3 mb-2">
-                                <button className={`py-1 text-sm rounded ${unit === "kml" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => setUnit("kml")}>km/liter</button>
-                                <button className={`py-1 text-sm rounded ${unit === "lp100km" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => setUnit("lp100km")}>liters/100km</button>
+                                <button className={`py-1 text-sm rounded ${unit === "kml" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => { touched.current = true; setUnit("kml"); }}>km/liter</button>
+                                <button className={`py-1 text-sm rounded ${unit === "lp100km" ? "bg-blue-600" : "bg-gray-100"}`} onClick={() => { touched.current = true; setUnit("lp100km"); }}>liters/100km</button>
                             </div>
                             <div className="relative">
-                                <input type="number" placeholder={unit === "kml" ? "18" : "8"} value={mileage} onChange={(e) => setMileage(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                                <input type="number" placeholder={unit === "kml" ? "18" : "8"} value={mileage} onChange={(e) => { touched.current = true; setMileage(e.target.value); }} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{unit === "kml" ? "km/l" : "L/100km"}</span>
                             </div>
                         </div>

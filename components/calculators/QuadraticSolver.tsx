@@ -48,7 +48,7 @@ const QUADRATIC_SCHEMA = JSON.stringify({
 
 export default function QuadraticSolver() {
     const [a, setA] = useState("1");
-    const [b, setB] = useState("");
+    const [b, setB] = useState("-3");
     const [c, setC] = useState("2");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -112,10 +112,9 @@ export default function QuadraticSolver() {
     useEffect(() => { calculate(); }, [a, b, c]);
 
     const resetForm = () => {
-        setA("");
-        setB("");
-        setC("");
-        setResult(null);
+        setA("1");
+        setB("-3");
+        setC("2");
     };
 
     return (

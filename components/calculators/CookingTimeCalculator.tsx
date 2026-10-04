@@ -97,13 +97,13 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function CookingTimeCalculator() {
     const [adjustmentType, setAdjustmentType] = useState<"temp" | "quantity" | "pan" | "altitude">("temp");
-    const [originalTime, setOriginalTime] = useState("");
-    const [originalTemp, setOriginalTemp] = useState("");
-    const [newTemp, setNewTemp] = useState("");
-    const [originalQuantity, setOriginalQuantity] = useState("");
-    const [newQuantity, setNewQuantity] = useState("");
-    const [panAdjustment, setPanAdjustment] = useState<"larger" | "smaller" | "none">("none");
-    const [altitude, setAltitude] = useState("");
+    const [originalTime, setOriginalTime] = useState("30");
+    const [originalTemp, setOriginalTemp] = useState("350");
+    const [newTemp, setNewTemp] = useState("400");
+    const [originalQuantity, setOriginalQuantity] = useState("1");
+    const [newQuantity, setNewQuantity] = useState("2");
+    const [panAdjustment, setPanAdjustment] = useState<"larger" | "smaller" | "none">("larger");
+    const [altitude, setAltitude] = useState("5000");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -245,14 +245,13 @@ export default function CookingTimeCalculator() {
 
     const resetForm = () => {
         setAdjustmentType("temp");
-        setOriginalTime("");
-        setOriginalTemp("");
-        setNewTemp("");
-        setOriginalQuantity("");
-        setNewQuantity("");
-        setPanAdjustment("none");
-        setAltitude("");
-        setResult(null);
+        setOriginalTime("30");
+        setOriginalTemp("350");
+        setNewTemp("400");
+        setOriginalQuantity("1");
+        setNewQuantity("2");
+        setPanAdjustment("larger");
+        setAltitude("5000");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

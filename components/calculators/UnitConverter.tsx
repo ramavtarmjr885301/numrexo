@@ -115,6 +115,17 @@ const CONVERSIONS = {
 
 const CONVERSION_TYPES = Object.keys(CONVERSIONS) as ConversionType[];
 
+// Worked-example defaults so the tool opens with a real answer
+const DEFAULT_VALUE = "10";
+const DEFAULT_UNITS: Record<ConversionType, { from: string; to: string }> = {
+  length: { from: "Kilometers", to: "Miles" },
+  weight: { from: "Kilograms", to: "Pounds" },
+  volume: { from: "Liters", to: "Gallons" },
+  temperature: { from: "Celsius", to: "Fahrenheit" },
+  area: { from: "Square Meters", to: "Square Feet" },
+  speed: { from: "km/h", to: "mph" },
+};
+
 // ─── Expanded FAQ Data ──────────────────────────────────────────────────────────
 
 const FAQ_DATA = [
@@ -200,47 +211,42 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function UnitConverter() {
   const [conversionType, setConversionType] = useState<ConversionType>("length");
-  const [value, setValue] = useState("");
-  const [fromUnit, setFromUnit] = useState<string>("");
-  const [toUnit, setToUnit] = useState<string>("");
+  const [value, setValue] = useState(DEFAULT_VALUE);
+  const [fromUnit, setFromUnit] = useState<string>(DEFAULT_UNITS.length.from);
+  const [toUnit, setToUnit] = useState<string>(DEFAULT_UNITS.length.to);
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const conversion = CONVERSIONS[conversionType];
   const units = conversion.units;
 
-  // Initialize default units on mount and when conversion type changes
-  useEffect(() => {
-    const defaultFrom = units[0];
-    const defaultTo = units.length > 1 ? units[1] : units[0];
-    setFromUnit(defaultFrom);
-    setToUnit(defaultTo);
-  }, [conversionType, units]);
-
-  // Set default units when conversion type changes
+  // Set default units (and the example value) when conversion type changes
   const handleTypeChange = (type: ConversionType) => {
     setConversionType(type);
-    setResult(null);
-    setValue("");
-    // Units will be set by useEffect
+    setValue(DEFAULT_VALUE);
+    setFromUnit(DEFAULT_UNITS[type].from);
+    setToUnit(DEFAULT_UNITS[type].to);
   };
 
   const resetForm = () => {
-    setConversionType("length");
-    setValue("");
-    setResult(null);
-    // Units will be set by useEffect
+    handleTypeChange("length");
   };
 
-  const convert = () => {
+  // Button presses show alerts for bad input; live (effect-driven) runs stay silent and just clear the result.
+  const fail = (silent: boolean, message: string) => {
+    if (silent) setResult(null);
+    else alert(message);
+  };
+
+  const convert = (silent = false) => {
     const val = parseFloat(value);
     if (isNaN(val)) {
-      alert("Please enter a valid number");
+      fail(silent, "Please enter a valid number");
       return;
     }
 
     if (!fromUnit || !toUnit) {
-      alert("Please select units");
+      fail(silent, "Please select units");
       return;
     }
 
@@ -249,7 +255,7 @@ export default function UnitConverter() {
 
       // Check if result is NaN or Infinity
       if (!isFinite(convertedValue) || isNaN(convertedValue)) {
-        alert("Invalid conversion result. Please check your inputs.");
+        fail(silent, "Invalid conversion result. Please check your inputs.");
         return;
       }
 
@@ -261,17 +267,18 @@ export default function UnitConverter() {
         type: conversion.name,
       });
     } catch (error) {
-      alert("Error performing conversion. Please check your inputs.");
+      fail(silent, "Error performing conversion. Please check your inputs.");
     }
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { convert(true); }, [conversionType, value, fromUnit, toUnit]);
 
   const swapUnits = () => {
     const temp = fromUnit;
     setFromUnit(toUnit);
     setToUnit(temp);
-    if (value) {
-      setTimeout(() => convert(), 10);
-    }
   };
 
   // Common conversions for quick reference
@@ -406,7 +413,7 @@ export default function UnitConverter() {
 
             <div className="flex gap-3">
               <button
-                onClick={convert}
+                onClick={() => convert()}
                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-700 text-white font-semibold hover:shadow-lg transition-all"
               >
                 Convert →

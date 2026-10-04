@@ -1,6 +1,6 @@
 // "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -103,26 +103,27 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function PopulationCalculator() {
     const [calculationType, setCalculationType] = useState<"growth" | "doubling" | "density">("growth");
-    const [currentPopulation, setCurrentPopulation] = useState("");
-    const [growthRate, setGrowthRate] = useState("");
-    const [years, setYears] = useState("");
-    const [landArea, setLandArea] = useState("");
+    const [currentPopulation, setCurrentPopulation] = useState("8000000");
+    const [growthRate, setGrowthRate] = useState("1.2");
+    const [years, setYears] = useState("10");
+    const [landArea, setLandArea] = useState("780");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setCurrentPopulation("");
-        setGrowthRate("");
-        setYears("");
-        setLandArea("");
-        setResult(null);
+        setCurrentPopulation("8000000");
+        setGrowthRate("1.2");
+        setYears("10");
+        setLandArea("780");
     };
 
     const handlePresetRate = (rate: number) => {
         setGrowthRate(rate.toString());
     };
 
-    const calculateGrowth = () => {
+    // Invalid input: warn only when the user pressed Calculate; while typing (silent) just clear the result.
+    const calculateGrowth = (silent = false) => {
+        const alert = (msg: string) => { if (silent) setResult(null); else window.alert(msg); };
         const population = parseFloat(currentPopulation);
         const rate = parseFloat(growthRate);
         const time = parseFloat(years);
@@ -198,7 +199,8 @@ export default function PopulationCalculator() {
         });
     };
 
-    const calculateDoubling = () => {
+    const calculateDoubling = (silent = false) => {
+        const alert = (msg: string) => { if (silent) setResult(null); else window.alert(msg); };
         const rate = parseFloat(growthRate);
 
         if (isNaN(rate)) {
@@ -250,7 +252,8 @@ export default function PopulationCalculator() {
         });
     };
 
-    const calculateDensity = () => {
+    const calculateDensity = (silent = false) => {
+        const alert = (msg: string) => { if (silent) setResult(null); else window.alert(msg); };
         const population = parseFloat(currentPopulation);
         const area = parseFloat(landArea);
 
@@ -301,15 +304,19 @@ export default function PopulationCalculator() {
         });
     };
 
-    const calculate = () => {
+    const calculate = (silent = false) => {
         if (calculationType === "growth") {
-            calculateGrowth();
+            calculateGrowth(silent);
         } else if (calculationType === "doubling") {
-            calculateDoubling();
+            calculateDoubling(silent);
         } else {
-            calculateDensity();
+            calculateDensity(silent);
         }
     };
+
+    // Results update as you type — the answer is no longer hidden behind a button press.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { calculate(true); }, [calculationType, currentPopulation, growthRate, years, landArea]);
 
     return (
         <>
@@ -364,7 +371,6 @@ export default function PopulationCalculator() {
                                 <button
                                     onClick={() => {
                                         setCalculationType("growth");
-                                        setResult(null);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${calculationType === "growth"
                                         ? "bg-blue-600 text-white"
@@ -376,7 +382,6 @@ export default function PopulationCalculator() {
                                 <button
                                     onClick={() => {
                                         setCalculationType("doubling");
-                                        setResult(null);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${calculationType === "doubling"
                                         ? "bg-green-500 text-white"
@@ -388,7 +393,6 @@ export default function PopulationCalculator() {
                                 <button
                                     onClick={() => {
                                         setCalculationType("density");
-                                        setResult(null);
                                     }}
                                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${calculationType === "density"
                                         ? "bg-purple-500 text-white"
@@ -485,7 +489,7 @@ export default function PopulationCalculator() {
                         )}
 
                         <button
-                            onClick={calculate}
+                            onClick={() => calculate()}
                             className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
                         >
                             Calculate →

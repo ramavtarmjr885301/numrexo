@@ -25,7 +25,9 @@ import {
   currencySymbol,
   formatMoney,
   isCurrencyCode,
+  marketOf,
   type CurrencyCode,
+  type Market,
 } from "@/lib/currency";
 
 let currentCurrency: CurrencyCode = DEFAULT_CURRENCY;
@@ -100,6 +102,8 @@ export interface UseCurrencyResult {
   locale: string;
   /** Format a number as money in the chosen currency. */
   money: (value: number, decimals?: number) => string;
+  /** "india" for INR, "west" for every other currency. Pick presets/defaults by this. */
+  market: Market;
   /** Short form for preset buttons — "$350K" in en-US, "₹3.5L" in en-IN. */
   compact: (value: number) => string;
 }
@@ -124,6 +128,7 @@ export function useCurrency(): UseCurrencyResult {
     setCurrency,
     symbol: currencySymbol(currency),
     locale: currencyInfo(currency).locale,
+    market: marketOf(currency),
     money,
     compact,
   };

@@ -100,10 +100,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 export default function LuggageAllowanceCalculator() {
     const [calcType, setCalcType] = useState<"allowance" | "excess">("allowance");
     const [airline, setAirline] = useState(AIRLINE_BAGGAGE[0].airline);
-    const [bagWeight, setBagWeight] = useState("");
+    const [bagWeight, setBagWeight] = useState("23");
     const [bagCount, setBagCount] = useState("1");
-    const [excessWeight, setExcessWeight] = useState("");
-    const [excessBags, setExcessBags] = useState("");
+    const [excessWeight, setExcessWeight] = useState("5");
+    const [excessBags, setExcessBags] = useState("1");
     const [feePerKg, setFeePerKg] = useState("15");
     const [feePerBag, setFeePerBag] = useState("75");
     const [result, setResult] = useState<any>(null);
@@ -164,13 +164,12 @@ export default function LuggageAllowanceCalculator() {
     const resetForm = () => {
         setCalcType("allowance");
         setAirline(AIRLINE_BAGGAGE[0].airline);
-        setBagWeight("");
+        setBagWeight("23");
         setBagCount("1");
-        setExcessWeight("");
-        setExcessBags("");
+        setExcessWeight("5");
+        setExcessBags("1");
         setFeePerKg("15");
         setFeePerBag("75");
-        setResult(null);
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

@@ -97,7 +97,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function EnergyConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("joule");
     const [toUnit, setToUnit] = useState("calorie");
     const [result, setResult] = useState<any>(null);
@@ -122,10 +122,9 @@ export default function EnergyConverter() {
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("100");
         setFromUnit("joule");
         setToUnit("calorie");
-        setResult(null);
     };
 
     return (

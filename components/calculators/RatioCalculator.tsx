@@ -93,15 +93,15 @@ function gcdThree(a: number, b: number, c: number): number {
 
 export default function RatioCalculator() {
     const [calcType, setCalcType] = useState<"simplify" | "missing" | "aspect">("simplify");
-    const [ratioA, setRatioA] = useState("");
-    const [ratioB, setRatioB] = useState("");
+    const [ratioA, setRatioA] = useState("12");
+    const [ratioB, setRatioB] = useState("18");
     const [ratioC, setRatioC] = useState("");
-    const [knownA, setKnownA] = useState("");
-    const [knownB, setKnownB] = useState("");
-    const [missingX, setMissingX] = useState("");
-    const [width, setWidth] = useState("");
-    const [height, setHeight] = useState("");
-    const [targetWidth, setTargetWidth] = useState("");
+    const [knownA, setKnownA] = useState("2");
+    const [knownB, setKnownB] = useState("3");
+    const [missingX, setMissingX] = useState("4");
+    const [width, setWidth] = useState("1920");
+    const [height, setHeight] = useState("1080");
+    const [targetWidth, setTargetWidth] = useState("1280");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -188,16 +188,15 @@ export default function RatioCalculator() {
 
     const resetForm = () => {
         setCalcType("simplify");
-        setRatioA("");
-        setRatioB("");
+        setRatioA("12");
+        setRatioB("18");
         setRatioC("");
-        setKnownA("");
-        setKnownB("");
-        setMissingX("");
-        setWidth("");
-        setHeight("");
-        setTargetWidth("");
-        setResult(null);
+        setKnownA("2");
+        setKnownB("3");
+        setMissingX("4");
+        setWidth("1920");
+        setHeight("1080");
+        setTargetWidth("1280");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

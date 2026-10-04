@@ -95,7 +95,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AngleConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("180");
     const [fromUnit, setFromUnit] = useState("degree");
     const [toUnit, setToUnit] = useState("radian");
     const [result, setResult] = useState<any>(null);
@@ -120,10 +120,9 @@ export default function AngleConverter() {
     const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("180");
         setFromUnit("degree");
         setToUnit("radian");
-        setResult(null);
     };
 
     return (

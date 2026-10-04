@@ -128,7 +128,7 @@ export default function SalesTaxCalculator() {
     };
 
     const resetForm = () => {
-        setAmount("");
+        setAmount("100");
         setTaxRate("8");
         setCalcType("add");
         setSelectedState("");

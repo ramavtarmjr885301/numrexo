@@ -36,6 +36,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
 import { MIGRATED_WORDPRESS_SLUGS } from "@/lib/migratedBlogSlugs";
+import { HIDDEN_PUBLIC_SLUGS } from "@/lib/hiddenBlogSlugs";
 import { ADMIN_SESSION_COOKIE, isValidSessionToken } from "@/lib/adminAuth";
 
 // Built once at module load: slug -> category
@@ -54,7 +55,10 @@ export async function middleware(request: NextRequest) {
   // --- 4. Old WordPress host: redirect everything to the new blog --------
   if (host === OLD_BLOG_HOST || host.startsWith(`${OLD_BLOG_HOST}:`)) {
     const oldSlugMatch = pathname.match(/^\/([^/]+)\/?$/);
-    const slug = oldSlugMatch && MIGRATED_SLUGS.has(oldSlugMatch[1]) ? oldSlugMatch[1] : null;
+    const slug =
+      oldSlugMatch && MIGRATED_SLUGS.has(oldSlugMatch[1]) && !HIDDEN_PUBLIC_SLUGS.has(oldSlugMatch[1])
+        ? oldSlugMatch[1]
+        : null;
     const url = new URL(slug ? `https://numrexo.com/blog/${slug}` : "https://numrexo.com/blog");
     return NextResponse.redirect(url, 301);
   }

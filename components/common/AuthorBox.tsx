@@ -19,7 +19,7 @@ import type { CalculatorType } from "@/data/calculatorsRegistry";
 export const AUTHOR = {
   name: "Sanjay Singh",
   role: "Founder, Numrexo",
-  bio: "Builds and maintains every calculator on Numrexo. Fifteen years working with numbers in real estate and digital marketing.",
+  bio: "Builds and maintains the calculators on Numrexo. Each tool's formula is documented on its page, and any reference source it relies on is listed under Method and references.",
   profile: "https://www.linkedin.com/in/sanjaysingh0079",
   initials: "SS",
 };

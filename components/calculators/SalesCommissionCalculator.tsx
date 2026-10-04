@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
@@ -105,35 +105,77 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
     ],
 });
 
+// ─── Market profiles (worked-example defaults) ───────────────────────────────
+
+const PROFILES = {
+    india: {
+        saleAmount: "500000",
+        commissionRate: "5",
+        bonus: "0",
+        tier1Limit: "200000",
+        tier1Rate: "3",
+        tier2Limit: "200000",
+        tier2Rate: "5",
+        tier3Rate: "7",
+        splitPercent: "60",
+    },
+    west: {
+        saleAmount: "50000",
+        commissionRate: "10",
+        bonus: "0",
+        tier1Limit: "20000",
+        tier1Rate: "5",
+        tier2Limit: "20000",
+        tier2Rate: "7",
+        tier3Rate: "10",
+        splitPercent: "60",
+    },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SalesCommissionCalculator() {
-    const { symbol } = useCurrency();
+    const { symbol, market } = useCurrency();
+    // Start from the western defaults: SSR and the first client render use USD, so a worked
+    // example is on screen immediately. INR users are switched to rupee defaults in the effect below.
+    const W = PROFILES.west;
     const [calcType, setCalcType] = useState<"simple" | "tiered" | "split">("simple");
-    const [saleAmount, setSaleAmount] = useState("");
-    const [commissionRate, setCommissionRate] = useState("");
-    const [bonus, setBonus] = useState("");
-    const [tier1Limit, setTier1Limit] = useState("");
-    const [tier1Rate, setTier1Rate] = useState("");
-    const [tier2Limit, setTier2Limit] = useState("");
-    const [tier2Rate, setTier2Rate] = useState("");
-    const [tier3Rate, setTier3Rate] = useState("");
-    const [splitPercent, setSplitPercent] = useState("");
+    const [saleAmount, setSaleAmount] = useState(W.saleAmount);
+    const [commissionRate, setCommissionRate] = useState(W.commissionRate);
+    const [bonus, setBonus] = useState(W.bonus);
+    const [tier1Limit, setTier1Limit] = useState(W.tier1Limit);
+    const [tier1Rate, setTier1Rate] = useState(W.tier1Rate);
+    const [tier2Limit, setTier2Limit] = useState(W.tier2Limit);
+    const [tier2Rate, setTier2Rate] = useState(W.tier2Rate);
+    const [tier3Rate, setTier3Rate] = useState(W.tier3Rate);
+    const [splitPercent, setSplitPercent] = useState(W.splitPercent);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    // True once the visitor has changed anything; until then a currency switch re-seeds the defaults.
+    const touched = useRef(false);
+
+    const applyDefaults = (m: "india" | "west") => {
+        const d = PROFILES[m];
+        setSaleAmount(d.saleAmount);
+        setCommissionRate(d.commissionRate);
+        setBonus(d.bonus);
+        setTier1Limit(d.tier1Limit);
+        setTier1Rate(d.tier1Rate);
+        setTier2Limit(d.tier2Limit);
+        setTier2Rate(d.tier2Rate);
+        setTier3Rate(d.tier3Rate);
+        setSplitPercent(d.splitPercent);
+    };
+
+    useEffect(() => {
+        if (touched.current) return;
+        applyDefaults(market);
+    }, [market]);
 
     const resetForm = () => {
+        touched.current = false;
         setCalcType("simple");
-        setSaleAmount("");
-        setCommissionRate("");
-        setBonus("");
-        setTier1Limit("");
-        setTier1Rate("");
-        setTier2Limit("");
-        setTier2Rate("");
-        setTier3Rate("");
-        setSplitPercent("");
-        setResult(null);
+        applyDefaults(market);
     };
 
     const calculateSimple = () => {
@@ -312,7 +354,7 @@ export default function SalesCommissionCalculator() {
                                     type="number"
                                     placeholder="100000"
                                     value={saleAmount}
-                                    onChange={(e) => setSaleAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setSaleAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -329,7 +371,7 @@ export default function SalesCommissionCalculator() {
                                             step="0.5"
                                             placeholder="10"
                                             value={commissionRate}
-                                            onChange={(e) => setCommissionRate(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setCommissionRate(e.target.value); }}
                                             className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -342,7 +384,7 @@ export default function SalesCommissionCalculator() {
                                             type="number"
                                             placeholder="0"
                                             value={bonus}
-                                            onChange={(e) => setBonus(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setBonus(e.target.value); }}
                                             className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -360,7 +402,7 @@ export default function SalesCommissionCalculator() {
                                             type="number"
                                             placeholder="50000"
                                             value={tier1Limit}
-                                            onChange={(e) => setTier1Limit(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setTier1Limit(e.target.value); }}
                                             className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
@@ -371,7 +413,7 @@ export default function SalesCommissionCalculator() {
                                             step="0.5"
                                             placeholder="5"
                                             value={tier1Rate}
-                                            onChange={(e) => setTier1Rate(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setTier1Rate(e.target.value); }}
                                             className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
@@ -383,7 +425,7 @@ export default function SalesCommissionCalculator() {
                                             type="number"
                                             placeholder="100000"
                                             value={tier2Limit}
-                                            onChange={(e) => setTier2Limit(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setTier2Limit(e.target.value); }}
                                             className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
@@ -394,7 +436,7 @@ export default function SalesCommissionCalculator() {
                                             step="0.5"
                                             placeholder="7"
                                             value={tier2Rate}
-                                            onChange={(e) => setTier2Rate(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setTier2Rate(e.target.value); }}
                                             className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
@@ -406,7 +448,7 @@ export default function SalesCommissionCalculator() {
                                         step="0.5"
                                         placeholder="10"
                                         value={tier3Rate}
-                                        onChange={(e) => setTier3Rate(e.target.value)}
+                                        onChange={(e) => { touched.current = true; setTier3Rate(e.target.value); }}
                                         className="w-full px-3 py-2 bg-surface border border-hairline rounded-lg text-ink text-sm focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
@@ -423,7 +465,7 @@ export default function SalesCommissionCalculator() {
                                             step="0.5"
                                             placeholder="10"
                                             value={commissionRate}
-                                            onChange={(e) => setCommissionRate(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setCommissionRate(e.target.value); }}
                                             className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -437,7 +479,7 @@ export default function SalesCommissionCalculator() {
                                             step="1"
                                             placeholder="60"
                                             value={splitPercent}
-                                            onChange={(e) => setSplitPercent(e.target.value)}
+                                            onChange={(e) => { touched.current = true; setSplitPercent(e.target.value); }}
                                             className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>

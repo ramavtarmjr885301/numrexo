@@ -91,7 +91,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function PowerConverter() {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("100");
     const [fromUnit, setFromUnit] = useState("kilowatt");
     const [toUnit, setToUnit] = useState("horsepower");
     const [result, setResult] = useState<any>(null);
@@ -113,13 +113,12 @@ export default function PowerConverter() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { convert(); }, [value, fromUnit, toUnit]);
 
-    const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); if (value) setTimeout(convert, 10); };
+    const swapUnits = () => { const temp = fromUnit; setFromUnit(toUnit); setToUnit(temp); };
 
     const resetForm = () => {
-        setValue("");
+        setValue("100");
         setFromUnit("kilowatt");
         setToUnit("horsepower");
-        setResult(null);
     };
 
     return (

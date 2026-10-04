@@ -86,14 +86,15 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+const DEFAULT_DATA = "12, 15, 18, 22, 25, 29, 31";
+
 export default function StatisticsCalculator() {
-    const [dataInput, setDataInput] = useState("");
+    const [dataInput, setDataInput] = useState(DEFAULT_DATA);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setDataInput("");
-        setResult(null);
+        setDataInput(DEFAULT_DATA);
     };
 
     const calculate = () => {

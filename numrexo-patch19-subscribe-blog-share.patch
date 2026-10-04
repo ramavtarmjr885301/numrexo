@@ -1,0 +1,4315 @@
+diff --git a/app/admin/edit/[id]/page.tsx b/app/admin/edit/[id]/page.tsx
+index 694f75b..1110cd5 100644
+--- a/app/admin/edit/[id]/page.tsx
++++ b/app/admin/edit/[id]/page.tsx
+@@ -1,5 +1,5 @@
+ import { notFound } from 'next/navigation';
+-import { getPostById } from '@/lib/blogDb';
++import { getPostById, listAllPostsForAdmin } from '@/lib/blogDb';
+ import PostForm from '@/components/admin/PostForm';
+ 
+ interface EditPostPageProps {
+@@ -14,8 +14,10 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
+     notFound();
+   }
+ 
++  const allPosts = await listAllPostsForAdmin();
++
+   return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
++    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-6xl">
+       <h1 className="text-xl sm:text-2xl font-semibold text-ink mb-6">Edit Post</h1>
+       <PostForm
+         initial={{
+@@ -31,7 +33,17 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
+           metaDescription: post.metaDescription || '',
+           faqs: post.faqs || [],
+           published: post.published,
++          tags: post.tags,
++          ogImage: post.ogImage || '',
++          canonicalUrl: post.canonicalUrl || '',
++          noindex: post.noindex,
++          focusKeyword: post.focusKeyword,
++          relatedSlugs: post.relatedSlugs,
++          ctaCalculator: post.ctaCalculator,
++          showToc: post.showToc,
++          publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString() : '',
+         }}
++        otherPosts={allPosts.map((p) => ({ slug: p.slug, title: p.title }))}
+       />
+     </div>
+   );
+diff --git a/app/admin/new/page.tsx b/app/admin/new/page.tsx
+index 015e052..352f268 100644
+--- a/app/admin/new/page.tsx
++++ b/app/admin/new/page.tsx
+@@ -1,10 +1,12 @@
+ import PostForm from '@/components/admin/PostForm';
++import { listAllPostsForAdmin } from '@/lib/blogDb';
+ 
+-export default function NewPostPage() {
++export default async function NewPostPage() {
++  const allPosts = await listAllPostsForAdmin();
+   return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
++    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-6xl">
+       <h1 className="text-xl sm:text-2xl font-semibold text-ink mb-6">New Post</h1>
+-      <PostForm />
++      <PostForm otherPosts={allPosts.map((p) => ({ slug: p.slug, title: p.title }))} />
+     </div>
+   );
+ }
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+index 547cf41..50ee0d2 100644
+--- a/app/admin/page.tsx
++++ b/app/admin/page.tsx
+@@ -6,6 +6,9 @@ import DeletePostButton from '@/components/admin/DeletePostButton';
+ 
+ export default async function AdminDashboardPage() {
+   const posts = await listAllPostsForAdmin();
++  const now = Date.now();
++  const isScheduled = (p: { published: boolean; publishedAt: string }) =>
++    p.published && new Date(p.publishedAt).getTime() > now;
+ 
+   return (
+     <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
+@@ -15,6 +18,9 @@ export default async function AdminDashboardPage() {
+           <p className="text-sm text-ink-soft mt-1">{posts.length} posts</p>
+         </div>
+         <div className="flex items-center gap-4">
++          <Link href="/subscribers" className="text-sm text-ink-soft hover:text-ink">
++            Subscribers
++          </Link>
+           <Link
+             href="/new"
+             className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
+@@ -41,12 +47,20 @@ export default async function AdminDashboardPage() {
+                     Draft
+                   </span>
+                 )}
++                {isScheduled(post) && (
++                  <span className="text-[10px] px-2 py-0.5 rounded bg-purple-100 text-purple-700">
++                    Scheduled
++                  </span>
++                )}
++                {post.noindex && (
++                  <span className="text-[10px] px-2 py-0.5 rounded bg-gray-200 text-gray-600">noindex</span>
++                )}
+               </div>
+               <p className="text-ink text-sm sm:text-base truncate">{post.title}</p>
+               <p className="text-ink-faint text-xs mt-0.5">/blog/{post.slug}</p>
+             </div>
+             <div className="flex items-center gap-3 flex-shrink-0">
+-              {post.published ? (
++              {post.published && !isScheduled(post) ? (
+                 <a
+                   href={`https://numrexo.com/blog/${post.slug}`}
+                   target="_blank"
+@@ -56,7 +70,10 @@ export default async function AdminDashboardPage() {
+                   View Live
+                 </a>
+               ) : (
+-                <span className="text-sm text-ink-faint" title="Draft hai, abhi live nahi hai">
++                <span
++                  className="text-sm text-ink-faint"
++                  title={isScheduled(post) ? 'Scheduled hai, us time par live hogi' : 'Draft hai, abhi live nahi hai'}
++                >
+                   Not live
+                 </span>
+               )}
+diff --git a/app/admin/subscribers/page.tsx b/app/admin/subscribers/page.tsx
+new file mode 100644
+index 0000000..fcb3b48
+--- /dev/null
++++ b/app/admin/subscribers/page.tsx
+@@ -0,0 +1,156 @@
++import Link from 'next/link';
++import { countSubscribers, listSubscribers, StatusFilter } from '@/lib/subscribersDb';
++import LogoutButton from '@/components/admin/LogoutButton';
++import SubscriberActions from '@/components/admin/SubscriberActions';
++import SubscriberImport from '@/components/admin/SubscriberImport';
++
++export const dynamic = 'force-dynamic';
++
++interface PageProps {
++  searchParams: { q?: string; status?: string; page?: string };
++}
++
++function fmt(iso: string): string {
++  return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
++}
++
++export default async function SubscribersPage({ searchParams }: PageProps) {
++  const status: StatusFilter =
++    searchParams.status === 'active' || searchParams.status === 'inactive' ? searchParams.status : 'all';
++  const q = (searchParams.q || '').slice(0, 100);
++  const page = Math.max(1, Number(searchParams.page) || 1);
++
++  const [counts, data] = await Promise.all([countSubscribers(), listSubscribers({ status, q, page })]);
++
++  const qs = (over: Record<string, string | number | undefined>) => {
++    const p = new URLSearchParams();
++    const merged = { q, status: status === 'all' ? '' : status, page: '', ...over };
++    for (const [k, v] of Object.entries(merged)) if (v !== undefined && v !== '') p.set(k, String(v));
++    const s = p.toString();
++    return `/subscribers${s ? `?${s}` : ''}`;
++  };
++
++  const tab = (value: StatusFilter, label: string, n: number) => (
++    <Link
++      href={qs({ status: value === 'all' ? '' : value, page: '' })}
++      className={`px-3 py-1.5 rounded-lg text-sm ${status === value ? 'bg-blue-600 text-white' : 'bg-surface border border-hairline text-ink-soft hover:text-ink'}`}
++    >
++      {label} ({n})
++    </Link>
++  );
++
++  return (
++    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
++      <div className="flex items-center justify-between mb-6">
++        <div>
++          <h1 className="text-xl sm:text-2xl font-semibold text-ink">Subscribers</h1>
++          <p className="text-sm text-ink-soft mt-1">
++            <Link href="/" className="text-blue-600 hover:text-blue-700">
++              ← Blog posts
++            </Link>
++          </p>
++        </div>
++        <LogoutButton />
++      </div>
++
++      <div className="grid grid-cols-3 gap-3 mb-6">
++        {[
++          { label: 'Total', value: counts.total },
++          { label: 'Active', value: counts.active },
++          { label: 'Inactive', value: counts.inactive },
++        ].map((c) => (
++          <div key={c.label} className="bg-surface border border-hairline rounded-xl p-4">
++            <div className="text-2xl font-bold text-ink font-mono">{c.value}</div>
++            <div className="text-xs text-ink-faint uppercase tracking-wider">{c.label}</div>
++          </div>
++        ))}
++      </div>
++
++      <div className="mb-6">
++        <SubscriberImport />
++      </div>
++
++      <div className="flex flex-wrap items-center gap-2 mb-3">
++        {tab('all', 'All', counts.total)}
++        {tab('active', 'Active', counts.active)}
++        {tab('inactive', 'Inactive', counts.inactive)}
++        <div className="flex-1" />
++        <a
++          href="/api/admin/subscribers/export?status=active"
++          className="px-3 py-1.5 rounded-lg bg-surface border border-hairline text-sm text-ink-soft hover:text-ink"
++        >
++          ⬇ Export active (CSV)
++        </a>
++        <a
++          href="/api/admin/subscribers/export?status=all"
++          className="px-3 py-1.5 rounded-lg bg-surface border border-hairline text-sm text-ink-soft hover:text-ink"
++        >
++          ⬇ Export all (CSV)
++        </a>
++      </div>
++
++      <form action="/subscribers" method="get" className="flex gap-2 mb-4">
++        <input
++          name="q"
++          defaultValue={q}
++          placeholder="Email ya naam se dhoondho"
++          className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++        />
++        {status !== 'all' && <input type="hidden" name="status" value={status} />}
++        <button type="submit" className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
++          Search
++        </button>
++      </form>
++
++      <div className="bg-surface border border-hairline rounded-xl divide-y divide-hairline">
++        {data.subscribers.length === 0 && (
++          <p className="p-6 text-ink-soft text-sm">
++            {counts.total === 0 ? 'Abhi koi subscriber nahi hai. Upar se import karo ya website se sign-up aane do.' : 'Is filter me koi subscriber nahi mila.'}
++          </p>
++        )}
++        {data.subscribers.map((s) => (
++          <div key={s.id} className="flex items-center justify-between gap-3 p-4">
++            <div className="min-w-0">
++              <div className="flex items-center gap-2 mb-0.5">
++                <p className="text-ink text-sm sm:text-base truncate">{s.email}</p>
++                <span
++                  className={`text-[10px] px-2 py-0.5 rounded flex-shrink-0 ${s.active ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600'}`}
++                >
++                  {s.active ? 'Active' : 'Inactive'}
++                </span>
++              </div>
++              <p className="text-ink-faint text-xs">
++                {s.name ? `${s.name} · ` : ''}
++                {s.source} · joined {fmt(s.subscribedAt)}
++                {s.unsubscribedAt ? ` · deactivated ${fmt(s.unsubscribedAt)}` : ''}
++              </p>
++            </div>
++            <SubscriberActions id={s.id} email={s.email} active={s.active} />
++          </div>
++        ))}
++      </div>
++
++      {data.totalPages > 1 && (
++        <div className="flex items-center justify-between mt-4 text-sm">
++          {data.page > 1 ? (
++            <Link href={qs({ page: data.page - 1 })} className="text-blue-600">
++              ← Previous
++            </Link>
++          ) : (
++            <span />
++          )}
++          <span className="text-ink-faint">
++            Page {data.page} of {data.totalPages} · {data.total} results
++          </span>
++          {data.page < data.totalPages ? (
++            <Link href={qs({ page: data.page + 1 })} className="text-blue-600">
++              Next →
++            </Link>
++          ) : (
++            <span />
++          )}
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/app/api/admin/posts/[id]/route.ts b/app/api/admin/posts/[id]/route.ts
+index 5afb0c0..bb84a37 100644
+--- a/app/api/admin/posts/[id]/route.ts
++++ b/app/api/admin/posts/[id]/route.ts
+@@ -1,9 +1,7 @@
+ import { NextRequest, NextResponse } from 'next/server';
+ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { getPostById, updatePost, deletePost, slugExists } from '@/lib/blogDb';
+-import { markdownToHtml } from '@/lib/markdown';
+-import { slugify } from '@/lib/slugify';
+-import { sanitizeFaqs } from '@/lib/faqs';
++import { parsePostBody } from '@/lib/postInput';
+ 
+ interface Params {
+   params: { id: string };
+@@ -25,7 +23,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
+     return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+   }
+ 
+-  const slug = typeof body.slug === 'string' && body.slug.trim() ? slugify(body.slug) : slugify(body.title);
++  const { slug, values } = parsePostBody(body);
+   if (!slug) {
+     return NextResponse.json({ error: 'Could not generate a slug from that title' }, { status: 400 });
+   }
+@@ -33,22 +31,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
+     return NextResponse.json({ error: `A post already uses the slug "${slug}"` }, { status: 409 });
+   }
+ 
+-  const contentMarkdown = body.contentMarkdown || '';
+-  const post = await updatePost(id, {
+-    slug,
+-    title: body.title.trim(),
+-    category: body.category || 'finance',
+-    author: (body.author || 'Sanjay Singh').trim(),
+-    excerpt: (body.excerpt || '').trim(),
+-    contentHtml: markdownToHtml(contentMarkdown),
+-    contentMarkdown,
+-    featuredImage: body.featuredImage?.trim() || null,
+-    metaTitle: (body.metaTitle || '').trim() || null,
+-    metaDescription: (body.metaDescription || '').trim() || null,
+-    faqs: sanitizeFaqs(body.faqs),
+-    published: Boolean(body.published),
+-  });
+-
++  const post = await updatePost(id, values);
+   if (!post) {
+     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
+   }
+diff --git a/app/api/admin/posts/route.ts b/app/api/admin/posts/route.ts
+index 65348b1..ffccb81 100644
+--- a/app/api/admin/posts/route.ts
++++ b/app/api/admin/posts/route.ts
+@@ -1,9 +1,7 @@
+ import { NextRequest, NextResponse } from 'next/server';
+ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { createPost, slugExists } from '@/lib/blogDb';
+-import { markdownToHtml } from '@/lib/markdown';
+-import { slugify } from '@/lib/slugify';
+-import { sanitizeFaqs } from '@/lib/faqs';
++import { parsePostBody } from '@/lib/postInput';
+ 
+ export async function POST(request: NextRequest) {
+   if (!(await isAdminRequestAuthed())) {
+@@ -15,7 +13,7 @@ export async function POST(request: NextRequest) {
+     return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+   }
+ 
+-  const slug = typeof body.slug === 'string' && body.slug.trim() ? slugify(body.slug) : slugify(body.title);
++  const { slug, values } = parsePostBody(body);
+   if (!slug) {
+     return NextResponse.json({ error: 'Could not generate a slug from that title' }, { status: 400 });
+   }
+@@ -23,22 +21,7 @@ export async function POST(request: NextRequest) {
+     return NextResponse.json({ error: `A post already uses the slug "${slug}"` }, { status: 409 });
+   }
+ 
+-  const contentMarkdown = body.contentMarkdown || '';
+-  const post = await createPost({
+-    slug,
+-    title: body.title.trim(),
+-    category: body.category || 'finance',
+-    author: (body.author || 'Sanjay Singh').trim(),
+-    excerpt: (body.excerpt || '').trim(),
+-    contentHtml: markdownToHtml(contentMarkdown),
+-    contentMarkdown,
+-    featuredImage: body.featuredImage?.trim() || null,
+-    metaTitle: (body.metaTitle || '').trim() || null,
+-    metaDescription: (body.metaDescription || '').trim() || null,
+-    faqs: sanitizeFaqs(body.faqs),
+-    published: Boolean(body.published),
+-  });
+-
++  const post = await createPost(values);
+   if (!post) {
+     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
+   }
+diff --git a/app/api/admin/subscribers/[id]/route.ts b/app/api/admin/subscribers/[id]/route.ts
+new file mode 100644
+index 0000000..f2a1ff8
+--- /dev/null
++++ b/app/api/admin/subscribers/[id]/route.ts
+@@ -0,0 +1,42 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { deleteSubscriber, setSubscriberActive } from '@/lib/subscribersDb';
++
++export const dynamic = 'force-dynamic';
++
++interface Params {
++  params: { id: string };
++}
++
++export async function PATCH(request: NextRequest, { params }: Params) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  const id = Number(params.id);
++  const body = await request.json().catch(() => null);
++  if (!Number.isInteger(id) || typeof body?.active !== 'boolean') {
++    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++  }
++  try {
++    const ok = await setSubscriberActive(id, body.active);
++    if (!ok) return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
++    return NextResponse.json({ ok: true });
++  } catch {
++    return NextResponse.json({ error: 'Could not update subscriber' }, { status: 500 });
++  }
++}
++
++export async function DELETE(_request: NextRequest, { params }: Params) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  const id = Number(params.id);
++  if (!Number.isInteger(id)) return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++  try {
++    const ok = await deleteSubscriber(id);
++    if (!ok) return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 });
++    return NextResponse.json({ ok: true });
++  } catch {
++    return NextResponse.json({ error: 'Could not delete subscriber' }, { status: 500 });
++  }
++}
+diff --git a/app/api/admin/subscribers/export/route.ts b/app/api/admin/subscribers/export/route.ts
+new file mode 100644
+index 0000000..129b299
+--- /dev/null
++++ b/app/api/admin/subscribers/export/route.ts
+@@ -0,0 +1,27 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { listAllForExport, subscribersToCsv, StatusFilter } from '@/lib/subscribersDb';
++
++export const dynamic = 'force-dynamic';
++
++export async function GET(request: NextRequest) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  const raw = request.nextUrl.searchParams.get('status');
++  const status: StatusFilter = raw === 'active' || raw === 'inactive' ? raw : 'all';
++  try {
++    const list = await listAllForExport(status);
++    const csv = '﻿' + subscribersToCsv(list); // BOM so Excel opens it as UTF-8
++    const stamp = new Date().toISOString().slice(0, 10);
++    return new NextResponse(csv, {
++      headers: {
++        'Content-Type': 'text/csv; charset=utf-8',
++        'Content-Disposition': `attachment; filename="numrexo-subscribers-${status}-${stamp}.csv"`,
++        'Cache-Control': 'no-store',
++      },
++    });
++  } catch {
++    return NextResponse.json({ error: 'Could not export subscribers' }, { status: 500 });
++  }
++}
+diff --git a/app/api/admin/subscribers/import/route.ts b/app/api/admin/subscribers/import/route.ts
+new file mode 100644
+index 0000000..8a09f6d
+--- /dev/null
++++ b/app/api/admin/subscribers/import/route.ts
+@@ -0,0 +1,29 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { importSubscribers } from '@/lib/subscribersDb';
++
++export const dynamic = 'force-dynamic';
++
++const MAX_ROWS = 20000;
++
++// Body: { rows: [{ email, name? }, ...] } - the admin page parses the CSV /
++// pasted list in the browser and sends it here.
++export async function POST(request: NextRequest) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  const body = await request.json().catch(() => null);
++  if (!body || !Array.isArray(body.rows) || body.rows.length === 0) {
++    return NextResponse.json({ error: 'Koi email nahi mila.' }, { status: 400 });
++  }
++  if (body.rows.length > MAX_ROWS) {
++    return NextResponse.json({ error: `Ek baar me max ${MAX_ROWS} emails import ho sakte hain.` }, { status: 400 });
++  }
++  try {
++    const summary = await importSubscribers(body.rows);
++    return NextResponse.json({ ok: true, ...summary });
++  } catch (error) {
++    console.warn('[import] failed:', error instanceof Error ? error.message : error);
++    return NextResponse.json({ error: 'Import fail ho gaya. Dobara try karo.' }, { status: 500 });
++  }
++}
+diff --git a/app/api/subscribe/route.ts b/app/api/subscribe/route.ts
+new file mode 100644
+index 0000000..c4b1356
+--- /dev/null
++++ b/app/api/subscribe/route.ts
+@@ -0,0 +1,33 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { addSubscriber, cleanName, normaliseEmail } from '@/lib/subscribersDb';
++
++export const dynamic = 'force-dynamic';
++
++// Public newsletter sign-up. No account, no password: an email address and
++// (optionally) a first name. A hidden "website" field catches simple bots,
++// and a form that is submitted in under 2 seconds is treated as a bot too.
++export async function POST(request: NextRequest) {
++  const body = await request.json().catch(() => null);
++  if (!body || typeof body !== 'object') {
++    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++  }
++
++  // Honeypot / too-fast bots: pretend it worked, store nothing.
++  const filledAt = Number(body.t);
++  if ((typeof body.website === 'string' && body.website.trim() !== '') || (filledAt && Date.now() - filledAt < 2000)) {
++    return NextResponse.json({ ok: true, status: 'subscribed' });
++  }
++
++  const email = normaliseEmail(body.email);
++  if (!email) {
++    return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
++  }
++
++  try {
++    const status = await addSubscriber(email, cleanName(body.name), 'website');
++    return NextResponse.json({ ok: true, status });
++  } catch (error) {
++    console.warn('[subscribe] failed:', error instanceof Error ? error.message : error);
++    return NextResponse.json({ error: 'Something went wrong. Please try again in a minute.' }, { status: 500 });
++  }
++}
+diff --git a/app/api/unsubscribe/route.ts b/app/api/unsubscribe/route.ts
+new file mode 100644
+index 0000000..850dc3a
+--- /dev/null
++++ b/app/api/unsubscribe/route.ts
+@@ -0,0 +1,17 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { unsubscribeByToken } from '@/lib/subscribersDb';
++
++export const dynamic = 'force-dynamic';
++
++export async function POST(request: NextRequest) {
++  const body = await request.json().catch(() => null);
++  const token = typeof body?.token === 'string' ? body.token : '';
++  try {
++    const ok = await unsubscribeByToken(token);
++    if (!ok) return NextResponse.json({ error: 'This unsubscribe link is not valid.' }, { status: 404 });
++    return NextResponse.json({ ok: true });
++  } catch (error) {
++    console.warn('[unsubscribe] failed:', error instanceof Error ? error.message : error);
++    return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
++  }
++}
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index 0f004cd..c12f335 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -1,6 +1,11 @@
+ // app/blog/[slug]/page.tsx
+ 
+-import { getPublishedPostBySlug, listAllSlugs, getRelatedPosts } from '@/lib/blogDb';
++import { getPublishedPostBySlug, listAllSlugs, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
++import { addHeadingIds, splitBeforeSecondH2 } from '@/lib/toc';
++import { tagSlug } from '@/lib/tags';
++import { CALCULATORS_REGISTRY } from '@/data/calculatorsRegistry';
++import ShareBar from '@/components/common/ShareBar';
++import SubscribeBox from '@/components/common/SubscribeBox';
+ import { categoryLabel } from '@/lib/blogTypes';
+ import { getRelatedCalculators } from '@/lib/relatedCalculators';
+ import Image from 'next/image';
+@@ -37,7 +42,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+     };
+   }
+ 
+-  const canonical = `https://numrexo.com/blog/${post.slug}`;
++  const canonical = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
++  const socialImage = post.ogImage || post.featuredImage;
+   // metaTitle/metaDescription are the admin's optional SEO overrides - most
+   // posts won't set them, so fall back to the same title/excerpt used
+   // everywhere else on the site.
+@@ -48,6 +54,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+     title,
+     description,
+     alternates: { canonical },
++    ...(post.noindex ? { robots: { index: false, follow: true } } : {}),
++    keywords: post.tags.length ? post.tags : undefined,
+     openGraph: {
+       title,
+       description,
+@@ -55,13 +63,14 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+       type: 'article',
+       publishedTime: post.publishedAt,
+       modifiedTime: post.updatedAt,
+-      images: post.featuredImage ? [post.featuredImage] : [],
++      tags: post.tags.length ? post.tags : undefined,
++      images: socialImage ? [socialImage] : [],
+     },
+     twitter: {
+       card: 'summary_large_image',
+       title,
+       description,
+-      images: post.featuredImage ? [post.featuredImage] : [],
++      images: socialImage ? [socialImage] : [],
+     },
+   };
+ }
+@@ -74,7 +83,26 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+   }
+ 
+   const relatedCalculators = getRelatedCalculators(post.category, 4);
+-  const relatedPosts = await getRelatedPosts(post.category, post.slug, 3);
++  // Hand-picked related posts first, topped up with automatic ones from the
++  // same category, never more than 3 and never repeating one.
++  const pickedPosts = await getPostsBySlugs(post.relatedSlugs.filter((s) => s !== post.slug));
++  const autoPosts = pickedPosts.length >= 3 ? [] : await getRelatedPosts(post.category, post.slug, 3);
++  const relatedPosts = [...pickedPosts, ...autoPosts]
++    .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
++    .slice(0, 3);
++
++  const { html: contentWithIds, items: tocItems } = addHeadingIds(post.contentHtml);
++  const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
++  const ctaCalc = post.ctaCalculator
++    ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
++    : undefined;
++  const { before: contentBefore, after: contentAfter } = ctaCalc
++    ? splitBeforeSecondH2(contentWithIds)
++    : { before: contentWithIds, after: '' };
++  const postUrl = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
++  const shareUrl = `https://numrexo.com/blog/${post.slug}`;
++  const proseClass =
++    '[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h2]:scroll-mt-24 [&_h3]:scroll-mt-24 [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto';
+ 
+   return (
+     <>
+@@ -85,14 +113,16 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+             '@context': 'https://schema.org',
+             '@type': 'BlogPosting',
+             headline: post.title,
+-            description: post.excerpt,
++            description: post.metaDescription || post.excerpt,
++            mainEntityOfPage: postUrl,
++            keywords: post.tags.length ? post.tags.join(', ') : undefined,
+             author: {
+               '@type': 'Person',
+               name: post.author,
+             },
+             datePublished: post.publishedAt,
+             dateModified: post.updatedAt,
+-            image: post.featuredImage || undefined,
++            image: post.ogImage || post.featuredImage || undefined,
+           }),
+         }}
+       />
+@@ -171,13 +201,64 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+           </div>
+         )}
+ 
++        {showToc && (
++          <nav
++            aria-label="Table of contents"
++            className="mb-6 sm:mb-8 rounded-xl border border-hairline bg-surface p-4 sm:p-5"
++          >
++            <p className="text-sm font-semibold text-ink mb-2">In this article</p>
++            <ol className="space-y-1 text-sm">
++              {tocItems.map((item) => (
++                <li key={item.id} className={item.level === 3 ? 'ml-4' : ''}>
++                  <a href={`#${item.id}`} className="text-blue-600 hover:underline">
++                    {item.text}
++                  </a>
++                </li>
++              ))}
++            </ol>
++          </nav>
++        )}
++
+         <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-soft prose-strong:text-ink prose-a:text-blue-600">
+-          <div
+-            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+-            className="[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto"
+-          />
++          <div dangerouslySetInnerHTML={{ __html: contentBefore }} className={proseClass} />
++
++          {ctaCalc && (
++            <aside className="not-prose my-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:p-6 flex items-center gap-4">
++              <div className="text-4xl flex-shrink-0" aria-hidden="true">
++                {ctaCalc.icon}
++              </div>
++              <div className="min-w-0 flex-1">
++                <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">Try it yourself</p>
++                <p className="text-base sm:text-lg font-semibold text-ink">{ctaCalc.name}</p>
++                <p className="text-sm text-ink-soft">{ctaCalc.desc}. Free, no sign-up.</p>
++              </div>
++              <Link
++                href={ctaCalc.path}
++                className="flex-shrink-0 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
++              >
++                Open →
++              </Link>
++            </aside>
++          )}
++
++          {contentAfter && <div dangerouslySetInnerHTML={{ __html: contentAfter }} className={proseClass} />}
+         </div>
+ 
++        {post.tags.length > 0 && (
++          <div className="mt-6 flex flex-wrap items-center gap-2">
++            <span className="text-xs text-ink-faint">Tags:</span>
++            {post.tags.map((tag) => (
++              <Link
++                key={tag}
++                href={`/blog/tag/${tagSlug(tag)}`}
++                className="text-xs px-2.5 py-1 rounded-full bg-surface border border-hairline text-ink-soft hover:border-blue-600 hover:text-ink"
++              >
++                #{tag}
++              </Link>
++            ))}
++          </div>
++        )}
++
+         {post.faqs.length > 0 && (
+           <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
+             <h2 className="text-lg sm:text-xl font-semibold text-ink mb-3 sm:mb-4">
+@@ -201,35 +282,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+         )}
+ 
+         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-hairline">
+-          <p className="text-sm text-ink-soft mb-3">Share this article:</p>
+-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+-            <a
+-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
+-              target="_blank"
+-              rel="noopener noreferrer"
+-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1DA1F2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1a8cd8] transition-colors"
+-            >
+-              Twitter
+-            </a>
+-            <a
+-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
+-              target="_blank"
+-              rel="noopener noreferrer"
+-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#0A66C2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#0958a8] transition-colors"
+-            >
+-              LinkedIn
+-            </a>
+-            <a
+-              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} - https://numrexo.com/blog/${post.slug}`)}`}
+-              target="_blank"
+-              rel="noopener noreferrer"
+-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#25D366] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1da851] transition-colors"
+-            >
+-              WhatsApp
+-            </a>
+-          </div>
++          <ShareBar url={shareUrl} title={post.title} heading="Share this article:" />
+         </div>
+ 
++        <SubscribeBox className="mt-8 sm:mt-10" />
++
+         {relatedCalculators.length > 0 && (
+           <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
+             <h2 className="text-lg sm:text-xl font-semibold text-ink mb-3 sm:mb-4">
+diff --git a/app/blog/page.tsx b/app/blog/page.tsx
+index 9a5374c..616b03c 100644
+--- a/app/blog/page.tsx
++++ b/app/blog/page.tsx
+@@ -3,6 +3,7 @@ import { categoryLabel } from '@/lib/blogTypes';
+ import Link from 'next/link';
+ import Image from 'next/image';
+ import { Metadata } from 'next';
++import SubscribeBox from '@/components/common/SubscribeBox';
+ 
+ export const revalidate = 3600;
+ 
+@@ -129,6 +130,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
+           <p className="text-ink-soft">No blog posts found. Coming soon!</p>
+         </div>
+       )}
++
++      <SubscribeBox className="mt-10 sm:mt-12" />
+     </div>
+   );
+ }
+diff --git a/app/blog/tag/[tag]/page.tsx b/app/blog/tag/[tag]/page.tsx
+new file mode 100644
+index 0000000..5833c02
+--- /dev/null
++++ b/app/blog/tag/[tag]/page.tsx
+@@ -0,0 +1,80 @@
++import { listPostsByTag } from '@/lib/blogDb';
++import { categoryLabel } from '@/lib/blogTypes';
++import Link from 'next/link';
++import Image from 'next/image';
++import { notFound } from 'next/navigation';
++import { Metadata } from 'next';
++
++export const revalidate = 3600;
++
++interface TagPageProps {
++  params: { tag: string };
++}
++
++function formatDate(iso: string): string {
++  return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
++}
++
++// Tag archives are navigation aids, not content of their own, so they are
++// kept out of Google's index (still crawlable via "follow") to avoid adding
++// thin pages to the site.
++export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
++  const label = decodeURIComponent(params.tag).replace(/-/g, ' ');
++  return {
++    title: `Posts tagged "${label}"`,
++    description: `Numrexo blog posts tagged ${label}.`,
++    robots: { index: false, follow: true },
++  };
++}
++
++export default async function TagPage({ params }: TagPageProps) {
++  const posts = await listPostsByTag(params.tag);
++  if (posts.length === 0) notFound();
++
++  // Show the tag the way the author typed it, taken from the first post.
++  const display =
++    posts[0].tags.find((t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') === params.tag) ||
++    params.tag.replace(/-/g, ' ');
++
++  return (
++    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-6xl">
++      <Link href="/blog" className="text-blue-600 hover:underline text-sm inline-block mb-4">
++        ← Back to all posts
++      </Link>
++      <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">#{display}</h1>
++      <p className="text-ink-soft mb-6 sm:mb-8">
++        {posts.length} {posts.length === 1 ? 'article' : 'articles'}
++      </p>
++
++      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
++        {posts.map((post) => (
++          <Link key={post.id} href={`/blog/${post.slug}`}>
++            <div className="bg-surface border border-hairline rounded-xl overflow-hidden hover:border-blue-300 hover:shadow-lg transition-all group h-full flex flex-col">
++              {post.featuredImage && (
++                <div className="relative h-48 overflow-hidden flex-shrink-0">
++                  <Image
++                    src={post.featuredImage}
++                    alt={post.title}
++                    fill
++                    sizes="(max-width: 768px) 100vw, 33vw"
++                    className="object-cover group-hover:scale-105 transition-transform"
++                  />
++                </div>
++              )}
++              <div className="p-4 flex flex-col flex-grow">
++                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 self-start mb-2">
++                  {categoryLabel(post.category)}
++                </span>
++                <h2 className="text-base font-semibold text-ink group-hover:text-blue-600 transition-colors line-clamp-2">
++                  {post.title}
++                </h2>
++                <p className="text-sm text-ink-soft mt-2 line-clamp-2">{post.excerpt}</p>
++                <p className="text-xs text-ink-faint mt-auto pt-3">{formatDate(post.publishedAt)}</p>
++              </div>
++            </div>
++          </Link>
++        ))}
++      </div>
++    </div>
++  );
++}
+diff --git a/app/layout.tsx b/app/layout.tsx
+index 959734f..13d41f7 100644
+--- a/app/layout.tsx
++++ b/app/layout.tsx
+@@ -6,6 +6,7 @@ import "./globals.css";
+ import Header from "@/components/layout/Header";
+ import Footer from "@/components/layout/Footer";
+ import CookieConsent from "@/components/common/CookieConsent";
++import ShareFab from "@/components/common/ShareFab";
+ import { SITE_URL, SITE_NAME } from "@/lib/seo";
+ import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
+ 
+@@ -129,6 +130,7 @@ export default function RootLayout({
+             <Header />
+             <main className="min-h-screen">{children}</main>
+             <Footer />
++            <ShareFab />
+           </>
+         )}
+       </body>
+diff --git a/app/privacy/page.tsx b/app/privacy/page.tsx
+index 4cc3d32..cf7423a 100644
+--- a/app/privacy/page.tsx
++++ b/app/privacy/page.tsx
+@@ -53,6 +53,18 @@ export default function PrivacyPage() {
+                         <p className="text-ink-soft leading-relaxed mt-2">
+                             We do not intentionally collect sensitive personal information through calculator usage.
+                         </p>
++                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Email updates (optional)</h3>
++                        <p className="text-ink-soft leading-relaxed">
++                            If you choose to subscribe to our email updates, we store the email address you enter (and your name, if you give it)
++                            together with the date you subscribed. We use it only to send you news about new calculators and guides on Numrexo.
++                            We do not sell or rent your address. Every email includes an unsubscribe link, and you can also
++                            ask us to delete your address at any time through our <a href="/contact" className="text-blue-600 underline">Contact page</a>.
++                        </p>
++                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Result share images</h3>
++                        <p className="text-ink-soft leading-relaxed">
++                            The &quot;Share your result&quot; picture is created entirely inside your browser from the result you see on screen.
++                            It is not uploaded to our servers. If you choose to post it, it is shared by you through the app you pick.
++                        </p>
+                     </div>
+ 
+                     {/* 3. Calculator Data & User Privacy */}
+diff --git a/app/sitemap.ts b/app/sitemap.ts
+index 42d95b4..633b50b 100644
+--- a/app/sitemap.ts
++++ b/app/sitemap.ts
+@@ -85,7 +85,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+     let blogPages: MetadataRoute.Sitemap = []
+     try {
+         const { posts } = await listPublishedPosts(1, 200)
+-        blogPages = posts.map((post) => ({
++        blogPages = posts
++            // A post marked "noindex" in the admin must not be advertised to Google.
++            .filter((post) => !post.noindex)
++            .map((post) => ({
+             url: `${baseUrl}/blog/${post.slug}`,
+             lastModified: new Date(post.updatedAt || post.publishedAt),
+             priority: 0.6,
+diff --git a/app/unsubscribe/UnsubscribeClient.tsx b/app/unsubscribe/UnsubscribeClient.tsx
+new file mode 100644
+index 0000000..1f6cbad
+--- /dev/null
++++ b/app/unsubscribe/UnsubscribeClient.tsx
+@@ -0,0 +1,51 @@
++"use client";
++
++import { useState } from "react";
++
++export default function UnsubscribeClient({ token }: { token: string }) {
++  const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
++  const [message, setMessage] = useState("");
++
++  async function confirm() {
++    setState("busy");
++    try {
++      const res = await fetch("/api/unsubscribe", {
++        method: "POST",
++        headers: { "Content-Type": "application/json" },
++        body: JSON.stringify({ token }),
++      });
++      const data = await res.json().catch(() => ({}));
++      if (!res.ok) {
++        setState("error");
++        setMessage(data.error || "Something went wrong.");
++        return;
++      }
++      setState("done");
++    } catch {
++      setState("error");
++      setMessage("Network problem. Please try again.");
++    }
++  }
++
++  if (state === "done") {
++    return (
++      <p className="text-green-700" role="status">
++        You have been unsubscribed. You won&apos;t receive further emails from us.
++      </p>
++    );
++  }
++
++  return (
++    <div>
++      <button
++        type="button"
++        onClick={confirm}
++        disabled={state === "busy"}
++        className="px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-60"
++      >
++        {state === "busy" ? "Please wait…" : "Yes, unsubscribe me"}
++      </button>
++      {state === "error" && <p className="text-sm text-red-600 mt-3">{message}</p>}
++    </div>
++  );
++}
+diff --git a/app/unsubscribe/page.tsx b/app/unsubscribe/page.tsx
+new file mode 100644
+index 0000000..f78f245
+--- /dev/null
++++ b/app/unsubscribe/page.tsx
+@@ -0,0 +1,35 @@
++import type { Metadata } from "next";
++import Link from "next/link";
++import UnsubscribeClient from "./UnsubscribeClient";
++
++export const metadata: Metadata = {
++  title: "Unsubscribe",
++  robots: { index: false, follow: false },
++};
++
++export default function UnsubscribePage({ searchParams }: { searchParams: { t?: string } }) {
++  const token = typeof searchParams.t === "string" ? searchParams.t : "";
++  const valid = /^[a-f0-9]{32}$/.test(token);
++
++  return (
++    <div className="px-6 py-16">
++      <div className="max-w-lg mx-auto bg-surface border border-hairline rounded-2xl p-8 text-center">
++        <h1 className="text-2xl font-bold text-ink mb-3">Unsubscribe from Numrexo emails</h1>
++        {valid ? (
++          <>
++            <p className="text-ink-soft mb-6">Click the button to stop receiving update emails from Numrexo.</p>
++            <UnsubscribeClient token={token} />
++          </>
++        ) : (
++          <p className="text-ink-soft">
++            This unsubscribe link looks incomplete. Please use the link from the bottom of the email, or{" "}
++            <Link href="/contact" className="text-blue-600 underline">
++              contact us
++            </Link>{" "}
++            and we&apos;ll remove your address.
++          </p>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/components/admin/PostForm.tsx b/components/admin/PostForm.tsx
+index 7587506..dc04130 100644
+--- a/components/admin/PostForm.tsx
++++ b/components/admin/PostForm.tsx
+@@ -1,11 +1,16 @@
+ 'use client';
+ 
+-import { useState } from 'react';
++import { useMemo, useState } from 'react';
+ import { useRouter } from 'next/navigation';
+ import { CATEGORY_LABELS, BlogFaq } from '@/lib/blogTypes';
++import { CALCULATORS_REGISTRY } from '@/data/calculatorsRegistry';
++import { slugify } from '@/lib/slugify';
+ import ImageUploadField from '@/components/admin/ImageUploadField';
+ import RichMarkdownEditor from '@/components/admin/RichMarkdownEditor';
+ import FaqEditor from '@/components/admin/FaqEditor';
++import SerpPreview from '@/components/admin/SerpPreview';
++import SeoScorePanel from '@/components/admin/SeoScorePanel';
++import TagsInput from '@/components/admin/TagsInput';
+ 
+ export interface PostFormValues {
+   id?: number;
+@@ -20,6 +25,22 @@ export interface PostFormValues {
+   metaDescription: string;
+   faqs: BlogFaq[];
+   published: boolean;
++  // Patch 19
++  tags: string[];
++  ogImage: string;
++  canonicalUrl: string;
++  noindex: boolean;
++  focusKeyword: string;
++  relatedSlugs: string[];
++  ctaCalculator: string;
++  showToc: boolean;
++  // ISO timestamp, or '' for "now" on a brand-new post.
++  publishedAt: string;
++}
++
++export interface OtherPostOption {
++  slug: string;
++  title: string;
+ }
+ 
+ const EMPTY: PostFormValues = {
+@@ -34,34 +55,113 @@ const EMPTY: PostFormValues = {
+   metaDescription: '',
+   faqs: [],
+   published: true,
++  tags: [],
++  ogImage: '',
++  canonicalUrl: '',
++  noindex: false,
++  focusKeyword: '',
++  relatedSlugs: [],
++  ctaCalculator: '',
++  showToc: true,
++  publishedAt: '',
+ };
+ 
+-export default function PostForm({ initial }: { initial?: PostFormValues }) {
++const INPUT =
++  'w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600';
++const CARD = 'p-4 rounded-xl bg-surface border border-hairline space-y-4';
++
++// <input type="datetime-local"> wants "YYYY-MM-DDTHH:mm" in the browser's
++// own timezone, while the database stores a UTC instant.
++function isoToLocalInput(iso: string): string {
++  if (!iso) return '';
++  const d = new Date(iso);
++  if (Number.isNaN(d.getTime())) return '';
++  const pad = (n: number) => String(n).padStart(2, '0');
++  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
++}
++
++export default function PostForm({
++  initial,
++  otherPosts = [],
++}: {
++  initial?: PostFormValues;
++  otherPosts?: OtherPostOption[];
++}) {
+   const router = useRouter();
+   const [values, setValues] = useState<PostFormValues>(initial || EMPTY);
++  const [dateLocal, setDateLocal] = useState<string>(isoToLocalInput(initial?.publishedAt || ''));
++  const [slugTouched, setSlugTouched] = useState<boolean>(Boolean(initial?.slug));
+   const [saving, setSaving] = useState(false);
+   const [error, setError] = useState('');
+   const isEdit = Boolean(initial?.id);
++  const originalSlug = initial?.slug || '';
+ 
+   function update<K extends keyof PostFormValues>(key: K, value: PostFormValues[K]) {
+     setValues((v) => ({ ...v, [key]: value }));
+   }
+ 
++  function onTitleChange(title: string) {
++    setValues((v) => ({
++      ...v,
++      title,
++      // Keep the slug in step with the title until the author edits the slug
++      // by hand (and never silently rewrite an existing post's live URL).
++      slug: !isEdit && !slugTouched ? slugify(title) : v.slug,
++    }));
++  }
++
++  const scheduled = useMemo(() => {
++    if (!values.published || !dateLocal) return false;
++    const d = new Date(dateLocal);
++    return !Number.isNaN(d.getTime()) && d.getTime() > Date.now();
++  }, [values.published, dateLocal]);
++
++  const seoTitle = values.metaTitle || values.title;
++  const seoDescription = values.metaDescription || values.excerpt;
++  const slugForPreview = values.slug || slugify(values.title);
++
++  const seoInput = useMemo(
++    () => ({
++      title: values.title,
++      slug: slugForPreview,
++      metaTitle: values.metaTitle,
++      metaDescription: values.metaDescription,
++      excerpt: values.excerpt,
++      focusKeyword: values.focusKeyword,
++      contentMarkdown: values.contentMarkdown,
++      featuredImage: values.featuredImage,
++      faqCount: values.faqs.filter((f) => f.question.trim() && f.answer.trim()).length,
++      tagCount: values.tags.length,
++    }),
++    [values, slugForPreview],
++  );
++
+   async function handleSubmit(e: React.FormEvent) {
+     e.preventDefault();
+     setSaving(true);
+     setError('');
++
++    // Work out the publish date to send.
++    let publishedAt = '';
++    if (dateLocal) {
++      const d = new Date(dateLocal);
++      if (!Number.isNaN(d.getTime())) publishedAt = d.toISOString();
++    } else if (isEdit && initial?.publishedAt) {
++      publishedAt = initial.publishedAt;
++    }
++
+     try {
+       const url = isEdit ? `/api/admin/posts/${initial!.id}` : '/api/admin/posts';
+       const method = isEdit ? 'PUT' : 'POST';
+       const res = await fetch(url, {
+         method,
+         headers: { 'Content-Type': 'application/json' },
+-        body: JSON.stringify(values),
++        body: JSON.stringify({ ...values, publishedAt }),
+       });
+       const data = await res.json();
+       if (!res.ok) {
+         setError(data.error || 'Save nahi hua, dobara try karo.');
++        window.scrollTo({ top: 0, behavior: 'smooth' });
+         return;
+       }
+       router.push('/');
+@@ -73,152 +173,335 @@ export default function PostForm({ initial }: { initial?: PostFormValues }) {
+     }
+   }
+ 
+-  return (
+-    <form onSubmit={handleSubmit} className="space-y-5 max-w-3xl">
+-      {error && (
+-        <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+-          {error}
+-        </div>
+-      )}
+-
+-      <div>
+-        <label className="block text-sm text-ink-soft mb-1.5">Title</label>
+-        <input
+-          value={values.title}
+-          onChange={(e) => update('title', e.target.value)}
+-          required
+-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
+-        />
+-      </div>
++  const slugChangedOnLivePost = isEdit && values.published && values.slug && values.slug !== originalSlug;
+ 
+-      <div>
+-        <label className="block text-sm text-ink-soft mb-1.5">
+-          URL slug{' '}
+-          <span className="text-ink-faint">(khaali chhod do to title se auto-ban jayega)</span>
+-        </label>
+-        <input
+-          value={values.slug}
+-          onChange={(e) => update('slug', e.target.value)}
+-          placeholder="auto-generated-from-title"
+-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
+-        />
+-      </div>
++  return (
++    <form onSubmit={handleSubmit} className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
++      {/* ------------------------------ MAIN COLUMN ------------------------------ */}
++      <div className="space-y-5 min-w-0">
++        {error && (
++          <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>
++        )}
+ 
+-      <div className="grid grid-cols-2 gap-4">
+-        <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">Category</label>
+-          <select
+-            value={values.category}
+-            onChange={(e) => update('category', e.target.value)}
+-            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
+-          >
+-            {Object.entries(CATEGORY_LABELS).map(([slug, label]) => (
+-              <option key={slug} value={slug}>
+-                {label}
+-              </option>
+-            ))}
+-          </select>
+-        </div>
+         <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">Author</label>
++          <label className="block text-sm text-ink-soft mb-1.5">Title</label>
+           <input
+-            value={values.author}
+-            onChange={(e) => update('author', e.target.value)}
+-            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
++            value={values.title}
++            onChange={(e) => onTitleChange(e.target.value)}
++            required
++            className={INPUT}
+           />
+         </div>
+-      </div>
+-
+-      <ImageUploadField
+-        label="Featured Image"
+-        hint="optional - blog list aur post ke top par dikhegi"
+-        value={values.featuredImage}
+-        onChange={(url) => update('featuredImage', url)}
+-      />
+-
+-      <div>
+-        <label className="block text-sm text-ink-soft mb-1.5">
+-          Excerpt <span className="text-ink-faint">(blog list aur Google me dikhega, 1-2 line)</span>
+-        </label>
+-        <textarea
+-          value={values.excerpt}
+-          onChange={(e) => update('excerpt', e.target.value)}
+-          rows={2}
+-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink focus:outline-none focus:border-blue-600"
+-        />
+-      </div>
+-
+-      <div>
+-        <label className="block text-sm text-ink-soft mb-1.5">Content</label>
+-        <RichMarkdownEditor
+-          value={values.contentMarkdown}
+-          onChange={(v) => update('contentMarkdown', v)}
+-        />
+-      </div>
+-
+-      <div className="p-4 rounded-lg bg-cream border border-hairline space-y-4">
+-        <h3 className="text-sm font-semibold text-ink-soft">SEO (Google search result)</h3>
+ 
+         <div>
+           <label className="block text-sm text-ink-soft mb-1.5">
+-            Meta Title{' '}
+-            <span className="text-ink-faint">
+-              (optional - khaali chhod do to normal Title use hoga; 50-60 letters best hai)
+-            </span>
++            URL slug <span className="text-ink-faint">(post ka link; khaali chhodo to title se banega)</span>
+           </label>
+-          <input
+-            value={values.metaTitle}
+-            onChange={(e) => update('metaTitle', e.target.value)}
+-            maxLength={70}
+-            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
+-          />
++          <div className="flex items-center rounded-lg bg-cream border border-hairline focus-within:border-blue-600 overflow-hidden">
++            <span className="pl-3 text-xs text-ink-faint whitespace-nowrap">numrexo.com/blog/</span>
++            <input
++              value={values.slug}
++              onChange={(e) => {
++                setSlugTouched(true);
++                update('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'));
++              }}
++              onBlur={() => update('slug', slugify(values.slug))}
++              placeholder="auto-generated-from-title"
++              className="flex-1 px-1 py-2 bg-transparent text-ink text-sm focus:outline-none"
++            />
++          </div>
++          {slugChangedOnLivePost && (
++            <p className="text-xs text-red-600 mt-1.5">
++              Dhyan do: ye post live hai. Slug badloge to purana link (Google, WhatsApp, social media par) kaam nahi
++              karega. Zaroori na ho to slug mat badlo.
++            </p>
++          )}
+         </div>
+ 
+         <div>
+           <label className="block text-sm text-ink-soft mb-1.5">
+-            Meta Description{' '}
+-            <span className="text-ink-faint">
+-              (optional - khaali chhod do to Excerpt use hoga; 150-160 letters best hai)
+-            </span>
++            Excerpt <span className="text-ink-faint">(blog list me dikhta hai, 1-2 line)</span>
+           </label>
+           <textarea
+-            value={values.metaDescription}
+-            onChange={(e) => update('metaDescription', e.target.value)}
++            value={values.excerpt}
++            onChange={(e) => update('excerpt', e.target.value)}
+             rows={2}
+-            maxLength={200}
+-            className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++            className={INPUT}
+           />
+         </div>
+-      </div>
+ 
+-      <FaqEditor value={values.faqs} onChange={(v) => update('faqs', v)} />
+-
+-      <label className="flex items-center gap-2 text-sm text-ink-soft">
+-        <input
+-          type="checkbox"
+-          checked={values.published}
+-          onChange={(e) => update('published', e.target.checked)}
+-          className="w-4 h-4"
+-        />
+-        Published (uncheck karke draft ki tarah save kar sakte ho)
+-      </label>
+-
+-      <div className="flex gap-3 pt-2">
+-        <button
+-          type="submit"
+-          disabled={saving}
+-          className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+-        >
+-          {saving ? 'Saving...' : isEdit ? 'Save Changes' : 'Publish Post'}
+-        </button>
+-        <button
+-          type="button"
+-          onClick={() => router.push('/')}
+-          className="px-5 py-2 rounded-lg bg-cream border border-hairline text-ink-soft hover:text-ink transition-colors"
+-        >
+-          Cancel
+-        </button>
++        <div>
++          <label className="block text-sm text-ink-soft mb-1.5">Content</label>
++          <RichMarkdownEditor value={values.contentMarkdown} onChange={(v) => update('contentMarkdown', v)} />
++          <p className="text-xs text-ink-faint mt-1.5">
++            Sub-heading ke liye <code>## Heading</code> likho - isi se post ka &quot;In this article&quot; table of
++            contents banta hai.
++          </p>
++        </div>
++
++        {/* ------------------------------ SEO ------------------------------ */}
++        <div className={CARD}>
++          <h3 className="text-sm font-semibold text-ink">SEO (Google search result)</h3>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Focus keyword{' '}
++              <span className="text-ink-faint">(wo phrase jis par log Google karenge; sirf SEO score ke liye)</span>
++            </label>
++            <input
++              value={values.focusKeyword}
++              onChange={(e) => update('focusKeyword', e.target.value)}
++              placeholder="jaise: sip calculator"
++              className={INPUT}
++            />
++          </div>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Meta Title <span className="text-ink-faint">(khaali = normal Title; 50-60 letters best)</span>
++            </label>
++            <input
++              value={values.metaTitle}
++              onChange={(e) => update('metaTitle', e.target.value)}
++              maxLength={120}
++              className={INPUT}
++            />
++          </div>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Meta Description <span className="text-ink-faint">(khaali = Excerpt; 120-160 letters best)</span>
++            </label>
++            <textarea
++              value={values.metaDescription}
++              onChange={(e) => update('metaDescription', e.target.value)}
++              rows={2}
++              maxLength={300}
++              className={INPUT}
++            />
++          </div>
++
++          <SerpPreview title={seoTitle} slug={slugForPreview} description={seoDescription} />
++        </div>
++
++        {/* ------------------------------ SOCIAL & ADVANCED ------------------------------ */}
++        <div className={CARD}>
++          <h3 className="text-sm font-semibold text-ink">Social share &amp; advanced SEO</h3>
++
++          <ImageUploadField
++            label="Social share image"
++            hint="WhatsApp/Facebook/X par link share karne par ye image dikhti hai (1200x630 best). Khaali = Featured Image."
++            value={values.ogImage}
++            onChange={(url) => update('ogImage', url)}
++          />
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Canonical URL <span className="text-ink-faint">(sirf tab bharo jab ye content kisi aur URL ka copy ho)</span>
++            </label>
++            <input
++              value={values.canonicalUrl}
++              onChange={(e) => update('canonicalUrl', e.target.value)}
++              placeholder={`https://numrexo.com/blog/${slugForPreview || 'your-slug'}`}
++              className={INPUT}
++            />
++          </div>
++
++          <label className="flex items-start gap-2 text-sm text-ink-soft">
++            <input
++              type="checkbox"
++              checked={values.noindex}
++              onChange={(e) => update('noindex', e.target.checked)}
++              className="w-4 h-4 mt-0.5"
++            />
++            <span>
++              Google se chhupao (noindex) <span className="text-ink-faint">- post live rahegi par search me nahi aayegi aur sitemap se hat jayegi</span>
++            </span>
++          </label>
++        </div>
++
++        {/* ------------------------------ ENGAGEMENT ------------------------------ */}
++        <div className={CARD}>
++          <h3 className="text-sm font-semibold text-ink">Post ke andar extras</h3>
++
++          <label className="flex items-start gap-2 text-sm text-ink-soft">
++            <input
++              type="checkbox"
++              checked={values.showToc}
++              onChange={(e) => update('showToc', e.target.checked)}
++              className="w-4 h-4 mt-0.5"
++            />
++            <span>
++              &quot;In this article&quot; table of contents dikhao{' '}
++              <span className="text-ink-faint">(jab post me 3 ya zyada sub-headings hon)</span>
++            </span>
++          </label>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Calculator box <span className="text-ink-faint">(post ke beech me is calculator ka &quot;Try it free&quot; box)</span>
++            </label>
++            <select
++              value={values.ctaCalculator}
++              onChange={(e) => update('ctaCalculator', e.target.value)}
++              className={INPUT}
++            >
++              <option value="">- koi nahi -</option>
++              {CALCULATORS_REGISTRY.filter((c) => !c.comingSoon).map((c) => (
++                <option key={c.id} value={c.id}>
++                  {c.icon} {c.name}
++                </option>
++              ))}
++            </select>
++          </div>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Related posts khud chuno <span className="text-ink-faint">(max 6; baaki automatic judenge)</span>
++            </label>
++            <select
++              multiple
++              value={values.relatedSlugs}
++              onChange={(e) =>
++                update(
++                  'relatedSlugs',
++                  Array.from(e.target.selectedOptions)
++                    .map((o) => o.value)
++                    .slice(0, 6),
++                )
++              }
++              className={`${INPUT} h-36`}
++            >
++              {otherPosts
++                .filter((p) => p.slug !== values.slug)
++                .map((p) => (
++                  <option key={p.slug} value={p.slug}>
++                    {p.title}
++                  </option>
++                ))}
++            </select>
++            <p className="text-xs text-ink-faint mt-1">Ctrl (Mac par Cmd) dabaake ek se zyada chuno.</p>
++          </div>
++        </div>
++
++        <FaqEditor value={values.faqs} onChange={(v) => update('faqs', v)} />
++
++        <div className="flex gap-3 pt-2 lg:hidden">
++          <button
++            type="submit"
++            disabled={saving}
++            className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
++          >
++            {saving ? 'Saving...' : isEdit ? 'Save Changes' : values.published ? 'Publish Post' : 'Save Draft'}
++          </button>
++        </div>
+       </div>
++
++      {/* ------------------------------ SIDEBAR ------------------------------ */}
++      <aside className="space-y-5 lg:sticky lg:top-4">
++        <div className={CARD}>
++          <h3 className="text-sm font-semibold text-ink">Publish</h3>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">Status</label>
++            <select
++              value={values.published ? 'published' : 'draft'}
++              onChange={(e) => update('published', e.target.value === 'published')}
++              className={INPUT}
++            >
++              <option value="published">Published</option>
++              <option value="draft">Draft (live nahi hoga)</option>
++            </select>
++          </div>
++
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">
++              Publish date &amp; time <span className="text-ink-faint">(khaali = abhi)</span>
++            </label>
++            <input
++              type="datetime-local"
++              value={dateLocal}
++              onChange={(e) => setDateLocal(e.target.value)}
++              className={INPUT}
++            />
++            {scheduled && (
++              <p className="text-xs text-blue-700 mt-1.5">
++                Scheduled: ye post us time par apne aap live ho jayegi (sitemap me bhi aa jayegi, kabhi-kabhi ek ghante
++                tak ka delay ho sakta hai).
++              </p>
++            )}
++            {dateLocal && (
++              <button
++                type="button"
++                onClick={() => setDateLocal('')}
++                className="text-xs text-ink-faint hover:text-ink mt-1"
++              >
++                Date hatao (abhi publish)
++              </button>
++            )}
++          </div>
++
++          <div className="flex flex-col gap-2 pt-1">
++            <button
++              type="submit"
++              disabled={saving}
++              className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
++            >
++              {saving
++                ? 'Saving...'
++                : isEdit
++                  ? 'Save Changes'
++                  : !values.published
++                    ? 'Save Draft'
++                    : scheduled
++                      ? 'Schedule Post'
++                      : 'Publish Post'}
++            </button>
++            <button
++              type="button"
++              onClick={() => router.push('/')}
++              className="px-5 py-2 rounded-lg bg-cream border border-hairline text-ink-soft hover:text-ink transition-colors"
++            >
++              Cancel
++            </button>
++          </div>
++        </div>
++
++        <div className={CARD}>
++          <h3 className="text-sm font-semibold text-ink">Category &amp; author</h3>
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">Category</label>
++            <select value={values.category} onChange={(e) => update('category', e.target.value)} className={INPUT}>
++              {Object.entries(CATEGORY_LABELS).map(([slug, label]) => (
++                <option key={slug} value={slug}>
++                  {label}
++                </option>
++              ))}
++            </select>
++          </div>
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">Tags</label>
++            <TagsInput value={values.tags} onChange={(t) => update('tags', t)} />
++          </div>
++          <div>
++            <label className="block text-sm text-ink-soft mb-1.5">Author</label>
++            <input value={values.author} onChange={(e) => update('author', e.target.value)} className={INPUT} />
++          </div>
++        </div>
++
++        <div className={CARD}>
++          <ImageUploadField
++            label="Featured Image"
++            hint="blog list aur post ke top par dikhegi"
++            value={values.featuredImage}
++            onChange={(url) => update('featuredImage', url)}
++          />
++        </div>
++
++        <div className={CARD}>
++          <SeoScorePanel input={seoInput} />
++        </div>
++      </aside>
+     </form>
+   );
+ }
+diff --git a/components/admin/SeoScorePanel.tsx b/components/admin/SeoScorePanel.tsx
+new file mode 100644
+index 0000000..4deaccc
+--- /dev/null
++++ b/components/admin/SeoScorePanel.tsx
+@@ -0,0 +1,46 @@
++'use client';
++
++import { useMemo } from 'react';
++import { analyseSeo, SeoInput } from '@/lib/seoScore';
++
++const DOT: Record<string, string> = {
++  good: 'bg-green-500',
++  ok: 'bg-yellow-500',
++  bad: 'bg-red-500',
++};
++
++export default function SeoScorePanel({ input }: { input: SeoInput }) {
++  const report = useMemo(() => analyseSeo(input), [input]);
++  const color = report.score >= 75 ? 'text-green-600' : report.score >= 50 ? 'text-yellow-700' : 'text-red-600';
++  const label = report.score >= 75 ? 'Achha' : report.score >= 50 ? 'Theek-thaak, sudhar sakta hai' : 'Kaam baaki hai';
++  // Show the problems first so the author sees what to fix without scrolling.
++  const order = { bad: 0, ok: 1, good: 2 } as const;
++  const sorted = [...report.checks].sort((a, b) => order[a.status] - order[b.status]);
++
++  return (
++    <div>
++      <div className="flex items-center gap-4 mb-3">
++        <div className={`text-3xl font-bold font-mono ${color}`}>{report.score}</div>
++        <div>
++          <div className="text-sm font-semibold text-ink">SEO score / 100</div>
++          <div className={`text-xs ${color}`}>{label}</div>
++        </div>
++      </div>
++      <p className="text-xs text-ink-faint mb-3">
++        Ye ek madad-gaar checklist hai, Google ka asli score nahi. Lal aur peele points theek karo, par content ko
++        padhne walon ke liye hi likho.
++      </p>
++      <ul className="space-y-2">
++        {sorted.map((c) => (
++          <li key={c.id} className="flex gap-2 text-sm">
++            <span className={`mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0 ${DOT[c.status]}`} />
++            <div>
++              <div className="text-ink">{c.label}</div>
++              {c.status !== 'good' && c.hint && <div className="text-xs text-ink-faint">{c.hint}</div>}
++            </div>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
+diff --git a/components/admin/SerpPreview.tsx b/components/admin/SerpPreview.tsx
+new file mode 100644
+index 0000000..d302240
+--- /dev/null
++++ b/components/admin/SerpPreview.tsx
+@@ -0,0 +1,72 @@
++'use client';
++
++import { useState } from 'react';
++
++interface SerpPreviewProps {
++  title: string;
++  slug: string;
++  description: string;
++  siteName?: string;
++}
++
++// Shows roughly how the post will look as a Google result, live while the
++// author types. Google cuts titles at about 600px and descriptions at about
++// 155-160 letters; letter counts are a good-enough proxy for a non-technical
++// author, and the counter turns red when the text will be cut off.
++export default function SerpPreview({ title, slug, description, siteName = 'Numrexo' }: SerpPreviewProps) {
++  const [mobile, setMobile] = useState(false);
++  const shownTitle = (title || 'Your post title appears here').trim();
++  const shownDesc = (description || 'Your meta description appears here. Write 120-160 letters that tell a reader why they should click.').trim();
++  const cut = (text: string, max: number) => (text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text);
++  const titleMax = mobile ? 58 : 60;
++  const descMax = mobile ? 130 : 160;
++
++  return (
++    <div>
++      <div className="flex items-center justify-between mb-2">
++        <span className="text-xs font-semibold text-ink-soft uppercase tracking-wider">Google preview</span>
++        <div className="inline-flex rounded-lg border border-hairline overflow-hidden text-xs">
++          <button
++            type="button"
++            onClick={() => setMobile(false)}
++            className={`px-3 py-1 ${!mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
++          >
++            Desktop
++          </button>
++          <button
++            type="button"
++            onClick={() => setMobile(true)}
++            className={`px-3 py-1 ${mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
++          >
++            Mobile
++          </button>
++        </div>
++      </div>
++
++      <div className={`bg-white border border-hairline rounded-lg p-4 ${mobile ? 'max-w-sm' : ''}`}>
++        <div className="flex items-center gap-2 mb-1">
++          <div className="w-6 h-6 rounded-full bg-blue-600 text-white text-[11px] font-bold flex items-center justify-center">
++            N
++          </div>
++          <div className="min-w-0">
++            <div className="text-[13px] text-[#202124] leading-tight">{siteName}</div>
++            <div className="text-[12px] text-[#4d5156] leading-tight truncate">
++              https://numrexo.com › blog › {slug || 'your-post-slug'}
++            </div>
++          </div>
++        </div>
++        <div className="text-[19px] leading-snug text-[#1a0dab] font-normal">{cut(shownTitle, titleMax)}</div>
++        <div className="text-[13px] leading-snug text-[#4d5156] mt-1">{cut(shownDesc, descMax)}</div>
++      </div>
++
++      <div className="flex gap-4 mt-2 text-xs">
++        <span className={title.length > titleMax ? 'text-red-600' : 'text-ink-faint'}>
++          Title: {title.length}/{titleMax}
++        </span>
++        <span className={description.length > descMax ? 'text-red-600' : 'text-ink-faint'}>
++          Description: {description.length}/{descMax}
++        </span>
++      </div>
++    </div>
++  );
++}
+diff --git a/components/admin/SubscriberActions.tsx b/components/admin/SubscriberActions.tsx
+new file mode 100644
+index 0000000..eebaf8c
+--- /dev/null
++++ b/components/admin/SubscriberActions.tsx
+@@ -0,0 +1,58 @@
++'use client';
++
++import { useState } from 'react';
++import { useRouter } from 'next/navigation';
++
++interface SubscriberActionsProps {
++  id: number;
++  email: string;
++  active: boolean;
++}
++
++export default function SubscriberActions({ id, email, active }: SubscriberActionsProps) {
++  const router = useRouter();
++  const [busy, setBusy] = useState(false);
++
++  async function toggle() {
++    setBusy(true);
++    try {
++      const res = await fetch(`/api/admin/subscribers/${id}`, {
++        method: 'PATCH',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ active: !active }),
++      });
++      if (!res.ok) alert('Update nahi hua. Dobara try karo.');
++      router.refresh();
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  async function remove() {
++    if (!confirm(`${email} ko hamesha ke liye delete karna hai? (Sirf deactivate karna ho to "Deactivate" dabao.)`)) return;
++    setBusy(true);
++    try {
++      const res = await fetch(`/api/admin/subscribers/${id}`, { method: 'DELETE' });
++      if (!res.ok) alert('Delete nahi hua. Dobara try karo.');
++      router.refresh();
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  return (
++    <div className="flex items-center gap-3 flex-shrink-0">
++      <button
++        type="button"
++        onClick={toggle}
++        disabled={busy}
++        className={`text-sm disabled:opacity-50 ${active ? 'text-yellow-700 hover:text-yellow-800' : 'text-green-700 hover:text-green-800'}`}
++      >
++        {active ? 'Deactivate' : 'Activate'}
++      </button>
++      <button type="button" onClick={remove} disabled={busy} className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50">
++        Delete
++      </button>
++    </div>
++  );
++}
+diff --git a/components/admin/SubscriberImport.tsx b/components/admin/SubscriberImport.tsx
+new file mode 100644
+index 0000000..ae50870
+--- /dev/null
++++ b/components/admin/SubscriberImport.tsx
+@@ -0,0 +1,109 @@
++'use client';
++
++import { useRef, useState } from 'react';
++import { useRouter } from 'next/navigation';
++import { parseSubscriberText } from '@/lib/csvParse';
++
++interface Summary {
++  received: number;
++  added: number;
++  duplicates: number;
++  invalid: number;
++}
++
++export default function SubscriberImport() {
++  const router = useRouter();
++  const fileRef = useRef<HTMLInputElement>(null);
++  const [text, setText] = useState('');
++  const [busy, setBusy] = useState(false);
++  const [error, setError] = useState('');
++  const [summary, setSummary] = useState<Summary | null>(null);
++
++  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
++    const file = e.target.files?.[0];
++    e.target.value = '';
++    if (!file) return;
++    if (file.size > 5 * 1024 * 1024) {
++      setError('File 5 MB se badi hai.');
++      return;
++    }
++    setError('');
++    setText(await file.text());
++  }
++
++  async function submit() {
++    setError('');
++    setSummary(null);
++    const rows = parseSubscriberText(text);
++    if (rows.length === 0) {
++      setError('Koi email nahi mila. File/text check karo.');
++      return;
++    }
++    setBusy(true);
++    try {
++      const res = await fetch('/api/admin/subscribers/import', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ rows }),
++      });
++      const data = await res.json();
++      if (!res.ok) {
++        setError(data.error || 'Import nahi hua.');
++        return;
++      }
++      setSummary(data as Summary);
++      setText('');
++      router.refresh();
++    } catch {
++      setError('Kuch gadbad hui. Dobara try karo.');
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  return (
++    <div className="bg-surface border border-hairline rounded-xl p-4 space-y-3">
++      <h2 className="text-sm font-semibold text-ink">Subscribers import karo</h2>
++      <p className="text-xs text-ink-faint">
++        CSV file upload karo ya emails paste karo (ek line me ek email, ya <code>email,name</code>). CSV me pehli row
++        me <code>email</code> (aur chahe to <code>name</code>) likha ho to wo bhi chalega. Jo email pehle se list me
++        hai wo dobara nahi judta, aur jisne unsubscribe kiya hai wo wapas active nahi hota.
++      </p>
++
++      <textarea
++        value={text}
++        onChange={(e) => setText(e.target.value)}
++        rows={5}
++        placeholder={'rahul@example.com\npriya@example.com, Priya'}
++        className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm font-mono focus:outline-none focus:border-blue-600"
++      />
++
++      <div className="flex flex-wrap items-center gap-3">
++        <input ref={fileRef} type="file" accept=".csv,.txt,text/csv,text/plain" onChange={onFile} className="hidden" />
++        <button
++          type="button"
++          onClick={() => fileRef.current?.click()}
++          className="px-4 py-2 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:text-ink"
++        >
++          CSV / TXT file chuno
++        </button>
++        <button
++          type="button"
++          onClick={submit}
++          disabled={busy || !text.trim()}
++          className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
++        >
++          {busy ? 'Import ho raha hai…' : 'Import'}
++        </button>
++      </div>
++
++      {error && <div className="px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>}
++      {summary && (
++        <div className="px-3 py-2 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
++          Import complete: {summary.added} naye add hue, {summary.duplicates} pehle se the (ya file me repeat), {summary.invalid} galat
++          email chhod diye. Total mile: {summary.received}.
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/components/admin/TagsInput.tsx b/components/admin/TagsInput.tsx
+new file mode 100644
+index 0000000..8e94eaf
+--- /dev/null
++++ b/components/admin/TagsInput.tsx
+@@ -0,0 +1,63 @@
++'use client';
++
++import { useState } from 'react';
++import { MAX_TAGS, sanitizeTags } from '@/lib/tags';
++
++interface TagsInputProps {
++  value: string[];
++  onChange: (tags: string[]) => void;
++}
++
++// Type a tag and press Enter or comma to add it; click x to remove.
++export default function TagsInput({ value, onChange }: TagsInputProps) {
++  const [draft, setDraft] = useState('');
++
++  function commit(text: string) {
++    const next = sanitizeTags([...value, ...text.split(',')]);
++    onChange(next);
++    setDraft('');
++  }
++
++  return (
++    <div>
++      <div className="flex flex-wrap gap-2 mb-2">
++        {value.map((tag) => (
++          <span
++            key={tag}
++            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs"
++          >
++            {tag}
++            <button
++              type="button"
++              aria-label={`Remove tag ${tag}`}
++              onClick={() => onChange(value.filter((t) => t !== tag))}
++              className="text-blue-400 hover:text-blue-700"
++            >
++              ×
++            </button>
++          </span>
++        ))}
++      </div>
++      <input
++        value={draft}
++        onChange={(e) => {
++          const v = e.target.value;
++          if (v.includes(',')) commit(v);
++          else setDraft(v);
++        }}
++        onKeyDown={(e) => {
++          if (e.key === 'Enter') {
++            e.preventDefault();
++            if (draft.trim()) commit(draft);
++          } else if (e.key === 'Backspace' && !draft && value.length) {
++            onChange(value.slice(0, -1));
++          }
++        }}
++        onBlur={() => draft.trim() && commit(draft)}
++        disabled={value.length >= MAX_TAGS}
++        placeholder={value.length >= MAX_TAGS ? 'Max tags ho gaye' : 'Tag likho aur Enter dabao (jaise: home loan)'}
++        className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++      />
++    </div>
++  );
++}
+diff --git a/components/calculators/CalculatorWrapper.tsx b/components/calculators/CalculatorWrapper.tsx
+index 20916ff..399bb0f 100644
+--- a/components/calculators/CalculatorWrapper.tsx
++++ b/components/calculators/CalculatorWrapper.tsx
+@@ -7,6 +7,8 @@ import {
+ } from "@/data/calculatorsRegistry";
+ import Breadcrumb from "@/components/common/Breadcrumb";
+ import AuthorBox from "@/components/common/AuthorBox";
++import ShareBar from "@/components/common/ShareBar";
++import SubscribeBox from "@/components/common/SubscribeBox";
+ import PageHeader from "@/components/common/PageHeader";
+ import { useRouter } from "next/navigation";
+ import { recordRecentCalculator } from "@/lib/recentCalculators";
+@@ -430,9 +432,24 @@ export default function CalculatorWrapper({
+ 
+         {renderCalculator()}
+ 
++        {/* Share this calculator (every calculator page) */}
++        <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-hairline bg-surface p-4 sm:p-5">
++          <div>
++            <p className="text-sm font-semibold text-ink">Found this useful?</p>
++            <p className="text-xs text-ink-faint">Share this calculator with friends and family.</p>
++          </div>
++          <ShareBar
++            url={`https://numrexo.com${calculator.path}`}
++            title={`${calculator.name} - Numrexo`}
++            heading=""
++          />
++        </div>
++
+         {/* Who made this, when it was last checked, and where the method comes from. */}
+         <AuthorBox calculator={calculator} />
+ 
++        <SubscribeBox className="my-10" />
++
+         {/* Related Calculators */}
+         <div>
+           <div className="text-center mb-6">
+diff --git a/components/common/ResultBox.tsx b/components/common/ResultBox.tsx
+index 980e82e..20d1b4f 100644
+--- a/components/common/ResultBox.tsx
++++ b/components/common/ResultBox.tsx
+@@ -1,4 +1,11 @@
+-import { ReactNode } from "react";
++"use client";
++
++import { ReactNode, useMemo, useState } from "react";
++import { usePathname } from "next/navigation";
++import { CALCULATORS_REGISTRY, CATEGORIES } from "@/data/calculatorsRegistry";
++import ShareResultModal from "./ShareResultModal";
++import { ShareIcon } from "./SocialIcons";
++import type { ShareCardData } from "@/lib/shareCard";
+ 
+ interface ResultBoxProps {
+   title: string;
+@@ -28,6 +35,36 @@ export default function ResultBox({
+   mainResult,
+   extraRows,
+ }: ResultBoxProps) {
++  // "Share your result" card (Patch 19). Every calculator that renders its
++  // answer through this component gets it automatically: the card is built
++  // from the same title / main result / extra rows shown on screen, plus the
++  // current calculator's name, icon and colour looked up from the registry.
++  const pathname = usePathname() || "";
++  // A frozen copy of the card data taken when the dialog opens, so a re-render
++  // of the calculator behind it can never make the preview redraw or flicker.
++  const [shareSnapshot, setShareSnapshot] = useState<ShareCardData | null>(null);
++  const calc = useMemo(
++    () => CALCULATORS_REGISTRY.find((c) => c.path === pathname.replace(/\/$/, "")),
++    [pathname],
++  );
++  const canShare = !isEmpty && Boolean(mainResult && mainResult.value && String(mainResult.value).trim());
++
++  const shareData: ShareCardData | null = useMemo(() => {
++    if (!canShare || !mainResult) return null;
++    const category = calc ? CATEGORIES[calc.category as keyof typeof CATEGORIES] : undefined;
++    return {
++      calcName: calc?.name || title,
++      calcIcon: calc?.icon || "🧮",
++      accent: calc?.color || "#3b82f6",
++      categoryLabel: category?.name || "Calculator",
++      label: mainResult.label,
++      value: String(mainResult.value),
++      unit: mainResult.unit,
++      rows: (extraRows || []).map((r) => ({ label: r.label, value: r.value })),
++      displayUrl: `numrexo.com${calc?.path || pathname}`,
++    };
++  }, [canShare, mainResult, extraRows, calc, title, pathname]);
++
+   // This is the one shared component that stays dark - it is the mockup's
+   // dark-navy "results" card, deliberately set apart from the light input
+   // card next to it. Used by ~120 of the 122 calculators, so this is the
+@@ -75,7 +112,27 @@ export default function ResultBox({
+             )}
+           </>
+         )}
++
++        {shareData && (
++          <div className="mt-6">
++            <button
++              type="button"
++              onClick={() => setShareSnapshot(shareData)}
++              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity"
++            >
++              <ShareIcon className="w-4 h-4" /> Share your result
++            </button>
++          </div>
++        )}
+       </div>
++
++      {shareSnapshot && (
++        <ShareResultModal
++          data={shareSnapshot}
++          url={`https://numrexo.com${calc?.path || pathname}`}
++          onClose={() => setShareSnapshot(null)}
++        />
++      )}
+     </div>
+   );
+ }
+\ No newline at end of file
+diff --git a/components/common/ShareBar.tsx b/components/common/ShareBar.tsx
+new file mode 100644
+index 0000000..ff498fb
+--- /dev/null
++++ b/components/common/ShareBar.tsx
+@@ -0,0 +1,114 @@
++"use client";
++
++import { useEffect, useState } from "react";
++import {
++  WhatsAppIcon,
++  XIcon,
++  FacebookIcon,
++  LinkedInIcon,
++  TelegramIcon,
++  ShareIcon,
++  LinkIcon,
++  CheckIcon,
++} from "./SocialIcons";
++
++interface ShareBarProps {
++  /** Absolute URL to share. */
++  url: string;
++  /** Page title / headline used as the share text. */
++  title: string;
++  /** Small heading above the icons. Pass "" to hide it. */
++  heading?: string;
++  className?: string;
++}
++
++// One row of share buttons: the phone's own share sheet (which is how people
++// reach Instagram, Messages, etc.), WhatsApp, X, Facebook, LinkedIn,
++// Telegram and copy-link. Used under every calculator, on every blog post,
++// and inside the floating share button that sits on all pages.
++export default function ShareBar({ url, title, heading = "Share this page", className = "" }: ShareBarProps) {
++  const [copied, setCopied] = useState(false);
++  const [canNativeShare, setCanNativeShare] = useState(false);
++
++  useEffect(() => {
++    setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
++  }, []);
++
++  const u = encodeURIComponent(url);
++  const t = encodeURIComponent(title);
++  const links = [
++    { name: "WhatsApp", href: `https://api.whatsapp.com/send?text=${t}%20${u}`, icon: WhatsAppIcon, bg: "bg-[#25D366]" },
++    { name: "X", href: `https://twitter.com/intent/tweet?text=${t}&url=${u}`, icon: XIcon, bg: "bg-black" },
++    { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, icon: FacebookIcon, bg: "bg-[#1877F2]" },
++    { name: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`, icon: LinkedInIcon, bg: "bg-[#0A66C2]" },
++    { name: "Telegram", href: `https://t.me/share/url?url=${u}&text=${t}`, icon: TelegramIcon, bg: "bg-[#229ED9]" },
++  ];
++
++  async function nativeShare() {
++    try {
++      await navigator.share({ title, url });
++    } catch {
++      /* user closed the sheet - nothing to do */
++    }
++  }
++
++  async function copyLink() {
++    try {
++      await navigator.clipboard.writeText(url);
++    } catch {
++      const el = document.createElement("textarea");
++      el.value = url;
++      el.style.position = "fixed";
++      el.style.opacity = "0";
++      document.body.appendChild(el);
++      el.select();
++      try {
++        document.execCommand("copy");
++      } catch {
++        /* ignore */
++      }
++      document.body.removeChild(el);
++    }
++    setCopied(true);
++    setTimeout(() => setCopied(false), 1800);
++  }
++
++  const btn =
++    "w-10 h-10 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600";
++
++  return (
++    <div className={className}>
++      {heading && <p className="text-sm text-ink-soft mb-2">{heading}</p>}
++      <div className="flex flex-wrap items-center gap-2">
++        {canNativeShare && (
++          <button type="button" onClick={nativeShare} aria-label="Share" title="Share" className={`${btn} bg-blue-600`}>
++            <ShareIcon className="w-[18px] h-[18px]" />
++          </button>
++        )}
++        {links.map((l) => (
++          <a
++            key={l.name}
++            href={l.href}
++            target="_blank"
++            rel="noopener noreferrer"
++            aria-label={`Share on ${l.name}`}
++            title={`Share on ${l.name}`}
++            className={`${btn} ${l.bg}`}
++          >
++            <l.icon className="w-[18px] h-[18px]" />
++          </a>
++        ))}
++        <button
++          type="button"
++          onClick={copyLink}
++          aria-label="Copy link"
++          title="Copy link"
++          className={`${btn} ${copied ? "bg-green-600" : "bg-gray-600"}`}
++        >
++          {copied ? <CheckIcon className="w-[18px] h-[18px]" /> : <LinkIcon className="w-[18px] h-[18px]" />}
++        </button>
++        {copied && <span className="text-xs text-green-600">Link copied</span>}
++      </div>
++    </div>
++  );
++}
+diff --git a/components/common/ShareFab.tsx b/components/common/ShareFab.tsx
+new file mode 100644
+index 0000000..a164914
+--- /dev/null
++++ b/components/common/ShareFab.tsx
+@@ -0,0 +1,63 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++import { usePathname } from "next/navigation";
++import ShareBar from "./ShareBar";
++import { ShareIcon } from "./SocialIcons";
++
++const SITE = "https://numrexo.com";
++
++// Floating share button on every public page (bottom-left, so it never sits
++// on top of the cookie banner's buttons or an ad). Opens a small panel with
++// the share row for the page the visitor is on. Always shares the real
++// numrexo.com address, even when viewed on a preview/Vercel URL.
++export default function ShareFab() {
++  const pathname = usePathname() || "/";
++  const [open, setOpen] = useState(false);
++  const [title, setTitle] = useState("Numrexo");
++  const panelRef = useRef<HTMLDivElement>(null);
++
++  useEffect(() => {
++    setOpen(false);
++  }, [pathname]);
++
++  useEffect(() => {
++    if (open) setTitle(document.title || "Numrexo");
++  }, [open]);
++
++  useEffect(() => {
++    if (!open) return;
++    const onDown = (e: MouseEvent) => {
++      if (panelRef.current && !panelRef.current.contains(e.target as Node)) setOpen(false);
++    };
++    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
++    document.addEventListener("mousedown", onDown);
++    document.addEventListener("keydown", onKey);
++    return () => {
++      document.removeEventListener("mousedown", onDown);
++      document.removeEventListener("keydown", onKey);
++    };
++  }, [open]);
++
++  const url = `${SITE}${pathname === "/" ? "" : pathname}`;
++
++  return (
++    <div ref={panelRef} className="fixed left-4 bottom-4 z-40 print:hidden">
++      {open && (
++        <div className="mb-3 w-72 rounded-2xl bg-surface border border-hairline shadow-xl p-4">
++          <ShareBar url={url} title={title} heading="Share this page" />
++        </div>
++      )}
++      <button
++        type="button"
++        onClick={() => setOpen((o) => !o)}
++        aria-expanded={open}
++        aria-label="Share this page"
++        title="Share this page"
++        className="w-12 h-12 rounded-full bg-blue-600 text-white shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
++      >
++        <ShareIcon className="w-5 h-5" />
++      </button>
++    </div>
++  );
++}
+diff --git a/components/common/ShareResultModal.tsx b/components/common/ShareResultModal.tsx
+new file mode 100644
+index 0000000..749088f
+--- /dev/null
++++ b/components/common/ShareResultModal.tsx
+@@ -0,0 +1,245 @@
++"use client";
++
++import { useCallback, useEffect, useRef, useState } from "react";
++import {
++  CardFormat,
++  ShareCardData,
++  canvasToBlob,
++  cardFileName,
++  renderShareCard,
++} from "@/lib/shareCard";
++import {
++  CheckIcon,
++  DownloadIcon,
++  LinkIcon,
++  ShareIcon,
++  WhatsAppIcon,
++} from "./SocialIcons";
++
++interface ShareResultModalProps {
++  data: ShareCardData;
++  /** Full https URL of the calculator page. */
++  url: string;
++  onClose: () => void;
++}
++
++// Preview + share dialog for the result card. The image is made in the
++// visitor's browser; "Share image" hands the real PNG file to the phone's
++// share sheet (that is how it reaches Instagram Stories, WhatsApp status,
++// Messages, etc.), and on desktop it falls back to download.
++export default function ShareResultModal({ data, url, onClose }: ShareResultModalProps) {
++  const [format, setFormat] = useState<CardFormat>("story");
++  const [previewUrl, setPreviewUrl] = useState<string>("");
++  const [error, setError] = useState("");
++  const [busy, setBusy] = useState(false);
++  const [copied, setCopied] = useState(false);
++  const [canShareFiles, setCanShareFiles] = useState(false);
++  const blobRef = useRef<Blob | null>(null);
++  const urlRef = useRef<string>("");
++
++  const shareText = `My ${data.calcName} result: ${data.value}${data.unit ? ` ${data.unit}` : ""}. Calculate yours free on Numrexo`;
++
++  // Render (and re-render when the format changes)
++  useEffect(() => {
++    let cancelled = false;
++    setError("");
++    setPreviewUrl("");
++    blobRef.current = null;
++    (async () => {
++      try {
++        const canvas = await renderShareCard(data, format);
++        const blob = await canvasToBlob(canvas);
++        if (cancelled) return;
++        blobRef.current = blob;
++        if (urlRef.current) URL.revokeObjectURL(urlRef.current);
++        const objectUrl = URL.createObjectURL(blob);
++        urlRef.current = objectUrl;
++        setPreviewUrl(objectUrl);
++        try {
++          const file = new File([blob], cardFileName(data.calcName, format), { type: "image/png" });
++          setCanShareFiles(Boolean(navigator.canShare && navigator.canShare({ files: [file] })));
++        } catch {
++          setCanShareFiles(false);
++        }
++      } catch {
++        if (!cancelled) setError("Image nahi ban payi. Dobara try karo.");
++      }
++    })();
++    return () => {
++      cancelled = true;
++    };
++  }, [data, format]);
++
++  useEffect(() => {
++    return () => {
++      if (urlRef.current) URL.revokeObjectURL(urlRef.current);
++    };
++  }, []);
++
++  // Close on Escape + lock page scroll while open
++  useEffect(() => {
++    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
++    document.addEventListener("keydown", onKey);
++    const prev = document.body.style.overflow;
++    document.body.style.overflow = "hidden";
++    return () => {
++      document.removeEventListener("keydown", onKey);
++      document.body.style.overflow = prev;
++    };
++  }, [onClose]);
++
++  const download = useCallback(() => {
++    if (!blobRef.current) return;
++    const a = document.createElement("a");
++    a.href = URL.createObjectURL(blobRef.current);
++    a.download = cardFileName(data.calcName, format);
++    document.body.appendChild(a);
++    a.click();
++    document.body.removeChild(a);
++    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
++  }, [data.calcName, format]);
++
++  async function shareImage() {
++    if (!blobRef.current) return;
++    setBusy(true);
++    try {
++      const file = new File([blobRef.current], cardFileName(data.calcName, format), { type: "image/png" });
++      if (navigator.canShare && navigator.canShare({ files: [file] })) {
++        await navigator.share({ files: [file], text: `${shareText} ${url}`, title: data.calcName });
++      } else {
++        download();
++      }
++    } catch (e) {
++      // AbortError = the person closed the share sheet; not an error.
++      if (!(e instanceof DOMException && e.name === "AbortError")) download();
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  async function copyText() {
++    const text = `${shareText}: ${url}`;
++    try {
++      await navigator.clipboard.writeText(text);
++    } catch {
++      /* ignore */
++    }
++    setCopied(true);
++    setTimeout(() => setCopied(false), 1800);
++  }
++
++  const whatsapp = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${shareText} ${url}`)}`;
++  const aspect = format === "story" ? "aspect-[9/16]" : "aspect-square";
++
++  return (
++    <div
++      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/70 p-0 sm:p-6"
++      role="dialog"
++      aria-modal="true"
++      aria-label="Share your result"
++      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
++    >
++      <div className="w-full sm:max-w-3xl max-h-[96vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-surface text-ink shadow-2xl">
++        <div className="flex items-center justify-between px-5 py-4 border-b border-hairline">
++          <div>
++            <h2 className="text-lg font-bold">Share your result</h2>
++            <p className="text-xs text-ink-faint">Photo card banao aur Story / chat me bhejo</p>
++          </div>
++          <button
++            type="button"
++            onClick={onClose}
++            aria-label="Close"
++            className="w-9 h-9 rounded-full bg-cream border border-hairline text-ink-soft hover:text-ink"
++          >
++            ✕
++          </button>
++        </div>
++
++        <div className="p-5 grid sm:grid-cols-[minmax(0,260px)_1fr] gap-6 items-start">
++          <div className="mx-auto w-full max-w-[260px]">
++            <div className={`${aspect} w-full rounded-2xl overflow-hidden bg-[#0a0f1f] border border-hairline relative`}>
++              {previewUrl ? (
++                // eslint-disable-next-line @next/next/no-img-element
++                <img src={previewUrl} alt={`Share card: ${data.calcName} result ${data.value}`} className="w-full h-full object-contain" />
++              ) : (
++                <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
++                  {error || "Card ban raha hai…"}
++                </div>
++              )}
++            </div>
++          </div>
++
++          <div className="space-y-4">
++            <div>
++              <div className="text-xs font-semibold text-ink-soft uppercase tracking-wider mb-2">Size</div>
++              <div className="inline-flex rounded-xl border border-hairline overflow-hidden text-sm">
++                <button
++                  type="button"
++                  onClick={() => setFormat("story")}
++                  className={`px-4 py-2 ${format === "story" ? "bg-blue-600 text-white" : "bg-surface text-ink-soft"}`}
++                >
++                  Story (9:16)
++                </button>
++                <button
++                  type="button"
++                  onClick={() => setFormat("square")}
++                  className={`px-4 py-2 ${format === "square" ? "bg-blue-600 text-white" : "bg-surface text-ink-soft"}`}
++                >
++                  Square (1:1)
++                </button>
++              </div>
++            </div>
++
++            <div className="grid gap-2">
++              <button
++                type="button"
++                onClick={shareImage}
++                disabled={!previewUrl || busy}
++                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50 transition-colors"
++              >
++                {canShareFiles ? <ShareIcon className="w-5 h-5" /> : <DownloadIcon className="w-5 h-5" />}
++                {canShareFiles ? "Share image (Instagram, WhatsApp…)" : "Download image"}
++              </button>
++
++              {canShareFiles && (
++                <button
++                  type="button"
++                  onClick={download}
++                  disabled={!previewUrl}
++                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cream border border-hairline text-ink hover:border-blue-300 disabled:opacity-50"
++                >
++                  <DownloadIcon className="w-4 h-4" /> Download PNG
++                </button>
++              )}
++
++              <a
++                href={whatsapp}
++                target="_blank"
++                rel="noopener noreferrer"
++                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366] text-white font-medium hover:opacity-90"
++              >
++                <WhatsAppIcon className="w-5 h-5" /> Send on WhatsApp (text + link)
++              </a>
++
++              <button
++                type="button"
++                onClick={copyText}
++                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cream border border-hairline text-ink hover:border-blue-300"
++              >
++                {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <LinkIcon className="w-4 h-4" />}
++                {copied ? "Copied" : "Copy text + link"}
++              </button>
++            </div>
++
++            <div className="rounded-xl bg-cream border border-hairline p-3 text-xs text-ink-soft leading-relaxed">
++              <strong className="text-ink">Instagram Story:</strong> mobile par &quot;Share image&quot; dabao aur
++              Instagram chuno. Computer par &quot;Download image&quot; karke Story me upload karo. Card me sirf wahi
++              numbers hain jo aapko result me dikh rahe hain; aapke inputs kahin save nahi hote.
++            </div>
++            {error && <p className="text-xs text-red-600">{error}</p>}
++          </div>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/components/common/SocialIcons.tsx b/components/common/SocialIcons.tsx
+new file mode 100644
+index 0000000..12541a0
+--- /dev/null
++++ b/components/common/SocialIcons.tsx
+@@ -0,0 +1,65 @@
++// Small inline brand icons (24x24, currentColor) used by the share buttons.
++// Inline SVG instead of an icon package so nothing extra loads on the page.
++
++type IconProps = { className?: string };
++
++export const WhatsAppIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
++  </svg>
++);
++
++export const XIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
++  </svg>
++);
++
++export const FacebookIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
++  </svg>
++);
++
++export const LinkedInIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451c.979 0 1.771-.773 1.771-1.729V1.729C24 .774 23.204 0 22.225 0z" />
++  </svg>
++);
++
++export const TelegramIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
++  </svg>
++);
++
++export const ShareIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
++    <circle cx="18" cy="5" r="3" />
++    <circle cx="6" cy="12" r="3" />
++    <circle cx="18" cy="19" r="3" />
++    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
++    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
++  </svg>
++);
++
++export const LinkIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
++    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
++  </svg>
++);
++
++export const CheckIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
++    <polyline points="20 6 9 17 4 12" />
++  </svg>
++);
++
++export const DownloadIcon = ({ className = "w-5 h-5" }: IconProps) => (
++  <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
++    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
++    <polyline points="7 10 12 15 17 10" />
++    <line x1="12" y1="15" x2="12" y2="3" />
++  </svg>
++);
+diff --git a/components/common/SubscribeBox.tsx b/components/common/SubscribeBox.tsx
+new file mode 100644
+index 0000000..fde6931
+--- /dev/null
++++ b/components/common/SubscribeBox.tsx
+@@ -0,0 +1,129 @@
++"use client";
++
++import { useRef, useState } from "react";
++import Link from "next/link";
++
++interface SubscribeBoxProps {
++  /** "card" = light box for article/calculator pages, "dark" = compact for the footer. */
++  variant?: "card" | "dark";
++  heading?: string;
++  blurb?: string;
++  className?: string;
++}
++
++// Email sign-up for updates (new calculators, new guides). Posts to
++// /api/subscribe. Plain and honest: one field, a clear promise, a link to the
++// privacy policy, and a hidden trap field for bots.
++export default function SubscribeBox({
++  variant = "card",
++  heading = "Get new calculators & guides by email",
++  blurb = "Occasional updates when we add a new calculator or publish a useful guide. No spam, unsubscribe anytime.",
++  className = "",
++}: SubscribeBoxProps) {
++  const [email, setEmail] = useState("");
++  const [honey, setHoney] = useState("");
++  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
++  const [message, setMessage] = useState("");
++  const startedAt = useRef<number>(Date.now());
++
++  async function onSubmit(e: React.FormEvent) {
++    e.preventDefault();
++    if (state === "sending") return;
++    setState("sending");
++    setMessage("");
++    try {
++      const res = await fetch("/api/subscribe", {
++        method: "POST",
++        headers: { "Content-Type": "application/json" },
++        body: JSON.stringify({ email, website: honey, t: startedAt.current }),
++      });
++      const data = await res.json().catch(() => ({}));
++      if (!res.ok) {
++        setState("error");
++        setMessage(data.error || "Something went wrong. Please try again.");
++        return;
++      }
++      setState("done");
++      setMessage(
++        data.status === "already"
++          ? "You're already subscribed. Thank you!"
++          : "You're subscribed. Thank you!",
++      );
++      setEmail("");
++    } catch {
++      setState("error");
++      setMessage("Network problem. Please try again.");
++    }
++  }
++
++  const dark = variant === "dark";
++
++  return (
++    <div
++      className={
++        dark
++          ? `${className}`
++          : `rounded-2xl border border-hairline bg-surface p-5 sm:p-6 ${className}`
++      }
++    >
++      <h3 className={dark ? "text-sm font-semibold text-white mb-1" : "text-lg font-semibold text-ink mb-1"}>
++        {heading}
++      </h3>
++      <p className={dark ? "text-xs text-gray-400 mb-3" : "text-sm text-ink-soft mb-4"}>{blurb}</p>
++
++      {state === "done" ? (
++        <p className={dark ? "text-sm text-green-400" : "text-sm text-green-700"} role="status">
++          ✓ {message}
++        </p>
++      ) : (
++        <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-2" noValidate>
++          {/* Bot trap: invisible to people, tempting to scripts. */}
++          <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
++            <label>
++              Website
++              <input tabIndex={-1} autoComplete="off" value={honey} onChange={(e) => setHoney(e.target.value)} />
++            </label>
++          </div>
++          <label className="sr-only" htmlFor={`sub-email-${variant}`}>
++            Email address
++          </label>
++          <input
++            id={`sub-email-${variant}`}
++            type="email"
++            inputMode="email"
++            autoComplete="email"
++            required
++            value={email}
++            onChange={(e) => setEmail(e.target.value)}
++            placeholder="you@example.com"
++            className={
++              dark
++                ? "flex-1 min-w-0 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-blue-400"
++                : "flex-1 min-w-0 px-3 py-2.5 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++            }
++          />
++          <button
++            type="submit"
++            disabled={state === "sending"}
++            className="px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-60 transition-colors whitespace-nowrap"
++          >
++            {state === "sending" ? "Subscribing…" : "Subscribe"}
++          </button>
++        </form>
++      )}
++
++      {state === "error" && (
++        <p className="text-xs text-red-500 mt-2" role="alert">
++          {message}
++        </p>
++      )}
++      <p className={dark ? "text-[11px] text-gray-500 mt-2" : "text-xs text-ink-faint mt-2"}>
++        By subscribing you agree to our{" "}
++        <Link href="/privacy" className="underline hover:no-underline">
++          Privacy Policy
++        </Link>
++        .
++      </p>
++    </div>
++  );
++}
+diff --git a/components/layout/Footer.tsx b/components/layout/Footer.tsx
+index e4ba0dd..ab2419d 100644
+--- a/components/layout/Footer.tsx
++++ b/components/layout/Footer.tsx
+@@ -2,6 +2,7 @@
+ 
+ import Link from "next/link";
+ import { useRouter } from "next/navigation";
++import SubscribeBox from "@/components/common/SubscribeBox";
+ 
+ // Social Media Icons as components
+ const InstagramIcon = () => (
+@@ -224,6 +225,14 @@ export default function Footer() {
+           </div>
+         </div>
+ 
++        <div className="max-w-md mb-8">
++          <SubscribeBox
++            variant="dark"
++            heading="Get updates by email"
++            blurb="New calculators and guides, occasionally. No spam, unsubscribe anytime."
++          />
++        </div>
++
+         <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+           <p className="text-xs text-gray-500">© 2026 Numrexo. All rights reserved.</p>
+         </div>
+diff --git a/lib/blogDb.ts b/lib/blogDb.ts
+index b4f06f2..0ee4f39 100644
+--- a/lib/blogDb.ts
++++ b/lib/blogDb.ts
+@@ -21,6 +21,7 @@
+ import { neon } from '@neondatabase/serverless';
+ import { BlogPost, BlogFaq } from './blogTypes';
+ import { HIDDEN_PUBLIC_SLUGS } from './hiddenBlogSlugs';
++import { tagSlug } from './tags';
+ 
+ const DATABASE_URL = process.env.DATABASE_URL || '';
+ 
+@@ -54,8 +55,32 @@ type Row = {
+   published: boolean;
+   published_at: string;
+   updated_at: string;
++  // Patch 19 columns. Optional on purpose: reads use SELECT *, so a row
++  // from a database that has not had ensureBlogSchema() run yet simply
++  // lacks them and rowToPost falls back to safe defaults.
++  tags?: string[] | string | null;
++  og_image?: string | null;
++  canonical_url?: string | null;
++  noindex?: boolean | null;
++  focus_keyword?: string | null;
++  related_slugs?: string[] | string | null;
++  cta_calculator?: string | null;
++  show_toc?: boolean | null;
+ };
+ 
++function parseStringList(value: string[] | string | null | undefined): string[] {
++  if (!value) return [];
++  let list: unknown = value;
++  if (typeof value === 'string') {
++    try {
++      list = JSON.parse(value);
++    } catch {
++      return [];
++    }
++  }
++  return Array.isArray(list) ? list.filter((x): x is string => typeof x === 'string') : [];
++}
++
+ function parseFaqs(value: BlogFaq[] | string | null): BlogFaq[] {
+   if (!value) return [];
+   if (Array.isArray(value)) return value;
+@@ -84,9 +109,47 @@ function rowToPost(row: Row): BlogPost {
+     published: row.published,
+     publishedAt: row.published_at,
+     updatedAt: row.updated_at,
++    tags: parseStringList(row.tags),
++    ogImage: row.og_image ?? null,
++    canonicalUrl: row.canonical_url ?? null,
++    noindex: Boolean(row.noindex),
++    focusKeyword: row.focus_keyword ?? '',
++    relatedSlugs: parseStringList(row.related_slugs),
++    ctaCalculator: row.cta_calculator ?? '',
++    showToc: row.show_toc === null || row.show_toc === undefined ? true : Boolean(row.show_toc),
+   };
+ }
+ 
++// Adds the Patch 19 columns the first time an admin write runs, so Sanjay
++// never has to run a migration script by hand. Every statement is "add if
++// missing", so it is safe to repeat; the result is cached per server
++// instance so it costs one round trip, not one per request.
++let schemaReady: Promise<void> | null = null;
++export function ensureBlogSchema(): Promise<void> {
++  if (schemaReady) return schemaReady;
++  const sql = getSql();
++  if (!sql) return Promise.resolve();
++  schemaReady = (async () => {
++    try {
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS meta_title TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS meta_description TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS faqs JSONB NOT NULL DEFAULT '[]'::jsonb`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS tags JSONB NOT NULL DEFAULT '[]'::jsonb`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS og_image TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS canonical_url TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS noindex BOOLEAN NOT NULL DEFAULT false`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS focus_keyword TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS related_slugs JSONB NOT NULL DEFAULT '[]'::jsonb`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cta_calculator TEXT`;
++      await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS show_toc BOOLEAN NOT NULL DEFAULT true`;
++    } catch (error) {
++      schemaReady = null; // try again on the next write
++      throw error;
++    }
++  })();
++  return schemaReady;
++}
++
+ async function safeDb<T>(label: string, run: () => Promise<T>, fallback: T): Promise<T> {
+   const sql = getSql();
+   if (!sql) {
+@@ -118,7 +181,7 @@ export async function listPublishedPosts(page = 1, perPage = 9): Promise<PostsPa
+       // here - that keeps HIDDEN_PUBLIC_SLUGS exact for both the list and the
+       // total count without relying on array-parameter SQL.
+       const rows = (await sql`
+-        SELECT * FROM blog_posts WHERE published = true ORDER BY published_at DESC
++        SELECT * FROM blog_posts WHERE published = true AND published_at <= now() ORDER BY published_at DESC
+       `) as unknown as Row[];
+       const visible = rows.map(rowToPost).filter(isPublic);
+       const total = visible.length;
+@@ -140,7 +203,7 @@ export async function getPublishedPostBySlug(slug: string): Promise<BlogPost | n
+     async () => {
+       const sql = getSql()!;
+       const rows = (await sql`
+-        SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true LIMIT 1
++        SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true AND published_at <= now() LIMIT 1
+       `) as unknown as Row[];
+       const post = rows[0] ? rowToPost(rows[0]) : null;
+       return post && isPublic(post) ? post : null;
+@@ -155,7 +218,7 @@ export async function listAllSlugs(): Promise<string[]> {
+     async () => {
+       const sql = getSql()!;
+       const rows = (await sql`
+-        SELECT slug FROM blog_posts WHERE published = true
++        SELECT slug FROM blog_posts WHERE published = true AND published_at <= now()
+       `) as unknown as { slug: string }[];
+       return rows.map((r) => r.slug).filter((slug) => !HIDDEN_PUBLIC_SLUGS.has(slug));
+     },
+@@ -169,7 +232,7 @@ export async function listCategoriesWithCounts(): Promise<{ slug: string; count:
+     async () => {
+       const sql = getSql()!;
+       const rows = (await sql`
+-        SELECT slug, category FROM blog_posts WHERE published = true
++        SELECT slug, category FROM blog_posts WHERE published = true AND published_at <= now()
+       `) as unknown as { slug: string; category: string }[];
+       const counts = new Map<string, number>();
+       for (const r of rows) {
+@@ -195,7 +258,7 @@ export async function listPostsByCategory(
+       const sql = getSql()!;
+       const rows = (await sql`
+         SELECT * FROM blog_posts
+-        WHERE published = true AND category = ${categorySlug}
++        WHERE published = true AND published_at <= now() AND category = ${categorySlug}
+         ORDER BY published_at DESC
+       `) as unknown as Row[];
+       const visible = rows.map(rowToPost).filter(isPublic);
+@@ -223,7 +286,7 @@ export async function getRelatedPosts(
+       const sql = getSql()!;
+       const rows = (await sql`
+         SELECT * FROM blog_posts
+-        WHERE published = true AND category = ${category} AND slug != ${excludeSlug}
++        WHERE published = true AND published_at <= now() AND category = ${category} AND slug != ${excludeSlug}
+         ORDER BY published_at DESC
+         LIMIT ${limit + HIDDEN_PUBLIC_SLUGS.size}
+       `) as unknown as Row[];
+@@ -233,6 +296,66 @@ export async function getRelatedPosts(
+   );
+ }
+ 
++export async function listPostsByTag(tag: string): Promise<BlogPost[]> {
++  return safeDb(
++    `listPostsByTag(${tag})`,
++    async () => {
++      const sql = getSql()!;
++      const rows = (await sql`
++        SELECT * FROM blog_posts WHERE published = true AND published_at <= now() ORDER BY published_at DESC
++      `) as unknown as Row[];
++      const wanted = tag.toLowerCase();
++      return rows
++        .map(rowToPost)
++        .filter(isPublic)
++        .filter((p) => p.tags.some((t) => tagSlug(t) === wanted));
++    },
++    [],
++  );
++}
++
++export async function listAllTags(): Promise<{ tag: string; slug: string; count: number }[]> {
++  return safeDb(
++    'listAllTags',
++    async () => {
++      const sql = getSql()!;
++      const rows = (await sql`
++        SELECT * FROM blog_posts WHERE published = true AND published_at <= now()
++      `) as unknown as Row[];
++      const counts = new Map<string, { tag: string; count: number }>();
++      for (const post of rows.map(rowToPost).filter(isPublic)) {
++        for (const t of post.tags) {
++          const key = tagSlug(t);
++          if (!key) continue;
++          const entry = counts.get(key);
++          if (entry) entry.count += 1;
++          else counts.set(key, { tag: t, count: 1 });
++        }
++      }
++      return Array.from(counts.entries())
++        .map(([slug, v]) => ({ slug, tag: v.tag, count: v.count }))
++        .sort((a, b) => b.count - a.count);
++    },
++    [],
++  );
++}
++
++export async function getPostsBySlugs(slugs: string[]): Promise<BlogPost[]> {
++  if (slugs.length === 0) return [];
++  return safeDb(
++    'getPostsBySlugs',
++    async () => {
++      const sql = getSql()!;
++      const rows = (await sql`
++        SELECT * FROM blog_posts WHERE published = true AND published_at <= now()
++      `) as unknown as Row[];
++      const bySlug = new Map(rows.map(rowToPost).filter(isPublic).map((p) => [p.slug, p] as const));
++      return slugs.map((s) => bySlug.get(s)).filter((p): p is BlogPost => Boolean(p));
++    },
++    [],
++  );
++}
++
+ // ---------------------------------------------------------------------------
+ // Admin-only queries below. These deliberately ignore the `published` flag
+ // so a draft is visible in the admin list/editor but not on the public site.
+@@ -291,6 +414,17 @@ interface PostWriteInput {
+   metaDescription: string | null;
+   faqs: BlogFaq[];
+   published: boolean;
++  // Patch 19
++  tags: string[];
++  ogImage: string | null;
++  canonicalUrl: string | null;
++  noindex: boolean;
++  focusKeyword: string | null;
++  relatedSlugs: string[];
++  ctaCalculator: string | null;
++  showToc: boolean;
++  // ISO string. Empty/undefined = "now" on create, "keep as is" on update.
++  publishedAt?: string | null;
+ }
+ 
+ export async function createPost(input: PostWriteInput): Promise<BlogPost | null> {
+@@ -298,10 +432,14 @@ export async function createPost(input: PostWriteInput): Promise<BlogPost | null
+     'createPost',
+     async () => {
+       const sql = getSql()!;
++      await ensureBlogSchema();
+       const faqsJson = JSON.stringify(input.faqs || []);
++      const tagsJson = JSON.stringify(input.tags || []);
++      const relatedJson = JSON.stringify(input.relatedSlugs || []);
++      const publishedAt = input.publishedAt || new Date().toISOString();
+       const rows = (await sql`
+-        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, meta_title, meta_description, faqs, published, published_at, updated_at)
+-        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.metaTitle}, ${input.metaDescription}, ${faqsJson}::jsonb, ${input.published}, now(), now())
++        INSERT INTO blog_posts (slug, title, category, author, excerpt, content_html, content_markdown, featured_image, meta_title, meta_description, faqs, published, published_at, updated_at, tags, og_image, canonical_url, noindex, focus_keyword, related_slugs, cta_calculator, show_toc)
++        VALUES (${input.slug}, ${input.title}, ${input.category}, ${input.author}, ${input.excerpt}, ${input.contentHtml}, ${input.contentMarkdown}, ${input.featuredImage}, ${input.metaTitle}, ${input.metaDescription}, ${faqsJson}::jsonb, ${input.published}, ${publishedAt}::timestamptz, now(), ${tagsJson}::jsonb, ${input.ogImage}, ${input.canonicalUrl}, ${input.noindex}, ${input.focusKeyword}, ${relatedJson}::jsonb, ${input.ctaCalculator}, ${input.showToc})
+         RETURNING *
+       `) as unknown as Row[];
+       return rows[0] ? rowToPost(rows[0]) : null;
+@@ -315,7 +453,11 @@ export async function updatePost(id: number, input: PostWriteInput): Promise<Blo
+     `updatePost(${id})`,
+     async () => {
+       const sql = getSql()!;
++      await ensureBlogSchema();
+       const faqsJson = JSON.stringify(input.faqs || []);
++      const tagsJson = JSON.stringify(input.tags || []);
++      const relatedJson = JSON.stringify(input.relatedSlugs || []);
++      const publishedAt = input.publishedAt || null;
+       const rows = (await sql`
+         UPDATE blog_posts
+         SET slug = ${input.slug},
+@@ -330,6 +472,15 @@ export async function updatePost(id: number, input: PostWriteInput): Promise<Blo
+             meta_description = ${input.metaDescription},
+             faqs = ${faqsJson}::jsonb,
+             published = ${input.published},
++            published_at = COALESCE(${publishedAt}::timestamptz, published_at),
++            tags = ${tagsJson}::jsonb,
++            og_image = ${input.ogImage},
++            canonical_url = ${input.canonicalUrl},
++            noindex = ${input.noindex},
++            focus_keyword = ${input.focusKeyword},
++            related_slugs = ${relatedJson}::jsonb,
++            cta_calculator = ${input.ctaCalculator},
++            show_toc = ${input.showToc},
+             updated_at = now()
+         WHERE id = ${id}
+         RETURNING *
+diff --git a/lib/blogTypes.ts b/lib/blogTypes.ts
+index 3640bdd..f9760cf 100644
+--- a/lib/blogTypes.ts
++++ b/lib/blogTypes.ts
+@@ -36,6 +36,23 @@ export interface BlogPost {
+   published: boolean;
+   publishedAt: string; // ISO timestamp
+   updatedAt: string; // ISO timestamp
++  // --- Patch 19: WordPress-style extras (all optional / safe defaults) ---
++  tags: string[];
++  // Social-share image. Falls back to featuredImage when empty.
++  ogImage: string | null;
++  // Overrides the default canonical (https://numrexo.com/blog/<slug>).
++  canonicalUrl: string | null;
++  // true = <meta robots noindex> and left out of the sitemap.
++  noindex: boolean;
++  // Only used by the admin's SEO checklist, never shown publicly.
++  focusKeyword: string;
++  // Slugs of hand-picked related posts (shown before the automatic ones).
++  relatedSlugs: string[];
++  // Registry id of a calculator to promote in a call-to-action box
++  // inside the post (e.g. "bmi"). Empty = no box.
++  ctaCalculator: string;
++  // Auto "In this article" table of contents built from H2/H3 headings.
++  showToc: boolean;
+ }
+ 
+ export interface BlogPostInput {
+diff --git a/lib/csvParse.ts b/lib/csvParse.ts
+new file mode 100644
+index 0000000..502d9c4
+--- /dev/null
++++ b/lib/csvParse.ts
+@@ -0,0 +1,83 @@
++// lib/csvParse.ts
++//
++// Tiny CSV / plain-list reader for the subscriber import. Accepts any of:
++//   - a CSV with a header row containing "email" (and optionally "name" or
++//     "first name"/"full name"), in any column order
++//   - a CSV without a header where the first column is the email
++//   - a plain list: one email per line, or emails separated by commas,
++//     semicolons or spaces
++// Handles quoted cells, "" escapes and Windows line endings.
++
++export interface ParsedRow {
++  email: string;
++  name: string;
++}
++
++function parseCsv(text: string): string[][] {
++  const rows: string[][] = [];
++  let row: string[] = [];
++  let cell = '';
++  let inQuotes = false;
++  const src = text.replace(/^﻿/, '');
++  for (let i = 0; i < src.length; i++) {
++    const ch = src[i];
++    if (inQuotes) {
++      if (ch === '"') {
++        if (src[i + 1] === '"') {
++          cell += '"';
++          i++;
++        } else inQuotes = false;
++      } else cell += ch;
++    } else if (ch === '"') {
++      inQuotes = true;
++    } else if (ch === ',' || ch === ';' || ch === '\t') {
++      row.push(cell);
++      cell = '';
++    } else if (ch === '\n' || ch === '\r') {
++      if (ch === '\r' && src[i + 1] === '\n') i++;
++      row.push(cell);
++      cell = '';
++      if (row.some((c) => c.trim() !== '')) rows.push(row);
++      row = [];
++    } else cell += ch;
++  }
++  row.push(cell);
++  if (row.some((c) => c.trim() !== '')) rows.push(row);
++  return rows;
++}
++
++export function parseSubscriberText(text: string): ParsedRow[] {
++  const rows = parseCsv(text);
++  if (rows.length === 0) return [];
++
++  const header = rows[0].map((c) => c.trim().toLowerCase());
++  const emailCol = header.findIndex((h) => h === 'email' || h === 'e-mail' || h === 'email address' || h === 'mail');
++  const hasHeader = emailCol !== -1;
++  const nameCol = hasHeader
++    ? header.findIndex((h) => h === 'name' || h === 'full name' || h === 'first name' || h === 'fullname')
++    : -1;
++
++  if (hasHeader) {
++    return rows.slice(1).map((r) => ({
++      email: (r[emailCol] || '').trim(),
++      name: nameCol >= 0 ? (r[nameCol] || '').trim() : '',
++    }));
++  }
++
++  // No header: each row is "email" or "email, name" - but a single line may
++  // also hold several emails separated by spaces/commas, so split those too.
++  const out: ParsedRow[] = [];
++  for (const r of rows) {
++    const firstIsEmail = /@/.test(r[0] || '');
++    if (firstIsEmail && r.length >= 2 && !/@/.test(r[1] || '')) {
++      out.push({ email: r[0].trim(), name: (r[1] || '').trim() });
++    } else {
++      for (const cell of r) {
++        for (const part of cell.split(/\s+/)) {
++          if (part.trim()) out.push({ email: part.trim(), name: '' });
++        }
++      }
++    }
++  }
++  return out;
++}
+diff --git a/lib/postInput.ts b/lib/postInput.ts
+new file mode 100644
+index 0000000..01e14c8
+--- /dev/null
++++ b/lib/postInput.ts
+@@ -0,0 +1,82 @@
++// lib/postInput.ts
++//
++// One place that turns the admin form's JSON body into the validated,
++// trimmed values blogDb.createPost/updatePost expect. Used by both
++// POST /api/admin/posts and PUT /api/admin/posts/[id] so the two can never
++// drift apart (they used to be copy-pasted).
++
++import { markdownToHtml } from './markdown';
++import { slugify } from './slugify';
++import { sanitizeFaqs } from './faqs';
++import { sanitizeTags } from './tags';
++
++function str(value: unknown, max = 5000): string {
++  return typeof value === 'string' ? value.trim().slice(0, max) : '';
++}
++
++function httpUrlOrNull(value: unknown): string | null {
++  const v = str(value, 1000);
++  if (!v) return null;
++  // Allow site-relative paths (/uploads/x.png) and absolute http(s) URLs only.
++  if (v.startsWith('/')) return v;
++  try {
++    const u = new URL(v);
++    return u.protocol === 'https:' || u.protocol === 'http:' ? u.toString() : null;
++  } catch {
++    return null;
++  }
++}
++
++function slugList(value: unknown): string[] {
++  if (!Array.isArray(value)) return [];
++  const out: string[] = [];
++  for (const item of value) {
++    if (typeof item !== 'string') continue;
++    const s = slugify(item);
++    if (s && !out.includes(s)) out.push(s);
++    if (out.length >= 6) break;
++  }
++  return out;
++}
++
++export function parsePostBody(body: any) {
++  const title = str(body?.title, 200);
++  const slug = str(body?.slug, 200) ? slugify(str(body.slug, 200)) : slugify(title);
++  const contentMarkdown = typeof body?.contentMarkdown === 'string' ? body.contentMarkdown : '';
++
++  // datetime sent by the form as an ISO string. Anything unparseable = ignore
++  // (create -> now, update -> keep the existing date).
++  let publishedAt: string | null = null;
++  if (typeof body?.publishedAt === 'string' && body.publishedAt) {
++    const d = new Date(body.publishedAt);
++    if (!Number.isNaN(d.getTime())) publishedAt = d.toISOString();
++  }
++
++  return {
++    title,
++    slug,
++    values: {
++      slug,
++      title,
++      category: str(body?.category, 40) || 'finance',
++      author: str(body?.author, 100) || 'Sanjay Singh',
++      excerpt: str(body?.excerpt, 600),
++      contentHtml: markdownToHtml(contentMarkdown),
++      contentMarkdown,
++      featuredImage: httpUrlOrNull(body?.featuredImage),
++      metaTitle: str(body?.metaTitle, 120) || null,
++      metaDescription: str(body?.metaDescription, 300) || null,
++      faqs: sanitizeFaqs(body?.faqs),
++      published: Boolean(body?.published),
++      tags: sanitizeTags(body?.tags),
++      ogImage: httpUrlOrNull(body?.ogImage),
++      canonicalUrl: httpUrlOrNull(body?.canonicalUrl),
++      noindex: Boolean(body?.noindex),
++      focusKeyword: str(body?.focusKeyword, 100) || null,
++      relatedSlugs: slugList(body?.relatedSlugs),
++      ctaCalculator: str(body?.ctaCalculator, 60) || null,
++      showToc: body?.showToc === undefined ? true : Boolean(body.showToc),
++      publishedAt,
++    },
++  };
++}
+diff --git a/lib/seoScore.ts b/lib/seoScore.ts
+new file mode 100644
+index 0000000..e8c514b
+--- /dev/null
++++ b/lib/seoScore.ts
+@@ -0,0 +1,126 @@
++// lib/seoScore.ts
++//
++// A small, transparent on-page SEO checklist for the blog editor (in the
++// spirit of Yoast / Rank Math, but without pretending to be Google). Each
++// check is simple and explained in plain words so the author knows exactly
++// what to fix. Pure functions, no dependencies, runs in the browser as the
++// author types.
++
++export interface SeoInput {
++  title: string;
++  slug: string;
++  metaTitle: string;
++  metaDescription: string;
++  excerpt: string;
++  focusKeyword: string;
++  contentMarkdown: string;
++  featuredImage: string;
++  faqCount: number;
++  tagCount: number;
++}
++
++export type CheckStatus = 'good' | 'ok' | 'bad';
++
++export interface SeoCheck {
++  id: string;
++  status: CheckStatus;
++  label: string;
++  hint: string;
++}
++
++export interface SeoReport {
++  score: number; // 0-100
++  checks: SeoCheck[];
++}
++
++function stripMarkdown(md: string): string {
++  return md
++    .replace(/```[\s\S]*?```/g, ' ')
++    .replace(/<[^>]+>/g, ' ')
++    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
++    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
++    .replace(/[#>*_`~|-]+/g, ' ')
++    .replace(/\s+/g, ' ')
++    .trim();
++}
++
++export function wordCount(md: string): number {
++  const text = stripMarkdown(md);
++  return text ? text.split(' ').length : 0;
++}
++
++export function analyseSeo(input: SeoInput): SeoReport {
++  const checks: SeoCheck[] = [];
++  const add = (id: string, status: CheckStatus, label: string, hint: string) =>
++    checks.push({ id, status, label, hint });
++
++  const seoTitle = (input.metaTitle || input.title).trim();
++  const description = (input.metaDescription || input.excerpt).trim();
++  const kw = input.focusKeyword.trim().toLowerCase();
++  const md = input.contentMarkdown;
++  const text = stripMarkdown(md);
++  const words = wordCount(md);
++  const firstWords = text.split(' ').slice(0, 120).join(' ').toLowerCase();
++
++  // --- Title ---------------------------------------------------------------
++  const tl = seoTitle.length;
++  if (tl === 0) add('title', 'bad', 'Title missing', 'Title likho - ye Google me blue link banta hai.');
++  else if (tl < 30) add('title', 'ok', `Title chhota hai (${tl} letters)`, '50-60 letters me rakho taaki Google poora dikhaye aur keyword ki jagah mile.');
++  else if (tl <= 60) add('title', 'good', `Title length theek hai (${tl} letters)`, 'Google me poora dikhega.');
++  else add('title', 'ok', `Title lamba hai (${tl} letters)`, '60 se zyada letters Google me kat jate hain. Chhota karo.');
++
++  // --- Description ---------------------------------------------------------
++  const dl = description.length;
++  if (dl === 0) add('desc', 'bad', 'Meta description missing', 'Excerpt ya Meta Description likho - ye Google ke neeche ka 2-line text hai.');
++  else if (dl < 110) add('desc', 'ok', `Description chhota hai (${dl} letters)`, '120-160 letters me likho, taaki zyada log click karein.');
++  else if (dl <= 160) add('desc', 'good', `Description length theek hai (${dl} letters)`, 'Google me poora dikhega.');
++  else add('desc', 'ok', `Description lamba hai (${dl} letters)`, '160 se zyada letters kat jate hain.');
++
++  // --- Slug ----------------------------------------------------------------
++  const slug = input.slug.trim();
++  if (!slug) add('slug', 'ok', 'Slug title se auto banega', 'Chhota, keyword wala slug best hai (jaise best-sip-plans).');
++  else if (slug.length > 75) add('slug', 'ok', 'Slug bahut lamba hai', '3-6 shabdon ka chhota slug rakho.');
++  else add('slug', 'good', 'Slug theek hai', '');
++
++  // --- Focus keyword -------------------------------------------------------
++  if (!kw) {
++    add('kw', 'ok', 'Focus keyword set nahi hai', 'Wo ek phrase likho jis par log Google karenge (jaise "sip calculator"). Neeche ke keyword checks tabhi chalenge.');
++  } else {
++    add('kw-title', seoTitle.toLowerCase().includes(kw) ? 'good' : 'bad', seoTitle.toLowerCase().includes(kw) ? 'Keyword title me hai' : 'Keyword title me nahi hai', 'Focus keyword ko title ke shuru me rakhna best hai.');
++    add('kw-desc', description.toLowerCase().includes(kw) ? 'good' : 'ok', description.toLowerCase().includes(kw) ? 'Keyword description me hai' : 'Keyword description me nahi hai', 'Meta description me ek baar keyword aana chahiye.');
++    add('kw-slug', slug.includes(kw.replace(/\s+/g, '-')) ? 'good' : 'ok', slug.includes(kw.replace(/\s+/g, '-')) ? 'Keyword slug me hai' : 'Keyword slug me nahi hai', 'Slug me keyword (hyphen ke saath) ho to behtar.');
++    add('kw-intro', firstWords.includes(kw) ? 'good' : 'ok', firstWords.includes(kw) ? 'Keyword shuru ke paragraph me hai' : 'Keyword shuru ke 100 shabdon me nahi hai', 'Pehle paragraph me keyword ek baar naturally lao.');
++    const occurrences = kw ? text.toLowerCase().split(kw).length - 1 : 0;
++    const density = words > 0 ? (occurrences * kw.split(' ').length * 100) / words : 0;
++    if (occurrences === 0) add('kw-body', 'bad', 'Keyword content me nahi mila', 'Content me kam se kam 2-3 baar naturally use karo.');
++    else if (density > 3) add('kw-body', 'ok', `Keyword zyada baar aa raha hai (${occurrences} baar)`, 'Keyword stuffing se bacho - 0.5% se 2% theek hai.');
++    else add('kw-body', 'good', `Keyword content me ${occurrences} baar hai`, '');
++  }
++
++  // --- Content -------------------------------------------------------------
++  if (words < 300) add('len', 'bad', `Content bahut chhota hai (${words} words)`, 'Thin content AdSense aur Google dono ko pasand nahi. Kam se kam 600+ words likho.');
++  else if (words < 600) add('len', 'ok', `Content thoda chhota hai (${words} words)`, '800-1500 words wali useful post behtar rank karti hai.');
++  else add('len', 'good', `Content length achhi hai (${words} words)`, '');
++
++  const h2s = (md.match(/^##\s+\S/gm) || []).length + (md.match(/<h2[\s>]/gi) || []).length;
++  add('h2', h2s >= 2 ? 'good' : h2s === 1 ? 'ok' : 'bad', h2s >= 2 ? `${h2s} sub-headings (H2) hain` : 'Sub-headings (H2) kam hain', 'Content ko ## Heading se hisson me todo - padhna aasan hota hai aur TOC bhi banta hai.');
++
++  const internalLinks = (md.match(/\]\((https?:\/\/(www\.)?numrexo\.com)?\/[^)\s]*\)/g) || []).length;
++  add('internal', internalLinks >= 1 ? 'good' : 'ok', internalLinks >= 1 ? `${internalLinks} internal link(s) hain` : 'Koi internal link nahi', 'Apne calculator ya doosri post ka link do - jaise [SIP Calculator](/finance/sip-calculator).');
++
++  const images = [...md.matchAll(/!\[([^\]]*)\]\(/g)];
++  if (images.length === 0) add('img', 'ok', 'Content me koi image nahi', 'Kam se kam 1 useful image/chart rakho.');
++  else {
++    const missingAlt = images.filter((m) => !m[1].trim()).length;
++    add('alt', missingAlt === 0 ? 'good' : 'bad', missingAlt === 0 ? 'Sabhi images me alt text hai' : `${missingAlt} image(s) me alt text nahi`, 'Image ke [ ] ke andar 3-8 shabdon me image ka description likho.');
++  }
++
++  add('feat', input.featuredImage ? 'good' : 'ok', input.featuredImage ? 'Featured image hai' : 'Featured image nahi hai', 'Featured image blog list aur social share me dikhti hai.');
++  add('faq', input.faqCount >= 2 ? 'good' : 'ok', input.faqCount >= 2 ? `${input.faqCount} FAQ hain (FAQ rich result ban sakta hai)` : 'FAQ nahi / kam hain', '2-5 real sawal-jawab jodo.');
++  add('tags', input.tagCount >= 2 ? 'good' : 'ok', input.tagCount >= 2 ? `${input.tagCount} tags hain` : 'Tags kam hain', '2-5 relevant tags lagao.');
++
++  const weight = { good: 1, ok: 0.5, bad: 0 } as const;
++  const total = checks.reduce((sum, c) => sum + weight[c.status], 0);
++  const score = checks.length === 0 ? 0 : Math.round((total / checks.length) * 100);
++  return { score, checks };
++}
+diff --git a/lib/shareCard.ts b/lib/shareCard.ts
+new file mode 100644
+index 0000000..523c435
+--- /dev/null
++++ b/lib/shareCard.ts
+@@ -0,0 +1,409 @@
++// lib/shareCard.ts
++//
++// Draws the shareable "result card" (a PNG) for any calculator result, in the
++// spirit of a Strava activity card: a bold number, a few supporting figures,
++// the calculator's own accent colour and a "calculate yours free" footer with
++// the page link. Everything is drawn on a <canvas> in the visitor's browser,
++// so the numbers they typed never leave their device and no server or image
++// service is involved.
++//
++// Two shapes: "story" (1080x1920, for Instagram/WhatsApp/Facebook Stories and
++// Reels covers) and "square" (1080x1080, for feeds, X and LinkedIn).
++
++export type CardFormat = "story" | "square";
++
++export interface ShareCardRow {
++  label: string;
++  value: string;
++}
++
++export interface ShareCardData {
++  calcName: string;
++  calcIcon: string;
++  /** Hex colour like #3b82f6 - the calculator's own colour from the registry. */
++  accent: string;
++  /** Short uppercase-able category, e.g. "Health & Wellness". */
++  categoryLabel: string;
++  /** e.g. "Your BMI" - the label above the big number. */
++  label: string;
++  /** The big number, e.g. "22.9". */
++  value: string;
++  unit?: string;
++  rows: ShareCardRow[];
++  /** Page the card links to, shown at the bottom (no https://). */
++  displayUrl: string;
++}
++
++const SANS = '"Sora", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
++const MONO = '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
++const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
++
++export function sizeFor(format: CardFormat): { w: number; h: number } {
++  return format === "story" ? { w: 1080, h: 1920 } : { w: 1080, h: 1080 };
++}
++
++// ---------------------------------------------------------------- colour --
++
++function parseHex(hex: string): [number, number, number] {
++  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
++  if (!m) return [59, 130, 246];
++  const n = parseInt(m[1], 16);
++  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
++}
++
++function rgba(rgb: [number, number, number], a: number): string {
++  return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
++}
++
++function mix(rgb: [number, number, number], target: [number, number, number], t: number): [number, number, number] {
++  return [
++    Math.round(rgb[0] + (target[0] - rgb[0]) * t),
++    Math.round(rgb[1] + (target[1] - rgb[1]) * t),
++    Math.round(rgb[2] + (target[2] - rgb[2]) * t),
++  ];
++}
++
++// ---------------------------------------------------------------- drawing --
++
++type Ctx = CanvasRenderingContext2D;
++
++function roundRectPath(ctx: Ctx, x: number, y: number, w: number, h: number, r: number) {
++  const rr = Math.min(r, w / 2, h / 2);
++  ctx.beginPath();
++  ctx.moveTo(x + rr, y);
++  ctx.lineTo(x + w - rr, y);
++  ctx.arcTo(x + w, y, x + w, y + rr, rr);
++  ctx.lineTo(x + w, y + h - rr);
++  ctx.arcTo(x + w, y + h, x + w - rr, y + h, rr);
++  ctx.lineTo(x + rr, y + h);
++  ctx.arcTo(x, y + h, x, y + h - rr, rr);
++  ctx.lineTo(x, y + rr);
++  ctx.arcTo(x, y, x + rr, y, rr);
++  ctx.closePath();
++}
++
++/** Shrinks the font until `text` fits `maxWidth`; returns the font size used. */
++function fitFont(ctx: Ctx, text: string, family: string, weight: number, maxSize: number, minSize: number, maxWidth: number): number {
++  let size = maxSize;
++  while (size > minSize) {
++    ctx.font = `${weight} ${size}px ${family}`;
++    if (ctx.measureText(text).width <= maxWidth) break;
++    size -= 4;
++  }
++  ctx.font = `${weight} ${size}px ${family}`;
++  return size;
++}
++
++/** Cuts text with an ellipsis so it fits `maxWidth` in the current font. */
++function ellipsize(ctx: Ctx, text: string, maxWidth: number): string {
++  if (ctx.measureText(text).width <= maxWidth) return text;
++  let t = text;
++  while (t.length > 1 && ctx.measureText(`${t}…`).width > maxWidth) t = t.slice(0, -1);
++  return `${t.trimEnd()}…`;
++}
++
++/** Draws text with manual letter-spacing (canvas letterSpacing is not in every browser). */
++function spaced(ctx: Ctx, text: string, x: number, y: number, spacing: number, align: "left" | "center" = "left") {
++  const chars = Array.from(text);
++  const widths = chars.map((c) => ctx.measureText(c).width + spacing);
++  const total = widths.reduce((a, b) => a + b, 0) - spacing;
++  let cx = align === "center" ? x - total / 2 : x;
++  const prevAlign = ctx.textAlign;
++  ctx.textAlign = "left";
++  chars.forEach((c, i) => {
++    ctx.fillText(c, cx, y);
++    cx += widths[i];
++  });
++  ctx.textAlign = prevAlign;
++}
++
++function drawBackground(ctx: Ctx, w: number, h: number, accent: [number, number, number]) {
++  const base = ctx.createLinearGradient(0, 0, w * 0.6, h);
++  base.addColorStop(0, "#0a0f1f");
++  base.addColorStop(0.55, rgba(mix([10, 15, 31], accent, 0.28), 1));
++  base.addColorStop(1, "#070a14");
++  ctx.fillStyle = base;
++  ctx.fillRect(0, 0, w, h);
++
++  // Big soft glow, top right
++  const glow = ctx.createRadialGradient(w * 0.9, h * 0.08, 0, w * 0.9, h * 0.08, w * 0.85);
++  glow.addColorStop(0, rgba(accent, 0.55));
++  glow.addColorStop(1, rgba(accent, 0));
++  ctx.fillStyle = glow;
++  ctx.fillRect(0, 0, w, h);
++
++  // Second glow, bottom left, in a lighter tint
++  const tint = mix(accent, [255, 255, 255], 0.35);
++  const glow2 = ctx.createRadialGradient(w * 0.05, h * 0.95, 0, w * 0.05, h * 0.95, w * 0.8);
++  glow2.addColorStop(0, rgba(tint, 0.28));
++  glow2.addColorStop(1, rgba(tint, 0));
++  ctx.fillStyle = glow2;
++  ctx.fillRect(0, 0, w, h);
++
++  // Dot grid texture
++  ctx.fillStyle = "rgba(255,255,255,0.055)";
++  const gap = 44;
++  for (let y = gap; y < h; y += gap) {
++    for (let x = gap; x < w; x += gap) {
++      ctx.beginPath();
++      ctx.arc(x, y, 2, 0, Math.PI * 2);
++      ctx.fill();
++    }
++  }
++}
++
++function drawBrand(ctx: Ctx, x: number, y: number, accent: [number, number, number]) {
++  // Logo mark: rounded square with a stylised "n"
++  const s = 64;
++  const grad = ctx.createLinearGradient(x, y, x + s, y + s);
++  grad.addColorStop(0, rgba(mix(accent, [255, 255, 255], 0.35), 1));
++  grad.addColorStop(1, rgba(accent, 1));
++  ctx.fillStyle = grad;
++  roundRectPath(ctx, x, y, s, s, 18);
++  ctx.fill();
++  ctx.fillStyle = "#0a0f1f";
++  ctx.font = `800 40px ${SANS}`;
++  ctx.textAlign = "center";
++  ctx.textBaseline = "alphabetic";
++  ctx.fillText("n", x + s / 2, y + 47);
++
++  ctx.fillStyle = "#ffffff";
++  ctx.font = `700 40px ${SANS}`;
++  ctx.textAlign = "left";
++  ctx.fillText("numrexo", x + s + 18, y + 46);
++}
++
++function drawPill(ctx: Ctx, text: string, icon: string, x: number, y: number, accent: [number, number, number], maxW: number): number {
++  ctx.font = `600 30px ${SANS}`;
++  const label = ellipsize(ctx, text, maxW - 130);
++  const textW = ctx.measureText(label).width;
++  const w = textW + 110;
++  const h = 68;
++  ctx.fillStyle = rgba(accent, 0.2);
++  roundRectPath(ctx, x, y, w, h, h / 2);
++  ctx.fill();
++  ctx.strokeStyle = rgba(mix(accent, [255, 255, 255], 0.4), 0.55);
++  ctx.lineWidth = 2;
++  roundRectPath(ctx, x, y, w, h, h / 2);
++  ctx.stroke();
++  ctx.font = `32px ${EMOJI}`;
++  ctx.fillStyle = "#fff";
++  ctx.textAlign = "left";
++  ctx.fillText(icon || "🧮", x + 26, y + 46);
++  ctx.font = `600 30px ${SANS}`;
++  ctx.fillText(label, x + 76, y + 45);
++  return w;
++}
++
++function drawRing(ctx: Ctx, cx: number, cy: number, r: number, accent: [number, number, number]) {
++  // Decorative "progress" ring behind the number - purely visual, it does not
++  // encode the value.
++  ctx.lineCap = "round";
++  ctx.lineWidth = 22;
++  ctx.strokeStyle = "rgba(255,255,255,0.07)";
++  ctx.beginPath();
++  ctx.arc(cx, cy, r, 0, Math.PI * 2);
++  ctx.stroke();
++
++  const g = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
++  g.addColorStop(0, rgba(mix(accent, [255, 255, 255], 0.55), 1));
++  g.addColorStop(1, rgba(accent, 1));
++  ctx.strokeStyle = g;
++  ctx.beginPath();
++  ctx.arc(cx, cy, r, -Math.PI * 0.62, Math.PI * 0.55);
++  ctx.stroke();
++
++  // small glowing dot at the end of the arc
++  const ex = cx + r * Math.cos(Math.PI * 0.55);
++  const ey = cy + r * Math.sin(Math.PI * 0.55);
++  ctx.fillStyle = "#fff";
++  ctx.beginPath();
++  ctx.arc(ex, ey, 11, 0, Math.PI * 2);
++  ctx.fill();
++}
++
++// ------------------------------------------------------------------ main --
++
++export async function renderShareCard(data: ShareCardData, format: CardFormat): Promise<HTMLCanvasElement> {
++  const { w, h } = sizeFor(format);
++  const canvas = document.createElement("canvas");
++  canvas.width = w;
++  canvas.height = h;
++  const ctx = canvas.getContext("2d");
++  if (!ctx) throw new Error("Canvas is not supported in this browser");
++
++  // Make sure the site fonts are ready so the card matches the website.
++  try {
++    await (document as Document & { fonts?: { ready: Promise<unknown> } }).fonts?.ready;
++  } catch {
++    /* fall back to system fonts */
++  }
++
++  const accent = parseHex(data.accent);
++  const story = format === "story";
++  const pad = 80;
++
++  drawBackground(ctx, w, h, accent);
++
++  // ---- header
++  drawBrand(ctx, pad, story ? 90 : 64, accent);
++  ctx.fillStyle = "rgba(255,255,255,0.55)";
++  ctx.font = `500 26px ${SANS}`;
++  ctx.textAlign = "right";
++  const date = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date());
++  ctx.fillText(date, w - pad, (story ? 90 : 64) + 44);
++
++  drawPill(ctx, data.calcName, data.calcIcon, pad, story ? 200 : 168, accent, w - pad * 2);
++
++  // ---- glass card
++  const cardTop = story ? 330 : 262;
++  const cardBottom = story ? h - 420 : h - 232;
++  const cardH = cardBottom - cardTop;
++  const cardW = w - pad * 2;
++  ctx.fillStyle = "rgba(255,255,255,0.06)";
++  roundRectPath(ctx, pad, cardTop, cardW, cardH, 56);
++  ctx.fill();
++  ctx.strokeStyle = "rgba(255,255,255,0.14)";
++  ctx.lineWidth = 2;
++  roundRectPath(ctx, pad, cardTop, cardW, cardH, 56);
++  ctx.stroke();
++
++  const innerPad = 64;
++  const innerW = cardW - innerPad * 2;
++  const rows = data.rows.slice(0, story ? 4 : 3);
++  const rowH = story ? 92 : 76;
++  const rowsBlockH = rows.length ? rows.length * rowH + 20 : 0;
++
++  // Ring + number zone sits in the space above the rows.
++  const zoneTop = cardTop + 30;
++  const zoneBottom = cardBottom - rowsBlockH - 20;
++  const zoneH = zoneBottom - zoneTop;
++  const cx = w / 2;
++  const cy = zoneTop + zoneH / 2;
++  const ringR = Math.min(zoneH / 2 - 24, (cardW - 160) / 2, story ? 330 : 190);
++  // Skip the ring when the number is too long to sit inside it.
++  ctx.font = `700 44px ${MONO}`;
++  const hasRing = ringR > 120 && ctx.measureText(data.value).width <= ringR * 1.55;
++  if (hasRing) drawRing(ctx, cx, cy, ringR, accent);
++
++  // The label / number / unit stack, centred as one block in the zone (and
++  // inside the ring when there is one) so the three can never collide.
++  const stackMaxW = hasRing ? ringR * 1.55 : innerW;
++  const labelPx = story ? 30 : 24;
++  const gapA = story ? 38 : 34;
++  const gapB = story ? 26 : 20;
++  const unitPx = story ? 34 : 28;
++  const numSize = fitFont(ctx, data.value, MONO, 700, story ? 190 : 116, 44, stackMaxW);
++  const numH = numSize * 0.8; // digit height plus a little air
++  const stackH = labelPx + gapA + numH + (data.unit ? gapB + unitPx : 0);
++  const top = cy - stackH / 2;
++
++  // label (letter-spaced caps), shrunk to fit
++  const labelText = data.label.toUpperCase().slice(0, 40);
++  let lSize = labelPx;
++  const spacing = 4;
++  const spacedWidth = (size: number) => {
++    ctx.font = `600 ${size}px ${SANS}`;
++    return Array.from(labelText).reduce((acc, c) => acc + ctx.measureText(c).width + spacing, -spacing);
++  };
++  while (lSize > 16 && spacedWidth(lSize) > stackMaxW) lSize -= 2;
++  ctx.font = `600 ${lSize}px ${SANS}`;
++  ctx.fillStyle = rgba(mix(accent, [255, 255, 255], 0.65), 1);
++  ctx.textAlign = "center";
++  spaced(ctx, labelText, cx, top + labelPx - 2, spacing, "center");
++
++  // the big number
++  const numCy = top + labelPx + gapA + numH / 2;
++  ctx.font = `700 ${numSize}px ${MONO}`;
++  const numGrad = ctx.createLinearGradient(cx - stackMaxW / 2, numCy - numSize, cx + stackMaxW / 2, numCy + numSize);
++  numGrad.addColorStop(0, "#ffffff");
++  numGrad.addColorStop(1, rgba(mix(accent, [255, 255, 255], 0.6), 1));
++  ctx.fillStyle = numGrad;
++  ctx.textAlign = "center";
++  ctx.textBaseline = "middle";
++  ctx.fillText(data.value, cx, numCy);
++  ctx.textBaseline = "alphabetic";
++
++  if (data.unit) {
++    ctx.fillStyle = "rgba(255,255,255,0.6)";
++    ctx.font = `500 ${unitPx}px ${SANS}`;
++    ctx.textAlign = "center";
++    ctx.fillText(ellipsize(ctx, data.unit, hasRing ? ringR * 1.7 : innerW), cx, top + stackH - 4);
++  }
++
++  // ---- supporting rows
++  let ry = cardBottom - rowsBlockH;
++  rows.forEach((row, i) => {
++    const top = ry + i * rowH;
++    ctx.strokeStyle = "rgba(255,255,255,0.1)";
++    ctx.lineWidth = 2;
++    ctx.beginPath();
++    ctx.moveTo(pad + innerPad, top);
++    ctx.lineTo(w - pad - innerPad, top);
++    ctx.stroke();
++
++    ctx.textAlign = "left";
++    ctx.fillStyle = "rgba(255,255,255,0.62)";
++    ctx.font = `500 ${story ? 30 : 26}px ${SANS}`;
++    const valueFont = `700 ${story ? 34 : 30}px ${MONO}`;
++    ctx.font = valueFont;
++    const valueText = ellipsize(ctx, row.value, innerW * 0.55);
++    const valueW = ctx.measureText(valueText).width;
++    ctx.font = `500 ${story ? 30 : 26}px ${SANS}`;
++    const labelText = ellipsize(ctx, row.label, innerW - valueW - 30);
++    ctx.fillText(labelText, pad + innerPad, top + rowH / 2 + 12);
++
++    ctx.fillStyle = "#ffffff";
++    ctx.font = valueFont;
++    ctx.textAlign = "right";
++    ctx.fillText(valueText, w - pad - innerPad, top + rowH / 2 + 12);
++  });
++
++  // ---- footer / call to action
++  const footTop = cardBottom + (story ? 70 : 38);
++  ctx.textAlign = "left";
++  ctx.fillStyle = "#ffffff";
++  ctx.font = `700 ${story ? 50 : 38}px ${SANS}`;
++  ctx.fillText("Calculate yours — free", pad, footTop + (story ? 40 : 30));
++
++  ctx.fillStyle = "rgba(255,255,255,0.6)";
++  ctx.font = `500 ${story ? 30 : 26}px ${SANS}`;
++  ctx.fillText(ellipsize(ctx, data.displayUrl, w - pad * 2 - 250), pad, footTop + (story ? 96 : 76));
++
++  // CTA button on the right
++  const btnW = story ? 230 : 200;
++  const btnH = story ? 84 : 72;
++  const btnX = w - pad - btnW;
++  const btnY = footTop + (story ? 0 : -4);
++  const bg = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
++  bg.addColorStop(0, rgba(mix(accent, [255, 255, 255], 0.35), 1));
++  bg.addColorStop(1, rgba(accent, 1));
++  ctx.fillStyle = bg;
++  roundRectPath(ctx, btnX, btnY, btnW, btnH, btnH / 2);
++  ctx.fill();
++  ctx.fillStyle = "#0a0f1f";
++  ctx.font = `700 ${story ? 32 : 28}px ${SANS}`;
++  ctx.textAlign = "center";
++  ctx.fillText("Try it →", btnX + btnW / 2, btnY + btnH / 2 + 11);
++
++  ctx.fillStyle = "rgba(255,255,255,0.38)";
++  ctx.font = `500 22px ${SANS}`;
++  ctx.textAlign = "center";
++  ctx.fillText("Estimates for information only. Not professional advice.", w / 2, h - (story ? 70 : 34));
++
++  return canvas;
++}
++
++export function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
++  return new Promise((resolve, reject) => {
++    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("Could not create the image"))), "image/png");
++  });
++}
++
++export function cardFileName(calcName: string, format: CardFormat): string {
++  const slug = calcName
++    .toLowerCase()
++    .replace(/[^a-z0-9]+/g, "-")
++    .replace(/^-+|-+$/g, "");
++  return `numrexo-${slug || "result"}-${format}.png`;
++}
+diff --git a/lib/subscribersDb.ts b/lib/subscribersDb.ts
+new file mode 100644
+index 0000000..d0d12cb
+--- /dev/null
++++ b/lib/subscribersDb.ts
+@@ -0,0 +1,338 @@
++// lib/subscribersDb.ts
++//
++// Newsletter subscribers, stored in the same Neon Postgres database as the
++// blog. The table is created automatically the first time it is needed
++// (CREATE TABLE IF NOT EXISTS), so there is no migration script to run.
++//
++// Each subscriber has:
++//   - active:  false = deactivated (kept on file but excluded from the
++//              "active" export). Set by the admin, or by the subscriber
++//              themselves via the unsubscribe link.
++//   - token:   a random string used ONLY for the one-click unsubscribe link
++//              (https://numrexo.com/unsubscribe?t=<token>). It is included in
++//              the CSV export so it can be merged into newsletter emails.
++//   - source:  where the address came from: "website", "import" or "admin".
++
++import { neon } from '@neondatabase/serverless';
++
++const DATABASE_URL = process.env.DATABASE_URL || '';
++
++function getSql() {
++  if (!DATABASE_URL) return null;
++  return neon(DATABASE_URL);
++}
++
++export interface Subscriber {
++  id: number;
++  email: string;
++  name: string;
++  source: string;
++  active: boolean;
++  token: string;
++  subscribedAt: string;
++  unsubscribedAt: string | null;
++}
++
++type Row = {
++  id: number;
++  email: string;
++  name: string | null;
++  source: string;
++  active: boolean;
++  token: string;
++  subscribed_at: string;
++  unsubscribed_at: string | null;
++};
++
++function rowToSubscriber(r: Row): Subscriber {
++  return {
++    id: r.id,
++    email: r.email,
++    name: r.name || '',
++    source: r.source,
++    active: r.active,
++    token: r.token,
++    subscribedAt: r.subscribed_at,
++    unsubscribedAt: r.unsubscribed_at,
++  };
++}
++
++let tableReady: Promise<void> | null = null;
++async function ensureTable(): Promise<void> {
++  if (tableReady) return tableReady;
++  const sql = getSql();
++  if (!sql) throw new Error('DATABASE_URL is not set');
++  tableReady = (async () => {
++    try {
++      await sql`
++        CREATE TABLE IF NOT EXISTS subscribers (
++          id SERIAL PRIMARY KEY,
++          email TEXT NOT NULL UNIQUE,
++          name TEXT,
++          source TEXT NOT NULL DEFAULT 'website',
++          active BOOLEAN NOT NULL DEFAULT true,
++          token TEXT NOT NULL DEFAULT replace(gen_random_uuid()::text, '-', ''),
++          subscribed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
++          unsubscribed_at TIMESTAMPTZ
++        )
++      `;
++      await sql`CREATE INDEX IF NOT EXISTS subscribers_active_idx ON subscribers (active)`;
++    } catch (error) {
++      tableReady = null;
++      throw error;
++    }
++  })();
++  return tableReady;
++}
++
++// ---- validation -----------------------------------------------------------
++
++const EMAIL_RE = /^[^\s@<>"',;:()[\]\\]+@[^\s@<>"',;:()[\]\\]+\.[^\s@<>"',;:()[\]\\]{2,}$/;
++
++export function normaliseEmail(value: unknown): string | null {
++  if (typeof value !== 'string') return null;
++  const email = value.trim().toLowerCase();
++  if (email.length < 6 || email.length > 254) return null;
++  if (!EMAIL_RE.test(email)) return null;
++  const [local, domain] = email.split('@');
++  if (!local || local.length > 64 || !domain || domain.includes('..')) return null;
++  return email;
++}
++
++export function cleanName(value: unknown): string {
++  return typeof value === 'string' ? value.replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 80) : '';
++}
++
++// ---- public: subscribe / unsubscribe --------------------------------------
++
++export type SubscribeResult = 'subscribed' | 'already' | 'reactivated';
++
++/** Throws on database failure - the API route turns that into a friendly error. */
++export async function addSubscriber(email: string, name: string, source = 'website'): Promise<SubscribeResult> {
++  await ensureTable();
++  const sql = getSql()!;
++  const existing = (await sql`SELECT id, active FROM subscribers WHERE email = ${email} LIMIT 1`) as unknown as {
++    id: number;
++    active: boolean;
++  }[];
++  if (existing[0]) {
++    if (existing[0].active) return 'already';
++    // They (or the admin) had deactivated it; a fresh sign-up from the person
++    // themselves is a clear new consent, so switch them back on.
++    await sql`UPDATE subscribers SET active = true, unsubscribed_at = NULL, subscribed_at = now() WHERE id = ${existing[0].id}`;
++    return 'reactivated';
++  }
++  await sql`INSERT INTO subscribers (email, name, source) VALUES (${email}, ${name || null}, ${source}) ON CONFLICT (email) DO NOTHING`;
++  return 'subscribed';
++}
++
++export async function unsubscribeByToken(token: string): Promise<boolean> {
++  if (!/^[a-f0-9]{32}$/.test(token)) return false;
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`
++    UPDATE subscribers SET active = false, unsubscribed_at = now() WHERE token = ${token} RETURNING id
++  `) as unknown as { id: number }[];
++  return rows.length > 0;
++}
++
++// ---- admin ------------------------------------------------------------------
++
++export interface SubscriberCounts {
++  total: number;
++  active: number;
++  inactive: number;
++}
++
++export async function countSubscribers(): Promise<SubscriberCounts> {
++  try {
++    await ensureTable();
++    const sql = getSql()!;
++    const rows = (await sql`
++      SELECT count(*)::int AS total,
++             count(*) FILTER (WHERE active)::int AS active
++      FROM subscribers
++    `) as unknown as { total: number; active: number }[];
++    const total = rows[0]?.total ?? 0;
++    const active = rows[0]?.active ?? 0;
++    return { total, active, inactive: total - active };
++  } catch (error) {
++    console.warn('[subscribersDb] countSubscribers failed:', error);
++    return { total: 0, active: 0, inactive: 0 };
++  }
++}
++
++export type StatusFilter = 'all' | 'active' | 'inactive';
++
++export interface SubscriberPage {
++  subscribers: Subscriber[];
++  total: number;
++  page: number;
++  totalPages: number;
++}
++
++const PAGE_SIZE = 50;
++
++export async function listSubscribers(opts: {
++  status?: StatusFilter;
++  q?: string;
++  page?: number;
++}): Promise<SubscriberPage> {
++  const status = opts.status || 'all';
++  const page = Math.max(1, opts.page || 1);
++  const q = (opts.q || '').trim().toLowerCase();
++  try {
++    await ensureTable();
++    const sql = getSql()!;
++    // Small, owner-only table: filter in SQL with plain parameters.
++    const like = `%${q.replace(/[%_\\]/g, '')}%`;
++    const activeOnly = status === 'active';
++    const inactiveOnly = status === 'inactive';
++    const totalRows = (await sql`
++      SELECT count(*)::int AS n FROM subscribers
++      WHERE (${q} = '' OR lower(email) LIKE ${like} OR lower(coalesce(name, '')) LIKE ${like})
++        AND (NOT ${activeOnly} OR active = true)
++        AND (NOT ${inactiveOnly} OR active = false)
++    `) as unknown as { n: number }[];
++    const total = totalRows[0]?.n ?? 0;
++    const rows = (await sql`
++      SELECT * FROM subscribers
++      WHERE (${q} = '' OR lower(email) LIKE ${like} OR lower(coalesce(name, '')) LIKE ${like})
++        AND (NOT ${activeOnly} OR active = true)
++        AND (NOT ${inactiveOnly} OR active = false)
++      ORDER BY subscribed_at DESC, id DESC
++      LIMIT ${PAGE_SIZE} OFFSET ${(page - 1) * PAGE_SIZE}
++    `) as unknown as Row[];
++    return {
++      subscribers: rows.map(rowToSubscriber),
++      total,
++      page,
++      totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
++    };
++  } catch (error) {
++    console.warn('[subscribersDb] listSubscribers failed:', error);
++    return { subscribers: [], total: 0, page, totalPages: 1 };
++  }
++}
++
++export async function listAllForExport(status: StatusFilter): Promise<Subscriber[]> {
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`
++    SELECT * FROM subscribers
++    WHERE (${status} = 'all' OR (${status} = 'active' AND active = true) OR (${status} = 'inactive' AND active = false))
++    ORDER BY subscribed_at DESC, id DESC
++  `) as unknown as Row[];
++  return rows.map(rowToSubscriber);
++}
++
++export async function setSubscriberActive(id: number, active: boolean): Promise<boolean> {
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`
++    UPDATE subscribers
++    SET active = ${active},
++        unsubscribed_at = CASE WHEN ${active} THEN NULL ELSE now() END
++    WHERE id = ${id}
++    RETURNING id
++  `) as unknown as { id: number }[];
++  return rows.length > 0;
++}
++
++export async function deleteSubscriber(id: number): Promise<boolean> {
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`DELETE FROM subscribers WHERE id = ${id} RETURNING id`) as unknown as { id: number }[];
++  return rows.length > 0;
++}
++
++export async function addSubscriberManually(email: string, name: string): Promise<SubscribeResult> {
++  return addSubscriber(email, name, 'admin');
++}
++
++export interface ImportSummary {
++  received: number;
++  added: number;
++  duplicates: number;
++  invalid: number;
++}
++
++/**
++ * Bulk import. Existing addresses are left exactly as they are (so importing
++ * a list never re-activates someone who unsubscribed). Done in chunks of
++ * 200 with one INSERT per chunk.
++ */
++export async function importSubscribers(
++  items: { email: unknown; name?: unknown }[],
++): Promise<ImportSummary> {
++  await ensureTable();
++  const sql = getSql()!;
++  const seen = new Set<string>();
++  const clean: { email: string; name: string }[] = [];
++  let invalid = 0;
++  let duplicatesInFile = 0;
++  for (const item of items) {
++    const email = normaliseEmail(item.email);
++    if (!email) {
++      invalid += 1;
++      continue;
++    }
++    if (seen.has(email)) {
++      duplicatesInFile += 1;
++      continue;
++    }
++    seen.add(email);
++    clean.push({ email, name: cleanName(item.name) });
++  }
++
++  let added = 0;
++  const CHUNK = 200;
++  for (let i = 0; i < clean.length; i += CHUNK) {
++    const part = clean.slice(i, i + CHUNK);
++    const emails = part.map((p) => p.email);
++    const names = part.map((p) => p.name);
++    const rows = (await sql`
++      INSERT INTO subscribers (email, name, source)
++      SELECT e, NULLIF(n, ''), 'import'
++      FROM unnest(${emails}::text[], ${names}::text[]) AS t(e, n)
++      ON CONFLICT (email) DO NOTHING
++      RETURNING id
++    `) as unknown as { id: number }[];
++    added += rows.length;
++  }
++
++  return {
++    received: items.length,
++    added,
++    duplicates: clean.length - added + duplicatesInFile,
++    invalid,
++  };
++}
++
++// ---- CSV ----------------------------------------------------------------------
++
++function csvCell(value: string): string {
++  // Neutralise spreadsheet formula injection (=, +, -, @ at the start of a cell).
++  let v = value;
++  if (/^[=+\-@\t\r]/.test(v)) v = `'${v}`;
++  return /[",\n\r]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
++}
++
++export function subscribersToCsv(list: Subscriber[]): string {
++  const header = ['email', 'name', 'status', 'source', 'subscribed_at', 'unsubscribed_at', 'unsubscribe_token'];
++  const lines = [header.join(',')];
++  for (const s of list) {
++    lines.push(
++      [
++        csvCell(s.email),
++        csvCell(s.name),
++        s.active ? 'active' : 'inactive',
++        csvCell(s.source),
++        new Date(s.subscribedAt).toISOString(),
++        s.unsubscribedAt ? new Date(s.unsubscribedAt).toISOString() : '',
++        s.token,
++      ].join(','),
++    );
++  }
++  return lines.join('\r\n') + '\r\n';
++}
+diff --git a/lib/tags.ts b/lib/tags.ts
+new file mode 100644
+index 0000000..349109f
+--- /dev/null
++++ b/lib/tags.ts
+@@ -0,0 +1,36 @@
++// lib/tags.ts
++//
++// Shared helpers for blog tags (used by the admin API, the post page and the
++// /blog/tag/<tag> pages). A tag is stored exactly as typed ("Home Loan"),
++// and its URL slug is derived from it ("home-loan").
++
++export const MAX_TAGS = 12;
++
++export function tagSlug(tag: string): string {
++  return tag
++    .toLowerCase()
++    .trim()
++    .replace(/[^a-z0-9]+/g, '-')
++    .replace(/^-+|-+$/g, '')
++    .slice(0, 40);
++}
++
++export function sanitizeTags(value: unknown): string[] {
++  const raw: unknown[] = Array.isArray(value)
++    ? value
++    : typeof value === 'string'
++      ? value.split(',')
++      : [];
++  const seen = new Set<string>();
++  const out: string[] = [];
++  for (const item of raw) {
++    if (typeof item !== 'string') continue;
++    const clean = item.replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
++    const key = tagSlug(clean);
++    if (!clean || !key || seen.has(key)) continue;
++    seen.add(key);
++    out.push(clean);
++    if (out.length >= MAX_TAGS) break;
++  }
++  return out;
++}
+diff --git a/lib/toc.ts b/lib/toc.ts
+new file mode 100644
+index 0000000..b4e3acd
+--- /dev/null
++++ b/lib/toc.ts
+@@ -0,0 +1,73 @@
++// lib/toc.ts
++//
++// Builds the "In this article" table of contents for a blog post from the
++// H2/H3 headings already in its stored HTML, and gives each heading an id so
++// the links jump to it. Works on the HTML string (no DOM needed on the
++// server). Pure and safe: if there are not enough headings, nothing changes.
++
++export interface TocItem {
++  id: string;
++  text: string;
++  level: 2 | 3;
++}
++
++function decodeEntities(text: string): string {
++  return text
++    .replace(/&amp;/g, '&')
++    .replace(/&lt;/g, '<')
++    .replace(/&gt;/g, '>')
++    .replace(/&quot;/g, '"')
++    .replace(/&#0?39;/g, "'")
++    .replace(/&nbsp;/g, ' ');
++}
++
++function slug(text: string): string {
++  return (
++    text
++      .toLowerCase()
++      .replace(/[^a-z0-9]+/g, '-')
++      .replace(/^-+|-+$/g, '')
++      .slice(0, 60) || 'section'
++  );
++}
++
++export function addHeadingIds(html: string): { html: string; items: TocItem[] } {
++  const items: TocItem[] = [];
++  const used = new Set<string>();
++  const out = html.replace(/<(h[23])([^>]*)>([\s\S]*?)<\/\1>/gi, (match, tag: string, attrs: string, inner: string) => {
++    const text = decodeEntities(inner.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
++    if (!text) return match;
++    const existing = /\bid\s*=\s*["']([^"']+)["']/i.exec(attrs);
++    let id = existing ? existing[1] : slug(text);
++    if (!existing) {
++      let n = 2;
++      const base = id;
++      while (used.has(id)) id = `${base}-${n++}`;
++    }
++    used.add(id);
++    items.push({ id, text, level: tag.toLowerCase() === 'h2' ? 2 : 3 });
++    return existing ? match : `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
++  });
++  return { html: out, items };
++}
++
++/**
++ * Splits the HTML in two just before the 2nd top-level <h2>, so a call-to-action
++ * box can sit "in the middle" of the article without ever cutting through a
++ * list or quote. With fewer than 3 H2s, returns everything in `before`.
++ */
++export function splitBeforeSecondH2(html: string): { before: string; after: string } {
++  const re = /<h2[\s>]/gi;
++  let count = 0;
++  let match: RegExpExecArray | null;
++  while ((match = re.exec(html))) {
++    count += 1;
++    if (count === 2) {
++      // Only split if there are at least 3 H2s so the box lands mid-article.
++      const total = (html.match(/<h2[\s>]/gi) || []).length;
++      if (total < 3) break;
++      return { before: html.slice(0, match.index), after: html.slice(match.index) };
++    }
++  }
++  return { before: html, after: '' };
++}

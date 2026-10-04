@@ -42,24 +42,24 @@ export default function PaceCalculator() {
     const [calculationType, setCalculationType] = useState<"pace" | "time" | "distance">("pace");
 
     // For Pace calculation (calculate pace from time & distance)
-    const [timeHours, setTimeHours] = useState("");
-    const [timeMinutes, setTimeMinutes] = useState("");
-    const [timeSeconds, setTimeSeconds] = useState("");
-    const [distance, setDistance] = useState("");
+    const [timeHours, setTimeHours] = useState("0");
+    const [timeMinutes, setTimeMinutes] = useState("25");
+    const [timeSeconds, setTimeSeconds] = useState("0");
+    const [distance, setDistance] = useState("5");
     const [distanceUnit, setDistanceUnit] = useState<"km" | "miles">("km");
 
     // For Time calculation (calculate time from pace & distance)
-    const [paceMinutes, setPaceMinutes] = useState("");
-    const [paceSeconds, setPaceSeconds] = useState("");
+    const [paceMinutes, setPaceMinutes] = useState("5");
+    const [paceSeconds, setPaceSeconds] = useState("30");
     const [paceUnit, setPaceUnit] = useState<"km" | "mile">("km");
-    const [timeDistance, setTimeDistance] = useState("");
+    const [timeDistance, setTimeDistance] = useState("10");
 
     // For Distance calculation (calculate distance from pace & time)
-    const [distPaceMinutes, setDistPaceMinutes] = useState("");
-    const [distPaceSeconds, setDistPaceSeconds] = useState("");
-    const [distTimeHours, setDistTimeHours] = useState("");
-    const [distTimeMinutes, setDistTimeMinutes] = useState("");
-    const [distTimeSeconds, setDistTimeSeconds] = useState("");
+    const [distPaceMinutes, setDistPaceMinutes] = useState("5");
+    const [distPaceSeconds, setDistPaceSeconds] = useState("0");
+    const [distTimeHours, setDistTimeHours] = useState("0");
+    const [distTimeMinutes, setDistTimeMinutes] = useState("50");
+    const [distTimeSeconds, setDistTimeSeconds] = useState("0");
 
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -211,19 +211,20 @@ export default function PaceCalculator() {
     };
 
     const reset = () => {
-        setTimeHours("");
-        setTimeMinutes("");
-        setTimeSeconds("");
-        setDistance("");
-        setPaceMinutes("");
-        setPaceSeconds("");
-        setTimeDistance("");
-        setDistPaceMinutes("");
-        setDistPaceSeconds("");
-        setDistTimeHours("");
-        setDistTimeMinutes("");
-        setDistTimeSeconds("");
-        setResult(null);
+        setTimeHours("0");
+        setTimeMinutes("25");
+        setTimeSeconds("0");
+        setDistance("5");
+        setDistanceUnit("km");
+        setPaceMinutes("5");
+        setPaceSeconds("30");
+        setPaceUnit("km");
+        setTimeDistance("10");
+        setDistPaceMinutes("5");
+        setDistPaceSeconds("0");
+        setDistTimeHours("0");
+        setDistTimeMinutes("50");
+        setDistTimeSeconds("0");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.
@@ -251,9 +252,9 @@ export default function PaceCalculator() {
                     <div className="p-6 space-y-4">
                         {/* Calculation Type Selection */}
                         <div className="flex gap-2 p-1 bg-surface rounded-lg">
-                            <button onClick={() => { setCalculationType("pace"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "pace" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Pace</button>
-                            <button onClick={() => { setCalculationType("time"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Time</button>
-                            <button onClick={() => { setCalculationType("distance"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Distance</button>
+                            <button onClick={() => { setCalculationType("pace"); if (calculationType !== "pace") setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "pace" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Pace</button>
+                            <button onClick={() => { setCalculationType("time"); if (calculationType !== "time") setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Time</button>
+                            <button onClick={() => { setCalculationType("distance"); if (calculationType !== "distance") setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Distance</button>
                         </div>
 
                         {calculationType === "pace" && (

@@ -100,10 +100,10 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function FinalGradeCalculator() {
     const [calcType, setCalcType] = useState<"needed" | "whatIf">("needed");
-    const [currentGrade, setCurrentGrade] = useState("");
-    const [desiredGrade, setDesiredGrade] = useState("");
-    const [finalWeight, setFinalWeight] = useState("");
-    const [finalScore, setFinalScore] = useState("");
+    const [currentGrade, setCurrentGrade] = useState("82");
+    const [desiredGrade, setDesiredGrade] = useState("85");
+    const [finalWeight, setFinalWeight] = useState("30");
+    const [finalScore, setFinalScore] = useState("85");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -201,11 +201,10 @@ export default function FinalGradeCalculator() {
 
     const resetForm = () => {
         setCalcType("needed");
-        setCurrentGrade("");
-        setDesiredGrade("");
-        setFinalWeight("");
-        setFinalScore("");
-        setResult(null);
+        setCurrentGrade("82");
+        setDesiredGrade("85");
+        setFinalWeight("30");
+        setFinalScore("85");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

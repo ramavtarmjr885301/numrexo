@@ -113,12 +113,12 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HomeLoanEligibilityCalculator() {
-    const [monthlyIncome, setMonthlyIncome] = useState("");
-    const [existingEMI, setExistingEMI] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
-    const [propertyValue, setPropertyValue] = useState("");
-    const [age, setAge] = useState("");
+    const [monthlyIncome, setMonthlyIncome] = useState("75000");
+    const [existingEMI, setExistingEMI] = useState("5000");
+    const [interestRate, setInterestRate] = useState("9");
+    const [tenure, setTenure] = useState("240");
+    const [propertyValue, setPropertyValue] = useState("5000000");
+    const [age, setAge] = useState("32");
     const [employmentType, setEmploymentType] = useState("salaried");
     const [hasCoApplicant, setHasCoApplicant] = useState(false);
     const [coApplicantIncome, setCoApplicantIncome] = useState("");
@@ -126,14 +126,15 @@ export default function HomeLoanEligibilityCalculator() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setMonthlyIncome("");
-        setExistingEMI("");
-        setInterestRate("");
-        setTenure("");
-        setPropertyValue("");
-        setAge("");
+        setMonthlyIncome("75000");
+        setExistingEMI("5000");
+        setInterestRate("9");
+        setTenure("240");
+        setPropertyValue("5000000");
+        setAge("32");
+        setEmploymentType("salaried");
+        setHasCoApplicant(false);
         setCoApplicantIncome("");
-        setResult(null);
     };
 
     const calculateEligibility = () => {

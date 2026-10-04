@@ -90,9 +90,9 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 export default function PythagoreanCalculator() {
     const [calcType, setCalcType] = useState<"hypotenuse" | "leg" | "check">("hypotenuse");
-    const [sideA, setSideA] = useState("");
-    const [sideB, setSideB] = useState("");
-    const [hypotenuse, setHypotenuse] = useState("");
+    const [sideA, setSideA] = useState("3");
+    const [sideB, setSideB] = useState("4");
+    const [hypotenuse, setHypotenuse] = useState("5");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -174,10 +174,9 @@ export default function PythagoreanCalculator() {
 
     const resetForm = () => {
         setCalcType("hypotenuse");
-        setSideA("");
-        setSideB("");
-        setHypotenuse("");
-        setResult(null);
+        setSideA("3");
+        setSideB("4");
+        setHypotenuse("5");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.

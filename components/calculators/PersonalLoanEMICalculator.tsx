@@ -1,13 +1,53 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResultBox from "@/components/common/ResultBox";
 import CurrencySwitcher from "@/components/common/CurrencySwitcher";
 import { useCurrency } from "@/components/common/useCurrency";
+import { calcEmi } from "@/lib/emi";
+
+// ─── Market profiles ──────────────────────────────────────────────────────────
+// Defaults, presets and example-table settings are sized per market so a US/UK
+// visitor never sees rupee-scale numbers (and an INR visitor never sees $10,000).
+
+const PROFILES = {
+    india: {
+        amount: "500000",
+        rate: "12",
+        tenure: "36",
+        amounts: [100000, 250000, 500000, 1000000, 2000000],
+        rates: [10, 12, 14, 16, 18, 20],
+        tenures: [12, 24, 36, 48, 60],
+        cmpAmount: 500000,
+        cmpRates: [10, 12, 14, 16, 18],
+        cmpMonths: 36,
+        cmpTenures: [12, 24, 36, 48, 60],
+        cmpTenureRate: 12,
+    },
+    west: {
+        amount: "10000",
+        rate: "12",
+        tenure: "36",
+        amounts: [2000, 5000, 10000, 15000, 25000],
+        rates: [8, 10, 12, 15, 18],
+        tenures: [12, 24, 36, 48, 60],
+        cmpAmount: 10000,
+        cmpRates: [8, 10, 12, 15, 18],
+        cmpMonths: 36,
+        cmpTenures: [12, 24, 36, 48, 60],
+        cmpTenureRate: 12,
+    },
+};
+
+// Label colours for the comparison tables (green = cheap ... red = expensive).
+const RATE_LABEL_COLORS = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const RATE_INTEREST_COLORS = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_LABEL_COLORS = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
+const TENURE_INTEREST_COLORS = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
-const FAQ_DATA = [
+const FAQ_DATA_IN = [
     {
         q: "What is a personal loan EMI calculator?",
         a: "It shows what an unsecured loan will actually cost you each month. A personal loan differs from a home or vehicle loan in one decisive way: there is no asset behind it, so the lender prices in the risk. That is why the rate is two to three times a home loan rate, why approval leans almost entirely on your income and credit record, and why the total interest deserves a hard look before you sign.",
@@ -70,12 +110,78 @@ const FAQ_DATA = [
     },
 ];
 
+// US/UK-style answers. Every dollar figure below was computed with the standard EMI formula
+// (fixed rate, monthly payments, no fees unless stated) — see the stated assumptions in each answer.
+const FAQ_DATA_WEST = [
+    {
+        q: "What is a personal loan EMI calculator?",
+        a: "It shows the fixed monthly payment on an unsecured installment loan, often called the EMI (equated monthly installment). Because nothing is pledged as collateral, lenders price a personal loan on your credit score and income. That is why APRs usually run well above mortgage or auto-loan rates, and why the total interest deserves a hard look before you sign.",
+    },
+    {
+        q: "How is personal loan EMI calculated?",
+        a: "EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the amount borrowed, r is the monthly rate (APR ÷ 12) and n is the number of monthly payments. Assuming $10,000 over 36 months with a fixed rate and no fees: $332.14 a month at 12% and $351.57 at 16%. That is $19.43 more each month and $699.38 more interest over the term ($2,656.53 versus $1,957.15).",
+    },
+    {
+        q: "What is a good personal loan interest rate?",
+        a: "Unsecured personal loan APRs commonly run from roughly 7% to 36%, and your credit score does most of the sorting. Strong credit tends to land near the bottom of that range and weak credit near the top. The gap is large in dollars: on $10,000 over 36 months, 8% costs $313.36 a month and $1,281.09 in interest, while 18% costs $361.52 a month and $3,014.86. Compare APRs rather than headline rates, because the APR is meant to fold in fees such as origination.",
+    },
+    {
+        q: "How does credit score affect personal loan EMI?",
+        a: "It is the biggest single lever you control. FICO scores run from 300 to 850, and FICO's published bands are Poor (300-579), Fair (580-669), Good (670-739), Very Good (740-799) and Exceptional (800-850). Each lender sets its own pricing tiers, so the cut-offs vary. As an illustration on $10,000 over 36 months, 11% instead of 12% saves $4.76 a month and $171.21 in interest, and 10% instead of 12% saves $9.47 a month and $340.96. Prequalification tools use a soft credit pull that does not affect your score; a formal application usually triggers a hard pull.",
+    },
+    {
+        q: "What is the maximum tenure for a personal loan?",
+        a: "Terms commonly run from 12 to 84 months (1 to 7 years), though the range you are offered depends on the lender and the loan size. A longer term lowers the payment and raises the interest. On $10,000 at 12%: 12 months is $888.49 a month with $661.85 in interest, 36 months is $332.14 with $1,957.15, and 84 months is $176.53 with $4,828.30.",
+    },
+    {
+        q: "Can I prepay my personal loan?",
+        a: "Often yes, and many lenders charge no prepayment penalty, but some do, so confirm in the loan agreement and ask whether the origination fee is refunded on early payoff. Assuming $10,000 at 12% over 36 months: after 12 payments the balance is $7,055.84 and you have paid $1,041.56 in interest, so paying it off then avoids $915.59 of the $1,957.15 total. Adding an extra $100 every month from the start clears the loan in 27 months and saves $526.23 in interest.",
+    },
+    {
+        q: "What is the difference between flat rate and reducing balance rate?",
+        a: "A flat rate charges interest on the original amount for the whole term. A standard APR installment loan charges interest on the balance still owed, which shrinks with each payment. A 12% flat rate on $10,000 for 3 years adds $3,600 in interest, a payment of $377.78, which is equivalent to an APR of about 21.20%. The same 12% on a declining balance is $332.14 a month and $1,957.15 in interest. Always ask for the APR.",
+    },
+    {
+        q: "What documents are required for a personal loan?",
+        a: "Because nothing is pledged, the lender is underwriting you rather than an asset, so the file is about income and credit. Expect a government photo ID, proof of address, your Social Security number or tax ID, proof of income (recent pay stubs or W-2s, or tax returns and 1099s if you are self-employed) and often recent bank statements. The lender also verifies employment and runs a credit check; the formal application typically means a hard pull.",
+    },
+    {
+        q: "How much personal loan can I get?",
+        a: "Lenders weigh your income, credit score and debt-to-income ratio (DTI, your monthly debt payments divided by gross monthly income), then apply their own limits. As an illustration, assume gross income of $5,000 a month and $900 of existing monthly debt payments, a DTI of 18.0%. Adding the $332.14 payment from a $10,000 loan at 12% over 36 months brings total payments to $1,232.14, a DTI of 24.6%. Lowering existing debt before applying improves that ratio more reliably than anything else.",
+    },
+    {
+        q: "What are processing fees for personal loans?",
+        a: "Many lenders charge an origination fee, commonly 1% to 8% of the loan, usually deducted from the amount you receive. Assume a 5% fee on a $10,000 loan at 12% over 36 months: $500 is withheld and $9,500 reaches your account, but you repay $332.14 a month on the full $10,000, an effective rate of about 15.61%. To receive the full $10,000 you would borrow $10,526.32, with a $526.32 fee, a payment of $349.62 and $2,060.16 in interest. Compare lenders on the amount that lands and the APR.",
+    },
+    {
+        q: "How does loan tenure affect EMI and total interest?",
+        a: "Assuming $10,000 at 12%: one year costs $888.49 a month and $661.85 in interest; five years drops the payment to $222.44 but raises the interest to $3,346.67, roughly five times as much. Unsecured rates make that trade far more punishing than it is on a mortgage, so take the shortest term whose payment you can sustain.",
+    },
+    {
+        q: "What is the EMI for a $10,000 personal loan?",
+        a: "At 12% APR with a fixed rate and no fees: 12 months is $888.49 a month with $661.85 in interest; 24 months is $470.73 with $1,297.63; 36 months is $332.14 with $1,957.15; 60 months is $222.44 with $3,346.67. Use the calculator above to try your own amount, rate and term.",
+    },
+    {
+        q: "Can I get a personal loan with a low credit score?",
+        a: "It is possible, but it costs more. Some online lenders and credit unions serve fair-credit borrowers at APRs in the upper part of the 7% to 36% range. For example, $10,000 over 36 months at 30% is $424.52 a month with $5,282.57 in interest, versus $332.14 and $1,957.15 at 12%, which is $3,325.42 more. A co-signer, a smaller amount, a shorter term or a secured loan can help. Use prequalification (a soft pull) to compare offers, and be wary of any lender that asks for an upfront fee before funding.",
+    },
+    {
+        q: "What is the difference between secured and unsecured personal loans?",
+        a: "An unsecured loan needs no collateral and is priced on your credit. A secured loan is backed by an asset such as a savings account, a certificate of deposit or a vehicle, which usually earns a lower rate but puts that asset at risk if you default. As an illustration with assumed rates, $10,000 over 36 months at 8% (secured) is $313.36 a month and $1,281.09 in interest, versus $332.14 and $1,957.15 at 12% (unsecured), a $676.06 difference.",
+    },
+    {
+        q: "How to reduce personal loan EMI?",
+        a: "Lowering the rate beats everything else: improve your credit score before applying, prequalify with several lenders and ask your bank or credit union what it would offer. Debt consolidation can also help if you carry high-rate card balances. Assume $10,000 repaid over 36 equal payments in both cases (a simplification, since cards normally set minimum payments): at 24% the payment is $392.33, versus $332.14 at 12%, a saving of $60.19 a month and $2,166.68 in interest. Check the origination fee first and avoid running the cards back up. Extending the term lowers the payment but adds interest, and extra payments cut it.",
+    },
+];
+
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
+// SSR default is USD, so the structured data describes the west FAQ.
 
 const FAQ_SCHEMA = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_DATA.map((item) => ({
+    mainEntity: FAQ_DATA_WEST.map((item) => ({
         "@type": "Question",
         name: item.q,
         acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -114,39 +220,22 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function PersonalLoanEMICalculator() {
-    const { symbol, money, compact } = useCurrency();
-    const [loanAmount, setLoanAmount] = useState("");
-    const [interestRate, setInterestRate] = useState("");
-    const [tenure, setTenure] = useState("");
-    const [result, setResult] = useState<any>(null);
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-    const resetForm = () => {
-        setLoanAmount("");
-        setInterestRate("");
-        setTenure("");
-        setResult(null);
-    };
-
-    const calculateEMI = () => {
+// Pure calculation (moved out of the component so the first render can show a worked result).
+function buildResult(loanAmount: string, interestRate: string, tenure: string) {
         const principal = parseFloat(loanAmount);
         const rate = parseFloat(interestRate);
         const months = parseFloat(tenure);
 
         if (isNaN(principal) || principal <= 0) {
-            setResult(null);
-            return;
+            return null;
         }
 
         if (isNaN(rate) || rate < 0) {
-            setResult(null);
-            return;
+            return null;
         }
 
         if (isNaN(months) || months <= 0) {
-            setResult(null);
-            return;
+            return null;
         }
 
         const monthlyRate = rate / 100 / 12;
@@ -206,7 +295,7 @@ export default function PersonalLoanEMICalculator() {
             ratingColor = "text-red-600";
         }
 
-        setResult({
+        return {
             emi: emi,
             totalPayment: totalPayment,
             totalInterest: totalInterest,
@@ -223,17 +312,58 @@ export default function PersonalLoanEMICalculator() {
             emiFormatted: emi.toFixed(2),
             totalPaymentFormatted: totalPayment.toFixed(2),
             totalInterestFormatted: totalInterest.toFixed(2),
-        });
+        };
+}
+
+export default function PersonalLoanEMICalculator() {
+    const { symbol, money, compact, market } = useCurrency();
+    const profile = PROFILES[market];
+    const isIndia = market === "india";
+
+    // SSR default is USD, so start from the west defaults and show a worked result on first render.
+    const [loanAmount, setLoanAmount] = useState(PROFILES.west.amount);
+    const [interestRate, setInterestRate] = useState(PROFILES.west.rate);
+    const [tenure, setTenure] = useState(PROFILES.west.tenure);
+    const [result, setResult] = useState<any>(() => buildResult(PROFILES.west.amount, PROFILES.west.rate, PROFILES.west.tenure));
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const touched = useRef(false);
+
+    // Switching currency swaps in that market's sensible defaults, unless the user has typed their own.
+    useEffect(() => {
+        if (touched.current) return;
+        const d = PROFILES[market];
+        setLoanAmount(d.amount);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+    }, [market]);
+
+    const resetForm = () => {
+        touched.current = false;
+        const d = PROFILES[market];
+        setLoanAmount(d.amount);
+        setInterestRate(d.rate);
+        setTenure(d.tenure);
+    };
+
+    const calculateEMI = () => {
+        setResult(buildResult(loanAmount, interestRate, tenure));
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { calculateEMI(); }, [loanAmount, interestRate, tenure]);
 
-    // Preset loan amounts
-    const presetAmounts = [100000, 250000, 500000, 1000000, 2000000];
-    const presetRates = [10, 12, 14, 16, 18, 20];
-    const presetTenures = [12, 24, 36, 48, 60];
+    // Preset loan amounts, rates and tenures for the selected market
+    const presetAmounts = profile.amounts;
+    const presetRates = profile.rates;
+    const presetTenures = profile.tenures;
+
+    // Example tables are computed with the same EMI formula, never typed in by hand.
+    const rateRows = profile.cmpRates.map((r) => ({ rate: r, ...calcEmi(profile.cmpAmount, r, profile.cmpMonths) }));
+    const tenureRows = profile.cmpTenures.map((m) => ({ months: m, ...calcEmi(profile.cmpAmount, profile.cmpTenureRate, m) }));
+    const cmpYears = profile.cmpMonths / 12;
+    const feeExample = profile.cmpAmount * 0.05;
+    const onePointSaving = calcEmi(profile.cmpAmount, 12, profile.cmpMonths).totalInterest - calcEmi(profile.cmpAmount, 11, profile.cmpMonths).totalInterest;
 
     return (
         <>
@@ -284,9 +414,9 @@ export default function PersonalLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="1000"
-                                    placeholder="e.g., 500000"
+                                    placeholder={`e.g., ${profile.amount}`}
                                     value={loanAmount}
-                                    onChange={(e) => setLoanAmount(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setLoanAmount(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span>
@@ -295,7 +425,7 @@ export default function PersonalLoanEMICalculator() {
                                 {presetAmounts.map((amount) => (
                                     <button
                                         key={amount}
-                                        onClick={() => setLoanAmount(amount.toString())}
+                                        onClick={() => { touched.current = true; setLoanAmount(amount.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {compact(amount)}
@@ -311,9 +441,9 @@ export default function PersonalLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="0.1"
-                                    placeholder="e.g., 12"
+                                    placeholder={`e.g., ${profile.rate}`}
                                     value={interestRate}
-                                    onChange={(e) => setInterestRate(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setInterestRate(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">%</span>
@@ -322,7 +452,7 @@ export default function PersonalLoanEMICalculator() {
                                 {presetRates.map((rate) => (
                                     <button
                                         key={rate}
-                                        onClick={() => setInterestRate(rate.toString())}
+                                        onClick={() => { touched.current = true; setInterestRate(rate.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {rate}%
@@ -338,9 +468,9 @@ export default function PersonalLoanEMICalculator() {
                                 <input
                                     type="number"
                                     step="1"
-                                    placeholder="e.g., 36"
+                                    placeholder={`e.g., ${profile.tenure}`}
                                     value={tenure}
-                                    onChange={(e) => setTenure(e.target.value)}
+                                    onChange={(e) => { touched.current = true; setTenure(e.target.value); }}
                                     className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span>
@@ -349,7 +479,7 @@ export default function PersonalLoanEMICalculator() {
                                 {presetTenures.map((month) => (
                                     <button
                                         key={month}
-                                        onClick={() => setTenure(month.toString())}
+                                        onClick={() => { touched.current = true; setTenure(month.toString()); }}
                                         className="text-xs px-2 py-0.5 rounded bg-surface border border-hairline text-ink-faint hover:text-ink hover:border-hairline transition-colors"
                                     >
                                         {month}M
@@ -467,7 +597,7 @@ export default function PersonalLoanEMICalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-blue-600 mb-2">✓ Know the Real Cost of Going Unsecured</h3>
-                        <p className="text-ink-faint text-xs leading-relaxed">Personal loan rates run well above secured loans precisely because there's no collateral. See the actual rupee cost of that before deciding this is the right way to fund the expense.</p>
+                        <p className="text-ink-faint text-xs leading-relaxed">Personal loan rates run well above secured loans precisely because there's no collateral. See the actual cost of that before deciding this is the right way to fund the expense.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Shop the Rate, Not Just the Approval</h3>
@@ -519,46 +649,24 @@ export default function PersonalLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Interest Rate</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(500000)}, 3Y)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(profile.cmpAmount)}, {cmpYears}Y)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">10%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16134, 0)}</td>
-                                <td className="py-2 px-4 text-right text-yellow-700">{money(80824, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(580824, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">12%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16607, 0)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{money(97852, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(597852, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">14%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(17096, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(115456, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(615456, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">16%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(17599, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(133564, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(633564, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">18%</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(18116, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(152176, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(652176, 0)}</td>
-                            </tr>
+                            {rateRows.map((row, i) => (
+                                <tr key={row.rate} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 font-bold ${RATE_LABEL_COLORS[i]}`}>{row.rate}%</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${RATE_INTEREST_COLORS[i]}`}>{money(row.totalInterest, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.totalPayment, 0)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(500000)} loan over 3 years</p>
+                <p className="text-xs text-ink-faint mt-2">* Comparison shows impact of interest rate on EMI and total cost for a {compact(profile.cmpAmount)} loan over {cmpYears} years</p>
             </section>
 
             {/* Tenure Comparison */}
@@ -569,42 +677,20 @@ export default function PersonalLoanEMICalculator() {
                         <thead>
                             <tr className="border-b border-hairline">
                                 <th className="text-left py-3 px-4 text-ink-faint">Tenure</th>
-                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(500000)}, 12%)</th>
+                                <th className="text-right py-3 px-4 text-ink-faint">Monthly EMI ({compact(profile.cmpAmount)}, {profile.cmpTenureRate}%)</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Interest</th>
                                 <th className="text-right py-3 px-4 text-ink-faint">Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-blue-600 font-bold">12 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(44423, 0)}</td>
-                                <td className="py-2 px-4 text-right text-green-600">{money(33076, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(533076, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-yellow-700 font-bold">24 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(23537, 0)}</td>
-                                <td className="py-2 px-4 text-right text-orange-600">{money(64888, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(564888, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">36 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(16607, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(97852, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(597852, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-600 font-bold">48 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(13166, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(131968, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(631968, 0)}</td>
-                            </tr>
-                            <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-red-500 font-bold">60 Months</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(11122, 0)}</td>
-                                <td className="py-2 px-4 text-right text-red-600">{money(167320, 0)}</td>
-                                <td className="py-2 px-4 text-right text-ink-soft">{money(667320, 0)}</td>
-                            </tr>
+                            {tenureRows.map((row, i) => (
+                                <tr key={row.months} className="border-b border-hairline hover:bg-cream">
+                                    <td className={`py-2 px-4 font-bold ${TENURE_LABEL_COLORS[i]}`}>{row.months} Months</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
+                                    <td className={`py-2 px-4 text-right ${TENURE_INTEREST_COLORS[i]}`}>{money(row.totalInterest, 0)}</td>
+                                    <td className="py-2 px-4 text-right text-ink-soft">{money(row.totalPayment, 0)}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -617,26 +703,51 @@ export default function PersonalLoanEMICalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 21-60 years</li>
-                            <li>• Minimum monthly income: {money(25000, 0)}</li>
-                            <li>• Work experience: 1+ years (6+ months in current job)</li>
-                            <li>• CIBIL score: 700+ preferred</li>
-                            <li>• Valid identity and address proof</li>
-                        </ul>
+                        {isIndia ? (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 21-60 years</li>
+                                <li>• Minimum monthly income: {money(25000, 0)}</li>
+                                <li>• Work experience: 1+ years (6+ months in current job)</li>
+                                <li>• CIBIL score: 700+ preferred</li>
+                                <li>• Valid identity and address proof</li>
+                            </ul>
+                        ) : (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Legal adult age where you live</li>
+                                <li>• Steady, verifiable income (pay stubs or W-2)</li>
+                                <li>• Stable employment history, with time in your current job</li>
+                                <li>• Credit score: FICO 670+ (Good) tends to unlock the best rates; some lenders approve fair credit at higher APRs</li>
+                                <li>• Debt-to-income ratio: lower is better, and each lender sets its own limit</li>
+                                <li>• Government photo ID and proof of address</li>
+                            </ul>
+                        )}
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h3 className="text-sm font-semibold text-yellow-700 mb-2">✅ Self-Employed</h3>
-                        <ul className="text-xs text-ink-faint space-y-1">
-                            <li>• Age: 25-65 years</li>
-                            <li>• ITR filing: 2+ years</li>
-                            <li>• Business vintage: 3+ years</li>
-                            <li>• Annual turnover: {compact(500000)}+</li>
-                            <li>• Profitability track record</li>
-                        </ul>
+                        {isIndia ? (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Age: 25-65 years</li>
+                                <li>• ITR filing: 2+ years</li>
+                                <li>• Business vintage: 3+ years</li>
+                                <li>• Annual turnover: {compact(500000)}+</li>
+                                <li>• Profitability track record</li>
+                            </ul>
+                        ) : (
+                            <ul className="text-xs text-ink-faint space-y-1">
+                                <li>• Legal adult age where you live</li>
+                                <li>• Two years of tax returns or equivalent income records</li>
+                                <li>• Bank statements showing consistent deposits</li>
+                                <li>• Stable or growing net income after business expenses</li>
+                                <li>• A solid credit score and manageable debt-to-income ratio</li>
+                            </ul>
+                        )}
                     </div>
                 </div>
-                <p className="text-xs text-ink-faint mt-3">* Banks price unsecured lending lower than NBFCs but approve fewer files. If you hold a salary account, start there.</p>
+                <p className="text-xs text-ink-faint mt-3">
+                    {isIndia
+                        ? "* Banks price unsecured lending lower than NBFCs but approve fewer files. If you hold a salary account, start there."
+                        : "* Banks and credit unions can price unsecured loans lower than online lenders but may approve fewer applicants. If you already bank with one, ask for its rate first, then compare with prequalified offers from online lenders."}
+                </p>
             </section>
 
             {/* Tips for Lower EMI */}
@@ -645,7 +756,11 @@ export default function PersonalLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Improve Credit Score:</strong> With no collateral, your credit score is effectively the security. The gap between a 700 and a 780 file is usually several percentage points here, far wider than on a secured loan.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Improve Credit Score:</strong> With no collateral, your credit score is effectively the security. The gap between a 700 and a 780 file is usually several percentage points here, far wider than on a secured loan.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Improve Credit Score:</strong> With no collateral, your credit score is effectively the security. Lenders price a 700 FICO and a 780 FICO differently, and the gap is wider on unsecured loans than on secured ones. Paying down card balances before you apply is a common way to lift it.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
@@ -653,19 +768,35 @@ export default function PersonalLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 1% difference can save thousands in interest. Use our calculator to compare offers.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates. Even a 1% difference can save thousands in interest. Use our calculator to compare offers.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Compare Multiple Lenders:</strong> Different lenders offer different rates, so use prequalification (a soft credit pull) to collect several quotes. On {money(profile.cmpAmount, 0)} over {profile.cmpMonths} months, 11% instead of 12% saves about {money(onePointSaving, 0)} in interest. Compare APRs, not just rates.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Consider Balance Transfer:</strong> If you have an existing loan, transfer to a lender offering lower rates. This can significantly reduce your EMI and total interest.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Consider Balance Transfer:</strong> If you have an existing loan, transfer to a lender offering lower rates. This can significantly reduce your EMI and total interest.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Consider Refinancing or Debt Consolidation:</strong> If you carry an existing loan or high-rate credit card debt, a lower-rate personal loan can reduce both your monthly payment and total interest. Check the origination fee before you commit.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Opt for Part Payment:</strong> Many lenders allow part payments without penalty. Use bonuses or salary hikes to reduce principal, lowering your EMI.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Opt for Part Payment:</strong> Many lenders allow part payments without penalty. Use bonuses or salary hikes to reduce principal, lowering your EMI.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Make Extra Payments:</strong> Many lenders allow extra payments without a prepayment penalty. Put bonuses or tax refunds toward principal to shorten the loan, and confirm the terms first.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-blue-600 mt-0.5">💡</span>
-                        <span><strong className="text-ink-soft">Choose Add-on Products Wisely:</strong> Some banks offer lower rates if you buy loan insurance or open a salary account. Evaluate if these add-ons are worth it.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Choose Add-on Products Wisely:</strong> Some banks offer lower rates if you buy loan insurance or open a salary account. Evaluate if these add-ons are worth it.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Choose Add-on Products Wisely:</strong> Some lenders offer a rate discount for autopay or direct deposit, and may pitch optional credit insurance. Evaluate whether each add-on is worth its cost.</span>
+                        )}
                     </li>
                 </ul>
             </section>
@@ -676,15 +807,27 @@ export default function PersonalLoanEMICalculator() {
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Over-borrowing:</strong> Lenders often sanction more than you asked for, because a larger loan earns them more. Take the amount you came for.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Over-borrowing:</strong> Lenders often sanction more than you asked for, because a larger loan earns them more. Take the amount you came for.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Over-borrowing:</strong> Lenders may approve more than you asked for, because a larger loan earns them more. Take the amount you came for.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow {money(500000, 0)} and receive less. Ask for the net figure in writing.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Ignoring Processing Fees:</strong> The fee is usually taken out of the disbursal, so you borrow {money(500000, 0)} and receive less. Ask for the net figure in writing.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Ignoring Origination Fees:</strong> The fee is usually taken out of the proceeds, so on a {money(profile.cmpAmount, 0)} loan a 5% fee ({money(feeExample, 0)}) means you borrow {money(profile.cmpAmount, 0)} and receive less. Ask for the net amount and the APR in writing.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Missing EMI Payments:</strong> Late EMI payments hurt your credit score. Set up auto-debit to avoid missed payments and penalties.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Missing EMI Payments:</strong> Late EMI payments hurt your credit score. Set up auto-debit to avoid missed payments and penalties.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Missing Payments:</strong> Late payments can be reported to the credit bureaus and hurt your credit score, and may add late fees. Set up autopay to avoid them.</span>
+                        )}
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
@@ -692,7 +835,11 @@ export default function PersonalLoanEMICalculator() {
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
                         <span className="text-red-600 mt-0.5">⚠️</span>
-                        <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Rate-shopping across aggregator sites can trigger several hard enquiries in a week, which reads as distress borrowing. Ask for a soft-check quote instead.</span>
+                        {isIndia ? (
+                            <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Rate-shopping across aggregator sites can trigger several hard enquiries in a week, which reads as distress borrowing. Ask for a soft-check quote instead.</span>
+                        ) : (
+                            <span><strong className="text-ink-soft">Multiple Loan Applications:</strong> Each formal application can trigger a hard credit pull. Use prequalification, which uses a soft pull and does not affect your score, to compare rates first, and apply only to the lender you choose.</span>
+                        )}
                     </li>
                 </ul>
             </section>
@@ -701,7 +848,7 @@ export default function PersonalLoanEMICalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2>
                 <div className="space-y-2">
-                    {FAQ_DATA.map((item, i) => (
+                    {(isIndia ? FAQ_DATA_IN : FAQ_DATA_WEST).map((item, i) => (
                         <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden">
                             <button
                                 className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors"

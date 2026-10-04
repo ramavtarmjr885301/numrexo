@@ -50,6 +50,19 @@ export const DEFAULT_CURRENCY: CurrencyCode = "USD";
 /** localStorage key. Namespaced so it cannot collide with anything else. */
 export const CURRENCY_STORAGE_KEY = "numrexo.currency";
 
+/**
+ * Two number "markets". Loan sizes, interest-rate bands and income levels in
+ * India (rupee amounts, 7-11% home-loan rates, lakh/crore) are a different
+ * scale from the US/UK/EU/Canada/Australia (a $400k mortgage at 6-7%). A
+ * calculator must not show rupee-sized preset amounts with a dollar sign in
+ * front of them, so presets, defaults and example tables are chosen per market.
+ */
+export type Market = "india" | "west";
+
+export function marketOf(code: CurrencyCode): Market {
+  return code === "INR" ? "india" : "west";
+}
+
 export function isCurrencyCode(value: unknown): value is CurrencyCode {
   return typeof value === "string" && Object.prototype.hasOwnProperty.call(CURRENCIES, value);
 }

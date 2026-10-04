@@ -98,17 +98,16 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SIPCalculator() {
-  const [monthlyInvestment, setMonthlyInvestment] = useState("");
+  const [monthlyInvestment, setMonthlyInvestment] = useState("10000");
   const [annualReturn, setAnnualReturn] = useState("12");
   const [years, setYears] = useState("10");
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const resetForm = () => {
-    setMonthlyInvestment("");
+    setMonthlyInvestment("10000");
     setAnnualReturn("12");
     setYears("10");
-    setResult(null);
   };
 useEffect(() => {
     document.title = "SIP Calculator – Calculate Mutual Fund SIP Returns Online | Numrexo";
@@ -126,13 +125,15 @@ useEffect(() => {
       document.head.appendChild(meta);
     }
   }, []);
-  const calculate = () => {
+  // showAlert is true only for the explicit button press; live (effect-driven) runs stay silent.
+  const calculate = (showAlert = false) => {
     const P = parseFloat(monthlyInvestment);
     const r = parseFloat(annualReturn) / 100 / 12;
     const n = parseFloat(years) * 12;
 
     if (!P || !r || !n || isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || n <= 0) {
-      alert("Please enter valid investment amount, return rate, and tenure");
+      setResult(null);
+      if (showAlert) alert("Please enter valid investment amount, return rate, and tenure");
       return;
     }
 
@@ -151,6 +152,10 @@ useEffect(() => {
       returnRate: parseFloat(annualReturn),
     });
   };
+
+  // Results update as you type — the answer is no longer hidden behind a button press.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { calculate(); }, [monthlyInvestment, annualReturn, years]);
 
   return (
     <>
@@ -244,7 +249,7 @@ useEffect(() => {
 
             <div className="flex gap-3">
               <button
-                onClick={calculate}
+                onClick={() => calculate(true)}
                 className="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold hover:shadow-lg transition-all"
               >
                 Calculate SIP Returns →

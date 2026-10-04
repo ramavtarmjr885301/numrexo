@@ -33,9 +33,6 @@ export default function CalculatorsClient({
         });
     }, [searchTerm, selectedCategory]);
 
-    const cardCalculators = filteredCalculators.slice(0, 6);
-    const linkCalculators = filteredCalculators.slice(6);
-
     const handleSearchChange = (value: string) => {
         setSearchTerm(value);
 
@@ -130,99 +127,36 @@ export default function CalculatorsClient({
                     {filteredCalculators.length !== 1 ? "s" : ""}
                 </div>
 
-                {/* Desktop Cards */}
-                {cardCalculators.length > 0 && (
-                    <>
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                            {cardCalculators.map((calc) => (
-                                <div
-                                    key={calc.id}
-                                    onClick={() => router.push(calc.path)}
-                                    className="bg-surface border border-hairline rounded-xl p-5 hover:border-blue-300 hover:scale-[1.02] transition-all cursor-pointer"
-                                >
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <span className="text-3xl">{calc.icon || "🧮"}</span>
-
-                                        <h3 className="font-semibold text-ink">
-                                            {calc.name}
-                                        </h3>
-                                    </div>
-
-                                    <p className="text-ink-faint text-sm">
-                                        {calc.desc}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-
-                        {linkCalculators.length > 0 && (
-                            <div className="hidden md:block relative my-8 sm:my-10">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-hairline"></div>
-                                </div>
-
-                                <div className="relative flex justify-center">
-                                    <span className="px-4 bg-cream text-xs sm:text-sm text-ink-faint">
-                                        More Calculators
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
-
-                {/* Desktop Links */}
-                {linkCalculators.length > 0 && (
-                    <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-                        {linkCalculators.map((calc) => (
-                            <button
-                                key={calc.id}
-                                onClick={() => router.push(calc.path)}
-                                className="group flex items-center justify-between p-3 sm:p-4 bg-surface hover:bg-cream border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 text-left w-full"
-                            >
-                                <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                                    <span className="text-xl sm:text-2xl flex-shrink-0">
-                                        {calc.icon || "🧮"}
-                                    </span>
-
-                                    <div className="min-w-0 flex-1">
-                                        <h3 className="font-medium text-ink group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">
-                                            {calc.name}
-                                        </h3>
-
-                                        <p className="text-[10px] sm:text-xs text-ink-faint truncate hidden sm:block">
-                                            {calc.desc}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-ink-faint group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
-                            </button>
-                        ))}
-                    </div>
-                )}
-
-                {/* Mobile */}
+                {/* One responsive list. (It used to render a desktop copy and a
+                    mobile copy hidden by CSS - crawlers read both, so every
+                    calculator appeared twice in the page HTML.) */}
                 {filteredCalculators.length > 0 && (
-                    <div className="md:hidden grid grid-cols-2 gap-2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 list-none p-0 m-0">
                         {filteredCalculators.map((calc) => (
-                            <button
-                                key={calc.id}
-                                onClick={() => router.push(calc.path)}
-                                className="group flex items-center justify-between p-3 bg-surface border border-hairline rounded-xl text-left"
-                            >
-                                <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <span className="text-lg">{calc.icon || "🧮"}</span>
-
-                                    <h3 className="font-medium text-ink text-xs truncate">
-                                        {calc.name}
-                                    </h3>
-                                </div>
-
-                                <ChevronRight className="w-3 h-3 text-ink-faint" />
-                            </button>
+                            <li key={calc.id}>
+                                <a
+                                    href={calc.path}
+                                    onClick={(e) => {
+                                        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+                                        e.preventDefault();
+                                        router.push(calc.path);
+                                    }}
+                                    className="group flex items-start gap-3 p-4 h-full bg-surface border border-hairline rounded-xl transition-all duration-200 hover:border-blue-300 hover:bg-cream"
+                                >
+                                    <span className="text-2xl flex-shrink-0">{calc.icon || "🧮"}</span>
+                                    <span className="min-w-0 flex-1">
+                                        <span className="block font-semibold text-ink group-hover:text-blue-600 transition-colors text-sm">
+                                            {calc.name}
+                                        </span>
+                                        <span className="block text-xs text-ink-faint mt-1">
+                                            {calc.desc}
+                                        </span>
+                                    </span>
+                                    <ChevronRight className="w-4 h-4 text-ink-faint group-hover:text-blue-600 transition-all flex-shrink-0 mt-1" />
+                                </a>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 )}
 
                 {filteredCalculators.length === 0 && (

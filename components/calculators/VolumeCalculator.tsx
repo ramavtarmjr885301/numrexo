@@ -103,26 +103,28 @@ const REAL_WORLD_EXAMPLES = [
     { item: "🌍 Earth", shape: "Sphere", application: "Calculate planetary volume" },
 ];
 
+// Worked-example defaults (cube 5, prism 10×5×10, cylinder/cone r=5 h=10, sphere r=5)
+const DEFAULTS = { side: "5", length: "10", width: "5", height: "10", radius: "5" };
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function VolumeCalculator() {
     const [shape, setShape] = useState<"cube" | "prism" | "cylinder" | "sphere" | "cone">("cube");
-    const [side, setSide] = useState("");
-    const [length, setLength] = useState("");
-    const [width, setWidth] = useState("");
-    const [height, setHeight] = useState("");
-    const [radius, setRadius] = useState("");
+    const [side, setSide] = useState(DEFAULTS.side);
+    const [length, setLength] = useState(DEFAULTS.length);
+    const [width, setWidth] = useState(DEFAULTS.width);
+    const [height, setHeight] = useState(DEFAULTS.height);
+    const [radius, setRadius] = useState(DEFAULTS.radius);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
         setShape("cube");
-        setSide("");
-        setLength("");
-        setWidth("");
-        setHeight("");
-        setRadius("");
-        setResult(null);
+        setSide(DEFAULTS.side);
+        setLength(DEFAULTS.length);
+        setWidth(DEFAULTS.width);
+        setHeight(DEFAULTS.height);
+        setRadius(DEFAULTS.radius);
     };
 
     const calculate = () => {

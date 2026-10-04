@@ -50,25 +50,25 @@ export default function DistanceSpeedTimeCalculator() {
     const [calculationType, setCalculationType] = useState<"speed" | "distance" | "time">("speed");
 
     // For Speed calculation (calculate speed from distance & time)
-    const [distance, setDistance] = useState("");
-    const [distanceUnit, setDistanceUnit] = useState<"km" | "miles" | "meters">("km");
-    const [timeHours, setTimeHours] = useState("");
-    const [timeMinutes, setTimeMinutes] = useState("");
-    const [timeSeconds, setTimeSeconds] = useState("");
+    const [distance, setDistance] = useState("150");
+    const [distanceUnit, setDistanceUnit] = useState<"km" | "miles" | "meters">("miles");
+    const [timeHours, setTimeHours] = useState("2");
+    const [timeMinutes, setTimeMinutes] = useState("30");
+    const [timeSeconds, setTimeSeconds] = useState("0");
 
     // For Distance calculation (calculate distance from speed & time)
-    const [speed, setSpeed] = useState("");
-    const [speedUnit, setSpeedUnit] = useState<"kmh" | "mph" | "ms">("kmh");
-    const [distTimeHours, setDistTimeHours] = useState("");
-    const [distTimeMinutes, setDistTimeMinutes] = useState("");
-    const [distTimeSeconds, setDistTimeSeconds] = useState("");
-    const [distOutputUnit, setDistOutputUnit] = useState<"km" | "miles" | "meters">("km");
+    const [speed, setSpeed] = useState("60");
+    const [speedUnit, setSpeedUnit] = useState<"kmh" | "mph" | "ms">("mph");
+    const [distTimeHours, setDistTimeHours] = useState("3");
+    const [distTimeMinutes, setDistTimeMinutes] = useState("0");
+    const [distTimeSeconds, setDistTimeSeconds] = useState("0");
+    const [distOutputUnit, setDistOutputUnit] = useState<"km" | "miles" | "meters">("miles");
 
     // For Time calculation (calculate time from distance & speed)
-    const [timeDistance, setTimeDistance] = useState("");
-    const [timeDistanceUnit, setTimeDistanceUnit] = useState<"km" | "miles" | "meters">("km");
-    const [timeSpeed, setTimeSpeed] = useState("");
-    const [timeSpeedUnit, setTimeSpeedUnit] = useState<"kmh" | "mph" | "ms">("kmh");
+    const [timeDistance, setTimeDistance] = useState("300");
+    const [timeDistanceUnit, setTimeDistanceUnit] = useState<"km" | "miles" | "meters">("miles");
+    const [timeSpeed, setTimeSpeed] = useState("60");
+    const [timeSpeedUnit, setTimeSpeedUnit] = useState<"kmh" | "mph" | "ms">("mph");
 
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -230,17 +230,21 @@ export default function DistanceSpeedTimeCalculator() {
     };
 
     const reset = () => {
-        setDistance("");
-        setTimeHours("");
-        setTimeMinutes("");
-        setTimeSeconds("");
-        setSpeed("");
-        setDistTimeHours("");
-        setDistTimeMinutes("");
-        setDistTimeSeconds("");
-        setTimeDistance("");
-        setTimeSpeed("");
-        setResult(null);
+        setDistance("150");
+        setDistanceUnit("miles");
+        setTimeHours("2");
+        setTimeMinutes("30");
+        setTimeSeconds("0");
+        setSpeed("60");
+        setSpeedUnit("mph");
+        setDistTimeHours("3");
+        setDistTimeMinutes("0");
+        setDistTimeSeconds("0");
+        setDistOutputUnit("miles");
+        setTimeDistance("300");
+        setTimeDistanceUnit("miles");
+        setTimeSpeed("60");
+        setTimeSpeedUnit("mph");
     };
 
     // Results update as you type — the answer is no longer hidden behind a button press.
@@ -268,9 +272,9 @@ export default function DistanceSpeedTimeCalculator() {
                     <div className="p-6 space-y-4">
                         {/* Calculation Type Selection */}
                         <div className="flex gap-2 p-1 bg-surface rounded-lg">
-                            <button onClick={() => { setCalculationType("speed"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "speed" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Speed</button>
-                            <button onClick={() => { setCalculationType("distance"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Distance</button>
-                            <button onClick={() => { setCalculationType("time"); setResult(null); }} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Time</button>
+                            <button onClick={() => setCalculationType("speed")} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "speed" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Speed</button>
+                            <button onClick={() => setCalculationType("distance")} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "distance" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Distance</button>
+                            <button onClick={() => setCalculationType("time")} className={`flex-1 py-2 text-sm rounded-md transition ${calculationType === "time" ? "bg-teal-500 text-white" : "text-ink-faint hover:text-ink"}`}>Find Time</button>
                         </div>
 
                         {calculationType === "speed" && (

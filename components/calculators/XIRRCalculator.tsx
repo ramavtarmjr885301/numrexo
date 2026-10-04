@@ -99,22 +99,30 @@ const XIRR_GUIDE = [
     { range: "Negative", rating: "Needs Review ⚠️", description: "Loss-making, urgent review required" },
 ];
 
+// Worked example: ₹10,000 SIP on the 5th of each month through 2025, valued at ₹1,30,000 on 5 Jan 2026.
+// Fixed dates (never new Date() in initial state — avoids hydration mismatch).
+const DEFAULT_FINAL_VALUE = "130000";
+const DEFAULT_FINAL_DATE = "2026-01-05";
+const defaultCashFlows = (): CashFlow[] =>
+    Array.from({ length: 12 }, (_, i) => ({
+        id: i + 1,
+        date: `2025-${String(i + 1).padStart(2, "0")}-05`,
+        amount: "10000",
+    }));
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function XIRRCalculator() {
-    const [cashFlows, setCashFlows] = useState<CashFlow[]>([
-        { id: 1, date: "", amount: "" },
-    ]);
-    const [finalValue, setFinalValue] = useState("100000");
-    const [finalDate, setFinalDate] = useState("");
+    const [cashFlows, setCashFlows] = useState<CashFlow[]>(defaultCashFlows);
+    const [finalValue, setFinalValue] = useState(DEFAULT_FINAL_VALUE);
+    const [finalDate, setFinalDate] = useState(DEFAULT_FINAL_DATE);
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const resetForm = () => {
-        setCashFlows([{ id: 1, date: "", amount: "" }]);
-        setFinalValue("");
-        setFinalDate("");
-        setResult(null);
+        setCashFlows(defaultCashFlows());
+        setFinalValue(DEFAULT_FINAL_VALUE);
+        setFinalDate(DEFAULT_FINAL_DATE);
     };
 
     const addCashFlow = () => {
