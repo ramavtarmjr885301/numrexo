@@ -85,7 +85,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let blogPages: MetadataRoute.Sitemap = []
     try {
         const { posts } = await listPublishedPosts(1, 200)
-        blogPages = posts.map((post) => ({
+        blogPages = posts
+            // A post marked "noindex" in the admin must not be advertised to Google.
+            .filter((post) => !post.noindex)
+            .map((post) => ({
             url: `${baseUrl}/blog/${post.slug}`,
             lastModified: new Date(post.updatedAt || post.publishedAt),
             priority: 0.6,

@@ -36,6 +36,23 @@ export interface BlogPost {
   published: boolean;
   publishedAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
+  // --- Patch 19: WordPress-style extras (all optional / safe defaults) ---
+  tags: string[];
+  // Social-share image. Falls back to featuredImage when empty.
+  ogImage: string | null;
+  // Overrides the default canonical (https://numrexo.com/blog/<slug>).
+  canonicalUrl: string | null;
+  // true = <meta robots noindex> and left out of the sitemap.
+  noindex: boolean;
+  // Only used by the admin's SEO checklist, never shown publicly.
+  focusKeyword: string;
+  // Slugs of hand-picked related posts (shown before the automatic ones).
+  relatedSlugs: string[];
+  // Registry id of a calculator to promote in a call-to-action box
+  // inside the post (e.g. "bmi"). Empty = no box.
+  ctaCalculator: string;
+  // Auto "In this article" table of contents built from H2/H3 headings.
+  showToc: boolean;
 }
 
 export interface BlogPostInput {

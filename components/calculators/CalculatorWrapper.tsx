@@ -7,6 +7,8 @@ import {
 } from "@/data/calculatorsRegistry";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import AuthorBox from "@/components/common/AuthorBox";
+import ShareBar from "@/components/common/ShareBar";
+import SubscribeBox from "@/components/common/SubscribeBox";
 import PageHeader from "@/components/common/PageHeader";
 import { useRouter } from "next/navigation";
 import { recordRecentCalculator } from "@/lib/recentCalculators";
@@ -430,8 +432,23 @@ export default function CalculatorWrapper({
 
         {renderCalculator()}
 
+        {/* Share this calculator (every calculator page) */}
+        <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-hairline bg-surface p-4 sm:p-5">
+          <div>
+            <p className="text-sm font-semibold text-ink">Found this useful?</p>
+            <p className="text-xs text-ink-faint">Share this calculator with friends and family.</p>
+          </div>
+          <ShareBar
+            url={`https://numrexo.com${calculator.path}`}
+            title={`${calculator.name} - Numrexo`}
+            heading=""
+          />
+        </div>
+
         {/* Who made this, when it was last checked, and where the method comes from. */}
         <AuthorBox calculator={calculator} />
+
+        <SubscribeBox className="my-10" />
 
         {/* Related Calculators */}
         <div>

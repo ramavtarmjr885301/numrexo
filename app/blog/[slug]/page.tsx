@@ -1,6 +1,11 @@
 // app/blog/[slug]/page.tsx
 
-import { getPublishedPostBySlug, listAllSlugs, getRelatedPosts } from '@/lib/blogDb';
+import { getPublishedPostBySlug, listAllSlugs, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
+import { addHeadingIds, splitBeforeSecondH2 } from '@/lib/toc';
+import { tagSlug } from '@/lib/tags';
+import { CALCULATORS_REGISTRY } from '@/data/calculatorsRegistry';
+import ShareBar from '@/components/common/ShareBar';
+import SubscribeBox from '@/components/common/SubscribeBox';
 import { categoryLabel } from '@/lib/blogTypes';
 import { getRelatedCalculators } from '@/lib/relatedCalculators';
 import Image from 'next/image';
@@ -37,7 +42,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     };
   }
 
-  const canonical = `https://numrexo.com/blog/${post.slug}`;
+  const canonical = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
+  const socialImage = post.ogImage || post.featuredImage;
   // metaTitle/metaDescription are the admin's optional SEO overrides - most
   // posts won't set them, so fall back to the same title/excerpt used
   // everywhere else on the site.
@@ -48,6 +54,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     title,
     description,
     alternates: { canonical },
+    ...(post.noindex ? { robots: { index: false, follow: true } } : {}),
+    keywords: post.tags.length ? post.tags : undefined,
     openGraph: {
       title,
       description,
@@ -55,13 +63,14 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       type: 'article',
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
-      images: post.featuredImage ? [post.featuredImage] : [],
+      tags: post.tags.length ? post.tags : undefined,
+      images: socialImage ? [socialImage] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: post.featuredImage ? [post.featuredImage] : [],
+      images: socialImage ? [socialImage] : [],
     },
   };
 }
@@ -74,7 +83,26 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const relatedCalculators = getRelatedCalculators(post.category, 4);
-  const relatedPosts = await getRelatedPosts(post.category, post.slug, 3);
+  // Hand-picked related posts first, topped up with automatic ones from the
+  // same category, never more than 3 and never repeating one.
+  const pickedPosts = await getPostsBySlugs(post.relatedSlugs.filter((s) => s !== post.slug));
+  const autoPosts = pickedPosts.length >= 3 ? [] : await getRelatedPosts(post.category, post.slug, 3);
+  const relatedPosts = [...pickedPosts, ...autoPosts]
+    .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
+    .slice(0, 3);
+
+  const { html: contentWithIds, items: tocItems } = addHeadingIds(post.contentHtml);
+  const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
+  const ctaCalc = post.ctaCalculator
+    ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
+    : undefined;
+  const { before: contentBefore, after: contentAfter } = ctaCalc
+    ? splitBeforeSecondH2(contentWithIds)
+    : { before: contentWithIds, after: '' };
+  const postUrl = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
+  const shareUrl = `https://numrexo.com/blog/${post.slug}`;
+  const proseClass =
+    '[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h2]:scroll-mt-24 [&_h3]:scroll-mt-24 [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto';
 
   return (
     <>
@@ -85,14 +113,16 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
             headline: post.title,
-            description: post.excerpt,
+            description: post.metaDescription || post.excerpt,
+            mainEntityOfPage: postUrl,
+            keywords: post.tags.length ? post.tags.join(', ') : undefined,
             author: {
               '@type': 'Person',
               name: post.author,
             },
             datePublished: post.publishedAt,
             dateModified: post.updatedAt,
-            image: post.featuredImage || undefined,
+            image: post.ogImage || post.featuredImage || undefined,
           }),
         }}
       />
@@ -171,12 +201,63 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         )}
 
+        {showToc && (
+          <nav
+            aria-label="Table of contents"
+            className="mb-6 sm:mb-8 rounded-xl border border-hairline bg-surface p-4 sm:p-5"
+          >
+            <p className="text-sm font-semibold text-ink mb-2">In this article</p>
+            <ol className="space-y-1 text-sm">
+              {tocItems.map((item) => (
+                <li key={item.id} className={item.level === 3 ? 'ml-4' : ''}>
+                  <a href={`#${item.id}`} className="text-blue-600 hover:underline">
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
         <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-soft prose-strong:text-ink prose-a:text-blue-600">
-          <div
-            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-            className="[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto"
-          />
+          <div dangerouslySetInnerHTML={{ __html: contentBefore }} className={proseClass} />
+
+          {ctaCalc && (
+            <aside className="not-prose my-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:p-6 flex items-center gap-4">
+              <div className="text-4xl flex-shrink-0" aria-hidden="true">
+                {ctaCalc.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">Try it yourself</p>
+                <p className="text-base sm:text-lg font-semibold text-ink">{ctaCalc.name}</p>
+                <p className="text-sm text-ink-soft">{ctaCalc.desc}. Free, no sign-up.</p>
+              </div>
+              <Link
+                href={ctaCalc.path}
+                className="flex-shrink-0 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+              >
+                Open →
+              </Link>
+            </aside>
+          )}
+
+          {contentAfter && <div dangerouslySetInnerHTML={{ __html: contentAfter }} className={proseClass} />}
         </div>
+
+        {post.tags.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-ink-faint">Tags:</span>
+            {post.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/blog/tag/${tagSlug(tag)}`}
+                className="text-xs px-2.5 py-1 rounded-full bg-surface border border-hairline text-ink-soft hover:border-blue-600 hover:text-ink"
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {post.faqs.length > 0 && (
           <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">
@@ -201,34 +282,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         )}
 
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-hairline">
-          <p className="text-sm text-ink-soft mb-3">Share this article:</p>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1DA1F2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1a8cd8] transition-colors"
-            >
-              Twitter
-            </a>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://numrexo.com/blog/${post.slug}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#0A66C2] text-white rounded-lg text-xs sm:text-sm hover:bg-[#0958a8] transition-colors"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} - https://numrexo.com/blog/${post.slug}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#25D366] text-white rounded-lg text-xs sm:text-sm hover:bg-[#1da851] transition-colors"
-            >
-              WhatsApp
-            </a>
-          </div>
+          <ShareBar url={shareUrl} title={post.title} heading="Share this article:" />
         </div>
+
+        <SubscribeBox className="mt-8 sm:mt-10" />
 
         {relatedCalculators.length > 0 && (
           <section className="mt-8 sm:mt-12 border-t border-hairline pt-6 sm:pt-8">

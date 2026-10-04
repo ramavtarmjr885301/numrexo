@@ -6,6 +6,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/common/CookieConsent";
+import ShareFab from "@/components/common/ShareFab";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
 
@@ -129,6 +130,7 @@ export default function RootLayout({
             <Header />
             <main className="min-h-screen">{children}</main>
             <Footer />
+            <ShareFab />
           </>
         )}
       </body>

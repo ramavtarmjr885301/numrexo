@@ -6,6 +6,9 @@ import DeletePostButton from '@/components/admin/DeletePostButton';
 
 export default async function AdminDashboardPage() {
   const posts = await listAllPostsForAdmin();
+  const now = Date.now();
+  const isScheduled = (p: { published: boolean; publishedAt: string }) =>
+    p.published && new Date(p.publishedAt).getTime() > now;
 
   return (
     <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
@@ -15,6 +18,9 @@ export default async function AdminDashboardPage() {
           <p className="text-sm text-ink-soft mt-1">{posts.length} posts</p>
         </div>
         <div className="flex items-center gap-4">
+          <Link href="/subscribers" className="text-sm text-ink-soft hover:text-ink">
+            Subscribers
+          </Link>
           <Link
             href="/new"
             className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
@@ -41,12 +47,20 @@ export default async function AdminDashboardPage() {
                     Draft
                   </span>
                 )}
+                {isScheduled(post) && (
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-purple-100 text-purple-700">
+                    Scheduled
+                  </span>
+                )}
+                {post.noindex && (
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-gray-200 text-gray-600">noindex</span>
+                )}
               </div>
               <p className="text-ink text-sm sm:text-base truncate">{post.title}</p>
               <p className="text-ink-faint text-xs mt-0.5">/blog/{post.slug}</p>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
-              {post.published ? (
+              {post.published && !isScheduled(post) ? (
                 <a
                   href={`https://numrexo.com/blog/${post.slug}`}
                   target="_blank"
@@ -56,7 +70,10 @@ export default async function AdminDashboardPage() {
                   View Live
                 </a>
               ) : (
-                <span className="text-sm text-ink-faint" title="Draft hai, abhi live nahi hai">
+                <span
+                  className="text-sm text-ink-faint"
+                  title={isScheduled(post) ? 'Scheduled hai, us time par live hogi' : 'Draft hai, abhi live nahi hai'}
+                >
                   Not live
                 </span>
               )}

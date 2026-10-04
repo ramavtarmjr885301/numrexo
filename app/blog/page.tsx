@@ -3,6 +3,7 @@ import { categoryLabel } from '@/lib/blogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import SubscribeBox from '@/components/common/SubscribeBox';
 
 export const revalidate = 3600;
 
@@ -129,6 +130,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <p className="text-ink-soft">No blog posts found. Coming soon!</p>
         </div>
       )}
+
+      <SubscribeBox className="mt-10 sm:mt-12" />
     </div>
   );
 }

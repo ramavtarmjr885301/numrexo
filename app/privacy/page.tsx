@@ -53,6 +53,18 @@ export default function PrivacyPage() {
                         <p className="text-ink-soft leading-relaxed mt-2">
                             We do not intentionally collect sensitive personal information through calculator usage.
                         </p>
+                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Email updates (optional)</h3>
+                        <p className="text-ink-soft leading-relaxed">
+                            If you choose to subscribe to our email updates, we store the email address you enter (and your name, if you give it)
+                            together with the date you subscribed. We use it only to send you news about new calculators and guides on Numrexo.
+                            We do not sell or rent your address. Every email includes an unsubscribe link, and you can also
+                            ask us to delete your address at any time through our <a href="/contact" className="text-blue-600 underline">Contact page</a>.
+                        </p>
+                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Result share images</h3>
+                        <p className="text-ink-soft leading-relaxed">
+                            The &quot;Share your result&quot; picture is created entirely inside your browser from the result you see on screen.
+                            It is not uploaded to our servers. If you choose to post it, it is shared by you through the app you pick.
+                        </p>
                     </div>
 
                     {/* 3. Calculator Data & User Privacy */}

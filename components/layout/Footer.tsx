@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import SubscribeBox from "@/components/common/SubscribeBox";
 
 // Social Media Icons as components
 const InstagramIcon = () => (
@@ -222,6 +223,14 @@ export default function Footer() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="max-w-md mb-8">
+          <SubscribeBox
+            variant="dark"
+            heading="Get updates by email"
+            blurb="New calculators and guides, occasionally. No spam, unsubscribe anytime."
+          />
         </div>
 
         <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">

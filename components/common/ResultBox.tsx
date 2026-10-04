@@ -1,4 +1,11 @@
-import { ReactNode } from "react";
+"use client";
+
+import { ReactNode, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { CALCULATORS_REGISTRY, CATEGORIES } from "@/data/calculatorsRegistry";
+import ShareResultModal from "./ShareResultModal";
+import { ShareIcon } from "./SocialIcons";
+import type { ShareCardData } from "@/lib/shareCard";
 
 interface ResultBoxProps {
   title: string;
@@ -28,6 +35,36 @@ export default function ResultBox({
   mainResult,
   extraRows,
 }: ResultBoxProps) {
+  // "Share your result" card (Patch 19). Every calculator that renders its
+  // answer through this component gets it automatically: the card is built
+  // from the same title / main result / extra rows shown on screen, plus the
+  // current calculator's name, icon and colour looked up from the registry.
+  const pathname = usePathname() || "";
+  // A frozen copy of the card data taken when the dialog opens, so a re-render
+  // of the calculator behind it can never make the preview redraw or flicker.
+  const [shareSnapshot, setShareSnapshot] = useState<ShareCardData | null>(null);
+  const calc = useMemo(
+    () => CALCULATORS_REGISTRY.find((c) => c.path === pathname.replace(/\/$/, "")),
+    [pathname],
+  );
+  const canShare = !isEmpty && Boolean(mainResult && mainResult.value && String(mainResult.value).trim());
+
+  const shareData: ShareCardData | null = useMemo(() => {
+    if (!canShare || !mainResult) return null;
+    const category = calc ? CATEGORIES[calc.category as keyof typeof CATEGORIES] : undefined;
+    return {
+      calcName: calc?.name || title,
+      calcIcon: calc?.icon || "🧮",
+      accent: calc?.color || "#3b82f6",
+      categoryLabel: category?.name || "Calculator",
+      label: mainResult.label,
+      value: String(mainResult.value),
+      unit: mainResult.unit,
+      rows: (extraRows || []).map((r) => ({ label: r.label, value: r.value })),
+      displayUrl: `numrexo.com${calc?.path || pathname}`,
+    };
+  }, [canShare, mainResult, extraRows, calc, title, pathname]);
+
   // This is the one shared component that stays dark - it is the mockup's
   // dark-navy "results" card, deliberately set apart from the light input
   // card next to it. Used by ~120 of the 122 calculators, so this is the
@@ -75,7 +112,27 @@ export default function ResultBox({
             )}
           </>
         )}
+
+        {shareData && (
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => setShareSnapshot(shareData)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+            >
+              <ShareIcon className="w-4 h-4" /> Share your result
+            </button>
+          </div>
+        )}
       </div>
+
+      {shareSnapshot && (
+        <ShareResultModal
+          data={shareSnapshot}
+          url={`https://numrexo.com${calc?.path || pathname}`}
+          onClose={() => setShareSnapshot(null)}
+        />
+      )}
     </div>
   );
 }
