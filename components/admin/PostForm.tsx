@@ -160,7 +160,7 @@ export default function PostForm({
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Couldn't save. Please try again.');
+        setError(data.error || "Couldn't save. Please try again.");
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
