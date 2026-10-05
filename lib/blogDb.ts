@@ -376,6 +376,157 @@ export async function listAllPostsForAdmin(): Promise<BlogPost[]> {
   );
 }
 
+// ---- Admin post list: search, filters, sorting, pagination -----------------
+// Reads only the small columns (never the article body), so it stays fast with
+// hundreds or thousands of posts. Dates are compared in India time (IST) since
+// that is what the author sees in the panel.
+
+export type AdminPostStatus = 'all' | 'live' | 'scheduled' | 'draft';
+export type AdminPostSort = 'newest' | 'oldest' | 'updated' | 'title_az' | 'title_za';
+export type AdminDateBy = 'published' | 'updated';
+
+export interface AdminPostQuery {
+  q?: string;
+  category?: string;
+  status?: AdminPostStatus;
+  sort?: AdminPostSort;
+  dateBy?: AdminDateBy;
+  from?: string; // YYYY-MM-DD
+  to?: string; // YYYY-MM-DD
+  page?: number;
+}
+
+export interface AdminPostRow {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  author: string;
+  published: boolean;
+  scheduled: boolean;
+  noindex: boolean;
+  publishedAt: string;
+  updatedAt: string;
+}
+
+export interface AdminPostPage {
+  posts: AdminPostRow[];
+  total: number;
+  page: number;
+  totalPages: number;
+  pageSize: number;
+  counts: { all: number; live: number; scheduled: number; draft: number };
+  categories: { slug: string; count: number }[];
+}
+
+export const ADMIN_POSTS_PAGE_SIZE = 25;
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+export async function searchPostsForAdmin(query: AdminPostQuery): Promise<AdminPostPage> {
+  const page = Math.max(1, Math.floor(query.page || 1));
+  const empty: AdminPostPage = {
+    posts: [],
+    total: 0,
+    page,
+    totalPages: 1,
+    pageSize: ADMIN_POSTS_PAGE_SIZE,
+    counts: { all: 0, live: 0, scheduled: 0, draft: 0 },
+    categories: [],
+  };
+  return safeDb(
+    'searchPostsForAdmin',
+    async () => {
+      await ensureBlogSchema();
+      const sql = getSql()!;
+      const q = (query.q || '').trim().toLowerCase().slice(0, 100);
+      const like = `%${q.replace(/[%_\\]/g, '')}%`;
+      const category = (query.category || '').slice(0, 60);
+      const status: AdminPostStatus = ['live', 'scheduled', 'draft'].includes(query.status || '') ? (query.status as AdminPostStatus) : 'all';
+      const sort: AdminPostSort = ['oldest', 'updated', 'title_az', 'title_za'].includes(query.sort || '') ? (query.sort as AdminPostSort) : 'newest';
+      const dateBy: AdminDateBy = query.dateBy === 'updated' ? 'updated' : 'published';
+      const from = query.from && DATE_RE.test(query.from) ? query.from : '';
+      const to = query.to && DATE_RE.test(query.to) ? query.to : '';
+      const offset = (page - 1) * ADMIN_POSTS_PAGE_SIZE;
+
+      // Everything except the status tab, used for the tab counts.
+      const countRows = (await sql`
+        SELECT count(*)::int AS all_n,
+               count(*) FILTER (WHERE published AND published_at <= now())::int AS live_n,
+               count(*) FILTER (WHERE published AND published_at > now())::int AS scheduled_n,
+               count(*) FILTER (WHERE NOT published)::int AS draft_n
+        FROM blog_posts
+        WHERE (${q} = '' OR lower(title) LIKE ${like} OR lower(slug) LIKE ${like} OR lower(author) LIKE ${like}
+               OR lower(coalesce(excerpt, '')) LIKE ${like} OR lower(coalesce(tags::text, '')) LIKE ${like})
+          AND (${category} = '' OR category = ${category})
+          AND (NULLIF(${from}, '') IS NULL OR ((CASE WHEN ${dateBy} = 'updated' THEN updated_at ELSE published_at END) AT TIME ZONE 'Asia/Kolkata')::date >= NULLIF(${from}, '')::date)
+          AND (NULLIF(${to}, '') IS NULL OR ((CASE WHEN ${dateBy} = 'updated' THEN updated_at ELSE published_at END) AT TIME ZONE 'Asia/Kolkata')::date <= NULLIF(${to}, '')::date)
+      `) as unknown as { all_n: number; live_n: number; scheduled_n: number; draft_n: number }[];
+      const c = countRows[0] || { all_n: 0, live_n: 0, scheduled_n: 0, draft_n: 0 };
+      const total = status === 'live' ? c.live_n : status === 'scheduled' ? c.scheduled_n : status === 'draft' ? c.draft_n : c.all_n;
+
+      const rows = (await sql`
+        SELECT id, slug, title, category, author, published, published_at, updated_at, noindex
+        FROM blog_posts
+        WHERE (${q} = '' OR lower(title) LIKE ${like} OR lower(slug) LIKE ${like} OR lower(author) LIKE ${like}
+               OR lower(coalesce(excerpt, '')) LIKE ${like} OR lower(coalesce(tags::text, '')) LIKE ${like})
+          AND (${category} = '' OR category = ${category})
+          AND (${status} = 'all'
+               OR (${status} = 'live' AND published AND published_at <= now())
+               OR (${status} = 'scheduled' AND published AND published_at > now())
+               OR (${status} = 'draft' AND NOT published))
+          AND (NULLIF(${from}, '') IS NULL OR ((CASE WHEN ${dateBy} = 'updated' THEN updated_at ELSE published_at END) AT TIME ZONE 'Asia/Kolkata')::date >= NULLIF(${from}, '')::date)
+          AND (NULLIF(${to}, '') IS NULL OR ((CASE WHEN ${dateBy} = 'updated' THEN updated_at ELSE published_at END) AT TIME ZONE 'Asia/Kolkata')::date <= NULLIF(${to}, '')::date)
+        ORDER BY
+          (CASE WHEN ${sort} = 'oldest' THEN published_at END) ASC NULLS LAST,
+          (CASE WHEN ${sort} = 'newest' THEN published_at END) DESC NULLS LAST,
+          (CASE WHEN ${sort} = 'updated' THEN updated_at END) DESC NULLS LAST,
+          (CASE WHEN ${sort} = 'title_az' THEN lower(title) END) ASC NULLS LAST,
+          (CASE WHEN ${sort} = 'title_za' THEN lower(title) END) DESC NULLS LAST,
+          id DESC
+        LIMIT ${ADMIN_POSTS_PAGE_SIZE} OFFSET ${offset}
+      `) as unknown as {
+        id: number;
+        slug: string;
+        title: string;
+        category: string;
+        author: string;
+        published: boolean;
+        published_at: string;
+        updated_at: string;
+        noindex: boolean | null;
+      }[];
+
+      const catRows = (await sql`
+        SELECT category, count(*)::int AS n FROM blog_posts GROUP BY category ORDER BY category
+      `) as unknown as { category: string; n: number }[];
+
+      const now = Date.now();
+      return {
+        posts: rows.map((r) => ({
+          id: r.id,
+          slug: r.slug,
+          title: decodeEntities(r.title),
+          category: r.category,
+          author: decodeEntities(r.author),
+          published: r.published,
+          scheduled: r.published && new Date(r.published_at).getTime() > now,
+          noindex: Boolean(r.noindex),
+          publishedAt: new Date(r.published_at).toISOString(),
+          updatedAt: new Date(r.updated_at).toISOString(),
+        })),
+        total,
+        page,
+        totalPages: Math.max(1, Math.ceil(total / ADMIN_POSTS_PAGE_SIZE)),
+        pageSize: ADMIN_POSTS_PAGE_SIZE,
+        counts: { all: c.all_n, live: c.live_n, scheduled: c.scheduled_n, draft: c.draft_n },
+        categories: catRows.map((r) => ({ slug: r.category, count: r.n })),
+      };
+    },
+    empty,
+  );
+}
+
 export async function getPostById(id: number): Promise<BlogPost | null> {
   return safeDb(
     `getPostById(${id})`,

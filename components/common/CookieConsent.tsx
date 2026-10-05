@@ -27,16 +27,46 @@ interface StoredConsent {
   decidedAt: number;
 }
 
+// Microsoft Clarity (free heatmaps / session recordings). It is loaded ONLY after
+// a visitor accepts analytics cookies, and switched off again if they withdraw.
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "xb1xv0dxl1";
+
 declare global {
   interface Window {
+    clarity?: ((...args: unknown[]) => void) & { q?: unknown[] };
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     openCookiePreferences?: () => void;
   }
 }
 
+function applyClarity(granted: boolean) {
+  if (typeof window === "undefined" || !CLARITY_ID) return;
+  if (granted) {
+    if (!document.getElementById("ms-clarity")) {
+      // Standard Clarity snippet, loaded after consent.
+      window.clarity =
+        window.clarity ||
+        function (...args: unknown[]) {
+          (window.clarity!.q = window.clarity!.q || []).push(args);
+        };
+      const t = document.createElement("script");
+      t.id = "ms-clarity";
+      t.async = true;
+      t.src = "https://www.clarity.ms/tag/" + CLARITY_ID;
+      document.head.appendChild(t);
+    }
+    window.clarity?.("consent");
+  } else if (typeof window.clarity === "function") {
+    // Withdrawn: tell Clarity to stop and clear its cookies.
+    window.clarity("consent", false);
+  }
+}
+
 function applyConsent(choice: ConsentChoice) {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  if (typeof window === "undefined") return;
+  applyClarity(choice === "accepted");
+  if (typeof window.gtag !== "function") return;
   const granted = choice === "accepted";
   window.gtag("consent", "update", {
     ad_storage: granted ? "granted" : "denied",

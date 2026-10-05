@@ -145,6 +145,16 @@ export default function PrivacyPage() {
                             Analytics services may collect anonymized usage information through cookies and tracking technologies.
                             You can learn more about Google's privacy practices through Google's official policies.
                         </p>
+                        <p className="text-ink-soft leading-relaxed mt-2">
+                            If you accept analytics cookies, we also use Microsoft Clarity, a free tool that shows us
+                            anonymised heatmaps and session replays so we can see where visitors get stuck and improve
+                            the calculators. Clarity masks sensitive content by default and is loaded only after you
+                            accept; if you later choose &quot;Essential Only&quot; in Privacy Settings it is switched off.
+                            See{" "}
+                            <a href="https://clarity.microsoft.com/terms" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Microsoft&apos;s Clarity terms</a>{" "}
+                            and{" "}
+                            <a href="https://privacy.microsoft.com/privacystatement" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">privacy statement</a>.
+                        </p>
                     </div>
 
                     {/* 7. Advertising, Google AdSense and Advertising Cookies */}
