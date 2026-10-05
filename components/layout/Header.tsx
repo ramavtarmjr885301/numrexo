@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search, ChevronRight } from "lucide-react";
 import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
+import CountrySelector from "@/components/common/CountrySelector";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -116,6 +117,7 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            <CountrySelector variant="desktop" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -205,6 +207,9 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            <div className="mt-1 pt-2 border-t border-hairline">
+              <CountrySelector variant="mobile" onSelect={() => setMobileMenuOpen(false)} />
+            </div>
           </div>
         )}
       </nav>

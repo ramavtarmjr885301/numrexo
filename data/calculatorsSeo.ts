@@ -167,6 +167,20 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
       "Generate a complete month-by-month amortization schedule showing how each payment splits between principal and interest and what balance is left.",
     keywords: ["amortization calculator", "amortization schedule", "loan payoff schedule"],
   },
+  "finance/net-worth-calculator": {
+    sources: [
+      {
+        label: "Federal Reserve Board — Survey of Consumer Finances, 2022 (median family net worth by age)",
+        url: "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+      },
+      { label: "Formula: net worth = total assets − total liabilities" },
+    ],
+    title: "Net Worth Calculator: Assets, Debts and Age Median",
+    description:
+      "Calculate your net worth from assets and liabilities, see liquid assets and debt-to-asset ratio, and compare with US Federal Reserve medians for your age.",
+    keywords: ["net worth calculator", "how to calculate net worth", "personal net worth", "assets minus liabilities", "average net worth by age"],
+    updatedAt: "2026-10-04",
+  },
   "finance/loan-prepayment-calculator": {
     title: "Loan Prepayment Calculator: Interest You Save",
     description:

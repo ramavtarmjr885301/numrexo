@@ -18,6 +18,7 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react";
 import {
+  CURRENCY_MANUAL_KEY,
   CURRENCY_STORAGE_KEY,
   DEFAULT_CURRENCY,
   currencyInfo,
@@ -54,15 +55,51 @@ function getServerSnapshot(): CurrencyCode {
   return DEFAULT_CURRENCY;
 }
 
-export function setCurrency(code: CurrencyCode): void {
-  if (!isCurrencyCode(code) || code === currentCurrency) return;
-  currentCurrency = code;
-  try {
-    window.localStorage.setItem(CURRENCY_STORAGE_KEY, code);
-  } catch {
-    // Private mode, or storage disabled. The choice still applies for this visit.
+/**
+ * "user": the visitor picked this (CurrencySwitcher, or the country selector).
+ *   It is remembered, and it stops automatic country detection from ever
+ *   changing the currency again.
+ * "auto": applied because of a detected or restored country. It lives in memory
+ *   only, so it is never mistaken for a manual choice on the next visit.
+ */
+export type CurrencySource = "user" | "auto";
+
+export function setCurrency(code: CurrencyCode, source: CurrencySource = "user"): void {
+  if (!isCurrencyCode(code)) return;
+  if (source === "user") {
+    // Record the choice even when it equals the current value: picking the
+    // currency that auto-detection already chose is still a manual choice.
+    try {
+      window.localStorage.setItem(CURRENCY_MANUAL_KEY, "1");
+      window.localStorage.setItem(CURRENCY_STORAGE_KEY, code);
+    } catch {
+      // Private mode, or storage disabled. The choice still applies for this visit.
+    }
   }
+  if (code === currentCurrency) return;
+  currentCurrency = code;
   emit();
+}
+
+/**
+ * True when the visitor has ever picked a currency themselves, including before
+ * country detection existed (a stored currency with no "auto" writes means it
+ * was a manual pick). Automatic detection must not overwrite it.
+ */
+export function hasManualCurrency(): boolean {
+  try {
+    return (
+      window.localStorage.getItem(CURRENCY_MANUAL_KEY) === "1" ||
+      isCurrencyCode(window.localStorage.getItem(CURRENCY_STORAGE_KEY))
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** Stable (module-level) setter for the hook: always a manual choice. */
+function setCurrencyFromUser(code: CurrencyCode): void {
+  setCurrency(code, "user");
 }
 
 function hydrateFromStorage(): void {
@@ -125,7 +162,7 @@ export function useCurrency(): UseCurrencyResult {
 
   return {
     currency,
-    setCurrency,
+    setCurrency: setCurrencyFromUser,
     symbol: currencySymbol(currency),
     locale: currencyInfo(currency).locale,
     market: marketOf(currency),

@@ -126,6 +126,38 @@ export async function addSubscriber(email: string, name: string, source = 'websi
   return 'subscribed';
 }
 
+export interface ResultSubscription {
+  status: 'subscribed' | 'already' | 'unsubscribed';
+  /** The address's unsubscribe token, for the link in the email we are about to send. */
+  token: string;
+}
+
+/**
+ * Used by "Email me this result". Adds the address as an active subscriber
+ * (source "result-email") and returns its unsubscribe token.
+ *
+ * Unlike the newsletter form this NEVER switches a deactivated address back
+ * on: someone who unsubscribed once stays unsubscribed, even if another person
+ * types their address into the box. They still get the one result they asked
+ * for, which carries its own unsubscribe link.
+ */
+export async function subscribeForResult(email: string): Promise<ResultSubscription> {
+  await ensureTable();
+  const sql = getSql()!;
+  await sql`INSERT INTO subscribers (email, name, source) VALUES (${email}, ${null}, 'result-email') ON CONFLICT (email) DO NOTHING`;
+  const rows = (await sql`SELECT token, active, source, subscribed_at FROM subscribers WHERE email = ${email} LIMIT 1`) as unknown as {
+    token: string;
+    active: boolean;
+    source: string;
+    subscribed_at: string;
+  }[];
+  const row = rows[0];
+  if (!row) throw new Error('subscriber row missing');
+  if (!row.active) return { status: 'unsubscribed', token: row.token };
+  const justNow = row.source === 'result-email' && Date.now() - new Date(row.subscribed_at).getTime() < 15000;
+  return { status: justNow ? 'subscribed' : 'already', token: row.token };
+}
+
 export async function unsubscribeByToken(token: string): Promise<boolean> {
   if (!/^[a-f0-9]{32}$/.test(token)) return false;
   await ensureTable();

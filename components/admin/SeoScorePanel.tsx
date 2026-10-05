@@ -12,7 +12,7 @@ const DOT: Record<string, string> = {
 export default function SeoScorePanel({ input }: { input: SeoInput }) {
   const report = useMemo(() => analyseSeo(input), [input]);
   const color = report.score >= 75 ? 'text-green-600' : report.score >= 50 ? 'text-yellow-700' : 'text-red-600';
-  const label = report.score >= 75 ? 'Achha' : report.score >= 50 ? 'Theek-thaak, sudhar sakta hai' : 'Kaam baaki hai';
+  const label = report.score >= 75 ? 'Good' : report.score >= 50 ? 'Decent, can be improved' : 'Needs work';
   // Show the problems first so the author sees what to fix without scrolling.
   const order = { bad: 0, ok: 1, good: 2 } as const;
   const sorted = [...report.checks].sort((a, b) => order[a.status] - order[b.status]);
@@ -27,8 +27,8 @@ export default function SeoScorePanel({ input }: { input: SeoInput }) {
         </div>
       </div>
       <p className="text-xs text-ink-faint mb-3">
-        Ye ek madad-gaar checklist hai, Google ka asli score nahi. Lal aur peele points theek karo, par content ko
-        padhne walon ke liye hi likho.
+        This is a helpful checklist, not Google's real score. Fix the red and yellow items, but write for readers
+        first.
       </p>
       <ul className="space-y-2">
         {sorted.map((c) => (

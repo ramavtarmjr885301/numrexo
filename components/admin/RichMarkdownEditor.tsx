@@ -65,7 +65,7 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
     if (!el) return;
     const { selectionStart: start, selectionEnd: end } = el;
     const selected = value.slice(start, end) || 'link text';
-    const url = window.prompt('Link ka URL daalo (jaise https://numrexo.com):', 'https://');
+    const url = window.prompt('Enter the link URL (e.g. https://numrexo.com):', 'https://');
     if (!url) return;
     const markdown = `[${selected}](${url})`;
     const next = value.slice(0, start) + markdown + value.slice(end);
@@ -84,18 +84,18 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
       const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Upload nahi hua, dobara try karo.');
+        setError(data.error || 'Upload failed. Please try again.');
         return;
       }
       const el = textareaRef.current;
       const start = el?.selectionStart ?? value.length;
       const end = el?.selectionEnd ?? value.length;
-      const altText = window.prompt('Image ke baare me chhota sa text (SEO ke liye, optional):', '') || '';
+      const altText = window.prompt('Short description of the image (alt text, good for SEO - optional):', '') || '';
       const markdown = `\n![${altText}](${data.url})\n`;
       const next = value.slice(0, start) + markdown + value.slice(end);
       applyEdit(next, start + markdown.length, start + markdown.length);
     } catch {
-      setError('Upload nahi hua - internet check karo aur dobara try karo.');
+      setError('Upload failed - check your internet connection and try again.');
     } finally {
       setUploading(false);
     }

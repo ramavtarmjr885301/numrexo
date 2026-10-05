@@ -60,6 +60,21 @@ export default function PrivacyPage() {
                             We do not sell or rent your address. Every email includes an unsubscribe link, and you can also
                             ask us to delete your address at any time through our <a href="/contact" className="text-blue-600 underline">Contact page</a>.
                         </p>
+                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">PDF reports and &quot;Email me this result&quot;</h3>
+                        <p className="text-ink-soft leading-relaxed">
+                            &quot;Download PDF&quot; builds the report inside your browser; nothing is uploaded. If you use &quot;Email me this result&quot;,
+                            the result you are looking at (the figures, your inputs and the time) is sent to our server once so we can create the PDF and
+                            email it to the address you enter. We do not keep a copy of the result. The address is added to our email updates list
+                            (new calculators and guides, nothing else), and every email includes an unsubscribe link. To limit abuse we keep a
+                            scrambled (hashed) form of your IP address and of the email address for up to seven days; neither can be read back.
+                            Our email provider processes the message in order to deliver it.
+                        </p>
+                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Country and currency</h3>
+                        <p className="text-ink-soft leading-relaxed">
+                            To show your local currency and measurement units, our hosting platform tells us the country your connection appears to
+                            come from. We never ask your browser for your location, and we do not store that country on our servers. The country you
+                            pick in the selector is saved only in your own browser.
+                        </p>
                         <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Result share images</h3>
                         <p className="text-ink-soft leading-relaxed">
                             The &quot;Share your result&quot; picture is created entirely inside your browser from the result you see on screen.

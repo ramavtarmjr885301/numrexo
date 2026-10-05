@@ -21,7 +21,17 @@
 // are two different questions, not the same question converted. We only change
 // how a number is labelled and formatted, never the arithmetic.
 
-export type CurrencyCode = "USD" | "GBP" | "EUR" | "CAD" | "AUD" | "INR";
+export type CurrencyCode =
+  | "USD"
+  | "GBP"
+  | "EUR"
+  | "CAD"
+  | "AUD"
+  | "NZD"
+  | "CHF"
+  | "SGD"
+  | "AED"
+  | "INR";
 
 export interface CurrencyInfo {
   code: CurrencyCode;
@@ -39,16 +49,34 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyInfo> = {
   EUR: { code: "EUR", symbol: "€", locale: "en-IE", label: "EUR (€) — Europe" },
   CAD: { code: "CAD", symbol: "$", locale: "en-CA", label: "CAD ($) — Canada" },
   AUD: { code: "AUD", symbol: "$", locale: "en-AU", label: "AUD ($) — Australia" },
+  NZD: { code: "NZD", symbol: "$", locale: "en-NZ", label: "NZD ($) — New Zealand" },
+  CHF: { code: "CHF", symbol: "CHF", locale: "en-CH", label: "CHF (CHF) — Switzerland" },
+  SGD: { code: "SGD", symbol: "$", locale: "en-SG", label: "SGD ($) — Singapore" },
+  AED: { code: "AED", symbol: "AED", locale: "en-AE", label: "AED (AED) — United Arab Emirates" },
   INR: { code: "INR", symbol: "₹", locale: "en-IN", label: "INR (₹) — India" },
 };
 
 /** Order shown in the dropdown. USD first because it is the default. */
-export const CURRENCY_ORDER: CurrencyCode[] = ["USD", "GBP", "EUR", "CAD", "AUD", "INR"];
+export const CURRENCY_ORDER: CurrencyCode[] = [
+  "USD",
+  "GBP",
+  "EUR",
+  "CAD",
+  "AUD",
+  "NZD",
+  "CHF",
+  "SGD",
+  "AED",
+  "INR",
+];
 
 export const DEFAULT_CURRENCY: CurrencyCode = "USD";
 
 /** localStorage key. Namespaced so it cannot collide with anything else. */
 export const CURRENCY_STORAGE_KEY = "numrexo.currency";
+
+/** Set to "1" once the visitor picks a currency themselves, so detection leaves it alone. */
+export const CURRENCY_MANUAL_KEY = "numrexo.currencyManual";
 
 /**
  * Two number "markets". Loan sizes, interest-rate bands and income levels in
@@ -75,6 +103,15 @@ export function currencySymbol(code: CurrencyCode): string {
   return currencyInfo(code).symbol;
 }
 
+/**
+ * Prefix a formatted number with the currency symbol. Symbols that are letters
+ * ("CHF", "AED") get a non-breaking space so we print "CHF 1,000" rather than
+ * "CHF1,000"; symbol-style prefixes ("$", "£", "€", "₹") are unchanged.
+ */
+function prefixSymbol(symbol: string, formatted: string): string {
+  return /[A-Za-z]$/.test(symbol) ? `${symbol}\u00A0${formatted}` : `${symbol}${formatted}`;
+}
+
 interface FormatMoneyOptions {
   /** Decimal places. Defaults to 2 below 1000 and 0 at or above it. */
   decimals?: number;
@@ -93,7 +130,7 @@ export function formatMoney(
   code: CurrencyCode = DEFAULT_CURRENCY,
   options: FormatMoneyOptions = {},
 ): string {
-  if (!Number.isFinite(value)) return `${currencySymbol(code)}0`;
+  if (!Number.isFinite(value)) return prefixSymbol(currencySymbol(code), "0");
 
   const info = currencyInfo(code);
   const decimals =
@@ -104,7 +141,7 @@ export function formatMoney(
     maximumFractionDigits: decimals,
   }).format(value);
 
-  return `${info.symbol}${formatted}`;
+  return prefixSymbol(info.symbol, formatted);
 }
 
 /**
@@ -114,13 +151,13 @@ export function formatMoney(
  * on a page that had just switched its default to dollars.
  */
 export function compactMoney(value: number, code: CurrencyCode = DEFAULT_CURRENCY): string {
-  if (!Number.isFinite(value)) return `${currencySymbol(code)}0`;
+  if (!Number.isFinite(value)) return prefixSymbol(currencySymbol(code), "0");
   const info = currencyInfo(code);
   const formatted = new Intl.NumberFormat(info.locale, {
     notation: "compact",
     maximumFractionDigits: 1,
   }).format(value);
-  return `${info.symbol}${formatted}`;
+  return prefixSymbol(info.symbol, formatted);
 }
 
 /** Plain number formatting (no symbol), locale-correct for the chosen currency. */

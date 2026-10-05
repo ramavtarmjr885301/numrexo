@@ -32,12 +32,12 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
       const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Upload nahi hua, dobara try karo.');
+        setError(data.error || 'Upload failed. Please try again.');
         return;
       }
       onChange(data.url);
     } catch {
-      setError('Upload nahi hua - internet check karo aur dobara try karo.');
+      setError('Upload failed - check your internet connection and try again.');
     } finally {
       setUploading(false);
     }
@@ -70,7 +70,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
           disabled={uploading}
           className="px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
         >
-          {uploading ? 'Upload ho raha hai...' : 'Computer se Upload karo'}
+          {uploading ? 'Uploading...' : 'Upload from computer'}
         </button>
         {value && (
           <button
@@ -88,7 +88,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="...ya yahan seedha image ka URL paste karo"
+        placeholder="...or paste an image URL here"
         className="mt-2 w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
       />
     </div>

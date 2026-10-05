@@ -93,7 +93,7 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
         <input
           name="q"
           defaultValue={q}
-          placeholder="Email ya naam se dhoondho"
+          placeholder="Search by email or name"
           className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
         />
         {status !== 'all' && <input type="hidden" name="status" value={status} />}
@@ -105,7 +105,7 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
       <div className="bg-surface border border-hairline rounded-xl divide-y divide-hairline">
         {data.subscribers.length === 0 && (
           <p className="p-6 text-ink-soft text-sm">
-            {counts.total === 0 ? 'Abhi koi subscriber nahi hai. Upar se import karo ya website se sign-up aane do.' : 'Is filter me koi subscriber nahi mila.'}
+            {counts.total === 0 ? 'No subscribers yet. Import a list above or wait for sign-ups from the website.' : 'No subscribers match this filter.'}
           </p>
         )}
         {data.subscribers.map((s) => (

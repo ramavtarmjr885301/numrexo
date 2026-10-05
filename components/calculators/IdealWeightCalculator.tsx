@@ -1,7 +1,8 @@
 // components/calculators/IdealWeightCalculator.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useCountry } from "@/components/common/useCountry";
 import Head from "next/head";
 import ResultBox from "@/components/common/ResultBox";
 
@@ -142,13 +143,22 @@ const HOWTO_SCHEMA = JSON.stringify({
 
 export default function IdealWeightCalculator() {
     const [gender, setGender] = useState<"male" | "female">("male");
-    const [unit, setUnit] = useState<"metric" | "imperial">("imperial");
+    // Unit system follows the visitor's country (US = imperial until detection says otherwise),
+    // but only until they touch the toggle.
+    const { units } = useCountry();
+    const unitTouched = useRef(false);
+    const [unit, setUnit] = useState<"metric" | "imperial">(units);
     const [heightFt, setHeightFt] = useState("5");
     const [heightIn, setHeightIn] = useState("10");
     const [heightCm, setHeightCm] = useState("170");
     const [frameSize, setFrameSize] = useState<"small" | "medium" | "large">("medium");
     const [result, setResult] = useState<any>(null);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (unitTouched.current) return;
+        setUnit(units);
+    }, [units]);
 
     const calculate = () => {
         let heightInches: number;
@@ -220,7 +230,8 @@ export default function IdealWeightCalculator() {
 
     const resetForm = () => {
         setGender("male");
-        setUnit("imperial");
+        unitTouched.current = false;
+        setUnit(units);
         setHeightFt("");
         setHeightIn("");
         setHeightCm("");
@@ -293,8 +304,8 @@ export default function IdealWeightCalculator() {
                         <button className={`flex-1 py-3 text-sm font-semibold transition-all ${gender === "female" ? "text-pink-600 border-b-2 border-pink-500 bg-pink-50" : "text-ink-faint hover:text-ink-soft"}`} onClick={() => setGender("female")}>Female</button>
                     </div>
                     <div className="flex border-b border-hairline">
-                        <button className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "imperial" ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50" : "text-ink-faint hover:text-ink-soft"}`} onClick={() => setUnit("imperial")}>Imperial (ft/in)</button>
-                        <button className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "metric" ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50" : "text-ink-faint hover:text-ink-soft"}`} onClick={() => setUnit("metric")}>Metric (cm)</button>
+                        <button className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "imperial" ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50" : "text-ink-faint hover:text-ink-soft"}`} onClick={() => { unitTouched.current = true; setUnit("imperial"); }}>Imperial (ft/in)</button>
+                        <button className={`flex-1 py-3 text-sm font-semibold transition-all ${unit === "metric" ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50" : "text-ink-faint hover:text-ink-soft"}`} onClick={() => { unitTouched.current = true; setUnit("metric"); }}>Metric (cm)</button>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>

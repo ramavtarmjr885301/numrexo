@@ -21,10 +21,10 @@ export default function AdminLoginPage() {
       if (res.ok) {
         window.location.href = '/';
       } else {
-        setError('User ID ya password galat hai. Dobara try karo.');
+        setError('Incorrect user ID or password. Please try again.');
       }
     } catch {
-      setError('Kuch gadbad hui. Dobara try karo.');
+      setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm bg-surface border border-hairline rounded-xl p-6 sm:p-8 shadow-sm"
       >
         <h1 className="text-xl font-semibold text-ink mb-1">Numrexo Blog Admin</h1>
-        <p className="text-sm text-ink-soft mb-6">User ID aur password daal kar login karo</p>
+        <p className="text-sm text-ink-soft mb-6">Enter your user ID and password to sign in</p>
 
         <label className="block text-sm text-ink-soft mb-1.5" htmlFor="userId">
           User ID

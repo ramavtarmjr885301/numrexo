@@ -8,7 +8,7 @@ export default function DeletePostButton({ id, title }: { id: number; title: str
   const [busy, setBusy] = useState(false);
 
   async function handleDelete() {
-    if (!window.confirm(`"${title}" ko delete karna hai? Ye undo nahi ho sakta.`)) return;
+    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
     setBusy(true);
     try {
       await fetch(`/api/admin/posts/${id}`, { method: 'DELETE' });

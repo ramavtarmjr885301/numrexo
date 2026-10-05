@@ -198,7 +198,7 @@ export default function VATCalculator() {
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
             <span itemProp="name" className="text-ink-soft">VAT Calculator</span> {/* ✅ Error Fixed Here */}
-            {/* Last item par URL nahi hota isliye itemProp="item" hataya gaya hai */}
+            {/* The last breadcrumb item has no URL, so itemProp="item" is omitted */}
             <meta itemProp="position" content="3" />
         </li>
         

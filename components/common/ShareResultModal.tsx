@@ -62,7 +62,7 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
           setCanShareFiles(false);
         }
       } catch {
-        if (!cancelled) setError("Image nahi ban payi. Dobara try karo.");
+        if (!cancelled) setError("Couldn't create the image. Please try again.");
       }
     })();
     return () => {
@@ -143,7 +143,7 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
         <div className="flex items-center justify-between px-5 py-4 border-b border-hairline">
           <div>
             <h2 className="text-lg font-bold">Share your result</h2>
-            <p className="text-xs text-ink-faint">Photo card banao aur Story / chat me bhejo</p>
+            <p className="text-xs text-ink-faint">Create a picture card for your Story or chats</p>
           </div>
           <button
             type="button"
@@ -163,7 +163,7 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
                 <img src={previewUrl} alt={`Share card: ${data.calcName} result ${data.value}`} className="w-full h-full object-contain" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
-                  {error || "Card ban raha hai…"}
+                  {error || "Creating your card…"}
                 </div>
               )}
             </div>
@@ -232,9 +232,9 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
             </div>
 
             <div className="rounded-xl bg-cream border border-hairline p-3 text-xs text-ink-soft leading-relaxed">
-              <strong className="text-ink">Instagram Story:</strong> mobile par &quot;Share image&quot; dabao aur
-              Instagram chuno. Computer par &quot;Download image&quot; karke Story me upload karo. Card me sirf wahi
-              numbers hain jo aapko result me dikh rahe hain; aapke inputs kahin save nahi hote.
+              <strong className="text-ink">Instagram Story:</strong> on your phone, tap &quot;Share image&quot; and
+              choose Instagram. On a computer, download the image and upload it to your Story. The card only shows
+              the numbers you see in your result, and your inputs are never saved.
             </div>
             {error && <p className="text-xs text-red-600">{error}</p>}
           </div>

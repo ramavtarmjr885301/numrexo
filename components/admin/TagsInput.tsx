@@ -55,7 +55,7 @@ export default function TagsInput({ value, onChange }: TagsInputProps) {
         }}
         onBlur={() => draft.trim() && commit(draft)}
         disabled={value.length >= MAX_TAGS}
-        placeholder={value.length >= MAX_TAGS ? 'Max tags ho gaye' : 'Tag likho aur Enter dabao (jaise: home loan)'}
+        placeholder={value.length >= MAX_TAGS ? 'Maximum number of tags reached' : 'Type a tag and press Enter (e.g. home loan)'}
         className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
       />
     </div>

@@ -21,7 +21,7 @@ export default function SubscriberActions({ id, email, active }: SubscriberActio
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ active: !active }),
       });
-      if (!res.ok) alert('Update nahi hua. Dobara try karo.');
+      if (!res.ok) alert('Update failed. Please try again.');
       router.refresh();
     } finally {
       setBusy(false);
@@ -29,11 +29,11 @@ export default function SubscriberActions({ id, email, active }: SubscriberActio
   }
 
   async function remove() {
-    if (!confirm(`${email} ko hamesha ke liye delete karna hai? (Sirf deactivate karna ho to "Deactivate" dabao.)`)) return;
+    if (!confirm(`Permanently delete ${email}? (To just stop emailing them, use "Deactivate" instead.)`)) return;
     setBusy(true);
     try {
       const res = await fetch(`/api/admin/subscribers/${id}`, { method: 'DELETE' });
-      if (!res.ok) alert('Delete nahi hua. Dobara try karo.');
+      if (!res.ok) alert('Delete failed. Please try again.');
       router.refresh();
     } finally {
       setBusy(false);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useCountry } from "@/components/common/useCountry";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -109,13 +110,25 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BMICalculator() {
-  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
+  // Unit system follows the visitor's country (US = imperial until detection says otherwise),
+  // but only until they touch the toggle or any field.
+  const { units } = useCountry();
+  const touched = useRef(false);
+  const defaultWeight = (system: "metric" | "imperial") => (system === "imperial" ? "145" : "65");
+  const [unit, setUnit] = useState<"metric" | "imperial">(units);
   const [heightCm, setHeightCm] = useState("170");
   const [heightFt, setHeightFt] = useState("5");
   const [heightIn, setHeightIn] = useState("7");
-  const [weight, setWeight] = useState("65");
+  const [weight, setWeight] = useState(defaultWeight(units));
   const [result, setResult] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (touched.current) return;
+    setUnit(units);
+    setWeight(defaultWeight(units));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [units]);
 
   const calculate = () => {
     let h: number, w: number;
@@ -166,7 +179,8 @@ export default function BMICalculator() {
   useEffect(() => { calculate(); }, [unit, heightCm, heightFt, heightIn, weight]);
 
   const resetForm = () => {
-    setUnit("metric");
+    touched.current = true;
+    setUnit(units);
     setHeightCm("");
     setHeightFt("");
     setHeightIn("");
@@ -216,7 +230,7 @@ export default function BMICalculator() {
                 ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                 : "text-ink-faint hover:text-ink-soft"
                 }`}
-              onClick={() => setUnit("metric")}
+              onClick={() => { touched.current = true; setUnit("metric"); }}
             >
               Metric Units
             </button>
@@ -225,7 +239,7 @@ export default function BMICalculator() {
                 ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                 : "text-ink-faint hover:text-ink-soft"
                 }`}
-              onClick={() => setUnit("imperial")}
+              onClick={() => { touched.current = true; setUnit("imperial"); }}
             >
               US / Imperial
             </button>
@@ -241,7 +255,7 @@ export default function BMICalculator() {
                       type="number"
                       placeholder="170"
                       value={heightCm}
-                      onChange={(e) => setHeightCm(e.target.value)}
+                      onChange={(e) => { touched.current = true; setHeightCm(e.target.value); }}
                       className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">cm</span>
@@ -254,7 +268,7 @@ export default function BMICalculator() {
                       type="number"
                       placeholder="65"
                       value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
+                      onChange={(e) => { touched.current = true; setWeight(e.target.value); }}
                       className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">kg</span>
@@ -271,7 +285,7 @@ export default function BMICalculator() {
                         type="number"
                         placeholder="5"
                         value={heightFt}
-                        onChange={(e) => setHeightFt(e.target.value)}
+                        onChange={(e) => { touched.current = true; setHeightFt(e.target.value); }}
                         className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">ft</span>
@@ -281,7 +295,7 @@ export default function BMICalculator() {
                         type="number"
                         placeholder="10"
                         value={heightIn}
-                        onChange={(e) => setHeightIn(e.target.value)}
+                        onChange={(e) => { touched.current = true; setHeightIn(e.target.value); }}
                         className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">in</span>
@@ -295,7 +309,7 @@ export default function BMICalculator() {
                       type="number"
                       placeholder="160"
                       value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
+                      onChange={(e) => { touched.current = true; setWeight(e.target.value); }}
                       className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">lbs</span>

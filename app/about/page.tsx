@@ -172,7 +172,7 @@ const features = [
 export default function AboutPage() {
     return (
         <>
-            {/* JSON-LD Schema — Global SEO ke liye critical */}
+            {/* JSON-LD Schema — critical for global SEO */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

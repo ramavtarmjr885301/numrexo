@@ -160,14 +160,14 @@ export default function PostForm({
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Save nahi hua, dobara try karo.');
+        setError(data.error || 'Couldn't save. Please try again.');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
       router.push('/');
       router.refresh();
     } catch {
-      setError('Kuch gadbad hui. Dobara try karo.');
+      setError('Something went wrong. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -195,7 +195,7 @@ export default function PostForm({
 
         <div>
           <label className="block text-sm text-ink-soft mb-1.5">
-            URL slug <span className="text-ink-faint">(post ka link; khaali chhodo to title se banega)</span>
+            URL slug <span className="text-ink-faint">(the post's link; leave empty to build it from the title)</span>
           </label>
           <div className="flex items-center rounded-lg bg-cream border border-hairline focus-within:border-blue-600 overflow-hidden">
             <span className="pl-3 text-xs text-ink-faint whitespace-nowrap">numrexo.com/blog/</span>
@@ -212,15 +212,15 @@ export default function PostForm({
           </div>
           {slugChangedOnLivePost && (
             <p className="text-xs text-red-600 mt-1.5">
-              Dhyan do: ye post live hai. Slug badloge to purana link (Google, WhatsApp, social media par) kaam nahi
-              karega. Zaroori na ho to slug mat badlo.
+              Heads up: this post is live. If you change the slug, the old link (on Google, WhatsApp and social media) will stop
+              working. Don't change it unless you have to.
             </p>
           )}
         </div>
 
         <div>
           <label className="block text-sm text-ink-soft mb-1.5">
-            Excerpt <span className="text-ink-faint">(blog list me dikhta hai, 1-2 line)</span>
+            Excerpt <span className="text-ink-faint">(shown on the blog list, 1-2 lines)</span>
           </label>
           <textarea
             value={values.excerpt}
@@ -234,8 +234,8 @@ export default function PostForm({
           <label className="block text-sm text-ink-soft mb-1.5">Content</label>
           <RichMarkdownEditor value={values.contentMarkdown} onChange={(v) => update('contentMarkdown', v)} />
           <p className="text-xs text-ink-faint mt-1.5">
-            Sub-heading ke liye <code>## Heading</code> likho - isi se post ka &quot;In this article&quot; table of
-            contents banta hai.
+            For a sub-heading, write <code>## Heading</code> - the post's &quot;In this article&quot; table of
+            contents is built from these.
           </p>
         </div>
 
@@ -246,19 +246,19 @@ export default function PostForm({
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
               Focus keyword{' '}
-              <span className="text-ink-faint">(wo phrase jis par log Google karenge; sirf SEO score ke liye)</span>
+              <span className="text-ink-faint">(the phrase people will search on Google; only used for the SEO score)</span>
             </label>
             <input
               value={values.focusKeyword}
               onChange={(e) => update('focusKeyword', e.target.value)}
-              placeholder="jaise: sip calculator"
+              placeholder="e.g. sip calculator"
               className={INPUT}
             />
           </div>
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Meta Title <span className="text-ink-faint">(khaali = normal Title; 50-60 letters best)</span>
+              Meta Title <span className="text-ink-faint">(empty = the normal Title; 50-60 characters is best)</span>
             </label>
             <input
               value={values.metaTitle}
@@ -270,7 +270,7 @@ export default function PostForm({
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Meta Description <span className="text-ink-faint">(khaali = Excerpt; 120-160 letters best)</span>
+              Meta Description <span className="text-ink-faint">(empty = the Excerpt; 120-160 characters is best)</span>
             </label>
             <textarea
               value={values.metaDescription}
@@ -290,14 +290,14 @@ export default function PostForm({
 
           <ImageUploadField
             label="Social share image"
-            hint="WhatsApp/Facebook/X par link share karne par ye image dikhti hai (1200x630 best). Khaali = Featured Image."
+            hint="Shown when the link is shared on WhatsApp, Facebook or X (1200x630 is best). Empty = the Featured Image."
             value={values.ogImage}
             onChange={(url) => update('ogImage', url)}
           />
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Canonical URL <span className="text-ink-faint">(sirf tab bharo jab ye content kisi aur URL ka copy ho)</span>
+              Canonical URL <span className="text-ink-faint">(only fill this in if this content is a copy of another URL)</span>
             </label>
             <input
               value={values.canonicalUrl}
@@ -315,14 +315,14 @@ export default function PostForm({
               className="w-4 h-4 mt-0.5"
             />
             <span>
-              Google se chhupao (noindex) <span className="text-ink-faint">- post live rahegi par search me nahi aayegi aur sitemap se hat jayegi</span>
+              Hide from Google (noindex) <span className="text-ink-faint">- the post stays live but won't appear in search and is removed from the sitemap</span>
             </span>
           </label>
         </div>
 
         {/* ------------------------------ ENGAGEMENT ------------------------------ */}
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">Post ke andar extras</h3>
+          <h3 className="text-sm font-semibold text-ink">Extras inside the post</h3>
 
           <label className="flex items-start gap-2 text-sm text-ink-soft">
             <input
@@ -332,21 +332,21 @@ export default function PostForm({
               className="w-4 h-4 mt-0.5"
             />
             <span>
-              &quot;In this article&quot; table of contents dikhao{' '}
-              <span className="text-ink-faint">(jab post me 3 ya zyada sub-headings hon)</span>
+              &quot;In this article&quot; table of contents{' '}
+              <span className="text-ink-faint">(when the post has 3 or more sub-headings)</span>
             </span>
           </label>
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Calculator box <span className="text-ink-faint">(post ke beech me is calculator ka &quot;Try it free&quot; box)</span>
+              Calculator box <span className="text-ink-faint">(a &quot;Try it free&quot; box for this calculator in the middle of the post)</span>
             </label>
             <select
               value={values.ctaCalculator}
               onChange={(e) => update('ctaCalculator', e.target.value)}
               className={INPUT}
             >
-              <option value="">- koi nahi -</option>
+              <option value="">- none -</option>
               {CALCULATORS_REGISTRY.filter((c) => !c.comingSoon).map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.icon} {c.name}
@@ -357,7 +357,7 @@ export default function PostForm({
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Related posts khud chuno <span className="text-ink-faint">(max 6; baaki automatic judenge)</span>
+              Choose related posts yourself <span className="text-ink-faint">(max 6; the rest are added automatically)</span>
             </label>
             <select
               multiple
@@ -380,7 +380,7 @@ export default function PostForm({
                   </option>
                 ))}
             </select>
-            <p className="text-xs text-ink-faint mt-1">Ctrl (Mac par Cmd) dabaake ek se zyada chuno.</p>
+            <p className="text-xs text-ink-faint mt-1">Hold Ctrl (Cmd on Mac) to select more than one.</p>
           </div>
         </div>
 
@@ -410,13 +410,13 @@ export default function PostForm({
               className={INPUT}
             >
               <option value="published">Published</option>
-              <option value="draft">Draft (live nahi hoga)</option>
+              <option value="draft">Draft (not live)</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm text-ink-soft mb-1.5">
-              Publish date &amp; time <span className="text-ink-faint">(khaali = abhi)</span>
+              Publish date &amp; time <span className="text-ink-faint">(empty = now)</span>
             </label>
             <input
               type="datetime-local"
@@ -426,8 +426,7 @@ export default function PostForm({
             />
             {scheduled && (
               <p className="text-xs text-blue-700 mt-1.5">
-                Scheduled: ye post us time par apne aap live ho jayegi (sitemap me bhi aa jayegi, kabhi-kabhi ek ghante
-                tak ka delay ho sakta hai).
+                Scheduled: this post goes live automatically at that time (and is added to the sitemap too; it can occasionally be up to an hour late).
               </p>
             )}
             {dateLocal && (
@@ -436,7 +435,7 @@ export default function PostForm({
                 onClick={() => setDateLocal('')}
                 className="text-xs text-ink-faint hover:text-ink mt-1"
               >
-                Date hatao (abhi publish)
+                Clear date (publish now)
               </button>
             )}
           </div>
@@ -492,7 +491,7 @@ export default function PostForm({
         <div className={CARD}>
           <ImageUploadField
             label="Featured Image"
-            hint="blog list aur post ke top par dikhegi"
+            hint="Shown on the blog list and at the top of the post"
             value={values.featuredImage}
             onChange={(url) => update('featuredImage', url)}
           />

@@ -64,60 +64,64 @@ export function analyseSeo(input: SeoInput): SeoReport {
 
   // --- Title ---------------------------------------------------------------
   const tl = seoTitle.length;
-  if (tl === 0) add('title', 'bad', 'Title missing', 'Title likho - ye Google me blue link banta hai.');
-  else if (tl < 30) add('title', 'ok', `Title chhota hai (${tl} letters)`, '50-60 letters me rakho taaki Google poora dikhaye aur keyword ki jagah mile.');
-  else if (tl <= 60) add('title', 'good', `Title length theek hai (${tl} letters)`, 'Google me poora dikhega.');
-  else add('title', 'ok', `Title lamba hai (${tl} letters)`, '60 se zyada letters Google me kat jate hain. Chhota karo.');
+  if (tl === 0) add('title', 'bad', 'Title is missing', 'Add a title - it becomes the blue link in Google results.');
+  else if (tl < 30) add('title', 'ok', `Title is short (${tl} characters)`, 'Aim for 50-60 characters so Google shows all of it and there is room for your keyword.');
+  else if (tl <= 60) add('title', 'good', `Title length is good (${tl} characters)`, 'It should show in full in Google.');
+  else add('title', 'ok', `Title is long (${tl} characters)`, 'Google cuts titles after about 60 characters. Shorten it.');
 
   // --- Description ---------------------------------------------------------
   const dl = description.length;
-  if (dl === 0) add('desc', 'bad', 'Meta description missing', 'Excerpt ya Meta Description likho - ye Google ke neeche ka 2-line text hai.');
-  else if (dl < 110) add('desc', 'ok', `Description chhota hai (${dl} letters)`, '120-160 letters me likho, taaki zyada log click karein.');
-  else if (dl <= 160) add('desc', 'good', `Description length theek hai (${dl} letters)`, 'Google me poora dikhega.');
-  else add('desc', 'ok', `Description lamba hai (${dl} letters)`, '160 se zyada letters kat jate hain.');
+  if (dl === 0) add('desc', 'bad', 'Meta description is missing', 'Write an Excerpt or Meta Description - it is the 2-line text under the title in Google.');
+  else if (dl < 110) add('desc', 'ok', `Description is short (${dl} characters)`, 'Aim for 120-160 characters to earn more clicks.');
+  else if (dl <= 160) add('desc', 'good', `Description length is good (${dl} characters)`, 'It should show in full in Google.');
+  else add('desc', 'ok', `Description is long (${dl} characters)`, 'Google cuts descriptions after about 160 characters.');
 
   // --- Slug ----------------------------------------------------------------
   const slug = input.slug.trim();
-  if (!slug) add('slug', 'ok', 'Slug title se auto banega', 'Chhota, keyword wala slug best hai (jaise best-sip-plans).');
-  else if (slug.length > 75) add('slug', 'ok', 'Slug bahut lamba hai', '3-6 shabdon ka chhota slug rakho.');
-  else add('slug', 'good', 'Slug theek hai', '');
+  if (!slug) add('slug', 'ok', 'Slug will be generated from the title', 'A short slug containing your keyword is best (e.g. best-sip-plans).');
+  else if (slug.length > 75) add('slug', 'ok', 'Slug is very long', 'Keep the slug to 3-6 words.');
+  else add('slug', 'good', 'Slug looks good', '');
 
   // --- Focus keyword -------------------------------------------------------
   if (!kw) {
-    add('kw', 'ok', 'Focus keyword set nahi hai', 'Wo ek phrase likho jis par log Google karenge (jaise "sip calculator"). Neeche ke keyword checks tabhi chalenge.');
+    add('kw', 'ok', 'No focus keyword set', 'Enter the phrase people will search for (e.g. "sip calculator"). The keyword checks below run once you do.');
   } else {
-    add('kw-title', seoTitle.toLowerCase().includes(kw) ? 'good' : 'bad', seoTitle.toLowerCase().includes(kw) ? 'Keyword title me hai' : 'Keyword title me nahi hai', 'Focus keyword ko title ke shuru me rakhna best hai.');
-    add('kw-desc', description.toLowerCase().includes(kw) ? 'good' : 'ok', description.toLowerCase().includes(kw) ? 'Keyword description me hai' : 'Keyword description me nahi hai', 'Meta description me ek baar keyword aana chahiye.');
-    add('kw-slug', slug.includes(kw.replace(/\s+/g, '-')) ? 'good' : 'ok', slug.includes(kw.replace(/\s+/g, '-')) ? 'Keyword slug me hai' : 'Keyword slug me nahi hai', 'Slug me keyword (hyphen ke saath) ho to behtar.');
-    add('kw-intro', firstWords.includes(kw) ? 'good' : 'ok', firstWords.includes(kw) ? 'Keyword shuru ke paragraph me hai' : 'Keyword shuru ke 100 shabdon me nahi hai', 'Pehle paragraph me keyword ek baar naturally lao.');
+    const inTitle = seoTitle.toLowerCase().includes(kw);
+    add('kw-title', inTitle ? 'good' : 'bad', inTitle ? 'Keyword is in the title' : 'Keyword is not in the title', 'Put the focus keyword near the start of the title.');
+    const inDesc = description.toLowerCase().includes(kw);
+    add('kw-desc', inDesc ? 'good' : 'ok', inDesc ? 'Keyword is in the description' : 'Keyword is not in the description', 'Use the keyword once in the meta description.');
+    const inSlug = slug.includes(kw.replace(/\s+/g, '-'));
+    add('kw-slug', inSlug ? 'good' : 'ok', inSlug ? 'Keyword is in the slug' : 'Keyword is not in the slug', 'Better if the slug contains the keyword (with hyphens).');
+    const inIntro = firstWords.includes(kw);
+    add('kw-intro', inIntro ? 'good' : 'ok', inIntro ? 'Keyword appears in the opening paragraph' : 'Keyword is not in the first 100 words', 'Use the keyword naturally once in your first paragraph.');
     const occurrences = kw ? text.toLowerCase().split(kw).length - 1 : 0;
     const density = words > 0 ? (occurrences * kw.split(' ').length * 100) / words : 0;
-    if (occurrences === 0) add('kw-body', 'bad', 'Keyword content me nahi mila', 'Content me kam se kam 2-3 baar naturally use karo.');
-    else if (density > 3) add('kw-body', 'ok', `Keyword zyada baar aa raha hai (${occurrences} baar)`, 'Keyword stuffing se bacho - 0.5% se 2% theek hai.');
-    else add('kw-body', 'good', `Keyword content me ${occurrences} baar hai`, '');
+    if (occurrences === 0) add('kw-body', 'bad', 'Keyword was not found in the content', 'Use it naturally 2-3 times in the article.');
+    else if (density > 3) add('kw-body', 'ok', `Keyword appears very often (${occurrences} times)`, 'Avoid keyword stuffing - roughly 0.5% to 2% of the words is fine.');
+    else add('kw-body', 'good', `Keyword appears ${occurrences} time${occurrences === 1 ? '' : 's'} in the content`, '');
   }
 
   // --- Content -------------------------------------------------------------
-  if (words < 300) add('len', 'bad', `Content bahut chhota hai (${words} words)`, 'Thin content AdSense aur Google dono ko pasand nahi. Kam se kam 600+ words likho.');
-  else if (words < 600) add('len', 'ok', `Content thoda chhota hai (${words} words)`, '800-1500 words wali useful post behtar rank karti hai.');
-  else add('len', 'good', `Content length achhi hai (${words} words)`, '');
+  if (words < 300) add('len', 'bad', `Content is very short (${words} words)`, 'Thin content is disliked by Google and AdSense. Aim for 600+ words.');
+  else if (words < 600) add('len', 'ok', `Content is a little short (${words} words)`, 'Useful posts of 800-1,500 words tend to rank better.');
+  else add('len', 'good', `Content length is good (${words} words)`, '');
 
   const h2s = (md.match(/^##\s+\S/gm) || []).length + (md.match(/<h2[\s>]/gi) || []).length;
-  add('h2', h2s >= 2 ? 'good' : h2s === 1 ? 'ok' : 'bad', h2s >= 2 ? `${h2s} sub-headings (H2) hain` : 'Sub-headings (H2) kam hain', 'Content ko ## Heading se hisson me todo - padhna aasan hota hai aur TOC bhi banta hai.');
+  add('h2', h2s >= 2 ? 'good' : h2s === 1 ? 'ok' : 'bad', h2s >= 2 ? `${h2s} sub-headings (H2) found` : 'Few sub-headings (H2)', 'Break the article into sections with ## Heading - it is easier to read and builds the table of contents.');
 
   const internalLinks = (md.match(/\]\((https?:\/\/(www\.)?numrexo\.com)?\/[^)\s]*\)/g) || []).length;
-  add('internal', internalLinks >= 1 ? 'good' : 'ok', internalLinks >= 1 ? `${internalLinks} internal link(s) hain` : 'Koi internal link nahi', 'Apne calculator ya doosri post ka link do - jaise [SIP Calculator](/finance/sip-calculator).');
+  add('internal', internalLinks >= 1 ? 'good' : 'ok', internalLinks >= 1 ? `${internalLinks} internal link${internalLinks === 1 ? '' : 's'} found` : 'No internal links', 'Link to one of your calculators or another post, e.g. [SIP Calculator](/finance/sip-calculator).');
 
   const images = [...md.matchAll(/!\[([^\]]*)\]\(/g)];
-  if (images.length === 0) add('img', 'ok', 'Content me koi image nahi', 'Kam se kam 1 useful image/chart rakho.');
+  if (images.length === 0) add('img', 'ok', 'No images in the content', 'Add at least one useful image or chart.');
   else {
     const missingAlt = images.filter((m) => !m[1].trim()).length;
-    add('alt', missingAlt === 0 ? 'good' : 'bad', missingAlt === 0 ? 'Sabhi images me alt text hai' : `${missingAlt} image(s) me alt text nahi`, 'Image ke [ ] ke andar 3-8 shabdon me image ka description likho.');
+    add('alt', missingAlt === 0 ? 'good' : 'bad', missingAlt === 0 ? 'All images have alt text' : `${missingAlt} image${missingAlt === 1 ? '' : 's'} missing alt text`, 'Write a 3-8 word description of the image inside the [ ] brackets.');
   }
 
-  add('feat', input.featuredImage ? 'good' : 'ok', input.featuredImage ? 'Featured image hai' : 'Featured image nahi hai', 'Featured image blog list aur social share me dikhti hai.');
-  add('faq', input.faqCount >= 2 ? 'good' : 'ok', input.faqCount >= 2 ? `${input.faqCount} FAQ hain (FAQ rich result ban sakta hai)` : 'FAQ nahi / kam hain', '2-5 real sawal-jawab jodo.');
-  add('tags', input.tagCount >= 2 ? 'good' : 'ok', input.tagCount >= 2 ? `${input.tagCount} tags hain` : 'Tags kam hain', '2-5 relevant tags lagao.');
+  add('feat', input.featuredImage ? 'good' : 'ok', input.featuredImage ? 'Featured image is set' : 'No featured image', 'The featured image appears in the blog list and when the post is shared.');
+  add('faq', input.faqCount >= 2 ? 'good' : 'ok', input.faqCount >= 2 ? `${input.faqCount} FAQs added (can earn an FAQ rich result)` : 'No or few FAQs', 'Add 2-5 real questions and answers.');
+  add('tags', input.tagCount >= 2 ? 'good' : 'ok', input.tagCount >= 2 ? `${input.tagCount} tags added` : 'Few tags', 'Add 2-5 relevant tags.');
 
   const weight = { good: 1, ok: 0.5, bad: 0 } as const;
   const total = checks.reduce((sum, c) => sum + weight[c.status], 0);

@@ -176,7 +176,7 @@ useEffect(() => {
         <li className="text-ink-soft">/</li>
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            {/* ✅ URL aur Span dono fix kar diye hain */}
+            {/* URL and span are both fixed */}
             <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">
                 <span itemProp="name">Investment Calculators</span> 
             </a>

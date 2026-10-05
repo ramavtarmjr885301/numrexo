@@ -1,10 +1,9 @@
 "use client";
 
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { CALCULATORS_REGISTRY, CATEGORIES } from "@/data/calculatorsRegistry";
-import ShareResultModal from "./ShareResultModal";
-import { ShareIcon } from "./SocialIcons";
+import ResultActions from "./ResultActions";
 import type { ShareCardData } from "@/lib/shareCard";
 
 interface ResultBoxProps {
@@ -35,14 +34,11 @@ export default function ResultBox({
   mainResult,
   extraRows,
 }: ResultBoxProps) {
-  // "Share your result" card (Patch 19). Every calculator that renders its
-  // answer through this component gets it automatically: the card is built
+  // Result actions (Patch 19 share card, Patch 20 PDF + email). Every calculator
+  // that renders its answer through this component gets them automatically: built
   // from the same title / main result / extra rows shown on screen, plus the
   // current calculator's name, icon and colour looked up from the registry.
   const pathname = usePathname() || "";
-  // A frozen copy of the card data taken when the dialog opens, so a re-render
-  // of the calculator behind it can never make the preview redraw or flicker.
-  const [shareSnapshot, setShareSnapshot] = useState<ShareCardData | null>(null);
   const calc = useMemo(
     () => CALCULATORS_REGISTRY.find((c) => c.path === pathname.replace(/\/$/, "")),
     [pathname],
@@ -113,26 +109,9 @@ export default function ResultBox({
           </>
         )}
 
-        {shareData && (
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => setShareSnapshot(shareData)}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity"
-            >
-              <ShareIcon className="w-4 h-4" /> Share your result
-            </button>
-          </div>
-        )}
+        {shareData && <ResultActions data={shareData} calcPath={calc?.path || pathname} />}
       </div>
 
-      {shareSnapshot && (
-        <ShareResultModal
-          data={shareSnapshot}
-          url={`https://numrexo.com${calc?.path || pathname}`}
-          onClose={() => setShareSnapshot(null)}
-        />
-      )}
     </div>
   );
 }

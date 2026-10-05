@@ -33,7 +33,7 @@ export default async function AdminDashboardPage() {
 
       <div className="bg-surface border border-hairline rounded-xl divide-y divide-hairline">
         {posts.length === 0 && (
-          <p className="p-6 text-ink-soft text-sm">Abhi koi post nahi hai. "New Post" se shuru karo.</p>
+          <p className="p-6 text-ink-soft text-sm">No posts yet. Click "New Post" to start.</p>
         )}
         {posts.map((post) => (
           <div key={post.id} className="flex items-center justify-between gap-3 p-4">
@@ -72,7 +72,7 @@ export default async function AdminDashboardPage() {
               ) : (
                 <span
                   className="text-sm text-ink-faint"
-                  title={isScheduled(post) ? 'Scheduled hai, us time par live hogi' : 'Draft hai, abhi live nahi hai'}
+                  title={isScheduled(post) ? 'Scheduled - goes live automatically at the set time' : 'Draft - not live yet'}
                 >
                   Not live
                 </span>

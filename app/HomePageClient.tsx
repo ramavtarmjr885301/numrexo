@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Clock } from "lucide-react";
 import CalculatorCard from "@/components/common/CalculatorCard";
+import FeaturedCalculator from "@/components/home/FeaturedCalculator";
 import {
   CALCULATORS_REGISTRY,
   CATEGORIES,
@@ -467,6 +468,9 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
+
+      {/* ── FEATURED ── */}
+      <FeaturedCalculator />
 
       {/* ── MOST USED ── */}
       <section className="px-4 sm:px-6 py-10 sm:py-12" aria-labelledby="calculators-heading">

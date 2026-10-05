@@ -259,7 +259,7 @@ export default function MortgageCalculator() {
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
             <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Yahan span add kiya hai */}
+                <span itemProp="name">Home</span> {/* span added here */}
             </a>
             <meta itemProp="position" content="1" />
         </li>
@@ -268,7 +268,7 @@ export default function MortgageCalculator() {
         
         <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
             <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Finance Calculators</span> {/* ✅ Yahan span add kiya hai */}
+                <span itemProp="name">Finance Calculators</span> {/* span added here */}
             </a>
             <meta itemProp="position" content="2" />
         </li>

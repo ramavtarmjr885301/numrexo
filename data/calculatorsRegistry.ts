@@ -12,6 +12,8 @@ export interface CalculatorType {
   category: 'health' | 'fitness' | 'finance' | 'tax' | 'math' | 'conversion' | 'education' | 'construction' | 'business' | 'science' | 'time' | 'cooking' | 'travel' | 'investment';
   path: string;
   isNew?: boolean;
+  /** Highlighted in the "Featured" block on the home page. */
+  featured?: boolean;
   popularity?: number;
   comingSoon?: boolean;
 }
@@ -87,6 +89,7 @@ export const CALCULATORS_REGISTRY: CalculatorType[] = [
     path: generatePath("finance", "salary-budgeting-calculator"),
     popularity: 85
   },
+  { id: "net-worth", slug: "net-worth-calculator", name: "Net Worth Calculator", icon: "🏦", color: "#059669", bg: "rgba(5,150,105,0.1)", desc: "Add up assets and debts to see your net worth, liquid assets and debt-to-asset ratio", tags: ["Finance", "Popular", "New"], category: "finance", path: generatePath("finance", "net-worth-calculator"), popularity: 92, isNew: true, featured: true },
 
   // ============ MATH CATEGORY (12 calculators) ============
   { id: "percentage", slug: "percentage-calculator", name: "Percentage Calculator", icon: "%", color: "#ec4899", bg: "rgba(236,72,153,0.1)", desc: "Calculate percentages easily", tags: ["Math", "Popular"], category: "math", path: generatePath("math", "percentage-calculator"), popularity: 95 },

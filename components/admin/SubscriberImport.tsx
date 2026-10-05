@@ -24,7 +24,7 @@ export default function SubscriberImport() {
     e.target.value = '';
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
-      setError('File 5 MB se badi hai.');
+      setError('That file is larger than 5 MB.');
       return;
     }
     setError('');
@@ -36,7 +36,7 @@ export default function SubscriberImport() {
     setSummary(null);
     const rows = parseSubscriberText(text);
     if (rows.length === 0) {
-      setError('Koi email nahi mila. File/text check karo.');
+      setError('No email addresses found. Please check the file or text.');
       return;
     }
     setBusy(true);
@@ -48,14 +48,14 @@ export default function SubscriberImport() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Import nahi hua.');
+        setError(data.error || 'Import failed.');
         return;
       }
       setSummary(data as Summary);
       setText('');
       router.refresh();
     } catch {
-      setError('Kuch gadbad hui. Dobara try karo.');
+      setError('Something went wrong. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -63,11 +63,11 @@ export default function SubscriberImport() {
 
   return (
     <div className="bg-surface border border-hairline rounded-xl p-4 space-y-3">
-      <h2 className="text-sm font-semibold text-ink">Subscribers import karo</h2>
+      <h2 className="text-sm font-semibold text-ink">Import subscribers</h2>
       <p className="text-xs text-ink-faint">
-        CSV file upload karo ya emails paste karo (ek line me ek email, ya <code>email,name</code>). CSV me pehli row
-        me <code>email</code> (aur chahe to <code>name</code>) likha ho to wo bhi chalega. Jo email pehle se list me
-        hai wo dobara nahi judta, aur jisne unsubscribe kiya hai wo wapas active nahi hota.
+        Upload a CSV file or paste email addresses (one per line, or <code>email,name</code>). A CSV with a header
+        row containing <code>email</code> (and optionally <code>name</code>) also works. Addresses already on the list
+        are not added again, and anyone who unsubscribed is not re-activated.
       </p>
 
       <textarea
@@ -85,7 +85,7 @@ export default function SubscriberImport() {
           onClick={() => fileRef.current?.click()}
           className="px-4 py-2 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:text-ink"
         >
-          CSV / TXT file chuno
+          Choose CSV / TXT file
         </button>
         <button
           type="button"
@@ -93,15 +93,15 @@ export default function SubscriberImport() {
           disabled={busy || !text.trim()}
           className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
         >
-          {busy ? 'Import ho raha hai…' : 'Import'}
+          {busy ? 'Importing…' : 'Import'}
         </button>
       </div>
 
       {error && <div className="px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>}
       {summary && (
         <div className="px-3 py-2 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm">
-          Import complete: {summary.added} naye add hue, {summary.duplicates} pehle se the (ya file me repeat), {summary.invalid} galat
-          email chhod diye. Total mile: {summary.received}.
+          Import complete: {summary.added} added, {summary.duplicates} already on the list (or repeated in the file),
+          {summary.invalid} invalid addresses skipped. Total found: {summary.received}.
         </div>
       )}
     </div>
