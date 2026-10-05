@@ -101,8 +101,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     : { before: contentWithIds, after: '' };
   const postUrl = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
   const shareUrl = `https://numrexo.com/blog/${post.slug}`;
-  const proseClass =
-    '[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h2]:scroll-mt-24 [&_h3]:scroll-mt-24 [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto';
+  const proseClass = 'blog-content';
 
   return (
     <>
@@ -219,7 +218,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </nav>
         )}
 
-        <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-soft prose-strong:text-ink prose-a:text-blue-600">
+        <div>
           <div dangerouslySetInnerHTML={{ __html: contentBefore }} className={proseClass} />
 
           {ctaCalc && (

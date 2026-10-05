@@ -8,6 +8,7 @@ import {
   cardFileName,
   renderShareCard,
 } from "@/lib/shareCard";
+import { toFirstPerson } from "@/lib/shareHeadline";
 import {
   CheckIcon,
   DownloadIcon,
@@ -37,7 +38,7 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
   const blobRef = useRef<Blob | null>(null);
   const urlRef = useRef<string>("");
 
-  const shareText = `My ${data.calcName} result: ${data.value}${data.unit ? ` ${data.unit}` : ""}. Calculate yours free on Numrexo`;
+  const shareText = `${data.headline ? `${data.headline} ` : ""}${toFirstPerson(data.label)}: ${data.value}${data.unit ? ` ${data.unit}` : ""}. Check yours free on Numrexo`;
 
   // Render (and re-render when the format changes)
   useEffect(() => {

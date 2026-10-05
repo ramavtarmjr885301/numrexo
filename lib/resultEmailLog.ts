@@ -80,3 +80,15 @@ export async function checkAndRecord(ip: string, email: string): Promise<LimitRe
   await sql`DELETE FROM result_email_log WHERE created_at < now() - interval '7 days'`;
   return { ok: true };
 }
+
+/** How many result emails were sent in the last 24h (shares the provider's daily quota with newsletters). */
+export async function countResultEmails24h(): Promise<number> {
+  try {
+    await ensureTable();
+    const sql = getSql()!;
+    const rows = (await sql`SELECT count(*)::int AS n FROM result_email_log WHERE created_at > now() - interval '24 hours'`) as unknown as { n: number }[];
+    return rows[0]?.n ?? 0;
+  } catch {
+    return 0;
+  }
+}

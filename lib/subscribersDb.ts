@@ -194,6 +194,17 @@ export async function countSubscribers(): Promise<SubscriberCounts> {
   }
 }
 
+/** Active subscribers with id > afterId, in id order - used to send a newsletter in chunks. */
+export async function listActiveAfter(afterId: number, limit: number): Promise<Subscriber[]> {
+  await ensureTable();
+  const sql = getSql()!;
+  const rows = (await sql`
+    SELECT id, email, name, source, active, token, subscribed_at, unsubscribed_at
+    FROM subscribers WHERE active = true AND id > ${afterId} ORDER BY id ASC LIMIT ${limit}
+  `) as unknown as Row[];
+  return rows.map(rowToSubscriber);
+}
+
 export type StatusFilter = 'all' | 'active' | 'inactive';
 
 export interface SubscriberPage {

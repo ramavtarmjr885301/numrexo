@@ -1,6 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { markdownToHtml } from '@/lib/markdown';
+import { uploadImage } from '@/lib/uploadImageClient';
 
 interface RichMarkdownEditorProps {
   value: string;
@@ -22,6 +24,8 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [preview, setPreview] = useState(false);
+  const previewHtml = useMemo(() => (preview ? markdownToHtml(value || '*Nothing to preview yet.*') : ''), [preview, value]);
 
   function applyEdit(nextValue: string, selectionStart: number, selectionEnd: number) {
     onChange(nextValue);
@@ -79,23 +83,16 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
     setError('');
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Upload failed. Please try again.');
-        return;
-      }
+      const url = await uploadImage(file);
       const el = textareaRef.current;
       const start = el?.selectionStart ?? value.length;
       const end = el?.selectionEnd ?? value.length;
       const altText = window.prompt('Short description of the image (alt text, good for SEO - optional):', '') || '';
-      const markdown = `\n![${altText}](${data.url})\n`;
+      const markdown = `\n![${altText}](${url})\n`;
       const next = value.slice(0, start) + markdown + value.slice(end);
       applyEdit(next, start + markdown.length, start + markdown.length);
-    } catch {
-      setError('Upload failed - check your internet connection and try again.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed - check your internet connection and try again.');
     } finally {
       setUploading(false);
     }
@@ -114,19 +111,30 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-cream border border-hairline">
+      <div className="flex items-center justify-end gap-2 mb-2">
+        <div className="inline-flex rounded-lg border border-slate-400 overflow-hidden text-xs font-semibold">
+          <button type="button" onClick={() => setPreview(false)} className={`px-3 py-1.5 ${!preview ? 'bg-slate-900 text-white' : 'bg-white text-slate-700'}`}>
+            Write
+          </button>
+          <button type="button" onClick={() => setPreview(true)} className={`px-3 py-1.5 ${preview ? 'bg-slate-900 text-white' : 'bg-white text-slate-700'}`}>
+            Preview (how readers will see it)
+          </button>
+        </div>
+      </div>
+
+      <div className={`flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-white border border-slate-400 ${preview ? 'opacity-40 pointer-events-none' : ''}`}>
         {buttons.map((btn) => (
           <button
             key={btn.label}
             type="button"
             title={btn.title}
             onClick={btn.onClick}
-            className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors"
+            className="px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors"
           >
             {btn.label}
           </button>
         ))}
-        <span className="w-px h-5 bg-hairline mx-1" />
+        <span className="w-px h-5 bg-slate-300 mx-1" />
         <input
           ref={fileInputRef}
           type="file"
@@ -139,7 +147,7 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
           title="Insert image"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50 transition-colors"
+          className="px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 text-xs font-medium hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50 transition-colors"
         >
           {uploading ? 'Uploading...' : '🖼 Insert Image'}
         </button>
@@ -147,12 +155,18 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
 
       {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
+      {preview && (
+        <div className="rounded-lg border border-slate-400 bg-white p-5 sm:p-8 min-h-[20rem]">
+          <div className="blog-content" dangerouslySetInnerHTML={{ __html: previewHtml }} />
+        </div>
+      )}
+
       <textarea
         ref={textareaRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={20}
-        className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink font-mono text-sm focus:outline-none focus:border-blue-600"
+        className={`${preview ? "hidden " : ""}w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 font-mono text-sm focus:outline-none focus:border-blue-600`}
       />
     </div>
   );

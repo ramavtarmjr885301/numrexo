@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { CALCULATORS_REGISTRY, CATEGORIES } from "@/data/calculatorsRegistry";
 import ResultActions from "./ResultActions";
 import type { ShareCardData } from "@/lib/shareCard";
+import { shareHeadlineFor } from "@/lib/shareHeadline";
 
 interface ResultBoxProps {
   title: string;
@@ -57,6 +58,7 @@ export default function ResultBox({
       value: String(mainResult.value),
       unit: mainResult.unit,
       rows: (extraRows || []).map((r) => ({ label: r.label, value: r.value })),
+      headline: shareHeadlineFor(calc?.slug, extraRows || [])?.headline,
       displayUrl: `numrexo.com${calc?.path || pathname}`,
     };
   }, [canShare, mainResult, extraRows, calc, title, pathname]);

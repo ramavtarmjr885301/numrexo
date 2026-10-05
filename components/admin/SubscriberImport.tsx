@@ -62,9 +62,9 @@ export default function SubscriberImport() {
   }
 
   return (
-    <div className="bg-surface border border-hairline rounded-xl p-4 space-y-3">
-      <h2 className="text-sm font-semibold text-ink">Import subscribers</h2>
-      <p className="text-xs text-ink-faint">
+    <div className="bg-white border border-slate-300 rounded-xl p-4 space-y-3">
+      <h2 className="text-sm font-semibold text-slate-900">Import subscribers</h2>
+      <p className="text-xs text-slate-500">
         Upload a CSV file or paste email addresses (one per line, or <code>email,name</code>). A CSV with a header
         row containing <code>email</code> (and optionally <code>name</code>) also works. Addresses already on the list
         are not added again, and anyone who unsubscribed is not re-activated.
@@ -75,7 +75,7 @@ export default function SubscriberImport() {
         onChange={(e) => setText(e.target.value)}
         rows={5}
         placeholder={'rahul@example.com\npriya@example.com, Priya'}
-        className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm font-mono focus:outline-none focus:border-blue-600"
+        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm font-mono focus:outline-none focus:border-blue-600"
       />
 
       <div className="flex flex-wrap items-center gap-3">
@@ -83,7 +83,7 @@ export default function SubscriberImport() {
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="px-4 py-2 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:text-ink"
+          className="px-4 py-2 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:text-slate-900"
         >
           Choose CSV / TXT file
         </button>

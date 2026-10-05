@@ -18,6 +18,7 @@
 // old wordpress.ts used - a blog/database hiccup must never be able to fail
 // the whole site build or take down calculator pages.
 
+import { decodeEntities } from '@/lib/htmlEntities';
 import { neon } from '@neondatabase/serverless';
 import { BlogPost, BlogFaq } from './blogTypes';
 import { HIDDEN_PUBLIC_SLUGS } from './hiddenBlogSlugs';
@@ -96,15 +97,15 @@ function rowToPost(row: Row): BlogPost {
   return {
     id: row.id,
     slug: row.slug,
-    title: row.title,
+    title: decodeEntities(row.title),
     category: row.category,
-    author: row.author,
-    excerpt: row.excerpt,
+    author: decodeEntities(row.author),
+    excerpt: decodeEntities(row.excerpt),
     contentHtml: row.content_html,
     contentMarkdown: row.content_markdown,
     featuredImage: row.featured_image,
-    metaTitle: row.meta_title,
-    metaDescription: row.meta_description,
+    metaTitle: row.meta_title ? decodeEntities(row.meta_title) : row.meta_title,
+    metaDescription: row.meta_description ? decodeEntities(row.meta_description) : row.meta_description,
     faqs: parseFaqs(row.faqs),
     published: row.published,
     publishedAt: row.published_at,

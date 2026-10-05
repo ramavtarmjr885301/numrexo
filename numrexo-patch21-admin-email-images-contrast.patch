@@ -1,0 +1,2981 @@
+diff --git a/.env.example b/.env.example
+index ece2b09..a380a33 100644
+--- a/.env.example
++++ b/.env.example
+@@ -16,6 +16,7 @@ ADMIN_SESSION_SECRET=a-long-random-string
+ # uploads before deploying - on Vercel itself this is added automatically
+ # once Blob Storage is connected to the project, no copy-pasting needed.
+ BLOB_READ_WRITE_TOKEN=
++# (Patch 21) Optional now: without it, blog images are stored in the database automatically.
+ 
+ # "Email me this result" (Patch 20). Uses Resend (resend.com); see PATCH20-STEPS.md.
+ # API key from the Resend dashboard (starts with re_).
+@@ -24,7 +25,9 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+ EMAIL_FROM=Numrexo <results@numrexo.com>
+ # Optional: where replies go.
+ EMAIL_REPLY_TO=
+-# Set to true to SHOW the "Email me this result" button (only after the two lines above work).
+-NEXT_PUBLIC_EMAIL_RESULT_ENABLED=false
++# (Patch 21) No on/off switch needed any more: the "Email me this result" button
++# appears automatically as soon as RESEND_API_KEY and EMAIL_FROM are set.
++# Daily email limit shown/enforced in the admin Email center (Resend free plan = about 100/day).
++EMAIL_DAILY_LIMIT=100
+ # Optional safety cap on result emails per rolling 24 hours (default 80; Resend's free plan allows about 100/day).
+ EMAIL_RESULT_DAILY_CAP=80
+diff --git a/app/admin/edit/[id]/page.tsx b/app/admin/(panel)/edit/[id]/page.tsx
+similarity index 90%
+rename from app/admin/edit/[id]/page.tsx
+rename to app/admin/(panel)/edit/[id]/page.tsx
+index 1110cd5..e114bd8 100644
+--- a/app/admin/edit/[id]/page.tsx
++++ b/app/admin/(panel)/edit/[id]/page.tsx
+@@ -17,8 +17,8 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
+   const allPosts = await listAllPostsForAdmin();
+ 
+   return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-6xl">
+-      <h1 className="text-xl sm:text-2xl font-semibold text-ink mb-6">Edit Post</h1>
++    <div>
++      <h1 className="text-2xl font-bold text-slate-900 mb-6">Edit post</h1>
+       <PostForm
+         initial={{
+           id: post.id,
+diff --git a/app/admin/(panel)/email/page.tsx b/app/admin/(panel)/email/page.tsx
+new file mode 100644
+index 0000000..e8fbc01
+--- /dev/null
++++ b/app/admin/(panel)/email/page.tsx
+@@ -0,0 +1,23 @@
++import { emailConfigured, emailStatus } from '@/lib/emailSend';
++import { listBroadcasts, quotaLeft } from '@/lib/emailBroadcastDb';
++import { countSubscribers } from '@/lib/subscribersDb';
++import { PageHeader } from '@/components/admin/AdminUi';
++import EmailCenter from '@/components/admin/EmailCenter';
++
++export const dynamic = 'force-dynamic';
++
++export default async function EmailPage() {
++  const [counts, quota, history] = await Promise.all([countSubscribers(), quotaLeft(), listBroadcasts(15)]);
++  return (
++    <div>
++      <PageHeader title="Email center" subtitle="Check your email setup, send a test, and email your subscribers." />
++      <EmailCenter
++        configured={emailConfigured()}
++        status={emailStatus()}
++        activeSubscribers={counts.active}
++        quota={quota}
++        history={history}
++      />
++    </div>
++  );
++}
+diff --git a/app/admin/(panel)/layout.tsx b/app/admin/(panel)/layout.tsx
+new file mode 100644
+index 0000000..b92af92
+--- /dev/null
++++ b/app/admin/(panel)/layout.tsx
+@@ -0,0 +1,14 @@
++import AdminSidebar from '@/components/admin/AdminSidebar';
++
++// The signed-in admin shell: dark sidebar on the left (top bar on phones),
++// page content on the right. Pages inside this group get it automatically.
++export default function PanelLayout({ children }: { children: React.ReactNode }) {
++  return (
++    <>
++      <AdminSidebar />
++      <main className="lg:pl-60 min-h-screen">
++        <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-6xl mx-auto">{children}</div>
++      </main>
++    </>
++  );
++}
+diff --git a/app/admin/new/page.tsx b/app/admin/(panel)/new/page.tsx
+similarity index 66%
+rename from app/admin/new/page.tsx
+rename to app/admin/(panel)/new/page.tsx
+index 352f268..5912525 100644
+--- a/app/admin/new/page.tsx
++++ b/app/admin/(panel)/new/page.tsx
+@@ -4,8 +4,8 @@ import { listAllPostsForAdmin } from '@/lib/blogDb';
+ export default async function NewPostPage() {
+   const allPosts = await listAllPostsForAdmin();
+   return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-6xl">
+-      <h1 className="text-xl sm:text-2xl font-semibold text-ink mb-6">New Post</h1>
++    <div>
++      <h1 className="text-2xl font-bold text-slate-900 mb-6">New post</h1>
+       <PostForm otherPosts={allPosts.map((p) => ({ slug: p.slug, title: p.title }))} />
+     </div>
+   );
+diff --git a/app/admin/(panel)/page.tsx b/app/admin/(panel)/page.tsx
+new file mode 100644
+index 0000000..f9ad04f
+--- /dev/null
++++ b/app/admin/(panel)/page.tsx
+@@ -0,0 +1,101 @@
++import Link from 'next/link';
++import { listAllPostsForAdmin } from '@/lib/blogDb';
++import { categoryLabel } from '@/lib/blogTypes';
++import type { BlogPost } from '@/lib/blogTypes';
++import { countSubscribers, listSubscribers } from '@/lib/subscribersDb';
++import { emailStatus, emailConfigured } from '@/lib/emailSend';
++import { quotaLeft } from '@/lib/emailBroadcastDb';
++import { Card, PageHeader, StatCard } from '@/components/admin/AdminUi';
++
++export const dynamic = 'force-dynamic';
++
++function fmt(iso: string): string {
++  return new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
++}
++
++export default async function AdminDashboardPage() {
++  const [posts, counts, recent, quota] = await Promise.all([
++    listAllPostsForAdmin().catch((): BlogPost[] => []),
++    countSubscribers(),
++    listSubscribers({ status: 'all', q: '', page: 1 }),
++    quotaLeft(),
++  ]);
++  const now = Date.now();
++  const scheduled = posts.filter((p) => p.published && new Date(p.publishedAt).getTime() > now).length;
++  const live = posts.filter((p) => p.published && new Date(p.publishedAt).getTime() <= now).length;
++  const drafts = posts.filter((p) => !p.published).length;
++  const emailReady = emailConfigured();
++  const status = emailStatus();
++
++  return (
++    <div>
++      <PageHeader
++        title="Dashboard"
++        subtitle="A quick look at your blog and email list."
++        actions={
++          <Link href="/new" className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
++            + New post
++          </Link>
++        }
++      />
++
++      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
++        <StatCard label="Live posts" value={live} hint={`${drafts} drafts · ${scheduled} scheduled`} href="/posts" tone="blue" />
++        <StatCard label="Subscribers" value={counts.total} hint={`${counts.inactive} unsubscribed`} href="/subscribers" tone="green" />
++        <StatCard label="Active emails" value={counts.active} hint="Will get your newsletter" href="/email" tone="violet" />
++        <StatCard
++          label="Emails left today"
++          value={emailReady ? quota.remaining : '—'}
++          hint={emailReady ? `of ${status.dailyLimit} per day` : 'Email not set up yet'}
++          href="/email"
++          tone="amber"
++        />
++      </div>
++
++      {!emailReady && (
++        <div className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
++          <strong>Email is not set up yet.</strong> Visitors cannot receive result PDFs by email and you cannot send newsletters.{' '}
++          <Link href="/email" className="font-semibold underline">
++            See the 3-minute setup →
++          </Link>
++        </div>
++      )}
++
++      <div className="grid lg:grid-cols-2 gap-4">
++        <Card title="Latest posts" action={<Link href="/posts" className="text-xs font-medium text-blue-700">View all</Link>}>
++          <div className="divide-y divide-slate-200">
++            {posts.length === 0 && <p className="p-4 text-sm text-slate-600">No posts yet.</p>}
++            {posts.slice(0, 6).map((p) => (
++              <Link key={p.id} href={`/edit/${p.id}`} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-slate-50">
++                <div className="min-w-0">
++                  <p className="text-sm font-medium text-slate-900 truncate">{p.title}</p>
++                  <p className="text-xs text-slate-500">{categoryLabel(p.category)} · {fmt(p.publishedAt)}</p>
++                </div>
++                <span className={`text-[11px] px-2 py-0.5 rounded font-medium flex-shrink-0 ${p.published ? 'bg-emerald-100 text-emerald-800' : 'bg-yellow-100 text-yellow-800'}`}>
++                  {p.published ? 'Live' : 'Draft'}
++                </span>
++              </Link>
++            ))}
++          </div>
++        </Card>
++
++        <Card title="Newest subscribers" action={<Link href="/subscribers" className="text-xs font-medium text-blue-700">View all</Link>}>
++          <div className="divide-y divide-slate-200">
++            {recent.subscribers.length === 0 && <p className="p-4 text-sm text-slate-600">No subscribers yet.</p>}
++            {recent.subscribers.slice(0, 6).map((s) => (
++              <div key={s.id} className="flex items-center justify-between gap-3 px-4 py-3">
++                <div className="min-w-0">
++                  <p className="text-sm font-medium text-slate-900 truncate">{s.email}</p>
++                  <p className="text-xs text-slate-500">{s.source} · {fmt(s.subscribedAt)}</p>
++                </div>
++                <span className={`text-[11px] px-2 py-0.5 rounded font-medium flex-shrink-0 ${s.active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}`}>
++                  {s.active ? 'Active' : 'Inactive'}
++                </span>
++              </div>
++            ))}
++          </div>
++        </Card>
++      </div>
++    </div>
++  );
++}
+diff --git a/app/admin/(panel)/posts/page.tsx b/app/admin/(panel)/posts/page.tsx
+new file mode 100644
+index 0000000..2ec3b78
+--- /dev/null
++++ b/app/admin/(panel)/posts/page.tsx
+@@ -0,0 +1,61 @@
++import Link from 'next/link';
++import { listAllPostsForAdmin } from '@/lib/blogDb';
++import { categoryLabel } from '@/lib/blogTypes';
++import { PageHeader } from '@/components/admin/AdminUi';
++import DeletePostButton from '@/components/admin/DeletePostButton';
++
++export const dynamic = 'force-dynamic';
++
++export default async function AdminPostsPage() {
++  const posts = await listAllPostsForAdmin();
++  const now = Date.now();
++  const isScheduled = (p: { published: boolean; publishedAt: string }) =>
++    p.published && new Date(p.publishedAt).getTime() > now;
++
++  return (
++    <div>
++      <PageHeader
++        title="Blog posts"
++        subtitle={`${posts.length} posts`}
++        actions={
++          <Link href="/new" className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
++            + New post
++          </Link>
++        }
++      />
++
++      <div className="bg-white border border-slate-300 rounded-xl divide-y divide-slate-200 shadow-sm">
++        {posts.length === 0 && <p className="p-6 text-slate-600 text-sm">No posts yet. Click "New post" to start.</p>}
++        {posts.map((post) => (
++          <div key={post.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4">
++            <div className="min-w-0">
++              <div className="flex flex-wrap items-center gap-2 mb-1">
++                <span className="text-[11px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-medium">{categoryLabel(post.category)}</span>
++                {!post.published && <span className="text-[11px] px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 font-medium">Draft</span>}
++                {isScheduled(post) && <span className="text-[11px] px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-medium">Scheduled</span>}
++                {post.noindex && <span className="text-[11px] px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium">noindex</span>}
++              </div>
++              <p className="text-slate-900 font-medium text-sm sm:text-base truncate">{post.title}</p>
++              <p className="text-slate-500 text-xs mt-0.5">/blog/{post.slug}</p>
++            </div>
++            <div className="flex items-center gap-4 flex-shrink-0">
++              {post.published && !isScheduled(post) ? (
++                <a href={`https://numrexo.com/blog/${post.slug}`} target="_blank" rel="noopener noreferrer" className="text-sm text-slate-600 hover:text-slate-900">
++                  View live
++                </a>
++              ) : (
++                <span className="text-sm text-slate-400" title={isScheduled(post) ? 'Scheduled - goes live automatically at the set time' : 'Draft - not live yet'}>
++                  Not live
++                </span>
++              )}
++              <Link href={`/edit/${post.id}`} className="text-sm font-medium text-blue-700 hover:text-blue-900">
++                Edit
++              </Link>
++              <DeletePostButton id={post.id} title={post.title} />
++            </div>
++          </div>
++        ))}
++      </div>
++    </div>
++  );
++}
+diff --git a/app/admin/subscribers/page.tsx b/app/admin/(panel)/subscribers/page.tsx
+similarity index 73%
+rename from app/admin/subscribers/page.tsx
+rename to app/admin/(panel)/subscribers/page.tsx
+index fcbe532..9b0ec52 100644
+--- a/app/admin/subscribers/page.tsx
++++ b/app/admin/(panel)/subscribers/page.tsx
+@@ -1,6 +1,6 @@
+ import Link from 'next/link';
+ import { countSubscribers, listSubscribers, StatusFilter } from '@/lib/subscribersDb';
+-import LogoutButton from '@/components/admin/LogoutButton';
++import { PageHeader } from '@/components/admin/AdminUi';
+ import SubscriberActions from '@/components/admin/SubscriberActions';
+ import SubscriberImport from '@/components/admin/SubscriberImport';
+ 
+@@ -11,7 +11,7 @@ interface PageProps {
+ }
+ 
+ function fmt(iso: string): string {
+-  return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
++  return new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
+ }
+ 
+ export default async function SubscribersPage({ searchParams }: PageProps) {
+@@ -33,25 +33,23 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+   const tab = (value: StatusFilter, label: string, n: number) => (
+     <Link
+       href={qs({ status: value === 'all' ? '' : value, page: '' })}
+-      className={`px-3 py-1.5 rounded-lg text-sm ${status === value ? 'bg-blue-600 text-white' : 'bg-surface border border-hairline text-ink-soft hover:text-ink'}`}
++      className={`px-3 py-1.5 rounded-lg text-sm ${status === value ? 'bg-blue-600 text-white' : 'bg-white border border-slate-300 text-slate-700 hover:text-slate-900'}`}
+     >
+       {label} ({n})
+     </Link>
+   );
+ 
+   return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
+-      <div className="flex items-center justify-between mb-6">
+-        <div>
+-          <h1 className="text-xl sm:text-2xl font-semibold text-ink">Subscribers</h1>
+-          <p className="text-sm text-ink-soft mt-1">
+-            <Link href="/" className="text-blue-600 hover:text-blue-700">
+-              ← Blog posts
+-            </Link>
+-          </p>
+-        </div>
+-        <LogoutButton />
+-      </div>
++    <div>
++      <PageHeader
++        title="Subscribers"
++        subtitle="People who asked for their result by email or signed up for updates."
++        actions={
++          <Link href="/email" className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
++            ✉ Send newsletter
++          </Link>
++        }
++      />
+ 
+       <div className="grid grid-cols-3 gap-3 mb-6">
+         {[
+@@ -59,9 +57,9 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+           { label: 'Active', value: counts.active },
+           { label: 'Inactive', value: counts.inactive },
+         ].map((c) => (
+-          <div key={c.label} className="bg-surface border border-hairline rounded-xl p-4">
+-            <div className="text-2xl font-bold text-ink font-mono">{c.value}</div>
+-            <div className="text-xs text-ink-faint uppercase tracking-wider">{c.label}</div>
++          <div key={c.label} className="bg-white border border-slate-300 rounded-xl p-4">
++            <div className="text-2xl font-bold text-slate-900 font-mono">{c.value}</div>
++            <div className="text-xs text-slate-500 uppercase tracking-wider">{c.label}</div>
+           </div>
+         ))}
+       </div>
+@@ -77,13 +75,13 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+         <div className="flex-1" />
+         <a
+           href="/api/admin/subscribers/export?status=active"
+-          className="px-3 py-1.5 rounded-lg bg-surface border border-hairline text-sm text-ink-soft hover:text-ink"
++          className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-sm text-slate-700 hover:text-slate-900"
+         >
+           ⬇ Export active (CSV)
+         </a>
+         <a
+           href="/api/admin/subscribers/export?status=all"
+-          className="px-3 py-1.5 rounded-lg bg-surface border border-hairline text-sm text-ink-soft hover:text-ink"
++          className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-sm text-slate-700 hover:text-slate-900"
+         >
+           ⬇ Export all (CSV)
+         </a>
+@@ -94,7 +92,7 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+           name="q"
+           defaultValue={q}
+           placeholder="Search by email or name"
+-          className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++          className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
+         />
+         {status !== 'all' && <input type="hidden" name="status" value={status} />}
+         <button type="submit" className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
+@@ -102,9 +100,9 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+         </button>
+       </form>
+ 
+-      <div className="bg-surface border border-hairline rounded-xl divide-y divide-hairline">
++      <div className="bg-white border border-slate-300 rounded-xl divide-y divide-slate-200">
+         {data.subscribers.length === 0 && (
+-          <p className="p-6 text-ink-soft text-sm">
++          <p className="p-6 text-slate-900-soft text-sm">
+             {counts.total === 0 ? 'No subscribers yet. Import a list above or wait for sign-ups from the website.' : 'No subscribers match this filter.'}
+           </p>
+         )}
+@@ -112,14 +110,14 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+           <div key={s.id} className="flex items-center justify-between gap-3 p-4">
+             <div className="min-w-0">
+               <div className="flex items-center gap-2 mb-0.5">
+-                <p className="text-ink text-sm sm:text-base truncate">{s.email}</p>
++                <p className="text-slate-900 text-sm sm:text-base truncate">{s.email}</p>
+                 <span
+                   className={`text-[10px] px-2 py-0.5 rounded flex-shrink-0 ${s.active ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600'}`}
+                 >
+                   {s.active ? 'Active' : 'Inactive'}
+                 </span>
+               </div>
+-              <p className="text-ink-faint text-xs">
++              <p className="text-slate-500 text-xs">
+                 {s.name ? `${s.name} · ` : ''}
+                 {s.source} · joined {fmt(s.subscribedAt)}
+                 {s.unsubscribedAt ? ` · deactivated ${fmt(s.unsubscribedAt)}` : ''}
+@@ -139,7 +137,7 @@ export default async function SubscribersPage({ searchParams }: PageProps) {
+           ) : (
+             <span />
+           )}
+-          <span className="text-ink-faint">
++          <span className="text-slate-500">
+             Page {data.page} of {data.totalPages} · {data.total} results
+           </span>
+           {data.page < data.totalPages ? (
+diff --git a/app/admin/layout.tsx b/app/admin/layout.tsx
+index f587478..9a2dc14 100644
+--- a/app/admin/layout.tsx
++++ b/app/admin/layout.tsx
+@@ -4,7 +4,10 @@
+ // to /admin/*, and gates everything except /admin/login behind the session
+ // cookie). No metadata export on purpose - this should never be indexed,
+ // and there's a robots.txt rule for the host as a second layer of defense.
++//
++// The sidebar/top bar live in the (panel) route group's layout so the login
++// page stays a plain centred form.
+ 
+ export default function AdminLayout({ children }: { children: React.ReactNode }) {
+-  return <div className="min-h-screen bg-cream text-ink">{children}</div>;
++  return <div className="min-h-screen bg-slate-100 text-ink">{children}</div>;
+ }
+diff --git a/app/admin/login/page.tsx b/app/admin/login/page.tsx
+index 1014884..966d25a 100644
+--- a/app/admin/login/page.tsx
++++ b/app/admin/login/page.tsx
+@@ -34,12 +34,12 @@ export default function AdminLoginPage() {
+     <div className="min-h-screen flex items-center justify-center px-4">
+       <form
+         onSubmit={handleSubmit}
+-        className="w-full max-w-sm bg-surface border border-hairline rounded-xl p-6 sm:p-8 shadow-sm"
++        className="w-full max-w-sm bg-white border border-slate-300 rounded-2xl p-6 sm:p-8 shadow-md"
+       >
+-        <h1 className="text-xl font-semibold text-ink mb-1">Numrexo Blog Admin</h1>
+-        <p className="text-sm text-ink-soft mb-6">Enter your user ID and password to sign in</p>
++        <h1 className="text-xl font-semibold text-slate-900 mb-1">Numrexo Admin</h1>
++        <p className="text-sm text-slate-700 mb-6">Enter your user ID and password to sign in</p>
+ 
+-        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="userId">
++        <label className="block text-sm text-slate-700 mb-1.5" htmlFor="userId">
+           User ID
+         </label>
+         <input
+@@ -50,10 +50,10 @@ export default function AdminLoginPage() {
+           autoFocus
+           autoCapitalize="none"
+           autoCorrect="off"
+-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
++          className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 mb-4 focus:outline-none focus:border-blue-600"
+         />
+ 
+-        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="password">
++        <label className="block text-sm text-slate-700 mb-1.5" htmlFor="password">
+           Password
+         </label>
+         <input
+@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
+           type="password"
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}
+-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
++          className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 mb-4 focus:outline-none focus:border-blue-600"
+         />
+ 
+         {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+deleted file mode 100644
+index c303824..0000000
+--- a/app/admin/page.tsx
++++ /dev/null
+@@ -1,90 +0,0 @@
+-import Link from 'next/link';
+-import { listAllPostsForAdmin } from '@/lib/blogDb';
+-import { categoryLabel } from '@/lib/blogTypes';
+-import LogoutButton from '@/components/admin/LogoutButton';
+-import DeletePostButton from '@/components/admin/DeletePostButton';
+-
+-export default async function AdminDashboardPage() {
+-  const posts = await listAllPostsForAdmin();
+-  const now = Date.now();
+-  const isScheduled = (p: { published: boolean; publishedAt: string }) =>
+-    p.published && new Date(p.publishedAt).getTime() > now;
+-
+-  return (
+-    <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-5xl">
+-      <div className="flex items-center justify-between mb-6">
+-        <div>
+-          <h1 className="text-xl sm:text-2xl font-semibold text-ink">Numrexo Blog Admin</h1>
+-          <p className="text-sm text-ink-soft mt-1">{posts.length} posts</p>
+-        </div>
+-        <div className="flex items-center gap-4">
+-          <Link href="/subscribers" className="text-sm text-ink-soft hover:text-ink">
+-            Subscribers
+-          </Link>
+-          <Link
+-            href="/new"
+-            className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
+-          >
+-            + New Post
+-          </Link>
+-          <LogoutButton />
+-        </div>
+-      </div>
+-
+-      <div className="bg-surface border border-hairline rounded-xl divide-y divide-hairline">
+-        {posts.length === 0 && (
+-          <p className="p-6 text-ink-soft text-sm">No posts yet. Click "New Post" to start.</p>
+-        )}
+-        {posts.map((post) => (
+-          <div key={post.id} className="flex items-center justify-between gap-3 p-4">
+-            <div className="min-w-0">
+-              <div className="flex items-center gap-2 mb-1">
+-                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+-                  {categoryLabel(post.category)}
+-                </span>
+-                {!post.published && (
+-                  <span className="text-[10px] px-2 py-0.5 rounded bg-yellow-100 text-yellow-700">
+-                    Draft
+-                  </span>
+-                )}
+-                {isScheduled(post) && (
+-                  <span className="text-[10px] px-2 py-0.5 rounded bg-purple-100 text-purple-700">
+-                    Scheduled
+-                  </span>
+-                )}
+-                {post.noindex && (
+-                  <span className="text-[10px] px-2 py-0.5 rounded bg-gray-200 text-gray-600">noindex</span>
+-                )}
+-              </div>
+-              <p className="text-ink text-sm sm:text-base truncate">{post.title}</p>
+-              <p className="text-ink-faint text-xs mt-0.5">/blog/{post.slug}</p>
+-            </div>
+-            <div className="flex items-center gap-3 flex-shrink-0">
+-              {post.published && !isScheduled(post) ? (
+-                <a
+-                  href={`https://numrexo.com/blog/${post.slug}`}
+-                  target="_blank"
+-                  rel="noopener noreferrer"
+-                  className="text-sm text-ink-soft hover:text-ink"
+-                >
+-                  View Live
+-                </a>
+-              ) : (
+-                <span
+-                  className="text-sm text-ink-faint"
+-                  title={isScheduled(post) ? 'Scheduled - goes live automatically at the set time' : 'Draft - not live yet'}
+-                >
+-                  Not live
+-                </span>
+-              )}
+-              <Link href={`/edit/${post.id}`} className="text-sm text-blue-600 hover:text-blue-700">
+-                Edit
+-              </Link>
+-              <DeletePostButton id={post.id} title={post.title} />
+-            </div>
+-          </div>
+-        ))}
+-      </div>
+-    </div>
+-  );
+-}
+diff --git a/app/api/admin/email/broadcast/route.ts b/app/api/admin/email/broadcast/route.ts
+new file mode 100644
+index 0000000..b869a80
+--- /dev/null
++++ b/app/api/admin/email/broadcast/route.ts
+@@ -0,0 +1,108 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { emailConfigured, sendBatch } from '@/lib/emailSend';
++import { countSubscribers, listActiveAfter } from '@/lib/subscribersDb';
++import { renderNewsletter, SITE_URL } from '@/lib/emailTemplate';
++import {
++  claimChunk,
++  createBroadcast,
++  getBroadcast,
++  quotaLeft,
++  recordChunkResult,
++  resumeBroadcast,
++  setBroadcastStatus,
++} from '@/lib/emailBroadcastDb';
++
++export const runtime = 'nodejs';
++export const dynamic = 'force-dynamic';
++export const maxDuration = 60;
++
++const CHUNK = 50;
++
++// Newsletter sending, driven by the admin Email page:
++//   {action:"start", subject, markdown}  -> creates a broadcast, returns its id
++//   {action:"next", id}                  -> sends the next chunk (up to 50), returns progress
++//   {action:"resume", id}                -> un-pauses a broadcast stopped by the daily limit
++export async function POST(request: NextRequest) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  if (!emailConfigured()) {
++    return NextResponse.json({ error: 'Email is not set up yet.' }, { status: 503 });
++  }
++  const body = await request.json().catch(() => null);
++  if (!body || typeof body !== 'object') return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++
++  try {
++    if (body.action === 'start') {
++      const subject = typeof body.subject === 'string' ? body.subject.trim().slice(0, 200) : '';
++      const markdown = typeof body.markdown === 'string' ? body.markdown.slice(0, 60000) : '';
++      if (!subject || !markdown.trim()) {
++        return NextResponse.json({ error: 'Please add a subject and a message.' }, { status: 400 });
++      }
++      const counts = await countSubscribers();
++      if (counts.active === 0) return NextResponse.json({ error: 'There are no active subscribers yet.' }, { status: 400 });
++      const b = await createBroadcast(subject, markdown, counts.active);
++      return NextResponse.json({ ok: true, broadcast: b });
++    }
++
++    const id = Number(body.id);
++    if (!Number.isInteger(id)) return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++    const b = await getBroadcast(id);
++    if (!b) return NextResponse.json({ error: 'Broadcast not found' }, { status: 404 });
++
++    if (body.action === 'resume') {
++      await resumeBroadcast(id);
++      return NextResponse.json({ ok: true, broadcast: await getBroadcast(id) });
++    }
++
++    if (body.action !== 'next') return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
++    if (b.status === 'done') return NextResponse.json({ ok: true, broadcast: b, finished: true });
++    if (b.status === 'paused') return NextResponse.json({ ok: true, broadcast: b, paused: true });
++
++    const quota = await quotaLeft();
++    if (quota.remaining <= 0) {
++      await setBroadcastStatus(id, 'paused');
++      return NextResponse.json({ ok: true, broadcast: await getBroadcast(id), paused: true, quota });
++    }
++
++    const subs = await listActiveAfter(b.lastId, Math.min(CHUNK, quota.remaining));
++    if (subs.length === 0) {
++      await setBroadcastStatus(id, 'done');
++      return NextResponse.json({ ok: true, broadcast: await getBroadcast(id), finished: true });
++    }
++
++    const claimed = await claimChunk(id, b.lastId, subs[subs.length - 1].id);
++    if (!claimed) return NextResponse.json({ ok: true, broadcast: await getBroadcast(id), busy: true });
++
++    const mails = subs.map((s) => {
++      const unsubUrl = `${SITE_URL}/unsubscribe?t=${s.token}`;
++      const { html, text } = renderNewsletter({ subject: b.subject, markdown: b.bodyMd, unsubUrl });
++      return {
++        to: s.email,
++        subject: b.subject,
++        html,
++        text,
++        headers: {
++          'List-Unsubscribe': `<${SITE_URL}/api/unsubscribe?t=${s.token}>, <${unsubUrl}>`,
++          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
++        },
++      };
++    });
++
++    let lastError = '';
++    try {
++      await sendBatch(mails);
++      await recordChunkResult(id, mails.length, 0);
++    } catch (error) {
++      lastError = error instanceof Error ? error.message : 'Send failed';
++      await recordChunkResult(id, 0, mails.length);
++    }
++
++    const after = await getBroadcast(id);
++    return NextResponse.json({ ok: !lastError, error: lastError || undefined, broadcast: after, quota: await quotaLeft() });
++  } catch (error) {
++    console.warn('[broadcast] failed:', error);
++    return NextResponse.json({ error: 'Something went wrong while sending.' }, { status: 500 });
++  }
++}
+diff --git a/app/api/admin/email/test/route.ts b/app/api/admin/email/test/route.ts
+new file mode 100644
+index 0000000..aa8a80d
+--- /dev/null
++++ b/app/api/admin/email/test/route.ts
+@@ -0,0 +1,41 @@
++import { NextRequest, NextResponse } from 'next/server';
++import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { emailConfigured, sendEmail } from '@/lib/emailSend';
++import { normaliseEmail } from '@/lib/subscribersDb';
++import { renderNewsletter } from '@/lib/emailTemplate';
++import { recordUsage } from '@/lib/emailBroadcastDb';
++
++export const runtime = 'nodejs';
++export const dynamic = 'force-dynamic';
++
++// Sends a short test email so the owner can check the email setup works.
++// Also used by the newsletter composer's "Send me a test" button.
++export async function POST(request: NextRequest) {
++  if (!(await isAdminRequestAuthed())) {
++    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
++  }
++  if (!emailConfigured()) {
++    return NextResponse.json(
++      { error: 'Email is not set up yet. Add RESEND_API_KEY and EMAIL_FROM in Vercel, then redeploy.' },
++      { status: 503 },
++    );
++  }
++  const body = await request.json().catch(() => null);
++  const to = normaliseEmail(body?.to);
++  if (!to) return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
++
++  const subject = typeof body?.subject === 'string' && body.subject.trim() ? body.subject.trim().slice(0, 200) : 'Numrexo test email';
++  const markdown =
++    typeof body?.markdown === 'string' && body.markdown.trim()
++      ? body.markdown.slice(0, 60000)
++      : 'This is a test email from your Numrexo admin panel.\n\nIf you can read this, **email sending works**. 🎉';
++  const { html, text } = renderNewsletter({ subject: `[Test] ${subject}`, markdown, unsubUrl: 'https://numrexo.com/unsubscribe' });
++
++  try {
++    await sendEmail({ to, subject: `[Test] ${subject}`, html, text });
++    await recordUsage(1).catch(() => undefined);
++    return NextResponse.json({ ok: true });
++  } catch (error) {
++    return NextResponse.json({ error: error instanceof Error ? error.message : 'Could not send the test email.' }, { status: 502 });
++  }
++}
+diff --git a/app/api/admin/upload/route.ts b/app/api/admin/upload/route.ts
+index c6c8881..cbb1e63 100644
+--- a/app/api/admin/upload/route.ts
++++ b/app/api/admin/upload/route.ts
+@@ -1,8 +1,9 @@
+ // app/api/admin/upload/route.ts
+ //
+ // Handles image uploads from the admin editor (featured image + inline
+-// content images) by storing them in Vercel Blob Storage and handing back a
+-// public URL. Blob Storage is what makes a real "pick a file from your
++// content images). With a Vercel Blob token the file goes to Blob Storage;
++// without one it is stored in the Postgres database (lib/imageDb.ts) and
++// served from /api/img/<id>. Either way a public URL is handed back. Blob Storage is what makes a real "pick a file from your
+ // computer" button possible - without it, the admin would have to host
+ // images somewhere else themselves and paste a URL in, which is exactly the
+ // clunky flow this replaces.
+@@ -10,6 +11,7 @@
+ import { NextRequest, NextResponse } from 'next/server';
+ import { put } from '@vercel/blob';
+ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
++import { MAX_DB_IMAGE_BYTES, saveImage } from '@/lib/imageDb';
+ 
+ const MAX_BYTES = 5 * 1024 * 1024; // 5MB
+ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+@@ -19,16 +21,6 @@ export async function POST(request: NextRequest) {
+     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+   }
+ 
+-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+-    return NextResponse.json(
+-      {
+-        error:
+-          'Image storage is not set up yet on this deployment - see PATCH15-STEPS.md (the Vercel Blob Storage step).',
+-      },
+-      { status: 500 },
+-    );
+-  }
+-
+   const formData = await request.formData().catch(() => null);
+   const file = formData?.get('file');
+ 
+@@ -42,6 +34,25 @@ export async function POST(request: NextRequest) {
+     return NextResponse.json({ error: 'Image is larger than 5MB - resize it and try again' }, { status: 400 });
+   }
+ 
++  // No Vercel Blob token: store the picture in the database instead. This is
++  // the zero-setup path, so uploads work on a brand-new deployment.
++  if (!process.env.BLOB_READ_WRITE_TOKEN) {
++    if (file.size > MAX_DB_IMAGE_BYTES) {
++      return NextResponse.json(
++        { error: 'This image is too large (over 2MB). Please pick a smaller picture - the editor shrinks big photos automatically, so try again.' },
++        { status: 400 },
++      );
++    }
++    try {
++      const bytes = new Uint8Array(await file.arrayBuffer());
++      const id = await saveImage(file.type, bytes);
++      return NextResponse.json({ url: `/api/img/${id}` });
++    } catch (error) {
++      const reason = error instanceof Error ? error.message : String(error);
++      return NextResponse.json({ error: `Upload failed: ${reason}` }, { status: 500 });
++    }
++  }
++
+   try {
+     const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '-') || 'image';
+     const blob = await put(`blog-uploads/${Date.now()}-${safeName}`, file, {
+diff --git a/app/api/email-result/route.ts b/app/api/email-result/route.ts
+index b9d3be1..caa9711 100644
+--- a/app/api/email-result/route.ts
++++ b/app/api/email-result/route.ts
+@@ -17,6 +17,12 @@ function clientIp(request: NextRequest): string {
+   return request.headers.get('x-real-ip') || 'unknown';
+ }
+ 
++// The calculators ask this once to decide whether to show "Email me this
++// result": it is on as soon as the email provider is configured (no rebuild).
++export async function GET() {
++  return NextResponse.json({ enabled: emailConfigured() }, { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } });
++}
++
+ // "Email me this result": builds the PDF on the server from the visitor's
+ // result, emails it, and adds the address to the subscriber list. Everything
+ // the browser sends is re-cleaned, and the calculator's name/colour/URL come
+diff --git a/app/api/img/[id]/route.ts b/app/api/img/[id]/route.ts
+new file mode 100644
+index 0000000..33e668a
+--- /dev/null
++++ b/app/api/img/[id]/route.ts
+@@ -0,0 +1,24 @@
++import { NextRequest } from 'next/server';
++import { loadImage } from '@/lib/imageDb';
++
++export const dynamic = 'force-dynamic';
++
++// Public: serves an image uploaded through the admin editor and stored in the
++// database. The id is random and unguessable, and the content never changes,
++// so browsers and the CDN may keep it for a year.
++export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
++  try {
++    const img = await loadImage(params.id.replace(/\.[a-z0-9]+$/i, ''));
++    if (!img) return new Response('Not found', { status: 404 });
++    return new Response(new Uint8Array(img.data), {
++      headers: {
++        'Content-Type': img.contentType,
++        'Content-Length': String(img.data.byteLength),
++        'Cache-Control': 'public, max-age=31536000, immutable',
++        'X-Content-Type-Options': 'nosniff',
++      },
++    });
++  } catch {
++    return new Response('Unavailable', { status: 503 });
++  }
++}
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index c12f335..3af6072 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -101,8 +101,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+     : { before: contentWithIds, after: '' };
+   const postUrl = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
+   const shareUrl = `https://numrexo.com/blog/${post.slug}`;
+-  const proseClass =
+-    '[&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h2]:scroll-mt-24 [&_h3]:scroll-mt-24 [&_img]:rounded-lg [&_img]:my-4 [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_li]:text-sm sm:[&_li]:text-base [&_li]:leading-relaxed [&_blockquote]:border-l-4 [&_blockquote]:border-blue-600 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:text-ink-soft [&_table]:text-xs sm:[&_table]:text-sm [&_table]:w-full [&_table]:overflow-x-auto [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_img]:max-w-full [&_img]:h-auto';
++  const proseClass = 'blog-content';
+ 
+   return (
+     <>
+@@ -219,7 +218,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+           </nav>
+         )}
+ 
+-        <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-soft prose-strong:text-ink prose-a:text-blue-600">
++        <div>
+           <div dangerouslySetInnerHTML={{ __html: contentBefore }} className={proseClass} />
+ 
+           {ctaCalc && (
+diff --git a/app/globals.css b/app/globals.css
+index 1d7bea2..3d21579 100644
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -30,4 +30,76 @@
+   .bg-gradient-gst {
+     background: linear-gradient(135deg, #22c55e, #15803d);
+   }
+-}
+\ No newline at end of file
++}
++
++/* ------------------------------------------------------------------------
++   Blog article typography (Patch 21)
++
++   The blog pages used Tailwind's "prose" classes, but the typography plugin
++   is not installed, so those classes did nothing and Tailwind's reset left
++   headings looking like plain text, lists without bullets and tables without
++   borders. This block styles the article HTML directly. The admin editor's
++   live preview uses the same class, so what is written is what is published.
++   ------------------------------------------------------------------------ */
++.blog-content { color: #374151; font-size: 1.0625rem; line-height: 1.8; overflow-wrap: anywhere; }
++.blog-content > *:first-child { margin-top: 0; }
++.blog-content p { margin: 0 0 1.15em; }
++.blog-content h2 { font-size: 1.65rem; line-height: 1.25; font-weight: 800; color: #111111; margin: 2.2em 0 0.7em; padding-bottom: 0.35em; border-bottom: 2px solid #e2e8f0; letter-spacing: -0.01em; }
++.blog-content h3 { font-size: 1.3rem; line-height: 1.3; font-weight: 700; color: #111111; margin: 1.8em 0 0.5em; }
++.blog-content h2, .blog-content h3 { scroll-margin-top: 6rem; }
++.blog-content h4 { font-size: 1.1rem; font-weight: 700; color: #111111; margin: 1.5em 0 0.4em; }
++.blog-content strong, .blog-content b { font-weight: 700; color: #111111; }
++.blog-content em, .blog-content i { font-style: italic; }
++.blog-content a { color: #1d4ed8; text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
++.blog-content a:hover { color: #1e40af; }
++.blog-content ul { list-style: disc; padding-left: 1.5em; margin: 0 0 1.2em; }
++.blog-content ol { list-style: decimal; padding-left: 1.6em; margin: 0 0 1.2em; }
++.blog-content li { margin: 0.4em 0; padding-left: 0.2em; }
++.blog-content li::marker { color: #2563eb; font-weight: 700; }
++.blog-content li > ul, .blog-content li > ol { margin: 0.4em 0 0.4em; }
++.blog-content blockquote { margin: 1.5em 0; padding: 0.9em 1.2em; border-left: 4px solid #2563eb; background: #eff6ff; border-radius: 0 0.75rem 0.75rem 0; color: #1e3a8a; }
++.blog-content blockquote p:last-child { margin-bottom: 0; }
++.blog-content img { display: block; max-width: 100%; height: auto; margin: 1.6em auto; border-radius: 0.75rem; border: 1px solid #e2e8f0; }
++.blog-content figure { margin: 1.6em 0; }
++.blog-content figcaption { text-align: center; font-size: 0.85rem; color: #6b7280; margin-top: 0.5em; }
++.blog-content hr { border: 0; border-top: 2px solid #e2e8f0; margin: 2.2em 0; }
++.blog-content code { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 0.12em 0.4em; border-radius: 0.35rem; font-size: 0.9em; }
++.blog-content pre { background: #0f172a; color: #e2e8f0; padding: 1em 1.2em; border-radius: 0.75rem; overflow-x: auto; margin: 1.4em 0; font-size: 0.9rem; line-height: 1.6; }
++.blog-content pre code { background: transparent; border: 0; padding: 0; color: inherit; }
++.blog-content table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.6em 0; font-size: 0.95rem; line-height: 1.5; }
++.blog-content th { background: #f1f5f9; color: #111111; font-weight: 700; text-align: left; white-space: nowrap; }
++.blog-content th, .blog-content td { border: 1px solid #cbd5e1; padding: 0.6em 0.9em; vertical-align: top; }
++.blog-content tr:nth-child(even) td { background: #f8fafc; }
++@media (max-width: 640px) {
++  .blog-content { font-size: 1rem; }
++  .blog-content h2 { font-size: 1.4rem; }
++  .blog-content h3 { font-size: 1.15rem; }
++}
++
++
++/* ---- Visibility / contrast (Patch 21) -------------------------------------
++   Calculator panels and form fields were too faint for people with weak
++   eyesight. Cards get a firmer border plus a soft shadow, and every input
++   gets a clearly visible edge. */
++.bg-surface.border-hairline.rounded-xl,
++.bg-surface.border-hairline.rounded-2xl,
++.bg-surface.border-hairline.rounded-xl2 {
++  border-color: #b4bfce;
++  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
++}
++input.border-hairline,
++select.border-hairline,
++textarea.border-hairline {
++  border-color: #8a96a8;
++}
++input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus-visible,
++select:focus-visible,
++textarea:focus-visible {
++  outline: 2px solid #2563eb;
++  outline-offset: 1px;
++}
++input::placeholder,
++textarea::placeholder {
++  color: #7b8494;
++  opacity: 1;
++}
+diff --git a/build-error.txt b/build-error.txt
+deleted file mode 100644
+index f114422..0000000
+--- a/build-error.txt
++++ /dev/null
+@@ -1,45 +0,0 @@
+-
+-> numrexo@0.1.0 prebuild
+-> node scripts/verify-seo.mjs
+-
+-Checked 133 pages with SEO copy.
+-  unique titles:       133
+-  unique descriptions: 133
+-
+-1 warning(s):
+-  · CALCULATOR_SEO has "conversion/currency-converter" but no such calculator is in the registry.
+-
+-All good: every page has a unique title, description and canonical URL.
+-
+-> numrexo@0.1.0 build
+-> next build
+-
+-  ▲ Next.js 14.2.5
+-  - Environments: .env.local
+-
+-   Creating an optimized production build ...
+-Failed to compile.
+-
+-./components/admin/PostForm.tsx
+-Error: 
+-  [31mx[0m Expected ',', got 't'
+-     ,-[[36;1;4mE:\project\numrexo\components\admin\PostForm.tsx[0m:160:1]
+- [2m160[0m |       });
+- [2m161[0m |       const data = await res.json();
+- [2m162[0m |       if (!res.ok) {
+- [2m163[0m |         setError(data.error || 'Couldn't save. Please try again.');
+-     : [31;1m                                       ^[0m
+- [2m164[0m |         window.scrollTo({ top: 0, behavior: 'smooth' });
+- [2m165[0m |         return;
+- [2m165[0m |       }
+-     `----
+-
+-Caused by:
+-    Syntax Error
+-
+-Import trace for requested module:
+-./components/admin/PostForm.tsx
+-./app/admin/new/page.tsx
+-
+-
+-> Build failed because of webpack errors
+diff --git a/components/admin/AdminSidebar.tsx b/components/admin/AdminSidebar.tsx
+new file mode 100644
+index 0000000..69917be
+--- /dev/null
++++ b/components/admin/AdminSidebar.tsx
+@@ -0,0 +1,114 @@
++'use client';
++
++import Link from 'next/link';
++import { usePathname } from 'next/navigation';
++import { useState } from 'react';
++
++const NAV = [
++  { href: '/', label: 'Dashboard', icon: 'M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10' },
++  { href: '/posts', label: 'Blog posts', icon: 'M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7' },
++  { href: '/new', label: 'New post', icon: 'M12 5v14M5 12h14' },
++  { href: '/subscribers', label: 'Subscribers', icon: 'M16 11a4 4 0 10-8 0 4 4 0 008 0zM4 21c0-4 3.5-6 8-6s8 2 8 6' },
++  { href: '/email', label: 'Email center', icon: 'M3 6h18v12H3zM3 7l9 6 9-6' },
++];
++
++function Icon({ d }: { d: string }) {
++  return (
++    <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
++      <path d={d} />
++    </svg>
++  );
++}
++
++export default function AdminSidebar() {
++  const pathname = usePathname() || '/';
++  const [open, setOpen] = useState(false);
++
++  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`));
++
++  async function logout() {
++    await fetch('/api/admin/logout', { method: 'POST' });
++    window.location.href = '/login';
++  }
++
++  const nav = (
++    <nav className="flex-1 px-3 py-4 space-y-1">
++      {NAV.map((item) => (
++        <Link
++          key={item.href}
++          href={item.href}
++          onClick={() => setOpen(false)}
++          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
++            isActive(item.href) ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
++          }`}
++        >
++          <Icon d={item.icon} />
++          {item.label}
++        </Link>
++      ))}
++      <a
++        href="https://numrexo.com"
++        target="_blank"
++        rel="noopener noreferrer"
++        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
++      >
++        <Icon d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" />
++        View website
++      </a>
++    </nav>
++  );
++
++  const footer = (
++    <div className="px-3 py-4 border-t border-slate-800">
++      <button
++        type="button"
++        onClick={logout}
++        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
++      >
++        <Icon d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9" />
++        Log out
++      </button>
++    </div>
++  );
++
++  const brand = (
++    <div className="px-5 h-16 flex items-center gap-2 border-b border-slate-800">
++      <span className="text-white text-lg font-bold tracking-tight">numrexo</span>
++      <span className="text-[10px] uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Admin</span>
++    </div>
++  );
++
++  return (
++    <>
++      {/* Desktop sidebar */}
++      <aside className="hidden lg:flex fixed inset-y-0 left-0 w-60 flex-col bg-panel z-30">
++        {brand}
++        {nav}
++        {footer}
++      </aside>
++
++      {/* Mobile top bar + drawer */}
++      <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between h-14 px-4 bg-panel">
++        <div className="flex items-center gap-2">
++          <span className="text-white text-base font-bold tracking-tight">numrexo</span>
++          <span className="text-[10px] uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Admin</span>
++        </div>
++        <button type="button" aria-label="Open menu" onClick={() => setOpen(true)} className="p-2 text-white">
++          <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
++            <path d="M4 7h16M4 12h16M4 17h16" />
++          </svg>
++        </button>
++      </div>
++      {open && (
++        <div className="lg:hidden fixed inset-0 z-40 flex">
++          <div className="w-64 max-w-[80%] flex flex-col bg-panel">
++            {brand}
++            {nav}
++            {footer}
++          </div>
++          <button type="button" aria-label="Close menu" onClick={() => setOpen(false)} className="flex-1 bg-black/50" />
++        </div>
++      )}
++    </>
++  );
++}
+diff --git a/components/admin/AdminUi.tsx b/components/admin/AdminUi.tsx
+new file mode 100644
+index 0000000..2df26e1
+--- /dev/null
++++ b/components/admin/AdminUi.tsx
+@@ -0,0 +1,52 @@
++import Link from 'next/link';
++
++export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: React.ReactNode }) {
++  return (
++    <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
++      <div>
++        <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
++        {subtitle && <p className="text-sm text-slate-600 mt-1">{subtitle}</p>}
++      </div>
++      {actions && <div className="flex items-center gap-2">{actions}</div>}
++    </div>
++  );
++}
++
++export function StatCard({
++  label,
++  value,
++  hint,
++  href,
++  tone = 'blue',
++}: {
++  label: string;
++  value: string | number;
++  hint?: string;
++  href?: string;
++  tone?: 'blue' | 'green' | 'amber' | 'violet';
++}) {
++  const bar = { blue: 'bg-blue-500', green: 'bg-emerald-500', amber: 'bg-amber-500', violet: 'bg-violet-500' }[tone];
++  const body = (
++    <div className="relative bg-white border border-slate-300 rounded-xl p-4 overflow-hidden h-full shadow-sm hover:shadow transition-shadow">
++      <span className={`absolute left-0 top-0 bottom-0 w-1.5 ${bar}`} />
++      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</div>
++      <div className="text-3xl font-bold text-slate-900 mt-1 font-mono">{value}</div>
++      {hint && <div className="text-xs text-slate-500 mt-1">{hint}</div>}
++    </div>
++  );
++  return href ? <Link href={href}>{body}</Link> : body;
++}
++
++export function Card({ title, action, children, className = '' }: { title?: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) {
++  return (
++    <section className={`bg-white border border-slate-300 rounded-xl shadow-sm ${className}`}>
++      {(title || action) && (
++        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
++          {title && <h2 className="text-sm font-semibold text-slate-900">{title}</h2>}
++          {action}
++        </div>
++      )}
++      {children}
++    </section>
++  );
++}
+diff --git a/components/admin/EmailCenter.tsx b/components/admin/EmailCenter.tsx
+new file mode 100644
+index 0000000..b9334a6
+--- /dev/null
++++ b/components/admin/EmailCenter.tsx
+@@ -0,0 +1,283 @@
++'use client';
++
++import { useMemo, useState } from 'react';
++import { markdownToHtml } from '@/lib/markdown';
++import { styleEmailHtml } from '@/lib/emailTemplate';
++import { Card } from './AdminUi';
++import type { Broadcast, Quota } from '@/lib/emailBroadcastDb';
++
++interface Props {
++  configured: boolean;
++  status: { hasKey: boolean; hasFrom: boolean; from: string; usingResendTestSender: boolean; replyTo: string; dailyLimit: number };
++  activeSubscribers: number;
++  quota: Quota;
++  history: Broadcast[];
++}
++
++const field = 'w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200';
++
++function Check({ ok, label, detail }: { ok: boolean; label: string; detail?: string }) {
++  return (
++    <div className="flex items-start gap-3 py-2">
++      <span className={`mt-0.5 inline-flex w-5 h-5 rounded-full items-center justify-center text-xs font-bold text-white flex-shrink-0 ${ok ? 'bg-emerald-600' : 'bg-red-500'}`}>
++        {ok ? '✓' : '!'}
++      </span>
++      <div>
++        <p className="text-sm font-medium text-slate-900">{label}</p>
++        {detail && <p className="text-xs text-slate-600 mt-0.5">{detail}</p>}
++      </div>
++    </div>
++  );
++}
++
++function fmt(iso: string): string {
++  return new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
++}
++
++export default function EmailCenter({ configured, status, activeSubscribers, quota: initialQuota, history: initialHistory }: Props) {
++  const [quota, setQuota] = useState(initialQuota);
++  const [history, setHistory] = useState(initialHistory);
++
++  // test mail
++  const [testTo, setTestTo] = useState('');
++  const [testMsg, setTestMsg] = useState<{ ok: boolean; text: string } | null>(null);
++  const [testBusy, setTestBusy] = useState(false);
++
++  // composer
++  const [subject, setSubject] = useState('');
++  const [markdown, setMarkdown] = useState('');
++  const [tab, setTab] = useState<'write' | 'preview'>('write');
++  const [sending, setSending] = useState(false);
++  const [progress, setProgress] = useState<{ sent: number; total: number; id: number } | null>(null);
++  const [sendMsg, setSendMsg] = useState<{ ok: boolean; text: string } | null>(null);
++
++  const previewHtml = useMemo(() => styleEmailHtml(markdownToHtml(markdown || '*Your message preview appears here.*')), [markdown]);
++
++  async function sendTest(withContent: boolean) {
++    setTestMsg(null);
++    setTestBusy(true);
++    try {
++      const res = await fetch('/api/admin/email/test', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify(withContent ? { to: testTo, subject, markdown } : { to: testTo }),
++      });
++      const j = await res.json().catch(() => ({}));
++      if (res.ok) setTestMsg({ ok: true, text: `Test email sent to ${testTo}. Check the inbox (and spam folder).` });
++      else setTestMsg({ ok: false, text: j.error || 'Could not send the test email.' });
++    } catch {
++      setTestMsg({ ok: false, text: 'Network problem. Please try again.' });
++    } finally {
++      setTestBusy(false);
++    }
++  }
++
++  function upsert(b: Broadcast) {
++    setHistory((h) => [b, ...h.filter((x) => x.id !== b.id)].sort((a, c) => c.id - a.id));
++  }
++
++  async function drive(id: number) {
++    // Sends chunk after chunk until done, paused by the daily limit, or an error.
++    for (let guard = 0; guard < 400; guard++) {
++      const res = await fetch('/api/admin/email/broadcast', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ action: 'next', id }),
++      });
++      const j = await res.json().catch(() => ({}));
++      if (j.broadcast) {
++        upsert(j.broadcast);
++        setProgress({ sent: j.broadcast.sent, total: j.broadcast.total, id });
++      }
++      if (j.quota) setQuota(j.quota);
++      if (!res.ok || j.error) {
++        setSendMsg({ ok: false, text: j.error || 'Sending stopped because of an error.' });
++        return;
++      }
++      if (j.finished) {
++        setSendMsg({ ok: true, text: `Done! Your email went to ${j.broadcast.sent} subscribers.` });
++        return;
++      }
++      if (j.paused) {
++        setSendMsg({
++          ok: false,
++          text: `Daily email limit reached (${quota.limit}/day). ${j.broadcast?.sent ?? 0} of ${j.broadcast?.total ?? 0} sent. Come back tomorrow and press "Continue" in the history below.`,
++        });
++        return;
++      }
++      if (j.busy) await new Promise((r) => setTimeout(r, 1500));
++    }
++  }
++
++  async function startSend() {
++    setSendMsg(null);
++    if (!subject.trim() || !markdown.trim()) {
++      setSendMsg({ ok: false, text: 'Please write a subject and a message first.' });
++      return;
++    }
++    if (!window.confirm(`Send "${subject}" to ${activeSubscribers} active subscribers now? This cannot be undone.`)) return;
++    setSending(true);
++    try {
++      const res = await fetch('/api/admin/email/broadcast', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ action: 'start', subject, markdown }),
++      });
++      const j = await res.json().catch(() => ({}));
++      if (!res.ok) {
++        setSendMsg({ ok: false, text: j.error || 'Could not start sending.' });
++        return;
++      }
++      upsert(j.broadcast);
++      setProgress({ sent: 0, total: j.broadcast.total, id: j.broadcast.id });
++      await drive(j.broadcast.id);
++    } finally {
++      setSending(false);
++    }
++  }
++
++  async function resume(id: number) {
++    setSendMsg(null);
++    setSending(true);
++    try {
++      await fetch('/api/admin/email/broadcast', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'resume', id }) });
++      await drive(id);
++    } finally {
++      setSending(false);
++    }
++  }
++
++  const overQuota = quota.remaining <= 0;
++
++  return (
++    <div className="space-y-4">
++      <Card title="1. Email setup">
++        <div className="px-4 py-3 divide-y divide-slate-100">
++          <Check ok={status.hasKey} label="Resend API key" detail={status.hasKey ? 'RESEND_API_KEY is set in Vercel.' : 'Missing. Add RESEND_API_KEY in Vercel → Settings → Environment Variables.'} />
++          <Check
++            ok={status.hasFrom}
++            label="Sender address"
++            detail={status.hasFrom ? `Emails go out as: ${status.from}` : 'Missing. Add EMAIL_FROM, for example  Numrexo <hello@numrexo.com>'}
++          />
++          {status.hasFrom && status.usingResendTestSender && (
++            <Check ok={false} label="Using Resend's test sender" detail="onboarding@resend.dev can only email YOUR OWN Resend account address. Verify numrexo.com in Resend and switch EMAIL_FROM to an @numrexo.com address so visitors can receive emails." />
++          )}
++          <Check ok={configured} label={configured ? 'Email is ON — "Email me this result" is visible on all calculators' : 'Email is OFF — the "Email me this result" button stays hidden'} />
++        </div>
++        <div className="px-4 pb-4 text-sm text-slate-700 space-y-2">
++          <p>
++            Today: <strong>{quota.usedToday}</strong> of <strong>{quota.limit}</strong> emails used in the last 24 hours ({quota.remaining} left). Resend's free plan allows about 100 emails per day.
++          </p>
++          {!configured && (
++            <ol className="list-decimal pl-5 space-y-1 text-slate-700">
++              <li>Create a free account at resend.com (you sign in with your own email — no password of yours is ever shared with us).</li>
++              <li>Resend → Domains → add <strong>numrexo.com</strong> and paste the DNS records they show into your domain's DNS settings.</li>
++              <li>Resend → API Keys → create a key.</li>
++              <li>Vercel → your project → Settings → Environment Variables: add <code>RESEND_API_KEY</code> and <code>EMAIL_FROM</code>, then redeploy.</li>
++            </ol>
++          )}
++        </div>
++      </Card>
++
++      <Card title="2. Send a test email">
++        <div className="p-4 flex flex-col sm:flex-row gap-2">
++          <input type="email" value={testTo} onChange={(e) => setTestTo(e.target.value)} placeholder="your-email@example.com" className={field} disabled={!configured} />
++          <button
++            type="button"
++            disabled={!configured || testBusy || !testTo}
++            onClick={() => sendTest(false)}
++            className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-slate-700 disabled:opacity-40 whitespace-nowrap"
++          >
++            {testBusy ? 'Sending…' : 'Send test'}
++          </button>
++        </div>
++        {testMsg && <p className={`px-4 pb-4 text-sm ${testMsg.ok ? 'text-emerald-700' : 'text-red-700'}`}>{testMsg.text}</p>}
++      </Card>
++
++      <Card title={`3. Email your subscribers (${activeSubscribers} active)`}>
++        <div className="p-4 space-y-3">
++          <div>
++            <label className="block text-sm font-medium text-slate-800 mb-1" htmlFor="nl-subject">Subject</label>
++            <input id="nl-subject" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="e.g. 3 new calculators to try this week" className={field} maxLength={200} />
++          </div>
++          <div>
++            <div className="flex items-center justify-between mb-1">
++              <label className="block text-sm font-medium text-slate-800" htmlFor="nl-body">Message</label>
++              <div className="inline-flex rounded-lg border border-slate-300 overflow-hidden text-xs font-semibold">
++                {(['write', 'preview'] as const).map((t) => (
++                  <button key={t} type="button" onClick={() => setTab(t)} className={`px-3 py-1.5 ${tab === t ? 'bg-slate-900 text-white' : 'bg-white text-slate-700'}`}>
++                    {t === 'write' ? 'Write' : 'Preview'}
++                  </button>
++                ))}
++              </div>
++            </div>
++            {tab === 'write' ? (
++              <textarea
++                id="nl-body"
++                value={markdown}
++                onChange={(e) => setMarkdown(e.target.value)}
++                rows={12}
++                placeholder={'Write in plain text. You can use:\n## Heading\n**bold**  [link text](https://numrexo.com/...)  - bullet points'}
++                className={`${field} font-mono`}
++              />
++            ) : (
++              <div className="rounded-lg border border-slate-300 bg-slate-50 p-4 min-h-[16rem]">
++                <h3 className="text-xl font-bold text-slate-900 mb-3">{subject || 'Subject'}</h3>
++                <div dangerouslySetInnerHTML={{ __html: previewHtml }} />
++              </div>
++            )}
++            <p className="text-xs text-slate-500 mt-1">An unsubscribe link is added to every email automatically.</p>
++          </div>
++
++          <div className="flex flex-wrap items-center gap-2">
++            <button type="button" disabled={!configured || testBusy || !testTo || !subject || !markdown} onClick={() => sendTest(true)} className="px-4 py-2 rounded-lg border border-slate-400 bg-white text-slate-800 text-sm font-semibold hover:bg-slate-50 disabled:opacity-40">
++              Send this draft to the test address above
++            </button>
++            <button
++              type="button"
++              disabled={!configured || sending || overQuota || activeSubscribers === 0}
++              onClick={startSend}
++              className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-40"
++            >
++              {sending ? 'Sending…' : `Send to ${activeSubscribers} subscribers`}
++            </button>
++          </div>
++
++          {progress && sending && (
++            <div>
++              <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
++                <div className="h-full bg-blue-600 transition-all" style={{ width: `${progress.total ? Math.round((progress.sent / progress.total) * 100) : 0}%` }} />
++              </div>
++              <p className="text-xs text-slate-600 mt-1">{progress.sent} of {progress.total} sent — keep this page open.</p>
++            </div>
++          )}
++          {overQuota && configured && <p className="text-sm text-amber-800">Today's email limit is used up. Try again tomorrow.</p>}
++          {sendMsg && <p className={`text-sm ${sendMsg.ok ? 'text-emerald-700' : 'text-red-700'}`}>{sendMsg.text}</p>}
++        </div>
++      </Card>
++
++      <Card title="Sent emails">
++        <div className="divide-y divide-slate-200">
++          {history.length === 0 && <p className="p-4 text-sm text-slate-600">Nothing sent yet.</p>}
++          {history.map((b) => (
++            <div key={b.id} className="flex items-center justify-between gap-3 px-4 py-3">
++              <div className="min-w-0">
++                <p className="text-sm font-medium text-slate-900 truncate">{b.subject}</p>
++                <p className="text-xs text-slate-500">
++                  {fmt(b.createdAt)} · {b.sent} of {b.total} sent{b.failed ? ` · ${b.failed} failed` : ''}
++                </p>
++              </div>
++              {b.status === 'done' ? (
++                <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-emerald-100 text-emerald-800">Sent</span>
++              ) : (
++                <button type="button" disabled={sending || overQuota} onClick={() => resume(b.id)} className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-100 text-amber-900 hover:bg-amber-200 disabled:opacity-40">
++                  Continue
++                </button>
++              )}
++            </div>
++          ))}
++        </div>
++      </Card>
++    </div>
++  );
++}
+diff --git a/components/admin/FaqEditor.tsx b/components/admin/FaqEditor.tsx
+index 41a0d62..5c7f8df 100644
+--- a/components/admin/FaqEditor.tsx
++++ b/components/admin/FaqEditor.tsx
+@@ -31,25 +31,25 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
+ 
+   return (
+     <div>
+-      <label className="block text-sm text-ink-soft mb-1.5">
+-        FAQ <span className="text-ink-faint">(optional - can appear as an FAQ rich result in Google search)</span>
++      <label className="block text-sm text-slate-700 mb-1.5">
++        FAQ <span className="text-slate-500">(optional - can appear as an FAQ rich result in Google search)</span>
+       </label>
+ 
+       <div className="space-y-3">
+         {value.map((faq, index) => (
+-          <div key={index} className="p-3 rounded-lg bg-cream border border-hairline">
++          <div key={index} className="p-3 rounded-lg bg-white border border-slate-400">
+             <div className="flex items-start gap-2 mb-2">
+               <input
+                 value={faq.question}
+                 onChange={(e) => updateRow(index, 'question', e.target.value)}
+                 placeholder={`Question ${index + 1}`}
+-                className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++                className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
+               />
+               <button
+                 type="button"
+                 onClick={() => removeRow(index)}
+                 title="Remove"
+-                className="px-2.5 py-2 rounded-lg text-ink-faint hover:text-red-600 transition-colors"
++                className="px-2.5 py-2 rounded-lg text-slate-500 hover:text-red-600 transition-colors"
+               >
+                 ✕
+               </button>
+@@ -59,7 +59,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
+               onChange={(e) => updateRow(index, 'answer', e.target.value)}
+               placeholder="Answer"
+               rows={2}
+-              className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
+             />
+           </div>
+         ))}
+@@ -68,7 +68,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
+       <button
+         type="button"
+         onClick={addRow}
+-        className="mt-3 px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 transition-colors"
++        className="mt-3 px-3 py-1.5 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:border-blue-600 transition-colors"
+       >
+         + Add FAQ
+       </button>
+diff --git a/components/admin/ImageUploadField.tsx b/components/admin/ImageUploadField.tsx
+index 45c4a82..204f654 100644
+--- a/components/admin/ImageUploadField.tsx
++++ b/components/admin/ImageUploadField.tsx
+@@ -1,6 +1,7 @@
+ 'use client';
+ 
+ import { useRef, useState } from 'react';
++import { uploadImage } from '@/lib/uploadImageClient';
+ 
+ interface ImageUploadFieldProps {
+   label: string;
+@@ -27,17 +28,10 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
+     setError('');
+     setUploading(true);
+     try {
+-      const formData = new FormData();
+-      formData.append('file', file);
+-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+-      const data = await res.json();
+-      if (!res.ok) {
+-        setError(data.error || 'Upload failed. Please try again.');
+-        return;
+-      }
+-      onChange(data.url);
+-    } catch {
+-      setError('Upload failed - check your internet connection and try again.');
++      const url = await uploadImage(file);
++      onChange(url);
++    } catch (err) {
++      setError(err instanceof Error ? err.message : 'Upload failed - check your internet connection and try again.');
+     } finally {
+       setUploading(false);
+     }
+@@ -45,12 +39,12 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
+ 
+   return (
+     <div>
+-      <label className="block text-sm text-ink-soft mb-1.5">
+-        {label} {hint && <span className="text-ink-faint">({hint})</span>}
++      <label className="block text-sm text-slate-700 mb-1.5">
++        {label} {hint && <span className="text-slate-500">({hint})</span>}
+       </label>
+ 
+       {value && (
+-        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-cream border border-hairline">
++        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-white border border-slate-400">
+           {/* eslint-disable-next-line @next/next/no-img-element */}
+           <img src={value} alt="" className="w-full h-full object-cover" />
+         </div>
+@@ -68,7 +62,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
+           type="button"
+           onClick={() => fileInputRef.current?.click()}
+           disabled={uploading}
+-          className="px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
++          className="px-3 py-1.5 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
+         >
+           {uploading ? 'Uploading...' : 'Upload from computer'}
+         </button>
+@@ -76,7 +70,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
+           <button
+             type="button"
+             onClick={() => onChange('')}
+-            className="px-3 py-1.5 rounded-lg text-ink-faint text-sm hover:text-red-600 transition-colors"
++            className="px-3 py-1.5 rounded-lg text-slate-500 text-sm hover:text-red-600 transition-colors"
+           >
+             Remove
+           </button>
+@@ -89,7 +83,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
+         value={value}
+         onChange={(e) => onChange(e.target.value)}
+         placeholder="...or paste an image URL here"
+-        className="mt-2 w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++        className="mt-2 w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
+       />
+     </div>
+   );
+diff --git a/components/admin/PostForm.tsx b/components/admin/PostForm.tsx
+index 8bc47c3..1c658bf 100644
+--- a/components/admin/PostForm.tsx
++++ b/components/admin/PostForm.tsx
+@@ -67,8 +67,8 @@ const EMPTY: PostFormValues = {
+ };
+ 
+ const INPUT =
+-  'w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600';
+-const CARD = 'p-4 rounded-xl bg-surface border border-hairline space-y-4';
++  'w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600';
++const CARD = 'p-4 rounded-xl bg-white border border-slate-300 space-y-4';
+ 
+ // <input type="datetime-local"> wants "YYYY-MM-DDTHH:mm" in the browser's
+ // own timezone, while the database stores a UTC instant.
+@@ -164,7 +164,7 @@ export default function PostForm({
+         window.scrollTo({ top: 0, behavior: 'smooth' });
+         return;
+       }
+-      router.push('/');
++      router.push('/posts');
+       router.refresh();
+     } catch {
+       setError('Something went wrong. Please try again.');
+@@ -184,7 +184,7 @@ export default function PostForm({
+         )}
+ 
+         <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">Title</label>
++          <label className="block text-sm text-slate-700 mb-1.5">Title</label>
+           <input
+             value={values.title}
+             onChange={(e) => onTitleChange(e.target.value)}
+@@ -194,11 +194,11 @@ export default function PostForm({
+         </div>
+ 
+         <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">
+-            URL slug <span className="text-ink-faint">(the post's link; leave empty to build it from the title)</span>
++          <label className="block text-sm text-slate-700 mb-1.5">
++            URL slug <span className="text-slate-500">(the post's link; leave empty to build it from the title)</span>
+           </label>
+-          <div className="flex items-center rounded-lg bg-cream border border-hairline focus-within:border-blue-600 overflow-hidden">
+-            <span className="pl-3 text-xs text-ink-faint whitespace-nowrap">numrexo.com/blog/</span>
++          <div className="flex items-center rounded-lg bg-white border border-slate-400 focus-within:border-blue-600 overflow-hidden">
++            <span className="pl-3 text-xs text-slate-500 whitespace-nowrap">numrexo.com/blog/</span>
+             <input
+               value={values.slug}
+               onChange={(e) => {
+@@ -207,7 +207,7 @@ export default function PostForm({
+               }}
+               onBlur={() => update('slug', slugify(values.slug))}
+               placeholder="auto-generated-from-title"
+-              className="flex-1 px-1 py-2 bg-transparent text-ink text-sm focus:outline-none"
++              className="flex-1 px-1 py-2 bg-transparent text-slate-900 text-sm focus:outline-none"
+             />
+           </div>
+           {slugChangedOnLivePost && (
+@@ -219,8 +219,8 @@ export default function PostForm({
+         </div>
+ 
+         <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">
+-            Excerpt <span className="text-ink-faint">(shown on the blog list, 1-2 lines)</span>
++          <label className="block text-sm text-slate-700 mb-1.5">
++            Excerpt <span className="text-slate-500">(shown on the blog list, 1-2 lines)</span>
+           </label>
+           <textarea
+             value={values.excerpt}
+@@ -231,9 +231,9 @@ export default function PostForm({
+         </div>
+ 
+         <div>
+-          <label className="block text-sm text-ink-soft mb-1.5">Content</label>
++          <label className="block text-sm text-slate-700 mb-1.5">Content</label>
+           <RichMarkdownEditor value={values.contentMarkdown} onChange={(v) => update('contentMarkdown', v)} />
+-          <p className="text-xs text-ink-faint mt-1.5">
++          <p className="text-xs text-slate-500 mt-1.5">
+             For a sub-heading, write <code>## Heading</code> - the post's &quot;In this article&quot; table of
+             contents is built from these.
+           </p>
+@@ -241,12 +241,12 @@ export default function PostForm({
+ 
+         {/* ------------------------------ SEO ------------------------------ */}
+         <div className={CARD}>
+-          <h3 className="text-sm font-semibold text-ink">SEO (Google search result)</h3>
++          <h3 className="text-sm font-semibold text-slate-900">SEO (Google search result)</h3>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
++            <label className="block text-sm text-slate-700 mb-1.5">
+               Focus keyword{' '}
+-              <span className="text-ink-faint">(the phrase people will search on Google; only used for the SEO score)</span>
++              <span className="text-slate-500">(the phrase people will search on Google; only used for the SEO score)</span>
+             </label>
+             <input
+               value={values.focusKeyword}
+@@ -257,8 +257,8 @@ export default function PostForm({
+           </div>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Meta Title <span className="text-ink-faint">(empty = the normal Title; 50-60 characters is best)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Meta Title <span className="text-slate-500">(empty = the normal Title; 50-60 characters is best)</span>
+             </label>
+             <input
+               value={values.metaTitle}
+@@ -269,8 +269,8 @@ export default function PostForm({
+           </div>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Meta Description <span className="text-ink-faint">(empty = the Excerpt; 120-160 characters is best)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Meta Description <span className="text-slate-500">(empty = the Excerpt; 120-160 characters is best)</span>
+             </label>
+             <textarea
+               value={values.metaDescription}
+@@ -286,7 +286,7 @@ export default function PostForm({
+ 
+         {/* ------------------------------ SOCIAL & ADVANCED ------------------------------ */}
+         <div className={CARD}>
+-          <h3 className="text-sm font-semibold text-ink">Social share &amp; advanced SEO</h3>
++          <h3 className="text-sm font-semibold text-slate-900">Social share &amp; advanced SEO</h3>
+ 
+           <ImageUploadField
+             label="Social share image"
+@@ -296,8 +296,8 @@ export default function PostForm({
+           />
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Canonical URL <span className="text-ink-faint">(only fill this in if this content is a copy of another URL)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Canonical URL <span className="text-slate-500">(only fill this in if this content is a copy of another URL)</span>
+             </label>
+             <input
+               value={values.canonicalUrl}
+@@ -307,7 +307,7 @@ export default function PostForm({
+             />
+           </div>
+ 
+-          <label className="flex items-start gap-2 text-sm text-ink-soft">
++          <label className="flex items-start gap-2 text-sm text-slate-700">
+             <input
+               type="checkbox"
+               checked={values.noindex}
+@@ -315,16 +315,16 @@ export default function PostForm({
+               className="w-4 h-4 mt-0.5"
+             />
+             <span>
+-              Hide from Google (noindex) <span className="text-ink-faint">- the post stays live but won't appear in search and is removed from the sitemap</span>
++              Hide from Google (noindex) <span className="text-slate-500">- the post stays live but won't appear in search and is removed from the sitemap</span>
+             </span>
+           </label>
+         </div>
+ 
+         {/* ------------------------------ ENGAGEMENT ------------------------------ */}
+         <div className={CARD}>
+-          <h3 className="text-sm font-semibold text-ink">Extras inside the post</h3>
++          <h3 className="text-sm font-semibold text-slate-900">Extras inside the post</h3>
+ 
+-          <label className="flex items-start gap-2 text-sm text-ink-soft">
++          <label className="flex items-start gap-2 text-sm text-slate-700">
+             <input
+               type="checkbox"
+               checked={values.showToc}
+@@ -333,13 +333,13 @@ export default function PostForm({
+             />
+             <span>
+               &quot;In this article&quot; table of contents{' '}
+-              <span className="text-ink-faint">(when the post has 3 or more sub-headings)</span>
++              <span className="text-slate-500">(when the post has 3 or more sub-headings)</span>
+             </span>
+           </label>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Calculator box <span className="text-ink-faint">(a &quot;Try it free&quot; box for this calculator in the middle of the post)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Calculator box <span className="text-slate-500">(a &quot;Try it free&quot; box for this calculator in the middle of the post)</span>
+             </label>
+             <select
+               value={values.ctaCalculator}
+@@ -356,8 +356,8 @@ export default function PostForm({
+           </div>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Choose related posts yourself <span className="text-ink-faint">(max 6; the rest are added automatically)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Choose related posts yourself <span className="text-slate-500">(max 6; the rest are added automatically)</span>
+             </label>
+             <select
+               multiple
+@@ -380,7 +380,7 @@ export default function PostForm({
+                   </option>
+                 ))}
+             </select>
+-            <p className="text-xs text-ink-faint mt-1">Hold Ctrl (Cmd on Mac) to select more than one.</p>
++            <p className="text-xs text-slate-500 mt-1">Hold Ctrl (Cmd on Mac) to select more than one.</p>
+           </div>
+         </div>
+ 
+@@ -400,10 +400,10 @@ export default function PostForm({
+       {/* ------------------------------ SIDEBAR ------------------------------ */}
+       <aside className="space-y-5 lg:sticky lg:top-4">
+         <div className={CARD}>
+-          <h3 className="text-sm font-semibold text-ink">Publish</h3>
++          <h3 className="text-sm font-semibold text-slate-900">Publish</h3>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">Status</label>
++            <label className="block text-sm text-slate-700 mb-1.5">Status</label>
+             <select
+               value={values.published ? 'published' : 'draft'}
+               onChange={(e) => update('published', e.target.value === 'published')}
+@@ -415,8 +415,8 @@ export default function PostForm({
+           </div>
+ 
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">
+-              Publish date &amp; time <span className="text-ink-faint">(empty = now)</span>
++            <label className="block text-sm text-slate-700 mb-1.5">
++              Publish date &amp; time <span className="text-slate-500">(empty = now)</span>
+             </label>
+             <input
+               type="datetime-local"
+@@ -433,7 +433,7 @@ export default function PostForm({
+               <button
+                 type="button"
+                 onClick={() => setDateLocal('')}
+-                className="text-xs text-ink-faint hover:text-ink mt-1"
++                className="text-xs text-slate-500 hover:text-slate-900 mt-1"
+               >
+                 Clear date (publish now)
+               </button>
+@@ -458,8 +458,8 @@ export default function PostForm({
+             </button>
+             <button
+               type="button"
+-              onClick={() => router.push('/')}
+-              className="px-5 py-2 rounded-lg bg-cream border border-hairline text-ink-soft hover:text-ink transition-colors"
++              onClick={() => router.push('/posts')}
++              className="px-5 py-2 rounded-lg bg-white border border-slate-400 text-slate-700 hover:text-slate-900 transition-colors"
+             >
+               Cancel
+             </button>
+@@ -467,9 +467,9 @@ export default function PostForm({
+         </div>
+ 
+         <div className={CARD}>
+-          <h3 className="text-sm font-semibold text-ink">Category &amp; author</h3>
++          <h3 className="text-sm font-semibold text-slate-900">Category &amp; author</h3>
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">Category</label>
++            <label className="block text-sm text-slate-700 mb-1.5">Category</label>
+             <select value={values.category} onChange={(e) => update('category', e.target.value)} className={INPUT}>
+               {Object.entries(CATEGORY_LABELS).map(([slug, label]) => (
+                 <option key={slug} value={slug}>
+@@ -479,11 +479,11 @@ export default function PostForm({
+             </select>
+           </div>
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">Tags</label>
++            <label className="block text-sm text-slate-700 mb-1.5">Tags</label>
+             <TagsInput value={values.tags} onChange={(t) => update('tags', t)} />
+           </div>
+           <div>
+-            <label className="block text-sm text-ink-soft mb-1.5">Author</label>
++            <label className="block text-sm text-slate-700 mb-1.5">Author</label>
+             <input value={values.author} onChange={(e) => update('author', e.target.value)} className={INPUT} />
+           </div>
+         </div>
+diff --git a/components/admin/RichMarkdownEditor.tsx b/components/admin/RichMarkdownEditor.tsx
+index aeb4ab2..90eb7d8 100644
+--- a/components/admin/RichMarkdownEditor.tsx
++++ b/components/admin/RichMarkdownEditor.tsx
+@@ -1,6 +1,8 @@
+ 'use client';
+ 
+-import { useRef, useState } from 'react';
++import { useMemo, useRef, useState } from 'react';
++import { markdownToHtml } from '@/lib/markdown';
++import { uploadImage } from '@/lib/uploadImageClient';
+ 
+ interface RichMarkdownEditorProps {
+   value: string;
+@@ -22,6 +24,8 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
+   const fileInputRef = useRef<HTMLInputElement>(null);
+   const [uploading, setUploading] = useState(false);
+   const [error, setError] = useState('');
++  const [preview, setPreview] = useState(false);
++  const previewHtml = useMemo(() => (preview ? markdownToHtml(value || '*Nothing to preview yet.*') : ''), [preview, value]);
+ 
+   function applyEdit(nextValue: string, selectionStart: number, selectionEnd: number) {
+     onChange(nextValue);
+@@ -79,23 +83,16 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
+     setError('');
+     setUploading(true);
+     try {
+-      const formData = new FormData();
+-      formData.append('file', file);
+-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+-      const data = await res.json();
+-      if (!res.ok) {
+-        setError(data.error || 'Upload failed. Please try again.');
+-        return;
+-      }
++      const url = await uploadImage(file);
+       const el = textareaRef.current;
+       const start = el?.selectionStart ?? value.length;
+       const end = el?.selectionEnd ?? value.length;
+       const altText = window.prompt('Short description of the image (alt text, good for SEO - optional):', '') || '';
+-      const markdown = `\n![${altText}](${data.url})\n`;
++      const markdown = `\n![${altText}](${url})\n`;
+       const next = value.slice(0, start) + markdown + value.slice(end);
+       applyEdit(next, start + markdown.length, start + markdown.length);
+-    } catch {
+-      setError('Upload failed - check your internet connection and try again.');
++    } catch (err) {
++      setError(err instanceof Error ? err.message : 'Upload failed - check your internet connection and try again.');
+     } finally {
+       setUploading(false);
+     }
+@@ -114,19 +111,30 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
+ 
+   return (
+     <div>
+-      <div className="flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-cream border border-hairline">
++      <div className="flex items-center justify-end gap-2 mb-2">
++        <div className="inline-flex rounded-lg border border-slate-400 overflow-hidden text-xs font-semibold">
++          <button type="button" onClick={() => setPreview(false)} className={`px-3 py-1.5 ${!preview ? 'bg-slate-900 text-white' : 'bg-white text-slate-700'}`}>
++            Write
++          </button>
++          <button type="button" onClick={() => setPreview(true)} className={`px-3 py-1.5 ${preview ? 'bg-slate-900 text-white' : 'bg-white text-slate-700'}`}>
++            Preview (how readers will see it)
++          </button>
++        </div>
++      </div>
++
++      <div className={`flex flex-wrap items-center gap-1.5 mb-2 p-2 rounded-lg bg-white border border-slate-400 ${preview ? 'opacity-40 pointer-events-none' : ''}`}>
+         {buttons.map((btn) => (
+           <button
+             key={btn.label}
+             type="button"
+             title={btn.title}
+             onClick={btn.onClick}
+-            className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors"
++            className="px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors"
+           >
+             {btn.label}
+           </button>
+         ))}
+-        <span className="w-px h-5 bg-hairline mx-1" />
++        <span className="w-px h-5 bg-slate-300 mx-1" />
+         <input
+           ref={fileInputRef}
+           type="file"
+@@ -139,7 +147,7 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
+           title="Insert image"
+           onClick={() => fileInputRef.current?.click()}
+           disabled={uploading}
+-          className="px-2.5 py-1 rounded bg-surface border border-hairline text-ink-soft text-xs font-medium hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50 transition-colors"
++          className="px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-700 text-xs font-medium hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50 transition-colors"
+         >
+           {uploading ? 'Uploading...' : '🖼 Insert Image'}
+         </button>
+@@ -147,12 +155,18 @@ export default function RichMarkdownEditor({ value, onChange }: RichMarkdownEdit
+ 
+       {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
+ 
++      {preview && (
++        <div className="rounded-lg border border-slate-400 bg-white p-5 sm:p-8 min-h-[20rem]">
++          <div className="blog-content" dangerouslySetInnerHTML={{ __html: previewHtml }} />
++        </div>
++      )}
++
+       <textarea
+         ref={textareaRef}
+         value={value}
+         onChange={(e) => onChange(e.target.value)}
+         rows={20}
+-        className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink font-mono text-sm focus:outline-none focus:border-blue-600"
++        className={`${preview ? "hidden " : ""}w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 font-mono text-sm focus:outline-none focus:border-blue-600`}
+       />
+     </div>
+   );
+diff --git a/components/admin/SeoScorePanel.tsx b/components/admin/SeoScorePanel.tsx
+index dd638ee..34a3523 100644
+--- a/components/admin/SeoScorePanel.tsx
++++ b/components/admin/SeoScorePanel.tsx
+@@ -22,11 +22,11 @@ export default function SeoScorePanel({ input }: { input: SeoInput }) {
+       <div className="flex items-center gap-4 mb-3">
+         <div className={`text-3xl font-bold font-mono ${color}`}>{report.score}</div>
+         <div>
+-          <div className="text-sm font-semibold text-ink">SEO score / 100</div>
++          <div className="text-sm font-semibold text-slate-900">SEO score / 100</div>
+           <div className={`text-xs ${color}`}>{label}</div>
+         </div>
+       </div>
+-      <p className="text-xs text-ink-faint mb-3">
++      <p className="text-xs text-slate-500 mb-3">
+         This is a helpful checklist, not Google's real score. Fix the red and yellow items, but write for readers
+         first.
+       </p>
+@@ -35,8 +35,8 @@ export default function SeoScorePanel({ input }: { input: SeoInput }) {
+           <li key={c.id} className="flex gap-2 text-sm">
+             <span className={`mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0 ${DOT[c.status]}`} />
+             <div>
+-              <div className="text-ink">{c.label}</div>
+-              {c.status !== 'good' && c.hint && <div className="text-xs text-ink-faint">{c.hint}</div>}
++              <div className="text-slate-900">{c.label}</div>
++              {c.status !== 'good' && c.hint && <div className="text-xs text-slate-500">{c.hint}</div>}
+             </div>
+           </li>
+         ))}
+diff --git a/components/admin/SerpPreview.tsx b/components/admin/SerpPreview.tsx
+index d302240..77ff991 100644
+--- a/components/admin/SerpPreview.tsx
++++ b/components/admin/SerpPreview.tsx
+@@ -24,26 +24,26 @@ export default function SerpPreview({ title, slug, description, siteName = 'Numr
+   return (
+     <div>
+       <div className="flex items-center justify-between mb-2">
+-        <span className="text-xs font-semibold text-ink-soft uppercase tracking-wider">Google preview</span>
+-        <div className="inline-flex rounded-lg border border-hairline overflow-hidden text-xs">
++        <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Google preview</span>
++        <div className="inline-flex rounded-lg border border-slate-300 overflow-hidden text-xs">
+           <button
+             type="button"
+             onClick={() => setMobile(false)}
+-            className={`px-3 py-1 ${!mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
++            className={`px-3 py-1 ${!mobile ? 'bg-blue-600 text-white' : 'bg-white text-slate-700'}`}
+           >
+             Desktop
+           </button>
+           <button
+             type="button"
+             onClick={() => setMobile(true)}
+-            className={`px-3 py-1 ${mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
++            className={`px-3 py-1 ${mobile ? 'bg-blue-600 text-white' : 'bg-white text-slate-700'}`}
+           >
+             Mobile
+           </button>
+         </div>
+       </div>
+ 
+-      <div className={`bg-white border border-hairline rounded-lg p-4 ${mobile ? 'max-w-sm' : ''}`}>
++      <div className={`bg-white border border-slate-300 rounded-lg p-4 ${mobile ? 'max-w-sm' : ''}`}>
+         <div className="flex items-center gap-2 mb-1">
+           <div className="w-6 h-6 rounded-full bg-blue-600 text-white text-[11px] font-bold flex items-center justify-center">
+             N
+@@ -60,10 +60,10 @@ export default function SerpPreview({ title, slug, description, siteName = 'Numr
+       </div>
+ 
+       <div className="flex gap-4 mt-2 text-xs">
+-        <span className={title.length > titleMax ? 'text-red-600' : 'text-ink-faint'}>
++        <span className={title.length > titleMax ? 'text-red-600' : 'text-slate-500'}>
+           Title: {title.length}/{titleMax}
+         </span>
+-        <span className={description.length > descMax ? 'text-red-600' : 'text-ink-faint'}>
++        <span className={description.length > descMax ? 'text-red-600' : 'text-slate-500'}>
+           Description: {description.length}/{descMax}
+         </span>
+       </div>
+diff --git a/components/admin/SubscriberImport.tsx b/components/admin/SubscriberImport.tsx
+index 9471b97..fb6e3a3 100644
+--- a/components/admin/SubscriberImport.tsx
++++ b/components/admin/SubscriberImport.tsx
+@@ -62,9 +62,9 @@ export default function SubscriberImport() {
+   }
+ 
+   return (
+-    <div className="bg-surface border border-hairline rounded-xl p-4 space-y-3">
+-      <h2 className="text-sm font-semibold text-ink">Import subscribers</h2>
+-      <p className="text-xs text-ink-faint">
++    <div className="bg-white border border-slate-300 rounded-xl p-4 space-y-3">
++      <h2 className="text-sm font-semibold text-slate-900">Import subscribers</h2>
++      <p className="text-xs text-slate-500">
+         Upload a CSV file or paste email addresses (one per line, or <code>email,name</code>). A CSV with a header
+         row containing <code>email</code> (and optionally <code>name</code>) also works. Addresses already on the list
+         are not added again, and anyone who unsubscribed is not re-activated.
+@@ -75,7 +75,7 @@ export default function SubscriberImport() {
+         onChange={(e) => setText(e.target.value)}
+         rows={5}
+         placeholder={'rahul@example.com\npriya@example.com, Priya'}
+-        className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm font-mono focus:outline-none focus:border-blue-600"
++        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm font-mono focus:outline-none focus:border-blue-600"
+       />
+ 
+       <div className="flex flex-wrap items-center gap-3">
+@@ -83,7 +83,7 @@ export default function SubscriberImport() {
+         <button
+           type="button"
+           onClick={() => fileRef.current?.click()}
+-          className="px-4 py-2 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:text-ink"
++          className="px-4 py-2 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:text-slate-900"
+         >
+           Choose CSV / TXT file
+         </button>
+diff --git a/components/admin/TagsInput.tsx b/components/admin/TagsInput.tsx
+index 9a14e89..45fd69d 100644
+--- a/components/admin/TagsInput.tsx
++++ b/components/admin/TagsInput.tsx
+@@ -56,7 +56,7 @@ export default function TagsInput({ value, onChange }: TagsInputProps) {
+         onBlur={() => draft.trim() && commit(draft)}
+         disabled={value.length >= MAX_TAGS}
+         placeholder={value.length >= MAX_TAGS ? 'Maximum number of tags reached' : 'Type a tag and press Enter (e.g. home loan)'}
+-        className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
++        className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
+       />
+     </div>
+   );
+diff --git a/components/common/ResultActions.tsx b/components/common/ResultActions.tsx
+index 9dfe3a0..5aa5281 100644
+--- a/components/common/ResultActions.tsx
++++ b/components/common/ResultActions.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useState } from "react";
++import { useEffect, useState } from "react";
+ import ShareResultModal from "./ShareResultModal";
+ import EmailResultModal from "./EmailResultModal";
+ import { ShareIcon } from "./SocialIcons";
+@@ -14,10 +14,19 @@ interface ResultActionsProps {
+   calcPath: string;
+ }
+ 
+-// Email needs a mail provider to be configured (see PATCH20-STEPS). Until the
+-// site owner switches it on, the button stays hidden so no visitor ever hits
+-// a dead end.
+-const EMAIL_ENABLED = process.env.NEXT_PUBLIC_EMAIL_RESULT_ENABLED === "true";
++// "Email me this result" needs a mail provider (see PATCH21-STEPS). The server
++// says whether one is configured; the button only shows when it is, so no
++// visitor ever hits a dead end. Asked once per page load.
++let emailEnabledPromise: Promise<boolean> | null = null;
++function fetchEmailEnabled(): Promise<boolean> {
++  if (!emailEnabledPromise) {
++    emailEnabledPromise = fetch("/api/email-result")
++      .then((r) => (r.ok ? r.json() : { enabled: false }))
++      .then((j) => Boolean(j?.enabled))
++      .catch(() => false);
++  }
++  return emailEnabledPromise;
++}
+ 
+ const secondaryBtn =
+   "flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-panel-soft bg-panel-soft text-white text-sm font-semibold hover:bg-white/10 transition-colors";
+@@ -49,6 +58,15 @@ export default function ResultActions({ data, calcPath }: ResultActionsProps) {
+   const [shareSnapshot, setShareSnapshot] = useState<ShareCardData | null>(null);
+   const [emailSnapshot, setEmailSnapshot] = useState<{ payload: ResultPayload; calcName: string } | null>(null);
+   const [notice, setNotice] = useState("");
++  const [EMAIL_ENABLED, setEmailEnabled] = useState(false);
++
++  useEffect(() => {
++    let alive = true;
++    fetchEmailEnabled().then((v) => alive && setEmailEnabled(v));
++    return () => {
++      alive = false;
++    };
++  }, []);
+ 
+   function download() {
+     try {
+diff --git a/components/common/ResultBox.tsx b/components/common/ResultBox.tsx
+index 2aa4e2b..027172a 100644
+--- a/components/common/ResultBox.tsx
++++ b/components/common/ResultBox.tsx
+@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
+ import { CALCULATORS_REGISTRY, CATEGORIES } from "@/data/calculatorsRegistry";
+ import ResultActions from "./ResultActions";
+ import type { ShareCardData } from "@/lib/shareCard";
++import { shareHeadlineFor } from "@/lib/shareHeadline";
+ 
+ interface ResultBoxProps {
+   title: string;
+@@ -57,6 +58,7 @@ export default function ResultBox({
+       value: String(mainResult.value),
+       unit: mainResult.unit,
+       rows: (extraRows || []).map((r) => ({ label: r.label, value: r.value })),
++      headline: shareHeadlineFor(calc?.slug, extraRows || [])?.headline,
+       displayUrl: `numrexo.com${calc?.path || pathname}`,
+     };
+   }, [canShare, mainResult, extraRows, calc, title, pathname]);
+diff --git a/components/common/ShareResultModal.tsx b/components/common/ShareResultModal.tsx
+index 2f5bd67..31524fd 100644
+--- a/components/common/ShareResultModal.tsx
++++ b/components/common/ShareResultModal.tsx
+@@ -8,6 +8,7 @@ import {
+   cardFileName,
+   renderShareCard,
+ } from "@/lib/shareCard";
++import { toFirstPerson } from "@/lib/shareHeadline";
+ import {
+   CheckIcon,
+   DownloadIcon,
+@@ -37,7 +38,7 @@ export default function ShareResultModal({ data, url, onClose }: ShareResultModa
+   const blobRef = useRef<Blob | null>(null);
+   const urlRef = useRef<string>("");
+ 
+-  const shareText = `My ${data.calcName} result: ${data.value}${data.unit ? ` ${data.unit}` : ""}. Calculate yours free on Numrexo`;
++  const shareText = `${data.headline ? `${data.headline} ` : ""}${toFirstPerson(data.label)}: ${data.value}${data.unit ? ` ${data.unit}` : ""}. Check yours free on Numrexo`;
+ 
+   // Render (and re-render when the format changes)
+   useEffect(() => {
+diff --git a/lib/blogDb.ts b/lib/blogDb.ts
+index 0ee4f39..a084f4d 100644
+--- a/lib/blogDb.ts
++++ b/lib/blogDb.ts
+@@ -18,6 +18,7 @@
+ // old wordpress.ts used - a blog/database hiccup must never be able to fail
+ // the whole site build or take down calculator pages.
+ 
++import { decodeEntities } from '@/lib/htmlEntities';
+ import { neon } from '@neondatabase/serverless';
+ import { BlogPost, BlogFaq } from './blogTypes';
+ import { HIDDEN_PUBLIC_SLUGS } from './hiddenBlogSlugs';
+@@ -96,15 +97,15 @@ function rowToPost(row: Row): BlogPost {
+   return {
+     id: row.id,
+     slug: row.slug,
+-    title: row.title,
++    title: decodeEntities(row.title),
+     category: row.category,
+-    author: row.author,
+-    excerpt: row.excerpt,
++    author: decodeEntities(row.author),
++    excerpt: decodeEntities(row.excerpt),
+     contentHtml: row.content_html,
+     contentMarkdown: row.content_markdown,
+     featuredImage: row.featured_image,
+-    metaTitle: row.meta_title,
+-    metaDescription: row.meta_description,
++    metaTitle: row.meta_title ? decodeEntities(row.meta_title) : row.meta_title,
++    metaDescription: row.meta_description ? decodeEntities(row.meta_description) : row.meta_description,
+     faqs: parseFaqs(row.faqs),
+     published: row.published,
+     publishedAt: row.published_at,
+diff --git a/lib/emailBroadcastDb.ts b/lib/emailBroadcastDb.ts
+new file mode 100644
+index 0000000..5e20f59
+--- /dev/null
++++ b/lib/emailBroadcastDb.ts
+@@ -0,0 +1,185 @@
++// lib/emailBroadcastDb.ts
++//
++// Newsletter broadcasts sent from the admin "Email" page. A broadcast is sent
++// in small chunks (one per request) so it fits serverless time limits and the
++// email provider's daily quota. `last_id` is the cursor: the highest
++// subscriber id already handled. It is claimed atomically before each chunk is
++// sent, so two overlapping requests can never send the same chunk twice.
++
++import { neon } from '@neondatabase/serverless';
++import { countResultEmails24h } from './resultEmailLog';
++import { emailStatus } from './emailSend';
++
++const DATABASE_URL = process.env.DATABASE_URL || '';
++function getSql() {
++  if (!DATABASE_URL) return null;
++  return neon(DATABASE_URL);
++}
++
++export interface Broadcast {
++  id: number;
++  subject: string;
++  bodyMd: string;
++  status: 'draft' | 'sending' | 'paused' | 'done';
++  total: number;
++  sent: number;
++  failed: number;
++  lastId: number;
++  createdAt: string;
++  updatedAt: string;
++}
++
++type Row = {
++  id: number;
++  subject: string;
++  body_md: string;
++  status: Broadcast['status'];
++  total: number;
++  sent: number;
++  failed: number;
++  last_id: number;
++  created_at: string;
++  updated_at: string;
++};
++
++const toBroadcast = (r: Row): Broadcast => ({
++  id: r.id,
++  subject: r.subject,
++  bodyMd: r.body_md,
++  status: r.status,
++  total: r.total,
++  sent: r.sent,
++  failed: r.failed,
++  lastId: r.last_id,
++  createdAt: r.created_at,
++  updatedAt: r.updated_at,
++});
++
++let ready: Promise<void> | null = null;
++async function ensureTables(): Promise<void> {
++  if (ready) return ready;
++  const sql = getSql();
++  if (!sql) throw new Error('DATABASE_URL is not set');
++  ready = (async () => {
++    try {
++      await sql`
++        CREATE TABLE IF NOT EXISTS email_broadcasts (
++          id SERIAL PRIMARY KEY,
++          subject TEXT NOT NULL,
++          body_md TEXT NOT NULL,
++          status TEXT NOT NULL DEFAULT 'draft',
++          total INT NOT NULL DEFAULT 0,
++          sent INT NOT NULL DEFAULT 0,
++          failed INT NOT NULL DEFAULT 0,
++          last_id INT NOT NULL DEFAULT 0,
++          created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
++          updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
++        )
++      `;
++      await sql`
++        CREATE TABLE IF NOT EXISTS email_usage (
++          id SERIAL PRIMARY KEY,
++          n INT NOT NULL,
++          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
++        )
++      `;
++    } catch (error) {
++      ready = null;
++      throw error;
++    }
++  })();
++  return ready;
++}
++
++export async function createBroadcast(subject: string, bodyMd: string, total: number): Promise<Broadcast> {
++  await ensureTables();
++  const sql = getSql()!;
++  const rows = (await sql`
++    INSERT INTO email_broadcasts (subject, body_md, status, total) VALUES (${subject}, ${bodyMd}, 'sending', ${total})
++    RETURNING *
++  `) as unknown as Row[];
++  return toBroadcast(rows[0]);
++}
++
++export async function getBroadcast(id: number): Promise<Broadcast | null> {
++  await ensureTables();
++  const sql = getSql()!;
++  const rows = (await sql`SELECT * FROM email_broadcasts WHERE id = ${id}`) as unknown as Row[];
++  return rows[0] ? toBroadcast(rows[0]) : null;
++}
++
++export async function listBroadcasts(limit = 20): Promise<Broadcast[]> {
++  try {
++    await ensureTables();
++    const sql = getSql()!;
++    const rows = (await sql`SELECT * FROM email_broadcasts ORDER BY id DESC LIMIT ${limit}`) as unknown as Row[];
++    return rows.map(toBroadcast);
++  } catch (error) {
++    console.warn('[emailBroadcastDb] listBroadcasts failed:', error);
++    return [];
++  }
++}
++
++/**
++ * Atomically moves the cursor from `fromId` to `toId`. Returns false if someone
++ * else already moved it (so this request must not send that chunk).
++ */
++export async function claimChunk(id: number, fromId: number, toId: number): Promise<boolean> {
++  await ensureTables();
++  const sql = getSql()!;
++  const rows = (await sql`
++    UPDATE email_broadcasts SET last_id = ${toId}, status = 'sending', updated_at = now()
++    WHERE id = ${id} AND last_id = ${fromId} AND status IN ('sending', 'paused')
++    RETURNING id
++  `) as unknown as { id: number }[];
++  return rows.length > 0;
++}
++
++export async function recordChunkResult(id: number, sent: number, failed: number): Promise<void> {
++  await ensureTables();
++  const sql = getSql()!;
++  await sql`UPDATE email_broadcasts SET sent = sent + ${sent}, failed = failed + ${failed}, updated_at = now() WHERE id = ${id}`;
++  if (sent > 0) await sql`INSERT INTO email_usage (n) VALUES (${sent})`;
++}
++
++export async function setBroadcastStatus(id: number, status: Broadcast['status']): Promise<void> {
++  await ensureTables();
++  const sql = getSql()!;
++  await sql`UPDATE email_broadcasts SET status = ${status}, updated_at = now() WHERE id = ${id}`;
++}
++
++export async function resumeBroadcast(id: number): Promise<void> {
++  await ensureTables();
++  const sql = getSql()!;
++  await sql`UPDATE email_broadcasts SET status = 'sending', updated_at = now() WHERE id = ${id} AND status = 'paused'`;
++}
++
++export async function recordUsage(n: number): Promise<void> {
++  if (n <= 0) return;
++  await ensureTables();
++  const sql = getSql()!;
++  await sql`INSERT INTO email_usage (n) VALUES (${n})`;
++}
++
++export interface Quota {
++  limit: number;
++  usedToday: number;
++  remaining: number;
++}
++
++/** Daily provider quota left, counting newsletters, test mails and result mails sent in the last 24h. */
++export async function quotaLeft(): Promise<Quota> {
++  const limit = emailStatus().dailyLimit;
++  let broadcastUsed = 0;
++  try {
++    await ensureTables();
++    const sql = getSql()!;
++    const rows = (await sql`SELECT coalesce(sum(n), 0)::int AS n FROM email_usage WHERE created_at > now() - interval '24 hours'`) as unknown as { n: number }[];
++    broadcastUsed = rows[0]?.n ?? 0;
++  } catch {
++    broadcastUsed = 0;
++  }
++  const resultUsed = await countResultEmails24h();
++  const usedToday = broadcastUsed + resultUsed;
++  return { limit, usedToday, remaining: Math.max(0, limit - usedToday) };
++}
+diff --git a/lib/emailSend.ts b/lib/emailSend.ts
+index db03050..b10ff2e 100644
+--- a/lib/emailSend.ts
++++ b/lib/emailSend.ts
+@@ -59,6 +59,51 @@ export async function sendEmail(mail: OutgoingEmail): Promise<void> {
+   }
+ }
+ 
++/** Sends up to 100 emails in one Resend call (no attachments). Returns how many were accepted. */
++export async function sendBatch(mails: Omit<OutgoingEmail, 'attachments'>[]): Promise<number> {
++  const key = process.env.RESEND_API_KEY;
++  const from = process.env.EMAIL_FROM;
++  if (!key || !from) throw new Error('Email is not configured');
++  if (mails.length === 0) return 0;
++  const payload = mails.slice(0, 100).map((m) => {
++    const item: Record<string, unknown> = { from, to: [m.to], subject: m.subject, html: m.html, text: m.text };
++    if (process.env.EMAIL_REPLY_TO) item.reply_to = process.env.EMAIL_REPLY_TO;
++    if (m.headers) item.headers = m.headers;
++    return item;
++  });
++  const controller = new AbortController();
++  const timer = setTimeout(() => controller.abort(), 25000);
++  try {
++    const res = await fetch('https://api.resend.com/emails/batch', {
++      method: 'POST',
++      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
++      body: JSON.stringify(payload),
++      signal: controller.signal,
++    });
++    if (!res.ok) {
++      const detail = await res.text().catch(() => '');
++      throw new Error(`Resend ${res.status}: ${detail.slice(0, 300)}`);
++    }
++    return payload.length;
++  } finally {
++    clearTimeout(timer);
++  }
++}
++
++/** Safe-to-show summary of the email setup (never includes the key itself). */
++export function emailStatus() {
++  const from = process.env.EMAIL_FROM || '';
++  const fromEmail = (from.match(/<([^>]+)>/)?.[1] || from).trim();
++  return {
++    hasKey: Boolean(process.env.RESEND_API_KEY),
++    hasFrom: Boolean(from),
++    from,
++    usingResendTestSender: /@resend\.dev$/i.test(fromEmail),
++    replyTo: process.env.EMAIL_REPLY_TO || '',
++    dailyLimit: Math.max(10, Number(process.env.EMAIL_DAILY_LIMIT) || 100),
++  };
++}
++
+ export function escapeHtml(s: string): string {
+   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+ }
+diff --git a/lib/emailTemplate.ts b/lib/emailTemplate.ts
+new file mode 100644
+index 0000000..e9a951c
+--- /dev/null
++++ b/lib/emailTemplate.ts
+@@ -0,0 +1,53 @@
++// lib/emailTemplate.ts
++//
++// Newsletter / test email layout. Email clients ignore stylesheets, so the
++// markdown -> HTML output is given inline styles here.
++
++import { markdownToHtml } from './markdown';
++import { escapeHtml } from './emailSend';
++
++export const SITE_URL = 'https://numrexo.com';
++
++const STYLES: [RegExp, string][] = [
++  [/<h1>/g, '<h1 style="font-size:24px;line-height:1.3;margin:24px 0 10px;color:#0f172a">'],
++  [/<h2>/g, '<h2 style="font-size:20px;line-height:1.35;margin:24px 0 8px;color:#0f172a">'],
++  [/<h3>/g, '<h3 style="font-size:17px;line-height:1.4;margin:20px 0 6px;color:#0f172a">'],
++  [/<p>/g, '<p style="font-size:15px;line-height:1.65;margin:0 0 14px;color:#334155">'],
++  [/<ul>/g, '<ul style="margin:0 0 14px;padding-left:22px;color:#334155;font-size:15px;line-height:1.65">'],
++  [/<ol>/g, '<ol style="margin:0 0 14px;padding-left:22px;color:#334155;font-size:15px;line-height:1.65">'],
++  [/<blockquote>/g, '<blockquote style="margin:0 0 14px;padding:4px 14px;border-left:4px solid #3b82f6;color:#475569">'],
++  [/<a /g, '<a style="color:#2563eb" '],
++  [/<img /g, '<img style="max-width:100%;height:auto;border-radius:8px" '],
++];
++
++export function styleEmailHtml(html: string): string {
++  return STYLES.reduce((acc, [re, rep]) => acc.replace(re, rep), html);
++}
++
++export function markdownToPlain(md: string): string {
++  return md
++    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
++    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
++    .replace(/[*_`>#]/g, '')
++    .trim();
++}
++
++export interface NewsletterInput {
++  subject: string;
++  markdown: string;
++  unsubUrl: string;
++}
++
++export function renderNewsletter({ subject, markdown, unsubUrl }: NewsletterInput) {
++  const body = styleEmailHtml(markdownToHtml(markdown));
++  const html = `<!doctype html><html><body style="margin:0;background:#f5f5f4;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a">
++<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f4"><tr><td align="center" style="padding:24px 12px">
++<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0">
++<tr><td style="padding:22px 28px 6px;font-size:20px;font-weight:700;letter-spacing:-0.3px"><a href="${SITE_URL}" style="color:#0f172a;text-decoration:none">numrexo</a></td></tr>
++<tr><td style="padding:8px 28px 0;font-size:22px;font-weight:700;line-height:1.3;color:#0f172a">${escapeHtml(subject)}</td></tr>
++<tr><td style="padding:12px 28px 8px">${body}</td></tr>
++<tr><td style="padding:16px 28px 24px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;line-height:1.6">You are receiving this because you subscribed to updates from Numrexo. <a href="${escapeHtml(unsubUrl)}" style="color:#475569">Unsubscribe anytime</a>.</td></tr>
++</table></td></tr></table></body></html>`;
++  const text = `${subject}\n\n${markdownToPlain(markdown)}\n\n--\nYou are receiving this because you subscribed to updates from Numrexo.\nUnsubscribe: ${unsubUrl}\n`;
++  return { html, text };
++}
+diff --git a/lib/htmlEntities.ts b/lib/htmlEntities.ts
+new file mode 100644
+index 0000000..c253cc7
+--- /dev/null
++++ b/lib/htmlEntities.ts
+@@ -0,0 +1,51 @@
++// lib/htmlEntities.ts
++//
++// Some blog titles were migrated from WordPress with HTML entities already
++// baked into the text ("Risk &amp; Market Performance"). React escapes text on
++// output, so those showed up literally as "&amp;" in the admin list and in the
++// page <title>. decodeEntities() turns them back into plain characters. It is
++// applied when a post is read, so every page gets clean text and the next
++// time a post is saved the database copy is clean too.
++
++const NAMED: Record<string, string> = {
++  amp: "&",
++  lt: "<",
++  gt: ">",
++  quot: '"',
++  apos: "'",
++  nbsp: " ",
++  rsquo: "’",
++  lsquo: "‘",
++  rdquo: "”",
++  ldquo: "“",
++  ndash: "–",
++  mdash: "—",
++  hellip: "…",
++  trade: "™",
++  copy: "©",
++  reg: "®",
++  times: "×",
++  deg: "°",
++};
++
++export function decodeEntities(input: string | null | undefined): string {
++  if (!input || input.indexOf("&") === -1) return input || "";
++  // Run twice so "&amp;amp;" (double-encoded) also settles to "&".
++  let out = input;
++  for (let i = 0; i < 2; i++) {
++    out = out.replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z]+);/gi, (match, body: string) => {
++      if (body[0] === "#") {
++        const code = body[1].toLowerCase() === "x" ? parseInt(body.slice(2), 16) : parseInt(body.slice(1), 10);
++        if (!Number.isFinite(code) || code < 32 || code > 0x10ffff) return match;
++        try {
++          return String.fromCodePoint(code);
++        } catch {
++          return match;
++        }
++      }
++      const named = NAMED[body.toLowerCase()];
++      return named !== undefined ? named : match;
++    });
++  }
++  return out;
++}
+diff --git a/lib/imageDb.ts b/lib/imageDb.ts
+new file mode 100644
+index 0000000..54e2f26
+--- /dev/null
++++ b/lib/imageDb.ts
+@@ -0,0 +1,69 @@
++// lib/imageDb.ts
++//
++// Image storage inside the same Neon Postgres database as the blog, so the
++// admin's "Upload from computer" works with NO extra service to set up. The
++// picture is stored as base64 text (simple and reliable with the HTTP driver)
++// and served back, with a long cache lifetime, from /api/img/<id>.
++//
++// Images are compressed in the browser before upload (see
++// lib/uploadImageClient.ts) so they are normally 100-500 KB, well inside the
++// limit below. If a Vercel Blob token is configured, uploads still go to Blob
++// (app/api/admin/upload/route.ts) - this is the zero-setup fallback.
++
++import { neon } from '@neondatabase/serverless';
++import { randomBytes } from 'node:crypto';
++
++const DATABASE_URL = process.env.DATABASE_URL || '';
++
++/** Largest image accepted for database storage. */
++export const MAX_DB_IMAGE_BYTES = 2 * 1024 * 1024;
++
++function getSql() {
++  if (!DATABASE_URL) return null;
++  return neon(DATABASE_URL);
++}
++
++let tableReady: Promise<void> | null = null;
++async function ensureTable(): Promise<void> {
++  if (tableReady) return tableReady;
++  const sql = getSql();
++  if (!sql) throw new Error('DATABASE_URL is not set');
++  tableReady = (async () => {
++    try {
++      await sql`
++        CREATE TABLE IF NOT EXISTS blog_images (
++          id TEXT PRIMARY KEY,
++          content_type TEXT NOT NULL,
++          bytes INTEGER NOT NULL,
++          data_b64 TEXT NOT NULL,
++          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
++        )
++      `;
++    } catch (error) {
++      tableReady = null;
++      throw error;
++    }
++  })();
++  return tableReady;
++}
++
++export async function saveImage(contentType: string, data: Uint8Array): Promise<string> {
++  await ensureTable();
++  const sql = getSql()!;
++  const id = randomBytes(12).toString('hex');
++  const b64 = Buffer.from(data).toString('base64');
++  await sql`INSERT INTO blog_images (id, content_type, bytes, data_b64) VALUES (${id}, ${contentType}, ${data.byteLength}, ${b64})`;
++  return id;
++}
++
++export async function loadImage(id: string): Promise<{ contentType: string; data: Buffer } | null> {
++  if (!/^[a-f0-9]{24}$/.test(id)) return null;
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`SELECT content_type, data_b64 FROM blog_images WHERE id = ${id} LIMIT 1`) as unknown as {
++    content_type: string;
++    data_b64: string;
++  }[];
++  if (!rows[0]) return null;
++  return { contentType: rows[0].content_type, data: Buffer.from(rows[0].data_b64, 'base64') };
++}
+diff --git a/lib/resultEmailLog.ts b/lib/resultEmailLog.ts
+index f1b2a77..aa5a32a 100644
+--- a/lib/resultEmailLog.ts
++++ b/lib/resultEmailLog.ts
+@@ -80,3 +80,15 @@ export async function checkAndRecord(ip: string, email: string): Promise<LimitRe
+   await sql`DELETE FROM result_email_log WHERE created_at < now() - interval '7 days'`;
+   return { ok: true };
+ }
++
++/** How many result emails were sent in the last 24h (shares the provider's daily quota with newsletters). */
++export async function countResultEmails24h(): Promise<number> {
++  try {
++    await ensureTable();
++    const sql = getSql()!;
++    const rows = (await sql`SELECT count(*)::int AS n FROM result_email_log WHERE created_at > now() - interval '24 hours'`) as unknown as { n: number }[];
++    return rows[0]?.n ?? 0;
++  } catch {
++    return 0;
++  }
++}
+diff --git a/lib/shareCard.ts b/lib/shareCard.ts
+index 523c435..5190001 100644
+--- a/lib/shareCard.ts
++++ b/lib/shareCard.ts
+@@ -10,6 +10,8 @@
+ // Two shapes: "story" (1080x1920, for Instagram/WhatsApp/Facebook Stories and
+ // Reels covers) and "square" (1080x1080, for feeds, X and LinkedIn).
+ 
++import { toFirstPerson } from "./shareHeadline";
++
+ export type CardFormat = "story" | "square";
+ 
+ export interface ShareCardRow {
+@@ -30,6 +32,8 @@ export interface ShareCardData {
+   value: string;
+   unit?: string;
+   rows: ShareCardRow[];
++  /** Optional celebratory line shown at the top of the card, e.g. "I'm in the healthy weight range! 🎉". */
++  headline?: string;
+   /** Page the card links to, shown at the bottom (no https://). */
+   displayUrl: string;
+ }
+@@ -270,12 +274,44 @@ export async function renderShareCard(data: ShareCardData, format: CardFormat):
+ 
+   const innerPad = 64;
+   const innerW = cardW - innerPad * 2;
+-  const rows = data.rows.slice(0, story ? 4 : 3);
++  const headH = data.headline ? (story ? 196 : 118) : 0;
++
++  // ---- celebratory headline (only when the calculator provides one)
++  if (data.headline) {
++    const hFont = `800 ${story ? 62 : 46}px ${SANS}, ${EMOJI}`;
++    ctx.font = hFont;
++    const maxLine = innerW;
++    const words = data.headline.split(" ");
++    const lines: string[] = [];
++    let cur = "";
++    for (const wd of words) {
++      const test = cur ? `${cur} ${wd}` : wd;
++      if (ctx.measureText(test).width <= maxLine || !cur) cur = test;
++      else {
++        lines.push(cur);
++        cur = wd;
++      }
++    }
++    if (cur) lines.push(cur);
++    const shown = lines.slice(0, 2);
++    const lh = story ? 74 : 54;
++    const blockH = shown.length * lh;
++    const startY = cardTop + 30 + (headH - blockH) / 2 + lh * 0.78;
++    ctx.fillStyle = "#ffffff";
++    ctx.textAlign = "center";
++    shown.forEach((ln, i) => ctx.fillText(ln, w / 2, startY + i * lh));
++    // thin accent underline
++    ctx.fillStyle = rgba(accent, 0.85);
++    roundRectPath(ctx, w / 2 - 60, cardTop + 30 + headH - 8, 120, 6, 3);
++    ctx.fill();
++  }
++  // With a headline on the card there is less room, so show fewer supporting rows.
++  const rows = data.rows.slice(0, data.headline ? (story ? 3 : 2) : story ? 4 : 3);
+   const rowH = story ? 92 : 76;
+   const rowsBlockH = rows.length ? rows.length * rowH + 20 : 0;
+ 
+   // Ring + number zone sits in the space above the rows.
+-  const zoneTop = cardTop + 30;
++  const zoneTop = cardTop + 30 + headH;
+   const zoneBottom = cardBottom - rowsBlockH - 20;
+   const zoneH = zoneBottom - zoneTop;
+   const cx = w / 2;
+@@ -299,7 +335,7 @@ export async function renderShareCard(data: ShareCardData, format: CardFormat):
+   const top = cy - stackH / 2;
+ 
+   // label (letter-spaced caps), shrunk to fit
+-  const labelText = data.label.toUpperCase().slice(0, 40);
++  const labelText = toFirstPerson(data.label).toUpperCase().slice(0, 40);
+   let lSize = labelPx;
+   const spacing = 4;
+   const spacedWidth = (size: number) => {
+diff --git a/lib/shareHeadline.ts b/lib/shareHeadline.ts
+new file mode 100644
+index 0000000..dd24636
+--- /dev/null
++++ b/lib/shareHeadline.ts
+@@ -0,0 +1,58 @@
++// lib/shareHeadline.ts
++//
++// The celebratory line printed on the shareable result card. People post a
++// result when it makes them feel good, so every BMI category gets a headline
++// that is positive and about the person's next step, never about a "problem".
++// Someone in the healthy range gets to celebrate; someone above it gets a
++// "Day 1" / "transformation" line that is just as proud to post; someone below
++// it gets a "building strength" line. Nobody is told they are fat or thin.
++//
++// Plain TypeScript (no React, no DOM) so it is easy to test.
++
++export interface HeadlineRow {
++  label: string;
++  value: string;
++}
++
++interface BmiMessage {
++  headline: string;
++  /** Short, upbeat sentence reused in the text that goes with the shared picture. */
++  caption: string;
++}
++
++function bmiMessage(category: string): BmiMessage {
++  const c = category.trim().toLowerCase();
++  if (c.includes("normal") || c.includes("healthy")) {
++    return { headline: "I'm in the healthy weight range! 🎉", caption: "I'm in the healthy weight range! 🎉" };
++  }
++  if (c.includes("thin") || c.includes("under")) {
++    return { headline: "Building strength, one day at a time 💪", caption: "I'm building strength, one day at a time 💪" };
++  }
++  if (c.includes("over")) {
++    return { headline: "Day 1 of my fitness journey 🚀", caption: "Day 1 of my fitness journey 🚀" };
++  }
++  if (c.includes("obese")) {
++    return { headline: "Day 1 of my transformation 🔥", caption: "Day 1 of my transformation 🔥" };
++  }
++  return { headline: "I checked my BMI today 👏", caption: "I checked my BMI today 👏" };
++}
++
++/**
++ * Returns the headline for a calculator's result, or undefined when there is
++ * no special message for it (the card then looks exactly as before).
++ */
++export function shareHeadlineFor(
++  calcSlug: string | undefined,
++  rows: HeadlineRow[],
++): { headline: string; caption: string } | undefined {
++  if (calcSlug === "bmi-calculator") {
++    const cat = rows.find((r) => /category/i.test(r.label))?.value;
++    if (cat) return bmiMessage(cat);
++  }
++  return undefined;
++}
++
++/** "Your BMI" -> "My BMI": the picture is posted by the person it belongs to. */
++export function toFirstPerson(label: string): string {
++  return label.replace(/^\s*your\b/i, (m) => (m.trim()[0] === "Y" ? "My" : "my"));
++}
+diff --git a/lib/subscribersDb.ts b/lib/subscribersDb.ts
+index 01f39fe..d5346f9 100644
+--- a/lib/subscribersDb.ts
++++ b/lib/subscribersDb.ts
+@@ -194,6 +194,17 @@ export async function countSubscribers(): Promise<SubscriberCounts> {
+   }
+ }
+ 
++/** Active subscribers with id > afterId, in id order - used to send a newsletter in chunks. */
++export async function listActiveAfter(afterId: number, limit: number): Promise<Subscriber[]> {
++  await ensureTable();
++  const sql = getSql()!;
++  const rows = (await sql`
++    SELECT id, email, name, source, active, token, subscribed_at, unsubscribed_at
++    FROM subscribers WHERE active = true AND id > ${afterId} ORDER BY id ASC LIMIT ${limit}
++  `) as unknown as Row[];
++  return rows.map(rowToSubscriber);
++}
++
+ export type StatusFilter = 'all' | 'active' | 'inactive';
+ 
+ export interface SubscriberPage {
+diff --git a/lib/uploadImageClient.ts b/lib/uploadImageClient.ts
+new file mode 100644
+index 0000000..c82521e
+--- /dev/null
++++ b/lib/uploadImageClient.ts
+@@ -0,0 +1,85 @@
++// lib/uploadImageClient.ts  (browser only)
++//
++// Shrinks a picture in the browser (long edge 1600px, WebP/JPEG) and uploads it
++// to /api/admin/upload. A 6MB phone photo becomes ~200-400KB, which uploads
++// fast, loads fast on the blog, and always fits the server's size limit.
++
++const MAX_EDGE = 1600;
++const TARGET_BYTES = 1_200_000;
++
++function loadImage(file: File): Promise<HTMLImageElement> {
++  return new Promise((resolve, reject) => {
++    const url = URL.createObjectURL(file);
++    const img = new Image();
++    img.onload = () => {
++      URL.revokeObjectURL(url);
++      resolve(img);
++    };
++    img.onerror = () => {
++      URL.revokeObjectURL(url);
++      reject(new Error('This file could not be read as an image.'));
++    };
++    img.src = url;
++  });
++}
++
++function toBlob(canvas: HTMLCanvasElement, type: string, quality: number): Promise<Blob | null> {
++  return new Promise((resolve) => canvas.toBlob((b) => resolve(b), type, quality));
++}
++
++/** Returns a smaller copy of the image, or the original if it is already small / cannot be shrunk. */
++export async function shrinkImage(file: File): Promise<File> {
++  // Animated GIFs would lose their animation on a canvas; leave them alone.
++  if (file.type === 'image/gif') return file;
++  let img: HTMLImageElement;
++  try {
++    img = await loadImage(file);
++  } catch {
++    return file;
++  }
++  const scale = Math.min(1, MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
++  if (scale === 1 && file.size <= 400_000) return file;
++
++  const canvas = document.createElement('canvas');
++  canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
++  canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
++  const ctx = canvas.getContext('2d');
++  if (!ctx) return file;
++  // Transparent PNGs keep their transparency in WebP; for JPEG fallback paint white first.
++  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
++
++  let blob: Blob | null = null;
++  let type = 'image/webp';
++  for (const q of [0.86, 0.78, 0.68, 0.55]) {
++    blob = await toBlob(canvas, 'image/webp', q);
++    if (blob && blob.type === 'image/webp' && blob.size <= TARGET_BYTES) break;
++  }
++  if (!blob || blob.type !== 'image/webp') {
++    type = 'image/jpeg';
++    const flat = document.createElement('canvas');
++    flat.width = canvas.width;
++    flat.height = canvas.height;
++    const fctx = flat.getContext('2d');
++    if (!fctx) return file;
++    fctx.fillStyle = '#ffffff';
++    fctx.fillRect(0, 0, flat.width, flat.height);
++    fctx.drawImage(canvas, 0, 0);
++    for (const q of [0.85, 0.75, 0.65, 0.5]) {
++      blob = await toBlob(flat, 'image/jpeg', q);
++      if (blob && blob.size <= TARGET_BYTES) break;
++    }
++  }
++  if (!blob || blob.size >= file.size) return file;
++  const base = file.name.replace(/\.[^.]+$/, '') || 'image';
++  return new File([blob], `${base}.${type === 'image/webp' ? 'webp' : 'jpg'}`, { type });
++}
++
++export async function uploadImage(file: File): Promise<string> {
++  const small = await shrinkImage(file);
++  const formData = new FormData();
++  formData.append('file', small);
++  const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
++  const data = await res.json().catch(() => ({}));
++  if (!res.ok || !data.url) throw new Error(data.error || 'Upload failed. Please try again.');
++  return data.url as string;
++}
+diff --git a/tailwind.config.js b/tailwind.config.js
+index c062e4b..88004b0 100644
+--- a/tailwind.config.js
++++ b/tailwind.config.js
+@@ -16,14 +16,14 @@ module.exports = {
+         // the old bg-[#0a0e1a]/bg-[#111827] dark palette site-wide. Named
+         // semantically (not "gray-50" etc.) so a future palette change is a
+         // one-line edit here instead of a find-and-replace across ~200 files.
+-        cream: "#faf9f5", // page background
++        cream: "#f4f3ec", // page background (a little deeper so white cards stand out)
+         surface: "#ffffff", // cards, inputs, the header/footer's opposite number
+         ink: "#111111", // primary text / headings
+-        "ink-soft": "#4b5563", // secondary/body text (~gray-600)
+-        "ink-faint": "#9ca3af", // placeholder/tertiary text (~gray-400)
++        "ink-soft": "#374151", // secondary/body text (~gray-700)
++        "ink-faint": "#6b7280", // labels/tertiary text (~gray-500, passes WCAG AA on white)
+         panel: "#0f172a", // the dark navy "results" card (slate-900)
+         "panel-soft": "#1e293b", // lighter fill inside a panel (slate-800)
+-        hairline: "#e5e7eb", // card/input borders (~gray-200)
++        hairline: "#cbd5e1", // card/input borders (~slate-300; was gray-200, too faint for low vision)
+       },
+       borderRadius: {
+         xl2: "1rem",

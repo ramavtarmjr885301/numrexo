@@ -17,6 +17,12 @@ function clientIp(request: NextRequest): string {
   return request.headers.get('x-real-ip') || 'unknown';
 }
 
+// The calculators ask this once to decide whether to show "Email me this
+// result": it is on as soon as the email provider is configured (no rebuild).
+export async function GET() {
+  return NextResponse.json({ enabled: emailConfigured() }, { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } });
+}
+
 // "Email me this result": builds the PDF on the server from the visitor's
 // result, emails it, and adds the address to the subscriber list. Everything
 // the browser sends is re-cleaned, and the calculator's name/colour/URL come

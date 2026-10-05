@@ -24,26 +24,26 @@ export default function SerpPreview({ title, slug, description, siteName = 'Numr
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-semibold text-ink-soft uppercase tracking-wider">Google preview</span>
-        <div className="inline-flex rounded-lg border border-hairline overflow-hidden text-xs">
+        <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Google preview</span>
+        <div className="inline-flex rounded-lg border border-slate-300 overflow-hidden text-xs">
           <button
             type="button"
             onClick={() => setMobile(false)}
-            className={`px-3 py-1 ${!mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
+            className={`px-3 py-1 ${!mobile ? 'bg-blue-600 text-white' : 'bg-white text-slate-700'}`}
           >
             Desktop
           </button>
           <button
             type="button"
             onClick={() => setMobile(true)}
-            className={`px-3 py-1 ${mobile ? 'bg-blue-600 text-white' : 'bg-surface text-ink-soft'}`}
+            className={`px-3 py-1 ${mobile ? 'bg-blue-600 text-white' : 'bg-white text-slate-700'}`}
           >
             Mobile
           </button>
         </div>
       </div>
 
-      <div className={`bg-white border border-hairline rounded-lg p-4 ${mobile ? 'max-w-sm' : ''}`}>
+      <div className={`bg-white border border-slate-300 rounded-lg p-4 ${mobile ? 'max-w-sm' : ''}`}>
         <div className="flex items-center gap-2 mb-1">
           <div className="w-6 h-6 rounded-full bg-blue-600 text-white text-[11px] font-bold flex items-center justify-center">
             N
@@ -60,10 +60,10 @@ export default function SerpPreview({ title, slug, description, siteName = 'Numr
       </div>
 
       <div className="flex gap-4 mt-2 text-xs">
-        <span className={title.length > titleMax ? 'text-red-600' : 'text-ink-faint'}>
+        <span className={title.length > titleMax ? 'text-red-600' : 'text-slate-500'}>
           Title: {title.length}/{titleMax}
         </span>
-        <span className={description.length > descMax ? 'text-red-600' : 'text-ink-faint'}>
+        <span className={description.length > descMax ? 'text-red-600' : 'text-slate-500'}>
           Description: {description.length}/{descMax}
         </span>
       </div>

@@ -31,25 +31,25 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
 
   return (
     <div>
-      <label className="block text-sm text-ink-soft mb-1.5">
-        FAQ <span className="text-ink-faint">(optional - can appear as an FAQ rich result in Google search)</span>
+      <label className="block text-sm text-slate-700 mb-1.5">
+        FAQ <span className="text-slate-500">(optional - can appear as an FAQ rich result in Google search)</span>
       </label>
 
       <div className="space-y-3">
         {value.map((faq, index) => (
-          <div key={index} className="p-3 rounded-lg bg-cream border border-hairline">
+          <div key={index} className="p-3 rounded-lg bg-white border border-slate-400">
             <div className="flex items-start gap-2 mb-2">
               <input
                 value={faq.question}
                 onChange={(e) => updateRow(index, 'question', e.target.value)}
                 placeholder={`Question ${index + 1}`}
-                className="flex-1 px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
+                className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
               />
               <button
                 type="button"
                 onClick={() => removeRow(index)}
                 title="Remove"
-                className="px-2.5 py-2 rounded-lg text-ink-faint hover:text-red-600 transition-colors"
+                className="px-2.5 py-2 rounded-lg text-slate-500 hover:text-red-600 transition-colors"
               >
                 ✕
               </button>
@@ -59,7 +59,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
               onChange={(e) => updateRow(index, 'answer', e.target.value)}
               placeholder="Answer"
               rows={2}
-              className="w-full px-3 py-2 rounded-lg bg-surface border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
+              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
             />
           </div>
         ))}
@@ -68,7 +68,7 @@ export default function FaqEditor({ value, onChange }: FaqEditorProps) {
       <button
         type="button"
         onClick={addRow}
-        className="mt-3 px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 transition-colors"
+        className="mt-3 px-3 py-1.5 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:border-blue-600 transition-colors"
       >
         + Add FAQ
       </button>

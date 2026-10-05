@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { uploadImage } from '@/lib/uploadImageClient';
 
 interface ImageUploadFieldProps {
   label: string;
@@ -27,17 +28,10 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
     setError('');
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Upload failed. Please try again.');
-        return;
-      }
-      onChange(data.url);
-    } catch {
-      setError('Upload failed - check your internet connection and try again.');
+      const url = await uploadImage(file);
+      onChange(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed - check your internet connection and try again.');
     } finally {
       setUploading(false);
     }
@@ -45,12 +39,12 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
 
   return (
     <div>
-      <label className="block text-sm text-ink-soft mb-1.5">
-        {label} {hint && <span className="text-ink-faint">({hint})</span>}
+      <label className="block text-sm text-slate-700 mb-1.5">
+        {label} {hint && <span className="text-slate-500">({hint})</span>}
       </label>
 
       {value && (
-        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-cream border border-hairline">
+        <div className="mb-2 relative w-full max-w-xs aspect-[16/9] rounded-lg overflow-hidden bg-white border border-slate-400">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={value} alt="" className="w-full h-full object-cover" />
         </div>
@@ -68,7 +62,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="px-3 py-1.5 rounded-lg bg-cream border border-hairline text-ink-soft text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-white border border-slate-400 text-slate-700 text-sm hover:border-blue-600 disabled:opacity-50 transition-colors"
         >
           {uploading ? 'Uploading...' : 'Upload from computer'}
         </button>
@@ -76,7 +70,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
           <button
             type="button"
             onClick={() => onChange('')}
-            className="px-3 py-1.5 rounded-lg text-ink-faint text-sm hover:text-red-600 transition-colors"
+            className="px-3 py-1.5 rounded-lg text-slate-500 text-sm hover:text-red-600 transition-colors"
           >
             Remove
           </button>
@@ -89,7 +83,7 @@ export default function ImageUploadField({ label, hint, value, onChange }: Image
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="...or paste an image URL here"
-        className="mt-2 w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600"
+        className="mt-2 w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
       />
     </div>
   );

@@ -10,6 +10,8 @@
 // Two shapes: "story" (1080x1920, for Instagram/WhatsApp/Facebook Stories and
 // Reels covers) and "square" (1080x1080, for feeds, X and LinkedIn).
 
+import { toFirstPerson } from "./shareHeadline";
+
 export type CardFormat = "story" | "square";
 
 export interface ShareCardRow {
@@ -30,6 +32,8 @@ export interface ShareCardData {
   value: string;
   unit?: string;
   rows: ShareCardRow[];
+  /** Optional celebratory line shown at the top of the card, e.g. "I'm in the healthy weight range! 🎉". */
+  headline?: string;
   /** Page the card links to, shown at the bottom (no https://). */
   displayUrl: string;
 }
@@ -270,12 +274,44 @@ export async function renderShareCard(data: ShareCardData, format: CardFormat): 
 
   const innerPad = 64;
   const innerW = cardW - innerPad * 2;
-  const rows = data.rows.slice(0, story ? 4 : 3);
+  const headH = data.headline ? (story ? 196 : 118) : 0;
+
+  // ---- celebratory headline (only when the calculator provides one)
+  if (data.headline) {
+    const hFont = `800 ${story ? 62 : 46}px ${SANS}, ${EMOJI}`;
+    ctx.font = hFont;
+    const maxLine = innerW;
+    const words = data.headline.split(" ");
+    const lines: string[] = [];
+    let cur = "";
+    for (const wd of words) {
+      const test = cur ? `${cur} ${wd}` : wd;
+      if (ctx.measureText(test).width <= maxLine || !cur) cur = test;
+      else {
+        lines.push(cur);
+        cur = wd;
+      }
+    }
+    if (cur) lines.push(cur);
+    const shown = lines.slice(0, 2);
+    const lh = story ? 74 : 54;
+    const blockH = shown.length * lh;
+    const startY = cardTop + 30 + (headH - blockH) / 2 + lh * 0.78;
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    shown.forEach((ln, i) => ctx.fillText(ln, w / 2, startY + i * lh));
+    // thin accent underline
+    ctx.fillStyle = rgba(accent, 0.85);
+    roundRectPath(ctx, w / 2 - 60, cardTop + 30 + headH - 8, 120, 6, 3);
+    ctx.fill();
+  }
+  // With a headline on the card there is less room, so show fewer supporting rows.
+  const rows = data.rows.slice(0, data.headline ? (story ? 3 : 2) : story ? 4 : 3);
   const rowH = story ? 92 : 76;
   const rowsBlockH = rows.length ? rows.length * rowH + 20 : 0;
 
   // Ring + number zone sits in the space above the rows.
-  const zoneTop = cardTop + 30;
+  const zoneTop = cardTop + 30 + headH;
   const zoneBottom = cardBottom - rowsBlockH - 20;
   const zoneH = zoneBottom - zoneTop;
   const cx = w / 2;
@@ -299,7 +335,7 @@ export async function renderShareCard(data: ShareCardData, format: CardFormat): 
   const top = cy - stackH / 2;
 
   // label (letter-spaced caps), shrunk to fit
-  const labelText = data.label.toUpperCase().slice(0, 40);
+  const labelText = toFirstPerson(data.label).toUpperCase().slice(0, 40);
   let lSize = labelPx;
   const spacing = 4;
   const spacedWidth = (size: number) => {

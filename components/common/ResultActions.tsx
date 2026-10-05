@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShareResultModal from "./ShareResultModal";
 import EmailResultModal from "./EmailResultModal";
 import { ShareIcon } from "./SocialIcons";
@@ -14,10 +14,19 @@ interface ResultActionsProps {
   calcPath: string;
 }
 
-// Email needs a mail provider to be configured (see PATCH20-STEPS). Until the
-// site owner switches it on, the button stays hidden so no visitor ever hits
-// a dead end.
-const EMAIL_ENABLED = process.env.NEXT_PUBLIC_EMAIL_RESULT_ENABLED === "true";
+// "Email me this result" needs a mail provider (see PATCH21-STEPS). The server
+// says whether one is configured; the button only shows when it is, so no
+// visitor ever hits a dead end. Asked once per page load.
+let emailEnabledPromise: Promise<boolean> | null = null;
+function fetchEmailEnabled(): Promise<boolean> {
+  if (!emailEnabledPromise) {
+    emailEnabledPromise = fetch("/api/email-result")
+      .then((r) => (r.ok ? r.json() : { enabled: false }))
+      .then((j) => Boolean(j?.enabled))
+      .catch(() => false);
+  }
+  return emailEnabledPromise;
+}
 
 const secondaryBtn =
   "flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-panel-soft bg-panel-soft text-white text-sm font-semibold hover:bg-white/10 transition-colors";
@@ -49,6 +58,15 @@ export default function ResultActions({ data, calcPath }: ResultActionsProps) {
   const [shareSnapshot, setShareSnapshot] = useState<ShareCardData | null>(null);
   const [emailSnapshot, setEmailSnapshot] = useState<{ payload: ResultPayload; calcName: string } | null>(null);
   const [notice, setNotice] = useState("");
+  const [EMAIL_ENABLED, setEmailEnabled] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    fetchEmailEnabled().then((v) => alive && setEmailEnabled(v));
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   function download() {
     try {

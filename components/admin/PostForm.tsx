@@ -67,8 +67,8 @@ const EMPTY: PostFormValues = {
 };
 
 const INPUT =
-  'w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink text-sm focus:outline-none focus:border-blue-600';
-const CARD = 'p-4 rounded-xl bg-surface border border-hairline space-y-4';
+  'w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 text-sm focus:outline-none focus:border-blue-600';
+const CARD = 'p-4 rounded-xl bg-white border border-slate-300 space-y-4';
 
 // <input type="datetime-local"> wants "YYYY-MM-DDTHH:mm" in the browser's
 // own timezone, while the database stores a UTC instant.
@@ -164,7 +164,7 @@ export default function PostForm({
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      router.push('/');
+      router.push('/posts');
       router.refresh();
     } catch {
       setError('Something went wrong. Please try again.');
@@ -184,7 +184,7 @@ export default function PostForm({
         )}
 
         <div>
-          <label className="block text-sm text-ink-soft mb-1.5">Title</label>
+          <label className="block text-sm text-slate-700 mb-1.5">Title</label>
           <input
             value={values.title}
             onChange={(e) => onTitleChange(e.target.value)}
@@ -194,11 +194,11 @@ export default function PostForm({
         </div>
 
         <div>
-          <label className="block text-sm text-ink-soft mb-1.5">
-            URL slug <span className="text-ink-faint">(the post's link; leave empty to build it from the title)</span>
+          <label className="block text-sm text-slate-700 mb-1.5">
+            URL slug <span className="text-slate-500">(the post's link; leave empty to build it from the title)</span>
           </label>
-          <div className="flex items-center rounded-lg bg-cream border border-hairline focus-within:border-blue-600 overflow-hidden">
-            <span className="pl-3 text-xs text-ink-faint whitespace-nowrap">numrexo.com/blog/</span>
+          <div className="flex items-center rounded-lg bg-white border border-slate-400 focus-within:border-blue-600 overflow-hidden">
+            <span className="pl-3 text-xs text-slate-500 whitespace-nowrap">numrexo.com/blog/</span>
             <input
               value={values.slug}
               onChange={(e) => {
@@ -207,7 +207,7 @@ export default function PostForm({
               }}
               onBlur={() => update('slug', slugify(values.slug))}
               placeholder="auto-generated-from-title"
-              className="flex-1 px-1 py-2 bg-transparent text-ink text-sm focus:outline-none"
+              className="flex-1 px-1 py-2 bg-transparent text-slate-900 text-sm focus:outline-none"
             />
           </div>
           {slugChangedOnLivePost && (
@@ -219,8 +219,8 @@ export default function PostForm({
         </div>
 
         <div>
-          <label className="block text-sm text-ink-soft mb-1.5">
-            Excerpt <span className="text-ink-faint">(shown on the blog list, 1-2 lines)</span>
+          <label className="block text-sm text-slate-700 mb-1.5">
+            Excerpt <span className="text-slate-500">(shown on the blog list, 1-2 lines)</span>
           </label>
           <textarea
             value={values.excerpt}
@@ -231,9 +231,9 @@ export default function PostForm({
         </div>
 
         <div>
-          <label className="block text-sm text-ink-soft mb-1.5">Content</label>
+          <label className="block text-sm text-slate-700 mb-1.5">Content</label>
           <RichMarkdownEditor value={values.contentMarkdown} onChange={(v) => update('contentMarkdown', v)} />
-          <p className="text-xs text-ink-faint mt-1.5">
+          <p className="text-xs text-slate-500 mt-1.5">
             For a sub-heading, write <code>## Heading</code> - the post's &quot;In this article&quot; table of
             contents is built from these.
           </p>
@@ -241,12 +241,12 @@ export default function PostForm({
 
         {/* ------------------------------ SEO ------------------------------ */}
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">SEO (Google search result)</h3>
+          <h3 className="text-sm font-semibold text-slate-900">SEO (Google search result)</h3>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
+            <label className="block text-sm text-slate-700 mb-1.5">
               Focus keyword{' '}
-              <span className="text-ink-faint">(the phrase people will search on Google; only used for the SEO score)</span>
+              <span className="text-slate-500">(the phrase people will search on Google; only used for the SEO score)</span>
             </label>
             <input
               value={values.focusKeyword}
@@ -257,8 +257,8 @@ export default function PostForm({
           </div>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Meta Title <span className="text-ink-faint">(empty = the normal Title; 50-60 characters is best)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Meta Title <span className="text-slate-500">(empty = the normal Title; 50-60 characters is best)</span>
             </label>
             <input
               value={values.metaTitle}
@@ -269,8 +269,8 @@ export default function PostForm({
           </div>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Meta Description <span className="text-ink-faint">(empty = the Excerpt; 120-160 characters is best)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Meta Description <span className="text-slate-500">(empty = the Excerpt; 120-160 characters is best)</span>
             </label>
             <textarea
               value={values.metaDescription}
@@ -286,7 +286,7 @@ export default function PostForm({
 
         {/* ------------------------------ SOCIAL & ADVANCED ------------------------------ */}
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">Social share &amp; advanced SEO</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Social share &amp; advanced SEO</h3>
 
           <ImageUploadField
             label="Social share image"
@@ -296,8 +296,8 @@ export default function PostForm({
           />
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Canonical URL <span className="text-ink-faint">(only fill this in if this content is a copy of another URL)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Canonical URL <span className="text-slate-500">(only fill this in if this content is a copy of another URL)</span>
             </label>
             <input
               value={values.canonicalUrl}
@@ -307,7 +307,7 @@ export default function PostForm({
             />
           </div>
 
-          <label className="flex items-start gap-2 text-sm text-ink-soft">
+          <label className="flex items-start gap-2 text-sm text-slate-700">
             <input
               type="checkbox"
               checked={values.noindex}
@@ -315,16 +315,16 @@ export default function PostForm({
               className="w-4 h-4 mt-0.5"
             />
             <span>
-              Hide from Google (noindex) <span className="text-ink-faint">- the post stays live but won't appear in search and is removed from the sitemap</span>
+              Hide from Google (noindex) <span className="text-slate-500">- the post stays live but won't appear in search and is removed from the sitemap</span>
             </span>
           </label>
         </div>
 
         {/* ------------------------------ ENGAGEMENT ------------------------------ */}
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">Extras inside the post</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Extras inside the post</h3>
 
-          <label className="flex items-start gap-2 text-sm text-ink-soft">
+          <label className="flex items-start gap-2 text-sm text-slate-700">
             <input
               type="checkbox"
               checked={values.showToc}
@@ -333,13 +333,13 @@ export default function PostForm({
             />
             <span>
               &quot;In this article&quot; table of contents{' '}
-              <span className="text-ink-faint">(when the post has 3 or more sub-headings)</span>
+              <span className="text-slate-500">(when the post has 3 or more sub-headings)</span>
             </span>
           </label>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Calculator box <span className="text-ink-faint">(a &quot;Try it free&quot; box for this calculator in the middle of the post)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Calculator box <span className="text-slate-500">(a &quot;Try it free&quot; box for this calculator in the middle of the post)</span>
             </label>
             <select
               value={values.ctaCalculator}
@@ -356,8 +356,8 @@ export default function PostForm({
           </div>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Choose related posts yourself <span className="text-ink-faint">(max 6; the rest are added automatically)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Choose related posts yourself <span className="text-slate-500">(max 6; the rest are added automatically)</span>
             </label>
             <select
               multiple
@@ -380,7 +380,7 @@ export default function PostForm({
                   </option>
                 ))}
             </select>
-            <p className="text-xs text-ink-faint mt-1">Hold Ctrl (Cmd on Mac) to select more than one.</p>
+            <p className="text-xs text-slate-500 mt-1">Hold Ctrl (Cmd on Mac) to select more than one.</p>
           </div>
         </div>
 
@@ -400,10 +400,10 @@ export default function PostForm({
       {/* ------------------------------ SIDEBAR ------------------------------ */}
       <aside className="space-y-5 lg:sticky lg:top-4">
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">Publish</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Publish</h3>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">Status</label>
+            <label className="block text-sm text-slate-700 mb-1.5">Status</label>
             <select
               value={values.published ? 'published' : 'draft'}
               onChange={(e) => update('published', e.target.value === 'published')}
@@ -415,8 +415,8 @@ export default function PostForm({
           </div>
 
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">
-              Publish date &amp; time <span className="text-ink-faint">(empty = now)</span>
+            <label className="block text-sm text-slate-700 mb-1.5">
+              Publish date &amp; time <span className="text-slate-500">(empty = now)</span>
             </label>
             <input
               type="datetime-local"
@@ -433,7 +433,7 @@ export default function PostForm({
               <button
                 type="button"
                 onClick={() => setDateLocal('')}
-                className="text-xs text-ink-faint hover:text-ink mt-1"
+                className="text-xs text-slate-500 hover:text-slate-900 mt-1"
               >
                 Clear date (publish now)
               </button>
@@ -458,8 +458,8 @@ export default function PostForm({
             </button>
             <button
               type="button"
-              onClick={() => router.push('/')}
-              className="px-5 py-2 rounded-lg bg-cream border border-hairline text-ink-soft hover:text-ink transition-colors"
+              onClick={() => router.push('/posts')}
+              className="px-5 py-2 rounded-lg bg-white border border-slate-400 text-slate-700 hover:text-slate-900 transition-colors"
             >
               Cancel
             </button>
@@ -467,9 +467,9 @@ export default function PostForm({
         </div>
 
         <div className={CARD}>
-          <h3 className="text-sm font-semibold text-ink">Category &amp; author</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Category &amp; author</h3>
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">Category</label>
+            <label className="block text-sm text-slate-700 mb-1.5">Category</label>
             <select value={values.category} onChange={(e) => update('category', e.target.value)} className={INPUT}>
               {Object.entries(CATEGORY_LABELS).map(([slug, label]) => (
                 <option key={slug} value={slug}>
@@ -479,11 +479,11 @@ export default function PostForm({
             </select>
           </div>
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">Tags</label>
+            <label className="block text-sm text-slate-700 mb-1.5">Tags</label>
             <TagsInput value={values.tags} onChange={(t) => update('tags', t)} />
           </div>
           <div>
-            <label className="block text-sm text-ink-soft mb-1.5">Author</label>
+            <label className="block text-sm text-slate-700 mb-1.5">Author</label>
             <input value={values.author} onChange={(e) => update('author', e.target.value)} className={INPUT} />
           </div>
         </div>

@@ -34,12 +34,12 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-surface border border-hairline rounded-xl p-6 sm:p-8 shadow-sm"
+        className="w-full max-w-sm bg-white border border-slate-300 rounded-2xl p-6 sm:p-8 shadow-md"
       >
-        <h1 className="text-xl font-semibold text-ink mb-1">Numrexo Blog Admin</h1>
-        <p className="text-sm text-ink-soft mb-6">Enter your user ID and password to sign in</p>
+        <h1 className="text-xl font-semibold text-slate-900 mb-1">Numrexo Admin</h1>
+        <p className="text-sm text-slate-700 mb-6">Enter your user ID and password to sign in</p>
 
-        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="userId">
+        <label className="block text-sm text-slate-700 mb-1.5" htmlFor="userId">
           User ID
         </label>
         <input
@@ -50,10 +50,10 @@ export default function AdminLoginPage() {
           autoFocus
           autoCapitalize="none"
           autoCorrect="off"
-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
+          className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 mb-4 focus:outline-none focus:border-blue-600"
         />
 
-        <label className="block text-sm text-ink-soft mb-1.5" htmlFor="password">
+        <label className="block text-sm text-slate-700 mb-1.5" htmlFor="password">
           Password
         </label>
         <input
@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-cream border border-hairline text-ink mb-4 focus:outline-none focus:border-blue-600"
+          className="w-full px-3 py-2 rounded-lg bg-white border border-slate-400 text-slate-900 mb-4 focus:outline-none focus:border-blue-600"
         />
 
         {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
