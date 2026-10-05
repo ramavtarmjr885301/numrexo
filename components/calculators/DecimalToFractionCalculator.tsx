@@ -179,9 +179,9 @@ export default function DecimalToFractionCalculator() {
 
             <nav aria-label="Breadcrumb" className="mb-5">
                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
                     <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
+                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
                     <li className="text-ink-soft">/</li>
                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Decimal to Fraction Calculator</span><meta itemProp="position" content="3" /></li>
                 </ol>

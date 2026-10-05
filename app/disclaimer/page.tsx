@@ -2,8 +2,8 @@ import { Metadata } from "next";
 
 // ─── METADATA ─────────────────────────────────────────────
 export const metadata: Metadata = {
-    title: "Disclaimer | Numrexo – Free Online Calculators",
-    description: "Read the official disclaimer for Numrexo.com. Our free online calculators (BMI, EMI, GST, SIP, Age, Percentage) provide informational results only. We do not store user data. Always consult a qualified professional for medical, financial, or legal advice.",
+    title: "Disclaimer: Calculator Results Are Estimates",
+    description: "Numrexo calculator results are estimates for information only. Consult a qualified professional before medical, financial or legal decisions.",
     keywords: [
         "numrexo disclaimer",
         "calculator disclaimer",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         url: "https://numrexo.com/disclaimer",
-        title: "Disclaimer | Numrexo – Free Online Calculators",
+        title: "Disclaimer: Calculator Results Are Estimates",
         description: "Read the official disclaimer for Numrexo.com. Our calculators provide informational results only. No user data is stored. Consult a qualified professional before making decisions.",
         siteName: "Numrexo",
         images: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Disclaimer | Numrexo – Free Online Calculators",
+        title: "Disclaimer: Calculator Results Are Estimates",
         description: "Numrexo calculator results are for informational purposes only. No medical, financial, or legal advice. No data stored.",
         images: ["https://numrexo.com/og-image.png"],
     },

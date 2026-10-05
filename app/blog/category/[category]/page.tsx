@@ -3,6 +3,7 @@ import { categoryLabel } from '@/lib/blogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { fitDescription } from '@/lib/metaFit';
 
 function formatDate(iso: string): string {
   return new Intl.DateTimeFormat('en-IN', {
@@ -19,9 +20,22 @@ interface CategoryPageProps {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const label = categoryLabel(params.category);
+  const { posts, total } = await listPostsByCategory(params.category, 1, 3);
+  // Built from the real posts in this category, so every category page has its own
+  // description (and an empty one is kept out of the index).
+  const titles = posts.map((p) => p.title).join('; ');
+  const lead = total
+    ? `${total} ${total === 1 ? 'guide' : 'guides'} on ${label.toLowerCase()} from the Numrexo team, including ${titles}.`
+    : `Numrexo guides on ${label.toLowerCase()}.`;
+  const description = fitDescription(
+    lead,
+    `Free, practical explanations with worked examples, plus the matching ${label.toLowerCase()} calculators from Numrexo.`,
+  );
   return {
-    title: `${label} – Numrexo Blog`,
-    description: `Read articles about ${label} on Numrexo blog.`,
+    title: `${label} Guides and Articles`,
+    description,
+    alternates: { canonical: `https://numrexo.com/blog/category/${params.category}` },
+    ...(total === 0 ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

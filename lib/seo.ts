@@ -10,6 +10,7 @@
 // component and move the interactive UI into a separate client component.
 
 import type { Metadata } from "next";
+import { fitTitle, TITLE_MAX } from "@/lib/metaFit";
 import { CALCULATORS_REGISTRY, CATEGORIES, type CalculatorType } from "@/data/calculatorsRegistry";
 import {
   CALCULATOR_SEO,
@@ -65,10 +66,14 @@ export function buildMetadata({
 }: BuildMetadataArgs): Metadata {
   const url = absoluteUrl(path);
   // Open Graph gets the full title; the template only applies to `title`.
-  const fullTitle = `${title} | ${SITE_NAME}`;
+  const fullTitle = fitTitle(title, ` | ${SITE_NAME}`);
+  // Bing flags titles over ~60 characters. When "<title> | Numrexo" would be too
+  // long, drop the brand suffix (absolute) instead of letting the template add it.
+  const pageTitle: Metadata["title"] =
+    `${title} | ${SITE_NAME}`.length <= TITLE_MAX ? title : { absolute: fullTitle };
 
   return {
-    title,
+    title: pageTitle,
     description,
     ...(keywords?.length ? { keywords } : {}),
     alternates: { canonical: url },

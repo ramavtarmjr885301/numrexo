@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { fitDescription } from '@/lib/metaFit';
 
 export const revalidate = 3600;
 
@@ -20,9 +21,13 @@ function formatDate(iso: string): string {
 // thin pages to the site.
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const label = decodeURIComponent(params.tag).replace(/-/g, ' ');
+  const posts = await listPostsByTag(params.tag);
+  const lead = posts.length
+    ? `Numrexo articles tagged ${label}: ${posts.slice(0, 3).map((p) => p.title).join('; ')}.`
+    : `Numrexo articles tagged ${label}.`;
   return {
-    title: `Posts tagged "${label}"`,
-    description: `Numrexo blog posts tagged ${label}.`,
+    title: `Articles tagged ${label}`,
+    description: fitDescription(lead, 'Free, practical guides with worked examples from the Numrexo team.'),
     robots: { index: false, follow: true },
   };
 }

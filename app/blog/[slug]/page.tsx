@@ -12,6 +12,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { fitTitle, fitDescription, htmlToText } from '@/lib/metaFit';
+import { ensureImgAlt } from '@/lib/imgAlt';
 
 export const revalidate = 3600;
 
@@ -38,7 +40,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   if (!post) {
     return {
       title: 'Post Not Found',
-      description: 'The requested blog post could not be found.',
+      description: 'The requested blog post could not be found. Browse the latest Numrexo guides on loans, savings, taxes and health, or try one of our free calculators.',
+      robots: { index: false, follow: true },
     };
   }
 
@@ -47,11 +50,13 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   // metaTitle/metaDescription are the admin's optional SEO overrides - most
   // posts won't set them, so fall back to the same title/excerpt used
   // everywhere else on the site.
-  const title = post.metaTitle || `${post.title} | Numrexo Blog`;
-  const description = post.metaDescription || post.excerpt;
-
+  // Titles are kept to 60 characters and descriptions to 120-160 (Bing/Google
+  // length guidance). A short description is extended with the post's own opening
+  // text, never with filler.
+  const title = post.metaTitle ? fitTitle(post.metaTitle, '') : fitTitle(post.title);
+  const description = fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml));
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical },
     ...(post.noindex ? { robots: { index: false, follow: true } } : {}),
@@ -91,7 +96,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
     .slice(0, 3);
 
-  const { html: contentWithIds, items: tocItems } = addHeadingIds(post.contentHtml);
+  const { html: contentWithIds, items: tocItems } = addHeadingIds(ensureImgAlt(post.contentHtml, post.title));
   const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
   const ctaCalc = post.ctaCalculator
     ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
@@ -112,7 +117,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
             headline: post.title,
-            description: post.metaDescription || post.excerpt,
+            description: fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml)),
             mainEntityOfPage: postUrl,
             keywords: post.tags.length ? post.tags.join(', ') : undefined,
             author: {

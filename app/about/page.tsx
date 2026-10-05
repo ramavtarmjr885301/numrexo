@@ -5,9 +5,9 @@ const TOOL_COUNT = CALCULATORS_REGISTRY.length;
 
 // ─── METADATA (Next.js 13+ App Router) ──────────────────────
 export const metadata: Metadata = {
-    title: "About Numrexo | Free Online Calculator Platform for Everyone",
+    title: "About Numrexo: Free Online Calculator Platform",
     description:
-        `Learn about Numrexo — a free online calculator platform with ${TOOL_COUNT} tools for health, finance, math, business, and more. No login needed. Fast, accurate, and privacy-conscious.`,
+        `Learn about Numrexo, a free online calculator platform with ${TOOL_COUNT} tools for health, finance, math and business. No login needed; inputs stay in your browser.`,
     keywords: [
         "about numrexo",
         "free online calculator platform",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         url: "https://numrexo.com/about",
-        title: "About Numrexo | Free Online Calculator Platform for Everyone",
+        title: "About Numrexo: Free Online Calculator Platform",
         description:
             `Numrexo offers ${TOOL_COUNT} free online calculators for health, finance, math, and more. No login, no fees. Fast, accurate, and privacy-conscious.`,
         siteName: "Numrexo",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "About Numrexo | Free Online Calculator Platform for Everyone",
+        title: "About Numrexo: Free Online Calculator Platform",
         description:
             `${TOOL_COUNT} free calculators for health, finance, math, and more. No login needed.`,
         images: ["https://numrexo.com/og-about.png"],

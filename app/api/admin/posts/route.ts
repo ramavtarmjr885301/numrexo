@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
 import { createPost, slugExists } from '@/lib/blogDb';
 import { parsePostBody } from '@/lib/postInput';
+import { revalidatePath } from 'next/cache';
+import { pingIndexNow } from '@/lib/indexNow';
 
 export async function POST(request: NextRequest) {
   if (!(await isAdminRequestAuthed())) {
@@ -24,6 +26,14 @@ export async function POST(request: NextRequest) {
   const post = await createPost(values);
   if (!post) {
     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
+  }
+
+  // Make the new post visible right away and tell Bing about it (IndexNow).
+  revalidatePath('/blog');
+  revalidatePath('/sitemap.xml');
+  revalidatePath(`/blog/${post.slug}`);
+  if (post.published && !post.noindex && new Date(post.publishedAt) <= new Date()) {
+    await pingIndexNow([`/blog/${post.slug}`, '/blog']);
   }
 
   return NextResponse.json({ post });

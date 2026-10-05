@@ -13,7 +13,7 @@ const TOOL_COUNT = CALCULATORS_REGISTRY.length;
 export const metadata: Metadata = buildMetadata({
   title: "Free Online Calculators for Finance, Health and Math",
   description:
-    `${TOOL_COUNT}+ free online calculators for mortgages and loans, BMI and fitness, taxes, grades, unit conversion and more. No sign-up, and nothing you enter leaves your browser.`,
+    `${TOOL_COUNT}+ free online calculators for mortgages and loans, BMI and fitness, taxes, grades and unit conversion. No sign-up, and nothing you enter leaves your browser.`,
   keywords: [
     "free online calculators",
     "calculator website",

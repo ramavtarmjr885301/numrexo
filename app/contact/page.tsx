@@ -10,7 +10,7 @@ import ContactClient from "./ContactClient";
 export const metadata: Metadata = buildMetadata({
   title: "Contact Numrexo: Support, Feedback and Requests",
   description:
-    "Get in touch with the Numrexo team about a calculator that looks wrong, a tool you would like us to build, a partnership, or anything else. We reply within 24 to 48 hours.",
+    "Contact the Numrexo team about a calculator that looks wrong, a tool you would like us to build, a partnership or anything else. We reply within 24 to 48 hours.",
   path: "/contact",
 });
 

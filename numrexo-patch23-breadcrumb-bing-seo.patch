@@ -1,0 +1,1753 @@
+diff --git a/app/about/page.tsx b/app/about/page.tsx
+index 076449e..21c9378 100644
+--- a/app/about/page.tsx
++++ b/app/about/page.tsx
+@@ -5,9 +5,9 @@ const TOOL_COUNT = CALCULATORS_REGISTRY.length;
+ 
+ // ─── METADATA (Next.js 13+ App Router) ──────────────────────
+ export const metadata: Metadata = {
+-    title: "About Numrexo | Free Online Calculator Platform for Everyone",
++    title: "About Numrexo: Free Online Calculator Platform",
+     description:
+-        `Learn about Numrexo — a free online calculator platform with ${TOOL_COUNT} tools for health, finance, math, business, and more. No login needed. Fast, accurate, and privacy-conscious.`,
++        `Learn about Numrexo, a free online calculator platform with ${TOOL_COUNT} tools for health, finance, math and business. No login needed; inputs stay in your browser.`,
+     keywords: [
+         "about numrexo",
+         "free online calculator platform",
+@@ -24,7 +24,7 @@ export const metadata: Metadata = {
+     openGraph: {
+         type: "website",
+         url: "https://numrexo.com/about",
+-        title: "About Numrexo | Free Online Calculator Platform for Everyone",
++        title: "About Numrexo: Free Online Calculator Platform",
+         description:
+             `Numrexo offers ${TOOL_COUNT} free online calculators for health, finance, math, and more. No login, no fees. Fast, accurate, and privacy-conscious.`,
+         siteName: "Numrexo",
+@@ -39,7 +39,7 @@ export const metadata: Metadata = {
+     },
+     twitter: {
+         card: "summary_large_image",
+-        title: "About Numrexo | Free Online Calculator Platform for Everyone",
++        title: "About Numrexo: Free Online Calculator Platform",
+         description:
+             `${TOOL_COUNT} free calculators for health, finance, math, and more. No login needed.`,
+         images: ["https://numrexo.com/og-about.png"],
+diff --git a/app/api/admin/posts/[id]/route.ts b/app/api/admin/posts/[id]/route.ts
+index bb84a37..22cfc19 100644
+--- a/app/api/admin/posts/[id]/route.ts
++++ b/app/api/admin/posts/[id]/route.ts
+@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
+ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { getPostById, updatePost, deletePost, slugExists } from '@/lib/blogDb';
+ import { parsePostBody } from '@/lib/postInput';
++import { revalidatePath } from 'next/cache';
++import { pingIndexNow } from '@/lib/indexNow';
+ 
+ interface Params {
+   params: { id: string };
+@@ -36,6 +38,14 @@ export async function PUT(request: NextRequest, { params }: Params) {
+     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
+   }
+ 
++  revalidatePath('/blog');
++  revalidatePath('/sitemap.xml');
++  revalidatePath(`/blog/${post.slug}`);
++  if (existing.slug !== post.slug) revalidatePath(`/blog/${existing.slug}`);
++  if (post.published && !post.noindex && new Date(post.publishedAt) <= new Date()) {
++    await pingIndexNow([`/blog/${post.slug}`, '/blog']);
++  }
++
+   return NextResponse.json({ post });
+ }
+ 
+@@ -45,9 +55,17 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
+   }
+ 
+   const id = Number(params.id);
++  const existing = await getPostById(id);
+   const ok = await deletePost(id);
+   if (!ok) {
+     return NextResponse.json({ error: 'Could not delete the post' }, { status: 500 });
+   }
++  revalidatePath('/blog');
++  revalidatePath('/sitemap.xml');
++  if (existing) {
++    revalidatePath(`/blog/${existing.slug}`);
++    // IndexNow also accepts removed URLs, so Bing drops the page quickly.
++    await pingIndexNow([`/blog/${existing.slug}`, '/blog']);
++  }
+   return NextResponse.json({ ok: true });
+ }
+diff --git a/app/api/admin/posts/route.ts b/app/api/admin/posts/route.ts
+index ffccb81..801ebb8 100644
+--- a/app/api/admin/posts/route.ts
++++ b/app/api/admin/posts/route.ts
+@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
+ import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
+ import { createPost, slugExists } from '@/lib/blogDb';
+ import { parsePostBody } from '@/lib/postInput';
++import { revalidatePath } from 'next/cache';
++import { pingIndexNow } from '@/lib/indexNow';
+ 
+ export async function POST(request: NextRequest) {
+   if (!(await isAdminRequestAuthed())) {
+@@ -26,5 +28,13 @@ export async function POST(request: NextRequest) {
+     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
+   }
+ 
++  // Make the new post visible right away and tell Bing about it (IndexNow).
++  revalidatePath('/blog');
++  revalidatePath('/sitemap.xml');
++  revalidatePath(`/blog/${post.slug}`);
++  if (post.published && !post.noindex && new Date(post.publishedAt) <= new Date()) {
++    await pingIndexNow([`/blog/${post.slug}`, '/blog']);
++  }
++
+   return NextResponse.json({ post });
+ }
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index 3af6072..9352e4b 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -12,6 +12,8 @@ import Image from 'next/image';
+ import Link from 'next/link';
+ import { notFound } from 'next/navigation';
+ import { Metadata } from 'next';
++import { fitTitle, fitDescription, htmlToText } from '@/lib/metaFit';
++import { ensureImgAlt } from '@/lib/imgAlt';
+ 
+ export const revalidate = 3600;
+ 
+@@ -38,7 +40,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+   if (!post) {
+     return {
+       title: 'Post Not Found',
+-      description: 'The requested blog post could not be found.',
++      description: 'The requested blog post could not be found. Browse the latest Numrexo guides on loans, savings, taxes and health, or try one of our free calculators.',
++      robots: { index: false, follow: true },
+     };
+   }
+ 
+@@ -47,11 +50,13 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
+   // metaTitle/metaDescription are the admin's optional SEO overrides - most
+   // posts won't set them, so fall back to the same title/excerpt used
+   // everywhere else on the site.
+-  const title = post.metaTitle || `${post.title} | Numrexo Blog`;
+-  const description = post.metaDescription || post.excerpt;
+-
++  // Titles are kept to 60 characters and descriptions to 120-160 (Bing/Google
++  // length guidance). A short description is extended with the post's own opening
++  // text, never with filler.
++  const title = post.metaTitle ? fitTitle(post.metaTitle, '') : fitTitle(post.title);
++  const description = fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml));
+   return {
+-    title,
++    title: { absolute: title },
+     description,
+     alternates: { canonical },
+     ...(post.noindex ? { robots: { index: false, follow: true } } : {}),
+@@ -91,7 +96,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+     .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
+     .slice(0, 3);
+ 
+-  const { html: contentWithIds, items: tocItems } = addHeadingIds(post.contentHtml);
++  const { html: contentWithIds, items: tocItems } = addHeadingIds(ensureImgAlt(post.contentHtml, post.title));
+   const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
+   const ctaCalc = post.ctaCalculator
+     ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
+@@ -112,7 +117,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+             '@context': 'https://schema.org',
+             '@type': 'BlogPosting',
+             headline: post.title,
+-            description: post.metaDescription || post.excerpt,
++            description: fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml)),
+             mainEntityOfPage: postUrl,
+             keywords: post.tags.length ? post.tags.join(', ') : undefined,
+             author: {
+diff --git a/app/blog/category/[category]/page.tsx b/app/blog/category/[category]/page.tsx
+index 117cbb1..a3a0500 100644
+--- a/app/blog/category/[category]/page.tsx
++++ b/app/blog/category/[category]/page.tsx
+@@ -3,6 +3,7 @@ import { categoryLabel } from '@/lib/blogTypes';
+ import Link from 'next/link';
+ import Image from 'next/image';
+ import { Metadata } from 'next';
++import { fitDescription } from '@/lib/metaFit';
+ 
+ function formatDate(iso: string): string {
+   return new Intl.DateTimeFormat('en-IN', {
+@@ -19,9 +20,22 @@ interface CategoryPageProps {
+ 
+ export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+   const label = categoryLabel(params.category);
++  const { posts, total } = await listPostsByCategory(params.category, 1, 3);
++  // Built from the real posts in this category, so every category page has its own
++  // description (and an empty one is kept out of the index).
++  const titles = posts.map((p) => p.title).join('; ');
++  const lead = total
++    ? `${total} ${total === 1 ? 'guide' : 'guides'} on ${label.toLowerCase()} from the Numrexo team, including ${titles}.`
++    : `Numrexo guides on ${label.toLowerCase()}.`;
++  const description = fitDescription(
++    lead,
++    `Free, practical explanations with worked examples, plus the matching ${label.toLowerCase()} calculators from Numrexo.`,
++  );
+   return {
+-    title: `${label} – Numrexo Blog`,
+-    description: `Read articles about ${label} on Numrexo blog.`,
++    title: `${label} Guides and Articles`,
++    description,
++    alternates: { canonical: `https://numrexo.com/blog/category/${params.category}` },
++    ...(total === 0 ? { robots: { index: false, follow: true } } : {}),
+   };
+ }
+ 
+diff --git a/app/blog/tag/[tag]/page.tsx b/app/blog/tag/[tag]/page.tsx
+index 5833c02..6ec3333 100644
+--- a/app/blog/tag/[tag]/page.tsx
++++ b/app/blog/tag/[tag]/page.tsx
+@@ -4,6 +4,7 @@ import Link from 'next/link';
+ import Image from 'next/image';
+ import { notFound } from 'next/navigation';
+ import { Metadata } from 'next';
++import { fitDescription } from '@/lib/metaFit';
+ 
+ export const revalidate = 3600;
+ 
+@@ -20,9 +21,13 @@ function formatDate(iso: string): string {
+ // thin pages to the site.
+ export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+   const label = decodeURIComponent(params.tag).replace(/-/g, ' ');
++  const posts = await listPostsByTag(params.tag);
++  const lead = posts.length
++    ? `Numrexo articles tagged ${label}: ${posts.slice(0, 3).map((p) => p.title).join('; ')}.`
++    : `Numrexo articles tagged ${label}.`;
+   return {
+-    title: `Posts tagged "${label}"`,
+-    description: `Numrexo blog posts tagged ${label}.`,
++    title: `Articles tagged ${label}`,
++    description: fitDescription(lead, 'Free, practical guides with worked examples from the Numrexo team.'),
+     robots: { index: false, follow: true },
+   };
+ }
+diff --git a/app/calculators/page.tsx b/app/calculators/page.tsx
+index 5591f46..a825d88 100644
+--- a/app/calculators/page.tsx
++++ b/app/calculators/page.tsx
+@@ -5,7 +5,7 @@ import CalculatorsClient from "./CalculatorsClient";
+ export const metadata: Metadata = buildMetadata({
+   title: "All Calculators: Browse Every Numrexo Tool",
+   description:
+-    "Browse and search every calculator on Numrexo across finance, health, math, tax, education, construction, cooking and travel. Free, instant, and no sign-up needed.",
++    "Browse and search every Numrexo calculator across finance, health, math, tax, education, construction, cooking and travel. Free, instant, no sign-up.",
+   path: "/calculators",
+ });
+ 
+diff --git a/app/contact/page.tsx b/app/contact/page.tsx
+index 210930e..e2f9d89 100644
+--- a/app/contact/page.tsx
++++ b/app/contact/page.tsx
+@@ -10,7 +10,7 @@ import ContactClient from "./ContactClient";
+ export const metadata: Metadata = buildMetadata({
+   title: "Contact Numrexo: Support, Feedback and Requests",
+   description:
+-    "Get in touch with the Numrexo team about a calculator that looks wrong, a tool you would like us to build, a partnership, or anything else. We reply within 24 to 48 hours.",
++    "Contact the Numrexo team about a calculator that looks wrong, a tool you would like us to build, a partnership or anything else. We reply within 24 to 48 hours.",
+   path: "/contact",
+ });
+ 
+diff --git a/app/disclaimer/page.tsx b/app/disclaimer/page.tsx
+index 3c257b1..e73f2ad 100644
+--- a/app/disclaimer/page.tsx
++++ b/app/disclaimer/page.tsx
+@@ -2,8 +2,8 @@ import { Metadata } from "next";
+ 
+ // ─── METADATA ─────────────────────────────────────────────
+ export const metadata: Metadata = {
+-    title: "Disclaimer | Numrexo – Free Online Calculators",
+-    description: "Read the official disclaimer for Numrexo.com. Our free online calculators (BMI, EMI, GST, SIP, Age, Percentage) provide informational results only. We do not store user data. Always consult a qualified professional for medical, financial, or legal advice.",
++    title: "Disclaimer: Calculator Results Are Estimates",
++    description: "Numrexo calculator results are estimates for information only. Consult a qualified professional before medical, financial or legal decisions.",
+     keywords: [
+         "numrexo disclaimer",
+         "calculator disclaimer",
+@@ -20,7 +20,7 @@ export const metadata: Metadata = {
+     openGraph: {
+         type: "website",
+         url: "https://numrexo.com/disclaimer",
+-        title: "Disclaimer | Numrexo – Free Online Calculators",
++        title: "Disclaimer: Calculator Results Are Estimates",
+         description: "Read the official disclaimer for Numrexo.com. Our calculators provide informational results only. No user data is stored. Consult a qualified professional before making decisions.",
+         siteName: "Numrexo",
+         images: [
+@@ -34,7 +34,7 @@ export const metadata: Metadata = {
+     },
+     twitter: {
+         card: "summary_large_image",
+-        title: "Disclaimer | Numrexo – Free Online Calculators",
++        title: "Disclaimer: Calculator Results Are Estimates",
+         description: "Numrexo calculator results are for informational purposes only. No medical, financial, or legal advice. No data stored.",
+         images: ["https://numrexo.com/og-image.png"],
+     },
+diff --git a/app/not-found.tsx b/app/not-found.tsx
+index 738b557..6068896 100644
+--- a/app/not-found.tsx
++++ b/app/not-found.tsx
+@@ -1,7 +1,16 @@
+ // app/not-found.tsx
+ import Link from 'next/link';
++import type { Metadata } from 'next';
+ import { Home, Search } from 'lucide-react';
+ 
++// A 404 must not share the homepage description, and should never be indexed.
++export const metadata: Metadata = {
++    title: 'Page Not Found',
++    description:
++        'This page could not be found. Use the search or browse the Numrexo calculators for finance, health, tax, math and unit conversion to find what you need.',
++    robots: { index: false, follow: true },
++};
++
+ export default function NotFound() {
+     return (
+         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+diff --git a/app/page.tsx b/app/page.tsx
+index 85a492b..24b3456 100644
+--- a/app/page.tsx
++++ b/app/page.tsx
+@@ -13,7 +13,7 @@ const TOOL_COUNT = CALCULATORS_REGISTRY.length;
+ export const metadata: Metadata = buildMetadata({
+   title: "Free Online Calculators for Finance, Health and Math",
+   description:
+-    `${TOOL_COUNT}+ free online calculators for mortgages and loans, BMI and fitness, taxes, grades, unit conversion and more. No sign-up, and nothing you enter leaves your browser.`,
++    `${TOOL_COUNT}+ free online calculators for mortgages and loans, BMI and fitness, taxes, grades and unit conversion. No sign-up, and nothing you enter leaves your browser.`,
+   keywords: [
+     "free online calculators",
+     "calculator website",
+diff --git a/components/calculators/APYCalculator.tsx b/components/calculators/APYCalculator.tsx
+index e8c41a3..0b97aed 100644
+--- a/components/calculators/APYCalculator.tsx
++++ b/components/calculators/APYCalculator.tsx
+@@ -158,12 +158,12 @@ export default function APYCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
++                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/AddDaysCalculator.tsx b/components/calculators/AddDaysCalculator.tsx
+index 9d02dca..ec8e05b 100644
+--- a/components/calculators/AddDaysCalculator.tsx
++++ b/components/calculators/AddDaysCalculator.tsx
+@@ -142,9 +142,9 @@ export default function AddDaysCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Add Days to Date Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/AngleConverter.tsx b/components/calculators/AngleConverter.tsx
+index 532a397..ee243ff 100644
+--- a/components/calculators/AngleConverter.tsx
++++ b/components/calculators/AngleConverter.tsx
+@@ -133,9 +133,9 @@ export default function AngleConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Angle Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/AreaCalculator.tsx b/components/calculators/AreaCalculator.tsx
+index dd9e30a..00d3c02 100644
+--- a/components/calculators/AreaCalculator.tsx
++++ b/components/calculators/AreaCalculator.tsx
+@@ -204,9 +204,9 @@ export default function AreaCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/AreaConverter.tsx b/components/calculators/AreaConverter.tsx
+index 51861db..901aa51 100644
+--- a/components/calculators/AreaConverter.tsx
++++ b/components/calculators/AreaConverter.tsx
+@@ -108,9 +108,9 @@
+ 
+ //             <nav aria-label="Breadcrumb" className="mb-5">
+ //                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+ //                     <li className="text-ink-soft">/</li>
+-//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++//                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+ //                     <li className="text-ink-soft">/</li>
+ //                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Converter</span><meta itemProp="position" content="3" /></li>
+ //                 </ol>
+@@ -290,9 +290,9 @@ export default function AreaConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Area Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/BakingConverter.tsx b/components/calculators/BakingConverter.tsx
+index 82d6e70..5d5ece3 100644
+--- a/components/calculators/BakingConverter.tsx
++++ b/components/calculators/BakingConverter.tsx
+@@ -171,9 +171,9 @@ export default function BakingConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Baking Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/BirthdayCountdown.tsx b/components/calculators/BirthdayCountdown.tsx
+index fa1ca26..5329ab7 100644
+--- a/components/calculators/BirthdayCountdown.tsx
++++ b/components/calculators/BirthdayCountdown.tsx
+@@ -208,9 +208,9 @@ export default function BirthdayCountdown() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Birthday Countdown</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/BodyTypeCalculator.tsx b/components/calculators/BodyTypeCalculator.tsx
+index 207865d..47fcfcb 100644
+--- a/components/calculators/BodyTypeCalculator.tsx
++++ b/components/calculators/BodyTypeCalculator.tsx
+@@ -187,9 +187,9 @@ export default function BodyTypeCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Body Type Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/BreakEvenCalculator.tsx b/components/calculators/BreakEvenCalculator.tsx
+index 74c8fe4..db281bd 100644
+--- a/components/calculators/BreakEvenCalculator.tsx
++++ b/components/calculators/BreakEvenCalculator.tsx
+@@ -182,12 +182,12 @@ export default function BreakEvenCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
++                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/BuiltUpAreaCalculator.tsx b/components/calculators/BuiltUpAreaCalculator.tsx
+index 9b10fba..8d3a229 100644
+--- a/components/calculators/BuiltUpAreaCalculator.tsx
++++ b/components/calculators/BuiltUpAreaCalculator.tsx
+@@ -151,9 +151,9 @@ export default function BuiltUpAreaCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Built-up Area Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/CAPMCalculator.tsx b/components/calculators/CAPMCalculator.tsx
+index ed484a7..16c7de8 100644
+--- a/components/calculators/CAPMCalculator.tsx
++++ b/components/calculators/CAPMCalculator.tsx
+@@ -144,9 +144,9 @@ export default function CAPMCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">Investment Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Investment Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">CAPM Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/CGPACalculator.tsx b/components/calculators/CGPACalculator.tsx
+index 4809440..cec1716 100644
+--- a/components/calculators/CGPACalculator.tsx
++++ b/components/calculators/CGPACalculator.tsx
+@@ -181,12 +181,12 @@ export default function CGPACalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/CalorieCounter.tsx b/components/calculators/CalorieCounter.tsx
+index adc037e..180706d 100644
+--- a/components/calculators/CalorieCounter.tsx
++++ b/components/calculators/CalorieCounter.tsx
+@@ -188,9 +188,9 @@ export default function CalorieCounter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Calorie Counter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/CarpetAreaCalculator.tsx b/components/calculators/CarpetAreaCalculator.tsx
+index 58554bb..6d3eab8 100644
+--- a/components/calculators/CarpetAreaCalculator.tsx
++++ b/components/calculators/CarpetAreaCalculator.tsx
+@@ -184,9 +184,9 @@ export default function CarpetAreaCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Carpet Area Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/CookingTimeCalculator.tsx b/components/calculators/CookingTimeCalculator.tsx
+index b71ed02..ad4e065 100644
+--- a/components/calculators/CookingTimeCalculator.tsx
++++ b/components/calculators/CookingTimeCalculator.tsx
+@@ -266,9 +266,9 @@ export default function CookingTimeCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Cooking Time Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/DataConverter.tsx b/components/calculators/DataConverter.tsx
+index dcd4f88..19ae84e 100644
+--- a/components/calculators/DataConverter.tsx
++++ b/components/calculators/DataConverter.tsx
+@@ -135,9 +135,9 @@ export default function DataConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Data Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/DateDifferenceCalculator.tsx b/components/calculators/DateDifferenceCalculator.tsx
+index 46e8b2f..2797971 100644
+--- a/components/calculators/DateDifferenceCalculator.tsx
++++ b/components/calculators/DateDifferenceCalculator.tsx
+@@ -149,12 +149,12 @@ export default function DateDifferenceCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
++                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/DecimalToFractionCalculator.tsx b/components/calculators/DecimalToFractionCalculator.tsx
+index b9cd140..03c9dc8 100644
+--- a/components/calculators/DecimalToFractionCalculator.tsx
++++ b/components/calculators/DecimalToFractionCalculator.tsx
+@@ -179,9 +179,9 @@ export default function DecimalToFractionCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Decimal to Fraction Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/DistanceCalculator.tsx b/components/calculators/DistanceCalculator.tsx
+index b6046c2..d1cfe34 100644
+--- a/components/calculators/DistanceCalculator.tsx
++++ b/components/calculators/DistanceCalculator.tsx
+@@ -143,9 +143,9 @@ export default function DistanceCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Distance Formula Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/EnergyConverter.tsx b/components/calculators/EnergyConverter.tsx
+index c4218f0..d6cd2e0 100644
+--- a/components/calculators/EnergyConverter.tsx
++++ b/components/calculators/EnergyConverter.tsx
+@@ -135,9 +135,9 @@ export default function EnergyConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Energy Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/FinalGradeCalculator.tsx b/components/calculators/FinalGradeCalculator.tsx
+index 14dec1f..7a55114 100644
+--- a/components/calculators/FinalGradeCalculator.tsx
++++ b/components/calculators/FinalGradeCalculator.tsx
+@@ -220,12 +220,12 @@ export default function FinalGradeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/FlightTimeCalculator.tsx b/components/calculators/FlightTimeCalculator.tsx
+index 091a8ae..4c1ec82 100644
+--- a/components/calculators/FlightTimeCalculator.tsx
++++ b/components/calculators/FlightTimeCalculator.tsx
+@@ -171,9 +171,9 @@ export default function FlightTimeCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flight Time Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/FlooringCalculator.tsx b/components/calculators/FlooringCalculator.tsx
+index f1b718f..760b237 100644
+--- a/components/calculators/FlooringCalculator.tsx
++++ b/components/calculators/FlooringCalculator.tsx
+@@ -183,9 +183,9 @@ export default function FlooringCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flooring Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/FoodExpiryCalculator.tsx b/components/calculators/FoodExpiryCalculator.tsx
+index 7029ef3..ed09b3b 100644
+--- a/components/calculators/FoodExpiryCalculator.tsx
++++ b/components/calculators/FoodExpiryCalculator.tsx
+@@ -149,9 +149,9 @@ export default function FoodExpiryCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Food Expiry Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/GradeCalculator.tsx b/components/calculators/GradeCalculator.tsx
+index 35e0c96..75114ff 100644
+--- a/components/calculators/GradeCalculator.tsx
++++ b/components/calculators/GradeCalculator.tsx
+@@ -251,12 +251,12 @@ export default function GradeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/HotelCostCalculator.tsx b/components/calculators/HotelCostCalculator.tsx
+index 073f204..e3cff63 100644
+--- a/components/calculators/HotelCostCalculator.tsx
++++ b/components/calculators/HotelCostCalculator.tsx
+@@ -158,9 +158,9 @@ export default function HotelCostCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Hotel Cost Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/LTCGCalculator.tsx b/components/calculators/LTCGCalculator.tsx
+index 5edfa11..04e307f 100644
+--- a/components/calculators/LTCGCalculator.tsx
++++ b/components/calculators/LTCGCalculator.tsx
+@@ -234,12 +234,12 @@ export default function LTCGCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a>
++                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Tax Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/LandAreaCalculator.tsx b/components/calculators/LandAreaCalculator.tsx
+index 87068c8..a0f9661 100644
+--- a/components/calculators/LandAreaCalculator.tsx
++++ b/components/calculators/LandAreaCalculator.tsx
+@@ -191,9 +191,9 @@ export default function LandAreaCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Land Area Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/LengthConverter.tsx b/components/calculators/LengthConverter.tsx
+index 543d0d6..b43837f 100644
+--- a/components/calculators/LengthConverter.tsx
++++ b/components/calculators/LengthConverter.tsx
+@@ -152,12 +152,12 @@ export default function LengthConverter() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
++                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/LoanComparisonCalculator.tsx b/components/calculators/LoanComparisonCalculator.tsx
+index 0018dad..ccd3cb6 100644
+--- a/components/calculators/LoanComparisonCalculator.tsx
++++ b/components/calculators/LoanComparisonCalculator.tsx
+@@ -194,9 +194,9 @@ export default function LoanComparisonCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Loan Comparison Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/LuggageAllowanceCalculator.tsx b/components/calculators/LuggageAllowanceCalculator.tsx
+index 4469373..5fe2940 100644
+--- a/components/calculators/LuggageAllowanceCalculator.tsx
++++ b/components/calculators/LuggageAllowanceCalculator.tsx
+@@ -184,9 +184,9 @@ export default function LuggageAllowanceCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Luggage Allowance Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/MarkupCalculator.tsx b/components/calculators/MarkupCalculator.tsx
+index 74d5413..3c07fd0 100644
+--- a/components/calculators/MarkupCalculator.tsx
++++ b/components/calculators/MarkupCalculator.tsx
+@@ -214,12 +214,12 @@ export default function MarkupCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
++                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/NutritionLabelGenerator.tsx b/components/calculators/NutritionLabelGenerator.tsx
+index a770eb1..d5e2038 100644
+--- a/components/calculators/NutritionLabelGenerator.tsx
++++ b/components/calculators/NutritionLabelGenerator.tsx
+@@ -191,9 +191,9 @@ export default function NutritionLabelGenerator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Nutrition Label Generator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/OvenTemperatureConverter.tsx b/components/calculators/OvenTemperatureConverter.tsx
+index 9a152fc..f63d873 100644
+--- a/components/calculators/OvenTemperatureConverter.tsx
++++ b/components/calculators/OvenTemperatureConverter.tsx
+@@ -184,9 +184,9 @@ export default function OvenTemperatureConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Oven Temperature Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PaintCalculator.tsx b/components/calculators/PaintCalculator.tsx
+index e8d92d6..e78e0a4 100644
+--- a/components/calculators/PaintCalculator.tsx
++++ b/components/calculators/PaintCalculator.tsx
+@@ -180,9 +180,9 @@ export default function PaintCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Paint Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PowerConverter.tsx b/components/calculators/PowerConverter.tsx
+index b8588b2..67adc71 100644
+--- a/components/calculators/PowerConverter.tsx
++++ b/components/calculators/PowerConverter.tsx
+@@ -129,9 +129,9 @@ export default function PowerConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Power Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PregnancyDueDateCalculator.tsx b/components/calculators/PregnancyDueDateCalculator.tsx
+index 4348f9a..824b4db 100644
+--- a/components/calculators/PregnancyDueDateCalculator.tsx
++++ b/components/calculators/PregnancyDueDateCalculator.tsx
+@@ -200,9 +200,9 @@ export default function PregnancyDueDateCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pregnancy Due Date Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PressureConverter.tsx b/components/calculators/PressureConverter.tsx
+index 6f305c9..97b0c0d 100644
+--- a/components/calculators/PressureConverter.tsx
++++ b/components/calculators/PressureConverter.tsx
+@@ -131,9 +131,9 @@ export default function PressureConverter() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pressure Converter</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PropertyTaxCalculator.tsx b/components/calculators/PropertyTaxCalculator.tsx
+index ece25bd..d786e78 100644
+--- a/components/calculators/PropertyTaxCalculator.tsx
++++ b/components/calculators/PropertyTaxCalculator.tsx
+@@ -175,9 +175,9 @@ export default function PropertyTaxCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Tax Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Property Tax Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/PythagoreanCalculator.tsx b/components/calculators/PythagoreanCalculator.tsx
+index 90635de..ff8c9fa 100644
+--- a/components/calculators/PythagoreanCalculator.tsx
++++ b/components/calculators/PythagoreanCalculator.tsx
+@@ -191,9 +191,9 @@ export default function PythagoreanCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pythagorean Theorem Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/RDCalculator.tsx b/components/calculators/RDCalculator.tsx
+index bb3c532..b6f5300 100644
+--- a/components/calculators/RDCalculator.tsx
++++ b/components/calculators/RDCalculator.tsx
+@@ -155,12 +155,12 @@ export default function RDCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
++                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/ROICalculator.tsx b/components/calculators/ROICalculator.tsx
+index 14a4d98..9159896 100644
+--- a/components/calculators/ROICalculator.tsx
++++ b/components/calculators/ROICalculator.tsx
+@@ -165,12 +165,12 @@ export default function ROICalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
++                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/RatioCalculator.tsx b/components/calculators/RatioCalculator.tsx
+index b90817f..8b28872 100644
+--- a/components/calculators/RatioCalculator.tsx
++++ b/components/calculators/RatioCalculator.tsx
+@@ -211,9 +211,9 @@ export default function RatioCalculator() {
+ 
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a><meta itemProp="position" content="1" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
+                     <li className="text-ink-soft">/</li>
+-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a><meta itemProp="position" content="2" /></li>
++                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Ratio Calculator</span><meta itemProp="position" content="3" /></li>
+                 </ol>
+diff --git a/components/calculators/RecipeConverter.tsx b/components/calculators/RecipeConverter.tsx
+index 0dc322f..62e21d4 100644
+--- a/components/calculators/RecipeConverter.tsx
++++ b/components/calculators/RecipeConverter.tsx
+@@ -287,12 +287,12 @@ export default function RecipeConverter() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft">Cooking Calculators</a>
++                        <a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/RentalYieldCalculator.tsx b/components/calculators/RentalYieldCalculator.tsx
+index 784ff2b..2e232ab 100644
+--- a/components/calculators/RentalYieldCalculator.tsx
++++ b/components/calculators/RentalYieldCalculator.tsx
+@@ -168,12 +168,12 @@ export default function RentalYieldCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
++                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/RoofingCalculator.tsx b/components/calculators/RoofingCalculator.tsx
+index 18b4b56..fb651b6 100644
+--- a/components/calculators/RoofingCalculator.tsx
++++ b/components/calculators/RoofingCalculator.tsx
+@@ -202,12 +202,12 @@ export default function RoofingCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a>
++                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SWPCalculator.tsx b/components/calculators/SWPCalculator.tsx
+index 2889ede..ce396b9 100644
+--- a/components/calculators/SWPCalculator.tsx
++++ b/components/calculators/SWPCalculator.tsx
+@@ -162,12 +162,12 @@ export default function SWPCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">Investment Calculators</a>
++                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Investment Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SalesCommissionCalculator.tsx b/components/calculators/SalesCommissionCalculator.tsx
+index 2557842..7b670b6 100644
+--- a/components/calculators/SalesCommissionCalculator.tsx
++++ b/components/calculators/SalesCommissionCalculator.tsx
+@@ -297,12 +297,12 @@ export default function SalesCommissionCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
++                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SalesTaxCalculator.tsx b/components/calculators/SalesTaxCalculator.tsx
+index 914d94d..00f91c3 100644
+--- a/components/calculators/SalesTaxCalculator.tsx
++++ b/components/calculators/SalesTaxCalculator.tsx
+@@ -179,12 +179,12 @@ export default function SalesTaxCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">Tax Calculators</a>
++                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Tax Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/ScholarshipCalculator.tsx b/components/calculators/ScholarshipCalculator.tsx
+index 12e0457..e2e14ca 100644
+--- a/components/calculators/ScholarshipCalculator.tsx
++++ b/components/calculators/ScholarshipCalculator.tsx
+@@ -217,12 +217,12 @@ export default function ScholarshipCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SleepCalculator.tsx b/components/calculators/SleepCalculator.tsx
+index b6c9167..7aa4f0c 100644
+--- a/components/calculators/SleepCalculator.tsx
++++ b/components/calculators/SleepCalculator.tsx
+@@ -137,12 +137,12 @@ export default function SleepCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a>
++                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SlopeCalculator.tsx b/components/calculators/SlopeCalculator.tsx
+index efe1a33..348c17f 100644
+--- a/components/calculators/SlopeCalculator.tsx
++++ b/components/calculators/SlopeCalculator.tsx
+@@ -174,12 +174,12 @@ export default function SlopeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
++                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/SpeedConverter.tsx b/components/calculators/SpeedConverter.tsx
+index 7421733..c0d540b 100644
+--- a/components/calculators/SpeedConverter.tsx
++++ b/components/calculators/SpeedConverter.tsx
+@@ -163,12 +163,12 @@ export default function SpeedConverter() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
++                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/StatisticsCalculator.tsx b/components/calculators/StatisticsCalculator.tsx
+index 311eaf5..453c005 100644
+--- a/components/calculators/StatisticsCalculator.tsx
++++ b/components/calculators/StatisticsCalculator.tsx
+@@ -209,12 +209,12 @@ export default function StatisticsCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
++                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/Stopwatch.tsx b/components/calculators/Stopwatch.tsx
+index f41647b..b5086fa 100644
+--- a/components/calculators/Stopwatch.tsx
++++ b/components/calculators/Stopwatch.tsx
+@@ -192,12 +192,12 @@ export default function Stopwatch() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
++                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/StudentLoanCalculator.tsx b/components/calculators/StudentLoanCalculator.tsx
+index 419761b..9c4332c 100644
+--- a/components/calculators/StudentLoanCalculator.tsx
++++ b/components/calculators/StudentLoanCalculator.tsx
+@@ -195,12 +195,12 @@ export default function StudentLoanCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/TimeDurationCalculator.tsx b/components/calculators/TimeDurationCalculator.tsx
+index c3d18a4..5735322 100644
+--- a/components/calculators/TimeDurationCalculator.tsx
++++ b/components/calculators/TimeDurationCalculator.tsx
+@@ -239,12 +239,12 @@ export default function TimeDurationCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
++                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/Timer.tsx b/components/calculators/Timer.tsx
+index ee60ce3..bd161a6 100644
+--- a/components/calculators/Timer.tsx
++++ b/components/calculators/Timer.tsx
+@@ -254,12 +254,12 @@ export default function Timer() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
++                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/TipCalculator.tsx b/components/calculators/TipCalculator.tsx
+index 69afe5c..1e2d9af 100644
+--- a/components/calculators/TipCalculator.tsx
++++ b/components/calculators/TipCalculator.tsx
+@@ -184,12 +184,12 @@ export default function TipCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft">Business Calculators</a>
++                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/TravelBudgetCalculator.tsx b/components/calculators/TravelBudgetCalculator.tsx
+index 544b5a1..4b621ef 100644
+--- a/components/calculators/TravelBudgetCalculator.tsx
++++ b/components/calculators/TravelBudgetCalculator.tsx
+@@ -203,12 +203,12 @@ export default function TravelBudgetCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft">Travel Calculators</a>
++                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/UnitConverter.tsx b/components/calculators/UnitConverter.tsx
+index bb08239..879a44c 100644
+--- a/components/calculators/UnitConverter.tsx
++++ b/components/calculators/UnitConverter.tsx
+@@ -324,12 +324,12 @@ export default function UnitConverter() {
+       <nav aria-label="Breadcrumb" className="mb-5">
+         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+             <meta itemProp="position" content="1" />
+           </li>
+           <li className="text-ink-soft">/</li>
+           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
++            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
+             <meta itemProp="position" content="2" />
+           </li>
+           <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/VolumeCalculator.tsx b/components/calculators/VolumeCalculator.tsx
+index 0ebaa32..aecb42e 100644
+--- a/components/calculators/VolumeCalculator.tsx
++++ b/components/calculators/VolumeCalculator.tsx
+@@ -221,12 +221,12 @@ export default function VolumeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">Math Calculators</a>
++                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/VolumeConverter.tsx b/components/calculators/VolumeConverter.tsx
+index 3b7341f..3908835 100644
+--- a/components/calculators/VolumeConverter.tsx
++++ b/components/calculators/VolumeConverter.tsx
+@@ -173,12 +173,12 @@ export default function VolumeConverter() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
++                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WallpaperCalculator.tsx b/components/calculators/WallpaperCalculator.tsx
+index db63e29..e078a88 100644
+--- a/components/calculators/WallpaperCalculator.tsx
++++ b/components/calculators/WallpaperCalculator.tsx
+@@ -184,12 +184,12 @@ export default function WallpaperCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft">Construction Calculators</a>
++                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WaterBillCalculator.tsx b/components/calculators/WaterBillCalculator.tsx
+index 6d350ff..a8f4bd2 100644
+--- a/components/calculators/WaterBillCalculator.tsx
++++ b/components/calculators/WaterBillCalculator.tsx
+@@ -191,12 +191,12 @@ export default function WaterBillCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">Finance Calculators</a>
++                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WaterIntakeCalculator.tsx b/components/calculators/WaterIntakeCalculator.tsx
+index 797a637..1631ce3 100644
+--- a/components/calculators/WaterIntakeCalculator.tsx
++++ b/components/calculators/WaterIntakeCalculator.tsx
+@@ -145,12 +145,12 @@ export default function WaterIntakeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">Health Calculators</a>
++                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WeightConverter.tsx b/components/calculators/WeightConverter.tsx
+index e6c69d3..2f5afce 100644
+--- a/components/calculators/WeightConverter.tsx
++++ b/components/calculators/WeightConverter.tsx
+@@ -174,12 +174,12 @@ export default function WeightConverter() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">Converters</a>
++                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WeightedGradeCalculator.tsx b/components/calculators/WeightedGradeCalculator.tsx
+index 0fcb7c8..430411d 100644
+--- a/components/calculators/WeightedGradeCalculator.tsx
++++ b/components/calculators/WeightedGradeCalculator.tsx
+@@ -206,12 +206,12 @@ export default function WeightedGradeCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft">Education Calculators</a>
++                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/components/calculators/WorkingDaysCalculator.tsx b/components/calculators/WorkingDaysCalculator.tsx
+index 28727f0..c4f39a8 100644
+--- a/components/calculators/WorkingDaysCalculator.tsx
++++ b/components/calculators/WorkingDaysCalculator.tsx
+@@ -188,12 +188,12 @@ export default function WorkingDaysCalculator() {
+             <nav aria-label="Breadcrumb" className="mb-5">
+                 <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">Home</a>
++                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
+                         <meta itemProp="position" content="1" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+                     <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
+-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft">Time Calculators</a>
++                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
+                         <meta itemProp="position" content="2" />
+                     </li>
+                     <li className="text-ink-soft">/</li>
+diff --git a/lib/imgAlt.ts b/lib/imgAlt.ts
+new file mode 100644
+index 0000000..54a8183
+--- /dev/null
++++ b/lib/imgAlt.ts
+@@ -0,0 +1,45 @@
++// lib/imgAlt.ts
++//
++// Blog posts are written in the admin editor, and an image pasted or inserted
++// there can end up with no alt text (or alt=""). Search engines and screen
++// readers want a description, so every <img> in a post gets one: its own alt if
++// the author wrote it, otherwise a readable name taken from the file name, otherwise
++// the post title. Pure string work, runs at render time, never edits the database.
++
++function decode(text: string): string {
++  return text.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'");
++}
++
++function escapeAttr(text: string): string {
++  return text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
++}
++
++function altFromSrc(src: string, fallback: string): string {
++  try {
++    const file = decodeURIComponent(src.split('?')[0].split('#')[0].split('/').pop() || '');
++    const name = file
++      .replace(/\.[a-z0-9]{2,5}$/i, '')
++      .replace(/[-_+]+/g, ' ')
++      .replace(/\b\d{6,}\b/g, '')
++      .replace(/\s+/g, ' ')
++      .trim();
++    // File names like "img 4821" or a bare hash say nothing useful.
++    if (name.length >= 4 && /[a-z]{3,}/i.test(name) && !/^[0-9a-f]{16,}$/i.test(name)) return name;
++  } catch {
++    /* fall through */
++  }
++  return fallback;
++}
++
++export function ensureImgAlt(html: string, fallbackAlt: string): string {
++  const fallback = decode(fallbackAlt).trim() || 'Illustration';
++  return html.replace(/<img\b[^>]*>/gi, (tag) => {
++    const altMatch = /\salt\s*=\s*("([^"]*)"|'([^']*)')/i.exec(tag);
++    const existing = altMatch ? (altMatch[2] ?? altMatch[3] ?? '').trim() : '';
++    if (existing) return tag;
++    const srcMatch = /\ssrc\s*=\s*("([^"]*)"|'([^']*)')/i.exec(tag);
++    const alt = escapeAttr(altFromSrc(srcMatch ? srcMatch[2] ?? srcMatch[3] ?? '' : '', fallback));
++    if (altMatch) return tag.replace(altMatch[0], ` alt="${alt}"`);
++    return tag.replace(/<img\b/i, `<img alt="${alt}"`);
++  });
++}
+diff --git a/lib/indexNow.ts b/lib/indexNow.ts
+new file mode 100644
+index 0000000..f9b25f6
+--- /dev/null
++++ b/lib/indexNow.ts
+@@ -0,0 +1,35 @@
++// lib/indexNow.ts
++//
++// Tells Bing (and other IndexNow search engines) the moment a page is published,
++// edited or removed, one URL at a time, instead of only in a bulk batch after each
++// deploy. The key file lives at /public/<key>.txt and the same key goes in the
++// INDEXNOW_KEY environment variable. Never throws: a failed ping must not block
++// saving a post.
++
++import { SITE_URL } from '@/lib/seo';
++
++// The key is public by design (it is served at /<key>.txt); this fallback is the
++// key already deployed in /public.
++const DEFAULT_KEY = '34fa63b2ed3d7ae2e4cba99a055e169e';
++
++export async function pingIndexNow(paths: string[]): Promise<boolean> {
++  const key = process.env.INDEXNOW_KEY || DEFAULT_KEY;
++  const urlList = Array.from(new Set(paths.map((p) => (p.startsWith('http') ? p : `${SITE_URL}${p}`))));
++  if (!urlList.length) return false;
++  try {
++    const res = await fetch('https://api.indexnow.org/IndexNow', {
++      method: 'POST',
++      headers: { 'Content-Type': 'application/json; charset=utf-8' },
++      body: JSON.stringify({
++        host: new URL(SITE_URL).host,
++        key,
++        keyLocation: `${SITE_URL}/${key}.txt`,
++        urlList,
++      }),
++      signal: AbortSignal.timeout(4000),
++    });
++    return res.ok;
++  } catch {
++    return false;
++  }
++}
+diff --git a/lib/metaFit.ts b/lib/metaFit.ts
+new file mode 100644
+index 0000000..f5dbe26
+--- /dev/null
++++ b/lib/metaFit.ts
+@@ -0,0 +1,75 @@
++// lib/metaFit.ts
++//
++// Keeps <title> and meta description inside the lengths Bing Webmaster Tools and
++// Google both like, without ever inventing content:
++//   - titles   : at most 60 characters in total (the " | Numrexo" suffix included)
++//   - descriptions: 120-160 characters. A short description is extended ONLY with
++//     real sentences already on the page (its own text), never with filler.
++// Pure string helpers, safe to use in any server component.
++
++export const TITLE_MAX = 60;
++export const DESC_MIN = 120;
++export const DESC_MAX = 160;
++
++function decode(text: string): string {
++  return text
++    .replace(/&amp;/g, '&')
++    .replace(/&lt;/g, '<')
++    .replace(/&gt;/g, '>')
++    .replace(/&quot;/g, '"')
++    .replace(/&#0?39;/g, "'")
++    .replace(/&nbsp;/g, ' ');
++}
++
++/** Plain text from an HTML string: tags, scripts and extra whitespace removed. */
++export function htmlToText(html: string): string {
++  return decode(
++    html
++      .replace(/<(script|style|figure|table|pre)[\s\S]*?<\/\1>/gi, ' ')
++      .replace(/<[^>]+>/g, ' ')
++  )
++    .replace(/\s+/g, ' ')
++    .trim();
++}
++
++function clipAtWord(text: string, max: number): string {
++  if (text.length <= max) return text;
++  const cut = text.slice(0, max - 1);
++  const lastSpace = cut.lastIndexOf(' ');
++  const base = lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut;
++  return base.replace(/[\s,;:.\-–—]+$/, '') + '…';
++}
++
++/**
++ * Title for a page whose suffix is added by us (not by the layout template).
++ * `Guide to X | Numrexo Blog` becomes `Guide to X | Numrexo` if that fits, and is
++ * clipped at a word boundary only when even the shortened form is too long.
++ */
++export function fitTitle(title: string, suffix = ' | Numrexo'): string {
++  const clean = decode(title).replace(/\s+/g, ' ').trim();
++  const full = `${clean}${suffix}`;
++  if (full.length <= TITLE_MAX) return full;
++  if (clean.length <= TITLE_MAX) return clean;
++  return clipAtWord(clean, TITLE_MAX);
++}
++
++/**
++ * Description of 120-160 characters. Uses `primary` when it is long enough;
++ * otherwise appends the next real sentences from `bodyText` (the page's own
++ * content), then clips at a word boundary.
++ */
++export function fitDescription(primary: string | null | undefined, bodyText = ''): string {
++  let text = decode(primary ?? '').replace(/\s+/g, ' ').trim();
++  if (text.length < DESC_MIN && bodyText) {
++    const body = decode(bodyText).replace(/\s+/g, ' ').trim();
++    // Skip body text that merely repeats the start of the primary text.
++    const rest = text && body.toLowerCase().startsWith(text.toLowerCase().slice(0, 40))
++      ? body.slice(text.length).trim()
++      : body;
++    if (rest) {
++      const join = text && !/[.!?…]$/.test(text) ? '. ' : ' ';
++      text = text ? `${text}${join}${rest}` : rest;
++    }
++  }
++  return clipAtWord(text, DESC_MAX);
++}
+diff --git a/lib/seo.ts b/lib/seo.ts
+index 0a2ff07..3a20dfd 100644
+--- a/lib/seo.ts
++++ b/lib/seo.ts
+@@ -10,6 +10,7 @@
+ // component and move the interactive UI into a separate client component.
+ 
+ import type { Metadata } from "next";
++import { fitTitle, TITLE_MAX } from "@/lib/metaFit";
+ import { CALCULATORS_REGISTRY, CATEGORIES, type CalculatorType } from "@/data/calculatorsRegistry";
+ import {
+   CALCULATOR_SEO,
+@@ -65,10 +66,14 @@ export function buildMetadata({
+ }: BuildMetadataArgs): Metadata {
+   const url = absoluteUrl(path);
+   // Open Graph gets the full title; the template only applies to `title`.
+-  const fullTitle = `${title} | ${SITE_NAME}`;
++  const fullTitle = fitTitle(title, ` | ${SITE_NAME}`);
++  // Bing flags titles over ~60 characters. When "<title> | Numrexo" would be too
++  // long, drop the brand suffix (absolute) instead of letting the template add it.
++  const pageTitle: Metadata["title"] =
++    `${title} | ${SITE_NAME}`.length <= TITLE_MAX ? title : { absolute: fullTitle };
+ 
+   return {
+-    title,
++    title: pageTitle,
+     description,
+     ...(keywords?.length ? { keywords } : {}),
+     alternates: { canonical: url },

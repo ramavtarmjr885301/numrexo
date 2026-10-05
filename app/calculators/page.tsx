@@ -5,7 +5,7 @@ import CalculatorsClient from "./CalculatorsClient";
 export const metadata: Metadata = buildMetadata({
   title: "All Calculators: Browse Every Numrexo Tool",
   description:
-    "Browse and search every calculator on Numrexo across finance, health, math, tax, education, construction, cooking and travel. Free, instant, and no sign-up needed.",
+    "Browse and search every Numrexo calculator across finance, health, math, tax, education, construction, cooking and travel. Free, instant, no sign-up.",
   path: "/calculators",
 });
 

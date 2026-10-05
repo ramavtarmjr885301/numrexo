@@ -1,6 +1,15 @@
 // app/not-found.tsx
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { Home, Search } from 'lucide-react';
+
+// A 404 must not share the homepage description, and should never be indexed.
+export const metadata: Metadata = {
+    title: 'Page Not Found',
+    description:
+        'This page could not be found. Use the search or browse the Numrexo calculators for finance, health, tax, math and unit conversion to find what you need.',
+    robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
     return (
