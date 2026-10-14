@@ -23,6 +23,15 @@ import {
 export const SITE_URL = "https://numrexo.com";
 export const SITE_NAME = "Numrexo";
 
+/** Default social-share image (1200x630, /public/og-image.png). Used when a page has no image of its own. */
+export const OG_IMAGE_PATH = "/og-image.png";
+export const OG_IMAGE = {
+  url: `${SITE_URL}${OG_IMAGE_PATH}`,
+  width: 1200,
+  height: 630,
+  alt: "Numrexo: free online calculators for finance, health, math and more",
+};
+
 export function absoluteUrl(path = "/"): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
@@ -87,12 +96,14 @@ export function buildMetadata({
       siteName: SITE_NAME,
       locale: "en_US",
       type,
+      images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
       site: "@numrexo",
+      images: [OG_IMAGE.url],
     },
   };
 }

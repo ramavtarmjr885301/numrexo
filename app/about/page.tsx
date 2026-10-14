@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         siteName: "Numrexo",
         images: [
             {
-                url: "https://numrexo.com/og-about.png",
+                url: "https://numrexo.com/og-image.png",
                 width: 1200,
                 height: 630,
                 alt: "Numrexo — Free Online Calculator Platform",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         title: "About Numrexo: Free Online Calculator Platform",
         description:
             `${TOOL_COUNT} free calculators for health, finance, math, and more. No login needed.`,
-        images: ["https://numrexo.com/og-about.png"],
+        images: ["https://numrexo.com/og-image.png"],
     },
     robots: {
         index: true,

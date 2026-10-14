@@ -23,10 +23,12 @@ export default function robots(): MetadataRoute.Robots {
     return {
         rules: {
             userAgent: '*',
-            allow: '/',
+            // /_next/ (CSS + JavaScript) must stay crawlable: Google renders the calculator
+            // pages with it, and a page it cannot render looks empty. /api/img/ serves the
+            // images uploaded in the blog editor, so Google Images must be able to fetch them.
+            allow: ['/', '/api/img/'],
             disallow: [
-                '/api/',      // Disable API routes
-                '/_next/',    // Disable Next.js internal files
+                '/api/',      // Disable API routes (except /api/img/, allowed above - the longer rule wins)
                 '/admin',     // Blog admin panel (only actually reachable via app.numrexo.com)
             ],
         },

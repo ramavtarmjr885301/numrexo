@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   }
 
   const canonical = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
-  const socialImage = post.ogImage || post.featuredImage;
+  const socialImage = post.ogImage || post.featuredImage || '/og-image.png';
   // metaTitle/metaDescription are the admin's optional SEO overrides - most
   // posts won't set them, so fall back to the same title/excerpt used
   // everywhere else on the site.

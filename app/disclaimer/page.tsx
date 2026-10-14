@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         type: "website",
         url: "https://numrexo.com/disclaimer",
         title: "Disclaimer: Calculator Results Are Estimates",
-        description: "Read the official disclaimer for Numrexo.com. Our calculators provide informational results only. No user data is stored. Consult a qualified professional before making decisions.",
+        description: "Numrexo calculator results are estimates for information only. Consult a qualified professional before making medical, financial or legal decisions.",
         siteName: "Numrexo",
         images: [
             {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Disclaimer: Calculator Results Are Estimates",
-        description: "Numrexo calculator results are for informational purposes only. No medical, financial, or legal advice. No data stored.",
+        description: "Numrexo calculator results are for informational purposes only and are not medical, financial or legal advice.",
         images: ["https://numrexo.com/og-image.png"],
     },
 };
