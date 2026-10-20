@@ -861,10 +861,17 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["travel budget calculator", "trip cost calculator", "vacation budget"],
   },
   "travel/flight-time-calculator": {
-    title: "Flight Time Calculator: Duration & Arrival Time",
+    title: "Flight Time Calculator: Duration, Map & Cost",
     description:
-      "Estimate flight duration between two airports from great-circle distance and cruising speed, with the time-zone difference applied to arrival time.",
-    keywords: ["flight time calculator", "flight duration", "travel time between cities"],
+      "Find any airport by city or code, see the route on a live map, and get flight duration, local arrival time and an estimated ticket price.",
+    keywords: ["flight time calculator", "flight duration", "how long is the flight", "flight cost estimate", "nearest airport"],
+    updatedAt: "2026-10-19",
+    sources: [
+      { label: "OurAirports open airport data (public domain), via the airportsdata package", url: "https://ourairports.com/data/" },
+      { label: "US Bureau of Transportation Statistics: average air fares, Q2 2026", url: "https://www.bts.gov/newsroom/second-quarter-2026-average-air-fare-increased-20-first-quarter-2026" },
+      { label: "IANA time zone database (daylight saving rules)" },
+      { label: "Map data: OpenStreetMap contributors", url: "https://www.openstreetmap.org/copyright" },
+    ],
   },
   "travel/hotel-cost-calculator": {
     title: "Hotel Cost Calculator: Total with Taxes & Fees",

@@ -72,8 +72,15 @@ export default function PrivacyPage() {
                         <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Country and currency</h3>
                         <p className="text-ink-soft leading-relaxed">
                             To show your local currency and measurement units, our hosting platform tells us the country your connection appears to
-                            come from. We never ask your browser for your location, and we do not store that country on our servers. The country you
-                            pick in the selector is saved only in your own browser.
+                            come from. We do not store that country on our servers. The country you pick in the selector is saved only in your own browser.
+                        </p>
+                        <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Flight Time Calculator and your location</h3>
+                        <p className="text-ink-soft leading-relaxed">
+                            To suggest a starting airport, the Flight Time Calculator asks our hosting platform for the approximate, city-level position of your
+                            internet connection (it can be wrong, for example on a VPN or a mobile network). It is used in your browser to pick the nearest airport,
+                            is kept only for the current browser session, and is not stored or logged on our servers. The &quot;Use my location&quot; button on that
+                            calculator asks your browser for your device location only when you press it; that position is used inside your browser to find the nearest
+                            airport and is never sent to us. The airports you search for and the routes you choose are not saved on our servers.
                         </p>
                         <h3 className="text-lg font-semibold mt-4 mb-2 text-ink">Result share images</h3>
                         <p className="text-ink-soft leading-relaxed">
