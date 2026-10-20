@@ -58,16 +58,28 @@ export const FAQ: { q: string; a: string }[] = [
     a: "Flight time is the time in the air, from wheels up to wheels down. Block time is what the airline timetable shows: from leaving the gate to arriving at the gate, so it also includes taxiing and queues. Block time is usually 20 to 30 minutes longer than the time in the air.",
   },
   {
-    q: "How accurate is this flight time calculator?",
+    q: "How accurate is this flight time and cost calculator?",
     a: "The distance is exact. The time is an estimate that we checked against about 35 well-known scheduled routes, where it averaged roughly 3 to 4 percent away from the timetable. Any single flight can differ by 10 percent or more because of the actual flight path, weather, air traffic control and the aircraft used, so treat the result as a planning figure and check your airline's timetable before you book.",
   },
   {
     q: "How much does a flight cost?",
-    a: "It depends mostly on distance, season and how early you book. The US Bureau of Transportation Statistics reported an average domestic itinerary fare of $445 in the second quarter of 2026, made up of about $312 for one-way tickets and $549 for round trips, including taxes and required fees but not bag or seat fees. The calculator shows a low, typical and high range for your route and date, which is wider than a single average because the same seat can sell for very different prices.",
+    a: "It depends mostly on distance, season and how early you book. The US Bureau of Transportation Statistics reported an average domestic itinerary fare of $445 in the second quarter of 2026, made up of about $312 for one-way tickets and $549 for round trips, including taxes and required fees but not bag or seat fees. The calculator shows a low, typical and high range for your route, which is wider than a single average because the same seat can sell for very different prices.",
+  },
+  {
+    q: "How much is a flight from New York to London?",
+    a: "Our estimate for a one-way economy ticket between New York (JFK) and London (LHR) is about $260 on a cheap day booked early, around $420 typically, and $800 or more last minute or in peak season. A return ticket is usually about 1.75 times the one-way price. The flight takes about 6 hours 45 minutes eastbound and about 8 hours back to New York.",
+  },
+  {
+    q: "How long is the flight from Delhi to London, and what does it cost?",
+    a: "Delhi (DEL) to London Heathrow (LHR) is about 4,180 miles (6,730 km). The non-stop flight takes roughly 9 hours 30 minutes, and about 8 hours in the other direction thanks to the jet stream. A one-way economy ticket typically costs around $465 (about ₹44,000), with cheap fares near $290 and last-minute fares near $890.",
+  },
+  {
+    q: "How much is a flight from Delhi to Mumbai?",
+    a: "Delhi (DEL) to Mumbai (BOM) is about 707 miles (1,140 km) and takes roughly 2 hours 15 minutes gate to gate. A one-way economy ticket typically costs around ₹6,600 (about $70), from roughly ₹4,000 on a cheap day booked early to ₹12,000 or more at the last minute.",
   },
   {
     q: "When is the cheapest time to book a flight?",
-    a: "For most routes, booking roughly one to three months before departure tends to give the lowest fares, and prices usually climb in the last two weeks. Flying midweek (Tuesday or Wednesday) or on Saturday is often cheaper than Friday or Sunday, and travel outside school holidays, summer and late December is cheaper. These are patterns, not guarantees. Our estimate applies them as small adjustments.",
+    a: "For most routes, booking roughly one to three months before departure tends to give the lowest fares, and prices usually climb in the last two weeks. Flying midweek (Tuesday or Wednesday) or on Saturday is often cheaper than Friday or Sunday, and travel outside school holidays, summer and late December is cheaper. These are patterns, not guarantees; the low end of our estimate reflects a cheap day booked early.",
   },
   {
     q: "How do I find the airport nearest to me?",
@@ -75,7 +87,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Does the calculator include the time zone change?",
-    a: "Yes. Enter a departure date and time and it converts to the local time at the destination using each airport's own time zone, including daylight saving time on that date. You can also work backwards by choosing \"I need to arrive by\" to see when you would have to leave.",
+    a: "Yes. It shows how many hours the destination is ahead of or behind the departure airport today, using each airport's own time zone and current daylight saving rules. For your local arrival time, add the flight time to your departure time and then add or subtract that difference.",
   },
   {
     q: "How long before departure should I get to the airport?",

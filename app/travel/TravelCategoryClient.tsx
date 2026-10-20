@@ -132,9 +132,9 @@ export default function TravelCategoryClient() {
                                 Set your budget and see where you can save money.
                             </p>
                             <p>
-                                The <strong className="text-ink">Flight Time Calculator</strong> estimates total travel duration
-                                including flight time, layovers, and time zone differences. Perfect for connecting flights and
-                                international travel planning.
+                                The <strong className="text-ink">Flight Time &amp; Cost Calculator</strong> searches 7,800+ airports by city or code,
+                                shows the route on a live map, and estimates how long the flight takes, the time difference, and a typical
+                                ticket price in your currency.
                             </p>
                             <p>
                                 The <strong className="text-ink">Accommodation Cost Calculator</strong> helps compare hotel,

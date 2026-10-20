@@ -861,11 +861,11 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["travel budget calculator", "trip cost calculator", "vacation budget"],
   },
   "travel/flight-time-calculator": {
-    title: "Flight Time Calculator: Duration, Map & Cost",
+    title: "Flight Time & Cost Calculator: How Long & How Much",
     description:
-      "Find any airport by city or code, see the route on a live map, and get flight duration, local arrival time and an estimated ticket price.",
-    keywords: ["flight time calculator", "flight duration", "how long is the flight", "flight cost estimate", "nearest airport"],
-    updatedAt: "2026-10-19",
+      "How long is your flight and what will it cost? Search 7,800+ airports by city, see the route on a live map, and get flight time and fare in your currency.",
+    keywords: ["flight time calculator", "flight cost calculator", "flight time and cost calculator", "how long is the flight", "how much is a flight", "flight price estimate", "flight duration"],
+    updatedAt: "2026-10-20",
     sources: [
       { label: "OurAirports open airport data (public domain), via the airportsdata package", url: "https://ourairports.com/data/" },
       { label: "US Bureau of Transportation Statistics: average air fares, Q2 2026", url: "https://www.bts.gov/newsroom/second-quarter-2026-average-air-fare-increased-20-first-quarter-2026" },

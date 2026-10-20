@@ -23,7 +23,7 @@ import {
   AIRCRAFT,
   CABIN_LABEL,
   ROUND_TRIP_MULTIPLIER,
-  buildSchedule,
+  describeZoneGap,
   durationWords,
   estimateCharter,
   estimateCo2Kg,
@@ -71,9 +71,10 @@ const FAQ_SCHEMA = JSON.stringify({
 const WEBAPP_SCHEMA = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Flight Time Calculator",
+  name: "Flight Time & Cost Calculator",
+  alternateName: ["Flight Time Calculator", "Flight Cost Calculator"],
   description:
-    "Search any airport by city or code, see the route on a live map, and estimate flight time, local arrival time and ticket cost.",
+    "Search any airport by city or code, see the route on a live map, and estimate how long the flight takes and what the ticket costs.",
   url: "https://numrexo.com/travel/flight-time-calculator",
   applicationCategory: "TravelApplication",
   operatingSystem: "Any",
@@ -83,7 +84,7 @@ const WEBAPP_SCHEMA = JSON.stringify({
     "Search 7,800+ airports by city, name or code",
     "Nearest airport detection",
     "Live route map",
-    "Flight duration and local arrival time",
+    "Flight duration and time difference",
     "Estimated ticket price and private jet charter cost",
   ],
   author: { "@type": "Organization", name: "Numrexo", url: "https://numrexo.com" },
@@ -95,28 +96,17 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://numrexo.com" },
     { "@type": "ListItem", position: 2, name: "Travel Calculators", item: "https://numrexo.com/travel" },
-    { "@type": "ListItem", position: 3, name: "Flight Time Calculator", item: "https://numrexo.com/travel/flight-time-calculator" },
+    { "@type": "ListItem", position: 3, name: "Flight Time & Cost Calculator", item: "https://numrexo.com/travel/flight-time-calculator" },
   ],
 });
 
 /* ─────────────────────────  helpers  ───────────────────────── */
 
-type Unit = "mi" | "km" | "nm";
 type Pos = { lat: number; lon: number; source: "network" | "device"; city?: string | null };
 
 const num = (n: number) => Math.round(n).toLocaleString("en-US");
 
 const GEO_CACHE_KEY = "numrexo.flightGeo";
-
-function pad2(n: number) {
-  return String(n).padStart(2, "0");
-}
-
-function plusDays(days: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-}
 
 const AIRCRAFT_OPTIONS: { value: AircraftKey; label: string }[] = [
   { value: "auto", label: "Automatic (best fit for the distance)" },
@@ -143,14 +133,9 @@ export default function FlightTimeCalculator() {
   const [from, setFrom] = useState<Airport>(() => index.byIata.get("JFK")!);
   const [to, setTo] = useState<Airport>(() => index.byIata.get("LHR")!);
   const [aircraft, setAircraft] = useState<AircraftKey>("auto");
-  const [unit, setUnit] = useState<Unit>("mi");
-  const [mode, setMode] = useState<"depart" | "arrive">("depart");
-  const [dateStr, setDateStr] = useState("");
-  const [minDate, setMinDate] = useState("");
-  const [timeStr, setTimeStr] = useState("10:00");
+  // Set after hydration so the server HTML and first client render match (time zones depend on "now").
+  const [nowMs, setNowMs] = useState<number | null>(null);
   const [cabin, setCabin] = useState<Cabin>("economy");
-  const [pax, setPax] = useState(1);
-  const [trip, setTrip] = useState<"oneway" | "round">("oneway");
   const [userPos, setUserPos] = useState<Pos | null>(null);
   const [fromNote, setFromNote] = useState<string | null>(null);
   const [locating, setLocating] = useState(false);
@@ -164,10 +149,8 @@ export default function FlightTimeCalculator() {
   const detected = useRef(false);
   const mapBoxRef = useRef<HTMLDivElement | null>(null);
 
-  /* default departure date: 30 days out (a typical booking window), set after hydration */
   useEffect(() => {
-    setDateStr((d) => d || plusDays(30));
-    setMinDate(plusDays(0));
+    setNowMs(Date.now());
   }, []);
 
   /* read ?from=XXX&to=YYY once */
@@ -370,33 +353,10 @@ export default function FlightTimeCalculator() {
   const same = from.iata === to.iata;
   const ft = useMemo(() => (same ? null : estimateFlightTime(from, to, aircraft)), [from, to, aircraft, same]);
 
-  const dateInfo = useMemo(() => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
-    const t = /^(\d{2}):(\d{2})$/.exec(timeStr);
-    if (!m || !t) return null;
-    const y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]);
-    const h = Number(t[1]), mi = Number(t[2]);
-    const now = new Date();
-    const todayUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-    const dayUtc = Date.UTC(y, mo - 1, d);
-    return {
-      y, mo, d, h, mi,
-      month: mo - 1,
-      dow: new Date(dayUtc).getUTCDay(),
-      leadDays: Math.round((dayUtc - todayUtc) / 86400000),
-    };
-  }, [dateStr, timeStr]);
-
-  const schedule = useMemo(() => {
-    if (!ft || !dateInfo) return null;
-    return buildSchedule({
-      mode,
-      y: dateInfo.y, m: dateInfo.mo, d: dateInfo.d, h: dateInfo.h, mi: dateInfo.mi,
-      originTz: from.tz,
-      destTz: to.tz,
-      blockMin: ft.blockMin,
-    });
-  }, [ft, dateInfo, mode, from.tz, to.tz]);
+  const zoneGap = useMemo(
+    () => (nowMs === null || same ? null : describeZoneGap(from.tz, to.tz, nowMs)),
+    [nowMs, same, from.tz, to.tz],
+  );
 
   const isPrivate = aircraft === "private";
 
@@ -407,53 +367,45 @@ export default function FlightTimeCalculator() {
       fromCc: from.cc,
       toCc: to.cc,
       cabin,
-      date: dateInfo ? { month: dateInfo.month, dow: dateInfo.dow, leadDays: Math.max(0, dateInfo.leadDays) } : undefined,
     });
-  }, [ft, isPrivate, from.cc, to.cc, cabin, dateInfo]);
+  }, [ft, isPrivate, from.cc, to.cc, cabin]);
 
   const charter = useMemo(() => (ft && isPrivate ? estimateCharter(ft.airborneMin) : null), [ft, isPrivate]);
 
-  const legs = trip === "round" ? ROUND_TRIP_MULTIPLIER : 1;
   const co2 = ft ? estimateCo2Kg(ft.distanceKm) : 0;
 
-  const distText = (mi: number) => {
-    if (unit === "km") return `${num(mi * 1.609344)} km`;
-    if (unit === "nm") return `${num(mi * 0.868976)} nm`;
-    return `${num(mi)} mi`;
-  };
-  const speedText = (mph: number) => (unit === "km" ? `${num(mph * 1.609344)} km/h` : unit === "nm" ? `${num(mph * 0.868976)} kt` : `${num(mph)} mph`);
+  const speedText = (mph: number) => `${num(mph)} mph (${num(mph * 1.609344)} km/h)`;
 
   const liveFlightsUrl = `https://www.google.com/travel/flights?q=${encodeURIComponent(
-    `Flights from ${from.iata} to ${to.iata}${dateStr ? ` on ${dateStr}` : ""}`,
+    `Flights from ${from.iata} to ${to.iata}`,
   )}`;
-
-  const dayLabel = (n: number) => (n === 0 ? "same day" : n === 1 ? "next day" : n === -1 ? "previous day" : `${n > 0 ? "+" : ""}${n} days`);
 
   /* ───── result rows ───── */
 
   const extraRows = ft
     ? [
         { label: "Route", value: `${from.iata} → ${to.iata}` },
-        { label: "Distance", value: `${distText(ft.distanceMi)}  (${unit === "mi" ? `${num(ft.distanceKm)} km` : `${num(ft.distanceMi)} mi`})` },
+        { label: "Distance", value: `${num(ft.distanceMi)} mi (${num(ft.distanceKm)} km)` },
         { label: "Time in the air", value: formatDuration(ft.airborneMin) },
         { label: "Likely range, gate to gate", value: `${formatDuration(ft.fastMin)} – ${formatDuration(ft.slowMin)}` },
-        ...(schedule
-          ? [
-              { label: "Departs (local)", value: `${schedule.depart.dateLabel}, ${schedule.depart.timeLabel} ${schedule.depart.zoneLabel}` },
-              { label: "Arrives (local)", value: `${schedule.arrive.dateLabel}, ${schedule.arrive.timeLabel} ${schedule.arrive.zoneLabel}` },
-              { label: "Time zone gap", value: schedule.zoneGap },
-            ]
-          : []),
+        ...(zoneGap ? [{ label: "Time difference", value: zoneGap.replace("departure city", from.iata) }] : []),
         {
           label: "Average ground speed",
-          value: `${speedText(ft.groundSpeedMph)}${Math.abs(ft.windMph) >= 10 ? ` (${ft.windMph > 0 ? "tailwind" : "headwind"} ≈ ${speedText(Math.abs(ft.windMph))})` : ""}`,
+          value: `${speedText(ft.groundSpeedMph)}${Math.abs(ft.windMph) >= 10 ? ` · ${ft.windMph > 0 ? "tailwind" : "headwind"} ≈ ${num(Math.abs(ft.windMph))} mph` : ""}`,
         },
         ...(fare
-          ? [{
-              label: `Est. fare, ${trip === "round" ? "round trip" : "one way"} × ${pax}`,
-              value: `${usd(fare.low * legs * pax)} – ${usd(fare.high * legs * pax)}`,
-              valueColor: "text-emerald-400",
-            }]
+          ? [
+              {
+                label: "Est. fare, one way",
+                value: `${usd(fare.low)} – ${usd(fare.high)}`,
+                valueColor: "text-emerald-400",
+              },
+              {
+                label: "Est. fare, return",
+                value: `${usd(fare.low * ROUND_TRIP_MULTIPLIER)} – ${usd(fare.high * ROUND_TRIP_MULTIPLIER)}`,
+                valueColor: "text-emerald-400",
+              },
+            ]
           : charter
           ? [{
               label: "Est. charter price, one way",
@@ -466,8 +418,6 @@ export default function FlightTimeCalculator() {
 
   /* ───── render ───── */
 
-  const toggle = (active: boolean) =>
-    `py-2 px-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${active ? "bg-blue-600 text-white" : "bg-surface border border-hairline text-ink"}`;
   const field = "w-full px-3 py-2.5 bg-surface border border-hairline rounded-lg text-ink text-sm";
   const lbl = "block text-xs font-semibold text-ink-faint mb-2";
 
@@ -483,7 +433,7 @@ export default function FlightTimeCalculator() {
           <li className="text-ink-soft">/</li>
           <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
           <li className="text-ink-soft">/</li>
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flight Time Calculator</span><meta itemProp="position" content="3" /></li>
+          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flight Time &amp; Cost Calculator</span><meta itemProp="position" content="3" /></li>
         </ol>
       </nav>
 
@@ -559,75 +509,51 @@ export default function FlightTimeCalculator() {
 
             <hr className="border-hairline" />
 
-            <div>
-              <label htmlFor="ft-aircraft" className={lbl}>Aircraft</label>
-              <select id="ft-aircraft" value={aircraft} onChange={(e) => { setAircraft(e.target.value as AircraftKey); }} className={field}>
-                {AIRCRAFT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-              </select>
-            </div>
-
-            <div>
-              <span className={lbl} id="ft-mode-label">Your flight time</span>
-              <div className="grid grid-cols-2 gap-2 mb-3" role="group" aria-labelledby="ft-mode-label">
-                <button type="button" aria-pressed={mode === "depart"} className={toggle(mode === "depart")} onClick={() => setMode("depart")}>I leave at…</button>
-                <button type="button" aria-pressed={mode === "arrive"} className={toggle(mode === "arrive")} onClick={() => setMode("arrive")}>I need to arrive by…</button>
+            <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-3">
+              <div>
+                <label htmlFor="ft-aircraft" className={lbl}>Aircraft</label>
+                <select id="ft-aircraft" value={aircraft} onChange={(e) => { setAircraft(e.target.value as AircraftKey); }} className={field}>
+                  {AIRCRAFT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                </select>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="ft-date" className="block text-[11px] text-ink-faint mb-1">
-                    Date ({mode === "depart" ? "local at " + from.iata : "local at " + to.iata})
-                  </label>
-                  <input id="ft-date" type="date" value={dateStr} min={minDate || undefined} onChange={(e) => setDateStr(e.target.value)} className={field} />
-                </div>
-                <div>
-                  <label htmlFor="ft-time" className="block text-[11px] text-ink-faint mb-1">Time</label>
-                  <input id="ft-time" type="time" value={timeStr} onChange={(e) => setTimeStr(e.target.value)} className={field} />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
                 <label htmlFor="ft-cabin" className={lbl}>Cabin</label>
                 <select id="ft-cabin" value={cabin} onChange={(e) => setCabin(e.target.value as Cabin)} disabled={isPrivate} className={`${field} disabled:opacity-50`}>
                   {(Object.keys(CABIN_LABEL) as Cabin[]).map((c) => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}
                 </select>
               </div>
-              <div>
-                <label htmlFor="ft-pax" className={lbl}>Travelers</label>
-                <select id="ft-pax" value={pax} onChange={(e) => setPax(Number(e.target.value))} disabled={isPrivate} className={`${field} disabled:opacity-50`}>
-                  {Array.from({ length: 9 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}
-                </select>
-              </div>
-              <div>
-                <span className={lbl} id="ft-trip-label">Trip</span>
-                <div className="grid grid-cols-2 gap-1" role="group" aria-labelledby="ft-trip-label">
-                  <button type="button" aria-pressed={trip === "oneway"} className={toggle(trip === "oneway")} onClick={() => setTrip("oneway")} disabled={isPrivate}>One way</button>
-                  <button type="button" aria-pressed={trip === "round"} className={toggle(trip === "round")} onClick={() => setTrip("round")} disabled={isPrivate}>Return</button>
-                </div>
-              </div>
-              <div>
-                <span className={lbl} id="ft-unit-label">Units</span>
-                <div className="grid grid-cols-3 gap-1" role="group" aria-labelledby="ft-unit-label">
-                  {(["mi", "km", "nm"] as Unit[]).map((u) => (
-                    <button key={u} type="button" aria-pressed={unit === u} className={toggle(unit === u)} onClick={() => setUnit(u)}>{u}</button>
-                  ))}
-                </div>
-              </div>
             </div>
+
+            {ft && !same && (
+              <div className="rounded-xl border border-hairline bg-cream p-4 text-sm text-ink-soft leading-relaxed" aria-live="polite">
+                <strong className="text-ink">Quick answer:</strong> a non-stop flight from {from.city || from.name} ({from.iata}) to {to.city || to.name} ({to.iata}) takes
+                about <strong className="text-ink">{durationWords(ft.blockMin)}</strong>
+                {fare ? (
+                  <>
+                    , and a one-way {CABIN_LABEL[cabin].toLowerCase()} ticket typically costs <strong className="text-ink">{usd(fare.typical)}</strong> ({usd(fare.low)} to {usd(fare.high)}).
+                  </>
+                ) : charter ? (
+                  <>
+                    , and chartering a mid-size private jet costs roughly <strong className="text-ink">{usd(charter.typical)}</strong> one way.
+                  </>
+                ) : (
+                  "."
+                )}
+              </div>
+            )}
           </div>
         </div>
 
         {same ? (
           <ResultBox
-            title="Flight Duration"
+            title={"Flight Time & Cost"}
             isEmpty
             emptyIcon="✈️"
             emptyText="Choose two different airports to see the flight time"
           />
         ) : (
           <ResultBox
-            title="Flight Duration"
+            title={"Flight Time & Cost"}
             isEmpty={!ft}
             emptyIcon="✈️"
             emptyText="Choose two airports to see the flight time"
@@ -682,7 +608,7 @@ export default function FlightTimeCalculator() {
       {ft && !same && (
         <section className="mb-8" aria-labelledby="ft-cost-h">
           <h2 id="ft-cost-h" className="text-xl font-semibold text-ink mb-3">
-            Estimated cost: {shortLabel(from)} to {shortLabel(to)}
+            How much does a flight from {from.city || from.name} to {to.city || to.name} cost?
           </h2>
 
           {fare && (
@@ -694,20 +620,18 @@ export default function FlightTimeCalculator() {
                   { k: "High", v: fare.high, note: "Last minute or peak season" },
                 ].map((c) => (
                   <div key={c.k} className={`rounded-xl border p-4 ${c.k === "Typical" ? "border-emerald-300 bg-emerald-50" : "border-hairline bg-surface"}`}>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · per person, {trip === "round" ? "return" : "one way"}{codeTag}</div>
-                    <div className="text-3xl font-bold font-mono text-ink mt-1">{usd(c.v * legs)}</div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · per person, one way{codeTag}</div>
+                    <div className="text-3xl font-bold font-mono text-ink mt-1">{usd(c.v)}</div>
                     <div className="text-xs text-ink-faint mt-1">{c.note}</div>
-                    {pax > 1 && <div className="text-xs text-ink-soft mt-2">For {pax} travelers: <strong>{usd(c.v * legs * pax)}</strong></div>}
+                    <div className="text-xs text-ink-soft mt-2">Return trip: <strong>{usd(c.v * ROUND_TRIP_MULTIPLIER)}</strong></div>
                   </div>
                 ))}
               </div>
               <div className="rounded-xl border border-hairline bg-surface p-4 text-sm text-ink-faint leading-relaxed">
                 <p className="mb-2">
                   <strong className="text-ink-soft">How this was estimated.</strong> A base fare that rises with distance, adjusted for the typical price level of the
-                  countries involved, your cabin ({CABIN_LABEL[cabin].toLowerCase()})
-                  {dateInfo ? <>, the season and weekday of your date, and how far ahead you would book ({dateInfo.leadDays <= 0 ? "same day" : `${dateInfo.leadDays} days`})</> : null}.
-                  The range is wide on purpose: the same seat is sold at very different prices.
-                  {trip === "round" ? ` Return fares are priced at about ${ROUND_TRIP_MULTIPLIER}× the one-way fare.` : ""}
+                  countries involved and your cabin ({CABIN_LABEL[cabin].toLowerCase()}). The low end is a cheap day booked one to three months ahead; the high end is a
+                  last-minute or peak-season ticket. A return ticket is usually about {ROUND_TRIP_MULTIPLIER}× the one-way fare, not double.
                 {currency !== "USD" &&
                     ` Prices are shown in ${currency}, converted from our US-dollar estimate at about ${USD_TO[currency]} ${currency} per US dollar (${FX_AS_OF}). Change the currency with the country selector at the top of the page.`}
                 </p>
@@ -762,11 +686,10 @@ export default function FlightTimeCalculator() {
               <p className="text-xs text-ink-faint mt-1">Per passenger in economy, one way. Rough figure from typical per-kilometer emission factors.</p>
             </div>
             <div className="rounded-xl border border-hairline bg-surface p-4">
-              <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Time zones</div>
-              <div className="text-xl font-bold text-ink mt-1">{schedule ? schedule.zoneGap.replace(" departure city", "") : "Pick a date"}</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Time difference</div>
+              <div className="text-xl font-bold text-ink mt-1">{zoneGap ? zoneGap.replace("departure city", from.iata) : "…"}</div>
               <p className="text-xs text-ink-faint mt-1">
-                {from.tz.replace("_", " ")} → {to.tz.replace("_", " ")}
-                {schedule && schedule.dayOffset !== 0 ? `. You land ${dayLabel(schedule.dayOffset)} on the clock.` : "."}
+                {from.tz.replace(/_/g, " ")} → {to.tz.replace(/_/g, " ")}. Local arrival time = your departure time + flight time ± this difference.
               </p>
             </div>
           </div>
@@ -807,8 +730,9 @@ export default function FlightTimeCalculator() {
         </div>
         <p className="text-ink-faint text-sm leading-relaxed mb-4">
           The jet-stream term uses the route&apos;s latitude and compass direction: strongest in the mid-latitudes (roughly 30° to 60°), close to zero near the equator, and
-          always helping eastbound flights and slowing westbound ones. It applies only to the cruise part of the trip, so short hops are barely affected. Third, it converts the
-          departure or arrival time between the two airports&apos; time zones using the IANA time-zone database, which includes daylight saving rules for the date you chose.
+          always helping eastbound flights and slowing westbound ones. It applies only to the cruise part of the trip, so short hops are barely affected. Third, it estimates the ticket price from distance, the
+          typical price level of the countries involved and the cabin, and shows the time difference between the two airports using the IANA time-zone database
+          (including today&apos;s daylight saving rules).
         </p>
         <div className="bg-surface border border-hairline rounded-xl overflow-x-auto">
           <table className="w-full text-sm">
@@ -879,10 +803,10 @@ export default function FlightTimeCalculator() {
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-ink mb-3">Time zones, arrival time and jet lag</h2>
         <p className="text-ink-faint text-sm leading-relaxed mb-3">
-          When you pick a date and time, the result shows the clock time on arrival at the destination, not the elapsed time. Flying east you lose hours on the clock, so a
-          7-hour flight can land the next morning; flying west you gain them, and it is even possible to land &ldquo;before&rdquo; you left. Choose{" "}
-          <em>I need to arrive by&hellip;</em> to work backwards from a meeting or a connection. Clocks change on different dates in different countries, which is why the calculator
-          uses the actual rules for your travel date instead of a fixed offset.
+          To work out the local time when you land, take your departure time, add the flight time, then add the time difference shown above (or subtract it if the
+          destination is behind). Flying east you lose hours on the clock, so a 7-hour flight can land the next morning; flying west you gain them, and it is even possible
+          to land &ldquo;before&rdquo; you left. Clocks change for daylight saving on different dates in different countries, so check the difference again if you travel in
+          March, April, October or November.
         </p>
         <p className="text-ink-faint text-sm leading-relaxed">
           Many travelers find it takes about a day to adjust for each one to two time zones crossed, and eastward trips are usually harder than westward ones. Morning daylight at
