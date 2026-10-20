@@ -35,6 +35,9 @@ import {
 } from "@/lib/flight/model";
 import { homeAirport, placeLabel, shortLabel, type Airport } from "@/lib/flight/airports";
 import { BTS_URL, FAQ, POPULAR_ROUTES } from "@/lib/flight/routes";
+import { FX_AS_OF, USD_TO, convertUsd } from "@/lib/flight/fx";
+import { useCurrency } from "@/components/common/useCurrency";
+import { formatMoney } from "@/lib/currency";
 
 // The map (Leaflet) is only loaded in the browser, and only once the visitor scrolls near it.
 const FlightMap = dynamic(() => import("./flight/FlightMap"), {
@@ -101,7 +104,6 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 type Unit = "mi" | "km" | "nm";
 type Pos = { lat: number; lon: number; source: "network" | "device"; city?: string | null };
 
-const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 const num = (n: number) => Math.round(n).toLocaleString("en-US");
 
 const GEO_CACHE_KEY = "numrexo.flightGeo";
@@ -130,6 +132,13 @@ const QUICK_ROUTES = ["JFK-LHR", "LAX-JFK", "DEL-BOM", "DEL-LHR", "LHR-DXB", "SF
 
 export default function FlightTimeCalculator() {
   const { index, full, failed } = useAirportIndex();
+
+  // Fares are estimated in US dollars and shown in the visitor's currency (auto-detected
+  // from their country, or picked in the header). USD visitors see the plain dollar figure.
+  const { currency } = useCurrency();
+  const usd = (n: number) => formatMoney(convertUsd(n, currency), currency, { decimals: 0 });
+  // "$" is shared by USD, CAD, AUD, NZD and SGD, so name the currency on the cost cards (AED/CHF already print their code).
+  const codeTag = currency === "AED" || currency === "CHF" ? "" : ` · ${currency}`;
 
   const [from, setFrom] = useState<Airport>(() => index.byIata.get("JFK")!);
   const [to, setTo] = useState<Airport>(() => index.byIata.get("LHR")!);
@@ -685,7 +694,7 @@ export default function FlightTimeCalculator() {
                   { k: "High", v: fare.high, note: "Last minute or peak season" },
                 ].map((c) => (
                   <div key={c.k} className={`rounded-xl border p-4 ${c.k === "Typical" ? "border-emerald-300 bg-emerald-50" : "border-hairline bg-surface"}`}>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · per person, {trip === "round" ? "return" : "one way"}</div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · per person, {trip === "round" ? "return" : "one way"}{codeTag}</div>
                     <div className="text-3xl font-bold font-mono text-ink mt-1">{usd(c.v * legs)}</div>
                     <div className="text-xs text-ink-faint mt-1">{c.note}</div>
                     {pax > 1 && <div className="text-xs text-ink-soft mt-2">For {pax} travelers: <strong>{usd(c.v * legs * pax)}</strong></div>}
@@ -699,9 +708,11 @@ export default function FlightTimeCalculator() {
                   {dateInfo ? <>, the season and weekday of your date, and how far ahead you would book ({dateInfo.leadDays <= 0 ? "same day" : `${dateInfo.leadDays} days`})</> : null}.
                   The range is wide on purpose: the same seat is sold at very different prices.
                   {trip === "round" ? ` Return fares are priced at about ${ROUND_TRIP_MULTIPLIER}× the one-way fare.` : ""}
+                {currency !== "USD" &&
+                    ` Prices are shown in ${currency}, converted from our US-dollar estimate at about ${USD_TO[currency]} ${currency} per US dollar (${FX_AS_OF}). Change the currency with the country selector at the top of the page.`}
                 </p>
                 <p className="mb-2">
-                  <strong className="text-ink-soft">Not included:</strong> checked bags (commonly $35 to $45 for the first bag each way on major US airlines), seat selection, meals,
+                  <strong className="text-ink-soft">Not included:</strong> checked bags (on major US airlines commonly US$35 to US$45 for the first bag each way), seat selection, meals,
                   and transport to the airport. Fares quoted here include typical taxes and airline fees.
                 </p>
                 <p>
@@ -721,7 +732,7 @@ export default function FlightTimeCalculator() {
                   { k: "Large cabin", v: charter.high },
                 ].map((c) => (
                   <div key={c.k} className={`rounded-xl border p-4 ${c.k === "Mid-size jet" ? "border-emerald-300 bg-emerald-50" : "border-hairline bg-cream"}`}>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · whole aircraft, one way</div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint">{c.k} · whole aircraft, one way{codeTag}</div>
                     <div className="text-3xl font-bold font-mono text-ink mt-1">{usd(c.v)}</div>
                   </div>
                 ))}
@@ -881,7 +892,7 @@ export default function FlightTimeCalculator() {
 
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-ink mb-3">Popular routes</h2>
-        <p className="text-ink-faint text-sm mb-3">Select a row to load it into the calculator above. Times are gate-to-gate estimates and fares are typical one-way economy.</p>
+        <p className="text-ink-faint text-sm mb-3">Select a row to load it into the calculator above. Times are gate-to-gate estimates and fares are typical one-way economy, shown in {currency}.</p>
         <div className="bg-surface border border-hairline rounded-xl overflow-x-auto">
           <table className="w-full text-sm">
             <caption className="sr-only">Estimated flight time, distance and typical fare for popular routes</caption>
