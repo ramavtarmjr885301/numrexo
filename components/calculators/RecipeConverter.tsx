@@ -284,30 +284,12 @@ export default function RecipeConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Recipe Converter</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Recipe Converter</h3>
+                        <h2 className="font-semibold">Recipe Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Scale recipes or convert units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -469,7 +451,7 @@ export default function RecipeConverter() {
                     isEmpty={!result}
                     emptyIcon="📖"
                     emptyText={calcType === "scale" ? "Add ingredients and servings" : "Enter value and units"}
-                    mainResult={result ? (calcType === "scale" ? { label: "Scaling Factor", value: `${(result as ScaleResult).factor}x`, color: "text-orange-600" } : { label: "Converted Value", value: `${(result as UnitResult).converted} ${(result as UnitResult).toUnit}`, color: "text-orange-600" }) : undefined}
+                    mainResult={result ? (calcType === "scale" ? { label: "Scaling Factor", value: `${(result as ScaleResult).factor}x`, color: "text-orange-700" } : { label: "Converted Value", value: `${(result as UnitResult).converted} ${(result as UnitResult).toUnit}`, color: "text-orange-700" }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "scale" ? [
                             { label: "Original Servings", value: `${(result as ScaleResult).originalServings}` },
@@ -513,7 +495,7 @@ export default function RecipeConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Recipe Converter?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Perfect Portions</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Perfect Portions</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Never waste food again. Scale any recipe to match your exact serving needs, whether cooking for 2 or 20 people.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -600,23 +582,23 @@ export default function RecipeConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Recipe Scaling Tips for Perfect Results</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use weight measurements:</strong> For baking, always use grams for accuracy. 1 cup of flour can vary by 20-30g depending on how you scoop.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Adjust leavening agents:</strong> When doubling, use 1.5x baking powder/soda, not 2x. Too much can make your baked goods bitter and affect texture.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Monitor cooking time:</strong> Larger portions need more time, but not double. Use the recipe's doneness indicators (toothpick test, internal temperature).</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Adjust pan size:</strong> When scaling, use pans with similar surface area. A 9x13 pan vs two 8x8 pans can affect baking time and results.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Season to taste:</strong> For spices and herbs, start with 1.5x for double recipes. You can always add more, but can't remove excess.</span>
                     </li>
                 </ul>

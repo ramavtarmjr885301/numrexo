@@ -43,7 +43,7 @@ const FAQ_DATA = [
 
 const PREGNANCY_WEEKS = [
     { trimester: "First Trimester", weeks: "1-12", keyEvents: "Conception, heartbeat, organ formation", color: "text-blue-600" },
-    { trimester: "Second Trimester", weeks: "13-27", keyEvents: "Movement felt, gender visible, growth spurt", color: "text-green-600" },
+    { trimester: "Second Trimester", weeks: "13-27", keyEvents: "Movement felt, gender visible, growth spurt", color: "text-green-700" },
     { trimester: "Third Trimester", weeks: "28-40", keyEvents: "Brain development, lung maturity, position for birth", color: "text-purple-600" },
 ];
 
@@ -198,20 +198,11 @@ export default function PregnancyDueDateCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pregnancy Due Date Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Pregnancy Due Date</h3>
+                        <h2 className="font-semibold">Pregnancy Due Date</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate your expected delivery date</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -293,7 +284,7 @@ export default function PregnancyDueDateCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know which week and trimester you're in. Understand your baby's development milestones.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Medical Appointment Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Medical Appointment Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Schedule prenatal visits, ultrasounds, and important tests at the right gestational age.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

@@ -312,15 +312,6 @@ export default function SimpleInvoiceGenerator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FAQ_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/business" className="hover:text-ink-soft">Business Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Invoice Generator</span></li>
-                </ol>
-            </nav>
 
             {/* ─── Control bar ─────────────────────────────────────────────── */}
             <div className="bg-surface border border-hairline rounded-xl p-4 mb-4">
@@ -529,19 +520,19 @@ export default function SimpleInvoiceGenerator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">How to Make an Invoice</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">1. Say who it is from and who it is for</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">1. Say who it is from and who it is for</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Your business name and contact details at the top, the client&apos;s billing name and address under &quot;Bill to&quot;. Use the client&apos;s registered name rather than a trading name if you are invoicing a company — that is the name on the account that will pay you.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">2. Number and date it</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">2. Number and date it</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">A unique invoice number in an unbroken sequence, the date you issued it, and the date payment is due. Choosing a payment term above sets the due date for you; you can still type over it.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">3. List what you supplied</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">3. List what you supplied</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">One line per item or task, with quantity and rate. Be specific — &quot;Homepage design, 2 rounds of revisions&quot; gets paid faster than &quot;Design work&quot;, because it survives being forwarded to somebody who was not in the meeting.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">4. Check the total and download</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">4. Check the total and download</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">The total updates as you type. Press Download Invoice, then pick &quot;Save as PDF&quot; as the destination in the print dialog instead of a printer.</p>
                     </div>
                 </div>

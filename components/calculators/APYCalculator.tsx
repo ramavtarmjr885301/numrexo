@@ -155,30 +155,12 @@ export default function APYCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">APY Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">APY Calculator</h3>
+                        <h2 className="font-semibold">APY Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate true annual return with compound interest</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -230,7 +212,7 @@ export default function APYCalculator() {
                     emptyText="Enter your investment details"
                     mainResult={result ? { label: "Annual Percentage Yield (APY)", value: `${result.apy}%`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Final Amount", value: `${symbol}${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-600" },
+                        { label: "Final Amount", value: `${symbol}${parseFloat(result.finalAmount).toLocaleString()}`, valueColor: "text-green-700" },
                         { label: "Total Interest Earned", value: `${symbol}${parseFloat(result.totalInterest).toLocaleString()}` },
                         { label: "Principal Amount", value: `${symbol}${parseFloat(result.principal).toLocaleString()}` },
                         { label: "Interest Rate (APR)", value: `${result.rate}%` },
@@ -296,7 +278,7 @@ export default function APYCalculator() {
                         <p className="text-xs text-ink-faint">• Higher = better for savers</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">APR (Annual Percentage Rate)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">APR (Annual Percentage Rate)</h3>
                         <p className="text-xs text-ink-faint">• Does NOT include compounding</p>
                         <p className="text-xs text-ink-faint">• Used for loans, credit cards, mortgages</p>
                         <p className="text-xs text-ink-faint">• Shows base interest rate</p>

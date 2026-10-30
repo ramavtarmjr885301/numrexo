@@ -188,30 +188,12 @@ export default function WaterBillCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Water Bill Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Water Bill Estimator</h3>
+                        <h2 className="font-semibold">Water Bill Estimator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate your monthly water bill</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -389,7 +371,7 @@ export default function WaterBillCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Compare single vs tiered rate structures. See how different rate systems affect your total bill.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Conservation Insights</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Conservation Insights</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Understand how your consumption habits affect your bill. Identify opportunities to save water and money.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -417,31 +399,31 @@ export default function WaterBillCalculator() {
                                 <td className="py-3 px-4 text-ink-soft">1 person</td>
                                 <td className="py-3 px-4 text-ink-faint">3,600 gal</td>
                                 <td className="py-3 px-4 text-yellow-700">$35-50</td>
-                                <td className="py-3 px-4 text-green-600">Save 1,000+ gal</td>
+                                <td className="py-3 px-4 text-green-700">Save 1,000+ gal</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">2 persons</td>
                                 <td className="py-3 px-4 text-ink-faint">6,000 gal</td>
                                 <td className="py-3 px-4 text-yellow-700">$50-70</td>
-                                <td className="py-3 px-4 text-green-600">Save 2,000+ gal</td>
+                                <td className="py-3 px-4 text-green-700">Save 2,000+ gal</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">3 persons</td>
                                 <td className="py-3 px-4 text-ink-faint">9,000 gal</td>
                                 <td className="py-3 px-4 text-yellow-700">$70-95</td>
-                                <td className="py-3 px-4 text-green-600">Save 3,000+ gal</td>
+                                <td className="py-3 px-4 text-green-700">Save 3,000+ gal</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">4 persons</td>
                                 <td className="py-3 px-4 text-ink-faint">12,000 gal</td>
                                 <td className="py-3 px-4 text-yellow-700">$90-120</td>
-                                <td className="py-3 px-4 text-green-600">Save 4,000+ gal</td>
+                                <td className="py-3 px-4 text-green-700">Save 4,000+ gal</td>
                             </tr>
                             <tr className="hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">5 persons</td>
                                 <td className="py-3 px-4 text-ink-faint">15,000 gal</td>
                                 <td className="py-3 px-4 text-yellow-700">$110-150</td>
-                                <td className="py-3 px-4 text-green-600">Save 5,000+ gal</td>
+                                <td className="py-3 px-4 text-green-700">Save 5,000+ gal</td>
                             </tr>
                         </tbody>
                     </table>
@@ -468,7 +450,7 @@ export default function WaterBillCalculator() {
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">Tier 1</td>
                                 <td className="py-3 px-4 text-ink-faint">0 - 2,000</td>
-                                <td className="py-3 px-4 text-green-600">$0.006</td>
+                                <td className="py-3 px-4 text-green-700">$0.006</td>
                                 <td className="py-3 px-4 text-ink-faint">Efficient usage</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -480,7 +462,7 @@ export default function WaterBillCalculator() {
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">Tier 3</td>
                                 <td className="py-3 px-4 text-ink-faint">6,001 - 12,000</td>
-                                <td className="py-3 px-4 text-orange-600">$0.010</td>
+                                <td className="py-3 px-4 text-orange-700">$0.010</td>
                                 <td className="py-3 px-4 text-ink-faint">High usage</td>
                             </tr>
                             <tr className="hover:bg-cream">

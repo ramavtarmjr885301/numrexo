@@ -59,19 +59,10 @@ export default function AgeCalculator() {
 
   return (
     <>
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/math" className="hover:text-ink-soft">Math Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">Age Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Birth Date</h3></div>
+          <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Birth Date</h2></div>
           <div className="p-6 space-y-4">
             <div className="grid grid-cols-3 gap-3">
               <div><label className="block text-xs font-semibold text-ink-faint mb-2">Day</label><input type="number" placeholder="15" min="1" max="31" value={day} onChange={(e) => setDay(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none" /></div>

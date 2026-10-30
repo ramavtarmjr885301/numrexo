@@ -86,11 +86,11 @@ export default function PercentageMarksCalculator() {
         let gradeColor = "";
 
         if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
-        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
-        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-700"; }
+        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-700"; }
         else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
         else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
-        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-700"; }
         else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
@@ -136,11 +136,11 @@ export default function PercentageMarksCalculator() {
         let gradeColor = "";
 
         if (overallPercentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
-        else if (overallPercentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
-        else if (overallPercentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (overallPercentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-700"; }
+        else if (overallPercentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-700"; }
         else if (overallPercentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
         else if (overallPercentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
-        else if (overallPercentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else if (overallPercentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-700"; }
         else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
@@ -169,11 +169,11 @@ export default function PercentageMarksCalculator() {
         let gradeColor = "";
 
         if (percentage >= 90) { grade = "A+ (Outstanding)"; gradeColor = "text-purple-600"; }
-        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-600"; }
-        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-600"; }
+        else if (percentage >= 80) { grade = "A (Excellent)"; gradeColor = "text-green-700"; }
+        else if (percentage >= 70) { grade = "B+ (Very Good)"; gradeColor = "text-teal-700"; }
         else if (percentage >= 60) { grade = "B (Good)"; gradeColor = "text-blue-600"; }
         else if (percentage >= 50) { grade = "C (Average)"; gradeColor = "text-yellow-700"; }
-        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-600"; }
+        else if (percentage >= 40) { grade = "D (Pass)"; gradeColor = "text-orange-700"; }
         else { grade = "F (Fail)"; gradeColor = "text-red-600"; }
 
         setResult({
@@ -206,20 +206,11 @@ export default function PercentageMarksCalculator() {
 
     return (
         <>
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Percentage Marks Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Marks Calculator</h3>
+                        <h2 className="font-semibold">Marks Calculator</h2>
                         <p className="text-xs text-ink-faint">Calculate percentage from marks or CGPA</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -247,7 +238,7 @@ export default function PercentageMarksCalculator() {
                             <>
                                 <div className="flex justify-between items-center">
                                     <label className="text-xs font-semibold text-ink-faint">Subjects</label>
-                                    <button onClick={addSubject} className="text-xs px-2 py-1 bg-teal-50 text-teal-600 rounded hover:bg-teal-50">+ Add Subject</button>
+                                    <button onClick={addSubject} className="text-xs px-2 py-1 bg-teal-50 text-teal-700 rounded hover:bg-teal-50">+ Add Subject</button>
                                 </div>
                                 <div className="space-y-3 max-h-64 overflow-y-auto">
                                     {subjects.map((sub, idx) => (
@@ -357,7 +348,7 @@ export default function PercentageMarksCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Percentage Marks Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Exam Results</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Exam Results</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate your exam percentage instantly. Know your exact score without manual math errors.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -365,7 +356,7 @@ export default function PercentageMarksCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate CBSE, ICSE, or state board percentages. Convert CGPA to percentage using official formulas.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Multiple Subjects</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Multiple Subjects</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Handle any number of subjects. Perfect for semester results, annual exams, and competitive exams.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -380,11 +371,11 @@ export default function PercentageMarksCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Grading Scale Reference</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                     <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-purple-600 font-bold">90%+</span><p className="text-xs text-ink-faint">A+ (Outstanding)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-green-600 font-bold">80-89%</span><p className="text-xs text-ink-faint">A (Excellent)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-teal-600 font-bold">70-79%</span><p className="text-xs text-ink-faint">B+ (Very Good)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-green-700 font-bold">80-89%</span><p className="text-xs text-ink-faint">A (Excellent)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-teal-700 font-bold">70-79%</span><p className="text-xs text-ink-faint">B+ (Very Good)</p></div>
                     <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-blue-600 font-bold">60-69%</span><p className="text-xs text-ink-faint">B (Good)</p></div>
                     <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-yellow-700 font-bold">50-59%</span><p className="text-xs text-ink-faint">C (Average)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-orange-600 font-bold">40-49%</span><p className="text-xs text-ink-faint">D (Pass)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2 text-center"><span className="text-orange-700 font-bold">40-49%</span><p className="text-xs text-ink-faint">D (Pass)</p></div>
                 </div>
             </section>
 
@@ -392,9 +383,9 @@ export default function PercentageMarksCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Marks to Percentage Conversion Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Quick mental math:</strong> For exams out of 100, percentage is simply your marks. For others, use division.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Multiple subjects:</strong> Always sum obtained marks and total marks separately, then apply formula.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">CGPA conversion:</strong> CBSE standard is 9.5. Some universities use 10 or 9. Check official notification.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Quick mental math:</strong> For exams out of 100, percentage is simply your marks. For others, use division.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Multiple subjects:</strong> Always sum obtained marks and total marks separately, then apply formula.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">CGPA conversion:</strong> CBSE standard is 9.5. Some universities use 10 or 9. Check official notification.</span></li>
                 </ul>
             </section>
 
@@ -406,8 +397,8 @@ export default function PercentageMarksCalculator() {
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">CGPA</th><th className="text-left py-3 px-4 text-ink-faint">CBSE (×9.5)</th><th className="text-left py-3 px-4 text-ink-faint">Some Univ (×10)</th><th className="text-left py-3 px-4 text-ink-faint">Grade</th></tr></thead>
                         <tbody>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">10.0</td><td className="py-2 px-4 text-yellow-700">95%</td><td className="py-2 px-4">100%</td><td className="py-2 px-4 text-purple-600">A+</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">9.0</td><td className="py-2 px-4 text-yellow-700">85.5%</td><td className="py-2 px-4">90%</td><td className="py-2 px-4 text-green-600">A</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">8.0</td><td className="py-2 px-4 text-yellow-700">76%</td><td className="py-2 px-4">80%</td><td className="py-2 px-4 text-teal-600">B+</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">9.0</td><td className="py-2 px-4 text-yellow-700">85.5%</td><td className="py-2 px-4">90%</td><td className="py-2 px-4 text-green-700">A</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">8.0</td><td className="py-2 px-4 text-yellow-700">76%</td><td className="py-2 px-4">80%</td><td className="py-2 px-4 text-teal-700">B+</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">7.0</td><td className="py-2 px-4 text-yellow-700">66.5%</td><td className="py-2 px-4">70%</td><td className="py-2 px-4 text-blue-600">B</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">6.0</td><td className="py-2 px-4 text-yellow-700">57%</td><td className="py-2 px-4">60%</td><td className="py-2 px-4 text-yellow-700">C</td></tr>
                         </tbody>

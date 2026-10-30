@@ -127,7 +127,7 @@ export default function ROICalculator() {
 
         let performanceRating = "";
         let ratingColor = "";
-        if (roi >= 20) { performanceRating = "Excellent"; ratingColor = "text-green-600"; }
+        if (roi >= 20) { performanceRating = "Excellent"; ratingColor = "text-green-700"; }
         else if (roi >= 10) { performanceRating = "Good"; ratingColor = "text-blue-600"; }
         else if (roi >= 0) { performanceRating = "Average"; ratingColor = "text-yellow-700"; }
         else { performanceRating = "Poor"; ratingColor = "text-red-600"; }
@@ -162,30 +162,12 @@ export default function ROICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">ROI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Investment Details</h3>
+                        <h2 className="font-semibold">Investment Details</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate your investment returns</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -257,15 +239,15 @@ export default function ROICalculator() {
                     mainResult={result ? {
                         label: "Return on Investment (ROI)",
                         value: `${result.roi}%`,
-                        color: result.isProfit ? "text-green-600" : "text-red-600"
+                        color: result.isProfit ? "text-green-700" : "text-red-600"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Net Profit / Loss", value: `${symbol}${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-600" : "text-red-600" },
+                        { label: "Net Profit / Loss", value: `${symbol}${parseFloat(result.netProfit).toLocaleString()}`, valueColor: result.isProfit ? "text-green-700" : "text-red-600" },
                         { label: "Performance Rating", value: result.performanceRating, valueColor: result.ratingColor },
                         { label: "Initial Investment", value: `${symbol}${parseFloat(result.cost).toLocaleString()}` },
                         { label: "Final Value", value: `${symbol}${parseFloat(result.final).toLocaleString()}` },
                         ...(result.cagr ? [{ label: "Annualized Return (CAGR)", value: `${result.cagr}%`, valueColor: "text-yellow-700" }] : []),
-                        { label: "Status", value: result.isProfit ? "💰 Profit" : "⚠️ Loss", valueColor: result.isProfit ? "text-green-600" : "text-red-600" },
+                        { label: "Status", value: result.isProfit ? "💰 Profit" : "⚠️ Loss", valueColor: result.isProfit ? "text-green-700" : "text-red-600" },
                     ] : []}
                 />
             </div>
@@ -312,7 +294,7 @@ export default function ROICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Track your investment performance over time. See if your investments are meeting your return expectations.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Goal Setting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Goal Setting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic ROI goals for your investments. Understand what returns you need to achieve your financial objectives.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -333,7 +315,7 @@ export default function ROICalculator() {
                         <p className="text-ink-faint text-xs">Example: $100,000 to $150,000 → ROI = (50,000 ÷ 100,000) × 100 = 50%</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Annualized ROI (CAGR)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Annualized ROI (CAGR)</h3>
                         <p className="text-ink font-mono text-sm mb-2">CAGR = (Final ÷ Initial)^(1/years) - 1 × 100</p>
                         <p className="text-ink-faint text-xs mb-2">Use when comparing investments of different durations</p>
                         <p className="text-ink-faint text-xs">Example: 50% ROI over 5 years → CAGR = (1.5)^(1/5) - 1 × 100 = 8.45% annually</p>
@@ -361,7 +343,7 @@ export default function ROICalculator() {
                                     <td className="py-3 px-4 text-yellow-700">{row.typicalROI}</td>
                                     <td className={`py-3 px-4 ${row.risk === "High" ? "text-red-600" :
                                         row.risk === "Medium" ? "text-yellow-700" :
-                                            row.risk === "Low" ? "text-green-600" :
+                                            row.risk === "Low" ? "text-green-700" :
                                                 "text-blue-600"
                                         }`}>{row.risk}</td>
                                     <td className="py-3 px-4 text-ink-faint">{row.timeHorizon}</td>
@@ -402,7 +384,7 @@ export default function ROICalculator() {
                             </ul>
                         </div>
                         <div className="bg-surface border border-hairline rounded-lg p-3">
-                            <h4 className="text-xs font-semibold text-green-600 mb-2">Low Risk (6-8% ROI)</h4>
+                            <h4 className="text-xs font-semibold text-green-700 mb-2">Low Risk (6-8% ROI)</h4>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Fixed deposits</li>
                                 <li>• Government bonds</li>

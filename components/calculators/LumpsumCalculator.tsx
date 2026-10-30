@@ -116,7 +116,7 @@ export default function LumpsumCalculator() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Investment Details</h3>
+                        <h2 className="font-semibold">Investment Details</h2>
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
@@ -197,7 +197,7 @@ export default function LumpsumCalculator() {
                     } : undefined}
                     extraRows={result ? [
                         { label: "Principal Amount", value: `₹${result.principal}` },
-                        { label: "Total Interest", value: `₹${result.interest}`, valueColor: "text-green-600" },
+                        { label: "Total Interest", value: `₹${result.interest}`, valueColor: "text-green-700" },
                         { label: "CAGR Return", value: `${result.cagr}%` },
                         { label: "Tenure", value: `${result.years} years at ${result.rate}% p.a.` }
                     ] : undefined}
@@ -239,7 +239,7 @@ export default function LumpsumCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Plan for retirement, children's education, or buying a house. Know exactly how much your lumpsum will grow over time.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Investment Options</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Investment Options</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare FD (6-7%), Debt funds (7-9%), and Equity funds (10-14%). Choose the best option for your risk profile.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -301,7 +301,7 @@ export default function LumpsumCalculator() {
                         <p className="text-xs text-ink-faint">• Lower cost (no transaction fees)</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">SIP</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">SIP</h3>
                         <p className="text-xs text-ink-faint">• Regular monthly investments</p>
                         <p className="text-xs text-ink-faint">• Rupee cost averaging benefits</p>
                         <p className="text-xs text-ink-faint">• No market timing needed</p>
@@ -341,7 +341,7 @@ export default function LumpsumCalculator() {
                         <p className="text-xs text-ink-faint">• Best for bull markets</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">SIP</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">SIP</h3>
                         <p className="text-xs text-ink-faint">• Regular monthly investments</p>
                         <p className="text-xs text-ink-faint">• Rupee cost averaging benefits</p>
                         <p className="text-xs text-ink-faint">• No market timing needed</p>

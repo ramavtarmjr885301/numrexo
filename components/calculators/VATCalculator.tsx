@@ -175,41 +175,12 @@ export default function VATCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Error Fixed Here */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Tax Calculators</span> {/* ✅ Error Fixed Here */}
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">VAT Calculator</span> {/* ✅ Error Fixed Here */}
-            {/* The last breadcrumb item has no URL, so itemProp="item" is omitted */}
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">VAT Calculation</h3>
+                        <h2 className="font-semibold">VAT Calculation</h2>
                         <p className="text-xs text-ink-faint mt-1">For UK, Europe, Canada, Australia</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -294,7 +265,7 @@ export default function VATCalculator() {
                     } : undefined}
                     extraRows={result ? [
                         { label: calcType === "add" ? "Original Amount" : "Gross Amount (with VAT)", value: calcType === "add" ? result.netAmount : result.grossAmount },
-                        { label: `VAT Amount (${result.vatRate}%)`, value: result.vatAmount, valueColor: "text-green-600" },
+                        { label: `VAT Amount (${result.vatRate}%)`, value: result.vatAmount, valueColor: "text-green-700" },
                         { label: calcType === "add" ? "Total with VAT" : "VAT Exclusive Price", value: calcType === "add" ? result.grossAmount : result.netAmount },
                     ] : []}
                 />
@@ -346,7 +317,7 @@ export default function VATCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate both VAT-inclusive and VAT-exclusive prices. Essential for business accounting and pricing.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Business Compliance</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Business Compliance</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Accurate VAT calculations help with VAT return filing, invoice accuracy, and tax compliance.</p>
                     </div>
                 </div>
@@ -357,13 +328,13 @@ export default function VATCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">VAT Calculation Formula</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Add VAT</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Add VAT</h3>
                         <p className="text-ink font-mono text-sm mb-2">Gross Amount = Net Amount × (1 + VAT Rate/100)</p>
                         <p className="text-ink-faint text-xs mb-2">VAT Amount = Net Amount × (VAT Rate/100)</p>
                         <p className="text-ink-faint text-xs">Example: $1000 × 1.20 = $1200 (VAT $200)</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Remove VAT</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">Remove VAT</h3>
                         <p className="text-ink font-mono text-sm mb-2">Net Amount = Gross Amount ÷ (1 + VAT Rate/100)</p>
                         <p className="text-ink-faint text-xs mb-2">VAT Amount = Gross Amount - Net Amount</p>
                         <p className="text-ink-faint text-xs">Example: $1200 ÷ 1.20 = $1000 (VAT $200)</p>
@@ -435,7 +406,7 @@ export default function VATCalculator() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface rounded-lg p-3 border border-green-100">
-                            <h4 className="text-sm font-semibold text-green-600 mb-2">✅ VAT</h4>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">✅ VAT</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Charged at each stage of production</li>
                                 <li>• Businesses can claim input VAT credits</li>
@@ -445,7 +416,7 @@ export default function VATCalculator() {
                             </ul>
                         </div>
                         <div className="bg-surface rounded-lg p-3 border border-orange-100">
-                            <h4 className="text-sm font-semibold text-orange-600 mb-2">🛒 Sales Tax</h4>
+                            <h3 className="text-sm font-semibold text-orange-700 mb-2">🛒 Sales Tax</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Charged only at final sale</li>
                                 <li>• No input tax credits</li>

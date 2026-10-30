@@ -233,7 +233,7 @@ export default function HomeLoanEligibilityCalculator() {
 
         if (emiToIncomeRatio <= 15) {
             rating = "Excellent Eligibility ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (emiToIncomeRatio <= 25) {
             rating = "Good Eligibility ★★★★";
             ratingColor = "text-blue-600";
@@ -242,7 +242,7 @@ export default function HomeLoanEligibilityCalculator() {
             ratingColor = "text-yellow-700";
         } else if (emiToIncomeRatio <= 45) {
             rating = "Limited Eligibility ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Stretched Eligibility ★";
             ratingColor = "text-red-600";
@@ -293,35 +293,13 @@ export default function HomeLoanEligibilityCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Home Loan Eligibility Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Home Loan Eligibility Calculator</h3>
+                            <h2 className="font-semibold">Home Loan Eligibility Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Check how much home loan you can get</p>
                         </div>
                     </div>
@@ -554,8 +532,8 @@ export default function HomeLoanEligibilityCalculator() {
                     extraRows={result ? [
                         { label: "Eligibility Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Estimated Monthly EMI", value: `₹${result.emiFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "EMI to Income Ratio", value: `${result.emiToIncomeRatio.toFixed(1)}%`, valueColor: result.emiToIncomeRatio <= 30 ? "text-green-600" : "text-orange-600" },
-                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
+                        { label: "EMI to Income Ratio", value: `${result.emiToIncomeRatio.toFixed(1)}%`, valueColor: result.emiToIncomeRatio <= 30 ? "text-green-700" : "text-orange-700" },
+                        { label: "Total Interest", value: `₹${result.totalInterestFormatted}`, valueColor: "text-orange-700" },
                         { label: "Total Payment", value: `₹${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
                         { label: "Monthly Income", value: `₹${result.income.toFixed(2)}` },
                         { label: "Co-Applicant", value: result.hasCoApplicant ? "Yes ✅" : "No ❌" },
@@ -619,7 +597,7 @@ export default function HomeLoanEligibilityCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">📊 Existing Obligations</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">📊 Existing Obligations</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Existing EMIs reduce eligibility</li>
                             <li>• Credit card dues impact FOIR</li>
@@ -655,7 +633,7 @@ export default function HomeLoanEligibilityCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">💳 Employment Type</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">💳 Employment Type</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Salaried: Stable income, lower risk</li>
                             <li>• Self-employed: Business income, higher risk</li>
@@ -680,7 +658,7 @@ export default function HomeLoanEligibilityCalculator() {
                             <p className="text-sm text-ink">FOIR: 45%</p>
                             <p className="text-sm text-ink">Max EMI Allowed: ₹22,500</p>
                             <p className="text-sm text-yellow-700 mt-1">Existing EMI: ₹5,000</p>
-                            <p className="text-sm text-green-600">Available for Home Loan: ₹17,500</p>
+                            <p className="text-sm text-green-700">Available for Home Loan: ₹17,500</p>
                         </div>
                         <div className="bg-surface border border-hairline rounded-lg p-3">
                             <p className="text-xs text-ink-faint">FOIR Slabs</p>
@@ -715,31 +693,31 @@ export default function HomeLoanEligibilityCalculator() {
                                 <td className="py-2 px-4 text-blue-600 font-bold">₹30,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹22.5 Lakhs</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹20,243</td>
-                                <td className="py-2 px-4 text-right text-green-600">67.5%</td>
+                                <td className="py-2 px-4 text-right text-green-700">67.5%</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">₹50,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹45 Lakhs</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹40,487</td>
-                                <td className="py-2 px-4 text-right text-green-600">81.0%</td>
+                                <td className="py-2 px-4 text-right text-green-700">81.0%</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">₹75,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹72 Lakhs</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹64,780</td>
-                                <td className="py-2 px-4 text-right text-green-600">86.4%</td>
+                                <td className="py-2 px-4 text-right text-green-700">86.4%</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">₹1,00,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹1.2 Crore</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹1,07,974</td>
-                                <td className="py-2 px-4 text-right text-green-600">108.0%</td>
+                                <td className="py-2 px-4 text-right text-green-700">108.0%</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">₹1,50,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹1.8 Crore</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">₹1,61,961</td>
-                                <td className="py-2 px-4 text-right text-green-600">108.0%</td>
+                                <td className="py-2 px-4 text-right text-green-700">108.0%</td>
                             </tr>
                         </tbody>
                     </table>

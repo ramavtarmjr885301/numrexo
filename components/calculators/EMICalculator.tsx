@@ -136,20 +136,11 @@ export default function EMICalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: EMI_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/finance" className="hover:text-ink-soft">Finance Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">EMI Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Loan Details</h3>
+            <h2 className="font-semibold">Loan Details</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
@@ -203,9 +194,9 @@ export default function EMICalculator() {
             { label: "Total Amount (Principal + Interest)", value: `₹${result.totalAmount}` },
             { label: "Interest % of Principal", value: `${result.intPct}%` },
             ...(result.prepay ? [
-              { label: "Prepayment Amount", value: `₹${result.prepay}`, valueColor: "text-green-600" },
-              { label: "Reduced Tenure", value: `${result.reducedTenure} months`, valueColor: "text-green-600" },
-              { label: "Interest Saved", value: `₹${result.interestSaved}`, valueColor: "text-green-600" },
+              { label: "Prepayment Amount", value: `₹${result.prepay}`, valueColor: "text-green-700" },
+              { label: "Reduced Tenure", value: `${result.reducedTenure} months`, valueColor: "text-green-700" },
+              { label: "Interest Saved", value: `₹${result.interestSaved}`, valueColor: "text-green-700" },
             ] : []),
           ] : undefined}
         />
@@ -246,7 +237,7 @@ export default function EMICalculator() {
             <p className="text-ink-faint text-xs leading-relaxed">Know your exact monthly obligation before taking a loan. Plan your budget around fixed EMI payments.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Loan Offers</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Loan Offers</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Compare EMIs and total interest across different banks, interest rates, and tenures. Choose the most affordable option.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">

@@ -173,20 +173,11 @@ export default function PropertyTaxCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Tax Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Property Tax Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Property Tax Estimator</h3>
+                        <h2 className="font-semibold">Property Tax Estimator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate property tax for Indian cities</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -210,7 +201,7 @@ export default function PropertyTaxCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏠"
                     emptyText="Enter property details"
-                    mainResult={result ? { label: "Total Property Tax", value: `₹${parseFloat(result.totalTax).toLocaleString()}`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Total Property Tax", value: `₹${parseFloat(result.totalTax).toLocaleString()}`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Base Tax", value: `₹${parseFloat(result.taxAmount).toLocaleString()}` },
                         { label: "Tax Rate", value: `${result.taxRate}%`, valueColor: "text-yellow-700" },
@@ -254,7 +245,7 @@ export default function PropertyTaxCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Property Tax Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Budget Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know your annual property tax liability in advance. Plan your budget and avoid surprises.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -289,10 +280,10 @@ export default function PropertyTaxCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Property Tax Exemptions & Rebates</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Senior Citizens:</strong> 10-30% rebate in many cities (60+ years)</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Women Owners:</strong> Bangalore offers 20% rebate for properties owned by women</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Green Building:</strong> 5-10% rebate for eco-friendly constructions</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Early Payment:</strong> 5-10% discount for paying before due date</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Senior Citizens:</strong> 10-30% rebate in many cities (60+ years)</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Women Owners:</strong> Bangalore offers 20% rebate for properties owned by women</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Green Building:</strong> 5-10% rebate for eco-friendly constructions</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Early Payment:</strong> 5-10% discount for paying before due date</span></li>
                 </ul>
             </section>
 

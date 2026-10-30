@@ -121,7 +121,7 @@ export default function GratuityCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Your Employment Details</h3><p className="text-xs text-ink-faint mt-1">For employees covered under the Payment of Gratuity Act, 1972</p></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Your Employment Details</h2><p className="text-xs text-ink-faint mt-1">For employees covered under the Payment of Gratuity Act, 1972</p></div>
                     <div className="p-6 space-y-4">
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Last Drawn Basic Salary + DA</label><div className="relative"><input type="number" placeholder="50000" value={lastSalary} onChange={(e) => setLastSalary(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span></div><p className="text-xs text-ink-faint mt-1">Basic salary + Dearness Allowance (if applicable)</p></div>
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Total Years of Service</label><div className="grid grid-cols-2 gap-3"><div className="relative"><input type="number" placeholder="10" value={years} onChange={(e) => setYears(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span></div><div className="relative"><input type="number" placeholder="0" value={months} onChange={(e) => setMonths(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">months</span></div></div><p className="text-xs text-ink-faint mt-1">Need at least 5 years of continuous service to qualify</p></div>
@@ -137,10 +137,10 @@ export default function GratuityCalculator() {
                     isEmpty={!result}
                     emptyIcon="🎁"
                     emptyText="Enter your salary and years of service"
-                    mainResult={result?.eligible ? { label: "Total Gratuity (Before Tax)", value: `₹${result.gratuity}`, color: "text-orange-600" } : undefined}
+                    mainResult={result?.eligible ? { label: "Total Gratuity (Before Tax)", value: `₹${result.gratuity}`, color: "text-orange-700" } : undefined}
                     extraRows={result ? [
                         ...(result.eligible ? [
-                            { label: "Tax-Free Amount (Up to ₹20 lakhs)", value: `₹${result.taxFree}`, valueColor: "text-green-600" },
+                            { label: "Tax-Free Amount (Up to ₹20 lakhs)", value: `₹${result.taxFree}`, valueColor: "text-green-700" },
                             { label: "Taxable Portion", value: `₹${result.taxable}` },
                             { label: "Your Last Salary (Basic+DA)", value: `₹${result.salary}` },
                             { label: "Completed Years of Service", value: `${result.yearsOfService} years` },
@@ -179,11 +179,11 @@ export default function GratuityCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Gratuity Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Retirement Planning</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Retirement Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll receive when you retire. Plan your post-retirement finances with accurate gratuity estimates.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Job Switch Decision</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Job Switch Decision</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">If you're 4+ years into a job, calculate if waiting for 5 years is worth the gratuity amount you'd receive.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -201,10 +201,10 @@ export default function GratuityCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Gratuity Eligibility Criteria</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Minimum 5 years continuous service</strong> with same employer (doesn't need to be consecutive years at same location — transfers within same company count).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Applicable on resignation, retirement, or death</strong> (family receives on death).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Company with 10+ employees</strong> must provide gratuity by law. Smaller companies may still offer voluntarily.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Even if terminated</strong> (except for misconduct causing damage/loss), gratuity still payable after 5 years.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Minimum 5 years continuous service</strong> with same employer (doesn't need to be consecutive years at same location — transfers within same company count).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Applicable on resignation, retirement, or death</strong> (family receives on death).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Company with 10+ employees</strong> must provide gratuity by law. Smaller companies may still offer voluntarily.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Even if terminated</strong> (except for misconduct causing damage/loss), gratuity still payable after 5 years.</span></li>
                 </ul>
             </section>
 

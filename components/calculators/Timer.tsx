@@ -251,30 +251,12 @@ export default function Timer() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Timer</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Countdown Timer</h3>
+                        <h2 className="font-semibold">Countdown Timer</h2>
                         <p className="text-xs text-ink-faint mt-1">Set hours, minutes, and seconds • Keyboard: Space (Start/Pause), R (Reset)</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -378,17 +360,17 @@ export default function Timer() {
                     emptyText="Set a time and press Start • Spacebar to start/pause"
                     mainResult={
                         isComplete
-                            ? { label: "Time's Up!", value: "Timer Complete! 🎉", color: "text-green-600" }
+                            ? { label: "Time's Up!", value: "Timer Complete! 🎉", color: "text-green-700" }
                             : timeLeft > 0
                                 ? { label: "Time Remaining", value: displayTime, color: "text-blue-600" }
                                 : undefined
                     }
                     extraRows={
                         isComplete
-                            ? [{ label: "Status", value: "Completed", valueColor: "text-green-600" }]
+                            ? [{ label: "Status", value: "Completed", valueColor: "text-green-700" }]
                             : timeLeft > 0
                                 ? [
-                                    { label: "Status", value: isRunning ? "Running ⏳" : "Paused ⏸️", valueColor: isRunning ? "text-green-600" : "text-yellow-700" },
+                                    { label: "Status", value: isRunning ? "Running ⏳" : "Paused ⏸️", valueColor: isRunning ? "text-green-700" : "text-yellow-700" },
                                     { label: "Remaining", value: displayTime },
                                 ]
                                 : []
@@ -434,7 +416,7 @@ export default function Timer() {
                         <p className="text-ink-faint text-xs leading-relaxed">Keyboard shortcuts (Spacebar to start/pause, R to reset) let you control the timer without interrupting your activity.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Quick Presets</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Quick Presets</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">12 common timer presets from 30 seconds to 2 hours. One click to set your timer for cooking, studying, or workouts.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

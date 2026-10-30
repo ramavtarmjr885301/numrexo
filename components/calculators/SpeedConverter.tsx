@@ -160,30 +160,12 @@ export default function SpeedConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Speed Converter</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Speed Converter</h3>
+                        <h2 className="font-semibold">Speed Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between speed measurement units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -311,7 +293,7 @@ export default function SpeedConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Convert between knots, km/h, and mph for flight planning, navigation, and weather reporting. Essential for pilots and sailors.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Sports & Fitness</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Sports & Fitness</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert running speeds between m/s and km/h. Track your performance and compare with international standards.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -406,7 +388,7 @@ export default function SpeedConverter() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-yellow-700 mb-2">📊 Key Facts</h4>
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">📊 Key Facts</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• 1 km/h = 0.2778 m/s</li>
                                 <li>• 1 m/s = 3.6 km/h</li>
@@ -416,7 +398,7 @@ export default function SpeedConverter() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-blue-600 mb-2">💡 Quick Mental Math</h4>
+                            <h3 className="text-sm font-semibold text-blue-600 mb-2">💡 Quick Mental Math</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• km/h → mph: multiply by 0.6 (approx)</li>
                                 <li>• mph → km/h: multiply by 1.6 (approx)</li>

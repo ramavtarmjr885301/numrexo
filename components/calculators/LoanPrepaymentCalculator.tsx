@@ -327,35 +327,13 @@ export default function LoanPrepaymentCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Loan Prepayment Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Loan Prepayment Calculator</h3>
+                            <h2 className="font-semibold">Loan Prepayment Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">See how prepayment saves you money</p>
                         </div>
                     </div>
@@ -576,15 +554,15 @@ export default function LoanPrepaymentCalculator() {
                     mainResult={result ? {
                         label: "Total Interest Saved",
                         value: `${symbol}${result.interestSavedFormatted}`,
-                        color: "text-green-600"
+                        color: "text-green-700"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Tenure Reduced", value: `${result.tenureReduction} months`, valueColor: result.tenureReduction > 0 ? "text-green-600" : "text-ink-faint" },
+                        { label: "Tenure Reduced", value: `${result.tenureReduction} months`, valueColor: result.tenureReduction > 0 ? "text-green-700" : "text-ink-faint" },
                         { label: "Original EMI", value: `${symbol}${result.originalEmiFormatted}` },
-                        { label: "New EMI", value: `${symbol}${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-600" : "text-ink-faint" },
-                        { label: "Monthly Savings", value: `${symbol}${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-600" : "text-ink-faint" },
-                        { label: "Original Total Interest", value: `${symbol}${result.originalTotalInterestFormatted}`, valueColor: "text-orange-600" },
-                        { label: "New Total Interest", value: `${symbol}${result.newTotalInterestFormatted}`, valueColor: "text-green-600" },
+                        { label: "New EMI", value: `${symbol}${result.newEmiFormatted}`, valueColor: result.prepaymentOption === "reduce-emi" ? "text-green-700" : "text-ink-faint" },
+                        { label: "Monthly Savings", value: `${symbol}${result.monthlySaving.toFixed(2)}`, valueColor: result.monthlySaving > 0 ? "text-green-700" : "text-ink-faint" },
+                        { label: "Original Total Interest", value: `${symbol}${result.originalTotalInterestFormatted}`, valueColor: "text-orange-700" },
+                        { label: "New Total Interest", value: `${symbol}${result.newTotalInterestFormatted}`, valueColor: "text-green-700" },
                         { label: "Original Total Payment", value: `${symbol}${result.originalTotalPaymentFormatted}` },
                         { label: "New Total Payment", value: `${symbol}${result.newTotalPaymentFormatted}`, valueColor: "text-yellow-700" },
                         { label: "Prepayment Penalty", value: `${symbol}${result.penaltyAmountFormatted}`, valueColor: "text-red-600" },
@@ -605,13 +583,13 @@ export default function LoanPrepaymentCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">Without Prepayment</h4>
-                            <p className="text-xl font-bold text-orange-600">{symbol}{result.originalTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-orange-700">{symbol}{result.originalTotalInterestFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Interest</p>
                             <p className="text-xs text-ink-faint">{result.originalEmiFormatted} × {tenure} months</p>
                         </div>
                         <div className="bg-surface border border-green-200 rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">With Prepayment</h4>
-                            <p className="text-xl font-bold text-green-600">{symbol}{result.newTotalInterestFormatted}</p>
+                            <p className="text-xl font-bold text-green-700">{symbol}{result.newTotalInterestFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Interest</p>
                             <p className="text-xs text-ink-faint">{symbol}{result.newEmiFormatted} × {result.newTenure} months</p>
                         </div>
@@ -619,7 +597,7 @@ export default function LoanPrepaymentCalculator() {
                             <h4 className="text-xs text-ink-faint mb-1">You Save</h4>
                             <p className="text-xl font-bold text-yellow-700">{symbol}{result.interestSavedFormatted}</p>
                             <p className="text-xs text-ink-faint mt-1">Total Savings</p>
-                            <p className="text-xs text-green-600">⏱️ {result.tenureReduction} months saved</p>
+                            <p className="text-xs text-green-700">⏱️ {result.tenureReduction} months saved</p>
                         </div>
                     </div>
                 </section>
@@ -663,7 +641,7 @@ export default function LoanPrepaymentCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">See exactly how much money you'll save in interest by making prepayments. Compare your current loan with the prepayment scenario.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Options</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Options</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare reducing tenure versus reducing EMI. Choose the option that best fits your financial goals and monthly budget.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -690,14 +668,14 @@ export default function LoanPrepaymentCalculator() {
                             <p className="text-sm text-ink mt-1">Principal: $5,000,000</p>
                             <p className="text-sm text-ink">Rate: 9% p.a.</p>
                             <p className="text-sm text-ink">Tenure: 20 years</p>
-                            <p className="text-sm text-orange-600 mt-1">Total Interest: $5,797,000</p>
+                            <p className="text-sm text-orange-700 mt-1">Total Interest: $5,797,000</p>
                         </div>
                         <div className="bg-surface border border-green-200 rounded-lg p-3">
                             <p className="text-xs text-ink-faint">With Prepayment ($50,000 at month 24)</p>
                             <p className="text-sm text-ink mt-1">Principal Reduced by: $500,000</p>
                             <p className="text-sm text-ink">New Balance: $4,500,000</p>
-                            <p className="text-sm text-green-600 mt-1">Interest Saved: $179,614</p>
-                            <p className="text-sm text-green-600">Tenure Reduced: 3 years</p>
+                            <p className="text-sm text-green-700 mt-1">Interest Saved: $179,614</p>
+                            <p className="text-sm text-green-700">Tenure Reduced: 3 years</p>
                         </div>
                     </div>
                 </div>
@@ -719,25 +697,25 @@ export default function LoanPrepaymentCalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">$10,000</td>
-                                <td className="py-2 px-4 text-right text-green-600">$47,369</td>
+                                <td className="py-2 px-4 text-right text-green-700">$47,369</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">2 years 1 month</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">$25,000</td>
-                                <td className="py-2 px-4 text-right text-green-600">$105,693</td>
+                                <td className="py-2 px-4 text-right text-green-700">$105,693</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">4 years 11 months</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">$50,000</td>
-                                <td className="py-2 px-4 text-right text-green-600">$179,614</td>
+                                <td className="py-2 px-4 text-right text-green-700">$179,614</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">8 years 7 months</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">$100,000</td>
-                                <td className="py-2 px-4 text-right text-green-600">$275,855</td>
+                                <td className="py-2 px-4 text-right text-green-700">$275,855</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">14 years 1 month</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>

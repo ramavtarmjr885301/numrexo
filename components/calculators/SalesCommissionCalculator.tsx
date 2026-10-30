@@ -294,30 +294,12 @@ export default function SalesCommissionCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Sales Commission Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Commission Calculator</h3>
+                        <h2 className="font-semibold">Commission Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate earnings from sales</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -511,7 +493,7 @@ export default function SalesCommissionCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter sale details and press Calculate"
-                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `${symbol}${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: calcType === "split" ? "Total Commission" : "Total Commission", value: `${symbol}${parseFloat(result.commission || result.totalCommission || result.total).toLocaleString()}`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Sale Amount", value: `${symbol}${parseFloat(result.saleAmount).toLocaleString()}` },
                         ...(calcType === "simple" ? [
@@ -569,7 +551,7 @@ export default function SalesCommissionCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Commission Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Accurate Earnings</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Accurate Earnings</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly what you'll earn from each sale. Avoid errors and ensure you're getting paid correctly.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -581,7 +563,7 @@ export default function SalesCommissionCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic sales targets. Know how much you need to sell to achieve your income goals.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Professional Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Professional Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Plan your finances with confidence. Accurate commission projections help with budgeting and financial decisions.</p>
                     </div>
                 </div>
@@ -628,7 +610,7 @@ export default function SalesCommissionCalculator() {
                         <p className="text-ink-faint text-xs mt-1">With Bonus: Commission + Bonus</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Tiered Commission</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Tiered Commission</h3>
                         <p className="text-ink font-mono text-sm mb-2">Different rates for different sale levels</p>
                         <p className="text-ink-faint text-xs">Example: 5% on first $50,000</p>
                         <p className="text-ink-faint text-xs">7% on next $50,000</p>
@@ -654,15 +636,15 @@ export default function SalesCommissionCalculator() {
                     <div className="space-y-2">
                         <div className="flex justify-between items-center border-b border-hairline pb-2">
                             <span className="text-ink-faint text-sm">Tier 1: First $50,000 @ 5%</span>
-                            <span className="text-green-600 text-sm">$2,500</span>
+                            <span className="text-green-700 text-sm">$2,500</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-hairline pb-2">
                             <span className="text-ink-faint text-sm">Tier 2: Next $100,000 @ 7%</span>
-                            <span className="text-green-600 text-sm">$7,000</span>
+                            <span className="text-green-700 text-sm">$7,000</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-hairline pb-2">
                             <span className="text-ink-faint text-sm">Tier 3: Remaining $100,000 @ 10%</span>
-                            <span className="text-green-600 text-sm">$10,000</span>
+                            <span className="text-green-700 text-sm">$10,000</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">
                             <span className="text-ink font-semibold">Total Commission</span>
@@ -677,23 +659,23 @@ export default function SalesCommissionCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Tips for Maximizing Your Commission</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Focus on high-margin products:</strong> Products with higher profit margins often pay higher commissions. Understand your company's margin structure.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Build a referral pipeline:</strong> Referrals often lead to higher conversion rates and larger deals. Nurture relationships for repeat business.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Track your numbers:</strong> Monitor your sales metrics regularly. Identify which products and strategies yield the highest commissions.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Negotiate your commission structure:</strong> If you consistently exceed targets, negotiate higher rates or better tier structures.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-orange-600 mt-0.5">💡</span>
+                        <span className="text-orange-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Leverage SPIFFs and bonuses:</strong> Take advantage of special incentives for specific products or targets. These can significantly boost your earnings.</span>
                     </li>
                 </ul>

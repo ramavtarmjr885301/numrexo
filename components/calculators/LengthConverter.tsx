@@ -149,29 +149,11 @@ export default function LengthConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Length Converter</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Length Converter</h3>
+                        <h2 className="font-semibold">Length Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between metric and imperial length units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -268,7 +250,7 @@ export default function LengthConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Convert road distances, luggage dimensions, and height requirements when traveling abroad.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Construction & DIY</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Construction & DIY</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert blueprints, material dimensions, and room sizes between metric and imperial.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -296,7 +278,7 @@ export default function LengthConverter() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Imperial System</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Imperial System</h3>
                         <ul className="space-y-1 text-xs text-ink-faint list-disc list-inside">
                             <li>Inch (in) = 2.54 cm</li>
                             <li>Foot (ft) = 12 inches</li>

@@ -1,7 +1,7 @@
 // app/blog/[slug]/page.tsx
 
-import { getPublishedPostBySlug, listAllSlugs, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
-import { addHeadingIds, splitBeforeSecondH2 } from '@/lib/toc';
+import { getPublishedPostBySlug, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
+import { addHeadingIds, demoteH1, splitBeforeSecondH2 } from '@/lib/toc';
 import { tagSlug } from '@/lib/tags';
 import { CALCULATORS_REGISTRY } from '@/data/calculatorsRegistry';
 import ShareBar from '@/components/common/ShareBar';
@@ -15,10 +15,35 @@ import { Metadata } from 'next';
 import { fitTitle, fitDescription, htmlToText } from '@/lib/metaFit';
 import { ensureImgAlt } from '@/lib/imgAlt';
 
-export const revalidate = 3600;
+// Rendered per request (Patch 28). The root layout reads a request header, and
+// with ISR an unknown slug could fail with a 500 instead of a clean 404. The
+// database query is fast, and edits from the admin panel now show instantly.
+export const dynamic = 'force-dynamic';
 
 interface BlogDetailPageProps {
   params: { slug: string };
+}
+
+/**
+ * The admin's "canonical URL" field is only honoured when it is a single, valid
+ * numrexo.com address that is this post itself or one of our calculator pages.
+ * Anything else (another blog slug that may not exist, a redirecting URL, or
+ * several URLs pasted together) falls back to the post's own address - a wrong
+ * canonical tells Google not to index the page it is on.
+ */
+function canonicalFor(post: { slug: string; canonicalUrl: string | null }): string {
+  const self = `https://numrexo.com/blog/${post.slug}`;
+  const raw = (post.canonicalUrl || '').trim();
+  if (!raw || /\s/.test(raw) || (raw.match(/https?:\/\//g) || []).length !== 1) return self;
+  try {
+    const u = new URL(raw);
+    if (u.hostname !== 'numrexo.com') return self;
+    const path = u.pathname.replace(/\/+$/, '');
+    if (CALCULATORS_REGISTRY.some((c) => c.path === path)) return `https://numrexo.com${path}`;
+    return self;
+  } catch {
+    return self;
+  }
 }
 
 function formatDate(iso: string): string {
@@ -27,11 +52,6 @@ function formatDate(iso: string): string {
     month: 'short',
     year: 'numeric',
   }).format(new Date(iso));
-}
-
-export async function generateStaticParams() {
-  const slugs = await listAllSlugs();
-  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
@@ -45,7 +65,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     };
   }
 
-  const canonical = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
+  const canonical = canonicalFor(post);
   const socialImage = post.ogImage || post.featuredImage || '/og-image.png';
   // metaTitle/metaDescription are the admin's optional SEO overrides - most
   // posts won't set them, so fall back to the same title/excerpt used
@@ -96,7 +116,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     .filter((p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i)
     .slice(0, 3);
 
-  const { html: contentWithIds, items: tocItems } = addHeadingIds(ensureImgAlt(post.contentHtml, post.title));
+  const { html: contentWithIds, items: tocItems } = addHeadingIds(demoteH1(ensureImgAlt(post.contentHtml, post.title)));
   const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
   const ctaCalc = post.ctaCalculator
     ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
@@ -104,7 +124,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { before: contentBefore, after: contentAfter } = ctaCalc
     ? splitBeforeSecondH2(contentWithIds)
     : { before: contentWithIds, after: '' };
-  const postUrl = post.canonicalUrl || `https://numrexo.com/blog/${post.slug}`;
+  const postUrl = canonicalFor(post);
   const shareUrl = `https://numrexo.com/blog/${post.slug}`;
   const proseClass = 'blog-content';
 

@@ -66,9 +66,9 @@ export default function SubscribeBox({
           : `rounded-2xl border border-hairline bg-surface p-5 sm:p-6 ${className}`
       }
     >
-      <h3 className={dark ? "text-sm font-semibold text-white mb-1" : "text-lg font-semibold text-ink mb-1"}>
+      <h2 className={dark ? "text-sm font-semibold text-white mb-1" : "text-lg font-semibold text-ink mb-1"}>
         {heading}
-      </h3>
+      </h2>
       <p className={dark ? "text-xs text-gray-400 mb-3" : "text-sm text-ink-soft mb-4"}>{blurb}</p>
 
       {state === "done" ? (
@@ -117,7 +117,7 @@ export default function SubscribeBox({
           {message}
         </p>
       )}
-      <p className={dark ? "text-[11px] text-gray-500 mt-2" : "text-xs text-ink-faint mt-2"}>
+      <p className={dark ? "text-[11px] text-gray-400 mt-2" : "text-xs text-ink-faint mt-2"}>
         By subscribing you agree to our{" "}
         <Link href="/privacy" className="underline hover:no-underline">
           Privacy Policy

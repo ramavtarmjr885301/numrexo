@@ -142,20 +142,11 @@ export default function CAPMCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Investment Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">CAPM Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">CAPM Calculator</h3>
+                        <h2 className="font-semibold">CAPM Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Expected Return = Rf + β × (Rm - Rf)</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -220,7 +211,7 @@ export default function CAPMCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">CAPM tells you if a stock's expected return adequately compensates for its risk. Higher Beta stocks must offer higher returns to be worthwhile.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Stock Valuation</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Stock Valuation</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Use CAPM expected return as discount rate for DCF or Dividend Discount Model to calculate intrinsic value of stocks.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -241,10 +232,10 @@ export default function CAPMCalculator() {
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Beta Range</th><th className="text-left py-3 px-4 text-ink-faint">Risk Level</th><th className="text-left py-3 px-4 text-ink-faint">Example Sectors</th><th className="text-left py-3 px-4 text-ink-faint">Interpretation</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">&lt; 0.5</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4">Utilities, Consumer Staples</td><td className="py-2 px-4">Defensive, stable during downturns</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">&lt; 0.5</td><td className="py-2 px-4 text-green-700">Very Low</td><td className="py-2 px-4">Utilities, Consumer Staples</td><td className="py-2 px-4">Defensive, stable during downturns</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">0.5 - 1.0</td><td className="py-2 px-4 text-blue-600">Low</td><td className="py-2 px-4">Large-cap, Healthcare</td><td className="py-2 px-4">Less volatile than market</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">1.0</td><td className="py-2 px-4 text-yellow-700">Market Average</td><td className="py-2 px-4">Index Funds, Diversified</td><td className="py-2 px-4">Moves exactly with market</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">1.0 - 1.5</td><td className="py-2 px-4 text-orange-600">High</td><td className="py-2 px-4">Technology, Financials</td><td className="py-2 px-4">More volatile than market</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">1.0 - 1.5</td><td className="py-2 px-4 text-orange-700">High</td><td className="py-2 px-4">Technology, Financials</td><td className="py-2 px-4">More volatile than market</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">&gt; 1.5</td><td className="py-2 px-4 text-red-600">Very High</td><td className="py-2 px-4">Small-cap, Crypto, Growth</td><td className="py-2 px-4">Speculative, high risk/reward</td></tr>
                         </tbody>
                     </table>
@@ -260,11 +251,11 @@ export default function CAPMCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 0.6×(12-7) = 10%. Lower return than market (12%) but with much lower risk. Suitable for conservative investors.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Example 2: Average Stock (Beta = 1.0)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Example 2: Average Stock (Beta = 1.0)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.0×(12-7) = 12%. Exactly matches market return with market-average risk.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Example 3: Aggressive Growth Stock (Beta = 1.5)</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">Example 3: Aggressive Growth Stock (Beta = 1.5)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Risk-Free Rate = 7%, Market Return = 12% → Expected Return = 7 + 1.5×(12-7) = 14.5%. Higher expected return (14.5%) but with significantly higher risk. Suitable for aggressive investors.</p>
                     </div>
                 </div>

@@ -155,7 +155,7 @@ export default function ConcreteCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Concrete Volume Calculator</h3><p className="text-xs text-ink-faint mt-1">Estimate materials for your project</p></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Concrete Volume Calculator</h2><p className="text-xs text-ink-faint mt-1">Estimate materials for your project</p></div>
                     <div className="p-6 space-y-4">
                         <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
@@ -220,7 +220,7 @@ export default function ConcreteCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Concrete costs $4,000-8,000 per cubic meter. Over-ordering by 1 m³ wastes $5,000+. Under-ordering causes delays and weak cold joints.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Less Waste</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Less Waste</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Disposing extra concrete is expensive and environmentally harmful. Calculate accurately to reduce construction waste and save disposal fees.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -260,7 +260,7 @@ export default function ConcreteCalculator() {
                         <p className="text-ink-faint text-xs mt-1">Example: 10ft × 10ft × 0.33ft = 33 cu ft</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">⭕ Circular Column</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">⭕ Circular Column</h3>
                         <p className="text-ink font-mono text-sm">π × r² × H</p>
                         <p className="text-ink-faint text-xs mt-1">Example: 3.14 × (1.5²) × 10ft = 70.7 cu ft</p>
                     </div>
@@ -287,10 +287,10 @@ export default function ConcreteCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Pro Tips for Concrete Pouring</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Always add 10% waste:</strong> Ground isn't perfectly level, forms can leak, some concrete stays in the truck. This buffer saves you from disaster.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Order ready-mix for large pours:</strong> For over 5 m³, ready-mix truck is cheaper and more consistent than mixing on-site.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Pour within 90 minutes:</strong> Concrete starts setting after 90 minutes. Plan your pour so you finish before that.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Cure for 7 days minimum:</strong> Keep concrete moist with water curing or wet burlap. This increases strength by 50% vs uncured concrete.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Always add 10% waste:</strong> Ground isn't perfectly level, forms can leak, some concrete stays in the truck. This buffer saves you from disaster.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Order ready-mix for large pours:</strong> For over 5 m³, ready-mix truck is cheaper and more consistent than mixing on-site.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Pour within 90 minutes:</strong> Concrete starts setting after 90 minutes. Plan your pour so you finish before that.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Cure for 7 days minimum:</strong> Keep concrete moist with water curing or wet burlap. This increases strength by 50% vs uncured concrete.</span></li>
                 </ul>
             </section>
 

@@ -1,16 +1,18 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect } from "react";
 import {
   CalculatorType,
   CALCULATORS_REGISTRY,
+  CATEGORIES,
 } from "@/data/calculatorsRegistry";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import AuthorBox from "@/components/common/AuthorBox";
 import ShareBar from "@/components/common/ShareBar";
 import SubscribeBox from "@/components/common/SubscribeBox";
 import PageHeader from "@/components/common/PageHeader";
-import { useRouter } from "next/navigation";
 import { recordRecentCalculator } from "@/lib/recentCalculators";
 import BMICalculator from "./BMICalculator";
 import EMICalculator from "./EMICalculator";
@@ -140,7 +142,6 @@ interface CalculatorWrapperProps {
 export default function CalculatorWrapper({
   calculator,
 }: CalculatorWrapperProps) {
-  const router = useRouter();
 
   // Feeds the homepage's "Pick up where you left off" card - see
   // lib/recentCalculators.ts. Runs once per visit, browser-only.
@@ -415,8 +416,13 @@ export default function CalculatorWrapper({
     }
   };
 
+  // One visible breadcrumb per page (Patch 28). It matches the BreadcrumbList
+  // JSON-LD each calculator emits: Home > <Category> Calculators > <Calculator>.
+  const categoryName = CATEGORIES[calculator.category as keyof typeof CATEGORIES]?.name;
   const breadcrumbItems = [
-    { label: "Calculators", href: "/calculators" },
+    categoryName
+      ? { label: `${categoryName} Calculators`, href: `/${calculator.category}` }
+      : { label: "Calculators", href: "/calculators" },
     { label: calculator.name, href: calculator.path },
   ];
 
@@ -463,17 +469,17 @@ export default function CalculatorWrapper({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedCalcs.slice(0, 6).map((calc: CalculatorType) => (
-              <button
+              <Link
                 key={calc.id}
-                onClick={() => router.push(calc.path)}
-                className="bg-surface border border-hairline rounded-xl p-4 text-left transition-all hover:border-blue-300 hover:-translate-y-1"
+                href={calc.path}
+                className="block bg-surface border border-hairline rounded-xl p-4 text-left transition-all hover:border-blue-300 hover:-translate-y-1"
               >
                 <div className="text-2xl mb-2">{calc.icon}</div>
-                <h4 className="font-semibold mb-1">{calc.name}</h4>
+                <h3 className="font-semibold mb-1">{calc.name}</h3>
                 <p className="text-xs text-ink-faint">
                   {calc.desc.slice(0, 60)}…
                 </p>
-              </button>
+              </Link>
             ))}
           </div>
         </div>

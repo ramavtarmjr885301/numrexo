@@ -6,7 +6,10 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fitDescription } from '@/lib/metaFit';
 
-export const revalidate = 3600;
+// Rendered per request (Patch 28). The root layout reads a request header, and
+// with ISR an unknown slug could fail with a 500 instead of a clean 404. The
+// database query is fast, and edits from the admin panel now show instantly.
+export const dynamic = 'force-dynamic';
 
 interface TagPageProps {
   params: { tag: string };

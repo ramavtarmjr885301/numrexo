@@ -121,20 +121,11 @@ export default function GSTCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: GST_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/tax" className="hover:text-ink-soft">Tax Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">GST Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">GST Calculation</h3>
+            <h2 className="font-semibold">GST Calculation</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
@@ -181,17 +172,17 @@ export default function GSTCalculator() {
           isEmpty={!result}
           emptyIcon="🧾"
           emptyText="Enter amount to calculate GST"
-          mainResult={result ? { label: calcType === "exclusive" ? "Total Amount (with GST)" : "Original Amount (without GST)", value: `₹${formatNumber(calcType === "exclusive" ? result.post : result.pre)}`, color: "text-green-600" } : undefined}
+          mainResult={result ? { label: calcType === "exclusive" ? "Total Amount (with GST)" : "Original Amount (without GST)", value: `₹${formatNumber(calcType === "exclusive" ? result.post : result.pre)}`, color: "text-green-700" } : undefined}
           extraRows={result ? [
             { label: "Pre-GST Amount", value: `₹${formatNumber(result.pre)}` },
-            { label: `Total GST (${result.gstRate}%)`, value: `₹${formatNumber(result.gst)}`, valueColor: "text-green-600" },
+            { label: `Total GST (${result.gstRate}%)`, value: `₹${formatNumber(result.gst)}`, valueColor: "text-green-700" },
             ...(transactionType === "intrastate" ? [
               { label: `CGST (${parseFloat(result.gstRate) / 2}%)`, value: `₹${formatNumber(result.cgst)}` },
               { label: `SGST (${parseFloat(result.gstRate) / 2}%)`, value: `₹${formatNumber(result.sgst)}` },
             ] : [
               { label: `IGST (${result.gstRate}%)`, value: `₹${formatNumber(result.igst)}` },
             ]),
-            { label: "Final Amount", value: `₹${formatNumber(result.post)}`, valueColor: "text-green-600" },
+            { label: "Final Amount", value: `₹${formatNumber(result.post)}`, valueColor: "text-green-700" },
           ] : undefined}
         />
       </div>
@@ -227,7 +218,7 @@ export default function GSTCalculator() {
         <h2 className="text-xl font-semibold text-ink mb-3">Why Use a GST Calculator?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Business Invoicing</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Business Invoicing</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Generate accurate GST invoices for customers. Calculate CGST, SGST, or IGST correctly based on transaction type.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -258,7 +249,7 @@ export default function GSTCalculator() {
             </thead>
             <tbody>
               <tr className="border-b border-hairline">
-                <td className="py-2 px-4 font-semibold text-green-600">0%</td>
+                <td className="py-2 px-4 font-semibold text-green-700">0%</td>
                 <td className="py-2 px-4 text-ink-soft">Fresh milk, eggs, vegetables, bread, salt, books, healthcare, education</td>
               </tr>
               <tr className="border-b border-hairline">
@@ -270,11 +261,11 @@ export default function GSTCalculator() {
                 <td className="py-2 px-4 text-ink-soft">Packed food, tea, coffee, edible oil, sugar, medicine, railway tickets</td>
               </tr>
               <tr className="border-b border-hairline">
-                <td className="py-2 px-4 font-semibold text-orange-600">12%</td>
+                <td className="py-2 px-4 font-semibold text-orange-700">12%</td>
                 <td className="py-2 px-4 text-ink-soft">Processed food, butter, ghee, dry fruits, cell phones, Ayurvedic medicines</td>
               </tr>
               <tr className="border-b border-hairline">
-                <td className="py-2 px-4 font-semibold text-orange-600">18%</td>
+                <td className="py-2 px-4 font-semibold text-orange-700">18%</td>
                 <td className="py-2 px-4 text-ink-soft">Soaps, hair oil, toothpaste, AC, fridge, washing machine, computers, restaurant bills, telecom, financial services</td>
               </tr>
               <tr className="border-b border-hairline">

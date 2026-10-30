@@ -241,7 +241,7 @@ export default function XIRRCalculator() {
         for (const guide of XIRR_GUIDE) {
             if (xirr >= 20) {
                 rating = XIRR_GUIDE[0].rating;
-                ratingColor = "text-green-600";
+                ratingColor = "text-green-700";
                 break;
             } else if (xirr >= 15) {
                 rating = XIRR_GUIDE[1].rating;
@@ -253,7 +253,7 @@ export default function XIRRCalculator() {
                 break;
             } else if (xirr >= 8) {
                 rating = XIRR_GUIDE[3].rating;
-                ratingColor = "text-orange-600";
+                ratingColor = "text-orange-700";
                 break;
             } else if (xirr >= 0) {
                 rating = XIRR_GUIDE[4].rating;
@@ -298,44 +298,13 @@ export default function XIRRCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        {/* Item 1: Home */}
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        {/* Item 2: Investment Calculators */}
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Investment Calculators</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        {/* Item 3: XIRR Calculator */}
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">XIRR Calculator</span> {/* ✅ Span added */}
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
-                            <h3 className="font-semibold">Cash Flows</h3>
+                            <h2 className="font-semibold">Cash Flows</h2>
                             <p className="text-xs text-ink-faint mt-1">Enter all investments (negative) and final value (positive)</p>
                         </div>
                         <button
@@ -428,13 +397,13 @@ export default function XIRRCalculator() {
                     mainResult={result ? {
                         label: "XIRR (Annualized Return)",
                         value: `${result.xirr}%`,
-                        color: "text-teal-600"
+                        color: "text-teal-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Performance Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Investment", value: `₹${parseFloat(result.totalInvestment).toLocaleString()}` },
                         { label: "Final Value", value: `₹${parseFloat(result.finalValue).toLocaleString()}`, valueColor: "text-yellow-700" },
-                        { label: "Total Return", value: `₹${parseFloat(result.totalReturn).toLocaleString()}`, valueColor: "text-green-600" },
+                        { label: "Total Return", value: `₹${parseFloat(result.totalReturn).toLocaleString()}`, valueColor: "text-green-700" },
                         { label: "Absolute Return", value: `${result.absoluteReturn}%` },
                         { label: "Investment Period", value: `${result.years} years (${result.days} days)` },
                         { label: "Number of Investments", value: result.cashFlowCount },
@@ -476,7 +445,7 @@ export default function XIRRCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use an XIRR Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ SIP Return Tracking</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ SIP Return Tracking</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate the true annualized return of your SIP investments. XIRR accounts for each installment's timing for accurate results.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -488,7 +457,7 @@ export default function XIRRCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Compare XIRR with benchmark returns. Know if your investments are beating the market or index.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Investment Decisions</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Investment Decisions</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Use XIRR to decide whether to continue, increase, or exit an investment. Make data-driven investment decisions.</p>
                     </div>
                 </div>
@@ -519,7 +488,7 @@ export default function XIRRCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-teal-200 transition-all">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">📈 XIRR</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">📈 XIRR</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Multiple investments supported</li>
                             <li>• Different dates for each cash flow</li>
@@ -545,10 +514,10 @@ export default function XIRRCalculator() {
                         </thead>
                         <tbody>
                             {XIRR_GUIDE.map((row, i) => (
-                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === 0 ? 'text-green-600' :
+                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === 0 ? 'text-green-700' :
                                     i === 1 ? 'text-blue-600' :
                                         i === 2 ? 'text-yellow-700' :
-                                            i === 3 ? 'text-orange-600' :
+                                            i === 3 ? 'text-orange-700' :
                                                 'text-red-600'
                                     }`}>
                                     <td className="py-2 px-4 font-bold">{row.range}</td>
@@ -569,23 +538,23 @@ export default function XIRRCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Investment Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Start early:</strong> The earlier you invest, the more time your money has to compound. Even small amounts invested early can significantly increase your XIRR.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Invest during market corrections:</strong> Buying more when markets are down improves your XIRR. SIPs automatically do this through rupee cost averaging.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Stay invested long-term:</strong> XIRR improves with time. Avoid frequent withdrawals that reduce compounding. Long-term investing (5-10+ years) historically yields higher XIRR.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Choose the right investments:</strong> Equity funds historically give higher XIRR than debt funds. Match your investment choice with your risk tolerance and goals.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Review your XIRR regularly:</strong> Track your XIRR annually. If it's consistently below benchmarks, consider reviewing your investment strategy.</span>
                     </li>
                 </ul>

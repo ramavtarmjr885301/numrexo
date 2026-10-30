@@ -147,20 +147,11 @@ export default function FoodExpiryCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Food Expiry Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Food Storage Guide</h3>
+                        <h2 className="font-semibold">Food Storage Guide</h2>
                         <p className="text-xs text-ink-faint mt-1">Check how long food lasts in fridge or freezer</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -188,7 +179,7 @@ export default function FoodExpiryCalculator() {
                     isEmpty={!result}
                     emptyIcon="🥫"
                     emptyText="Select a food item"
-                    mainResult={result ? { label: `${result.food} in ${result.storageMethod}`, value: result.expiryTime, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: `${result.food} in ${result.storageMethod}`, value: result.expiryTime, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Important Notes", value: result.notes, valueColor: "text-yellow-700" },
                     ] : []}
@@ -225,7 +216,7 @@ export default function FoodExpiryCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Food Expiry Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Reduce Food Waste</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Reduce Food Waste</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Stop throwing away food that's still safe. Learn actual storage times vs guessing. Save money on groceries by using food before it spoils.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -252,7 +243,7 @@ export default function FoodExpiryCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Keep fridge at 40°F or below. Use a thermometer to verify. Don't overpack — air needs to circulate. Store raw meat on bottom shelf. Keep dairy in coldest part (not door).</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">🧊 Freezer (0°F / -18°C)</h3>
+                        <h3 className="text-sm font-semibold text-cyan-700 mb-2">🧊 Freezer (0°F / -18°C)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Keep freezer at 0°F or below. Food stays safe indefinitely at this temperature, but quality decreases over time. Use freezer-safe containers. Label and date everything.</p>
                     </div>
                 </div>
@@ -307,10 +298,10 @@ export default function FoodExpiryCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Food Safety Tips</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Keep fridge at 40°F (4°C) or below</strong> — Bacteria grows rapidly above this temperature.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Freezer should be at 0°F (-18°C)</strong> — Food stays safe indefinitely at this temperature.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">When in doubt, throw it out</strong> — Don't risk food poisoning for a few dollars.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">Label and date frozen foods</strong> — Use within recommended times for best quality.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Keep fridge at 40°F (4°C) or below</strong> — Bacteria grows rapidly above this temperature.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Freezer should be at 0°F (-18°C)</strong> — Food stays safe indefinitely at this temperature.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">When in doubt, throw it out</strong> — Don't risk food poisoning for a few dollars.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">Label and date frozen foods</strong> — Use within recommended times for best quality.</span></li>
                 </ul>
             </section>
 

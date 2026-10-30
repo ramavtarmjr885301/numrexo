@@ -62,7 +62,7 @@ export default function BaseCalculator({ title, inputs, calculate, renderCustomR
       {/* Input Form */}
       <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
         <div className="px-6 py-4 border-b border-hairline">
-          <h3 className="font-semibold">{title}</h3>
+          <h2 className="font-semibold">{title}</h2>
         </div>
         <div className="p-6 space-y-4">
           {inputs.map((input) => (

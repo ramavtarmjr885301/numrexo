@@ -134,31 +134,13 @@ export default function SleepCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Sleep Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             {/* Calculator Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Wake-up Time</h3>
+                        <h2 className="font-semibold">Wake-up Time</h2>
                         <p className="text-xs text-ink-faint mt-1">Based on 90-minute sleep cycles</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -206,7 +188,7 @@ export default function SleepCalculator() {
                     extraRows={result ? result.bedTimes.map((bt: any) => ({
                         label: bt.description,
                         value: `${bt.time} (${bt.hours}h)`,
-                        valueColor: bt.hours === 7.5 ? "text-green-600" : undefined
+                        valueColor: bt.hours === 7.5 ? "text-green-700" : undefined
                     })) : []}
                 />
             </div>
@@ -257,7 +239,7 @@ export default function SleepCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">See multiple bedtime options based on different sleep durations. Find what works best with your daily routine and commitments.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Long-Term Health</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Long-Term Health</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Consistent, cycle-aligned sleep improves mental clarity, immunity, mood, and reduces risk of chronic diseases.</p>
                     </div>
                 </div>
@@ -315,8 +297,8 @@ export default function SleepCalculator() {
                             <p className="text-sm text-yellow-700">6 hours</p>
                         </div>
                         <div className="bg-surface rounded-lg p-2 text-center border border-purple-200">
-                            <p className="text-xs text-green-600">⭐ 5 cycles</p>
-                            <p className="text-sm text-green-600">7.5 hours</p>
+                            <p className="text-xs text-green-700">⭐ 5 cycles</p>
+                            <p className="text-sm text-green-700">7.5 hours</p>
                         </div>
                         <div className="bg-surface rounded-lg p-2 text-center">
                             <p className="text-xs text-ink-faint">6 cycles</p>
@@ -345,12 +327,12 @@ export default function SleepCalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">Adults (18-64)</td>
-                                <td className="py-3 px-4 text-green-600">7-9 hours</td>
+                                <td className="py-3 px-4 text-green-700">7-9 hours</td>
                                 <td className="py-3 px-4 text-ink-faint">5-6 cycles</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">Older Adults (65+)</td>
-                                <td className="py-3 px-4 text-green-600">7-8 hours</td>
+                                <td className="py-3 px-4 text-green-700">7-8 hours</td>
                                 <td className="py-3 px-4 text-ink-faint">5 cycles</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -365,7 +347,7 @@ export default function SleepCalculator() {
                             </tr>
                             <tr className="hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft">Preschool (3-5)</td>
-                                <td className="py-3 px-4 text-orange-600">10-13 hours</td>
+                                <td className="py-3 px-4 text-orange-700">10-13 hours</td>
                                 <td className="py-3 px-4 text-ink-faint">7-8.5 cycles</td>
                             </tr>
                         </tbody>

@@ -133,19 +133,10 @@ export default function EnergyConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Energy Converter</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Energy Converter</h3><p className="text-xs text-ink-faint mt-1">Convert between energy measurement units</p></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Energy Converter</h2><p className="text-xs text-ink-faint mt-1">Convert between energy measurement units</p></div>
                     <div className="p-6 space-y-4">
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex items-center gap-3">
@@ -160,7 +151,7 @@ export default function EnergyConverter() {
                     </div>
                 </div>
 
-                <ResultBox title="Converted Energy" isEmpty={!result} emptyIcon="⚡" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-green-600" } : undefined} extraRows={[]} />
+                <ResultBox title="Converted Energy" isEmpty={!result} emptyIcon="⚡" emptyText="Enter value and press Convert" mainResult={result ? { label: `${result.value} ${result.fromUnit} =`, value: `${result.converted} ${result.toUnit}`, color: "text-green-700" } : undefined} extraRows={[]} />
             </div>
 
             {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
@@ -194,7 +185,7 @@ export default function EnergyConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use an Energy Converter?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Electricity Bill Calculation</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Electricity Bill Calculation</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert appliance wattage to kWh to understand your electricity consumption and monthly bills.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -221,7 +212,7 @@ export default function EnergyConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">SI unit of energy. The energy required to apply 1 newton of force over 1 meter. 4,184 J = 1 food Calorie (kcal).</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Calorie (cal)</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">Calorie (cal)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Energy to heat 1g water by 1°C. 1 cal = 4.184 J. Food Calories (capital C) = 1 kcal = 1,000 cal.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

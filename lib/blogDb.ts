@@ -93,18 +93,27 @@ function parseFaqs(value: BlogFaq[] | string | null): BlogFaq[] {
   }
 }
 
+/**
+ * Tidy a stored title for display: some imported titles start with a stray
+ * colon (": How to Calculate Flight Time") or a list number ("1. Amortization
+ * ..."). Leading digits that are part of the title ("10 Best ...") are kept.
+ */
+export function cleanTitle(title: string): string {
+  return title.replace(/^[\s:;|\-–—]+/, '').replace(/^\d{1,2}\.\s+/, '').trim() || title;
+}
+
 function rowToPost(row: Row): BlogPost {
   return {
     id: row.id,
     slug: row.slug,
-    title: decodeEntities(row.title),
+    title: cleanTitle(decodeEntities(row.title)),
     category: row.category,
     author: decodeEntities(row.author),
     excerpt: decodeEntities(row.excerpt),
     contentHtml: row.content_html,
     contentMarkdown: row.content_markdown,
     featuredImage: row.featured_image,
-    metaTitle: row.meta_title ? decodeEntities(row.meta_title) : row.meta_title,
+    metaTitle: row.meta_title ? cleanTitle(decodeEntities(row.meta_title)) : row.meta_title,
     metaDescription: row.meta_description ? decodeEntities(row.meta_description) : row.meta_description,
     faqs: parseFaqs(row.faqs),
     published: row.published,

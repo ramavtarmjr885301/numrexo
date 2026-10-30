@@ -3,6 +3,7 @@ import { categoryLabel } from '@/lib/blogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { fitDescription } from '@/lib/metaFit';
 
 function formatDate(iso: string): string {
@@ -45,6 +46,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const label = categoryLabel(params.category);
 
   const { posts, totalPages } = await listPostsByCategory(params.category, page, perPage);
+  // An unknown or empty category (or a page past the end) is a real 404, not a 200 "no posts" page.
+  if (posts.length === 0) notFound();
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">

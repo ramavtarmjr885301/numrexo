@@ -171,30 +171,12 @@ export default function WeightConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Weight Converter</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Weight Converter</h3>
+                        <h2 className="font-semibold">Weight Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between metric and imperial weight units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -270,7 +252,7 @@ export default function WeightConverter() {
                     mainResult={result ? {
                         label: `${result.fromEmoji} ${result.value} ${result.fromUnit} =`,
                         value: `${result.converted} ${result.toUnit}`,
-                        color: "text-green-600"
+                        color: "text-green-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "From", value: result.fromUnit },
@@ -313,7 +295,7 @@ export default function WeightConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Weight Converter?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Cooking & Baking</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Cooking & Baking</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert recipes between grams, ounces, and pounds. Perfect for following international recipes with precision.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -395,7 +377,7 @@ export default function WeightConverter() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface rounded-lg p-3 border border-green-100">
-                            <h4 className="text-sm font-semibold text-green-600 mb-2">📏 Metric System</h4>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">📏 Metric System</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• <span className="text-ink-soft">Milligram (mg):</span> 1/1,000,000 kg</li>
                                 <li>• <span className="text-ink-soft">Gram (g):</span> 1/1,000 kg</li>
@@ -406,7 +388,7 @@ export default function WeightConverter() {
                             </ul>
                         </div>
                         <div className="bg-surface rounded-lg p-3 border border-blue-100">
-                            <h4 className="text-sm font-semibold text-blue-600 mb-2">🇺🇸 Imperial/US Customary</h4>
+                            <h3 className="text-sm font-semibold text-blue-600 mb-2">🇺🇸 Imperial/US Customary</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• <span className="text-ink-soft">Ounce (oz):</span> 28.35 g</li>
                                 <li>• <span className="text-ink-soft">Pound (lb):</span> 0.454 kg</li>
@@ -454,23 +436,23 @@ export default function WeightConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Weight Conversion Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Remember key conversions:</strong> 1 kg = 2.2046 lbs, 1 lb = 0.4536 kg, 1 oz = 28.35 g, 1 stone = 14 lbs. These are the most commonly used conversions.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use mental math for quick estimates:</strong> Multiply kg by 2.2 for lbs (close enough). Divide lbs by 2.2 for kg. For ounces, multiply grams by 28 for rough estimates.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Cooking conversions:</strong> 1 cup of flour = 120-150g, 1 cup of sugar = 200g. For accuracy in baking, always use weight measurements (grams) rather than volume.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use the swap button:</strong> Click 🔄 to quickly check reciprocal conversions. For example, kg to lbs and back to verify your calculations.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Know your unit abbreviations:</strong> mg (milligram), g (gram), kg (kilogram), t (tonne), oz (ounce), lb (pound), st (stone). These are used worldwide.</span>
                     </li>
                 </ul>

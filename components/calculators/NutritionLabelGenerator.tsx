@@ -49,13 +49,13 @@ const DAILY_VALUES = [
     { nutrient: "Saturated Fat", dv: "20g", limit: "Limit", color: "text-yellow-700" },
     { nutrient: "Cholesterol", dv: "300mg", limit: "Limit", color: "text-yellow-700" },
     { nutrient: "Sodium", dv: "2300mg", limit: "Limit", color: "text-yellow-700" },
-    { nutrient: "Total Carbohydrate", dv: "275g", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Dietary Fiber", dv: "28g", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Protein", dv: "50g", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Vitamin D", dv: "20mcg", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Calcium", dv: "1300mg", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Iron", dv: "18mg", limit: "Get Enough", color: "text-green-600" },
-    { nutrient: "Potassium", dv: "4700mg", limit: "Get Enough", color: "text-green-600" },
+    { nutrient: "Total Carbohydrate", dv: "275g", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Dietary Fiber", dv: "28g", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Protein", dv: "50g", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Vitamin D", dv: "20mcg", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Calcium", dv: "1300mg", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Iron", dv: "18mg", limit: "Get Enough", color: "text-green-700" },
+    { nutrient: "Potassium", dv: "4700mg", limit: "Get Enough", color: "text-green-700" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -189,20 +189,11 @@ export default function NutritionLabelGenerator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Nutrition Label Generator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Nutrition Facts</h3>
+                        <h2 className="font-semibold">Nutrition Facts</h2>
                         <p className="text-xs text-ink-faint mt-1">Enter nutritional information per serving</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -227,7 +218,7 @@ export default function NutritionLabelGenerator() {
                     isEmpty={!result}
                     emptyIcon="🏷️"
                     emptyText="Enter nutrition information and press Generate"
-                    mainResult={result ? { label: "Calories per Serving", value: `${result.calories} kcal`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Calories per Serving", value: `${result.calories} kcal`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Serving Size", value: `${result.servingSize}g (${result.servingsPerContainer} servings/container)` },
                         { label: "Total Fat", value: `${result.totalFat}g (${result.fatDV}% DV)`, valueColor: "text-yellow-700" },
@@ -235,9 +226,9 @@ export default function NutritionLabelGenerator() {
                         { label: "Cholesterol", value: `${result.cholesterol}mg (${result.cholDV}% DV)` },
                         { label: "Sodium", value: `${result.sodium}mg (${result.sodDV}% DV)` },
                         { label: "Total Carbohydrate", value: `${result.totalCarbs}g (${result.carbsDV}% DV)` },
-                        { label: "Dietary Fiber", value: `${result.fiber}g (${result.fiberDV}% DV)`, valueColor: "text-green-600" },
+                        { label: "Dietary Fiber", value: `${result.fiber}g (${result.fiberDV}% DV)`, valueColor: "text-green-700" },
                         { label: "Total Sugars", value: `${result.sugar}g` },
-                        { label: "Protein", value: `${result.protein}g (${result.proteinDV}% DV)`, valueColor: "text-green-600" },
+                        { label: "Protein", value: `${result.protein}g (${result.proteinDV}% DV)`, valueColor: "text-green-700" },
                     ] : []}
                 />
             </div>
@@ -273,7 +264,7 @@ export default function NutritionLabelGenerator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Nutrition Label Generator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Food Business Compliance</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Food Business Compliance</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Create FDA-compliant nutrition labels for packaged foods. Essential for selling products in retail stores or online.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -296,7 +287,7 @@ export default function NutritionLabelGenerator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Understanding % Daily Value (DV)</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Get Enough</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Get Enough</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Aim for <strong className="text-ink">20% DV or more</strong> of: Dietary Fiber, Vitamin D, Calcium, Iron, Potassium. These nutrients support bone health, immune function, and overall wellness.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -319,7 +310,7 @@ export default function NutritionLabelGenerator() {
                         <li><strong className="text-ink">Fat:</strong> 9 calories per gram</li>
                     </ul>
                     <p className="text-ink-faint text-sm leading-relaxed mt-3">
-                        <strong className="text-ink">Example:</strong> 20g carbs = 80 cal, 10g protein = 40 cal, 10g fat = 90 cal → <strong className="text-green-600">Total = 210 calories</strong>
+                        <strong className="text-ink">Example:</strong> 20g carbs = 80 cal, 10g protein = 40 cal, 10g fat = 90 cal → <strong className="text-green-700">Total = 210 calories</strong>
                     </p>
                 </div>
             </section>
@@ -341,7 +332,7 @@ export default function NutritionLabelGenerator() {
                                 <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className="py-3 px-4 text-ink-soft">{row.nutrient}</td>
                                     <td className="py-3 px-4 text-yellow-700">{row.dv}</td>
-                                    <td className={`py-3 px-4 ${row.limit === "Limit" ? "text-red-600" : "text-green-600"}`}>{row.limit}</td>
+                                    <td className={`py-3 px-4 ${row.limit === "Limit" ? "text-red-600" : "text-green-700"}`}>{row.limit}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -353,9 +344,9 @@ export default function NutritionLabelGenerator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Read % Daily Value</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
                 </ul>
             </section>
 
@@ -363,9 +354,9 @@ export default function NutritionLabelGenerator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Read % Daily Value</h2>
                 <ul className="space-y-3">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">•</span><span><strong className="text-ink-soft">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">5% DV or less</strong> — Low. Choose foods with low % DV for nutrients to limit (fat, sodium).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">20% DV or more</strong> — High. Choose foods with high % DV for beneficial nutrients (fiber, vitamins).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">•</span><span><strong className="text-ink-soft">% DV is per serving</strong> — If you eat 2 servings, multiply all values by 2.</span></li>
                 </ul>
             </section>
 

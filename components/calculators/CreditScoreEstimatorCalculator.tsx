@@ -195,7 +195,7 @@ export default function CreditScoreEstimator() {
         if (estimatedScore >= 750) {
             scoreRange = "750-900";
             rating = "Excellent ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
             creditworthiness = "Excellent credit. You'll get the best rates on loans and credit cards. Banks will compete to offer you products.";
         } else if (estimatedScore >= 700) {
             scoreRange = "700-749";
@@ -210,7 +210,7 @@ export default function CreditScoreEstimator() {
         } else if (estimatedScore >= 600) {
             scoreRange = "600-649";
             rating = "Below Average ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
             creditworthiness = "Below average credit. Loan approval may be difficult with limited options. Focus on building your credit history.";
         } else {
             scoreRange = "Below 600";
@@ -313,35 +313,13 @@ export default function CreditScoreEstimator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Credit Score Estimator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Credit Score Estimator</h3>
+                            <h2 className="font-semibold">Credit Score Estimator</h2>
                             <p className="text-xs text-ink-faint mt-1">Estimate your credit score based on key factors</p>
                         </div>
                     </div>
@@ -569,11 +547,11 @@ export default function CreditScoreEstimator() {
                         { label: "Score Range", value: result.scoreRange, valueColor: result.ratingColor },
                         { label: "Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Creditworthiness", value: result.creditworthiness, valueColor: "text-ink-faint" },
-                        { label: "Payment History", value: `${result.paymentHistory}%`, valueColor: result.paymentHistory >= 90 ? "text-green-600" : "text-orange-600" },
-                        { label: "Credit Utilization", value: `${result.creditUtilization}%`, valueColor: result.creditUtilization <= 30 ? "text-green-600" : "text-orange-600" },
-                        { label: "Credit History", value: `${result.creditHistory} years`, valueColor: result.creditHistory >= 5 ? "text-green-600" : "text-orange-600" },
-                        { label: "Credit Mix", value: `${result.creditMix}%`, valueColor: result.creditMix >= 70 ? "text-green-600" : "text-orange-600" },
-                        { label: "New Credit Inquiries", value: `${result.newCredit}%`, valueColor: result.newCredit <= 30 ? "text-green-600" : "text-orange-600" },
+                        { label: "Payment History", value: `${result.paymentHistory}%`, valueColor: result.paymentHistory >= 90 ? "text-green-700" : "text-orange-700" },
+                        { label: "Credit Utilization", value: `${result.creditUtilization}%`, valueColor: result.creditUtilization <= 30 ? "text-green-700" : "text-orange-700" },
+                        { label: "Credit History", value: `${result.creditHistory} years`, valueColor: result.creditHistory >= 5 ? "text-green-700" : "text-orange-700" },
+                        { label: "Credit Mix", value: `${result.creditMix}%`, valueColor: result.creditMix >= 70 ? "text-green-700" : "text-orange-700" },
+                        { label: "New Credit Inquiries", value: `${result.newCredit}%`, valueColor: result.newCredit <= 30 ? "text-green-700" : "text-orange-700" },
                         { label: "Factor Breakdown", value: `📊 ${result.factorBreakdown.paymentHistory}/${result.factorBreakdown.creditUtilization}/${result.factorBreakdown.creditHistory}/${result.factorBreakdown.creditMix}/${result.factorBreakdown.newCredit}`, valueColor: "text-ink-faint" },
                     ] : []}
                 />
@@ -588,7 +566,7 @@ export default function CreditScoreEstimator() {
                             {result.suggestions.map((suggestion: string, index: number) => (
                                 <div key={index} className="flex items-start gap-3 text-sm">
                                     <span className="text-blue-600 mt-0.5">•</span>
-                                    <span className={`text-ink-soft ${suggestion.startsWith('✅') ? 'text-green-600' : ''}`}>
+                                    <span className={`text-ink-soft ${suggestion.startsWith('✅') ? 'text-green-700' : ''}`}>
                                         {suggestion}
                                     </span>
                                 </div>
@@ -653,7 +631,7 @@ export default function CreditScoreEstimator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">📊 Credit History (15%)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">📊 Credit History (15%)</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Age of oldest account</li>
                             <li>• Average age of accounts</li>
@@ -683,7 +661,7 @@ export default function CreditScoreEstimator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">⚡ Quick Tips</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">⚡ Quick Tips</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Pay all bills on time</li>
                             <li>• Keep utilization below 30%</li>
@@ -710,10 +688,10 @@ export default function CreditScoreEstimator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">750-900</td>
-                                <td className="py-2 px-4 text-green-600">Excellent ★★★★★</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">750-900</td>
+                                <td className="py-2 px-4 text-green-700">Excellent ★★★★★</td>
                                 <td className="py-2 px-4 text-ink-faint text-xs">Best rates on loans & credit cards</td>
-                                <td className="py-2 px-4 text-green-600 text-xs">✅ Keep maintaining</td>
+                                <td className="py-2 px-4 text-green-700 text-xs">✅ Keep maintaining</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-blue-600 font-bold">700-749</td>
@@ -728,10 +706,10 @@ export default function CreditScoreEstimator() {
                                 <td className="py-2 px-4 text-yellow-700 text-xs">⚠️ Improve before applying</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">600-649</td>
-                                <td className="py-2 px-4 text-orange-600">Below Average ★★</td>
+                                <td className="py-2 px-4 text-orange-700 font-bold">600-649</td>
+                                <td className="py-2 px-4 text-orange-700">Below Average ★★</td>
                                 <td className="py-2 px-4 text-ink-faint text-xs">Difficult approval, high rates</td>
-                                <td className="py-2 px-4 text-orange-600 text-xs">🔴 Build credit first</td>
+                                <td className="py-2 px-4 text-orange-700 text-xs">🔴 Build credit first</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-red-600 font-bold">Below 600</td>

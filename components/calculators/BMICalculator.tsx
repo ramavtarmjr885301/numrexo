@@ -53,9 +53,9 @@ const BMI_CLASSIFICATIONS = [
   { category: "Severe Thinness", range: "< 16", color: "text-blue-600" },
   { category: "Moderate Thinness", range: "16 – 17", color: "text-blue-600" },
   { category: "Mild Thinness", range: "17 – 18.5", color: "text-blue-600" },
-  { category: "Normal", range: "18.5 – 25", color: "text-green-600" },
+  { category: "Normal", range: "18.5 – 25", color: "text-green-700" },
   { category: "Overweight", range: "25 – 30", color: "text-yellow-700" },
-  { category: "Obese Class I", range: "30 – 35", color: "text-orange-600" },
+  { category: "Obese Class I", range: "30 – 35", color: "text-orange-700" },
   { category: "Obese Class II", range: "35 – 40", color: "text-red-600" },
   { category: "Obese Class III", range: "> 40", color: "text-red-500" },
 ];
@@ -153,9 +153,9 @@ export default function BMICalculator() {
     if (bmi < 16) { category = "Severe Thinness"; colorClass = "text-blue-600"; }
     else if (bmi < 17) { category = "Moderate Thinness"; colorClass = "text-blue-600"; }
     else if (bmi < 18.5) { category = "Mild Thinness"; colorClass = "text-blue-600"; }
-    else if (bmi < 25) { category = "Normal"; colorClass = "text-green-600"; }
+    else if (bmi < 25) { category = "Normal"; colorClass = "text-green-700"; }
     else if (bmi < 30) { category = "Overweight"; colorClass = "text-yellow-700"; }
-    else if (bmi < 35) { category = "Obese I"; colorClass = "text-orange-600"; }
+    else if (bmi < 35) { category = "Obese I"; colorClass = "text-orange-700"; }
     else if (bmi < 40) { category = "Obese II"; colorClass = "text-red-600"; }
     else { category = "Obese III"; colorClass = "text-red-600"; }
 
@@ -194,32 +194,6 @@ export default function BMICalculator() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol
-          className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint"
-          itemScope
-          itemType="https://schema.org/BreadcrumbList"
-        >
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft transition-colors">
-              <span itemProp="name">Home</span>
-            </a>
-            <meta itemProp="position" content="1" />
-          </li>
-          <li className="text-ink-soft" aria-hidden="true">/</li>
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft transition-colors">
-              <span itemProp="name">Health Calculators</span>
-            </a>
-            <meta itemProp="position" content="2" />
-          </li>
-          <li className="text-ink-soft" aria-hidden="true">/</li>
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">BMI Calculator</span>
-            <meta itemProp="position" content="3" />
-          </li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
@@ -403,7 +377,7 @@ export default function BMICalculator() {
             <p className="text-ink font-mono text-sm mb-2">BMI = Weight (kg) ÷ Height² (m)</p>
             <p className="text-ink-faint text-xs">
               Example: 70 kg ÷ (1.75 × 1.75) ={" "}
-              <span className="text-green-600 font-semibold">22.9</span>
+              <span className="text-green-700 font-semibold">22.9</span>
             </p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-5">
@@ -411,7 +385,7 @@ export default function BMICalculator() {
             <p className="text-ink font-mono text-sm mb-2">BMI = 703 × Weight (lbs) ÷ Height² (in)</p>
             <p className="text-ink-faint text-xs">
               Example: 703 × 154 ÷ (69 × 69) ={" "}
-              <span className="text-green-600 font-semibold">22.7</span>
+              <span className="text-green-700 font-semibold">22.7</span>
             </p>
           </div>
         </div>
@@ -482,7 +456,7 @@ export default function BMICalculator() {
             </p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">BMI for Children &amp; Teens</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">BMI for Children &amp; Teens</h3>
             <p className="text-ink-faint text-xs leading-relaxed">
               For children aged 2–19, BMI is calculated the same way but interpreted using{" "}
               <span className="text-ink font-medium">age- and sex-specific percentile charts</span>{" "}

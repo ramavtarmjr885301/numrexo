@@ -136,7 +136,7 @@ function BudgetChart({ needs, wants, savings, needsColor, wantsColor, savingsCol
 
                 <div>
                     <div className="flex justify-between text-xs mb-1">
-                        <span className="text-green-600">Savings</span>
+                        <span className="text-green-700">Savings</span>
                         <span className="text-ink-faint">{savingsPercent.toFixed(1)}%</span>
                     </div>
                     <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
@@ -342,7 +342,7 @@ export default function SalaryBudgetingCalculator() {
         let needsRatingColor = "";
         if (needsTotal <= needsRecommended) {
             needsRating = "✅ On Track (50% or less)";
-            needsRatingColor = "text-green-600";
+            needsRatingColor = "text-green-700";
         } else if (needsTotal <= needsRecommended * 1.2) {
             needsRating = "⚠️ Slightly High (50-60%)";
             needsRatingColor = "text-yellow-700";
@@ -355,7 +355,7 @@ export default function SalaryBudgetingCalculator() {
         let wantsRatingColor = "";
         if (wantsTotal <= wantsRecommended) {
             wantsRating = "✅ On Track (30% or less)";
-            wantsRatingColor = "text-green-600";
+            wantsRatingColor = "text-green-700";
         } else if (wantsTotal <= wantsRecommended * 1.2) {
             wantsRating = "⚠️ Slightly High (30-36%)";
             wantsRatingColor = "text-yellow-700";
@@ -368,7 +368,7 @@ export default function SalaryBudgetingCalculator() {
         let savingsRatingColor = "";
         if (savingsTotal >= savingsRecommended) {
             savingsRating = "✅ On Track (20% or more)";
-            savingsRatingColor = "text-green-600";
+            savingsRatingColor = "text-green-700";
         } else if (savingsTotal >= savingsRecommended * 0.7) {
             savingsRating = "⚠️ Moderate (14-20%)";
             savingsRatingColor = "text-yellow-700";
@@ -381,7 +381,7 @@ export default function SalaryBudgetingCalculator() {
         let overallRatingColor = "";
         if (needsTotal <= needsRecommended && wantsTotal <= wantsRecommended && savingsTotal >= savingsRecommended) {
             overallRating = "Excellent ★★★★★";
-            overallRatingColor = "text-green-600";
+            overallRatingColor = "text-green-700";
         } else if (needsTotal <= needsRecommended * 1.2 && wantsTotal <= wantsRecommended * 1.2 && savingsTotal >= savingsRecommended * 0.7) {
             overallRating = "Good ★★★★";
             overallRatingColor = "text-blue-600";
@@ -446,35 +446,13 @@ export default function SalaryBudgetingCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Salary Budgeting Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Salary Budgeting Calculator</h3>
+                            <h2 className="font-semibold">Salary Budgeting Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Plan your monthly budget with 50/30/20 rule</p>
                         </div>
                     </div>
@@ -623,7 +601,7 @@ export default function SalaryBudgetingCalculator() {
                         </div>
 
                         <div className="border-t border-hairline pt-4">
-                            <h4 className="text-sm font-semibold text-green-600 mb-3">💰 Savings & Investments</h4>
+                            <h4 className="text-sm font-semibold text-green-700 mb-3">💰 Savings & Investments</h4>
 
                             <div className="space-y-3">
                                 <div>
@@ -690,7 +668,7 @@ export default function SalaryBudgetingCalculator() {
                         mainResult={result ? {
                             label: "Remaining Balance",
                             value: `${symbol}${result.remaining.toFixed(2)}`,
-                            color: result.remaining >= 0 ? "text-green-600" : "text-red-600"
+                            color: result.remaining >= 0 ? "text-green-700" : "text-red-600"
                         } : undefined}
                         extraRows={result ? [
                             { label: "Overall Budget Health", value: result.overallRating, valueColor: result.overallRatingColor },
@@ -755,7 +733,7 @@ export default function SalaryBudgetingCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Understand exactly where your money goes each month. Identify areas where you can cut back and save more.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Goal Setting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Goal Setting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic savings goals and track your progress. Whether it's an emergency fund or a dream vacation, our calculator helps you plan.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -800,7 +778,7 @@ export default function SalaryBudgetingCalculator() {
                             </ul>
                         </div>
                         <div className="bg-surface border border-green-200 rounded-lg p-3">
-                            <p className="text-sm font-semibold text-green-600">💰 20% - Savings & Debt Repayment</p>
+                            <p className="text-sm font-semibold text-green-700">💰 20% - Savings & Debt Repayment</p>
                             <ul className="text-xs text-ink-faint mt-1 space-y-0.5">
                                 <li>• Emergency fund contributions</li>
                                 <li>• Retirement savings (PPF, NPS, EPF)</li>

@@ -181,20 +181,11 @@ export default function FlooringCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Flooring Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Flooring Calculator</h3>
+                        <h2 className="font-semibold">Flooring Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate tiles or flooring material needed</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -225,13 +216,13 @@ export default function FlooringCalculator() {
                     isEmpty={!result}
                     emptyIcon="🪵"
                     emptyText="Enter room and tile dimensions"
-                    mainResult={result ? { label: "Tiles Needed (including waste)", value: `${result.tilesWithWaste} tiles`, color: "text-orange-600" } : undefined}
+                    mainResult={result ? { label: "Tiles Needed (including waste)", value: `${result.tilesWithWaste} tiles`, color: "text-orange-700" } : undefined}
                     extraRows={result ? [
                         { label: "Room Area", value: `${result.roomArea} sq ft` },
                         { label: "Tile Area", value: `${result.tileArea} sq ft` },
                         { label: "Tiles without waste", value: `${result.tilesNeeded} tiles` },
                         { label: `Waste (${result.wastePercent}%)`, value: `${result.tilesWithWaste - result.tilesNeeded} extra tiles`, valueColor: "text-yellow-700" },
-                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-600" }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-700" }] : []),
                         ...(result.costPerSqFt ? [{ label: "Cost per sq ft", value: `${symbol}${result.costPerSqFt}` }] : []),
                     ] : []}
                 />
@@ -268,11 +259,11 @@ export default function FlooringCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Flooring Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Avoid Overbuying</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Avoid Overbuying</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Buy exactly what you need plus standard waste. No extra material sitting unused in storage. Save money on unnecessary purchases.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Prevent Shortages</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Prevent Shortages</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Nothing's worse than running out of tiles mid-project. Our calculator ensures you have enough with waste included.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -306,10 +297,10 @@ export default function FlooringCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Cost Saving Tips for Flooring Installation</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Buy in bulk:</strong> Larger quantities often get wholesale discounts. Ask supplier for bulk pricing.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Compare material costs:</strong> Ceramic ($30-100/sq ft) vs Vitrified ($40-200/sq ft) vs Wood ($150-600/sq ft).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">DIY installation:</strong> Save $25-50/sq ft by installing yourself. Watch YouTube tutorials for guidance.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Negotiate with multiple vendors:</strong> Get at least 3 quotes. Prices vary significantly between suppliers.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Buy in bulk:</strong> Larger quantities often get wholesale discounts. Ask supplier for bulk pricing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Compare material costs:</strong> Ceramic ($30-100/sq ft) vs Vitrified ($40-200/sq ft) vs Wood ($150-600/sq ft).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">DIY installation:</strong> Save $25-50/sq ft by installing yourself. Watch YouTube tutorials for guidance.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Negotiate with multiple vendors:</strong> Get at least 3 quotes. Prices vary significantly between suppliers.</span></li>
                 </ul>
             </section>
 

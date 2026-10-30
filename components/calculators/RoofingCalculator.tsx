@@ -199,30 +199,12 @@ export default function RoofingCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Roofing Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Roofing Calculator</h3>
+                        <h2 className="font-semibold">Roofing Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Estimate roofing materials for your project</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -342,7 +324,7 @@ export default function RoofingCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏠"
                     emptyText="Enter roof dimensions to calculate"
-                    mainResult={result ? { label: "Sloped Roof Area", value: `${result.slopedArea} sq ft`, color: "text-amber-600" } : undefined}
+                    mainResult={result ? { label: "Sloped Roof Area", value: `${result.slopedArea} sq ft`, color: "text-amber-700" } : undefined}
                     extraRows={result ? [
                         { label: "Flat Area", value: `${result.flatArea} sq ft` },
                         { label: "Pitch Factor", value: `${result.pitchFactor.toFixed(3)} (${result.pitchName})` },
@@ -351,7 +333,7 @@ export default function RoofingCalculator() {
                             { label: "Sheets Required", value: `${result.sheetsNeeded} sheets`, valueColor: "text-yellow-700" },
                             { label: "Coverage per Sheet", value: `${result.sheetCoverage} sq ft` },
                             { label: "Waste Added", value: `${result.wastePercent}%` },
-                            { label: "Estimated Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-600" },
+                            { label: "Estimated Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-700" },
                             { label: "Sheet Size Used", value: `${result.sheetLength || 'N/A'} × ${result.sheetWidth || 'N/A'} ft` },
                         ] : [
                             { label: "Enter Sheet Size", value: "To calculate sheets needed", valueColor: "text-ink-faint" },
@@ -394,7 +376,7 @@ export default function RoofingCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Roofing Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-amber-600 mb-2">✓ Accurate Material Planning</h3>
+                        <h3 className="text-sm font-semibold text-amber-700 mb-2">✓ Accurate Material Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how many sheets you need. Avoid over-ordering or running out of materials mid-project.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -406,7 +388,7 @@ export default function RoofingCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Automatic pitch factor application ensures accurate area calculation for sloped roofs. No manual math required.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Waste Management</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Waste Management</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Account for material waste and overlaps. Ensure you have enough material for cuts, mistakes, and repairs.</p>
                     </div>
                 </div>
@@ -417,7 +399,7 @@ export default function RoofingCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Roofing Calculation Formula</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-amber-600 mb-2">Area Calculation</h3>
+                        <h3 className="text-sm font-semibold text-amber-700 mb-2">Area Calculation</h3>
                         <p className="text-ink font-mono text-sm mb-2">Sloped Area = Length × Width × Pitch Factor</p>
                         <p className="text-ink-faint text-xs mb-2">Where: Pitch Factor = √(Rise² + Run²) ÷ Run</p>
                         <p className="text-ink-faint text-xs">Example: 40×20ft with 6/12 pitch → 40×20×1.118 = 894.4 sq ft</p>
@@ -479,7 +461,7 @@ export default function RoofingCalculator() {
                                 <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className="py-3 px-4 text-ink-soft">{size.length}</td>
                                     <td className="py-3 px-4 text-ink-soft">{size.width}</td>
-                                    <td className="py-3 px-4 text-amber-600">{size.coverage}</td>
+                                    <td className="py-3 px-4 text-amber-700">{size.coverage}</td>
                                     <td className="py-3 px-4 text-ink-faint">{size.use}</td>
                                 </tr>
                             ))}
@@ -508,9 +490,9 @@ export default function RoofingCalculator() {
                             {MATERIAL_TYPES.map((material, i) => (
                                 <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className="py-3 px-4 text-ink-soft font-medium">{material.type}</td>
-                                    <td className="py-3 px-4 text-green-600">{material.lifespan}</td>
+                                    <td className="py-3 px-4 text-green-700">{material.lifespan}</td>
                                     <td className="py-3 px-4 text-yellow-700">{material.price}</td>
-                                    <td className={`py-3 px-4 ${material.maintenance === "Low" ? "text-green-600" :
+                                    <td className={`py-3 px-4 ${material.maintenance === "Low" ? "text-green-700" :
                                         material.maintenance === "Medium" ? "text-yellow-700" :
                                             "text-red-600"
                                         }`}>{material.maintenance}</td>
@@ -529,23 +511,23 @@ export default function RoofingCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Smart Roofing Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-amber-600 mt-0.5">💡</span>
+                        <span className="text-amber-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Always measure twice:</strong> Double-check your roof measurements. Even small errors can lead to significant material waste or shortage.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-amber-600 mt-0.5">💡</span>
+                        <span className="text-amber-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Order 10-15% extra:</strong> Always order more material than calculated. You'll need extra for cuts, overlaps, and potential damage during installation.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-amber-600 mt-0.5">💡</span>
+                        <span className="text-amber-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Consider future repairs:</strong> Keep extra sheets from the same batch for future repairs. Color matching can be difficult later.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-amber-600 mt-0.5">💡</span>
+                        <span className="text-amber-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Check local building codes:</strong> Ensure your roofing material and installation method comply with local regulations and building codes.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-amber-600 mt-0.5">💡</span>
+                        <span className="text-amber-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Professional installation:</strong> For complex roofs or expensive materials, hire professional roofers. DIY can save money but mistakes are costly.</span>
                     </li>
                 </ul>

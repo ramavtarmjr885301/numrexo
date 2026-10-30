@@ -192,15 +192,6 @@ export default function LoanComparisonCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Loan Comparison Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 gap-6 mb-8">
                 {/* Loan 1 and Loan 2 Side by Side */}
@@ -223,7 +214,7 @@ export default function LoanComparisonCalculator() {
                     {/* Loan 2 Input Form */}
                     <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="px-6 py-4 border-b border-hairline bg-green-50">
-                            <h3 className="font-semibold text-green-600">Loan 2</h3>
+                            <h3 className="font-semibold text-green-700">Loan 2</h3>
                         </div>
                         <div className="p-6 space-y-4">
                             <div><label className="block text-xs font-semibold text-ink-faint mb-2">Loan Amount ({symbol})</label><div className="relative"><input type="number" placeholder="500000" value={loan2Amount} onChange={(e) => setLoan2Amount(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink focus:border-blue-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">{symbol}</span></div></div>
@@ -249,12 +240,12 @@ export default function LoanComparisonCalculator() {
                     mainResult={result ? { label: "Better Choice", value: result.betterLoan, color: "text-purple-600" } : undefined}
                     extraRows={result ? [
                         { label: "Monthly EMI - Loan 1", value: `${symbol}${Math.round(result.loan1.emi).toLocaleString()}`, valueColor: "text-blue-600" },
-                        { label: "Monthly EMI - Loan 2", value: `${symbol}${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-600" },
+                        { label: "Monthly EMI - Loan 2", value: `${symbol}${Math.round(result.loan2.emi).toLocaleString()}`, valueColor: "text-green-700" },
                         { label: "Total Interest - Loan 1", value: `${symbol}${Math.round(result.loan1.totalInterest).toLocaleString()}` },
                         { label: "Total Interest - Loan 2", value: `${symbol}${Math.round(result.loan2.totalInterest).toLocaleString()}` },
                         { label: "Total Payment (incl. fees) - Loan 1", value: `${symbol}${Math.round(result.loan1.totalWithFees).toLocaleString()}` },
                         { label: "Total Payment (incl. fees) - Loan 2", value: `${symbol}${Math.round(result.loan2.totalWithFees).toLocaleString()}` },
-                        { label: "You Save", value: `${symbol}${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-600" },
+                        { label: "You Save", value: `${symbol}${Math.round(result.savings).toLocaleString()}`, valueColor: "text-green-700" },
                     ] : []}
                 />
             </div>
@@ -297,7 +288,7 @@ export default function LoanComparisonCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Processing fees, legal charges, and prepayment penalties add to loan cost. Include them in comparison for true cost.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Tenure Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Tenure Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">See how different tenures affect EMI and total interest. Choose the tenure that fits your budget.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -339,10 +330,10 @@ export default function LoanComparisonCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Tips to Get the Best Loan Deal</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Improve credit score:</strong> 750+ CIBIL score gets 0.5-1% lower rates. Pay credit cards on time, reduce credit utilization.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Negotiate with banks:</strong> Use competitor offers to get better rates. Banks often match or beat competitor rates.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Choose the shorter term:</strong> if the higher payment fits your budget, a shorter term costs far less in total interest.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Ask for fee waiver:</strong> During festive seasons, many banks waive processing fees completely.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Improve credit score:</strong> 750+ CIBIL score gets 0.5-1% lower rates. Pay credit cards on time, reduce credit utilization.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Negotiate with banks:</strong> Use competitor offers to get better rates. Banks often match or beat competitor rates.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Choose the shorter term:</strong> if the higher payment fits your budget, a shorter term costs far less in total interest.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Ask for fee waiver:</strong> During festive seasons, many banks waive processing fees completely.</span></li>
                 </ul>
             </section>
 

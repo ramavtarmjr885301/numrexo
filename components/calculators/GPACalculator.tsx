@@ -73,20 +73,11 @@ export default function GPACalculator() {
 
     return (
         <>
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="/" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="/education" className="hover:text-ink-soft">Education Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">GPA Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
-                        <h3 className="font-semibold">Course Details</h3>
+                        <h2 className="font-semibold">Course Details</h2>
                         <button onClick={addCourse} className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600 transition-colors">+ Add Course</button>
                     </div>
                     <div className="p-6 space-y-3">
@@ -157,7 +148,7 @@ export default function GPACalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know your exact standing each semester. Monitor improvement over time. Identify courses dragging down your GPA.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Scholarship Eligibility</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Scholarship Eligibility</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Many scholarships require minimum GPAs (3.0-3.5). Calculate if you qualify before applying.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -186,7 +177,7 @@ export default function GPACalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-hairline">
-                                <td className="py-2 px-4 text-green-600">A+/A</td>
+                                <td className="py-2 px-4 text-green-700">A+/A</td>
                                 <td className="py-2 px-4">4.0</td>
                                 <td className="py-2 px-4">90-100%</td>
                                 <td className="py-2 px-4">Excellent</td>
@@ -228,7 +219,7 @@ export default function GPACalculator() {
                                 <td className="py-2 px-4">Average</td>
                             </tr>
                             <tr className="border-b border-hairline">
-                                <td className="py-2 px-4 text-orange-600">C-</td>
+                                <td className="py-2 px-4 text-orange-700">C-</td>
                                 <td className="py-2 px-4">1.7</td>
                                 <td className="py-2 px-4">55-59%</td>
                                 <td className="py-2 px-4">Below Average</td>
@@ -254,11 +245,11 @@ export default function GPACalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Improve Your GPA</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Retake low-grade courses:</strong> Many schools replace failing grades when you retake and pass.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Focus on high-credit courses:</strong> A 4-credit A affects GPA more than a 1-credit A.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Seek tutoring early:</strong> Don't wait until finals. Use campus tutoring centers for difficult subjects.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Talk to professors:</strong> Ask about extra credit, grade adjustments, or incomplete policies.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Time management:</strong> Create study schedules. Prioritize assignments by weight and due date.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Retake low-grade courses:</strong> Many schools replace failing grades when you retake and pass.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Focus on high-credit courses:</strong> A 4-credit A affects GPA more than a 1-credit A.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Seek tutoring early:</strong> Don't wait until finals. Use campus tutoring centers for difficult subjects.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Talk to professors:</strong> Ask about extra credit, grade adjustments, or incomplete policies.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Time management:</strong> Create study schedules. Prioritize assignments by weight and due date.</span></li>
                 </ul>
             </section>
 

@@ -264,20 +264,11 @@ export default function CookingTimeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/cooking" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Cooking Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Cooking Time Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Cooking Time Adjuster</h3>
+                        <h2 className="font-semibold">Cooking Time Adjuster</h2>
                         <p className="text-xs text-ink-faint mt-1">Adjust cooking time for various factors</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -332,10 +323,10 @@ export default function CookingTimeCalculator() {
                     isEmpty={!result}
                     emptyIcon="⏲️"
                     emptyText="Enter cooking details"
-                    mainResult={result ? { label: "New Cooking Time", value: `${result.newTime} minutes`, color: "text-orange-600" } : undefined}
+                    mainResult={result ? { label: "New Cooking Time", value: `${result.newTime} minutes`, color: "text-orange-700" } : undefined}
                     extraRows={result ? [
                         { label: "Original Time", value: `${result.originalTime} minutes` },
-                        { label: "Change", value: `${result.difference > 0 ? '+' : ''}${result.difference} minutes`, valueColor: result.difference > 0 ? "text-red-600" : "text-green-600" },
+                        { label: "Change", value: `${result.difference > 0 ? '+' : ''}${result.difference} minutes`, valueColor: result.difference > 0 ? "text-red-600" : "text-green-700" },
                         { label: "Adjustment", value: `${result.adjustmentPercent}%` },
                         ...(result.type === "temp" ? [
                             { label: "Temperature Change", value: `${result.originalTemp}° → ${result.newTemp}°` },
@@ -383,11 +374,11 @@ export default function CookingTimeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Accurate Cooking Time Matters</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Perfect Doneness</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Perfect Doneness</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Avoid undercooked (unsafe) or overcooked (dry) food. Get the perfect texture and doneness every time.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Reduce Food Waste</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Reduce Food Waste</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">No more ruined dinners. Save money by cooking food correctly the first time, not throwing away mistakes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -408,11 +399,11 @@ export default function CookingTimeCalculator() {
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Original Temp</th><th className="text-left py-3 px-4 text-ink-faint">New Temp</th><th className="text-left py-3 px-4 text-ink-faint">Time Adjustment</th><th className="text-left py-3 px-4 text-ink-faint">Example (30 min recipe)</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">375°F</td><td className="py-2 px-4 text-green-600">-7%</td><td className="py-2 px-4">28 minutes</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">400°F</td><td className="py-2 px-4 text-green-600">-13%</td><td className="py-2 px-4">26 minutes</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">375°F</td><td className="py-2 px-4 text-green-700">-7%</td><td className="py-2 px-4">28 minutes</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">400°F</td><td className="py-2 px-4 text-green-700">-13%</td><td className="py-2 px-4">26 minutes</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">325°F</td><td className="py-2 px-4 text-red-600">+8%</td><td className="py-2 px-4">32 minutes</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">300°F</td><td className="py-2 px-4 text-red-600">+17%</td><td className="py-2 px-4">35 minutes</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">425°F</td><td className="py-2 px-4 text-green-600">-18%</td><td className="py-2 px-4">25 minutes</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">350°F</td><td className="py-2 px-4">425°F</td><td className="py-2 px-4 text-green-700">-18%</td><td className="py-2 px-4">25 minutes</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -428,7 +419,7 @@ export default function CookingTimeCalculator() {
                         <p className="text-ink-faint text-xs mt-1">Example: 30 min × (350 ÷ 400) = 26.25 min</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Quantity Adjustment</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Quantity Adjustment</h3>
                         <p className="text-ink font-mono text-sm">New Time = Original Time × (1 + (New Qty - Original Qty) × 0.1)</p>
                         <p className="text-ink-faint text-xs mt-1">Example: 30 min × (1 + 0.5×0.1) = 31.5 min for 1.5× quantity</p>
                     </div>
@@ -439,11 +430,11 @@ export default function CookingTimeCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Pro Tips for Perfect Cooking Results</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use an oven thermometer:</strong> Most ovens are off by 25-50°F. Trust the thermometer, not the dial.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Rotate pans halfway:</strong> Ovens have hot spots. Rotating ensures even cooking and browning.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Preheat fully (15-20 min):</strong> Don't rush preheating. A fully heated oven cooks more consistently.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Check doneness with thermometer:</strong> Time is a guideline, internal temperature is truth. For meats: chicken 165°F, beef 135-145°F (medium-rare to medium).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Rest before serving:</strong> Meats need 5-15 minutes rest. This redistributes juices. Cakes need 10 minutes in pan before removing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Use an oven thermometer:</strong> Most ovens are off by 25-50°F. Trust the thermometer, not the dial.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Rotate pans halfway:</strong> Ovens have hot spots. Rotating ensures even cooking and browning.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Preheat fully (15-20 min):</strong> Don't rush preheating. A fully heated oven cooks more consistently.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Check doneness with thermometer:</strong> Time is a guideline, internal temperature is truth. For meats: chicken 165°F, beef 135-145°F (medium-rare to medium).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Rest before serving:</strong> Meats need 5-15 minutes rest. This redistributes juices. Cakes need 10 minutes in pan before removing.</span></li>
                 </ul>
             </section>
 

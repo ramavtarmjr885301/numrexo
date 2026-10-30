@@ -93,7 +93,7 @@ export default function ProfitMarginCalculator() {
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Business Details</h3>
+                        <h2 className="font-semibold">Business Details</h2>
                     </div>
                     <div className="p-6 space-y-4">
                         <CurrencySwitcher className="pb-2 border-b border-hairline" />
@@ -154,10 +154,10 @@ export default function ProfitMarginCalculator() {
                     mainResult={result ? {
                         label: "Profit Margin",
                         value: `${result.margin}%`,
-                        color: "text-green-600"
+                        color: "text-green-700"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Profit Amount", value: `${symbol}${result.profit}`, valueColor: "text-green-600" },
+                        { label: "Profit Amount", value: `${symbol}${result.profit}`, valueColor: "text-green-700" },
                         { label: "Markup Percentage", value: `${result.markup}%` },
                         { label: "Cost Price", value: `${symbol}${result.cost}` },
                         { label: "Selling Price", value: `${symbol}${result.revenue}` }
@@ -195,7 +195,7 @@ export default function ProfitMarginCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Profit Margin Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Pricing Optimization</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Pricing Optimization</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set the right price for your products. Know exactly how much profit you make per sale. Avoid under-pricing.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -238,7 +238,7 @@ export default function ProfitMarginCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <p className="text-sm text-ink-faint"><strong className="text-ink">Same Example:</strong> Cost $600, Selling $1000</p>
-                            <p className="text-sm text-green-600 mt-2">Profit Margin = 40% (based on selling price)</p>
+                            <p className="text-sm text-green-700 mt-2">Profit Margin = 40% (based on selling price)</p>
                             <p className="text-sm text-blue-600">Markup = 66.7% (based on cost price)</p>
                         </div>
                         <div className="border-t md:border-t-0 md:border-l border-hairline pt-4 md:pt-0 md:pl-4">
@@ -254,10 +254,10 @@ export default function ProfitMarginCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Tips to Improve Your Profit Margin</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Increase prices strategically:</strong> Even 5% price increase can boost margins by 20-30% if demand is inelastic.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce cost of goods sold:</strong> Negotiate with suppliers, buy in bulk, find cheaper alternatives, reduce waste.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Optimize product mix:</strong> Focus on selling higher-margin products. Use loss leaders only when necessary.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce operating expenses:</strong> Cut unnecessary overhead, outsource non-core functions, automate processes.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Increase prices strategically:</strong> Even 5% price increase can boost margins by 20-30% if demand is inelastic.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce cost of goods sold:</strong> Negotiate with suppliers, buy in bulk, find cheaper alternatives, reduce waste.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Optimize product mix:</strong> Focus on selling higher-margin products. Use loss leaders only when necessary.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce operating expenses:</strong> Cut unnecessary overhead, outsource non-core functions, automate processes.</span></li>
                 </ul>
             </section>
 

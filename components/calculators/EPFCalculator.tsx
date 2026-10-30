@@ -124,7 +124,7 @@ export default function EPFCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Your EPF Details</h3><p className="text-xs text-ink-faint mt-1">Plan your retirement corpus</p></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Your EPF Details</h2><p className="text-xs text-ink-faint mt-1">Plan your retirement corpus</p></div>
                     <div className="p-6 space-y-4">
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Monthly Basic Salary + DA</label><div className="relative"><input type="number" placeholder="25000" value={basicSalary} onChange={(e) => setBasicSalary(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">₹</span></div><p className="text-xs text-ink-faint mt-1">This is what 12% of your contribution is calculated on</p></div>
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Your Current Age</label><div className="relative"><input type="number" placeholder="25" value={currentAge} onChange={(e) => setCurrentAge(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-faint">years</span></div></div>
@@ -146,7 +146,7 @@ export default function EPFCalculator() {
                     extraRows={result ? [
                         { label: "Your Contributions (12% of basic)", value: `₹${result.employeeContribution}` },
                         { label: "Employer Contributions (3.67% of basic)", value: `₹${result.employerContribution}` },
-                        { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-600" },
+                        { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-700" },
                         { label: "Working Years Left", value: `${result.years} years` },
                     ] : []}
                 />
@@ -187,10 +187,10 @@ export default function EPFCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">EPF Tax Benefits Under Section 80C</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Employee Contribution:</strong> Eligible for deduction up to ₹1.5 lakhs per year under Section 80C.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Employer Contribution:</strong> Not taxable in your hands (up to 12% of basic).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Interest Earned:</strong> Tax-free if you complete 5 continuous years of service.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Final Withdrawal:</strong> Completely tax-free after 5 years of continuous service.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Employee Contribution:</strong> Eligible for deduction up to ₹1.5 lakhs per year under Section 80C.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Employer Contribution:</strong> Not taxable in your hands (up to 12% of basic).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Interest Earned:</strong> Tax-free if you complete 5 continuous years of service.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Final Withdrawal:</strong> Completely tax-free after 5 years of continuous service.</span></li>
                 </ul>
             </section>
 
@@ -216,20 +216,20 @@ export default function EPFCalculator() {
                             </tr>
                             <tr className="border-b border-hairline">
                                 <td className="py-2 px-4">Employer Contribution</td>
-                                <td className="py-2 px-4 text-green-600">✅ Yes (3.67%)</td>
+                                <td className="py-2 px-4 text-green-700">✅ Yes (3.67%)</td>
                                 <td className="py-2 px-4 text-red-600">❌ No</td>
-                                <td className="py-2 px-4 text-green-600">✅ Yes (up to 14%)</td>
+                                <td className="py-2 px-4 text-green-700">✅ Yes (up to 14%)</td>
                             </tr>
                             <tr className="border-b border-hairline">
                                 <td className="py-2 px-4">Tax-free Withdrawal</td>
-                                <td className="py-2 px-4 text-green-600">✅ After 5 years</td>
+                                <td className="py-2 px-4 text-green-700">✅ After 5 years</td>
                                 <td className="py-2 px-4 text-yellow-700">After 15 years (partial)</td>
                                 <td className="py-2 px-4 text-yellow-700">60% at retirement</td>
                             </tr>
                             <tr>
                                 <td className="py-2 px-4">Risk Level</td>
-                                <td className="py-2 px-4 text-green-600">Government backed</td>
-                                <td className="py-2 px-4 text-green-600">Government backed</td>
+                                <td className="py-2 px-4 text-green-700">Government backed</td>
+                                <td className="py-2 px-4 text-green-700">Government backed</td>
                                 <td className="py-2 px-4 text-yellow-700">Moderate (market-linked)</td>
                             </tr>
                         </tbody>

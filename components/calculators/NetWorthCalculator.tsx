@@ -390,35 +390,13 @@ export default function NetWorthCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Net Worth Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-start">
                 {/* ── Inputs ── */}
                 <div className="space-y-6">
                     <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="px-6 py-4 border-b border-hairline">
-                            <h3 className="font-semibold">Net Worth Calculator</h3>
+                            <h2 className="font-semibold">Net Worth Calculator</h2>
                             <p className="text-xs text-ink-soft mt-1">
                                 Pre-filled with an example household. Replace the numbers with your own, or clear everything and start fresh.
                             </p>
@@ -470,10 +448,10 @@ export default function NetWorthCalculator() {
                     <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="px-6 py-4 border-b border-hairline flex items-center justify-between gap-3">
                             <div>
-                                <h3 className="font-semibold">Assets</h3>
+                                <h2 className="font-semibold">Assets</h2>
                                 <p className="text-xs text-ink-soft mt-1">Everything you own, at today&apos;s market value</p>
                             </div>
-                            <span className="text-sm font-mono font-semibold text-emerald-600 whitespace-nowrap">{fmt(result.totalAssets)}</span>
+                            <span className="text-sm font-mono font-semibold text-emerald-700 whitespace-nowrap">{fmt(result.totalAssets)}</span>
                         </div>
                         <div className="p-6 space-y-4">
                             {ASSET_FIELDS.map((f) => (
@@ -502,7 +480,7 @@ export default function NetWorthCalculator() {
                     <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="px-6 py-4 border-b border-hairline flex items-center justify-between gap-3">
                             <div>
-                                <h3 className="font-semibold">Liabilities</h3>
+                                <h2 className="font-semibold">Liabilities</h2>
                                 <p className="text-xs text-ink-soft mt-1">Everything you owe, as the balance due today</p>
                             </div>
                             <span className="text-sm font-mono font-semibold text-red-600 whitespace-nowrap">{fmt(result.totalLiabilities)}</span>
@@ -648,7 +626,7 @@ export default function NetWorthCalculator() {
                             {comparison.status === "at" ? (
                                 <strong className="text-ink">about equal to that median</strong>
                             ) : (
-                                <strong className={comparison.status === "above" ? "text-emerald-600" : "text-red-600"}>
+                                <strong className={comparison.status === "above" ? "text-emerald-700" : "text-red-600"}>
                                     {fmt(Math.abs(comparison.difference))} {comparison.status} the median
                                 </strong>
                             )}
@@ -810,7 +788,7 @@ export default function NetWorthCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">How to Read Your Result</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-emerald-600 mb-2">If your net worth is positive</h3>
+                        <h3 className="text-sm font-semibold text-emerald-700 mb-2">If your net worth is positive</h3>
                         <p className="text-ink-soft text-xs leading-relaxed">
                             You own more than you owe. The size of the number matters less than the trend and the mix: a positive figure made almost
                             entirely of one illiquid asset is more fragile than the same figure spread across savings, investments and home equity.

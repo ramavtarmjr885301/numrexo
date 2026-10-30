@@ -31,6 +31,15 @@ function slug(text: string): string {
   );
 }
 
+/**
+ * The post page already prints the title as the page's only <h1>. Imported or
+ * pasted articles sometimes mark every section heading as <h1> (up to 26 per
+ * page), which leaves Google no heading hierarchy - render those as <h2>.
+ */
+export function demoteH1(html: string): string {
+  return html.replace(/<h1(\s[^>]*)?>/gi, (_m, attrs: string | undefined) => `<h2${attrs ?? ''}>`).replace(/<\/h1\s*>/gi, '</h2>');
+}
+
 export function addHeadingIds(html: string): { html: string; items: TocItem[] } {
   const items: TocItem[] = [];
   const used = new Set<string>();

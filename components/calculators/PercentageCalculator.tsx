@@ -68,13 +68,13 @@ export default function PercentageCalculator() {
         break;
       case "percentageOf":
         const percent = (v1 / v2) * 100;
-        mainResult = { label: `${v1} is what % of ${v2}?`, value: `${percent.toFixed(2)}%`, color: "text-green-600" };
+        mainResult = { label: `${v1} is what % of ${v2}?`, value: `${percent.toFixed(2)}%`, color: "text-green-700" };
         extraRows = [{ label: "Fraction", value: `${v1}/${v2} = ${(v1 / v2).toFixed(4)}` }];
         break;
       case "increase":
         const increase = ((v2 - v1) / v1) * 100;
         const increaseAmount = v2 - v1;
-        mainResult = { label: `Increase from ${v1} to ${v2}`, value: `${increase.toFixed(2)}%`, color: "text-green-600" };
+        mainResult = { label: `Increase from ${v1} to ${v2}`, value: `${increase.toFixed(2)}%`, color: "text-green-700" };
         extraRows = [{ label: "Increase Amount", value: increaseAmount.toFixed(2) }, { label: "Final Value", value: v2.toFixed(2) }];
         break;
       case "decrease":
@@ -122,7 +122,7 @@ export default function PercentageCalculator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Percentage Calculator</h3></div>
+          <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Percentage Calculator</h2></div>
           <div className="p-6 space-y-4">
             <CurrencySwitcher className="pb-2 border-b border-hairline" />
 
@@ -180,7 +180,7 @@ export default function PercentageCalculator() {
             <p className="text-ink-faint text-xs leading-relaxed">Calculate sale prices instantly. Save time and money by knowing exactly what you'll pay after discount.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Grade/Scores Calculation</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Grade/Scores Calculation</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Calculate exam percentages, test scores, and overall academic performance accurately.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -204,7 +204,7 @@ export default function PercentageCalculator() {
             <p className="text-ink-faint text-xs mt-2">Example: 20% of 500 = (20÷100) × 500 = 100</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">Percentage Increase</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">Percentage Increase</h3>
             <p className="text-ink font-mono text-xs">% Increase = ((New - Original) ÷ Original) × 100</p>
             <p className="text-ink-faint text-xs mt-2">Example: 50 to 70 = ((70-50)÷50)×100 = 40%</p>
           </div>

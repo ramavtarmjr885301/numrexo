@@ -179,30 +179,12 @@ export default function BreakEvenCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Break-even Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Break-even Analysis</h3>
+                        <h2 className="font-semibold">Break-even Analysis</h2>
                         <p className="text-xs text-ink-faint mt-1">Find out when your business becomes profitable</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -372,7 +354,7 @@ export default function BreakEvenCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Determine the minimum price you need to charge to cover costs and achieve profitability. Test different price points to see how they affect your break-even point.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Sales Target Setting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Sales Target Setting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic monthly and annual sales targets based on your break-even analysis. Know exactly how many units you need to sell to avoid losses.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -384,7 +366,7 @@ export default function BreakEvenCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Evaluate the financial viability of new products, business expansions, or investments before committing resources.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Investor Confidence</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Investor Confidence</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Present clear break-even analysis to investors or lenders showing when your business will become profitable and how their investment will be repaid.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -399,23 +381,23 @@ export default function BreakEvenCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">5 Strategies to Lower Your Break-even Point</h2>
                 <div className="space-y-3">
                     <div className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5 font-bold">1.</span>
+                        <span className="text-green-700 mt-0.5 font-bold">1.</span>
                         <span><strong className="text-ink-soft">Reduce Fixed Costs:</strong> Negotiate lower rent, outsource non-core functions, reduce staff overhead, switch to cheaper software alternatives, cut unnecessary subscriptions, and optimize energy usage. Every $1,000 reduction in fixed costs lowers your break-even point by $1,000 divided by contribution margin.</span>
                     </div>
                     <div className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5 font-bold">2.</span>
+                        <span className="text-green-700 mt-0.5 font-bold">2.</span>
                         <span><strong className="text-ink-soft">Lower Variable Costs:</strong> Find cheaper suppliers, buy in bulk for discounts, improve production efficiency, reduce packaging costs, negotiate shipping rates, and minimize waste. Lower variable costs increase your contribution margin per unit.</span>
                     </div>
                     <div className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5 font-bold">3.</span>
+                        <span className="text-green-700 mt-0.5 font-bold">3.</span>
                         <span><strong className="text-ink-soft">Increase Selling Price:</strong> Add value through better packaging, premium branding, bundle offers, or improved customer service to justify higher prices. Even a small price increase significantly lowers break-even units.</span>
                     </div>
                     <div className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5 font-bold">4.</span>
+                        <span className="text-green-700 mt-0.5 font-bold">4.</span>
                         <span><strong className="text-ink-soft">Improve Product Mix:</strong> Focus on selling higher-margin products or services. A product with 60% contribution margin reaches break-even much faster than one with 20% margin.</span>
                     </div>
                     <div className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5 font-bold">5.</span>
+                        <span className="text-green-700 mt-0.5 font-bold">5.</span>
                         <span><strong className="text-ink-soft">Increase Sales Volume:</strong> Once you break even, every additional sale directly adds to profit. Use marketing, referrals, promotions, and upselling to drive volume.</span>
                     </div>
                 </div>
@@ -443,7 +425,7 @@ export default function BreakEvenCalculator() {
                         <p className="text-ink-faint text-xs">Example: $100,000 ÷ $200 = 500 units</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Break-even in Revenue</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Break-even in Revenue</h3>
                         <p className="text-ink font-mono text-sm mb-2">BE ({symbol}) = Fixed Costs ÷ Contribution Margin Ratio</p>
                         <p className="text-ink-faint text-xs">Example: $100,000 ÷ 40% = $250,000</p>
                     </div>
@@ -471,7 +453,7 @@ export default function BreakEvenCalculator() {
                                     <td className="py-3 px-4 text-yellow-700">{row.fixedCosts}</td>
                                     <td className="py-3 px-4 text-ink-faint">{row.pricePerUnit}</td>
                                     <td className="py-3 px-4 text-ink-faint">{row.variableCost}</td>
-                                    <td className="py-3 px-4 text-green-600">{row.breakEven}</td>
+                                    <td className="py-3 px-4 text-green-700">{row.breakEven}</td>
                                 </tr>
                             ))}
                         </tbody>

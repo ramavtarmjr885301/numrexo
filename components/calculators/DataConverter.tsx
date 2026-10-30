@@ -133,19 +133,10 @@ export default function DataConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Data Converter</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Data Storage Converter</h3><p className="text-xs text-ink-faint mt-1">Convert between digital storage units</p></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Data Storage Converter</h2><p className="text-xs text-ink-faint mt-1">Convert between digital storage units</p></div>
                     <div className="p-6 space-y-4">
                         <div><label className="block text-xs font-semibold text-ink-faint mb-2">Value</label><input type="number" placeholder="100" value={value} onChange={(e) => setValue(e.target.value)} className="w-full px-4 py-3 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div>
                         <div className="flex items-center gap-3">
@@ -198,7 +189,7 @@ export default function DataConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Bit (b) is smallest unit (0 or 1). Byte (B) = 8 bits. One character = 1 byte. "Hello" = 5 bytes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">KB & MB</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">KB & MB</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Kilobyte (KB) = 1,024 bytes. Megabyte (MB) = 1,024 KB. A 5MB photo = 5 million bytes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -217,11 +208,11 @@ export default function DataConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Accurate Data Conversion Matters</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Storage Buying Decisions</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Storage Buying Decisions</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">1TB drive shows 931GB in Windows (binary vs decimal difference). Know what you're actually getting before buying.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Internet Speed Understanding</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Internet Speed Understanding</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">100 Mbps internet = 12.5 MB/s download. Convert correctly to know actual file download times.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

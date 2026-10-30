@@ -181,30 +181,12 @@ export default function WallpaperCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Wallpaper Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Wallpaper Calculator</h3>
+                        <h2 className="font-semibold">Wallpaper Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Estimate wallpaper rolls needed for your room</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -328,7 +310,7 @@ export default function WallpaperCalculator() {
                         { label: "Waste & Pattern Matching", value: `${result.wastePercent}%` },
                         { label: "Exact Rolls Needed", value: `${result.rollsNeeded} rolls` },
                         { label: "Pattern Repeat", value: `${result.patternRepeat} cm` },
-                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-600" }] : []),
+                        ...(result.totalCost ? [{ label: "Estimated Total Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, valueColor: "text-green-700" }] : []),
                     ] : []}
                 />
             </div>
@@ -379,7 +361,7 @@ export default function WallpaperCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Our calculator automatically adds the right amount of waste based on pattern repeat. No more guesswork.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Batch Matching</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Batch Matching</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Order all your wallpaper at once from the same batch. Avoid color variations between different batches.</p>
                     </div>
                 </div>
@@ -444,7 +426,7 @@ export default function WallpaperCalculator() {
                                 <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className="py-3 px-4 text-ink-soft">{row.type}</td>
                                     <td className="py-3 px-4 text-yellow-700 text-xs">{row.price}</td>
-                                    <td className={`py-3 px-4 ${row.durability === "High" ? "text-green-600" : row.durability === "Medium" ? "text-yellow-700" : "text-red-600"}`}>{row.durability}</td>
+                                    <td className={`py-3 px-4 ${row.durability === "High" ? "text-green-700" : row.durability === "Medium" ? "text-yellow-700" : "text-red-600"}`}>{row.durability}</td>
                                     <td className="py-3 px-4 text-ink-faint">{row.washable}</td>
                                     <td className="py-3 px-4 text-ink-faint text-xs">{row.bestFor}</td>
                                 </tr>
@@ -464,7 +446,7 @@ export default function WallpaperCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div className="bg-surface rounded-lg p-3 text-center border border-green-100">
                             <p className="text-xs text-ink-faint">Solid/No Pattern</p>
-                            <p className="text-sm text-green-600 font-bold">0 cm</p>
+                            <p className="text-sm text-green-700 font-bold">0 cm</p>
                             <p className="text-xs text-ink-faint">10% waste</p>
                         </div>
                         <div className="bg-surface rounded-lg p-3 text-center border border-yellow-100">
@@ -474,7 +456,7 @@ export default function WallpaperCalculator() {
                         </div>
                         <div className="bg-surface rounded-lg p-3 text-center border border-orange-100">
                             <p className="text-xs text-ink-faint">Medium Pattern</p>
-                            <p className="text-sm text-orange-600 font-bold">53 cm</p>
+                            <p className="text-sm text-orange-700 font-bold">53 cm</p>
                             <p className="text-xs text-ink-faint">18% waste</p>
                         </div>
                         <div className="bg-surface rounded-lg p-3 text-center border border-red-100">

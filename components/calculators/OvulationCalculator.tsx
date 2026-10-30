@@ -232,33 +232,11 @@ export default function OvulationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: HOWTO_SCHEMA }} />
 
             {/* ── Breadcrumb Nav ── */}
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Health Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Ovulation Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Your Cycle Information</h3>
+                        <h2 className="font-semibold">Your Cycle Information</h2>
                         <p className="text-xs text-ink-faint mt-1">Track from the first day of your period</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -313,7 +291,7 @@ export default function OvulationCalculator() {
                     mainResult={result ? { label: "Estimated Ovulation Day", value: `Day ${result.ovulationDay} of your cycle`, color: "text-pink-600" } : undefined}
                     extraRows={result ? [
                         { label: "Fertile Window", value: `Days ${result.fertileStart} – ${result.fertileEnd} (about 6 days)` },
-                        { label: "Best Time to Try", value: `Days ${result.fertileStart + 2} – ${result.fertileEnd - 1}`, valueColor: "text-green-600" },
+                        { label: "Best Time to Try", value: `Days ${result.fertileStart + 2} – ${result.fertileEnd - 1}`, valueColor: "text-green-700" },
                         ...(result.predictedDates ? [
                             { label: "Predicted Ovulation Date", value: result.predictedDates.ovulation },
                             { label: "Fertile Window Starts", value: result.predictedDates.fertileStart },
@@ -358,7 +336,7 @@ export default function OvulationCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Understand your menstrual cycle better. Predict when your next period will arrive.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Natural Family Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Natural Family Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">If you're avoiding pregnancy, identify fertile windows to avoid unprotected sex.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

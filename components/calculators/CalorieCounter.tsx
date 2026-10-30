@@ -186,20 +186,11 @@ export default function CalorieCounter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Health Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Calorie Counter</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
-                        <div><h3 className="font-semibold">Food Log</h3><p className="text-xs text-ink-faint mt-1">Track what you eat today</p></div>
+                        <div><h2 className="font-semibold">Food Log</h2><p className="text-xs text-ink-faint mt-1">Track what you eat today</p></div>
                         <button onClick={addFood} className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600">+ Add Food</button>
                     </div>
                     <div className="p-6 space-y-3 max-h-96 overflow-y-auto">
@@ -228,9 +219,9 @@ export default function CalorieCounter() {
                         isEmpty={!result}
                         emptyIcon="🥗"
                         emptyText="Add foods and press Calculate"
-                        mainResult={result ? { label: "Total Calories", value: `${result.totalCalories} kcal`, color: "text-orange-600" } : undefined}
+                        mainResult={result ? { label: "Total Calories", value: `${result.totalCalories} kcal`, color: "text-orange-700" } : undefined}
                         extraRows={result ? [
-                            { label: "Protein", value: `${result.totalProtein}g`, valueColor: "text-green-600" },
+                            { label: "Protein", value: `${result.totalProtein}g`, valueColor: "text-green-700" },
                             { label: "Carbohydrates", value: `${result.totalCarbs}g`, valueColor: "text-yellow-700" },
                             { label: "Fat", value: `${result.totalFat}g`, valueColor: "text-red-600" },
                         ] : []}
@@ -239,7 +230,7 @@ export default function CalorieCounter() {
                     {/* Quick Add Section */}
                     <div className="mt-6 bg-surface border border-hairline rounded-xl overflow-hidden">
                         <div className="px-6 py-4 border-b border-hairline">
-                            <h3 className="font-semibold">Quick Add Foods</h3>
+                            <h2 className="font-semibold">Quick Add Foods</h2>
                             <p className="text-xs text-ink-faint mt-1">Click to add common foods</p>
                         </div>
                         <div className="p-6">
@@ -283,11 +274,11 @@ export default function CalorieCounter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Tracking Your Calories</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Weight Management</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Weight Management</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how many calories you consume vs. burn. Create accurate deficits for weight loss or surpluses for muscle gain.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Macronutrient Awareness</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Macronutrient Awareness</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Track protein, carbs, and fat to ensure balanced nutrition. Hit your macro targets for optimal health and performance.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -318,9 +309,9 @@ export default function CalorieCounter() {
                 <p className="text-xs text-ink-faint mt-2">*Adjust portions based on your calorie needs. Active individuals may need 2,000-2,500 calories.</p>
             </section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Daily Calorie Reference</h2><div className="bg-surface border border-hairline rounded-xl p-5"><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><div><h3 className="text-sm font-semibold text-blue-600 mb-2">For Weight Loss</h3><p className="text-ink-faint text-sm">• Reduce 500 calories/day = 0.5 kg/week</p><p className="text-ink-faint text-sm">• Reduce 1000 calories/day = 1 kg/week</p><p className="text-ink-faint text-sm">• Minimum: 1200 (women) / 1500 (men)</p></div><div><h3 className="text-sm font-semibold text-green-600 mb-2">For Weight Gain</h3><p className="text-ink-faint text-sm">• Add 300-500 calories/day = 0.25-0.5 kg/week</p><p className="text-ink-faint text-sm">• Focus on protein-rich foods</p><p className="text-ink-faint text-sm">• Combine with strength training</p></div></div></div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Daily Calorie Reference</h2><div className="bg-surface border border-hairline rounded-xl p-5"><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><div><h3 className="text-sm font-semibold text-blue-600 mb-2">For Weight Loss</h3><p className="text-ink-faint text-sm">• Reduce 500 calories/day = 0.5 kg/week</p><p className="text-ink-faint text-sm">• Reduce 1000 calories/day = 1 kg/week</p><p className="text-ink-faint text-sm">• Minimum: 1200 (women) / 1500 (men)</p></div><div><h3 className="text-sm font-semibold text-green-700 mb-2">For Weight Gain</h3><p className="text-ink-faint text-sm">• Add 300-500 calories/day = 0.25-0.5 kg/week</p><p className="text-ink-faint text-sm">• Focus on protein-rich foods</p><p className="text-ink-faint text-sm">• Combine with strength training</p></div></div></div></section>
 
-            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Macro Guidelines</h2><div className="grid grid-cols-3 gap-4 text-center"><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍗</div><div className="text-sm font-semibold text-green-600">Protein</div><div className="text-xs text-ink-faint">10-35% of calories</div><div className="text-xs text-ink-faint mt-1">~0.8g per kg body weight</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍚</div><div className="text-sm font-semibold text-yellow-700">Carbs</div><div className="text-xs text-ink-faint">45-65% of calories</div><div className="text-xs text-ink-faint mt-1">Main energy source</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🧈</div><div className="text-sm font-semibold text-red-600">Fat</div><div className="text-xs text-ink-faint">20-35% of calories</div><div className="text-xs text-ink-faint mt-1">Essential for hormones</div></div></div></section>
+            <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Macro Guidelines</h2><div className="grid grid-cols-3 gap-4 text-center"><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍗</div><div className="text-sm font-semibold text-green-700">Protein</div><div className="text-xs text-ink-faint">10-35% of calories</div><div className="text-xs text-ink-faint mt-1">~0.8g per kg body weight</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🍚</div><div className="text-sm font-semibold text-yellow-700">Carbs</div><div className="text-xs text-ink-faint">45-65% of calories</div><div className="text-xs text-ink-faint mt-1">Main energy source</div></div><div className="bg-surface border border-hairline rounded-xl p-4"><div className="text-2xl mb-1">🧈</div><div className="text-sm font-semibold text-red-600">Fat</div><div className="text-xs text-ink-faint">20-35% of calories</div><div className="text-xs text-ink-faint mt-1">Essential for hormones</div></div></div></section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Frequently Asked Questions</h2><div className="space-y-2">{FAQ_DATA.map((item, i) => (<div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden" itemScope itemProp="mainEntity" itemType="https://schema.org/Question"><button className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-cream transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}><span className="text-sm font-medium text-ink" itemProp="name">{item.q}</span><span className={`text-ink-faint text-xl flex-shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}>+</span></button><div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? "max-h-96 pb-4" : "max-h-0"}`}><p className="px-5 text-sm text-ink-faint leading-relaxed" itemProp="text">{item.a}</p></div>{openFaq !== i && <span className="sr-only" itemProp="text">{item.a}</span>}</div>))}</div></section>
         </>

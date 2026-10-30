@@ -182,20 +182,11 @@ export default function LuggageAllowanceCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Luggage Allowance Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Baggage Calculator</h3>
+                        <h2 className="font-semibold">Baggage Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Check allowances or calculate excess fees</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -234,7 +225,7 @@ export default function LuggageAllowanceCalculator() {
                     isEmpty={!result}
                     emptyIcon="🧳"
                     emptyText="Enter baggage details"
-                    mainResult={result ? (calcType === "allowance" ? { label: result.airline, value: "Allowance", color: "text-orange-600" } : { label: "Total Excess Fee", value: `$${result.totalFee}`, color: "text-orange-600" }) : undefined}
+                    mainResult={result ? (calcType === "allowance" ? { label: result.airline, value: "Allowance", color: "text-orange-700" } : { label: "Total Excess Fee", value: `$${result.totalFee}`, color: "text-orange-700" }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "allowance" ? [
                             { label: "Checked Baggage", value: result.checked, valueColor: "text-yellow-700" },
@@ -279,7 +270,7 @@ export default function LuggageAllowanceCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Luggage Allowance Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Avoid Excess Fees</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Avoid Excess Fees</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Airports charge $50-200 for overweight/extra bags. Know your limits before packing to avoid surprise charges at check-in.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -287,7 +278,7 @@ export default function LuggageAllowanceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Different airlines have different baggage policies. Compare before booking to choose the most luggage-friendly airline.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Budget Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate total travel cost including baggage fees. Budget airlines may have cheap tickets but expensive baggage.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -301,10 +292,10 @@ export default function LuggageAllowanceCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Airline Baggage Allowance Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Full-service airlines (Emirates, Singapore, Qatar):</strong> Include 1-2 checked bags (23kg each) + carry-on. Best for long-haul international travel.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">US airlines (American, Delta, United):</strong> Economy includes 1 checked bag (23kg) + carry-on + personal item. Additional bags cost $50-100 each.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Budget airlines (Ryanair, EasyJet, Spirit):</strong> No free checked bags. Pay extra for every bag ($25-50). Carry-on limited to small personal item.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Elite status and credit cards:</strong> Frequent flyer status or airline credit cards often include free checked bags (1-2 bags). Sign up for status match programs.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Full-service airlines (Emirates, Singapore, Qatar):</strong> Include 1-2 checked bags (23kg each) + carry-on. Best for long-haul international travel.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">US airlines (American, Delta, United):</strong> Economy includes 1 checked bag (23kg) + carry-on + personal item. Additional bags cost $50-100 each.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Budget airlines (Ryanair, EasyJet, Spirit):</strong> No free checked bags. Pay extra for every bag ($25-50). Carry-on limited to small personal item.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Elite status and credit cards:</strong> Frequent flyer status or airline credit cards often include free checked bags (1-2 bags). Sign up for status match programs.</span></li>
                 </ul>
             </section>
 
@@ -312,10 +303,10 @@ export default function LuggageAllowanceCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Excess Baggage Fee Saving Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Prepay online:</strong> Baggage fees 20-50% cheaper when prepaid online vs airport counter. Book at least 24 hours before flight.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Ship instead:</strong> For very heavy bags, shipping via FedEx/UPS often cheaper than airline excess fees ($100-200 for 50lb).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Wear heavy items:</strong> Wear jackets, boots, heavy sweaters on plane. Put camera gear in jacket pockets.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Use luggage scale:</strong> $10 luggage scale saves $100+ in overweight fees. Check weight before leaving home.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Prepay online:</strong> Baggage fees 20-50% cheaper when prepaid online vs airport counter. Book at least 24 hours before flight.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Ship instead:</strong> For very heavy bags, shipping via FedEx/UPS often cheaper than airline excess fees ($100-200 for 50lb).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Wear heavy items:</strong> Wear jackets, boots, heavy sweaters on plane. Put camera gear in jacket pockets.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Use luggage scale:</strong> $10 luggage scale saves $100+ in overweight fees. Check weight before leaving home.</span></li>
                 </ul>
             </section>
 

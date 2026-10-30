@@ -163,41 +163,12 @@ useEffect(() => {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            {/* URL and span are both fixed */}
-            <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Investment Calculators</span> 
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">SIP Calculator</span> {/* ✅ Span added */}
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">SIP Investment Details</h3>
+            <h2 className="font-semibold">SIP Investment Details</h2>
             <p className="text-xs text-ink-faint mt-1">Plan your monthly mutual fund investments</p>
           </div>
           <div className="p-6 space-y-4">
@@ -270,10 +241,10 @@ useEffect(() => {
           isEmpty={!result}
           emptyIcon="📈"
           emptyText="Enter SIP details and press Calculate"
-          mainResult={result ? { label: "Estimated Future Value", value: `₹${result.futureValue}`, color: "text-green-600" } : undefined}
+          mainResult={result ? { label: "Estimated Future Value", value: `₹${result.futureValue}`, color: "text-green-700" } : undefined}
           extraRows={result ? [
             { label: "Total Investment", value: `₹${result.totalInvestment}` },
-            { label: "Estimated Returns", value: `₹${result.estimatedReturns}`, valueColor: "text-green-600" },
+            { label: "Estimated Returns", value: `₹${result.estimatedReturns}`, valueColor: "text-green-700" },
             { label: "Wealth Multiplier", value: `${result.wealthRatio}x`, valueColor: "text-yellow-700" },
             { label: "Monthly Investment", value: `₹${result.monthlyAmount.toLocaleString()}` },
             { label: "Tenure", value: `${result.years} years at ${result.returnRate}% p.a.` },
@@ -327,7 +298,7 @@ useEffect(() => {
             <p className="text-ink-faint text-xs leading-relaxed">Visualize how compounding works over time. See how your wealth multiplies with regular investments and long-term discipline.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Budget Planning</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Find the right balance between your monthly investment and other expenses. Create a realistic investment plan for your financial future.</p>
           </div>
         </div>
@@ -352,9 +323,9 @@ useEffect(() => {
                   <td className="py-3 px-4 text-ink-soft">{fund.type}</td>
                   <td className="py-3 px-4 text-yellow-700">{fund.expectedReturn}</td>
                   <td className={`py-3 px-4 ${fund.risk === "Very High" ? "text-red-600" :
-                    fund.risk === "High" ? "text-orange-600" :
+                    fund.risk === "High" ? "text-orange-700" :
                       fund.risk === "Moderate" ? "text-yellow-700" :
-                        "text-green-600"
+                        "text-green-700"
                     }`}>{fund.risk}</td>
                   <td className="py-3 px-4 text-ink-faint">{fund.timeHorizon}</td>
                 </tr>
@@ -373,7 +344,7 @@ useEffect(() => {
         <div className="bg-surface border border-hairline rounded-xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-surface border border-hairline rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-purple-600 mb-2">📊 Systematic Investment Plan (SIP)</h4>
+              <h3 className="text-sm font-semibold text-purple-600 mb-2">📊 Systematic Investment Plan (SIP)</h3>
               <ul className="text-xs text-ink-faint space-y-1">
                 <li>✅ Rupee cost averaging</li>
                 <li>✅ Reduced market timing risk</li>
@@ -383,7 +354,7 @@ useEffect(() => {
               </ul>
             </div>
             <div className="bg-surface border border-hairline rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-orange-600 mb-2">💰 Lump Sum Investment</h4>
+              <h3 className="text-sm font-semibold text-orange-700 mb-2">💰 Lump Sum Investment</h3>
               <ul className="text-xs text-ink-faint space-y-1">
                 <li>✅ Higher returns if timed correctly</li>
                 <li>✅ Full capital deployment</li>
@@ -404,21 +375,21 @@ useEffect(() => {
         <h2 className="text-xl font-semibold text-ink mb-3">The Power of Compounding</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
-            <h4 className="text-sm font-semibold text-blue-600 mb-2">₹5,000 Monthly</h4>
+            <h3 className="text-sm font-semibold text-blue-600 mb-2">₹5,000 Monthly</h3>
             <p className="text-xs text-ink-faint">10 years at 12%</p>
-            <p className="text-lg font-bold text-green-600 mt-2">₹11.6 Lakhs</p>
+            <p className="text-lg font-bold text-green-700 mt-2">₹11.6 Lakhs</p>
             <p className="text-xs text-ink-faint">Investment: ₹6 Lakhs</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4 text-center border-purple-200">
-            <h4 className="text-sm font-semibold text-purple-600 mb-2">₹10,000 Monthly</h4>
+            <h3 className="text-sm font-semibold text-purple-600 mb-2">₹10,000 Monthly</h3>
             <p className="text-xs text-ink-faint">15 years at 12%</p>
             <p className="text-lg font-bold text-yellow-700 mt-2">₹50.4 Lakhs</p>
             <p className="text-xs text-ink-faint">Investment: ₹18 Lakhs</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4 text-center border-green-200">
-            <h4 className="text-sm font-semibold text-green-600 mb-2">₹10,000 Monthly</h4>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">₹10,000 Monthly</h3>
             <p className="text-xs text-ink-faint">20 years at 12%</p>
-            <p className="text-lg font-bold text-green-600 mt-2">₹1 Crore+</p>
+            <p className="text-lg font-bold text-green-700 mt-2">₹1 Crore+</p>
             <p className="text-xs text-ink-faint">Investment: ₹24 Lakhs</p>
           </div>
         </div>

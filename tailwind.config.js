@@ -20,7 +20,7 @@ module.exports = {
         surface: "#ffffff", // cards, inputs, the header/footer's opposite number
         ink: "#111111", // primary text / headings
         "ink-soft": "#374151", // secondary/body text (~gray-700)
-        "ink-faint": "#6b7280", // labels/tertiary text (~gray-500, passes WCAG AA on white)
+        "ink-faint": "#5b6370", // labels/tertiary text; Patch 28: darkened from #6b7280 so it passes WCAG AA (4.5:1) on the cream background too
         panel: "#0f172a", // the dark navy "results" card (slate-900)
         "panel-soft": "#1e293b", // lighter fill inside a panel (slate-800)
         hairline: "#cbd5e1", // card/input borders (~slate-300; was gray-200, too faint for low vision)

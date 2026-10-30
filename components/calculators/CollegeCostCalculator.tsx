@@ -137,20 +137,11 @@ export default function CollegeCostCalculator() {
                 })
             }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">College Cost Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">College Cost Details</h3>
+                        <h2 className="font-semibold">College Cost Details</h2>
                         <p className="text-xs text-ink-faint">Enter annual costs for one year (current prices)</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -201,11 +192,11 @@ export default function CollegeCostCalculator() {
                     isEmpty={!result}
                     emptyIcon="🎓"
                     emptyText="Enter college costs to see total expense"
-                    mainResult={result ? { label: "Total College Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-600" } : undefined}
+                    mainResult={result ? { label: "Total College Cost", value: `${symbol}${parseFloat(result.totalCost).toLocaleString()}`, color: "text-teal-700" } : undefined}
                     extraRows={result ? [
                         { label: "Average Per Year", value: `${symbol}${parseFloat(result.averagePerYear).toLocaleString()}` },
                         { label: "First Year Cost", value: `${symbol}${parseFloat(result.firstYearCost).toLocaleString()}`, valueColor: "text-yellow-700" },
-                        { label: "Final Year Cost", value: `${symbol}${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-600" },
+                        { label: "Final Year Cost", value: `${symbol}${parseFloat(result.lastYearCost).toLocaleString()}`, valueColor: "text-orange-700" },
                         { label: "Total Years", value: result.years },
                     ] : []}
                 />
@@ -257,11 +248,11 @@ export default function CollegeCostCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Benefits of College Cost Planning</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Avoid Financial Surprises</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Avoid Financial Surprises</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll need each year. Plan savings and loan applications well in advance without last-minute stress.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Colleges</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Colleges</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare total 4-year costs between different colleges (government vs private, in-state vs out-of-state). Make informed decisions based on ROI.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -287,7 +278,7 @@ export default function CollegeCostCalculator() {
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Books &amp; Supplies</td><td className="py-2 px-4 text-right">$600</td><td className="py-2 px-4 text-right">$1,200</td><td className="py-2 px-4 text-right">$1,800</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Transportation</td><td className="py-2 px-4 text-right">$700</td><td className="py-2 px-4 text-right">$1,300</td><td className="py-2 px-4 text-right">$2,200</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Personal / Misc</td><td className="py-2 px-4 text-right">$1,500</td><td className="py-2 px-4 text-right">$2,400</td><td className="py-2 px-4 text-right">$3,500</td></tr>
-                            <tr className="bg-cream"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-600">$19,800</td><td className="py-2 px-4 text-right font-semibold text-yellow-700">$29,200</td><td className="py-2 px-4 text-right font-semibold text-orange-600">$40,500</td></tr>
+                            <tr className="bg-cream"><td className="py-2 px-4 font-semibold">Total Annual</td><td className="py-2 px-4 text-right font-semibold text-green-700">$19,800</td><td className="py-2 px-4 text-right font-semibold text-yellow-700">$29,200</td><td className="py-2 px-4 text-right font-semibold text-orange-700">$40,500</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -318,10 +309,10 @@ export default function CollegeCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Smart Savings Strategies for College</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Start the year they are born:</strong> $400 a month at a 7% average return grows to roughly $172,000 in 18 years — about $86,000 of it contributions and the rest growth.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Use a 529 plan:</strong> growth is tax-free when spent on qualified education costs, and most states add a deduction or credit on top.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Federal loans first:</strong> fixed rates, income-driven repayment and deferment options that private lenders do not offer. Up to $2,500 of student loan interest is deductible each year.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Where to look:</strong> the FAFSA first, then your state&apos;s grant agency, the college&apos;s own aid office, and free national databases. Never pay a fee to search for scholarships.</span></li>
                 </ul>
             </section>
 

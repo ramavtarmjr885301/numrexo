@@ -141,20 +141,11 @@ export default function DistanceCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Distance Formula Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Distance Formula: d = √[(x₂-x₁)² + (y₂-y₁)²]</h3>
+                        <h2 className="font-semibold">Distance Formula: d = √[(x₂-x₁)² + (y₂-y₁)²]</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate distance between two points</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -178,7 +169,7 @@ export default function DistanceCalculator() {
                     isEmpty={!result}
                     emptyIcon="📍"
                     emptyText="Enter coordinates and press Calculate"
-                    mainResult={result ? { label: "Distance", value: result.distance, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Distance", value: result.distance, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Δx (change in x)", value: result.deltaX },
                         { label: "Δy (change in y)", value: result.deltaY },
@@ -224,11 +215,11 @@ export default function DistanceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">GPS systems calculate straight-line distance between coordinates to determine shortest routes and estimate travel times.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">📐 Construction & Surveying</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">📐 Construction & Surveying</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Surveyors use distance formula to measure land boundaries, building layouts, and property lines accurately.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">🎮 Game Development</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">🎮 Game Development</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Game engines use distance formula for collision detection, enemy AI range, and camera positioning.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -256,7 +247,7 @@ export default function DistanceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">M = ((x₁+x₂)/2, (y₁+y₂)/2). Finds the point exactly halfway between two points. Useful for line bisectors and finding centers.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">Slope Formula</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">Slope Formula</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">m = (y₂-y₁)/(x₂-x₁). Measures steepness of a line. Positive slope = upward, negative = downward, zero = horizontal, undefined = vertical.</p>
                     </div>
                 </div>

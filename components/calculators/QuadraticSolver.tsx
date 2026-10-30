@@ -134,7 +134,7 @@ export default function QuadraticSolver() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Enter Your Equation</h3>
+                        <h2 className="font-semibold">Enter Your Equation</h2>
                         <p className="text-xs text-ink-faint mt-1">ax² + bx + c = 0</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -164,7 +164,7 @@ export default function QuadraticSolver() {
                     isEmpty={!result}
                     emptyIcon="📐"
                     emptyText="Enter coefficients a, b, and c"
-                    mainResult={result ? { label: "Equation", value: `${result.a}x² ${result.b >= 0 ? '+' : ''}${result.b}x ${result.c >= 0 ? '+' : ''}${result.c} = 0`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Equation", value: `${result.a}x² ${result.b >= 0 ? '+' : ''}${result.b}x ${result.c >= 0 ? '+' : ''}${result.c} = 0`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Root 1 (x₁)", value: result.root1, valueColor: "text-yellow-700" },
                         { label: "Root 2 (x₂)", value: result.root2, valueColor: "text-yellow-700" },
@@ -207,7 +207,7 @@ export default function QuadraticSolver() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Quadratic Equation Solver?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Instant Solutions</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Instant Solutions</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Get roots immediately. No manual calculations needed. Perfect for checking homework answers.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -239,7 +239,7 @@ export default function QuadraticSolver() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-hairline">
-                                <td className="py-2 px-4 text-green-600">Δ &gt; 0</td>
+                                <td className="py-2 px-4 text-green-700">Δ &gt; 0</td>
                                 <td className="py-2 px-4">Two distinct real roots</td>
                                 <td className="py-2 px-4">Parabola crosses x-axis twice</td>
                             </tr>
@@ -262,10 +262,10 @@ export default function QuadraticSolver() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Real-World Applications of Quadratic Equations</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🚀</span><span><strong className="text-ink-soft">Projectile Motion:</strong> Calculating trajectory of thrown objects, rockets, and sports balls.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🚀</span><span><strong className="text-ink-soft">Business & Finance:</strong> Profit optimization, break-even analysis, revenue maximization.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🚀</span><span><strong className="text-ink-soft">Engineering:</strong> Bridge design, suspension cables, structural analysis, signal processing.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🚀</span><span><strong className="text-ink-soft">Physics:</strong> Free-fall motion, kinetic energy, optics, electromagnetic waves.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🚀</span><span><strong className="text-ink-soft">Projectile Motion:</strong> Calculating trajectory of thrown objects, rockets, and sports balls.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🚀</span><span><strong className="text-ink-soft">Business & Finance:</strong> Profit optimization, break-even analysis, revenue maximization.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🚀</span><span><strong className="text-ink-soft">Engineering:</strong> Bridge design, suspension cables, structural analysis, signal processing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🚀</span><span><strong className="text-ink-soft">Physics:</strong> Free-fall motion, kinetic energy, optics, electromagnetic waves.</span></li>
                 </ul>
             </section>
 
@@ -278,7 +278,7 @@ export default function QuadraticSolver() {
                         <p className="text-ink-faint text-xs leading-relaxed">Best when equation factors easily. Find two numbers that multiply to ac and add to b.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">2. Quadratic Formula</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">2. Quadratic Formula</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Works for ALL equations. x = [-b ± √(b²-4ac)] / 2a. Our calculator uses this method.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

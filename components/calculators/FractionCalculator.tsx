@@ -147,7 +147,7 @@ export default function FractionCalculator() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-hairline"><h3 className="font-semibold">Fraction Operation</h3></div>
+                    <div className="px-6 py-4 border-b border-hairline"><h2 className="font-semibold">Fraction Operation</h2></div>
                     <div className="p-6 space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div><label className="block text-xs font-semibold text-ink-faint mb-2">First Fraction</label><div className="grid grid-cols-2 gap-2"><input type="number" placeholder="1" value={num1} onChange={(e) => setNum1(e.target.value)} className="px-3 py-2 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /><span className="text-ink-faint self-center text-center">—</span><input type="number" placeholder="2" value={den1} onChange={(e) => setDen1(e.target.value)} className="px-3 py-2 bg-surface border border-hairline rounded-lg text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" /></div></div>
@@ -209,7 +209,7 @@ export default function FractionCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Check your fraction homework answers. See step-by-step solutions to understand where you went wrong. Learn fraction operations faster.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Recipe Scaling</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Recipe Scaling</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Double or halve recipe fractions easily. Convert 2/3 cup to doubled measurement. Scale baking recipes without math errors.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -232,7 +232,7 @@ export default function FractionCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Find common denominator, add numerators. Example: 1/2 + 1/3 = 3/6 + 2/6 = 5/6</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Subtraction (-)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Subtraction (-)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Find common denominator, subtract numerators. Example: 3/4 - 1/2 = 3/4 - 2/4 = 1/4</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -271,11 +271,11 @@ export default function FractionCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Mixed Numbers & Improper Fractions Guide</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">Improper to Mixed Number</h3>
+                        <h3 className="text-sm font-semibold text-cyan-700 mb-2">Improper to Mixed Number</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Divide numerator by denominator. Quotient is whole number, remainder is new numerator. Example: 7/3 = 2 remainder 1 = 2 1/3</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Mixed to Improper Fraction</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">Mixed to Improper Fraction</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">(Whole × Denominator) + Numerator / Denominator. Example: 2 1/3 = (2×3+1)/3 = 7/3</p>
                     </div>
                 </div>

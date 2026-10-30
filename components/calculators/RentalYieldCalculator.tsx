@@ -124,7 +124,7 @@ export default function RentalYieldCalculator() {
 
         let yieldRating = "";
         let ratingColor = "";
-        if (grossYield >= 8) { yieldRating = "Excellent"; ratingColor = "text-green-600"; }
+        if (grossYield >= 8) { yieldRating = "Excellent"; ratingColor = "text-green-700"; }
         else if (grossYield >= 6) { yieldRating = "Good"; ratingColor = "text-blue-600"; }
         else if (grossYield >= 4) { yieldRating = "Average"; ratingColor = "text-yellow-700"; }
         else { yieldRating = "Poor"; ratingColor = "text-red-600"; }
@@ -165,30 +165,12 @@ export default function RentalYieldCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Rental Yield Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Rental Yield Calculator</h3>
+                        <h2 className="font-semibold">Rental Yield Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate return on rental property investment</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -328,8 +310,8 @@ export default function RentalYieldCalculator() {
                         { label: "Value-to-Rent Ratio", value: `${result.valueToRentRatio}:1`, valueColor: "text-purple-600" },
                         { label: "Annual Rent", value: `₹${parseFloat(result.annualRent).toLocaleString()}` },
                         { label: "Annual Expenses", value: `₹${parseFloat(result.annualExpenses).toLocaleString()}`, valueColor: "text-red-600" },
-                        { label: "Vacancy Loss", value: `₹${parseFloat(result.vacancyLoss).toLocaleString()}`, valueColor: "text-orange-600" },
-                        { label: "Net Annual Income", value: `₹${parseFloat(result.netAnnualIncome).toLocaleString()}`, valueColor: "text-green-600" },
+                        { label: "Vacancy Loss", value: `₹${parseFloat(result.vacancyLoss).toLocaleString()}`, valueColor: "text-orange-700" },
+                        { label: "Net Annual Income", value: `₹${parseFloat(result.netAnnualIncome).toLocaleString()}`, valueColor: "text-green-700" },
                         { label: "Monthly Cash Flow", value: `₹${parseFloat(result.monthlyCashFlow).toLocaleString()}` },
                         { label: "Payback Period", value: `${result.yearsToRecover} years` },
                     ] : []}
@@ -375,7 +357,7 @@ export default function RentalYieldCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Understand how different expenses impact your net yield. Identify areas where you can reduce costs and improve returns.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Cash Flow Analysis</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Cash Flow Analysis</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know your monthly cash flow before investing. Ensure the property generates positive cash flow for financial sustainability.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -404,7 +386,7 @@ export default function RentalYieldCalculator() {
                                 <td className="py-2 px-4 text-ink-soft">Mumbai</td>
                                 <td className="py-2 px-4 text-yellow-700">2.5-3.5%</td>
                                 <td className="py-2 px-4 text-ink-faint">1.5-2.5%</td>
-                                <td className="py-2 px-4 text-green-600">High</td>
+                                <td className="py-2 px-4 text-green-700">High</td>
                                 <td className="py-2 px-4 text-red-600">Poor</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -418,7 +400,7 @@ export default function RentalYieldCalculator() {
                                 <td className="py-2 px-4 text-ink-soft">Bangalore</td>
                                 <td className="py-2 px-4 text-yellow-700">3.5-4.5%</td>
                                 <td className="py-2 px-4 text-ink-faint">2.5-3.5%</td>
-                                <td className="py-2 px-4 text-green-600">High</td>
+                                <td className="py-2 px-4 text-green-700">High</td>
                                 <td className="py-2 px-4 text-yellow-700">Average</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -439,7 +421,7 @@ export default function RentalYieldCalculator() {
                                 <td className="py-2 px-4 text-ink-soft">Hyderabad</td>
                                 <td className="py-2 px-4 text-yellow-700">4-5.5%</td>
                                 <td className="py-2 px-4 text-ink-faint">3-4%</td>
-                                <td className="py-2 px-4 text-green-600">High</td>
+                                <td className="py-2 px-4 text-green-700">High</td>
                                 <td className="py-2 px-4 text-blue-600">Good</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -447,7 +429,7 @@ export default function RentalYieldCalculator() {
                                 <td className="py-2 px-4 text-yellow-700">4.5-6%</td>
                                 <td className="py-2 px-4 text-ink-faint">3.5-4.5%</td>
                                 <td className="py-2 px-4 text-yellow-700">Medium</td>
-                                <td className="py-2 px-4 text-green-600">Excellent</td>
+                                <td className="py-2 px-4 text-green-700">Excellent</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Kolkata</td>
@@ -480,7 +462,7 @@ export default function RentalYieldCalculator() {
                             </ul>
                         </div>
                         <div className="space-y-2">
-                            <h4 className="text-sm font-semibold text-orange-600">Commercial Property</h4>
+                            <h4 className="text-sm font-semibold text-orange-700">Commercial Property</h4>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Yield: 6-10% typical</li>
                                 <li>• Higher management effort</li>

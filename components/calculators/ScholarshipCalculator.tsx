@@ -173,13 +173,13 @@ export default function ScholarshipCalculator() {
         let statusColor = "";
         if (remainingCost <= 0) {
             status = "Fully Funded! 🎉";
-            statusColor = "text-green-600";
+            statusColor = "text-green-700";
         } else if (remainingCost <= total * 0.25) {
             status = "Nearly Covered - Small Gap";
             statusColor = "text-yellow-700";
         } else if (remainingCost <= total * 0.5) {
             status = "Partially Covered";
-            statusColor = "text-orange-600";
+            statusColor = "text-orange-700";
         } else {
             status = "Significant Gap - Explore More Options";
             statusColor = "text-red-600";
@@ -214,30 +214,12 @@ export default function ScholarshipCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Scholarship Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form - Removed max-h and overflow-y-auto */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Scholarship & Aid Details</h3>
+                        <h2 className="font-semibold">Scholarship & Aid Details</h2>
                         <p className="text-xs text-ink-faint mt-1">Enter all funding sources to see your coverage gap</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -259,7 +241,7 @@ export default function ScholarshipCalculator() {
                         </div>
 
                         <div className="border-t border-hairline pt-3">
-                            <h4 className="text-sm font-semibold text-teal-600 mb-2">💰 Scholarships (Tax-Free)</h4>
+                            <h3 className="text-sm font-semibold text-teal-700 mb-2">💰 Scholarships (Tax-Free)</h3>
                             <div className="space-y-3">
                                 <div>
                                     <label className="block text-xs text-ink-faint mb-1">Merit-Based Scholarship</label>
@@ -307,7 +289,7 @@ export default function ScholarshipCalculator() {
                         </div>
 
                         <div className="border-t border-hairline pt-3">
-                            <h4 className="text-sm font-semibold text-blue-600 mb-2">🎓 Other Financial Aid</h4>
+                            <h3 className="text-sm font-semibold text-blue-600 mb-2">🎓 Other Financial Aid</h3>
                             <div className="space-y-3">
                                 <div>
                                     <label className="block text-xs text-ink-faint mb-1">Grants (Pell, State, etc.)</label>
@@ -341,7 +323,7 @@ export default function ScholarshipCalculator() {
                         </div>
 
                         <div className="border-t border-hairline pt-3">
-                            <h4 className="text-sm font-semibold text-yellow-700 mb-2">🏠 Family Contribution</h4>
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">🏠 Family Contribution</h3>
                             <div>
                                 <label className="block text-xs text-ink-faint mb-1">Expected Family Contribution (EFC)</label>
                                 <div className="relative">
@@ -384,11 +366,11 @@ export default function ScholarshipCalculator() {
                     mainResult={result ? { label: result.status, value: `${result.percentageCovered}% Covered`, color: result.statusColor } : undefined}
                     extraRows={result ? [
                         { label: "Total College Cost", value: `${symbol}${result.totalCost.toLocaleString()}` },
-                        { label: "Total Scholarships", value: `${symbol}${result.totalScholarship.toLocaleString()}`, valueColor: "text-teal-600" },
+                        { label: "Total Scholarships", value: `${symbol}${result.totalScholarship.toLocaleString()}`, valueColor: "text-teal-700" },
                         { label: "Total Financial Aid", value: `${symbol}${result.totalAid.toLocaleString()}`, valueColor: "text-blue-600" },
                         { label: "Family Contribution", value: `${symbol}${result.familyContribution.toLocaleString()}` },
-                        { label: "Remaining Cost to Pay", value: `${symbol}${result.remainingCost.toLocaleString()}`, valueColor: result.remainingCost > 0 ? "text-red-600" : "text-green-600" },
-                        ...(result.surplus > 0 ? [{ label: "Surplus (Refund)", value: `${symbol}${result.surplus.toLocaleString()}`, valueColor: "text-green-600" }] : []),
+                        { label: "Remaining Cost to Pay", value: `${symbol}${result.remainingCost.toLocaleString()}`, valueColor: result.remainingCost > 0 ? "text-red-600" : "text-green-700" },
+                        ...(result.surplus > 0 ? [{ label: "Surplus (Refund)", value: `${symbol}${result.surplus.toLocaleString()}`, valueColor: "text-green-700" }] : []),
                         { label: "Scholarship % of Total", value: `${result.scholarshipPercentage}%` },
                     ] : []}
                 />
@@ -443,7 +425,7 @@ export default function ScholarshipCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Scholarship Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Financial Planning</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Financial Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Understand your true out-of-pocket college costs. Plan your finances years in advance with accurate projections.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -455,7 +437,7 @@ export default function ScholarshipCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Keep track of all your scholarships and financial aid in one place. Never miss an opportunity to reduce your costs.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ College Comparison</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ College Comparison</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare financial aid offers from different colleges. See which school offers the best net price for your family.</p>
                     </div>
                 </div>
@@ -466,7 +448,7 @@ export default function ScholarshipCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Types of Scholarships & Grants</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">🎯 Merit-Based</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">🎯 Merit-Based</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Academic excellence (GPA, test scores)</li>
                             <li>• Athletic achievements</li>
@@ -493,7 +475,7 @@ export default function ScholarshipCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">💼 External</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">💼 External</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Private scholarship funds</li>
                             <li>• Corporate scholarships</li>

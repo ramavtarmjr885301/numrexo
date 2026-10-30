@@ -89,7 +89,7 @@ const BREADCRUMB_SCHEMA = JSON.stringify({
 const TIP_PERCENTAGES = [
     { percent: 10, label: "Poor Service", color: "text-red-600", description: "Unacceptable service" },
     { percent: 15, label: "Standard Service", color: "text-yellow-700", description: "Met expectations" },
-    { percent: 18, label: "Good Service", color: "text-green-600", description: "Attentive and friendly" },
+    { percent: 18, label: "Good Service", color: "text-green-700", description: "Attentive and friendly" },
     { percent: 20, label: "Excellent Service", color: "text-blue-600", description: "Went above and beyond" },
     { percent: 25, label: "Outstanding Service", color: "text-purple-600", description: "Exceptional experience" },
 ];
@@ -181,30 +181,12 @@ export default function TipCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Tip Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Tip Calculator</h3>
+                        <h2 className="font-semibold">Tip Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate gratuity and split bills</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -278,7 +260,7 @@ export default function TipCalculator() {
                     isEmpty={!result}
                     emptyIcon="💰"
                     emptyText="Enter a bill amount to see the tip"
-                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Total Bill (with Tip)", value: money(result.totalAmount, 2), color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Original Bill", value: money(result.billAmount, 2) },
                         { label: `Tip (${result.tipPercent}%)`, value: money(result.tipAmount, 2), valueColor: "text-yellow-700" },
@@ -322,7 +304,7 @@ export default function TipCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Tip Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Accurate Tipping</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Accurate Tipping</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Never second-guess the right tip amount. Calculate exact gratuity based on service quality and bill amount.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -439,23 +421,23 @@ export default function TipCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Smart Tipping Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Check the bill first:</strong> Some restaurants add a service charge. Don't double-tip. Look for "service included" or "gratuity added" on the receipt.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Tip in cash when possible:</strong> Credit card tips may be processed differently and sometimes don't reach service staff. Cash tips are always fully received.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Consider the service context:</strong> Tip more for complex orders, large groups, or during busy times. Tip less for counter service or self-service situations.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Round up for simplicity:</strong> Round to the nearest dollar for easy mental math. Example: a $12.75 tip → $13 is perfectly fine.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use the 20% rule:</strong> 20% is becoming the new standard in many places. Divide by 5 for quick mental calculation. Example: $85 ÷ 5 = $17 tip.</span>
                     </li>
                 </ul>

@@ -53,7 +53,7 @@ const FAQ_DATA = [
 
 const IDEAL_WEIGHT_FORMULAS = [
     { formula: "Devine (Medical Standard)", men: "50 kg + 2.3 kg/inch over 5'", women: "45.5 kg + 2.3 kg/inch over 5'", color: "text-blue-600" },
-    { formula: "Robinson (Recommended)", men: "52 kg + 1.9 kg/inch over 5'", women: "49 kg + 1.7 kg/inch over 5'", color: "text-green-600" },
+    { formula: "Robinson (Recommended)", men: "52 kg + 1.9 kg/inch over 5'", women: "49 kg + 1.7 kg/inch over 5'", color: "text-green-700" },
     { formula: "Miller (Nutritionists)", men: "56.2 kg + 1.41 kg/inch over 5'", women: "53.1 kg + 1.36 kg/inch over 5'", color: "text-yellow-700" },
     { formula: "Hamwi (Traditional)", men: "48 kg + 2.7 kg/inch over 5'", women: "45.5 kg + 2.2 kg/inch over 5'", color: "text-purple-600" },
 ];
@@ -274,28 +274,6 @@ export default function IdealWeightCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: HOWTO_SCHEMA }} />
 
             {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/health" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Health Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Ideal Weight Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
@@ -349,7 +327,7 @@ export default function IdealWeightCalculator() {
                     isEmpty={!result}
                     emptyIcon="⭐"
                     emptyText="Enter your height and press Calculate"
-                    mainResult={result ? { label: "Recommended (Robinson)", value: `${result.robinson} ${result.unit}`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Recommended (Robinson)", value: `${result.robinson} ${result.unit}`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Devine Formula", value: `${result.devine} ${result.unit}` },
                         { label: "Miller Formula", value: `${result.miller} ${result.unit}` },
@@ -386,11 +364,11 @@ export default function IdealWeightCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use an Ideal Weight Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Medical Dosing Reference</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Medical Dosing Reference</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Doctors and pharmacists use IBW for medication dosing, especially for chemotherapy, anesthesia, and critical care drugs.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Health Goal Setting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Health Goal Setting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic weight loss or weight gain targets based on medical standards rather than aesthetic preferences.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

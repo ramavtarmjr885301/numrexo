@@ -321,30 +321,12 @@ export default function UnitConverter() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-            <meta itemProp="position" content="1" />
-          </li>
-          <li className="text-ink-soft">/</li>
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
-            <meta itemProp="position" content="2" />
-          </li>
-          <li className="text-ink-soft">/</li>
-          <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">Unit Converter</span>
-            <meta itemProp="position" content="3" />
-          </li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Unit Converter</h3>
+            <h2 className="font-semibold">Unit Converter</h2>
             <p className="text-xs text-ink-faint mt-1">Convert between 6 different unit types</p>
           </div>
           <div className="p-6 space-y-4">
@@ -437,7 +419,7 @@ export default function UnitConverter() {
           mainResult={result ? {
             label: `${result.value} ${result.fromUnit} =`,
             value: `${result.convertedValue} ${result.toUnit}`,
-            color: "text-cyan-600",
+            color: "text-cyan-700",
           } : undefined}
           extraRows={result ? [
             { label: "Conversion Type", value: result.type },
@@ -481,7 +463,7 @@ export default function UnitConverter() {
         <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Unit Converter?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-cyan-600 mb-2">✓ Instant Results</h3>
+            <h3 className="text-sm font-semibold text-cyan-700 mb-2">✓ Instant Results</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Get accurate conversions in real-time. No need for manual calculations or lookup tables. Simply enter values and get results instantly.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -493,7 +475,7 @@ export default function UnitConverter() {
             <p className="text-ink-faint text-xs leading-relaxed">Results are displayed with 6 decimal places for maximum accuracy. Perfect for engineering, science, and precise cooking measurements.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Metric & Imperial</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Metric & Imperial</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Convert between metric (meters, kilograms, liters) and imperial (feet, pounds, gallons) systems. Also handles US customary units.</p>
           </div>
         </div>
@@ -593,7 +575,7 @@ export default function UnitConverter() {
         <div className="bg-surface border border-hairline rounded-xl p-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h4 className="text-sm font-semibold text-blue-600 mb-2">📏 Metric System</h4>
+              <h3 className="text-sm font-semibold text-blue-600 mb-2">📏 Metric System</h3>
               <ul className="text-xs text-ink-faint space-y-1">
                 <li>• <span className="text-ink-soft">Length:</span> Millimeters, Centimeters, Meters, Kilometers</li>
                 <li>• <span className="text-ink-soft">Weight:</span> Milligrams, Grams, Kilograms, Tonnes</li>
@@ -604,7 +586,7 @@ export default function UnitConverter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-yellow-700 mb-2">🇺🇸 Imperial/US Customary</h4>
+              <h3 className="text-sm font-semibold text-yellow-700 mb-2">🇺🇸 Imperial/US Customary</h3>
               <ul className="text-xs text-ink-faint space-y-1">
                 <li>• <span className="text-ink-soft">Length:</span> Inches, Feet, Yards, Miles</li>
                 <li>• <span className="text-ink-soft">Weight:</span> Ounces, Pounds, Tons</li>
@@ -626,23 +608,23 @@ export default function UnitConverter() {
         <h2 className="text-xl font-semibold text-ink mb-3">Unit Converter Tips</h2>
         <ul className="space-y-2">
           <li className="flex gap-3 text-sm text-ink-faint">
-            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span className="text-cyan-700 mt-0.5">💡</span>
             <span><strong className="text-ink-soft">Remember common conversions:</strong> 1 inch = 2.54 cm, 1 kg = 2.204 lbs, 1 gallon = 3.785 L. These are useful for quick mental estimates.</span>
           </li>
           <li className="flex gap-3 text-sm text-ink-faint">
-            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span className="text-cyan-700 mt-0.5">💡</span>
             <span><strong className="text-ink-soft">Use the swap button:</strong> Click 🔄 to quickly reverse the conversion. Great for checking reciprocal conversions (e.g., mph to km/h and back).</span>
           </li>
           <li className="flex gap-3 text-sm text-ink-faint">
-            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span className="text-cyan-700 mt-0.5">💡</span>
             <span><strong className="text-ink-soft">Temperature tip:</strong> -40°C = -40°F (the crossover point). This is a good reference for extreme cold conversions.</span>
           </li>
           <li className="flex gap-3 text-sm text-ink-faint">
-            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span className="text-cyan-700 mt-0.5">💡</span>
             <span><strong className="text-ink-soft">Cooking conversions:</strong> 1 cup = 16 tablespoons = 48 teaspoons. Our volume converter handles all cooking measurements.</span>
           </li>
           <li className="flex gap-3 text-sm text-ink-faint">
-            <span className="text-cyan-600 mt-0.5">💡</span>
+            <span className="text-cyan-700 mt-0.5">💡</span>
             <span><strong className="text-ink-soft">Precision matters:</strong> Use 6 decimal places for engineering and scientific calculations. For everyday use, 2-3 decimal places are usually sufficient.</span>
           </li>
         </ul>

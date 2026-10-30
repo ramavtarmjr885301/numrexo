@@ -222,10 +222,10 @@ const COMPARISON = {
 };
 
 // Row accent colours, cheapest to costliest (reused by both markets).
-const RATE_ROW_COLORS = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600"];
-const RATE_INTEREST_COLORS = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600"];
-const TENURE_ROW_COLORS = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const TENURE_INTEREST_COLORS = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const RATE_ROW_COLORS = ["text-green-700", "text-yellow-700", "text-orange-700", "text-red-600"];
+const RATE_INTEREST_COLORS = ["text-yellow-700", "text-orange-700", "text-red-600", "text-red-600"];
+const TENURE_ROW_COLORS = ["text-blue-600", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const TENURE_INTEREST_COLORS = ["text-green-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
 
 // Total-interest cost of a half-point rate gap on the west base loan (used in the lender-comparison tip).
 const WEST_HALF_POINT_GAP =
@@ -294,7 +294,7 @@ function computeEmiResult(loanAmount: string, interestRate: string, tenure: stri
 
     if (emiToIncomeRatio <= 0.2) {
         rating = "Very Affordable ★★★★★";
-        ratingColor = "text-green-600";
+        ratingColor = "text-green-700";
     } else if (emiToIncomeRatio <= 0.3) {
         rating = "Affordable ★★★★";
         ratingColor = "text-blue-600";
@@ -303,7 +303,7 @@ function computeEmiResult(loanAmount: string, interestRate: string, tenure: stri
         ratingColor = "text-yellow-700";
     } else if (emiToIncomeRatio <= 0.5) {
         rating = "Stretching ★★";
-        ratingColor = "text-orange-600";
+        ratingColor = "text-orange-700";
     } else {
         rating = "Highly Stretching ★";
         ratingColor = "text-red-600";
@@ -385,35 +385,13 @@ export default function HomeLoanEMICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Home Loan EMI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Home Loan EMI Calculator</h3>
+                            <h2 className="font-semibold">Home Loan EMI Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate your monthly mortgage payments</p>
                         </div>
                     </div>
@@ -551,14 +529,14 @@ export default function HomeLoanEMICalculator() {
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-700" },
                         { label: profile.feeLabel, value: money(result.processingFee), valueColor: "text-purple-600" },
                         { label: "Total Cost with Fee", value: money(result.totalCostWithFee), valueColor: "text-red-600" },
                         { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(0)} years)` },
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
                         { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
@@ -585,8 +563,8 @@ export default function HomeLoanEMICalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">{money(row.interest, 0)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
@@ -630,7 +608,7 @@ export default function HomeLoanEMICalculator() {
                             </ul>
                         </div>
                         <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">📈 Floating Rate</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">📈 Floating Rate</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Rate changes with market</li>
                                 <li>• Lower initial rates</li>
@@ -663,7 +641,7 @@ export default function HomeLoanEMICalculator() {
                             </ul>
                         </div>
                         <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">📈 Adjustable Rate (ARM)</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">📈 Adjustable Rate (ARM)</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Rate adjusts after an initial period</li>
                                 <li>• Introductory rate is usually lower</li>
@@ -705,7 +683,7 @@ export default function HomeLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">A mortgage's total interest is easy to underestimate when you're only looking at the monthly figure. The amortization schedule shows the real number across the full tenure.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ A Quarter-Point Matters More Than It Looks</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ A Quarter-Point Matters More Than It Looks</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Over a 20-year tenure, even a small rate difference between lenders compounds into a meaningful sum. Worth comparing before you commit to one bank.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -814,7 +792,7 @@ export default function HomeLoanEMICalculator() {
                 {isIn ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Salaried Individuals</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Age: 21-60 years</li>
                                 <li>• Minimum monthly income: {money(25000, 0)}</li>
@@ -837,7 +815,7 @@ export default function HomeLoanEMICalculator() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Borrowers</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Salaried Borrowers</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Credit score: roughly 620+ for most conventional loans; 740+ tends to get the best pricing</li>
                                 <li>• Debt-to-income: about 43% or lower is a common guideline</li>

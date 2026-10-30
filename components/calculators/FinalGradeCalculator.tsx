@@ -217,30 +217,12 @@ export default function FinalGradeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Final Grade Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Final Grade Planning</h3>
+                        <h2 className="font-semibold">Final Grade Planning</h2>
                         <p className="text-xs text-ink-faint mt-1">Plan your final exam strategy</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -372,13 +354,13 @@ export default function FinalGradeCalculator() {
                     } : {
                         label: "Your Final Grade",
                         value: `${result.finalGrade}%`,
-                        color: parseFloat(result.finalGrade) >= 60 ? "text-green-600" : "text-red-600"
+                        color: parseFloat(result.finalGrade) >= 60 ? "text-green-700" : "text-red-600"
                     }) : undefined}
                     extraRows={result ? [
                         ...(calcType === "needed" ? [
                             { label: "Status", value: result.status, valueColor: "text-yellow-700" },
                             { label: "Advice", value: result.advice },
-                            { label: "If you score 100% on final", value: `${result.finalGradeIf100}%`, valueColor: "text-green-600" },
+                            { label: "If you score 100% on final", value: `${result.finalGradeIf100}%`, valueColor: "text-green-700" },
                             { label: "If you score 0% on final", value: `${result.finalGradeIf0}%`, valueColor: "text-red-600" },
                         ] : [
                             { label: "Letter Grade", value: result.letterGrade, valueColor: "text-yellow-700" },
@@ -425,7 +407,7 @@ export default function FinalGradeCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much effort to put into the final. If you need 95%+, start studying early. If you need 60%-, you can reduce study time.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Grade Goal Setting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Grade Goal Setting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Set realistic grade goals based on your current performance. Adjust your target if the required score is impossible.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -446,9 +428,9 @@ export default function FinalGradeCalculator() {
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Letter Grade</th><th className="text-left py-3 px-4 text-ink-faint">Percentage Range</th><th className="text-left py-3 px-4 text-ink-faint">GPA Value</th><th className="text-left py-3 px-4 text-ink-faint">Performance Level</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-600">A+</td><td className="py-2 px-4">97-100%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Outstanding</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-600">A</td><td className="py-2 px-4">93-96%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Excellent</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-600">A-</td><td className="py-2 px-4">90-92%</td><td className="py-2 px-4">3.7</td><td className="py-2 px-4">Very Good</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-700">A+</td><td className="py-2 px-4">97-100%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Outstanding</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-700">A</td><td className="py-2 px-4">93-96%</td><td className="py-2 px-4">4.0</td><td className="py-2 px-4">Excellent</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4 text-green-700">A-</td><td className="py-2 px-4">90-92%</td><td className="py-2 px-4">3.7</td><td className="py-2 px-4">Very Good</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4 text-blue-600">B+</td><td className="py-2 px-4">87-89%</td><td className="py-2 px-4">3.3</td><td className="py-2 px-4">Good Plus</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4 text-blue-600">B</td><td className="py-2 px-4">83-86%</td><td className="py-2 px-4">3.0</td><td className="py-2 px-4">Good</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4 text-blue-600">B-</td><td className="py-2 px-4">80-82%</td><td className="py-2 px-4">2.7</td><td className="py-2 px-4">Satisfactory</td></tr>
@@ -477,10 +459,10 @@ export default function FinalGradeCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Grade Improvement Tips Before Final Exam</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Attend review sessions:</strong> Teachers often hint at exam topics. Don't miss these.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Submit missing assignments:</strong> Even late submissions can improve current grade significantly.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Ask for extra credit:</strong> Many teachers offer extra assignments to borderline students.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Meet with teacher during office hours:</strong> Clarify difficult topics and show initiative.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Attend review sessions:</strong> Teachers often hint at exam topics. Don't miss these.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Submit missing assignments:</strong> Even late submissions can improve current grade significantly.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Ask for extra credit:</strong> Many teachers offer extra assignments to borderline students.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Meet with teacher during office hours:</strong> Clarify difficult topics and show initiative.</span></li>
                 </ul>
             </section>
 
@@ -494,7 +476,7 @@ export default function FinalGradeCalculator() {
                         <p className="text-ink-faint text-xs">Example: Desired 85%, Current 80%, Weight 30% → Need 96.7%</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Final Grade Calculator</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Final Grade Calculator</h3>
                         <p className="text-ink font-mono text-sm mb-2">Final = Current × (1 - Weight/100) + Score × (Weight/100)</p>
                         <p className="text-ink-faint text-xs">Example: Current 80%, Score 85%, Weight 30% → Final = 81.5%</p>
                     </div>

@@ -68,10 +68,10 @@ export default function AttendanceCalculator() {
         let statusColor = "";
         if (currentPercentage >= 85) {
             status = "Excellent - Safe Zone ✅";
-            statusColor = "text-green-600";
+            statusColor = "text-green-700";
         } else if (currentPercentage >= 75) {
             status = "Good - Minimum Met ✅";
-            statusColor = "text-teal-600";
+            statusColor = "text-teal-700";
         } else if (currentPercentage >= 65) {
             status = "Warning - Risk Zone ⚠️";
             statusColor = "text-yellow-700";
@@ -149,20 +149,11 @@ export default function AttendanceCalculator() {
 
     return (
         <>
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/education" className="hover:text-ink-soft">Education Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Attendance Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Attendance Details</h3>
+                        <h2 className="font-semibold">Attendance Details</h2>
                         <p className="text-xs text-ink-faint">Enter your current attendance record</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -204,9 +195,9 @@ export default function AttendanceCalculator() {
                         { label: "Classes Attended", value: result.attended },
                         { label: "Classes Held", value: result.held },
                         ...(result.shortfall > 0 ? [{ label: "Shortfall from 75%", value: `${result.shortfall}%`, valueColor: "text-red-600" }] : []),
-                        ...(result.excess > 0 ? [{ label: "Above 75%", value: `${result.excess}%`, valueColor: "text-green-600" }] : []),
+                        ...(result.excess > 0 ? [{ label: "Above 75%", value: `${result.excess}%`, valueColor: "text-green-700" }] : []),
                         ...(result.canMiss > 0 ? [{ label: "Classes you can skip", value: result.canMiss, valueColor: "text-yellow-700" }] : []),
-                        ...(result.neededClasses > 0 && result.canReach ? [{ label: `Classes needed to reach ${result.targetPercentage}%`, value: result.neededClasses, valueColor: "text-orange-600" }] : []),
+                        ...(result.neededClasses > 0 && result.canReach ? [{ label: `Classes needed to reach ${result.targetPercentage}%`, value: result.neededClasses, valueColor: "text-orange-700" }] : []),
                         ...(result.neededClasses > 0 && !result.canReach ? [{ label: "Target Unreachable", value: "Even attending all classes won't reach target", valueColor: "text-red-600" }] : []),
                     ] : []}
                 />
@@ -214,10 +205,10 @@ export default function AttendanceCalculator() {
 
             {result && result.neededClasses > 0 && result.canReach && (
                 <div className="mb-8 bg-surface border border-teal-200 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-teal-600 mb-2">📌 Action Plan</h3>
+                    <h3 className="text-sm font-semibold text-teal-700 mb-2">📌 Action Plan</h3>
                     <p className="text-ink-soft text-sm">
-                        You need to attend <span className="text-teal-600 font-bold">{result.neededClasses}</span> more classes out of the next{' '}
-                        <span className="text-teal-600 font-bold">{result.neededClasses}</span> classes without missing any to reach <span className="font-bold">{result.targetPercentage}%</span> attendance.
+                        You need to attend <span className="text-teal-700 font-bold">{result.neededClasses}</span> more classes out of the next{' '}
+                        <span className="text-teal-700 font-bold">{result.neededClasses}</span> classes without missing any to reach <span className="font-bold">{result.targetPercentage}%</span> attendance.
                     </p>
                     <p className="text-ink-faint text-xs mt-2">
                         After attending {result.neededClasses} classes, total classes held will be {result.totalClassesAfterTarget} and you would have attended {result.projectedAttended} classes.
@@ -227,9 +218,9 @@ export default function AttendanceCalculator() {
 
             {result && result.canMiss > 0 && (
                 <div className="mb-8 bg-surface border border-green-200 rounded-xl p-5">
-                    <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Safe Zone</h3>
+                    <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Safe Zone</h3>
                     <p className="text-ink-soft text-sm">
-                        You can afford to miss up to <span className="text-green-600 font-bold">{result.canMiss}</span> more classes and still maintain {result.targetPercentage}% attendance.
+                        You can afford to miss up to <span className="text-green-700 font-bold">{result.canMiss}</span> more classes and still maintain {result.targetPercentage}% attendance.
                     </p>
                 </div>
             )}
@@ -265,12 +256,12 @@ export default function AttendanceCalculator() {
                         <table className="w-full text-sm">
                             <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Attendance so far</th><th className="text-right py-3 px-4 text-ink-faint">Current</th><th className="text-right py-3 px-4 text-ink-faint">Classes needed in a row</th><th className="text-right py-3 px-4 text-ink-faint">Classes you can miss</th></tr></thead>
                             <tbody>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-700">40</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-700">20</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-700">18</td><td className="py-2 px-4 text-right text-green-600">—</td></tr>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">0</td></tr>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">12</td></tr>
-                                <tr className="border-b border-hairline"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-600">13</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">35 of 60</td><td className="py-2 px-4 text-right">58.3%</td><td className="py-2 px-4 text-right text-yellow-700">40</td><td className="py-2 px-4 text-right text-green-700">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">40 of 60</td><td className="py-2 px-4 text-right">66.7%</td><td className="py-2 px-4 text-right text-yellow-700">20</td><td className="py-2 px-4 text-right text-green-700">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">48 of 70</td><td className="py-2 px-4 text-right">68.6%</td><td className="py-2 px-4 text-right text-yellow-700">18</td><td className="py-2 px-4 text-right text-green-700">—</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">45 of 60</td><td className="py-2 px-4 text-right">75.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-700">0</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">54 of 60</td><td className="py-2 px-4 text-right">90.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-700">12</td></tr>
+                                <tr className="border-b border-hairline"><td className="py-2 px-4">85 of 100</td><td className="py-2 px-4 text-right">85.0%</td><td className="py-2 px-4 text-right text-yellow-700">on target</td><td className="py-2 px-4 text-right text-green-700">13</td></tr>
                             </tbody>
                         </table>
                     </div>

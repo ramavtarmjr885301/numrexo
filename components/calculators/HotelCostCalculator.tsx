@@ -156,20 +156,11 @@ export default function HotelCostCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Hotel Cost Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Hotel Cost Estimator</h3>
+                        <h2 className="font-semibold">Hotel Cost Estimator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate total hotel stay cost</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -202,7 +193,7 @@ export default function HotelCostCalculator() {
                         { label: "Extra Fees", value: `$${result.extraFees}` },
                         { label: "Cost per Night", value: `$${result.perNight}` },
                         ...(result.perPersonCost ? [
-                            { label: "Cost per Person (total)", value: `$${result.perPersonCost}`, valueColor: "text-green-600" },
+                            { label: "Cost per Person (total)", value: `$${result.perPersonCost}`, valueColor: "text-green-700" },
                             { label: "Cost per Person per Night", value: `$${result.perPersonPerNight}` },
                         ] : []),
                     ] : []}
@@ -245,7 +236,7 @@ export default function HotelCostCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exact hotel costs before booking. Avoid surprise fees at checkout. Plan your travel budget accurately.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Group Trip Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Group Trip Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Split costs fairly among friends. Calculate per person cost instantly. No arguments about who pays what.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -263,11 +254,11 @@ export default function HotelCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Hotel Cost Saving Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Book weekdays:</strong> Sunday-Thursday rates are 20-40% cheaper than weekends. Avoid Friday/Saturday check-ins.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use incognito mode:</strong> Hotel websites track cookies and may increase prices on repeat visits. Clear cookies or use private browsing.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Join loyalty programs:</strong> Free membership gives member-only discounts, late checkout, and points for free nights.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Book directly with hotel:</strong> Often matches or beats OTA prices. Plus, better cancellation policies and room upgrades.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Travel off-season:</strong> Peak season rates can be 2-3x higher. Shoulder season (just before/after peak) offers best value.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Book weekdays:</strong> Sunday-Thursday rates are 20-40% cheaper than weekends. Avoid Friday/Saturday check-ins.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Use incognito mode:</strong> Hotel websites track cookies and may increase prices on repeat visits. Clear cookies or use private browsing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Join loyalty programs:</strong> Free membership gives member-only discounts, late checkout, and points for free nights.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Book directly with hotel:</strong> Often matches or beats OTA prices. Plus, better cancellation policies and room upgrades.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Travel off-season:</strong> Peak season rates can be 2-3x higher. Shoulder season (just before/after peak) offers best value.</span></li>
                 </ul>
             </section>
 

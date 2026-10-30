@@ -263,7 +263,7 @@ export default function AmortizationCalculator() {
 
         if (interestToPrincipalRatio <= 0.5) {
             rating = "Excellent ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (interestToPrincipalRatio <= 1.0) {
             rating = "Good ★★★★";
             ratingColor = "text-blue-600";
@@ -272,7 +272,7 @@ export default function AmortizationCalculator() {
             ratingColor = "text-yellow-700";
         } else if (interestToPrincipalRatio <= 2.0) {
             rating = "High ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Very High ★";
             ratingColor = "text-red-600";
@@ -321,35 +321,13 @@ export default function AmortizationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Amortization Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Amortization Calculator</h3>
+                            <h2 className="font-semibold">Amortization Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Generate your loan amortization schedule</p>
                         </div>
                     </div>
@@ -498,20 +476,20 @@ export default function AmortizationCalculator() {
                     extraRows={result ? [
                         { label: "Amortization Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: `${symbol}${result.totalPaymentFormatted}`, valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: `${symbol}${result.totalInterestFormatted}`, valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: `${symbol}${result.totalInterestFormatted}`, valueColor: "text-orange-700" },
                         { label: "Principal Amount", value: `${symbol}${result.totalPrincipalFormatted}` },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(1)} years)` },
                         ...(result.extraPayment > 0 ? [
-                            { label: "Extra Payment", value: `${symbol}${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-600" },
-                            { label: "EMI with Extra Payment", value: `${symbol}${result.emiWithExtraFormatted}`, valueColor: "text-green-600" },
-                            { label: "Actual Repayment Period", value: `${result.actualMonths} months (${(result.actualMonths / 12).toFixed(1)} years)`, valueColor: "text-green-600" },
-                            { label: "Months Saved", value: `${result.monthsSaved} months ${result.monthsSaved > 0 ? '🎉' : ''}`, valueColor: "text-green-600" },
-                            { label: "Interest Saved", value: `${symbol}${result.interestSavedFormatted}`, valueColor: "text-green-600" },
+                            { label: "Extra Payment", value: `${symbol}${result.extraPayment.toFixed(2)}/month`, valueColor: "text-green-700" },
+                            { label: "EMI with Extra Payment", value: `${symbol}${result.emiWithExtraFormatted}`, valueColor: "text-green-700" },
+                            { label: "Actual Repayment Period", value: `${result.actualMonths} months (${(result.actualMonths / 12).toFixed(1)} years)`, valueColor: "text-green-700" },
+                            { label: "Months Saved", value: `${result.monthsSaved} months ${result.monthsSaved > 0 ? '🎉' : ''}`, valueColor: "text-green-700" },
+                            { label: "Interest Saved", value: `${symbol}${result.interestSavedFormatted}`, valueColor: "text-green-700" },
                         ] : []),
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
-                        { label: "Interest to Principal Ratio", value: result.interestToPrincipalRatio.toFixed(2), valueColor: result.interestToPrincipalRatio < 1 ? "text-green-600" : "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
+                        { label: "Interest to Principal Ratio", value: result.interestToPrincipalRatio.toFixed(2), valueColor: result.interestToPrincipalRatio < 1 ? "text-green-700" : "text-orange-700" },
                     ] : []}
                 />
             </div>
@@ -531,7 +509,7 @@ export default function AmortizationCalculator() {
                                         <th className="text-right py-3 px-4 text-ink-faint">Interest</th>
                                         <th className="text-right py-3 px-4 text-ink-faint">Balance</th>
                                         {result.extraPayment > 0 && (
-                                            <th className="text-center py-3 px-4 text-green-600">Extra Payment 💰</th>
+                                            <th className="text-center py-3 px-4 text-green-700">Extra Payment 💰</th>
                                         )}
                                     </tr>
                                 </thead>
@@ -540,11 +518,11 @@ export default function AmortizationCalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">${row.emi.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">${row.principal.toFixed(0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">${row.interest.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">${row.principal.toFixed(0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">${row.interest.toFixed(0)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">${row.balance.toFixed(0)}</td>
                                             {result.extraPayment > 0 && (
-                                                <td className="py-2 px-4 text-center text-green-600">
+                                                <td className="py-2 px-4 text-center text-green-700">
                                                     {row.isExtraPayment ? '✅' : '-'}
                                                 </td>
                                             )}
@@ -557,7 +535,7 @@ export default function AmortizationCalculator() {
                     <div className="mt-2 flex gap-4 text-xs">
                         <p className="text-ink-faint">Showing complete amortization schedule</p>
                         {result.extraPayment > 0 && (
-                            <p className="text-green-600">✅ Extra payments applied</p>
+                            <p className="text-green-700">✅ Extra payments applied</p>
                         )}
                     </div>
                 </section>
@@ -570,12 +548,12 @@ export default function AmortizationCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">Principal</h4>
-                            <p className="text-2xl font-bold text-green-600">{result.principalPercentage.toFixed(1)}%</p>
+                            <p className="text-2xl font-bold text-green-700">{result.principalPercentage.toFixed(1)}%</p>
                             <p className="text-xs text-ink-faint mt-1">${result.totalPrincipalFormatted}</p>
                         </div>
                         <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
                             <h4 className="text-xs text-ink-faint mb-1">Interest</h4>
-                            <p className="text-2xl font-bold text-orange-600">{result.interestPercentage.toFixed(1)}%</p>
+                            <p className="text-2xl font-bold text-orange-700">{result.interestPercentage.toFixed(1)}%</p>
                             <p className="text-xs text-ink-faint mt-1">${result.totalInterestFormatted}</p>
                         </div>
                         <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
@@ -625,7 +603,7 @@ export default function AmortizationCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Understand exactly how much of each payment goes toward principal versus interest. See how your loan balance decreases over time.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Plan Prepayments</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Plan Prepayments</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Use extra payment analysis to see how additional payments reduce your total interest and shorten your loan tenure.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -684,36 +662,36 @@ export default function AmortizationCalculator() {
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">1</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-600">$316</td>
-                                <td className="py-2 px-4 text-right text-orange-600">$1,896</td>
+                                <td className="py-2 px-4 text-right text-green-700">$316</td>
+                                <td className="py-2 px-4 text-right text-orange-700">$1,896</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$349,684</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">2</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-600">$318</td>
-                                <td className="py-2 px-4 text-right text-orange-600">$1,894</td>
+                                <td className="py-2 px-4 text-right text-green-700">$318</td>
+                                <td className="py-2 px-4 text-right text-orange-700">$1,894</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$349,365</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">3</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$2,212</td>
-                                <td className="py-2 px-4 text-right text-green-600">$320</td>
-                                <td className="py-2 px-4 text-right text-orange-600">$1,892</td>
+                                <td className="py-2 px-4 text-right text-green-700">$320</td>
+                                <td className="py-2 px-4 text-right text-orange-700">$1,892</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$349,046</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">...</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">...</td>
-                                <td className="py-2 px-4 text-right text-green-600">...</td>
-                                <td className="py-2 px-4 text-right text-orange-600">...</td>
+                                <td className="py-2 px-4 text-right text-green-700">...</td>
+                                <td className="py-2 px-4 text-right text-orange-700">...</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">...</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">240</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$44,986</td>
-                                <td className="py-2 px-4 text-right text-green-600">$44,653</td>
-                                <td className="py-2 px-4 text-right text-orange-600">$333</td>
+                                <td className="py-2 px-4 text-right text-green-700">$44,653</td>
+                                <td className="py-2 px-4 text-right text-orange-700">$333</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">$0</td>
                             </tr>
                         </tbody>
@@ -737,33 +715,33 @@ export default function AmortizationCalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">$0</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">$0</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">—</td>
-                                <td className="py-2 px-4 text-right text-green-600">$0</td>
+                                <td className="py-2 px-4 text-right text-green-700">$0</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">$0</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">$100</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">$100</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">3 years 6 months</td>
-                                <td className="py-2 px-4 text-right text-green-600">$62,627</td>
+                                <td className="py-2 px-4 text-right text-green-700">$62,627</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">$62,627</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">$250</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">$250</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">7 years 3 months</td>
-                                <td className="py-2 px-4 text-right text-green-600">$126,604</td>
+                                <td className="py-2 px-4 text-right text-green-700">$126,604</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">$126,604</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">$500</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">$500</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">11 years 5 months</td>
-                                <td className="py-2 px-4 text-right text-green-600">$193,603</td>
+                                <td className="py-2 px-4 text-right text-green-700">$193,603</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">$193,603</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">$1,000</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">$1,000</td>
                                 <td className="py-2 px-4 text-right text-ink-soft">16 years 2 months</td>
-                                <td className="py-2 px-4 text-right text-green-600">$265,954</td>
+                                <td className="py-2 px-4 text-right text-green-700">$265,954</td>
                                 <td className="py-2 px-4 text-right text-yellow-700">$265,954</td>
                             </tr>
                         </tbody>

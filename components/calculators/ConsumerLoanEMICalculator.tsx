@@ -246,9 +246,9 @@ const PROFILES: Record<"india" | "west", Profile> = {
         },
         comparison: [
             { kind: "durable", label: "Consumer Durable", color: "text-blue-600", amount: 50000, rate: 14, months: 12 },
-            { kind: "vehicle", label: "Vehicle", color: "text-green-600", amount: 500000, rate: 10, months: 48 },
+            { kind: "vehicle", label: "Vehicle", color: "text-green-700", amount: 500000, rate: 10, months: 48 },
             { kind: "electronics", label: "Electronics", color: "text-purple-600", amount: 100000, rate: 16, months: 18 },
-            { kind: "durable", label: "Consumer Durable", color: "text-orange-600", amount: 30000, rate: 12, months: 6 },
+            { kind: "durable", label: "Consumer Durable", color: "text-orange-700", amount: 30000, rate: 12, months: 6 },
         ],
         rateTable: { amount: 50000, months: 12, rates: [10, 12, 14, 16, 18] },
         tenureTable: { amount: 50000, rate: 12, tenures: [3, 6, 12, 18, 24] },
@@ -287,9 +287,9 @@ const PROFILES: Record<"india" | "west", Profile> = {
         },
         comparison: [
             { kind: "durable", label: "Appliances & Furniture", color: "text-blue-600", amount: 2500, rate: 15, months: 12 },
-            { kind: "vehicle", label: "Auto", color: "text-green-600", amount: 25000, rate: 8, months: 60 },
+            { kind: "vehicle", label: "Auto", color: "text-green-700", amount: 25000, rate: 8, months: 60 },
             { kind: "electronics", label: "Electronics", color: "text-purple-600", amount: 1000, rate: 20, months: 12 },
-            { kind: "durable", label: "Appliances (0% promo)", color: "text-orange-600", amount: 1500, rate: 0, months: 12 },
+            { kind: "durable", label: "Appliances (0% promo)", color: "text-orange-700", amount: 1500, rate: 0, months: 12 },
         ],
         rateTable: { amount: 2500, months: 12, rates: [0, 10, 15, 20, 25] },
         tenureTable: { amount: 2500, rate: 15, tenures: [6, 12, 18, 24, 36] },
@@ -402,7 +402,7 @@ export default function ConsumerLoanEMICalculator() {
         const limits = profile.ratingLimits[loanType];
         if (monthlyPayment <= limits[0]) {
             rating = "Very Affordable ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (monthlyPayment <= limits[1]) {
             rating = "Affordable ★★★★";
             ratingColor = "text-blue-600";
@@ -411,7 +411,7 @@ export default function ConsumerLoanEMICalculator() {
             ratingColor = "text-yellow-700";
         } else if (monthlyPayment <= limits[3]) {
             rating = "Stretching ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Highly Stretching ★";
             ratingColor = "text-red-600";
@@ -454,35 +454,13 @@ export default function ConsumerLoanEMICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Consumer Loan EMI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Consumer Loan EMI Calculator</h3>
+                            <h2 className="font-semibold">Consumer Loan EMI Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate your monthly loan payments</p>
                         </div>
                     </div>
@@ -637,13 +615,13 @@ export default function ConsumerLoanEMICalculator() {
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-700" },
                         { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months` },
                         { label: "Loan Type", value: profile.resultLabels[result.loanType as LoanKind] },
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
                         { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
@@ -670,8 +648,8 @@ export default function ConsumerLoanEMICalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.emi)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">{fmt(row.principal)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">{fmt(row.interest)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">{fmt(row.principal)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">{fmt(row.interest)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.balance)}</td>
                                         </tr>
                                     ))}
@@ -705,7 +683,7 @@ export default function ConsumerLoanEMICalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {([
                         { kind: "durable", icon: "🏷️", text: "text-blue-600", hover: "hover:border-blue-200" },
-                        { kind: "vehicle", icon: "🚗", text: "text-green-600", hover: "hover:border-green-200" },
+                        { kind: "vehicle", icon: "🚗", text: "text-green-700", hover: "hover:border-green-200" },
                         { kind: "electronics", icon: "💻", text: "text-purple-600", hover: "hover:border-purple-200" },
                     ] as const).map(({ kind, icon, text, hover }) => {
                         const card = profile.cards[kind];
@@ -744,7 +722,7 @@ export default function ConsumerLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly what you can afford before making a purchase. Plan your monthly budget around your EMI obligations and avoid over-committing.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Financing Options</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Financing Options</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare EMI offers from different retailers and lenders. Find the best interest rate and tenure combination for your purchase.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -835,7 +813,7 @@ export default function ConsumerLoanEMICalculator() {
                                     <tr key={rate} className="border-b border-hairline hover:bg-cream">
                                         <td className="py-2 px-4 text-yellow-700 font-bold">{rate}%</td>
                                         <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.emi)}</td>
-                                        <td className="py-2 px-4 text-right text-orange-600">{fmt(row.totalInterest)}</td>
+                                        <td className="py-2 px-4 text-right text-orange-700">{fmt(row.totalInterest)}</td>
                                         <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.totalPayment)}</td>
                                     </tr>
                                 );
@@ -866,7 +844,7 @@ export default function ConsumerLoanEMICalculator() {
                                     <tr key={months} className="border-b border-hairline hover:bg-cream">
                                         <td className="py-2 px-4 text-blue-600 font-bold">{months} Months</td>
                                         <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.emi)}</td>
-                                        <td className="py-2 px-4 text-right text-orange-600">{fmt(row.totalInterest)}</td>
+                                        <td className="py-2 px-4 text-right text-orange-700">{fmt(row.totalInterest)}</td>
                                         <td className="py-2 px-4 text-right text-ink-soft">{fmt(row.totalPayment)}</td>
                                     </tr>
                                 );

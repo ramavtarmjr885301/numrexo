@@ -110,9 +110,9 @@ export default function TravelBudgetCalculator() {
     const [peopleCount, setPeopleCount] = useState("1");
     const [budgetItems, setBudgetItems] = useState<BudgetItem[]>([
         { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-600" },
-        { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-600" },
+        { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-700" },
         { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-700" },
-        { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-600" },
+        { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-700" },
         { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-600" },
         { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-600" },
         { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-ink-faint" },
@@ -125,9 +125,9 @@ export default function TravelBudgetCalculator() {
         setPeopleCount("1");
         setBudgetItems([
             { id: "flights", name: "Flights", amount: "", icon: "✈️", color: "text-blue-600" },
-            { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-600" },
+            { id: "accommodation", name: "Accommodation", amount: "", icon: "🏨", color: "text-green-700" },
             { id: "transport", name: "Local Transport", amount: "", icon: "🚗", color: "text-yellow-700" },
-            { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-600" },
+            { id: "food", name: "Food & Dining", amount: "", icon: "🍽️", color: "text-orange-700" },
             { id: "activities", name: "Activities", amount: "", icon: "🎯", color: "text-purple-600" },
             { id: "shopping", name: "Shopping", amount: "", icon: "🛍️", color: "text-pink-600" },
             { id: "misc", name: "Miscellaneous", amount: "", icon: "📝", color: "text-ink-faint" },
@@ -200,30 +200,12 @@ export default function TravelBudgetCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/travel" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Travel Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Travel Budget Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Travel Budget Planner</h3>
+                        <h2 className="font-semibold">Travel Budget Planner</h2>
                         <p className="text-xs text-ink-faint mt-1">Plan your trip expenses</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -300,7 +282,7 @@ export default function TravelBudgetCalculator() {
                     extraRows={result ? [
                         { label: "Per Day", value: `$${result.perDayBudget}`, valueColor: "text-yellow-700" },
                         { label: "Per Person", value: `$${result.perPersonBudget}` },
-                        { label: "Per Person Per Day", value: `$${result.perPersonPerDay}`, valueColor: "text-green-600" },
+                        { label: "Per Person Per Day", value: `$${result.perPersonPerDay}`, valueColor: "text-green-700" },
                         ...result.breakdown.map((item: any) => ({
                             label: `${item.icon} ${item.name}`,
                             value: `$${item.amount.toLocaleString()} (${item.percentage}%)`,
@@ -350,7 +332,7 @@ export default function TravelBudgetCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much your trip will cost before you go. Avoid financial surprises and plan with confidence.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Category Breakdown</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Category Breakdown</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">See where your money is going. Identify which categories take the most budget and where you can save.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -412,7 +394,7 @@ export default function TravelBudgetCalculator() {
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
                         <div className="text-2xl mb-1">🏨</div>
-                        <h4 className="text-sm font-semibold text-green-600 mb-1">Accommodation</h4>
+                        <h4 className="text-sm font-semibold text-green-700 mb-1">Accommodation</h4>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Book in advance for better deals</li>
                             <li>• Consider hostels or shared rooms</li>
@@ -422,7 +404,7 @@ export default function TravelBudgetCalculator() {
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
                         <div className="text-2xl mb-1">🍽️</div>
-                        <h4 className="text-sm font-semibold text-orange-600 mb-1">Food</h4>
+                        <h4 className="text-sm font-semibold text-orange-700 mb-1">Food</h4>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Eat street food and local markets</li>
                             <li>• Cook some meals yourself</li>
@@ -450,7 +432,7 @@ export default function TravelBudgetCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center p-3 bg-surface rounded-lg border border-green-100">
                             <div className="text-2xl mb-1">🌸</div>
-                            <h4 className="text-sm font-semibold text-green-600">Shoulder Season</h4>
+                            <h4 className="text-sm font-semibold text-green-700">Shoulder Season</h4>
                             <p className="text-xs text-ink-faint">Spring & Fall</p>
                             <p className="text-xs text-yellow-700 mt-1">Best value: 30-50% cheaper</p>
                             <p className="text-xs text-ink-faint">Good weather, fewer crowds</p>
@@ -466,7 +448,7 @@ export default function TravelBudgetCalculator() {
                             <div className="text-2xl mb-1">❄️</div>
                             <h4 className="text-sm font-semibold text-blue-600">Off-Season</h4>
                             <p className="text-xs text-ink-faint">Winter (excluding holidays)</p>
-                            <p className="text-xs text-green-600 mt-1">Cheapest (60-70% less)</p>
+                            <p className="text-xs text-green-700 mt-1">Cheapest (60-70% less)</p>
                             <p className="text-xs text-ink-faint">Limited activities, cooler</p>
                         </div>
                     </div>

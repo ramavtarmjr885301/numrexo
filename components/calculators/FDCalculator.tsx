@@ -131,20 +131,11 @@ export default function FDCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FD_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/finance" className="hover:text-ink-soft">Finance Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">FD Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Fixed Deposit Details</h3>
+            <h2 className="font-semibold">Fixed Deposit Details</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
@@ -245,11 +236,11 @@ export default function FDCalculator() {
           } : undefined}
           extraRows={result ? [
             { label: "Total Investment", value: `₹${result.totalInvestment}` },
-            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-600" },
+            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-700" },
             ...(payoutType === "noncumulative" ? [{ label: "Monthly Income", value: `₹${result.monthlyIncome}`, valueColor: "text-yellow-700" }] : []),
             { label: "Effective Annual Return", value: `${result.effectiveReturn}%` },
             { label: "Tax Payable (20% bracket)", value: `₹${result.taxPayable}`, valueColor: "text-red-600" },
-            { label: "Post-Tax Maturity Amount", value: `₹${result.postTaxReturn}`, valueColor: "text-orange-600" },
+            { label: "Post-Tax Maturity Amount", value: `₹${result.postTaxReturn}`, valueColor: "text-orange-700" },
           ] : undefined}
         />
       </div>
@@ -289,7 +280,7 @@ export default function FDCalculator() {
             <p className="text-ink-faint text-xs leading-relaxed">FDs offer fixed, predictable returns unaffected by market fluctuations. Perfect for conservative investors and retirement planning.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Capital Protection</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Capital Protection</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Principal amount is fully protected. DICGC insures up to ₹5 lakh per bank, making FDs one of the safest investments in India.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -311,10 +302,10 @@ export default function FDCalculator() {
             <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Feature</th><th className="text-left py-3 px-4 text-ink-faint">Cumulative FD</th><th className="text-left py-3 px-4 text-ink-faint">Non-Cumulative FD</th></tr></thead>
             <tbody>
               <tr className="border-b border-hairline"><td className="py-2 px-4">Interest Payout</td><td className="py-2 px-4">At maturity only</td><td className="py-2 px-4">Monthly/Quarterly/Half-yearly</td></tr>
-              <tr className="border-b border-hairline"><td className="py-2 px-4">Total Returns</td><td className="py-2 px-4 text-green-600">Higher (compounded)</td><td className="py-2 px-4 text-yellow-700">Lower (simple interest)</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Total Returns</td><td className="py-2 px-4 text-green-700">Higher (compounded)</td><td className="py-2 px-4 text-yellow-700">Lower (simple interest)</td></tr>
               <tr className="border-b border-hairline"><td className="py-2 px-4">Best For</td><td className="py-2 px-4">Long-term wealth creation</td><td className="py-2 px-4">Regular income needs</td></tr>
               <tr className="border-b border-hairline"><td className="py-2 px-4">Ideal Investor</td><td className="py-2 px-4">Young professionals</td><td className="py-2 px-4">Senior citizens, retirees</td></tr>
-              <tr><td className="py-2 px-4">Example (₹5L, 7% for 5 years)</td><td className="py-2 px-4 text-green-600">₹7.05L (₹2.05L interest)</td><td className="py-2 px-4 text-yellow-700">₹5L + ₹1.75L interest (₹2,917/month)</td></tr>
+              <tr><td className="py-2 px-4">Example (₹5L, 7% for 5 years)</td><td className="py-2 px-4 text-green-700">₹7.05L (₹2.05L interest)</td><td className="py-2 px-4 text-yellow-700">₹5L + ₹1.75L interest (₹2,917/month)</td></tr>
             </tbody>
           </table>
         </div>

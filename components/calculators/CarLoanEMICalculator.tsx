@@ -352,10 +352,10 @@ const PROFILES: Record<"india" | "west", MarketProfile> = {
 };
 
 /** Row colour classes for the two comparison tables (position-based, as before). */
-const RATE_ROW_LABEL = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const RATE_ROW_INTEREST = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
-const TENURE_ROW_LABEL = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const TENURE_ROW_INTEREST = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const RATE_ROW_LABEL = ["text-green-700", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const RATE_ROW_INTEREST = ["text-yellow-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_ROW_LABEL = ["text-blue-600", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const TENURE_ROW_INTEREST = ["text-green-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -462,7 +462,7 @@ export default function CarLoanEMICalculator() {
 
         if (emiToCarRatio <= 0.15) {
             rating = "Very Affordable ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (emiToCarRatio <= 0.25) {
             rating = "Affordable ★★★★";
             ratingColor = "text-blue-600";
@@ -471,7 +471,7 @@ export default function CarLoanEMICalculator() {
             ratingColor = "text-yellow-700";
         } else if (emiToCarRatio <= 0.45) {
             rating = "Stretching ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Highly Stretching ★";
             ratingColor = "text-red-600";
@@ -527,35 +527,13 @@ export default function CarLoanEMICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Car Loan EMI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Car Loan EMI Calculator</h3>
+                            <h2 className="font-semibold">Car Loan EMI Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate your monthly car loan payments</p>
                         </div>
                     </div>
@@ -740,15 +718,15 @@ export default function CarLoanEMICalculator() {
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-700" },
                         { label: "Car Price", value: money(result.carPrice) },
                         { label: "Down Payment", value: `${money(result.downPayment)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
                         { label: "Loan Amount", value: money(result.principal) },
                         { label: "Car Type", value: result.carType === "new" ? "New Car 🚗" : "Used Car 🚘" },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months/12).toFixed(0)} years)` },
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
                         { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
@@ -775,8 +753,8 @@ export default function CarLoanEMICalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">{money(row.interest, 0)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
@@ -817,7 +795,7 @@ export default function CarLoanEMICalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">🚘 Used Car</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">🚘 Used Car</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             {profile.usedCar.map((line) => (
                                 <li key={line}>• {line}</li>
@@ -847,7 +825,7 @@ export default function CarLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Walk into the showroom already knowing your EMI at a few different prices and down payments, so the salesperson's "I can get you this monthly figure" has nothing to hide behind.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Bank Quote vs Dealer Finance</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Bank Quote vs Dealer Finance</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Run the same price and tenure through both your bank's rate and the dealer's tie-up rate — the gap is often larger than it looks on the sticker.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -949,7 +927,7 @@ export default function CarLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Car Loan Eligibility Criteria</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Salaried Individuals</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             {profile.salaried(fmt).map((line) => (
                                 <li key={line}>• {line}</li>

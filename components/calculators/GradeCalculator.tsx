@@ -248,30 +248,12 @@ export default function GradeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Grade Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Grade Calculator</h3>
+                        <h2 className="font-semibold">Grade Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate your course grade or what you need on the final</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -416,7 +398,7 @@ export default function GradeCalculator() {
                     mainResult={result ? (calcType === "weighted" ? {
                         label: "Current Grade",
                         value: `${result.currentGrade}%`,
-                        color: result.currentGrade >= 60 ? "text-green-600" : "text-red-600"
+                        color: result.currentGrade >= 60 ? "text-green-700" : "text-red-600"
                     } : {
                         label: "Final Exam Needed",
                         value: `${result.neededOnFinal}%`,
@@ -430,7 +412,7 @@ export default function GradeCalculator() {
                             { label: "Total Weight", value: `${result.totalWeight}%` },
                         ] : [
                             { label: "Current Grade", value: `${result.currentGrade}%` },
-                            { label: "Desired Grade", value: `${result.desiredGrade}%`, valueColor: "text-green-600" },
+                            { label: "Desired Grade", value: `${result.desiredGrade}%`, valueColor: "text-green-700" },
                             { label: "Final Exam Weight", value: `${result.finalWeight}%` },
                             { label: "Status", value: result.message, valueColor: result.possible ? "text-yellow-700" : "text-red-600" },
                         ]),
@@ -472,7 +454,7 @@ export default function GradeCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know your exact standing at any point in the semester. Identify which assignments are dragging down your grade.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Set Realistic Goals</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Set Realistic Goals</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate what score you need on the final to achieve your target grade. Adjust goals based on feasibility.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -523,7 +505,7 @@ export default function GradeCalculator() {
                         <p className="text-ink-faint text-xs">Example: HW (85×20%) + Mid (78×30%) + Final (82×50%) = 81.4%</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Final Exam Needed</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Final Exam Needed</h3>
                         <p className="text-ink font-mono text-sm mb-2">Needed = (Desired - Current × (1 - FinalWt/100)) ÷ (FinalWt/100)</p>
                         <p className="text-ink-faint text-xs">Example: Desired 85%, Current 80%, Final 30% → Need 96.7%</p>
                     </div>

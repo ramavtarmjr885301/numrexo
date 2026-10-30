@@ -178,31 +178,13 @@ export default function CGPACalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">CGPA Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
-                            <h3 className="font-semibold">Semester Details</h3>
+                            <h2 className="font-semibold">Semester Details</h2>
                             <p className="text-xs text-ink-faint mt-1">Enter GPA and credits for each semester</p>
                         </div>
                         <button
@@ -316,7 +298,7 @@ export default function CGPACalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Most companies have CGPA cutoffs (6.0-8.5). Track your CGPA to ensure you meet eligibility criteria for campus placements and internships.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Higher Studies Abroad</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Higher Studies Abroad</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Top universities require 8.5+ CGPA for MS/MBA programs. Knowing your CGPA helps you plan which universities to target.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -343,12 +325,12 @@ export default function CGPACalculator() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">DTU / NSIT / IIIT-Delhi</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10</td><td className="py-2 px-4 text-green-600">80%</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Mumbai University</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.75) × 10</td><td className="py-2 px-4 text-green-600">72.5%</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Anna University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10 - 7.5</td><td className="py-2 px-4 text-green-600">72.5%</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">VTU (Visvesvaraya Tech)</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.5) × 10</td><td className="py-2 px-4 text-green-600">75%</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Pune University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 8.8</td><td className="py-2 px-4 text-green-600">70.4%</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Most Other Universities</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 9.5</td><td className="py-2 px-4 text-green-600">76%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">DTU / NSIT / IIIT-Delhi</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10</td><td className="py-2 px-4 text-green-700">80%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Mumbai University</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.75) × 10</td><td className="py-2 px-4 text-green-700">72.5%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Anna University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 10 - 7.5</td><td className="py-2 px-4 text-green-700">72.5%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">VTU (Visvesvaraya Tech)</td><td className="py-2 px-4 text-yellow-700">Percentage = (CGPA - 0.5) × 10</td><td className="py-2 px-4 text-green-700">75%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Pune University</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 8.8</td><td className="py-2 px-4 text-green-700">70.4%</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Most Other Universities</td><td className="py-2 px-4 text-yellow-700">Percentage = CGPA × 9.5</td><td className="py-2 px-4 text-green-700">76%</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -370,10 +352,10 @@ export default function CGPACalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Semester Planning Tips to Improve CGPA</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Focus on high-credit courses:</strong> A 4-credit course affects CGPA more than a 2-credit course. Perform better in high-credit subjects.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Aim for A/A+ in electives:</strong> Choose elective courses that interest you and where scoring high is achievable.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Retake failed subjects:</strong> Repeating a failed subject can significantly improve your CGPA.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain consistency:</strong> Consistent 7.5+ across all semesters is better than one 9.0 and one 6.0.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Focus on high-credit courses:</strong> A 4-credit course affects CGPA more than a 2-credit course. Perform better in high-credit subjects.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Aim for A/A+ in electives:</strong> Choose elective courses that interest you and where scoring high is achievable.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Retake failed subjects:</strong> Repeating a failed subject can significantly improve your CGPA.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain consistency:</strong> Consistent 7.5+ across all semesters is better than one 9.0 and one 6.0.</span></li>
                 </ul>
             </section>
 

@@ -129,20 +129,11 @@ export default function PressureConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pressure Converter</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Pressure Converter</h3>
+                        <h2 className="font-semibold">Pressure Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between pressure measurement units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -210,7 +201,7 @@ export default function PressureConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Convert hydraulic, pneumatic, and industrial pressure measurements across different unit systems.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Weather & Aviation</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Weather & Aviation</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert atmospheric pressure readings for weather forecasting, altitude calculations, and aviation.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -233,7 +224,7 @@ export default function PressureConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">SI unit of pressure. 1 Pa = 1 N/m². Used in science and engineering. kPa and MPa are common multiples.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">PSI (lb/in²)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">PSI (lb/in²)</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Imperial unit: pounds per square inch. Used for tire pressure, hydraulic systems, and industrial applications in US.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

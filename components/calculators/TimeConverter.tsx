@@ -161,40 +161,12 @@ export default function TimeConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Conversion Calculators</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">Time Converter</span> {/* ✅ Span added */}
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Time Converter</h3>
+                        <h2 className="font-semibold">Time Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between time measurement units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -325,7 +297,7 @@ export default function TimeConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Understand flight durations, layover times, and itinerary planning. Convert between hours and minutes easily.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Daily Life</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Daily Life</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert cooking times, workout durations, and daily schedules. Understand how you spend your time.</p>
                     </div>
                 </div>

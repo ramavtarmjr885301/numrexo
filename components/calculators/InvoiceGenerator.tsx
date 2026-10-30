@@ -618,15 +618,6 @@ export default function InvoiceGenerator() {
 
     return (
         <div className="space-y-6">
-            <nav aria-label="Breadcrumb">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft transition-colors">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/business" className="hover:text-ink-soft transition-colors">Business Tools</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li className="text-ink-soft">GST Invoice Generator</li>
-                </ol>
-            </nav>
 
             {sellerState && buyerState && (
                 <div className={`flex flex-wrap items-center gap-3 px-4 py-2.5 rounded-lg text-sm border ${autoGSTType === "igst"

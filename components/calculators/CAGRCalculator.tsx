@@ -119,7 +119,7 @@ export default function CAGRCalculator() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Investment Details</h3>
+                        <h2 className="font-semibold">Investment Details</h2>
                     </div>
                     <div className="p-6 space-y-4">
                         <CurrencySwitcher className="pb-2 border-b border-hairline" />
@@ -194,10 +194,10 @@ export default function CAGRCalculator() {
                     mainResult={result ? {
                         label: "Compound Annual Growth Rate",
                         value: `${result.cagr}%`,
-                        color: "text-cyan-600"
+                        color: "text-cyan-700"
                     } : undefined}
                     extraRows={result ? [
-                        { label: "Total Return", value: `${result.totalReturn}%`, valueColor: "text-green-600" },
+                        { label: "Total Return", value: `${result.totalReturn}%`, valueColor: "text-green-700" },
                         { label: "Absolute Return", value: `${symbol}${result.absoluteReturn}` },
                         { label: "Starting Value", value: `${symbol}${result.startValue}` },
                         { label: "Ending Value", value: `${symbol}${result.endValue}` },
@@ -247,11 +247,11 @@ export default function CAGRCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why CAGR is the Gold Standard for Investment Analysis</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">✓ Smooths Market Volatility</h3>
+                        <h3 className="text-sm font-semibold text-cyan-700 mb-2">✓ Smooths Market Volatility</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">CAGR ignores annual fluctuations and provides a steady average return. Perfect for comparing investments with different volatility patterns.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compares Different Time Periods</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compares Different Time Periods</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">A 3-year investment with 40% return vs 5-year with 50% return — CAGR tells you which performed better annually.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -274,7 +274,7 @@ export default function CAGRCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Investment: $50,000 in an equity fund | After 7 years: $120,000 | CAGR = (120,000/50,000)^(1/7)-1 = 13.4% | Total Return = 140% | Beats typical FD returns of 6-7% significantly.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Example 2: Stock Market Investment</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Example 2: Stock Market Investment</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Investment: $200,000 in blue-chip stocks | After 10 years: $500,000 | CAGR = (500,000/200,000)^(1/10)-1 = 9.6% | Though below market averages, still better than debt funds.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -313,8 +313,8 @@ export default function CAGRCalculator() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Equity Mutual Funds</td><td className="py-2 px-4 text-right text-green-600">12-15%</td><td className="py-2 px-4">High</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Direct Stocks</td><td className="py-2 px-4 text-right text-green-600">15-20%</td><td className="py-2 px-4">Very High</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Equity Mutual Funds</td><td className="py-2 px-4 text-right text-green-700">12-15%</td><td className="py-2 px-4">High</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Direct Stocks</td><td className="py-2 px-4 text-right text-green-700">15-20%</td><td className="py-2 px-4">Very High</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Hybrid Funds</td><td className="py-2 px-4 text-right text-yellow-700">9-11%</td><td className="py-2 px-4">Moderate</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Debt Funds</td><td className="py-2 px-4 text-right text-yellow-700">7-8%</td><td className="py-2 px-4">Low</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Fixed Deposits</td><td className="py-2 px-4 text-right text-blue-600">6-7%</td><td className="py-2 px-4">Very Low</td></tr>

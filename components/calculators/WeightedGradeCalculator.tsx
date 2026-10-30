@@ -203,31 +203,13 @@ export default function WeightedGradeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Weighted Grade Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
-                            <h3 className="font-semibold">Grade Categories</h3>
+                            <h2 className="font-semibold">Grade Categories</h2>
                             <p className="text-xs text-ink-faint mt-1">Enter grade and weight for each category</p>
                         </div>
                         <button
@@ -304,7 +286,7 @@ export default function WeightedGradeCalculator() {
                     mainResult={result ? {
                         label: "Weighted Grade",
                         value: `${result.weightedGrade}%`,
-                        color: result.weightedGrade >= 60 ? "text-green-600" : "text-red-600"
+                        color: result.weightedGrade >= 60 ? "text-green-700" : "text-red-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Letter Grade", value: result.letterGrade, valueColor: "text-yellow-700" },
@@ -350,7 +332,7 @@ export default function WeightedGradeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Weighted Grade Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Track Your Progress</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Track Your Progress</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly where you stand in each class. No more guessing your overall grade before finals.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -424,7 +406,7 @@ export default function WeightedGradeCalculator() {
                         </thead>
                         <tbody>
                             {GPA_SCALE.map((row, i) => (
-                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === 0 ? 'text-green-600' : i < 4 ? 'text-blue-600' : i < 8 ? 'text-yellow-700' : i < 11 ? 'text-orange-600' : 'text-red-600'}`}>
+                                <tr key={i} className={`border-b border-hairline hover:bg-cream ${i === 0 ? 'text-green-700' : i < 4 ? 'text-blue-600' : i < 8 ? 'text-yellow-700' : i < 11 ? 'text-orange-700' : 'text-red-600'}`}>
                                     <td className="py-2 px-4 font-bold">{row.letter}</td>
                                     <td className="py-2 px-4">{row.min}%</td>
                                     <td className="py-2 px-4">{row.gpa.toFixed(1)}</td>
@@ -455,7 +437,7 @@ export default function WeightedGradeCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">⭐ Weighted GPA (5.0/6.0 Scale)</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">⭐ Weighted GPA (5.0/6.0 Scale)</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Honors/AP classes get +0.5/1.0 boost</li>
                             <li>• A in AP = 5.0</li>
@@ -473,23 +455,23 @@ export default function WeightedGradeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Grade Improvement Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Focus on high-weight categories:</strong> A 10% improvement on a 40% final helps more than 10% on 10% homework. Prioritize your time accordingly.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Don't neglect small assignments:</strong> Missing a 5% assignment means you can only get 95% max in that category. Every point counts.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use this calculator weekly:</strong> Track your progress regularly. Know where you stand before it's too late to improve.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Ask about extra credit:</strong> Some teachers offer extra credit that can boost specific categories. Always ask if it's available.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Review past exams:</strong> Understand what you missed. Similar concepts often appear on future assessments.</span>
                     </li>
                 </ul>

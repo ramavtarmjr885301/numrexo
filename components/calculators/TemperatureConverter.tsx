@@ -156,40 +156,12 @@ export default function TemperatureConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Conversion Calculators</span> {/* ✅ Span added */}
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">Temperature Converter</span> {/* ✅ Span added */}
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Temperature Converter</h3>
+                        <h2 className="font-semibold">Temperature Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between Celsius, Fahrenheit, and Kelvin</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -265,7 +237,7 @@ export default function TemperatureConverter() {
                     mainResult={result ? {
                         label: `${result.value}${result.fromUnit} =`,
                         value: `${result.converted}${result.toUnit}`,
-                        color: "text-orange-600"
+                        color: "text-orange-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Original Value", value: `${result.value}${result.fromUnit}` },
@@ -320,7 +292,7 @@ export default function TemperatureConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Perfect for students, scientists, and engineers working with temperature in physics, chemistry, and biology.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Health & Medicine</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Health & Medicine</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert body temperature readings between Celsius and Fahrenheit. Understand fever thresholds and normal ranges.</p>
                     </div>
                 </div>
@@ -354,8 +326,8 @@ export default function TemperatureConverter() {
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Room Temperature</td>
-                                <td className="py-2 px-4 text-green-600">20-22°C</td>
-                                <td className="py-2 px-4 text-green-600">68-72°F</td>
+                                <td className="py-2 px-4 text-green-700">20-22°C</td>
+                                <td className="py-2 px-4 text-green-700">68-72°F</td>
                                 <td className="py-2 px-4 text-ink-faint">293-295 K</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -366,8 +338,8 @@ export default function TemperatureConverter() {
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Summer Day</td>
-                                <td className="py-2 px-4 text-orange-600">30°C</td>
-                                <td className="py-2 px-4 text-orange-600">86°F</td>
+                                <td className="py-2 px-4 text-orange-700">30°C</td>
+                                <td className="py-2 px-4 text-orange-700">86°F</td>
                                 <td className="py-2 px-4 text-ink-faint">303.15 K</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
@@ -395,7 +367,7 @@ export default function TemperatureConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Common Cooking Temperatures</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h4 className="text-sm font-semibold text-orange-600 mb-2">🔥 Oven Temperatures</h4>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">🔥 Oven Temperatures</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• <span className="text-ink-soft">120°C (250°F):</span> Low/slow cooking</li>
                             <li>• <span className="text-ink-soft">150°C (300°F):</span> Roasting vegetables</li>
@@ -406,7 +378,7 @@ export default function TemperatureConverter() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h4 className="text-sm font-semibold text-green-600 mb-2">🥩 Internal Meat Temperatures</h4>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">🥩 Internal Meat Temperatures</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• <span className="text-ink-soft">Chicken:</span> 74°C (165°F)</li>
                             <li>• <span className="text-ink-soft">Pork:</span> 63°C (145°F)</li>

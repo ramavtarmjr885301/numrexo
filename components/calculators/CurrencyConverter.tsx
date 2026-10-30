@@ -168,20 +168,11 @@
 //     <>
 //       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CURRENCY_SCHEMA }} />
 
-//       <nav aria-label="Breadcrumb" className="mb-5">
-//         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-//           <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-//           <li className="text-ink-soft">/</li>
-//           <li><a href="https://numrexo.com/conversion" className="hover:text-ink-soft">Converters</a></li>
-//           <li className="text-ink-soft">/</li>
-//           <li><span className="text-ink-soft">Currency Converter</span></li>
-//         </ol>
-//       </nav>
-
+//
 //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 //         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
 //           <div className="px-6 py-4 border-b border-hairline">
-//             <h3 className="font-semibold">Currency Converter</h3>
+//             <h2 className="font-semibold">Currency Converter</h2>
 //             <p className="text-xs text-ink-faint mt-1">Last updated: {lastUpdated}</p>
 //           </div>
 //           <div className="p-6 space-y-4">
@@ -257,7 +248,7 @@
 //           mainResult={result ? {
 //             label: `${result.fromSymbol}${result.fromAmount} ${result.fromCurrency} =`,
 //             value: `${result.toSymbol}${result.convertedAmount} ${result.toCurrency}`,
-//             color: "text-teal-600",
+//             color: "text-teal-700",
 //           } : undefined}
 //           extraRows={result ? [
 //             { label: `1 ${result.fromCurrency} =`, value: `${result.toSymbol}${result.rate} ${result.toCurrency}` },
@@ -298,11 +289,11 @@
 //         <h2 className="text-xl font-semibold text-ink mb-3">Why Use Our Currency Converter</h2>
 //         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //           <div className="bg-surface border border-hairline rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ International Travel</h3>
+//             <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ International Travel</h3>
 //             <p className="text-ink-faint text-xs leading-relaxed">Plan your travel budget by converting your home currency to destination currency. Know exactly how much you'll spend on hotels, meals, and activities.</p>
 //           </div>
 //           <div className="bg-surface border border-hairline rounded-xl p-4">
-//             <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Online Shopping</h3>
+//             <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Online Shopping</h3>
 //             <p className="text-ink-faint text-xs leading-relaxed">Shop from international websites with confidence. Convert prices to your local currency before buying to avoid exchange rate surprises.</p>
 //           </div>
 //           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -330,7 +321,7 @@
 //           ].map((pair, i) => (
 //             <div key={i} className="bg-surface border border-hairline rounded-lg p-3 text-center">
 //               <div className="text-sm font-semibold text-ink-soft">{pair.from} → {pair.to}</div>
-//               <div className="text-lg font-mono text-teal-600">{pair.rate.toFixed(4)}</div>
+//               <div className="text-lg font-mono text-teal-700">{pair.rate.toFixed(4)}</div>
 //             </div>
 //           ))}
 //         </div>
@@ -340,11 +331,11 @@
 //       <section className="mb-8">
 //         <h2 className="text-xl font-semibold text-ink mb-3">Tips for Getting the Best Exchange Rates</h2>
 //         <ul className="space-y-2">
-//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Avoid airports & hotels:</strong> They charge 5-15% markup. Exchange at local banks or ATMs instead.</span></li>
-//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use online transfer services:</strong> Wise, Revolut, OFX offer 0.5-1% fees vs bank 3-5%.</span></li>
-//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Exchange larger amounts:</strong> Fees are often fixed, so larger amounts reduce percentage cost.</span></li>
-//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Monitor rate trends:</strong> Use our currency converter daily to spot favorable rates before exchanging.</span></li>
-//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">✓</span><span><strong className="text-ink-soft">No-foreign-fee credit cards:</strong> Save 3% on international purchases compared to regular cards.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Avoid airports & hotels:</strong> They charge 5-15% markup. Exchange at local banks or ATMs instead.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Use online transfer services:</strong> Wise, Revolut, OFX offer 0.5-1% fees vs bank 3-5%.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Exchange larger amounts:</strong> Fees are often fixed, so larger amounts reduce percentage cost.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Monitor rate trends:</strong> Use our currency converter daily to spot favorable rates before exchanging.</span></li>
+//           <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">✓</span><span><strong className="text-ink-soft">No-foreign-fee credit cards:</strong> Save 3% on international purchases compared to regular cards.</span></li>
 //         </ul>
 //       </section>
 
@@ -384,7 +375,7 @@
 //           ].map((pair, i) => (
 //             <div key={i} className="bg-surface border border-hairline rounded-lg p-3 text-center">
 //               <div className="text-sm font-semibold text-ink-soft">{pair.from} → {pair.to}</div>
-//               <div className="text-lg font-mono text-teal-600">{pair.rate.toFixed(4)}</div>
+//               <div className="text-lg font-mono text-teal-700">{pair.rate.toFixed(4)}</div>
 //             </div>
 //           ))}
 //         </div>

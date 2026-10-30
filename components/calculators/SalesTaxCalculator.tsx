@@ -176,30 +176,12 @@ export default function SalesTaxCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/tax" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Tax Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Sales Tax Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Sales Tax Calculation</h3>
+                        <h2 className="font-semibold">Sales Tax Calculation</h2>
                         <p className="text-xs text-ink-faint mt-1">For US states and local taxes</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -298,7 +280,7 @@ export default function SalesTaxCalculator() {
                     mainResult={result ? {
                         label: calcType === "add" ? "Total with Tax" : "Price without Tax",
                         value: `$${calcType === "add" ? result.postTax : result.preTax}`,
-                        color: "text-green-600"
+                        color: "text-green-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: calcType === "add" ? "Price before tax" : "Total with tax", value: `$${calcType === "add" ? result.preTax : result.postTax}` },
@@ -344,7 +326,7 @@ export default function SalesTaxCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Sales Tax Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Accurate Budgeting</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Accurate Budgeting</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll pay in taxes. Plan your purchases and avoid surprises at checkout.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -367,13 +349,13 @@ export default function SalesTaxCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Sales Tax Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Add Sales Tax</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Add Sales Tax</h3>
                         <p className="text-ink font-mono text-sm mb-2">Total = Amount × (1 + Tax Rate/100)</p>
                         <p className="text-ink-faint text-xs mb-2">Tax = Amount × Tax Rate/100</p>
                         <p className="text-ink-faint text-xs">Example: $100 × 1.08 = $108 (Tax $8)</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-5">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">Remove Sales Tax</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">Remove Sales Tax</h3>
                         <p className="text-ink font-mono text-sm mb-2">Pre-Tax = Total ÷ (1 + Tax Rate/100)</p>
                         <p className="text-ink-faint text-xs mb-2">Tax = Total - Pre-Tax</p>
                         <p className="text-ink-faint text-xs">Example: $108 ÷ 1.08 = $100 (Tax $8)</p>
@@ -474,23 +456,23 @@ export default function SalesTaxCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Sales Tax Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Know your local rate:</strong> Always check your specific city and county rates. Combined rates can be significantly higher than state rates.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Save exemption certificates:</strong> Businesses should maintain valid certificates for tax-exempt sales. Audits can go back 3-5 years.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use automated tax software:</strong> For multi-state businesses, consider sales tax automation tools to reduce compliance risk.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Watch for tax holidays:</strong> Plan major purchases during sales tax holidays to save 5-10% on qualifying items.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Understand economic nexus:</strong> If you sell online, know the thresholds for each state where you have customers ($100,000-$500,000 in sales).</span>
                     </li>
                 </ul>

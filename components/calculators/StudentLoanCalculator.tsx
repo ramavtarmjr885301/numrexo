@@ -192,30 +192,12 @@ export default function StudentLoanCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/education" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Education Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Student Loan Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Loan Details</h3>
+                        <h2 className="font-semibold">Loan Details</h2>
                         <p className="text-xs text-ink-faint mt-1">Enter your student loan information</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -306,14 +288,14 @@ export default function StudentLoanCalculator() {
                     isEmpty={!result}
                     emptyIcon="📚"
                     emptyText="Enter your loan details to see the monthly payment"
-                    mainResult={result ? { label: "Monthly Payment", value: money(result.monthlyPayment, 2), color: "text-teal-600" } : undefined}
+                    mainResult={result ? { label: "Monthly Payment", value: money(result.monthlyPayment, 2), color: "text-teal-700" } : undefined}
                     extraRows={result ? [
                         { label: "Total Payment (Principal + Interest)", value: money(result.totalPayment, 2) },
                         { label: "Total Interest Paid", value: money(result.totalInterest, 2), valueColor: "text-yellow-700" },
                         { label: `With Extra ${money(result.extraPayment, 0)}/month`, value: money(result.monthlyWithExtra, 2), valueColor: "text-blue-600" },
                         { label: "New Loan Term", value: `${result.newMonths} months (${Math.floor(result.newMonths / 12)} years ${result.newMonths % 12} months)` },
-                        { label: "Time Saved", value: `${result.timeSavedYears}y ${result.timeSavedMonths}m`, valueColor: "text-green-600" },
-                        { label: "Interest Saved", value: money(result.interestSaved, 2), valueColor: "text-green-600" },
+                        { label: "Time Saved", value: `${result.timeSavedYears}y ${result.timeSavedMonths}m`, valueColor: "text-green-700" },
+                        { label: "Interest Saved", value: money(result.interestSaved, 2), valueColor: "text-green-700" },
                         { label: "Total Interest (with Extra)", value: money(result.totalInterestWithExtra, 2), valueColor: "text-purple-600" },
                     ] : []}
                 />
@@ -353,7 +335,7 @@ export default function StudentLoanCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Student Loan Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Budget Planning</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Budget Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know your monthly payment before you graduate. Plan your budget around your loan payments and avoid financial surprises.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -365,7 +347,7 @@ export default function StudentLoanCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Compare different loan terms. Find the right balance between monthly affordability and total interest cost.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Financial Clarity</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Financial Clarity</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Understand the full cost of your education. Make informed decisions about borrowing, repaying, and refinancing.</p>
                     </div>
                 </div>
@@ -376,7 +358,7 @@ export default function StudentLoanCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Types of Student Loans</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-teal-300 transition-all">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">🏛️ Federal Student Loans</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">🏛️ Federal Student Loans</h3>
                         <ul className="text-xs text-ink-faint space-y-1">
                             <li>• Fixed interest rates</li>
                             <li>• Income-driven repayment plans</li>
@@ -415,7 +397,7 @@ export default function StudentLoanCalculator() {
                         </div>
                         <div className="text-center">
                             <div className="text-3xl mb-1">⏰</div>
-                            <p className="text-sm font-semibold text-green-600">Extra Payments</p>
+                            <p className="text-sm font-semibold text-green-700">Extra Payments</p>
                             <p className="text-xs text-ink-faint">Save time and money</p>
                         </div>
                     </div>
@@ -430,7 +412,7 @@ export default function StudentLoanCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Student Loan Repayment Strategies</h2>
                 <div className="space-y-2">
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-teal-200 transition-all">
-                        <h4 className="text-sm font-semibold text-teal-600">1️⃣ Avalanche Method</h4>
+                        <h4 className="text-sm font-semibold text-teal-700">1️⃣ Avalanche Method</h4>
                         <p className="text-xs text-ink-faint">Pay extra toward loans with the highest interest rate first while making minimum payments on others. Saves the most money in interest over time. Best for financially disciplined borrowers.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
@@ -442,7 +424,7 @@ export default function StudentLoanCalculator() {
                         <p className="text-xs text-ink-faint">Cap monthly payments at 10-20% of discretionary income. Qualify for forgiveness after 20-25 years. Best for borrowers with lower income relative to debt.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                        <h4 className="text-sm font-semibold text-green-600">4️⃣ Refinancing</h4>
+                        <h4 className="text-sm font-semibold text-green-700">4️⃣ Refinancing</h4>
                         <p className="text-xs text-ink-faint">Replace existing loans with a new loan at lower interest rate. Can significantly reduce monthly payments or total interest. Best for borrowers with good credit and stable income.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-purple-200 transition-all">
@@ -457,23 +439,23 @@ export default function StudentLoanCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Student Loan Repayment Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Start paying during grace period:</strong> Make interest-only payments while in school or during grace period to prevent interest capitalization and reduce total cost.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Automate payments for discounts:</strong> Many lenders offer 0.25% interest rate reduction for setting up auto-debit. This small discount adds up over time.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Pay bi-weekly instead of monthly:</strong> Making half payments every two weeks results in 13 full payments per year (one extra payment), accelerating payoff.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Direct extra payments to principal:</strong> Ensure that extra payments go toward principal, not future interest. Most lenders allow this designation.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-teal-600 mt-0.5">💡</span>
+                        <span className="text-teal-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Re-evaluate annually:</strong> Review your loans yearly. Interest rates change, income grows, and new repayment options become available. Adjust your strategy accordingly.</span>
                     </li>
                 </ul>

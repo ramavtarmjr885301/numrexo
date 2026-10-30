@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import SubscribeBox from "@/components/common/SubscribeBox";
 
 // Social Media Icons as components
@@ -30,7 +29,6 @@ const XIcon = () => (
 );
 
 export default function Footer() {
-  const router = useRouter();
 
   const socialLinks = [
     { name: "Instagram", href: "https://instagram.com/numrexo", icon: InstagramIcon },
@@ -55,105 +53,105 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Categories</h5>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Categories</p>
             <div className="space-y-2">
-              <button onClick={() => router.push("/health")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <Link href="/health" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Health
-              </button>
-              <button onClick={() => router.push("/fitness")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/fitness" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Fitness
-              </button>
-              <button onClick={() => router.push("/finance")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/finance" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Finance
-              </button>
-              <button onClick={() => router.push("/math")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/math" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Mathematics
-              </button>
-              <button onClick={() => router.push("/tax")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/tax" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Tax
-              </button>
-              <button onClick={() => router.push("/conversion")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/conversion" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Conversions
-              </button>
-              <button onClick={() => router.push("/education")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/education" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Education
-              </button>
-              <button onClick={() => router.push("/construction")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/construction" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Construction
-              </button>
-              <button onClick={() => router.push("/business")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Businsee
-              </button>
-              <button onClick={() => router.push("/science")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/business" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Business
+              </Link>
+              <Link href="/science" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Science
-              </button>
-              <button onClick={() => router.push("/time")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/time" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Time & Date
-              </button>
-              <button onClick={() => router.push("/cooking")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/cooking" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Cooking
-              </button>
-              <button onClick={() => router.push("/travel")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/travel" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Travel
-              </button>
-              <button onClick={() => router.push("/investment")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/investment" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Investment
-              </button>
+              </Link>
 
             </div>
             {/* Famous Calculators */}
           </div>
           <div>
-            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Calculators</h5>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Calculators</p>
             <div className="space-y-2">
-              <button onClick={() => router.push("/health/bmi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <Link href="/health/bmi-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 BMI Calculator
-              </button>
-              <button onClick={() => router.push("/fitness/bmr-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/fitness/bmr-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 BMR Calculator
-              </button>
-              <button onClick={() => router.push("/tax/gst-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/tax/gst-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 GST Calculator
-              </button>
-              <button onClick={() => router.push("/business/invoice-generator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/business/invoice-generator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Invoice Generator
-              </button>
-              <button onClick={() => router.push("/finance/emi-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/finance/emi-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 EMI Calculator
-              </button>
-              <button onClick={() => router.push("/fitness/body-fat-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/fitness/body-fat-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Body Fat Calculator
-              </button>
-              <button onClick={() => router.push("/health/pregnancy-due-date-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/health/pregnancy-due-date-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Pregnancy Due Date
-              </button>
-              <button onClick={() => router.push("/construction/concrete-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/construction/concrete-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Concrete Calculator
-              </button>
-              <button onClick={() => router.push("/finance/mortgage-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/finance/mortgage-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Mortgage Calculator
-              </button>
-              <button onClick={() => router.push("/travel/travel-budget-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Travel Budget Cal..
-              </button>
-              <button onClick={() => router.push("/education/college-cost-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                College Cost Cal..
-              </button>
-              <button onClick={() => router.push("/health/nutrition-label-generator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Nutition Level Gen.
-              </button>
-              <button onClick={() => router.push("/health/calorie-counter")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/travel/travel-budget-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Travel Budget Calculator
+              </Link>
+              <Link href="/education/college-cost-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                College Cost Calculator
+              </Link>
+              <Link href="/health/nutrition-label-generator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Nutrition Label Generator
+              </Link>
+              <Link href="/health/calorie-counter" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Calorie Counter
-              </button>
-              <button onClick={() => router.push("/math/pythagorean-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/math/pythagorean-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Pythagorean Theorem
-              </button>
-              <button onClick={() => router.push("/math/population-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/math/population-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Population Calculator
-              </button>
-              <button onClick={() => router.push("/finance/salary-budgeting-calculator")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Salary Budgeting Cal..
-              </button>
+              </Link>
+              <Link href="/finance/salary-budgeting-calculator" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+                Salary Budgeting Calculator
+              </Link>
 
 
 
@@ -162,40 +160,31 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Company</h5>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Company</p>
             <div className="space-y-2">
-              <button onClick={() => router.push("/about")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <Link href="/about" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 About
-              </button>
-              <button onClick={() => router.push("/contact")} className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link href="/contact" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Contact
-              </button>
+              </Link>
               <a href="/blog" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">Blog</a>
             </div>
           </div>
 
           {/* Legal */}
           <div>
-            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Legal</h5>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Legal</p>
             <div className="space-y-2">
-              <button
-                onClick={() => router.push("/privacy")}
-                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
-              >
+              <Link href="/privacy" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Privacy Policy
-              </button>
-              <button
-                onClick={() => router.push("/terms")}
-                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
-              >
+              </Link>
+              <Link href="/terms" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Terms of Use
-              </button>
-              <button
-                onClick={() => router.push("/disclaimer")}
-                className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
-              >
+              </Link>
+              <Link href="/disclaimer" className="block text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 Disclaimer
-              </button>
+              </Link>
               <button
                 onClick={() => window.openCookiePreferences?.()}
                 className="block text-sm text-gray-400 hover:text-blue-400 transition-colors"
@@ -207,7 +196,7 @@ export default function Footer() {
 
           {/* Social Media - 2x2 Grid with small gap */}
           <div>
-            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Follow Us</h5>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Follow Us</p>
             <div className="grid grid-cols-2 gap-1.5 w-fit">
               {socialLinks.map((social) => (
                 <a
@@ -234,7 +223,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">© 2026 Numrexo. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© 2026 Numrexo. All rights reserved.</p>
         </div>
       </div>
     </footer>

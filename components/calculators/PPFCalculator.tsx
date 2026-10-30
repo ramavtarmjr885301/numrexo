@@ -112,20 +112,11 @@ export default function PPFCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: PPF_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/finance" className="hover:text-ink-soft">Finance Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">PPF Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">PPF Investment Details</h3>
+            <h2 className="font-semibold">PPF Investment Details</h2>
             <p className="text-xs text-ink-faint mt-1">Government of India, EEE Tax Benefit</p>
           </div>
           <div className="p-6 space-y-4">
@@ -211,7 +202,7 @@ export default function PPFCalculator() {
           } : undefined}
           extraRows={result ? [
             { label: "Total Investment (15 years)", value: `₹${result.totalInvestment}` },
-            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-600" },
+            { label: "Total Interest Earned", value: `₹${result.totalInterest}`, valueColor: "text-green-700" },
             { label: "Interest-to-Investment Ratio", value: `${result.interestPercentage}%` },
             { label: "Tax Saving (30% bracket)", value: `₹${result.taxSaving}`, valueColor: "text-yellow-700" },
             { label: "Effective Annual Return", value: `${result.effectiveReturn}% (post-tax)` },
@@ -254,7 +245,7 @@ export default function PPFCalculator() {
             <p className="text-ink-faint text-xs leading-relaxed">Project your retirement corpus with tax-free PPF returns. Plan your golden years with confidence.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Tax Saving</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Tax Saving</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Calculate your Section 80C tax savings. Understand the true post-tax return of PPF investment.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -306,7 +297,7 @@ export default function PPFCalculator() {
                         <td className="py-2 px-4 text-ink-soft">{i}</td>
                         <td className="py-2 px-4 text-right text-ink-faint">₹{P.toLocaleString("en-IN")}</td>
                         <td className="py-2 px-4 text-right text-ink-faint">₹{(P * i).toLocaleString("en-IN")}</td>
-                        <td className="py-2 px-4 text-right text-green-600">₹{Math.round(balance - (P * i)).toLocaleString("en-IN")}</td>
+                        <td className="py-2 px-4 text-right text-green-700">₹{Math.round(balance - (P * i)).toLocaleString("en-IN")}</td>
                         <td className="py-2 px-4 text-right text-ink font-semibold">₹{Math.round(balance).toLocaleString("en-IN")}</td>
                       </tr>
                     );
@@ -333,22 +324,22 @@ export default function PPFCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">💰</div>
-            <h3 className="text-sm font-semibold text-green-600 mb-1">Tax-Free Returns (EEE)</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-1">Tax-Free Returns (EEE)</h3>
             <p className="text-xs text-ink-faint">Deposits, interest, and maturity - all completely tax-free under Section 80C.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">🛡️</div>
-            <h3 className="text-sm font-semibold text-green-600 mb-1">Government Backed</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-1">Government Backed</h3>
             <p className="text-xs text-ink-faint">Sovereign guarantee - your principal is 100% safe with no market risk.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">📈</div>
-            <h3 className="text-sm font-semibold text-green-600 mb-1">Compounding Benefits</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-1">Compounding Benefits</h3>
             <p className="text-xs text-ink-faint">15+ years of tax-free compounding generates substantial wealth.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
             <div className="text-2xl mb-2">🏦</div>
-            <h3 className="text-sm font-semibold text-green-600 mb-1">Easy Access</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-1">Easy Access</h3>
             <p className="text-xs text-ink-faint">Open at any post office or authorized bank (SBI, HDFC, ICICI).</p>
           </div>
         </div>
@@ -362,9 +353,9 @@ export default function PPFCalculator() {
             <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Feature</th><th className="text-left py-3 px-4 text-ink-faint">PPF</th><th className="text-left py-3 px-4 text-ink-faint">FD</th><th className="text-left py-3 px-4 text-ink-faint">Mutual Funds</th></tr></thead>
             <tbody>
               <tr className="border-b border-hairline"><td className="py-2 px-4">Returns</td><td className="py-2 px-4 text-yellow-700">7-8%</td><td className="py-2 px-4 text-yellow-700">6-7%</td><td className="py-2 px-4 text-yellow-700">8-12%</td></tr>
-              <tr className="border-b border-hairline"><td className="py-2 px-4">Tax Status</td><td className="py-2 px-4 text-green-600">EEE (Tax-Free)</td><td className="py-2 px-4 text-red-600">Taxable</td><td className="py-2 px-4 text-yellow-700">LTCG/STCG</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Tax Status</td><td className="py-2 px-4 text-green-700">EEE (Tax-Free)</td><td className="py-2 px-4 text-red-600">Taxable</td><td className="py-2 px-4 text-yellow-700">LTCG/STCG</td></tr>
               <tr className="border-b border-hairline"><td className="py-2 px-4">Lock-in</td><td className="py-2 px-4">15 years</td><td className="py-2 px-4">1-5 years</td><td className="py-2 px-4">None</td></tr>
-              <tr className="border-b border-hairline"><td className="py-2 px-4">Risk</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4 text-green-600">Very Low</td><td className="py-2 px-4 text-yellow-700">Moderate-High</td></tr>
+              <tr className="border-b border-hairline"><td className="py-2 px-4">Risk</td><td className="py-2 px-4 text-green-700">Very Low</td><td className="py-2 px-4 text-green-700">Very Low</td><td className="py-2 px-4 text-yellow-700">Moderate-High</td></tr>
             </tbody>
           </table>
         </div>

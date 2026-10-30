@@ -149,20 +149,11 @@ export default function BuiltUpAreaCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Built-up Area Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Built-up Area Calculator</h3>
+                        <h2 className="font-semibold">Built-up Area Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate total covered area including walls</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -182,7 +173,7 @@ export default function BuiltUpAreaCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏢"
                     emptyText="Enter carpet area to calculate"
-                    mainResult={result ? { label: "Built-up Area", value: `${result.builtUpArea} sq ft`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Built-up Area", value: `${result.builtUpArea} sq ft`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Carpet Area", value: `${result.carpetArea} sq ft` },
                         { label: "Super Built-up Area", value: `${result.superBuiltUpArea} sq ft`, valueColor: "text-yellow-700" },
@@ -235,7 +226,7 @@ export default function BuiltUpAreaCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">The actual usable floor area inside the walls. What you can actually stand on and use. This excludes wall thickness, balcony, and common areas. RERA mandates disclosure of carpet area in sales agreements.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Built-up Area</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Built-up Area</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Carpet area + wall thickness + balcony. This is the total covered area of your apartment. Typically 15-20% more than carpet area.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -266,7 +257,7 @@ export default function BuiltUpAreaCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Carpet Area: 800 sq ft | Wall Factor: 15% | Balcony: 0 sq ft → Built-up Area: 920 sq ft | Super Built-up: 1,150 sq ft (25% loading). If builder quotes ₹5,000/sq ft on super built-up, total cost = ₹57.5 lakhs. Your actual cost per carpet sq ft = ₹71,875!</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Example 2: Luxury Apartment</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Example 2: Luxury Apartment</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Carpet Area: 1,500 sq ft | Wall Factor: 20% | Balcony: 100 sq ft → Built-up Area: 1,900 sq ft | Super Built-up: 2,470 sq ft (30% loading). Builder quote ₹12,000/sq ft on super built-up = ₹2.96 crores. True cost per carpet sq ft = ₹19,733!</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -295,12 +286,12 @@ export default function BuiltUpAreaCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Important Tips for Home Buyers</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Always ask the builder for carpet area, built-up area, and super built-up area in writing before signing.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Compare multiple properties using cost per square foot of carpet area, not super built-up area.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Lower loading factor (10-20%) means you're paying less for common areas — better value for money.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>RERA mandates that builders cannot charge for common areas arbitrarily beyond reasonable limits.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Use our calculator before visiting any property to understand what you're actually paying for.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Check if balcony area is included at 50% or 100% — some builders include only 50% in super built-up area.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Always ask the builder for carpet area, built-up area, and super built-up area in writing before signing.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Compare multiple properties using cost per square foot of carpet area, not super built-up area.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Lower loading factor (10-20%) means you're paying less for common areas — better value for money.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>RERA mandates that builders cannot charge for common areas arbitrarily beyond reasonable limits.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Use our calculator before visiting any property to understand what you're actually paying for.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Check if balcony area is included at 50% or 100% — some builders include only 50% in super built-up area.</span></li>
                 </ul>
             </section>
 

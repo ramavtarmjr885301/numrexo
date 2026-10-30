@@ -185,30 +185,12 @@ export default function WorkingDaysCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Working Days Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Working Days Calculator</h3>
+                        <h2 className="font-semibold">Working Days Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate business days between two dates (Mon-Fri)</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -253,7 +235,7 @@ export default function WorkingDaysCalculator() {
                     isEmpty={!result}
                     emptyIcon="💼"
                     emptyText="Select start and end dates"
-                    mainResult={result ? { label: "Working Days", value: `${result.workingDays} days`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Working Days", value: `${result.workingDays} days`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Total Days (including weekends)", value: `${result.totalDays} days` },
                         { label: "Weekends", value: `${result.weekends} days`, valueColor: "text-yellow-700" },
@@ -297,7 +279,7 @@ export default function WorkingDaysCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Working Days Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Project Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Project Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Estimate project completion dates accurately. Know exactly how many working days you have to complete deliverables.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -391,23 +373,23 @@ export default function WorkingDaysCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Project Timeline Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Always add buffer time:</strong> Add 15-20% extra working days to your estimates for unexpected delays. Projects almost always take longer than planned.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Consider holidays:</strong> Check if any public holidays fall within your date range. These reduce available working days significantly.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Plan in working days, not calendar days:</strong> When communicating deadlines with clients or team members, use working days to avoid confusion about weekend availability.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use project management tools:</strong> Integrate working day calculations into your project management software for accurate milestone planning.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Account for team schedules:</strong> If your team works a different schedule (e.g., 4-day work week), adjust your working day definition accordingly.</span>
                     </li>
                 </ul>
@@ -418,23 +400,23 @@ export default function WorkingDaysCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Working Days Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Both dates are included:</strong> Our calculator includes both the start and end dates in the count. If you want to exclude the start date, use the day after.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Weekend definition:</strong> Our calculator considers Saturday and Sunday as weekends. Some countries have different weekend days (e.g., Friday-Saturday).</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Legal and financial use:</strong> Many legal documents use 'business days' for deadlines. Always clarify if the count includes the start date or excludes it.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Shipping estimates:</strong> Shipping carriers typically count business days from the pickup date. Check their specific business day policy.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Save your results:</strong> Take a screenshot or note your working day count for reference. Useful for project documentation.</span>
                     </li>
                 </ul>

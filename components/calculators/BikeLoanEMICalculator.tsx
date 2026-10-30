@@ -216,10 +216,10 @@ const PROFILES: Record<MarketKey, BikeProfile> = {
 };
 
 // Row colour classes for the example tables (kept from the original static tables).
-const RATE_ROW_RATE_CLS = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const RATE_ROW_INT_CLS = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
-const TENURE_ROW_TERM_CLS = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const TENURE_ROW_INT_CLS = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const RATE_ROW_RATE_CLS = ["text-green-700", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const RATE_ROW_INT_CLS = ["text-yellow-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_ROW_TERM_CLS = ["text-blue-600", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const TENURE_ROW_INT_CLS = ["text-green-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
 
 const termLabel = (months: number) => (months % 12 === 0 && months >= 12 ? `${months / 12}Y` : `${months}M`);
 
@@ -369,7 +369,7 @@ export default function BikeLoanEMICalculator() {
 
         if (emiToBikeRatio <= 0.15) {
             rating = "Very Affordable ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (emiToBikeRatio <= 0.25) {
             rating = "Affordable ★★★★";
             ratingColor = "text-blue-600";
@@ -378,7 +378,7 @@ export default function BikeLoanEMICalculator() {
             ratingColor = "text-yellow-700";
         } else if (emiToBikeRatio <= 0.45) {
             rating = "Stretching ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Highly Stretching ★";
             ratingColor = "text-red-600";
@@ -426,35 +426,13 @@ export default function BikeLoanEMICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Bike Loan EMI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Bike Loan EMI Calculator</h3>
+                            <h2 className="font-semibold">Bike Loan EMI Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate your monthly bike loan payments</p>
                         </div>
                     </div>
@@ -641,15 +619,15 @@ export default function BikeLoanEMICalculator() {
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-700" },
                         { label: "Bike Price", value: money(result.bikePrice) },
                         { label: "Down Payment", value: `${money(result.downPayment)} (${result.downPaymentPercentage.toFixed(1)}%)`, valueColor: "text-purple-600" },
                         { label: "Loan Amount", value: money(result.principal) },
                         { label: "Bike Type", value: result.bikeType === "new" ? "New Bike 🏍️" : "Used Bike 🛵" },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months (${(result.months / 12).toFixed(1)} years)` },
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
                         { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
@@ -676,8 +654,8 @@ export default function BikeLoanEMICalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">{money(row.interest, 0)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
@@ -734,7 +712,7 @@ export default function BikeLoanEMICalculator() {
                         )}
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-orange-200 transition-all">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">🛵 Used Bike</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">🛵 Used Bike</h3>
                         {isIN ? (
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Interest Rate: 10-16% p.a.</li>
@@ -778,7 +756,7 @@ export default function BikeLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Two-wheeler loans are often approved and signed in the same sitting at the dealership. Having your own EMI figure beforehand means you're not just accepting whatever the finance desk quotes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">{isIN ? "✓ Bank vs NBFC Tie-Up" : "✓ Dealer Financing vs Your Own Lender"}</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">{isIN ? "✓ Bank vs NBFC Tie-Up" : "✓ Dealer Financing vs Your Own Lender"}</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">{isIN ? "Dealership financing is usually an NBFC tie-up chosen for speed, not price. Run the same bike price through your own bank's rate to see if a day's delay is worth the saving." : "Dealer financing is arranged for speed and convenience, not always for the lowest rate. Run the same bike price through a credit union or bank pre-approval to see if a day's delay is worth the saving."}</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -909,7 +887,7 @@ export default function BikeLoanEMICalculator() {
                 {isIN ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Salaried Individuals</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Age: 21-60 years</li>
                                 <li>• Minimum monthly income: {money(15000)}</li>
@@ -932,7 +910,7 @@ export default function BikeLoanEMICalculator() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface border border-hairline rounded-xl p-4">
-                            <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Employed Applicants</h3>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Employed Applicants</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Age: 18+ (the age of majority where you live)</li>
                                 <li>• Steady, verifiable income, shown by recent pay stubs</li>

@@ -146,31 +146,13 @@ export default function DateDifferenceCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Date Difference Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             {/* Calculator Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Select Dates</h3>
+                        <h2 className="font-semibold">Select Dates</h2>
                         <p className="text-xs text-ink-faint mt-1">Choose your start and end dates</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -220,13 +202,13 @@ export default function DateDifferenceCalculator() {
                     mainResult={result ? {
                         label: "Total Days",
                         value: `${result.days} days`,
-                        color: "text-teal-600"
+                        color: "text-teal-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Weeks", value: `${result.weeks} weeks` },
                         { label: "Months", value: `${result.months} months` },
                         { label: "Years", value: `${result.years} years` },
-                        { label: "Business Days (Mon-Fri)", value: `${result.businessDays} days`, valueColor: "text-green-600" },
+                        { label: "Business Days (Mon-Fri)", value: `${result.businessDays} days`, valueColor: "text-green-700" },
                     ] : []}
                 />
             </div>
@@ -261,7 +243,7 @@ export default function DateDifferenceCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Calculate Date Differences?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Age Calculation</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Age Calculation</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate exact age in years, months, and days. Perfect for medical records, legal documents, school admissions, and retirement planning.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -269,7 +251,7 @@ export default function DateDifferenceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Count days until weddings, birthdays, vacations, concerts, or any special occasion. Plan ahead with accurate timelines.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Project Management</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Project Management</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Track project durations, deadlines, and milestones. Use business days for realistic work schedules excluding weekends.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -300,7 +282,7 @@ export default function DateDifferenceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Includes every day of the week - Monday through Sunday. Use for: Age calculation, event countdowns, vacation planning, pregnancy tracking.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Business Days</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Business Days</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Excludes Saturdays and Sundays. Use for: Work deadlines, shipping estimates, bank processing times, project timelines.</p>
                     </div>
                 </div>
@@ -310,10 +292,10 @@ export default function DateDifferenceCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Date Calculation Tips & Tricks</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Leap Years:</strong> February 29 occurs every 4 years (2000, 2004, 2008...). Our calculator handles them automatically.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Month Lengths:</strong> Remember "30 days have September, April, June, and November. All the rest have 31, except February..."</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Week Numbers:</strong> Use weeks count for pregnancy (40 weeks), project sprints (2-week sprints), or habit tracking.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Business Hours:</strong> For hour-based calculations, remember 1 business day = 8-9 working hours typically.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Leap Years:</strong> February 29 occurs every 4 years (2000, 2004, 2008...). Our calculator handles them automatically.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Month Lengths:</strong> Remember "30 days have September, April, June, and November. All the rest have 31, except February..."</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Week Numbers:</strong> Use weeks count for pregnancy (40 weeks), project sprints (2-week sprints), or habit tracking.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Business Hours:</strong> For hour-based calculations, remember 1 business day = 8-9 working hours typically.</span></li>
                 </ul>
             </section>
 
@@ -349,25 +331,25 @@ export default function DateDifferenceCalculator() {
                         <tbody>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Jan 1 → Dec 31 (non-leap)</td>
-                                <td className="py-2 px-4 text-teal-600">364 days</td>
+                                <td className="py-2 px-4 text-teal-700">364 days</td>
                                 <td className="py-2 px-4 text-ink-faint">52 weeks</td>
                                 <td className="py-2 px-4 text-ink-faint">1 year</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Birth → Age 18</td>
-                                <td className="py-2 px-4 text-teal-600">6,575 days</td>
+                                <td className="py-2 px-4 text-teal-700">6,575 days</td>
                                 <td className="py-2 px-4 text-ink-faint">939 weeks</td>
                                 <td className="py-2 px-4 text-ink-faint">18 years</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Today → Next Birthday</td>
-                                <td className="py-2 px-4 text-teal-600">Varies</td>
+                                <td className="py-2 px-4 text-teal-700">Varies</td>
                                 <td className="py-2 px-4 text-ink-faint">~52 weeks</td>
                                 <td className="py-2 px-4 text-ink-faint">1 year</td>
                             </tr>
                             <tr className="hover:bg-cream">
                                 <td className="py-2 px-4 text-ink-soft">Monday → Friday</td>
-                                <td className="py-2 px-4 text-teal-600">5 days</td>
+                                <td className="py-2 px-4 text-teal-700">5 days</td>
                                 <td className="py-2 px-4 text-ink-faint">0.7 weeks</td>
                                 <td className="py-2 px-4 text-ink-faint">0.01 years</td>
                             </tr>

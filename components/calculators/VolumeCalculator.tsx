@@ -218,30 +218,12 @@ export default function VolumeCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Volume Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Volume Calculator</h3>
+                        <h2 className="font-semibold">Volume Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate volume of 3D shapes</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -452,7 +434,7 @@ export default function VolumeCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">See the formula and calculation process. Understand how the volume is calculated for each shape.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Educational & Practical</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Educational & Practical</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Perfect for students learning geometry, teachers preparing lessons, and professionals needing quick volume calculations.</p>
                     </div>
                 </div>
@@ -507,7 +489,7 @@ export default function VolumeCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-surface rounded-lg p-3 text-center border border-green-100">
                             <p className="text-xs text-ink-faint">Cube (side 5cm)</p>
-                            <p className="text-lg text-green-600 font-bold">125 cm³</p>
+                            <p className="text-lg text-green-700 font-bold">125 cm³</p>
                             <p className="text-xs text-ink-faint">Smallest volume</p>
                         </div>
                         <div className="bg-surface rounded-lg p-3 text-center border border-yellow-100">

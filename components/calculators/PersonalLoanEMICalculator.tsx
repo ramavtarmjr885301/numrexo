@@ -40,10 +40,10 @@ const PROFILES = {
 };
 
 // Label colours for the comparison tables (green = cheap ... red = expensive).
-const RATE_LABEL_COLORS = ["text-green-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const RATE_INTEREST_COLORS = ["text-yellow-700", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
-const TENURE_LABEL_COLORS = ["text-blue-600", "text-yellow-700", "text-orange-600", "text-red-600", "text-red-500"];
-const TENURE_INTEREST_COLORS = ["text-green-600", "text-orange-600", "text-red-600", "text-red-600", "text-red-600"];
+const RATE_LABEL_COLORS = ["text-green-700", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const RATE_INTEREST_COLORS = ["text-yellow-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
+const TENURE_LABEL_COLORS = ["text-blue-600", "text-yellow-700", "text-orange-700", "text-red-600", "text-red-500"];
+const TENURE_INTEREST_COLORS = ["text-green-700", "text-orange-700", "text-red-600", "text-red-600", "text-red-600"];
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
 
@@ -280,7 +280,7 @@ function buildResult(loanAmount: string, interestRate: string, tenure: string) {
 
         if (monthlyPayment <= principal * 0.2) {
             rating = "Very Affordable ★★★★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (monthlyPayment <= principal * 0.3) {
             rating = "Affordable ★★★★";
             ratingColor = "text-blue-600";
@@ -289,7 +289,7 @@ function buildResult(loanAmount: string, interestRate: string, tenure: string) {
             ratingColor = "text-yellow-700";
         } else if (monthlyPayment <= principal * 0.5) {
             rating = "Stretching ★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else {
             rating = "Highly Stretching ★";
             ratingColor = "text-red-600";
@@ -371,35 +371,13 @@ export default function PersonalLoanEMICalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Finance Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Personal Loan EMI Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
                         <div>
-                            <h3 className="font-semibold">Personal Loan EMI Calculator</h3>
+                            <h2 className="font-semibold">Personal Loan EMI Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate your monthly loan payments</p>
                         </div>
                     </div>
@@ -520,12 +498,12 @@ export default function PersonalLoanEMICalculator() {
                     extraRows={result ? [
                         { label: "Affordability Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Total Payment", value: money(result.totalPayment), valueColor: "text-yellow-700" },
-                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-600" },
+                        { label: "Total Interest", value: money(result.totalInterest), valueColor: "text-orange-700" },
                         { label: "Principal Amount", value: money(result.principal) },
                         { label: "Interest Rate", value: `${result.rate}% p.a.` },
                         { label: "Loan Tenure", value: `${result.months} months` },
-                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-600" },
-                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-600" },
+                        { label: "Principal % of Total", value: `${result.principalPercentage.toFixed(1)}%`, valueColor: "text-green-700" },
+                        { label: "Interest % of Total", value: `${result.interestPercentage.toFixed(1)}%`, valueColor: "text-orange-700" },
                         { label: "Average Interest per Month", value: money(result.averageInterest) },
                     ] : []}
                 />
@@ -552,8 +530,8 @@ export default function PersonalLoanEMICalculator() {
                                         <tr key={row.month} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{row.month}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.emi, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-green-600">{money(row.principal, 0)}</td>
-                                            <td className="py-2 px-4 text-right text-orange-600">{money(row.interest, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-green-700">{money(row.principal, 0)}</td>
+                                            <td className="py-2 px-4 text-right text-orange-700">{money(row.interest, 0)}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{money(row.balance, 0)}</td>
                                         </tr>
                                     ))}
@@ -600,7 +578,7 @@ export default function PersonalLoanEMICalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Personal loan rates run well above secured loans precisely because there's no collateral. See the actual cost of that before deciding this is the right way to fund the expense.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Shop the Rate, Not Just the Approval</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Shop the Rate, Not Just the Approval</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Pre-approved offers are convenient but rarely the cheapest. Run the same amount through a couple of quotes — on unsecured debt, lenders price the same applicant very differently.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -702,7 +680,7 @@ export default function PersonalLoanEMICalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Personal Loan Eligibility Criteria</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✅ Salaried Individuals</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✅ Salaried Individuals</h3>
                         {isIndia ? (
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Age: 21-60 years</li>

@@ -70,9 +70,9 @@ const FAQ_DATA = [
 
 const LOAN_TERMS = [
     { years: 30, months: 360, color: "text-blue-600" },
-    { years: 20, months: 240, color: "text-green-600" },
+    { years: 20, months: 240, color: "text-green-700" },
     { years: 15, months: 180, color: "text-yellow-700" },
-    { years: 10, months: 120, color: "text-orange-600" },
+    { years: 10, months: 120, color: "text-orange-700" },
 ];
 
 // ─── JSON-LD Schema Strings ───────────────────────────────────────────────────
@@ -254,41 +254,13 @@ export default function MortgageCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
             {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-5">
-    <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Home</span> {/* span added here */}
-            </a>
-            <meta itemProp="position" content="1" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft">
-                <span itemProp="name">Finance Calculators</span> {/* span added here */}
-            </a>
-            <meta itemProp="position" content="2" />
-        </li>
-        
-        <li className="text-ink-soft">/</li>
-        
-        <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-            <span itemProp="name" className="text-ink-soft">Mortgage Calculator</span>
-            <meta itemProp="position" content="3" />
-        </li>
-        
-    </ol>
-</nav>
 
             {/* Calculator Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Mortgage Calculator</h3>
+                        <h2 className="font-semibold">Mortgage Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Enter your loan details</p>
                     </div>
 
@@ -468,8 +440,8 @@ export default function MortgageCalculator() {
                             ? [
                                 { label: "Principal & Interest", value: `$${result.monthlyPrincipalInterest}` },
                                 { label: "Property Tax", value: `$${result.monthlyTax}`, valueColor: "text-yellow-700" },
-                                { label: "Home Insurance", value: `$${result.monthlyInsurance}`, valueColor: "text-green-600" },
-                                { label: "PMI", value: `$${result.monthlyPMI}`, valueColor: "text-orange-600" },
+                                { label: "Home Insurance", value: `$${result.monthlyInsurance}`, valueColor: "text-green-700" },
+                                { label: "PMI", value: `$${result.monthlyPMI}`, valueColor: "text-orange-700" },
                                 { label: "Loan Amount", value: `$${result.loanAmount}` },
                                 { label: "Down Payment", value: `$${result.downPayment} (${result.downPaymentPercent}%)` },
                                 { label: "Loan-to-Value (LTV)", value: `${result.ltv}%` },
@@ -517,7 +489,7 @@ export default function MortgageCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly what your monthly payment will be before you buy. Plan your household budget with confidence.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Compare Loan Offers</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Compare Loan Offers</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare different interest rates and loan terms from multiple lenders. Find the most affordable option.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -545,7 +517,7 @@ export default function MortgageCalculator() {
                         </thead>
                         <tbody>
                             <tr className="border-b border-hairline">
-                                <td className="py-2 px-4 text-green-600">760+</td>
+                                <td className="py-2 px-4 text-green-700">760+</td>
                                 <td className="py-2 px-4 text-yellow-700">6.5%</td>
                                 <td className="py-2 px-4">$1,896</td>
                             </tr>
@@ -555,7 +527,7 @@ export default function MortgageCalculator() {
                                 <td className="py-2 px-4">$1,975</td>
                             </tr>
                             <tr className="border-b border-hairline">
-                                <td className="py-2 px-4 text-orange-600">660-699</td>
+                                <td className="py-2 px-4 text-orange-700">660-699</td>
                                 <td className="py-2 px-4 text-yellow-700">7.4%</td>
                                 <td className="py-2 px-4">$2,075</td>
                             </tr>
@@ -590,15 +562,15 @@ export default function MortgageCalculator() {
                                 <td className="py-3 px-4 text-ink-soft">Highest</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-3 px-4 text-green-600 font-medium">20 Years</td>
+                                <td className="py-3 px-4 text-green-700 font-medium">20 Years</td>
                                 <td className="py-3 px-4 text-ink-soft">Moderate</td>
                                 <td className="py-3 px-4 text-yellow-700">Moderate</td>
                                 <td className="py-3 px-4 text-ink-soft">Moderate</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-3 px-4 text-orange-600 font-medium">15 Years</td>
+                                <td className="py-3 px-4 text-orange-700 font-medium">15 Years</td>
                                 <td className="py-3 px-4 text-ink-soft">Highest</td>
-                                <td className="py-3 px-4 text-green-600">Lowest</td>
+                                <td className="py-3 px-4 text-green-700">Lowest</td>
                                 <td className="py-3 px-4 text-ink-soft">Lowest</td>
                             </tr>
                         </tbody>

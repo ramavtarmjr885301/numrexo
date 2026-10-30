@@ -210,12 +210,16 @@ function LiveWidget() {
               <input
                 value={pA}
                 onChange={(e) => setPA(e.target.value)}
+                aria-label="Percent"
+                inputMode="decimal"
                 className="w-16 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
               <span>% of</span>
               <input
                 value={pB}
                 onChange={(e) => setPB(e.target.value)}
+                aria-label="Of number"
+                inputMode="decimal"
                 className="w-20 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
             </div>
@@ -227,12 +231,16 @@ function LiveWidget() {
               <input
                 value={pC}
                 onChange={(e) => setPC(e.target.value)}
+                aria-label="Value"
+                inputMode="decimal"
                 className="w-16 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
               <span>is what % of</span>
               <input
                 value={pD}
                 onChange={(e) => setPD(e.target.value)}
+                aria-label="Of total"
+                inputMode="decimal"
                 className="w-20 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
             </div>
@@ -245,12 +253,16 @@ function LiveWidget() {
               <input
                 value={pFrom}
                 onChange={(e) => setPFrom(e.target.value)}
+                aria-label="Change from"
+                inputMode="decimal"
                 className="w-16 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
               <span>to</span>
               <input
                 value={pTo}
                 onChange={(e) => setPTo(e.target.value)}
+                aria-label="Change to"
+                inputMode="decimal"
                 className="w-16 px-2 py-1.5 rounded-lg border border-hairline text-center font-semibold text-ink focus:border-ink outline-none"
               />
             </div>

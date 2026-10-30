@@ -88,20 +88,11 @@ export default function FuelCostCalculator() {
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: FUEL_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="/" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="/travel" className="hover:text-ink-soft">Travel Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Fuel Cost Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Trip Details</h3>
+                        <h2 className="font-semibold">Trip Details</h2>
                     </div>
                     <div className="p-6 space-y-4">
                         <CurrencySwitcher className="pb-2 border-b border-hairline" />
@@ -187,7 +178,7 @@ export default function FuelCostCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Plan your travel budget accurately. Know fuel costs before you start — no surprises. Compare costs across different routes or vehicles.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Vehicle Comparison</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Vehicle Comparison</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare fuel costs between your cars. Decide which vehicle is more economical for long trips. Calculate savings potential.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -222,11 +213,11 @@ export default function FuelCostCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Fuel Saving Tips for Better Mileage</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain proper tire pressure:</strong> Under-inflated tires increase fuel consumption by 3-5%. Check monthly.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Drive smoothly:</strong> Aggressive acceleration and braking wastes 10-30% fuel. Anticipate traffic flow.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Remove roof carriers:</strong> Empty roof racks increase drag, reducing mileage by 10-25% on highways.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Use A/C wisely:</strong> Above 80 km/h, A/C uses less fuel than open windows. Below 60 km/h, windows down saves fuel.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce weight:</strong> Remove unnecessary items. Every 50 kg reduces mileage by 1-2%.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Maintain proper tire pressure:</strong> Under-inflated tires increase fuel consumption by 3-5%. Check monthly.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Drive smoothly:</strong> Aggressive acceleration and braking wastes 10-30% fuel. Anticipate traffic flow.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Remove roof carriers:</strong> Empty roof racks increase drag, reducing mileage by 10-25% on highways.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Use A/C wisely:</strong> Above 80 km/h, A/C uses less fuel than open windows. Below 60 km/h, windows down saves fuel.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Reduce weight:</strong> Remove unnecessary items. Every 50 kg reduces mileage by 1-2%.</span></li>
                 </ul>
             </section>
 

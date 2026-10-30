@@ -142,7 +142,7 @@ export default function DiscountCalculator() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Sale Price Calculator</h3>
+                        <h2 className="font-semibold">Sale Price Calculator</h2>
                     </div>
                     <div className="p-6 space-y-4">
                         <CurrencySwitcher className="pb-2 border-b border-hairline" />
@@ -180,10 +180,10 @@ export default function DiscountCalculator() {
                     isEmpty={!result}
                     emptyIcon="🏷️"
                     emptyText="Enter price and discount to calculate savings"
-                    mainResult={result ? { label: "Final Price", value: money(result.finalPrice, 2), color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Final Price", value: money(result.finalPrice, 2), color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Original Price", value: money(result.originalPrice, 2) },
-                        { label: "You Save", value: money(result.savings, 2), valueColor: "text-green-600" },
+                        { label: "You Save", value: money(result.savings, 2), valueColor: "text-green-700" },
                         { label: "Discount Applied", value: result.isPercentage ? `${result.discountValue}% off` : `${money(result.discountValue, 2)} off` },
                         { label: "Effective Discount", value: `${result.discountPercent}%` },
                     ] : undefined}
@@ -220,11 +220,11 @@ export default function DiscountCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Discount Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Smart Shopping</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Smart Shopping</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Never overpay! Instantly calculate final price before checking out. Compare deals across different stores to find the best value.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Budget Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Budget Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll spend during sales. Plan your shopping budget with accurate discounted prices, not just MRP.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -247,7 +247,7 @@ export default function DiscountCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Reduces price by a percentage (e.g., 20% off). Best for: High-priced items (electronics, appliances, furniture). Savings increase with price. Example: a $1,000 product with 20% off = $800.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">Fixed Amount Discount</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">Fixed Amount Discount</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Reduces price by specific amount (e.g., $200 off). Best for: Low-priced items (grocery, cosmetics, books). Example: a $500 product with $200 off = a 40% effective discount, better than 20% off.</p>
                     </div>
                 </div>
@@ -257,10 +257,10 @@ export default function DiscountCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Smart Shopping Tips & Tricks</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Wait for Sales:</strong> Major sales (Black Friday, Diwali, End of Season) offer 40-70% discounts. Save big by timing your purchases.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Stack Coupons:</strong> Store discount + coupon code + cashback = maximum savings. Calculate final price after all discounts applied.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Check Unit Price:</strong> Larger packages aren't always cheaper per unit. Bulk discount vs smaller package - calculate before buying.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-600 mt-0.5">💡</span><span><strong className="text-ink-soft">Sign up for Alerts:</strong> Many stores give 10-15% off coupon just for joining email list. Use with sale discounts.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Wait for Sales:</strong> Major sales (Black Friday, Diwali, End of Season) offer 40-70% discounts. Save big by timing your purchases.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Stack Coupons:</strong> Store discount + coupon code + cashback = maximum savings. Calculate final price after all discounts applied.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Check Unit Price:</strong> Larger packages aren't always cheaper per unit. Bulk discount vs smaller package - calculate before buying.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-orange-700 mt-0.5">💡</span><span><strong className="text-ink-soft">Sign up for Alerts:</strong> Many stores give 10-15% off coupon just for joining email list. Use with sale discounts.</span></li>
                 </ul>
             </section>
 

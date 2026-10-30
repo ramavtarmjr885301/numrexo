@@ -253,20 +253,11 @@ export default function DistanceSpeedTimeCalculator() {
 
     return (
         <>
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/calculator" className="hover:text-ink-soft">Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Distance/Speed/Time Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Distance / Speed / Time</h3>
+                        <h2 className="font-semibold">Distance / Speed / Time</h2>
                         <p className="text-xs text-ink-faint">Calculate any one value given the other two</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -375,7 +366,7 @@ export default function DistanceSpeedTimeCalculator() {
                     mainResult={result ? {
                         label: result.type === "speed" ? "Speed" : (result.type === "distance" ? "Distance" : "Time"),
                         value: result.type === "speed" ? `${result.speedKmh} km/h` : (result.type === "distance" ? `${result.distance} ${result.distanceUnit}` : result.time),
-                        color: "text-teal-600"
+                        color: "text-teal-700"
                     } : undefined}
                     extraRows={result ? [
                         ...(result.type === "speed" ? [
@@ -431,7 +422,7 @@ export default function DistanceSpeedTimeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Distance/Speed/Time Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Travel Planning</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Travel Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Estimate arrival times, fuel stops, and total trip duration. Plan road trips with accurate time calculations.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -439,7 +430,7 @@ export default function DistanceSpeedTimeCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate running pace, cycling speed, or walking time. Set achievable fitness goals based on speed.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Education & Homework</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Education & Homework</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Solve physics problems instantly. Check your manual calculations with accurate results.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -472,15 +463,15 @@ export default function DistanceSpeedTimeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Quick Reference Formulas</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <div className="text-teal-600 text-xl mb-1">S = D / T</div>
+                        <div className="text-teal-700 text-xl mb-1">S = D / T</div>
                         <p className="text-xs text-ink-faint">Speed = Distance ÷ Time</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <div className="text-teal-600 text-xl mb-1">D = S × T</div>
+                        <div className="text-teal-700 text-xl mb-1">D = S × T</div>
                         <p className="text-xs text-ink-faint">Distance = Speed × Time</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <div className="text-teal-600 text-xl mb-1">T = D / S</div>
+                        <div className="text-teal-700 text-xl mb-1">T = D / S</div>
                         <p className="text-xs text-ink-faint">Time = Distance ÷ Speed</p>
                     </div>
                 </div>
@@ -491,7 +482,7 @@ export default function DistanceSpeedTimeCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-4">Common Speed References</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
                     <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-yellow-700 font-bold">Walking</span><p className="text-ink-faint">3-5 km/h</p><p className="text-ink-faint text-[10px]">1.8-3.1 mph</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-green-600 font-bold">Running</span><p className="text-ink-faint">8-12 km/h</p><p className="text-ink-faint text-[10px]">5-7.5 mph</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-green-700 font-bold">Running</span><p className="text-ink-faint">8-12 km/h</p><p className="text-ink-faint text-[10px]">5-7.5 mph</p></div>
                     <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-blue-600 font-bold">Cycling</span><p className="text-ink-faint">15-25 km/h</p><p className="text-ink-faint text-[10px]">9-15.5 mph</p></div>
                     <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-red-600 font-bold">Car (City)</span><p className="text-ink-faint">30-50 km/h</p><p className="text-ink-faint text-[10px]">18-31 mph</p></div>
                 </div>

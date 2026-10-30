@@ -125,7 +125,7 @@ export default function NPSCalculator() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Your Retirement Plan</h3>
+                        <h2 className="font-semibold">Your Retirement Plan</h2>
                         <p className="text-xs text-ink-faint mt-1">Plan for a comfortable retirement</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -174,7 +174,7 @@ export default function NPSCalculator() {
                     emptyText="Enter your details and press Calculate"
                     mainResult={result ? { label: "Total Retirement Corpus (Age 60)", value: `₹${result.totalCorpus}`, color: "text-blue-600" } : undefined}
                     extraRows={result ? [
-                        { label: "Tax-Free Lump Sum (60%)", value: `₹${result.lumpSumTaxFree}`, valueColor: "text-green-600" },
+                        { label: "Tax-Free Lump Sum (60%)", value: `₹${result.lumpSumTaxFree}`, valueColor: "text-green-700" },
                         { label: "Annuity Amount (40%)", value: `₹${result.annuity}` },
                         { label: "Estimated Monthly Pension", value: `₹${result.monthlyPension}`, valueColor: "text-yellow-700" },
                         { label: "Total You Will Invest", value: `₹${result.totalInvestment}` },
@@ -217,7 +217,7 @@ export default function NPSCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how much you'll have at retirement. Plan your contributions to reach your retirement goal.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Tax Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Tax Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate tax benefits under Sections 80C, 80CCD(1B). Plan your tax-saving investments strategically.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -240,7 +240,7 @@ export default function NPSCalculator() {
                         <tbody>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Equity (E)</td><td className="py-2 px-4 text-yellow-700">10-12%</td><td className="py-2 px-4 text-red-600">High</td><td className="py-2 px-4">Young investors (under 40)</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Corporate Bonds (C)</td><td className="py-2 px-4 text-yellow-700">8-10%</td><td className="py-2 px-4 text-yellow-700">Moderate</td><td className="py-2 px-4">Middle-aged (40-50)</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Government Bonds (G)</td><td className="py-2 px-4 text-yellow-700">7-8%</td><td className="py-2 px-4 text-green-600">Low</td><td className="py-2 px-4">Near retirement (50+)</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Government Bonds (G)</td><td className="py-2 px-4 text-yellow-700">7-8%</td><td className="py-2 px-4 text-green-700">Low</td><td className="py-2 px-4">Near retirement (50+)</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -256,8 +256,8 @@ export default function NPSCalculator() {
                         <tbody>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Returns</td><td className="py-2 px-4 text-yellow-700">8-12%</td><td className="py-2 px-4 text-yellow-700">7.1%</td><td className="py-2 px-4 text-yellow-700">10-14%</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Lock-in</td><td className="py-2 px-4">Until 60</td><td className="py-2 px-4">15 years</td><td className="py-2 px-4">None</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Tax Benefit</td><td className="py-2 px-4 text-green-600">₹2L+</td><td className="py-2 px-4">₹1.5L</td><td className="py-2 px-4">₹1.5L</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Pension</td><td className="py-2 px-4 text-green-600">✅ Yes</td><td className="py-2 px-4 text-red-600">❌ No</td><td className="py-2 px-4 text-red-600">❌ No</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Tax Benefit</td><td className="py-2 px-4 text-green-700">₹2L+</td><td className="py-2 px-4">₹1.5L</td><td className="py-2 px-4">₹1.5L</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Pension</td><td className="py-2 px-4 text-green-700">✅ Yes</td><td className="py-2 px-4 text-red-600">❌ No</td><td className="py-2 px-4 text-red-600">❌ No</td></tr>
                             <tr><td className="py-2 px-4">Risk</td><td className="py-2 px-4">Low-Moderate</td><td className="py-2 px-4">Very Low</td><td className="py-2 px-4">Moderate-High</td></tr>
                         </tbody>
                     </table>
@@ -268,10 +268,10 @@ export default function NPSCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">NPS Tax Benefits</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(1):</strong> Employee contribution up to 10% of salary (₹1.5L limit shared with 80C).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(1B):</strong> Additional ₹50,000 deduction (over and above ₹1.5L).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(2):</strong> Employer contribution up to 10% of salary (14% for government) is tax-free.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">At withdrawal:</strong> 60% lump sum is tax-free, annuity (40%) taxed as pension income.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(1):</strong> Employee contribution up to 10% of salary (₹1.5L limit shared with 80C).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(1B):</strong> Additional ₹50,000 deduction (over and above ₹1.5L).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Section 80CCD(2):</strong> Employer contribution up to 10% of salary (14% for government) is tax-free.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">At withdrawal:</strong> 60% lump sum is tax-free, annuity (40%) taxed as pension income.</span></li>
                 </ul>
             </section>
 

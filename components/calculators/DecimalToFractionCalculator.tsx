@@ -177,20 +177,11 @@ export default function DecimalToFractionCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Decimal to Fraction Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Decimal to Fraction Converter</h3>
+                        <h2 className="font-semibold">Decimal to Fraction Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert any decimal number to a fraction</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -254,11 +245,11 @@ export default function DecimalToFractionCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Fractions are more precise than decimals for construction, carpentry, cooking, and sewing. 1/3 inch is exact, while 0.333... inches is approximate.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Academic Requirements</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Academic Requirements</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Math problems often require fraction answers. Convert decimals to fractions to show simplified, reduced forms for full credit.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Easier Comparisons</h3>
+                        <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Easier Comparisons</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Fractions with common denominators are easier to compare than decimals. 2/3 vs 3/4 is clearer than 0.666 vs 0.75.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -273,7 +264,7 @@ export default function DecimalToFractionCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Decimal Types Explained</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">Terminating Decimals</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">Terminating Decimals</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">End after finite digits. Examples: 0.5, 0.75, 0.125. Convert by writing over power of 10 (0.75 = 75/100 = 3/4). Denominators only have prime factors 2 and 5.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

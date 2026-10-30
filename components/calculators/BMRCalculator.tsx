@@ -209,13 +209,13 @@ export default function BMRCalculator() {
         bodyFatColor = "text-blue-600";
       } else if (bodyFat < 16) {
         bodyFatCategory = "Lean / Fit";
-        bodyFatColor = "text-green-600";
+        bodyFatColor = "text-green-700";
       } else if (bodyFat < 24) {
         bodyFatCategory = "Average / Acceptable";
         bodyFatColor = "text-yellow-700";
       } else if (bodyFat < 30) {
         bodyFatCategory = "Above Average";
-        bodyFatColor = "text-orange-600";
+        bodyFatColor = "text-orange-700";
       } else {
         bodyFatCategory = "Obese / High Risk";
         bodyFatColor = "text-red-600";
@@ -263,61 +263,13 @@ export default function BMRCalculator() {
       />
 
       {/* ── Breadcrumb ── */}
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol
-          className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint"
-          itemScope
-          itemType="https://schema.org/BreadcrumbList"
-        >
-          <li
-            itemScope
-            itemProp="itemListElement"
-            itemType="https://schema.org/ListItem"
-          >
-            <a
-              href="https://numrexo.com"
-              itemProp="item"
-              className="hover:text-ink-soft transition-colors"
-            >
-              <span itemProp="name">Home</span>
-            </a>
-            <meta itemProp="position" content="1" />
-          </li>
-          <li className="text-ink-soft">/</li>
-          <li
-            itemScope
-            itemProp="itemListElement"
-            itemType="https://schema.org/ListItem"
-          >
-            <a
-              href="https://numrexo.com/fitness"
-              itemProp="item"
-              className="hover:text-ink-soft transition-colors"
-            >
-              <span itemProp="name">Fitness Calculators</span>
-            </a>
-            <meta itemProp="position" content="2" />
-          </li>
-          <li className="text-ink-soft">/</li>
-          <li
-            itemScope
-            itemProp="itemListElement"
-            itemType="https://schema.org/ListItem"
-          >
-            <span itemProp="name" className="text-ink-soft">
-              BMR Calculator
-            </span>
-            <meta itemProp="position" content="3" />
-          </li>
-        </ol>
-      </nav>
 
       {/* ── Calculator Grid (UNCHANGED) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Form */}
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Personal Details</h3>
+            <h2 className="font-semibold">Personal Details</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
@@ -476,12 +428,12 @@ export default function BMRCalculator() {
                 {
                   label: "For Extreme Weight Loss",
                   value: `${result.extremeWeightLoss} calories/day`,
-                  valueColor: "text-orange-600",
+                  valueColor: "text-orange-700",
                 },
                 {
                   label: "For Weight Gain",
                   value: `${result.weightGain} calories/day`,
-                  valueColor: "text-green-600",
+                  valueColor: "text-green-700",
                 },
               ]
               : undefined
@@ -740,7 +692,7 @@ export default function BMRCalculator() {
 
           {/* Athletes */}
           <div className="bg-surface border border-hairline rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">
+            <h3 className="text-sm font-semibold text-green-700 mb-2">
               BMR for Athletes &amp; Highly Active People
             </h3>
             <p className="text-ink-faint text-xs leading-relaxed">
@@ -781,7 +733,7 @@ export default function BMRCalculator() {
             },
             {
               title: "Body composition is invisible to the formula",
-              color: "text-orange-600",
+              color: "text-orange-700",
               desc:
                 "A 180 lb person who is 15% body fat has far more muscle — and a higher BMR — than a 180 lb person who is 35% body fat. Both get the same formula result. If you have above-average muscle mass or above-average body fat, your actual BMR will differ meaningfully from the estimate.",
             },
@@ -847,7 +799,7 @@ export default function BMRCalculator() {
           {[
             {
               goal: "Weight Loss",
-              color: "text-orange-600",
+              color: "text-orange-700",
               border: "border-orange-100",
               steps: [
                 "Calculate your TDEE (BMR × activity multiplier)",
@@ -869,7 +821,7 @@ export default function BMRCalculator() {
             },
             {
               goal: "Muscle Gain",
-              color: "text-green-600",
+              color: "text-green-700",
               border: "border-green-100",
               steps: [
                 "Add 250–500 calories above TDEE for a lean bulk",

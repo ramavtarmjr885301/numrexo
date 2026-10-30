@@ -110,20 +110,11 @@ export default function CalorieBurnCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: CALORIE_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/fitness" className="hover:text-ink-soft">Fitness Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">Calorie Burn Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Activity Details</h3>
+            <h2 className="font-semibold">Activity Details</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
@@ -160,14 +151,14 @@ export default function CalorieBurnCalculator() {
           isEmpty={!result}
           emptyIcon="🔥"
           emptyText="Enter your weight, activity, and duration"
-          mainResult={result ? { label: "Total Calories Burned", value: `${result.totalCalories} kcal`, color: "text-orange-600" } : undefined}
+          mainResult={result ? { label: "Total Calories Burned", value: `${result.totalCalories} kcal`, color: "text-orange-700" } : undefined}
           extraRows={result ? [
             { label: "Activity Intensity", value: `${result.intensity} (${result.met} METs)` },
             { label: "Calories per Minute", value: `${result.caloriesPerMinute} kcal` },
             { label: "Calories per 30 Minutes", value: `${result.caloriesPer30Min} kcal` },
             { label: "Calories per Hour", value: `${result.caloriesPerHour} kcal` },
             { label: "Weekly (5 sessions)", value: `${result.weeklyCalories} kcal`, valueColor: "text-yellow-700" },
-            { label: "Monthly (20 sessions)", value: `${result.monthlyCalories} kcal`, valueColor: "text-green-600" },
+            { label: "Monthly (20 sessions)", value: `${result.monthlyCalories} kcal`, valueColor: "text-green-700" },
           ] : undefined}
         />
       </div>
@@ -203,11 +194,11 @@ export default function CalorieBurnCalculator() {
         <h2 className="text-xl font-semibold text-ink mb-3">Benefits of Tracking Calories Burned</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-orange-600 mb-2">✓ Weight Loss Management</h3>
+            <h3 className="text-sm font-semibold text-orange-700 mb-2">✓ Weight Loss Management</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Create accurate calorie deficits by knowing exactly how much you burn. Track daily exercise calories to achieve your weight loss goals scientifically.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Workout Optimization</h3>
+            <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Workout Optimization</h3>
             <p className="text-ink-faint text-xs leading-relaxed">Compare different activities to see which gives you the best calorie burn per minute. Maximize your limited workout time effectively.</p>
           </div>
           <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -250,7 +241,7 @@ export default function CalorieBurnCalculator() {
                   <tr key={i} className="border-b border-hairline hover:bg-cream">
                     <td className="py-2 px-4 text-ink-soft truncate max-w-[200px]">{act.label}</td>
                     <td className="py-2 px-4 text-right text-yellow-700">{act.met}</td>
-                    <td className="py-2 px-4 text-right text-green-600">{Math.round(calPerHour)} kcal</td>
+                    <td className="py-2 px-4 text-right text-green-700">{Math.round(calPerHour)} kcal</td>
                   </tr>
                 );
               })}
@@ -264,9 +255,9 @@ export default function CalorieBurnCalculator() {
       <section className="mb-8">
         <h2 className="text-xl font-semibold text-ink mb-4">Activity Intensity Guide</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">💚</div><div className="text-sm font-semibold text-green-600">Light</div><div className="text-xs text-ink-faint">MET &lt; 3</div><div className="text-xs text-ink-faint mt-1">Walking, Yoga, Light stretching</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">💚</div><div className="text-sm font-semibold text-green-700">Light</div><div className="text-xs text-ink-faint">MET &lt; 3</div><div className="text-xs text-ink-faint mt-1">Walking, Yoga, Light stretching</div></div>
           <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">💛</div><div className="text-sm font-semibold text-yellow-700">Moderate</div><div className="text-xs text-ink-faint">MET 3-6</div><div className="text-xs text-ink-faint mt-1">Jogging, Cycling (leisure), Dancing</div></div>
-          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">🧡</div><div className="text-sm font-semibold text-orange-600">Vigorous</div><div className="text-xs text-ink-faint">MET 6-9</div><div className="text-xs text-ink-faint mt-1">Running, HIIT, Swimming laps</div></div>
+          <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">🧡</div><div className="text-sm font-semibold text-orange-700">Vigorous</div><div className="text-xs text-ink-faint">MET 6-9</div><div className="text-xs text-ink-faint mt-1">Running, HIIT, Swimming laps</div></div>
           <div className="bg-surface border border-hairline rounded-xl p-4 text-center"><div className="text-2xl mb-1">❤️</div><div className="text-sm font-semibold text-red-600">Very Vigorous</div><div className="text-xs text-ink-faint">MET 9+</div><div className="text-xs text-ink-faint mt-1">Jump Rope, Rowing (race pace)</div></div>
         </div>
       </section>

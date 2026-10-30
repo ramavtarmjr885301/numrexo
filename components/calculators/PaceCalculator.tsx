@@ -233,20 +233,11 @@ export default function PaceCalculator() {
 
     return (
         <>
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-                    <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><a href="https://numrexo.com/fitness" className="hover:text-ink-soft">Fitness Calculators</a></li>
-                    <li className="text-ink-soft">/</li>
-                    <li><span className="text-ink-soft">Pace Calculator</span></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Pace Calculator</h3>
+                        <h2 className="font-semibold">Pace Calculator</h2>
                         <p className="text-xs text-ink-faint">Calculate pace, time, or distance for running/walking</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -335,7 +326,7 @@ export default function PaceCalculator() {
                     mainResult={result ? {
                         label: result.type === "pace" ? "Your Pace" : (result.type === "time" ? "Total Time" : "Distance Covered"),
                         value: result.type === "pace" ? result.pace : (result.type === "time" ? result.time : `${result.distanceKm} km`),
-                        color: "text-teal-600"
+                        color: "text-teal-700"
                     } : undefined}
                     extraRows={result ? [
                         ...(result.type === "pace" ? [
@@ -391,7 +382,7 @@ export default function PaceCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Pace Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-teal-600 mb-2">✓ Race Time Prediction</h3>
+                        <h3 className="text-sm font-semibold text-teal-700 mb-2">✓ Race Time Prediction</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Predict your finish time for 5K, 10K, half marathon, and marathon based on your current pace.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -399,7 +390,7 @@ export default function PaceCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Plan interval sessions, tempo runs, and long runs with specific pace targets for each workout type.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Progress Tracking</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Progress Tracking</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Track your pace improvement over time. Compare workouts and see progress in your running speed.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -413,10 +404,10 @@ export default function PaceCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-4">Pace Chart (min/km)</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
-                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-600 font-bold">5:00/km</span><p className="text-ink-faint">25:00 (5K)</p><p className="text-ink-faint text-[10px]">50:00 (10K)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-600 font-bold">5:30/km</span><p className="text-ink-faint">27:30 (5K)</p><p className="text-ink-faint text-[10px]">55:00 (10K)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-600 font-bold">6:00/km</span><p className="text-ink-faint">30:00 (5K)</p><p className="text-ink-faint text-[10px]">1:00:00 (10K)</p></div>
-                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-600 font-bold">7:00/km</span><p className="text-ink-faint">35:00 (5K)</p><p className="text-ink-faint text-[10px]">1:10:00 (10K)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-700 font-bold">5:00/km</span><p className="text-ink-faint">25:00 (5K)</p><p className="text-ink-faint text-[10px]">50:00 (10K)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-700 font-bold">5:30/km</span><p className="text-ink-faint">27:30 (5K)</p><p className="text-ink-faint text-[10px]">55:00 (10K)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-700 font-bold">6:00/km</span><p className="text-ink-faint">30:00 (5K)</p><p className="text-ink-faint text-[10px]">1:00:00 (10K)</p></div>
+                    <div className="bg-surface border border-hairline rounded-lg p-2"><span className="text-teal-700 font-bold">7:00/km</span><p className="text-ink-faint">35:00 (5K)</p><p className="text-ink-faint text-[10px]">1:10:00 (10K)</p></div>
                 </div>
             </section>
 
@@ -440,10 +431,10 @@ export default function PaceCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Tips to Improve Running Pace</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">🏃</span><span><strong className="text-ink-soft">Interval Training:</strong> Run fast for short distances (200-800m) with recovery jogs in between. Builds speed and cardiovascular fitness.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">🏃</span><span><strong className="text-ink-soft">Tempo Runs:</strong> Run at "comfortably hard" pace for 20-40 minutes. Improves lactate threshold and endurance pace.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">🏃</span><span><strong className="text-ink-soft">Strength Training:</strong> Leg exercises (squats, lunges) and core work improve running economy and power.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-600 mt-0.5">🏃</span><span><strong className="text-ink-soft">Consistency:</strong> Run 3-4 times per week. Follow the 10% rule - increase weekly mileage by max 10%.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">🏃</span><span><strong className="text-ink-soft">Interval Training:</strong> Run fast for short distances (200-800m) with recovery jogs in between. Builds speed and cardiovascular fitness.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">🏃</span><span><strong className="text-ink-soft">Tempo Runs:</strong> Run at "comfortably hard" pace for 20-40 minutes. Improves lactate threshold and endurance pace.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">🏃</span><span><strong className="text-ink-soft">Strength Training:</strong> Leg exercises (squats, lunges) and core work improve running economy and power.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-teal-700 mt-0.5">🏃</span><span><strong className="text-ink-soft">Consistency:</strong> Run 3-4 times per week. Follow the 10% rule - increase weekly mileage by max 10%.</span></li>
                 </ul>
             </section>
 

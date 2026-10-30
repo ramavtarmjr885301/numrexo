@@ -1,15 +1,21 @@
+import Link from "next/link";
 import { CalculatorType } from "@/data/calculatorsRegistry";
 
 interface CalculatorCardProps {
   calculator: CalculatorType;
-  onClick: () => void;
+  /**
+   * Kept for compatibility with existing callers; navigation now happens through
+   * a real <a href> (Patch 28) so search engines can follow the link. Every caller
+   * only ever navigated to calculator.path anyway.
+   */
+  onClick?: () => void;
 }
 
-export default function CalculatorCard({ calculator, onClick }: CalculatorCardProps) {
+export default function CalculatorCard({ calculator }: CalculatorCardProps) {
   return (
-    <button
-      onClick={onClick}
-      className="group bg-surface border border-hairline rounded-xl p-6 text-left transition-all hover:border-blue-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer w-full"
+    <Link
+      href={calculator.path}
+      className="group bg-surface border border-hairline rounded-xl p-6 text-left transition-all hover:border-blue-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer w-full block"
     >
       <div
         className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4"
@@ -38,7 +44,7 @@ export default function CalculatorCard({ calculator, onClick }: CalculatorCardPr
           </span>
         ))}
       </div>
-    </button>
+    </Link>
   );
 }
 

@@ -36,7 +36,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { CALCULATORS_REGISTRY } from "@/data/calculatorsRegistry";
 import { MIGRATED_WORDPRESS_SLUGS } from "@/lib/migratedBlogSlugs";
-import { HIDDEN_PUBLIC_SLUGS } from "@/lib/hiddenBlogSlugs";
+import { GONE_BLOG_SLUGS, HIDDEN_PUBLIC_SLUGS, MERGED_INTO_CALCULATOR } from "@/lib/hiddenBlogSlugs";
 import { ADMIN_SESSION_COOKIE, isValidSessionToken } from "@/lib/adminAuth";
 
 // Built once at module load: slug -> category
@@ -55,6 +55,9 @@ export async function middleware(request: NextRequest) {
   // --- 4. Old WordPress host: redirect everything to the new blog --------
   if (host === OLD_BLOG_HOST || host.startsWith(`${OLD_BLOG_HOST}:`)) {
     const oldSlugMatch = pathname.match(/^\/([^/]+)\/?$/);
+    // A post merged into its calculator goes straight there (no redirect chain).
+    const merged = oldSlugMatch ? MERGED_INTO_CALCULATOR[oldSlugMatch[1]] : undefined;
+    if (merged) return NextResponse.redirect(new URL(`https://numrexo.com${merged}`), 301);
     const slug =
       oldSlugMatch && MIGRATED_SLUGS.has(oldSlugMatch[1]) && !HIDDEN_PUBLIC_SLUGS.has(oldSlugMatch[1])
         ? oldSlugMatch[1]
@@ -99,6 +102,29 @@ export async function middleware(request: NextRequest) {
   // /admin doesn't exist.
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // --- 5. Retired blog posts (Patch 28) -------------------------------------
+  //    Merged "X Calculator" posts 301 to their calculator; removed posts answer
+  //    410 Gone so Google drops them quickly instead of keeping a soft 404.
+  const blogMatch = pathname.match(/^\/blog\/([^/]+)\/?$/);
+  if (blogMatch) {
+    const slug = blogMatch[1].toLowerCase();
+    const target = MERGED_INTO_CALCULATOR[slug];
+    if (target) {
+      const url = request.nextUrl.clone();
+      url.pathname = target;
+      url.search = "";
+      return NextResponse.redirect(url, 301);
+    }
+    if (GONE_BLOG_SLUGS.has(slug)) {
+      return new NextResponse(
+        '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Post removed | Numrexo</title>' +
+          '<p style="font-family:sans-serif;margin:3rem auto;max-width:36rem">This article has been removed. ' +
+          '<a href="https://numrexo.com/blog">Browse our guides</a> or <a href="https://numrexo.com/calculators">see all calculators</a>.</p>',
+        { status: 410, headers: { "content-type": "text/html; charset=utf-8", "x-robots-tag": "noindex" } },
+      );
+    }
   }
 
   // --- 1. Lowercase the path -----------------------------------------------

@@ -159,30 +159,12 @@ export default function SWPCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/investment" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Investment Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">SWP Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Your SWP Setup</h3>
+                        <h2 className="font-semibold">Your SWP Setup</h2>
                         <p className="text-xs text-ink-faint mt-1">Turn your savings into regular income</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -269,9 +251,9 @@ export default function SWPCalculator() {
                     isEmpty={!result}
                     emptyIcon="💸"
                     emptyText="Enter your corpus and monthly withdrawal"
-                    mainResult={result ? { label: "Your Money Will Last", value: `${result.years} years ${result.months} months`, color: "text-green-600" } : undefined}
+                    mainResult={result ? { label: "Your Money Will Last", value: `${result.years} years ${result.months} months`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
-                        { label: "Total You'll Withdraw", value: `₹${result.totalWithdrawn}`, valueColor: "text-green-600" },
+                        { label: "Total You'll Withdraw", value: `₹${result.totalWithdrawn}`, valueColor: "text-green-700" },
                         { label: "Starting Monthly Income", value: `₹${result.monthlyAmount}` },
                         { label: "Remaining Balance", value: result.finalBalance },
                         { label: "Total Duration", value: `${result.totalMonths} months` },
@@ -314,7 +296,7 @@ export default function SWPCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use an SWP Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Retirement Planning</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Retirement Planning</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know exactly how long your savings will last. Plan your retirement income strategy with confidence and avoid outliving your money.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -350,22 +332,22 @@ export default function SWPCalculator() {
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft font-medium">SWP</td>
                                 <td className="py-3 px-4 text-ink-faint">Market-linked</td>
-                                <td className="py-3 px-4 text-green-600">High</td>
+                                <td className="py-3 px-4 text-green-700">High</td>
                                 <td className="py-3 px-4 text-yellow-700">Medium</td>
-                                <td className="py-3 px-4 text-green-600">High</td>
+                                <td className="py-3 px-4 text-green-700">High</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft font-medium">Pension</td>
                                 <td className="py-3 px-4 text-ink-faint">Guaranteed</td>
                                 <td className="py-3 px-4 text-red-600">Low</td>
-                                <td className="py-3 px-4 text-green-600">Low</td>
+                                <td className="py-3 px-4 text-green-700">Low</td>
                                 <td className="py-3 px-4 text-red-600">Low</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
                                 <td className="py-3 px-4 text-ink-soft font-medium">Fixed Deposit</td>
                                 <td className="py-3 px-4 text-ink-faint">Fixed</td>
                                 <td className="py-3 px-4 text-yellow-700">Medium</td>
-                                <td className="py-3 px-4 text-green-600">Very Low</td>
+                                <td className="py-3 px-4 text-green-700">Very Low</td>
                                 <td className="py-3 px-4 text-red-600">Low</td>
                             </tr>
                             <tr className="hover:bg-cream">
@@ -393,7 +375,7 @@ export default function SWPCalculator() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-hairline">
                         <div className="text-center">
                             <p className="text-xs text-ink-faint">Conservative (3%)</p>
-                            <p className="text-sm text-green-600 font-semibold">₹25,000/month</p>
+                            <p className="text-sm text-green-700 font-semibold">₹25,000/month</p>
                             <p className="text-xs text-ink-faint">Per ₹1 Crore</p>
                         </div>
                         <div className="text-center border-x border-hairline">
@@ -403,7 +385,7 @@ export default function SWPCalculator() {
                         </div>
                         <div className="text-center">
                             <p className="text-xs text-ink-faint">Aggressive (5%)</p>
-                            <p className="text-sm text-orange-600 font-semibold">₹41,667/month</p>
+                            <p className="text-sm text-orange-700 font-semibold">₹41,667/month</p>
                             <p className="text-xs text-ink-faint">Per ₹1 Crore</p>
                         </div>
                     </div>
@@ -416,7 +398,7 @@ export default function SWPCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">SWP Withdrawal Strategies</h2>
                 <div className="space-y-2">
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-green-200 transition-all">
-                        <h4 className="text-sm font-semibold text-green-600">1️⃣ Fixed Amount SWP</h4>
+                        <h4 className="text-sm font-semibold text-green-700">1️⃣ Fixed Amount SWP</h4>
                         <p className="text-xs text-ink-faint">Withdraw a fixed amount each month regardless of market performance. Simple and predictable. Best for those who need consistent income and can tolerate market fluctuations.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 hover:border-blue-200 transition-all">
@@ -444,7 +426,7 @@ export default function SWPCalculator() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-yellow-700 mb-2">Equity Funds</h4>
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">Equity Funds</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• <strong className="text-ink-soft">LTCG (&gt;1 year):</strong> 10% tax on gains exceeding ₹1 lakh per financial year</li>
                                 <li>• <strong className="text-ink-soft">STCG (&lt;1 year):</strong> 15% tax on entire gains</li>
@@ -453,7 +435,7 @@ export default function SWPCalculator() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-blue-600 mb-2">Debt Funds</h4>
+                            <h3 className="text-sm font-semibold text-blue-600 mb-2">Debt Funds</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• <strong className="text-ink-soft">LTCG (&gt;3 years):</strong> 20% tax with indexation benefit (reduces tax)</li>
                                 <li>• <strong className="text-ink-soft">STCG (&lt;3 years):</strong> Added to income, taxed as per slab rate</li>
@@ -464,7 +446,7 @@ export default function SWPCalculator() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-hairline">
                         <div>
-                            <h4 className="text-sm font-semibold text-green-600 mb-2">Hybrid / Balanced Funds</h4>
+                            <h3 className="text-sm font-semibold text-green-700 mb-2">Hybrid / Balanced Funds</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• <strong className="text-ink-soft">Taxation:</strong> Depends on equity allocation</li>
                                 <li>• <strong className="text-ink-soft">Equity-oriented (&gt;65% equity):</strong> Taxed like equity funds</li>
@@ -472,7 +454,7 @@ export default function SWPCalculator() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-purple-600 mb-2">💡 Tax Optimization Tips</h4>
+                            <h3 className="text-sm font-semibold text-purple-600 mb-2">💡 Tax Optimization Tips</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• Withdraw from funds with highest cost basis first</li>
                                 <li>• Time withdrawals to manage income tax brackets</li>
@@ -497,23 +479,23 @@ export default function SWPCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Smart SWP Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Start with a conservative withdrawal rate:</strong> Begin with 3-3.5% and adjust if your portfolio outperforms. Better to start low and increase than to start high and run out of money.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Maintain an emergency buffer:</strong> Keep 6-12 months of expenses in liquid assets (FDs, savings). This prevents you from selling investments during market downturns.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Rebalance annually:</strong> Review and rebalance your portfolio each year. Ensure your asset allocation matches your risk tolerance and withdrawal needs.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Consider debt funds for SWP:</strong> Debt funds are less volatile and offer indexation benefits (tax advantage). A mix of equity and debt funds provides stability and growth.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">💡</span>
+                        <span className="text-green-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Review SWP every 5 years:</strong> As you age, your needs change. Review your withdrawal strategy regularly and adjust for changing expenses, life expectancy, and market conditions.</span>
                     </li>
                 </ul>

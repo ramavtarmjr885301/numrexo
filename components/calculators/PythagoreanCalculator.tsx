@@ -189,20 +189,11 @@ export default function PythagoreanCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Math Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Pythagorean Theorem Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Pythagorean Theorem: a² + b² = c²</h3>
+                        <h2 className="font-semibold">Pythagorean Theorem: a² + b² = c²</h2>
                         <p className="text-xs text-ink-faint mt-1">Solve right triangles instantly</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -252,16 +243,16 @@ export default function PythagoreanCalculator() {
                     mainResult={result ? {
                         label: calcType === "hypotenuse" ? "Hypotenuse (c)" : calcType === "leg" ? "Missing Leg" : "Triangle Check",
                         value: calcType === "check" ? result.result : result.result,
-                        color: calcType === "check" ? (result.isRightTriangle ? "text-green-600" : "text-red-600") : "text-green-600"
+                        color: calcType === "check" ? (result.isRightTriangle ? "text-green-700" : "text-red-600") : "text-green-700"
                     } : undefined}
                     extraRows={result ? [
                         ...(calcType === "hypotenuse" ? [
                             { label: "Formula", value: result.formula },
-                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-600" : "text-ink-faint" },
+                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-700" : "text-ink-faint" },
                         ] : []),
                         ...(calcType === "leg" ? [
                             { label: "Formula", value: result.formula },
-                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-600" : "text-ink-faint" },
+                            { label: "Pythagorean Triple", value: result.isTriple ? "Yes! ✓" : "No", valueColor: result.isTriple ? "text-green-700" : "text-ink-faint" },
                         ] : []),
                         ...(calcType === "check" ? [
                             { label: "a² + b²", value: `${result.sides.a * result.sides.a} + ${result.sides.b * result.sides.b} = ${result.sides.a * result.sides.a + result.sides.b * result.sides.b}` },
@@ -301,7 +292,7 @@ export default function PythagoreanCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Pythagorean Theorem Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Quick Solutions</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Quick Solutions</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Get instant answers to right triangle problems. No manual square root calculations needed.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -323,10 +314,10 @@ export default function PythagoreanCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Real-World Applications of Pythagorean Theorem</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Construction:</strong> Checking right angles in buildings, ensuring walls are perpendicular, calculating diagonal bracing lengths.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Navigation:</strong> Calculating shortest distances between two points (as the crow flies).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Sports:</strong> Calculating distances in baseball (base paths), football (field goal angles), and golf (shots).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">🔨</span><span><strong className="text-ink-soft">Computer Graphics:</strong> Calculating distances between pixels, object collision detection, 3D rendering.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🔨</span><span><strong className="text-ink-soft">Construction:</strong> Checking right angles in buildings, ensuring walls are perpendicular, calculating diagonal bracing lengths.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🔨</span><span><strong className="text-ink-soft">Navigation:</strong> Calculating shortest distances between two points (as the crow flies).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🔨</span><span><strong className="text-ink-soft">Sports:</strong> Calculating distances in baseball (base paths), football (field goal angles), and golf (shots).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">🔨</span><span><strong className="text-ink-soft">Computer Graphics:</strong> Calculating distances between pixels, object collision detection, 3D rendering.</span></li>
                 </ul>
             </section>
 
@@ -347,7 +338,7 @@ export default function PythagoreanCalculator() {
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">a</th><th className="text-left py-3 px-4 text-ink-faint">b</th><th className="text-left py-3 px-4 text-ink-faint">c (hypotenuse)</th></tr></thead>
                         <tbody>
-                            {PYTHAGOREAN_TRIPLES.map((triple, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-3 px-4 text-yellow-700">{triple.a}</td><td className="py-3 px-4 text-yellow-700">{triple.b}</td><td className="py-3 px-4 text-green-600">{triple.c}</td></tr>))}
+                            {PYTHAGOREAN_TRIPLES.map((triple, i) => (<tr key={i} className="border-b border-hairline hover:bg-cream"><td className="py-3 px-4 text-yellow-700">{triple.a}</td><td className="py-3 px-4 text-yellow-700">{triple.b}</td><td className="py-3 px-4 text-green-700">{triple.c}</td></tr>))}
                         </tbody>
                     </table>
                 </div>

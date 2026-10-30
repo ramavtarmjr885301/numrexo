@@ -170,30 +170,12 @@ export default function VolumeConverter() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/conversion" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Converters</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Volume Converter</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Volume Converter</h3>
+                        <h2 className="font-semibold">Volume Converter</h2>
                         <p className="text-xs text-ink-faint mt-1">Convert between volume measurement units</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -269,7 +251,7 @@ export default function VolumeConverter() {
                     mainResult={result ? {
                         label: `${result.fromEmoji} ${result.value} ${result.fromUnit} =`,
                         value: `${result.converted} ${result.toUnit}`,
-                        color: "text-cyan-600"
+                        color: "text-cyan-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "From", value: result.fromUnit },
@@ -312,7 +294,7 @@ export default function VolumeConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Volume Converter?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-cyan-600 mb-2">✓ Cooking & Baking</h3>
+                        <h3 className="text-sm font-semibold text-cyan-700 mb-2">✓ Cooking & Baking</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Scale recipes easily. Convert between cups, milliliters, fluid ounces, and more. Perfect for international recipes.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -324,7 +306,7 @@ export default function VolumeConverter() {
                         <p className="text-ink-faint text-xs leading-relaxed">Perfect for students and scientists working with liquids and volumes. Accurate conversions for experiments and calculations.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Everyday Use</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Everyday Use</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Convert between different volume units for shopping, home improvement, and daily activities. Understand product sizes better.</p>
                     </div>
                 </div>
@@ -396,7 +378,7 @@ export default function VolumeConverter() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-surface rounded-lg p-3 border border-green-100">
-                            <h4 className="text-sm font-semibold text-green-600 mb-1">🇺🇸 US Gallon</h4>
+                            <h4 className="text-sm font-semibold text-green-700 mb-1">🇺🇸 US Gallon</h4>
                             <p className="text-xs text-ink-faint">1 US gallon = 3.785 liters</p>
                             <p className="text-xs text-ink-faint">128 fluid ounces</p>
                             <p className="text-xs text-ink-faint">Used in US, Latin America</p>
@@ -421,22 +403,22 @@ export default function VolumeConverter() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <div className="bg-surface rounded-lg p-2 text-center border border-cyan-100">
                             <p className="text-xs text-ink-faint">1 Cup</p>
-                            <p className="text-sm text-cyan-600 font-bold">236.6 ml</p>
+                            <p className="text-sm text-cyan-700 font-bold">236.6 ml</p>
                             <p className="text-xs text-ink-faint">8 fl oz</p>
                         </div>
                         <div className="bg-surface rounded-lg p-2 text-center border border-cyan-100">
                             <p className="text-xs text-ink-faint">1 Quart</p>
-                            <p className="text-sm text-cyan-600 font-bold">946.4 ml</p>
+                            <p className="text-sm text-cyan-700 font-bold">946.4 ml</p>
                             <p className="text-xs text-ink-faint">4 cups</p>
                         </div>
                         <div className="bg-surface rounded-lg p-2 text-center border border-cyan-100">
                             <p className="text-xs text-ink-faint">1 Gallon</p>
-                            <p className="text-sm text-cyan-600 font-bold">3.785 L</p>
+                            <p className="text-sm text-cyan-700 font-bold">3.785 L</p>
                             <p className="text-xs text-ink-faint">4 quarts</p>
                         </div>
                         <div className="bg-surface rounded-lg p-2 text-center border border-cyan-100">
                             <p className="text-xs text-ink-faint">1 Cubic Meter</p>
-                            <p className="text-sm text-cyan-600 font-bold">1,000 L</p>
+                            <p className="text-sm text-cyan-700 font-bold">1,000 L</p>
                             <p className="text-xs text-ink-faint">264 gallons</p>
                         </div>
                     </div>
@@ -448,23 +430,23 @@ export default function VolumeConverter() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Volume Conversion Tips</h2>
                 <ul className="space-y-2">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-cyan-600 mt-0.5">💡</span>
+                        <span className="text-cyan-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Remember the gallon relationship:</strong> 1 gallon = 4 quarts = 8 pints = 16 cups = 128 fluid ounces. This hierarchy helps with quick mental conversions.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-cyan-600 mt-0.5">💡</span>
+                        <span className="text-cyan-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">For cooking, use weight when possible:</strong> Volume measurements can be inconsistent (flour compacts). For baking, weight measurements (grams) are more accurate.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-cyan-600 mt-0.5">💡</span>
+                        <span className="text-cyan-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Check your gallon type:</strong> Always know whether you're using US or UK gallons. A 20% difference can significantly affect your calculations.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-cyan-600 mt-0.5">💡</span>
+                        <span className="text-cyan-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Use the swap button:</strong> Click 🔄 to quickly check reciprocal conversions. For example, liters to gallons and back to verify your calculations.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-cyan-600 mt-0.5">💡</span>
+                        <span className="text-cyan-700 mt-0.5">💡</span>
                         <span><strong className="text-ink-soft">Know your cooking equivalents:</strong> 1 cup = 16 tbsp = 48 tsp, 1 tbsp = 3 tsp. These are essential for recipe scaling.</span>
                     </li>
                 </ul>

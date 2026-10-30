@@ -152,30 +152,12 @@ export default function RDCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/finance" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Finance Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">RD Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Recurring Deposit Details</h3>
+                        <h2 className="font-semibold">Recurring Deposit Details</h2>
                         <p className="text-xs text-ink-faint mt-1">Ideal for regular monthly savings</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -263,7 +245,7 @@ export default function RDCalculator() {
                     mainResult={result ? { label: "Maturity Amount (Tax-Free)", value: `₹${result.maturity}`, color: "text-emerald-400" } : undefined}
                     extraRows={result ? [
                         { label: "Total Investment", value: `₹${result.totalInvestment}` },
-                        { label: "Total Interest Earned", value: `₹${result.interest}`, valueColor: "text-green-600" },
+                        { label: "Total Interest Earned", value: `₹${result.interest}`, valueColor: "text-green-700" },
                         { label: "Effective Annual Return", value: `${result.effectiveReturn}%`, valueColor: "text-yellow-700" },
                         { label: "Monthly Investment", value: `₹${result.monthlyAmount.toLocaleString()}` },
                         { label: "Tenure", value: `${result.years} years at ${result.rate}% p.a.` },
@@ -345,7 +327,7 @@ export default function RDCalculator() {
                                     <td className="py-2 px-4 text-right text-yellow-700">{bank.oneYear}</td>
                                     <td className="py-2 px-4 text-right text-yellow-700">{bank.threeYears}</td>
                                     <td className="py-2 px-4 text-right text-yellow-700">{bank.fiveYears}</td>
-                                    <td className="py-2 px-4 text-right text-green-600">{bank.seniorCitizen}</td>
+                                    <td className="py-2 px-4 text-right text-green-700">{bank.seniorCitizen}</td>
                                 </tr>
                             ))}
                         </tbody>

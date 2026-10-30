@@ -211,30 +211,12 @@ export default function MarkupCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/business" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Business Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Markup Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Markup & Pricing Calculator</h3>
+                        <h2 className="font-semibold">Markup & Pricing Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Set your prices to make profit</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -383,11 +365,11 @@ export default function MarkupCalculator() {
                     mainResult={result ? {
                         label: calcType === "markup" ? "Markup Percentage" : calcType === "price" ? "Selling Price" : "Cost Price",
                         value: calcType === "markup" ? `${result.markup}%` : calcType === "price" ? money(result.sellingPrice, 2) : money(result.costPrice, 2),
-                        color: "text-green-600"
+                        color: "text-green-700"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Profit Margin", value: `${result.margin}%`, valueColor: "text-yellow-700" },
-                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-600" },
+                        { label: "Profit Amount", value: money(result.profit, 2), valueColor: "text-green-700" },
                         ...(calcType === "markup" ? [
                             { label: "Cost Price", value: money(result.cost, 2) },
                             { label: "Selling Price", value: money(result.selling, 2) },
@@ -432,7 +414,7 @@ export default function MarkupCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Why Use a Markup Calculator?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Set Profitable Prices</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Set Profitable Prices</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Ensure every product sold covers costs and generates profit. Avoid under-pricing that eats your margins or over-pricing that kills sales.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -458,7 +440,7 @@ export default function MarkupCalculator() {
                         <div>
                             <p className="text-sm text-ink-faint"><strong className="text-ink">Same Example:</strong> Cost $100, Selling $150</p>
                             <p className="text-sm text-blue-600 mt-2">Markup = 50% (based on cost)</p>
-                            <p className="text-sm text-green-600">Margin = 33.3% (based on selling price)</p>
+                            <p className="text-sm text-green-700">Margin = 33.3% (based on selling price)</p>
                         </div>
                         <div className="border-t md:border-t-0 md:border-l border-hairline pt-4 md:pt-0 md:pl-4">
                             <p className="text-sm text-ink-faint"><strong className="text-ink">Quick Conversion:</strong></p>
@@ -478,7 +460,7 @@ export default function MarkupCalculator() {
                         <p className="text-ink font-mono text-xs">(SP - CP) ÷ CP × 100</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Selling Price</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Selling Price</h3>
                         <p className="text-ink font-mono text-xs">CP × (1 + Markup/100)</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4 text-center">
@@ -506,7 +488,7 @@ export default function MarkupCalculator() {
                                 <tr key={i} className="border-b border-hairline hover:bg-cream">
                                     <td className="py-3 px-4 text-ink-soft">{row.industry}</td>
                                     <td className="py-3 px-4 text-yellow-700">{row.typicalMarkup}</td>
-                                    <td className="py-3 px-4 text-green-600">{row.typicalMargin}</td>
+                                    <td className="py-3 px-4 text-green-700">{row.typicalMargin}</td>
                                     <td className="py-3 px-4 text-ink-faint text-xs">{row.notes}</td>
                                 </tr>
                             ))}
@@ -519,10 +501,10 @@ export default function MarkupCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">Pricing Strategy Tips</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Research competitors:</strong> Don't price in a vacuum. Know what similar products sell for.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Consider perceived value:</strong> Higher price can signal higher quality for luxury items.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Test different prices:</strong> A/B test pricing to find the sweet spot between volume and margin.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span><strong className="text-ink-soft">Include all costs:</strong> Shipping, payment processing, returns, storage — all reduce your actual profit.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Research competitors:</strong> Don't price in a vacuum. Know what similar products sell for.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Consider perceived value:</strong> Higher price can signal higher quality for luxury items.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Test different prices:</strong> A/B test pricing to find the sweet spot between volume and margin.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span><strong className="text-ink-soft">Include all costs:</strong> Shipping, payment processing, returns, storage — all reduce your actual profit.</span></li>
                 </ul>
             </section>
 
@@ -531,19 +513,19 @@ export default function MarkupCalculator() {
                 <h2 className="text-xl font-semibold text-ink mb-3">Important Things to Know</h2>
                 <ul className="space-y-3">
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">•</span>
+                        <span className="text-green-700 mt-0.5">•</span>
                         <span><strong className="text-ink-soft">Markup is not profit</strong> — Your actual profit also depends on how many units you sell. High markup with low sales = low profit.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">•</span>
+                        <span className="text-green-700 mt-0.5">•</span>
                         <span><strong className="text-ink-soft">Consider your market</strong> — Too high markup may reduce sales. Too low markup may leave money on the table. Research competitor pricing.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">•</span>
+                        <span className="text-green-700 mt-0.5">•</span>
                         <span><strong className="text-ink-soft">Different products, different markups</strong> — You can have high markup on some items (loss leaders) and lower on others to drive traffic.</span>
                     </li>
                     <li className="flex gap-3 text-sm text-ink-faint">
-                        <span className="text-green-600 mt-0.5">•</span>
+                        <span className="text-green-700 mt-0.5">•</span>
                         <span><strong className="text-ink-soft">Include all costs</strong> — Your cost price should include shipping, packaging, overhead, and other expenses, not just the product cost.</span>
                     </li>
                 </ul>

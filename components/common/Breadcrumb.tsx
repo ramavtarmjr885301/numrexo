@@ -15,7 +15,7 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <div className="flex items-center gap-2 text-sm text-ink-faint mb-6">
-      <Link href="/" className="hover:text-blue-600 transition-colors">
+      <Link href="/" aria-label="Home" className="hover:text-blue-600 transition-colors">
         <Home size={14} />
       </Link>
       {items.map((item, index) => (

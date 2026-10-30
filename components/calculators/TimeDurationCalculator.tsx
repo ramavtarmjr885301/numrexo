@@ -236,30 +236,12 @@ export default function TimeDurationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/time" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Time Calculators</span></a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Time Duration Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Time Duration Calculator</h3>
+                        <h2 className="font-semibold">Time Duration Calculator</h2>
                         <p className="text-xs text-ink-faint mt-1">Calculate time difference or add/subtract time</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -436,7 +418,7 @@ export default function TimeDurationCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Add cooking times to your start time to know exactly when your food will be ready. Perfect for meal planning.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Event Scheduling</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Event Scheduling</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Calculate event durations and end times. Plan meetings, appointments, and activities with precision.</p>
                     </div>
                 </div>
@@ -491,7 +473,7 @@ export default function TimeDurationCalculator() {
                 <div className="bg-surface border border-hairline rounded-xl p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-blue-600 mb-2">12-Hour Format (AM/PM)</h4>
+                            <h3 className="text-sm font-semibold text-blue-600 mb-2">12-Hour Format (AM/PM)</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• 12:00 AM = Midnight</li>
                                 <li>• 6:00 AM = Early morning</li>
@@ -501,7 +483,7 @@ export default function TimeDurationCalculator() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-sm font-semibold text-yellow-700 mb-2">24-Hour Format</h4>
+                            <h3 className="text-sm font-semibold text-yellow-700 mb-2">24-Hour Format</h3>
                             <ul className="text-xs text-ink-faint space-y-1">
                                 <li>• 00:00 = Midnight</li>
                                 <li>• 06:00 = 6:00 AM</li>

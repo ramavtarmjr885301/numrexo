@@ -182,20 +182,11 @@ export default function CarpetAreaCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Home</span></a><meta itemProp="position" content="1" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><a href="https://numrexo.com/construction" itemProp="item" className="hover:text-ink-soft"><span itemProp="name">Construction Calculators</span></a><meta itemProp="position" content="2" /></li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem"><span itemProp="name" className="text-ink-soft">Carpet Area Calculator</span><meta itemProp="position" content="3" /></li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
-                        <div><h3 className="font-semibold">Room Details</h3><p className="text-xs text-ink-faint">Enter dimensions for each room</p></div>
+                        <div><h2 className="font-semibold">Room Details</h2><p className="text-xs text-ink-faint">Enter dimensions for each room</p></div>
                         <button onClick={addRoom} className="px-3 py-1 text-sm bg-blue-600 rounded-lg hover:bg-blue-600">+ Add Room</button>
                     </div>
                     <div className="p-6 space-y-3 max-h-96 overflow-y-auto">
@@ -267,7 +258,7 @@ export default function CarpetAreaCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">RERA mandates builders to disclose carpet area in sale agreements. Verify that the carpet area matches what you're paying for.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Fair Price Comparison</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Fair Price Comparison</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Compare properties based on cost per square foot of carpet area — what you actually use — not inflated super built-up area.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -303,16 +294,16 @@ export default function CarpetAreaCalculator() {
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-ink mb-3">RERA Rules on Carpet Area</h2>
                 <ul className="space-y-2">
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Builders must <strong className="text-ink">mandatorily disclose carpet area</strong> in sale agreements as per RERA Act Section 4(2)(l)(D).</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>RERA defines carpet area as <strong className="text-ink">net usable floor area</strong> excluding external walls, service shafts, balcony, and common areas.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Any <strong className="text-ink">deviation beyond 3%</strong> from disclosed carpet area requires buyer consent and price adjustment.</span></li>
-                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-600 mt-0.5">✓</span><span>Builders cannot charge for <strong className="text-ink">common areas and amenities</strong> beyond the super built-up area.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Builders must <strong className="text-ink">mandatorily disclose carpet area</strong> in sale agreements as per RERA Act Section 4(2)(l)(D).</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>RERA defines carpet area as <strong className="text-ink">net usable floor area</strong> excluding external walls, service shafts, balcony, and common areas.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Any <strong className="text-ink">deviation beyond 3%</strong> from disclosed carpet area requires buyer consent and price adjustment.</span></li>
+                    <li className="flex gap-3 text-sm text-ink-faint"><span className="text-green-700 mt-0.5">✓</span><span>Builders cannot charge for <strong className="text-ink">common areas and amenities</strong> beyond the super built-up area.</span></li>
                 </ul>
             </section>
 
             <section className="mb-8"><h2 className="text-xl font-semibold text-ink mb-4">Area Types Explained</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-surface border border-hairline rounded-xl p-4"><h3 className="text-sm font-semibold text-green-600 mb-2">Carpet Area</h3><p className="text-xs text-ink-faint">Actual usable area inside walls. What RERA mandates disclosure of.</p></div>
+                    <div className="bg-surface border border-hairline rounded-xl p-4"><h3 className="text-sm font-semibold text-green-700 mb-2">Carpet Area</h3><p className="text-xs text-ink-faint">Actual usable area inside walls. What RERA mandates disclosure of.</p></div>
                     <div className="bg-surface border border-hairline rounded-xl p-4"><h3 className="text-sm font-semibold text-yellow-700 mb-2">Built-up Area</h3><p className="text-xs text-ink-faint">Carpet area + wall thickness (usually 15-20% more).</p></div>
                     <div className="bg-surface border border-hairline rounded-xl p-4"><h3 className="text-sm font-semibold text-blue-600 mb-2">Super Built-up Area</h3><p className="text-xs text-ink-faint">Built-up area + common areas (lobby, stairs, lifts). 25-35% more than carpet area.</p></div>
                 </div>
@@ -325,9 +316,9 @@ export default function CarpetAreaCalculator() {
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-hairline"><th className="text-left py-3 px-4 text-ink-faint">Property Type</th><th className="text-left py-3 px-4 text-ink-faint">Typical Loading</th><th className="text-left py-3 px-4 text-ink-faint">Carpet for 1000 sq ft Super</th></tr></thead>
                         <tbody>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Budget Housing</td><td className="py-2 px-4 text-green-600">15-20%</td><td className="py-2 px-4">830-870 sq ft</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Budget Housing</td><td className="py-2 px-4 text-green-700">15-20%</td><td className="py-2 px-4">830-870 sq ft</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Mid-Range Apartments</td><td className="py-2 px-4 text-yellow-700">25-30%</td><td className="py-2 px-4">770-800 sq ft</td></tr>
-                            <tr className="border-b border-hairline"><td className="py-2 px-4">Luxury Apartments</td><td className="py-2 px-4 text-orange-600">35-40%</td><td className="py-2 px-4">710-740 sq ft</td></tr>
+                            <tr className="border-b border-hairline"><td className="py-2 px-4">Luxury Apartments</td><td className="py-2 px-4 text-orange-700">35-40%</td><td className="py-2 px-4">710-740 sq ft</td></tr>
                             <tr className="border-b border-hairline"><td className="py-2 px-4">Premium Villas</td><td className="py-2 px-4 text-red-600">40-50%</td><td className="py-2 px-4">650-710 sq ft</td></tr>
                         </tbody>
                     </table>

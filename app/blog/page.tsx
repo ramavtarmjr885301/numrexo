@@ -89,9 +89,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                         {formatDate(post.publishedAt)}
                       </span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-semibold text-ink group-hover:text-blue-600 transition-colors line-clamp-2">
+                    <h2 className="text-base sm:text-lg font-semibold text-ink group-hover:text-blue-600 transition-colors line-clamp-2">
                       {post.title}
-                    </h3>
+                    </h2>
                     <p className="text-xs sm:text-sm text-ink-soft mt-1.5 sm:mt-2 line-clamp-3 flex-grow">
                       {post.excerpt}
                     </p>

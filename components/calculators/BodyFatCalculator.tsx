@@ -48,7 +48,7 @@ const FAQ_DATA = [
 
 const BODY_FAT_TABLE = [
   { category: "Essential Fat (Men/Women)", men: "2-5%", women: "10-13%", color: "text-blue-600" },
-  { category: "Athletes", men: "6-13%", women: "14-20%", color: "text-green-600" },
+  { category: "Athletes", men: "6-13%", women: "14-20%", color: "text-green-700" },
   { category: "Fitness", men: "14-17%", women: "21-24%", color: "text-emerald-400" },
   { category: "Average/Acceptable", men: "18-24%", women: "25-31%", color: "text-yellow-700" },
   { category: "Obese/High Risk", men: "25%+", women: "32%+", color: "text-red-600" },
@@ -98,7 +98,7 @@ export default function BodyFatCalculator() {
       bodyFatPercentage = 86.010 * Math.log10((wa - n) / 2.54) - 70.041 * Math.log10(h / 2.54) + 36.76;
 
       if (bodyFatPercentage < 6) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
-      else if (bodyFatPercentage < 14) { category = "Athlete"; colorClass = "text-green-600"; }
+      else if (bodyFatPercentage < 14) { category = "Athlete"; colorClass = "text-green-700"; }
       else if (bodyFatPercentage < 18) { category = "Fitness"; colorClass = "text-emerald-400"; }
       else if (bodyFatPercentage < 25) { category = "Average"; colorClass = "text-yellow-700"; }
       else { category = "Obese (High Risk)"; colorClass = "text-red-600"; }
@@ -107,7 +107,7 @@ export default function BodyFatCalculator() {
       bodyFatPercentage = 163.205 * Math.log10((wa + hi - n) / 2.54) - 97.684 * Math.log10(h / 2.54) - 78.387;
 
       if (bodyFatPercentage < 14) { category = "Essential Fat (Athlete)"; colorClass = "text-blue-600"; }
-      else if (bodyFatPercentage < 21) { category = "Athlete"; colorClass = "text-green-600"; }
+      else if (bodyFatPercentage < 21) { category = "Athlete"; colorClass = "text-green-700"; }
       else if (bodyFatPercentage < 25) { category = "Fitness"; colorClass = "text-emerald-400"; }
       else if (bodyFatPercentage < 32) { category = "Average"; colorClass = "text-yellow-700"; }
       else { category = "Obese (High Risk)"; colorClass = "text-red-600"; }
@@ -146,20 +146,11 @@ export default function BodyFatCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BODY_FAT_SCHEMA }} />
 
-      <nav aria-label="Breadcrumb" className="mb-5">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
-          <li><a href="https://numrexo.com" className="hover:text-ink-soft">Home</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><a href="https://numrexo.com/fitness" className="hover:text-ink-soft">Fitness Calculators</a></li>
-          <li className="text-ink-soft">/</li>
-          <li><span className="text-ink-soft">Body Fat Calculator</span></li>
-        </ol>
-      </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-hairline">
-            <h3 className="font-semibold">Body Fat Measurements (US Navy Method)</h3>
+            <h2 className="font-semibold">Body Fat Measurements (US Navy Method)</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>

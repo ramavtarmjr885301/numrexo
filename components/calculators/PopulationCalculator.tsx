@@ -50,9 +50,9 @@ const FAQ_DATA = [
 
 const GROWTH_RATES = [
     { label: "Very High", rate: 3.5, color: "text-red-600", description: "Developing nations" },
-    { label: "High", rate: 2.5, color: "text-orange-600", description: "Growing economies" },
+    { label: "High", rate: 2.5, color: "text-orange-700", description: "Growing economies" },
     { label: "Moderate", rate: 1.5, color: "text-yellow-700", description: "Developing countries" },
-    { label: "Low", rate: 0.8, color: "text-green-600", description: "Developed nations" },
+    { label: "Low", rate: 0.8, color: "text-green-700", description: "Developed nations" },
     { label: "Zero", rate: 0, color: "text-blue-600", description: "Stable population" },
     { label: "Declining", rate: -0.5, color: "text-purple-600", description: "Negative growth" },
 ];
@@ -169,13 +169,13 @@ export default function PopulationCalculator() {
             ratingColor = "text-red-600";
         } else if (rate > 2) {
             rating = "High Growth ★★★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else if (rate > 1) {
             rating = "Moderate Growth ★★★";
             ratingColor = "text-yellow-700";
         } else if (rate > 0) {
             rating = "Low Growth ★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else if (rate === 0) {
             rating = "Stable Population ★★";
             ratingColor = "text-blue-600";
@@ -229,13 +229,13 @@ export default function PopulationCalculator() {
             ratingColor = "text-red-600";
         } else if (doublingTime < 35) {
             rating = "Fast Doubling ★★★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else if (doublingTime < 50) {
             rating = "Moderate Doubling ★★★";
             ratingColor = "text-yellow-700";
         } else if (doublingTime < 70) {
             rating = "Slow Doubling ★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else {
             rating = "Very Slow Doubling ★";
             ratingColor = "text-blue-600";
@@ -280,13 +280,13 @@ export default function PopulationCalculator() {
             ratingColor = "text-red-600";
         } else if (density > 500) {
             rating = "Very Dense ★★★★";
-            ratingColor = "text-orange-600";
+            ratingColor = "text-orange-700";
         } else if (density > 100) {
             rating = "Dense ★★★";
             ratingColor = "text-yellow-700";
         } else if (density > 20) {
             rating = "Moderate ★★";
-            ratingColor = "text-green-600";
+            ratingColor = "text-green-700";
         } else {
             rating = "Sparse ★";
             ratingColor = "text-blue-600";
@@ -324,35 +324,13 @@ export default function PopulationCalculator() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: WEBAPP_SCHEMA }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: BREADCRUMB_SCHEMA }} />
 
-            <nav aria-label="Breadcrumb" className="mb-5">
-                <ol className="flex flex-wrap items-center gap-1.5 text-xs text-ink-faint" itemScope itemType="https://schema.org/BreadcrumbList">
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Home</span>
-                        </a>
-                        <meta itemProp="position" content="1" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <a href="https://numrexo.com/math" itemProp="item" className="hover:text-ink-soft">
-                            <span itemProp="name">Math Calculators</span>
-                        </a>
-                        <meta itemProp="position" content="2" />
-                    </li>
-                    <li className="text-ink-soft">/</li>
-                    <li itemScope itemProp="itemListElement" itemType="https://schema.org/ListItem">
-                        <span itemProp="name" className="text-ink-soft">Population Calculator</span>
-                        <meta itemProp="position" content="3" />
-                    </li>
-                </ol>
-            </nav>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Input Form */}
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline flex justify-between items-center">
                         <div>
-                            <h3 className="font-semibold">Population Calculator</h3>
+                            <h2 className="font-semibold">Population Calculator</h2>
                             <p className="text-xs text-ink-faint mt-1">Calculate growth, doubling time & density</p>
                         </div>
                         <button
@@ -510,20 +488,20 @@ export default function PopulationCalculator() {
                             calculationType === "doubling" ? `${result.doublingTime} years` :
                                 `${result.density} /km²`,
                         color: calculationType === "growth" ? "text-blue-600" :
-                            calculationType === "doubling" ? "text-green-600" : "text-purple-600"
+                            calculationType === "doubling" ? "text-green-700" : "text-purple-600"
                     } : undefined}
                     extraRows={result ? [
                         { label: "Performance Rating", value: result.rating, valueColor: result.ratingColor },
                         { label: "Current Population", value: result.currentPopulation },
                         ...(calculationType === "growth" ? [
-                            { label: "Total Increase", value: result.totalIncrease, valueColor: "text-green-600" },
+                            { label: "Total Increase", value: result.totalIncrease, valueColor: "text-green-700" },
                             { label: "Percent Increase", value: `${result.percentIncrease}%`, valueColor: "text-yellow-700" },
-                            { label: "Doubling Time", value: `${result.doublingTime} years`, valueColor: "text-orange-600" },
+                            { label: "Doubling Time", value: `${result.doublingTime} years`, valueColor: "text-orange-700" },
                             { label: "Growth Rate", value: `${result.growthRate}%` },
                             { label: "Time Period", value: `${result.years} years` },
                         ] : []),
                         ...(calculationType === "doubling" ? [
-                            { label: "Population at Doubling", value: result.futurePopulation, valueColor: "text-green-600" },
+                            { label: "Population at Doubling", value: result.futurePopulation, valueColor: "text-green-700" },
                             { label: "Growth Rate", value: `${result.growthRate}%` },
                         ] : []),
                         ...(calculationType === "density" ? [
@@ -553,7 +531,7 @@ export default function PopulationCalculator() {
                                         <tr key={index} className="border-b border-hairline hover:bg-cream">
                                             <td className="py-2 px-4 text-ink-soft">{data.year}</td>
                                             <td className="py-2 px-4 text-right text-ink-soft">{data.population.toLocaleString()}</td>
-                                            <td className={`py-2 px-4 text-right ${data.increase > 0 ? 'text-green-600' : 'text-ink-faint'}`}>
+                                            <td className={`py-2 px-4 text-right ${data.increase > 0 ? 'text-green-700' : 'text-ink-faint'}`}>
                                                 {data.increase > 0 ? `+${data.increase.toLocaleString()}` : '—'}
                                             </td>
                                         </tr>
@@ -604,7 +582,7 @@ export default function PopulationCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Project future population sizes for urban planning, resource allocation, and policy making. Understand growth trends and their implications.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Educational Use</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Educational Use</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Learn about population dynamics, exponential growth, and demographic transitions. Perfect for students and researchers.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -633,11 +611,11 @@ export default function PopulationCalculator() {
                         </div>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">⏱️ Doubling Time</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">⏱️ Doubling Time</h3>
                         <p className="text-ink font-mono text-sm mb-2">T = 70 / r</p>
                         <div className="space-y-1 text-xs text-ink-faint">
-                            <div><span className="text-green-600">T</span> = Doubling time (years)</div>
-                            <div><span className="text-green-600">r</span> = Growth rate (%)</div>
+                            <div><span className="text-green-700">T</span> = Doubling time (years)</div>
+                            <div><span className="text-green-700">r</span> = Growth rate (%)</div>
                             <div className="text-ink-faint mt-1">Rule of 70 approximation</div>
                         </div>
                     </div>
@@ -672,7 +650,7 @@ export default function PopulationCalculator() {
                                 <td className="py-2 px-4 text-ink-faint text-xs">Some African nations, Yemen</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-orange-600 font-bold">2-3%</td>
+                                <td className="py-2 px-4 text-orange-700 font-bold">2-3%</td>
                                 <td className="py-2 px-4 text-ink-soft">High Growth</td>
                                 <td className="py-2 px-4 text-ink-faint text-xs">India, Philippines, Nigeria</td>
                             </tr>
@@ -682,7 +660,7 @@ export default function PopulationCalculator() {
                                 <td className="py-2 px-4 text-ink-faint text-xs">USA, Brazil, Indonesia</td>
                             </tr>
                             <tr className="border-b border-hairline hover:bg-cream">
-                                <td className="py-2 px-4 text-green-600 font-bold">0-1%</td>
+                                <td className="py-2 px-4 text-green-700 font-bold">0-1%</td>
                                 <td className="py-2 px-4 text-ink-soft">Low Growth</td>
                                 <td className="py-2 px-4 text-ink-faint text-xs">China, UK, France</td>
                             </tr>
@@ -713,7 +691,7 @@ export default function PopulationCalculator() {
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <h4 className="text-xs text-ink-faint mb-1">Annual Growth Rate</h4>
-                        <p className="text-2xl font-bold text-green-600">0.9%</p>
+                        <p className="text-2xl font-bold text-green-700">0.9%</p>
                         <p className="text-xs text-ink-faint mt-1">~73 million people per year</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">

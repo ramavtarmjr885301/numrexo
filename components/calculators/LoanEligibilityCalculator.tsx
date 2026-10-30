@@ -133,7 +133,7 @@ export default function LoanEligibilityCalculator() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div className="bg-surface border border-hairline rounded-xl overflow-hidden">
                     <div className="px-6 py-4 border-b border-hairline">
-                        <h3 className="font-semibold">Your Financial Profile</h3>
+                        <h2 className="font-semibold">Your Financial Profile</h2>
                         <p className="text-xs text-ink-faint mt-1">Based on standard bank eligibility criteria</p>
                     </div>
                     <div className="p-6 space-y-4">
@@ -179,10 +179,10 @@ export default function LoanEligibilityCalculator() {
                     isEmpty={!result}
                     emptyIcon="✅"
                     emptyText="Enter your income and press Calculate"
-                    mainResult={result?.eligible ? { label: "You May Qualify For", value: `₹${result.maxLoanFormatted}`, color: "text-green-600" } : undefined}
+                    mainResult={result?.eligible ? { label: "You May Qualify For", value: `₹${result.maxLoanFormatted}`, color: "text-green-700" } : undefined}
                     extraRows={result ? [
                         { label: "Your Monthly Income", value: `₹${result.monthlyIncome}` },
-                        { label: "Available EMI Capacity", value: `₹${result.availableEMI.toLocaleString()}`, valueColor: result.eligible ? "text-green-600" : "text-red-600" },
+                        { label: "Available EMI Capacity", value: `₹${result.availableEMI.toLocaleString()}`, valueColor: result.eligible ? "text-green-700" : "text-red-600" },
                         { label: "Existing EMIs", value: `₹${result.existingEMI}` },
                         ...(result.eligible === false ? [{ label: "Note", value: result.message, valueColor: "text-red-600" }] : []),
                     ] : undefined}
@@ -224,7 +224,7 @@ export default function LoanEligibilityCalculator() {
                         <p className="text-ink-faint text-xs leading-relaxed">Know your eligibility before applying. Loan rejection hurts credit score. Apply only to banks where you qualify.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">✓ Negotiate Better</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">✓ Negotiate Better</h3>
                         <p className="text-ink-faint text-xs leading-relaxed">Know your maximum eligible amount. Don't let banks offer you less than what you qualify for.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
@@ -281,7 +281,7 @@ export default function LoanEligibilityCalculator() {
                         </ul>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
-                        <h3 className="text-sm font-semibold text-green-600 mb-2">Self-Employed Applicants</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-2">Self-Employed Applicants</h3>
                         <ul className="space-y-1 text-xs text-ink-faint list-disc list-inside">
                             <li>Last 3 years ITR with computation</li>
                             <li>Last 3 years P&L, Balance Sheet</li>
@@ -305,22 +305,22 @@ export default function LoanEligibilityCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">📈</div>
-                        <h3 className="text-sm font-semibold text-green-600 mb-1">Add a Co-Applicant</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-1">Add a Co-Applicant</h3>
                         <p className="text-xs text-ink-faint">Include your spouse's income. Banks combine both incomes, which can double your eligibility.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">💳</div>
-                        <h3 className="text-sm font-semibold text-green-600 mb-1">Improve Your Credit Score</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-1">Improve Your Credit Score</h3>
                         <p className="text-xs text-ink-faint">A score above 750 can increase eligible amount by 10-15% and get you better rates.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">📉</div>
-                        <h3 className="text-sm font-semibold text-green-600 mb-1">Pay Off Small Loans First</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-1">Pay Off Small Loans First</h3>
                         <p className="text-xs text-ink-faint">Closing credit cards or small personal loans frees up EMI capacity for the new loan.</p>
                     </div>
                     <div className="bg-surface border border-hairline rounded-xl p-4">
                         <div className="text-2xl mb-1">⏰</div>
-                        <h3 className="text-sm font-semibold text-green-600 mb-1">Choose Longer Tenure</h3>
+                        <h3 className="text-sm font-semibold text-green-700 mb-1">Choose Longer Tenure</h3>
                         <p className="text-xs text-ink-faint">A longer loan tenure means smaller EMIs, which increases eligibility (but you'll pay more interest).</p>
                     </div>
                 </div>
