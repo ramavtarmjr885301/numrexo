@@ -22,7 +22,7 @@ const CATEGORY_CALCULATOR_MAP: Record<string, string[]> = {
   education: ['gpa', 'cgpa', 'grade', 'weighted-grade', 'final-grade', 'college-cost', 'scholarship', 'attendance', 'percentage-marks'],
   construction: ['carpet-area', 'built-up-area', 'concrete', 'paint', 'flooring', 'wallpaper', 'roofing', 'land-area'],
   business: ['profit-margin', 'markup', 'discount', 'roi', 'break-even', 'invoice', 'tip', 'sales-commission'],
-  cooking: ['recipe-converter', 'cooking-time', 'oven-temperature', 'baking-converter', 'food-expiry'],
+  cooking: ['turkey-cooking-time', 'turkey-thawing-time', 'cooking-time', 'recipe-converter', 'oven-temperature', 'baking-converter', 'food-expiry'],
   travel: ['fuel-cost', 'travel-budget', 'flight-time', 'hotel-cost', 'luggage-allowance'],
   time: ['date-difference', 'add-days', 'work-days', 'time-duration', 'birthday-countdown', 'stopwatch', 'timer'],
   science: ['distance-speed-time'],

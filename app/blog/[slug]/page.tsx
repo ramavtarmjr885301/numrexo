@@ -1,6 +1,6 @@
 // app/blog/[slug]/page.tsx
 
-import { getPublishedPostBySlug, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
+import { getPublishedPostForPage, getRelatedPosts, getPostsBySlugs } from '@/lib/blogDb';
 import { addHeadingIds, demoteH1, splitBeforeSecondH2 } from '@/lib/toc';
 import { tagSlug } from '@/lib/tags';
 import { CALCULATORS_REGISTRY } from '@/data/calculatorsRegistry';
@@ -14,6 +14,13 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fitTitle, fitDescription, htmlToText } from '@/lib/metaFit';
 import { ensureImgAlt } from '@/lib/imgAlt';
+import { BLOG_SEO_OVERRIDES } from '@/lib/blogSeoOverrides';
+import BmiChartTable from '@/components/blog/BmiChartTable';
+
+/** Extra blocks shown above specific posts' content (rendered on the server). */
+const TOP_BLOCKS: Record<string, () => JSX.Element> = {
+  'what-is-a-healthy-bmi-for-men-and-women-complete-bmi-chart-guide-2026': BmiChartTable,
+};
 
 // Rendered per request (Patch 28). The root layout reads a request header, and
 // with ISR an unknown slug could fail with a 500 instead of a clean 404. The
@@ -55,7 +62,8 @@ function formatDate(iso: string): string {
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
-  const post = await getPublishedPostBySlug(params.slug);
+  const { post, unavailable } = await getPublishedPostForPage(params.slug);
+  if (unavailable) throw new Error('Blog database temporarily unavailable');
 
   if (!post) {
     return {
@@ -73,8 +81,15 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   // Titles are kept to 60 characters and descriptions to 120-160 (Bing/Google
   // length guidance). A short description is extended with the post's own opening
   // text, never with filler.
-  const title = post.metaTitle ? fitTitle(post.metaTitle, '') : fitTitle(post.title);
-  const description = fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml));
+  const override = BLOG_SEO_OVERRIDES[post.slug];
+  const title = override?.title
+    ? fitTitle(override.title)
+    : post.metaTitle
+      ? fitTitle(post.metaTitle, '')
+      : fitTitle(post.title);
+  const description = override?.description
+    ? override.description
+    : fitDescription(post.metaDescription || post.excerpt, htmlToText(post.contentHtml));
   return {
     title: { absolute: title },
     description,
@@ -101,7 +116,10 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = await getPublishedPostBySlug(params.slug);
+  const { post, unavailable } = await getPublishedPostForPage(params.slug);
+  // A database outage must not look like "post deleted": throwing gives a 5xx,
+  // which search engines retry, instead of a 404 that removes the post.
+  if (unavailable) throw new Error('Blog database temporarily unavailable');
 
   if (!post) {
     notFound();
@@ -117,6 +135,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     .slice(0, 3);
 
   const { html: contentWithIds, items: tocItems } = addHeadingIds(demoteH1(ensureImgAlt(post.contentHtml, post.title)));
+  const TopBlock = TOP_BLOCKS[post.slug];
   const showToc = post.showToc && tocItems.filter((i) => i.level === 2).length >= 3;
   const ctaCalc = post.ctaCalculator
     ? CALCULATORS_REGISTRY.find((c) => c.id === post.ctaCalculator && !c.comingSoon)
@@ -244,6 +263,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         )}
 
         <div>
+          {TopBlock && <TopBlock />}
           <div dangerouslySetInnerHTML={{ __html: contentBefore }} className={proseClass} />
 
           {ctaCalc && (

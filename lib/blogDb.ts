@@ -20,6 +20,7 @@
 
 import { decodeEntities } from '@/lib/htmlEntities';
 import { neon } from '@neondatabase/serverless';
+import { unstable_cache } from 'next/cache';
 import { BlogPost, BlogFaq } from './blogTypes';
 import { HIDDEN_PUBLIC_SLUGS } from './hiddenBlogSlugs';
 import { tagSlug } from './tags';
@@ -182,188 +183,170 @@ export interface PostsPage {
   currentPage: number;
 }
 
+// ---------------------------------------------------------------------------
+// Public reads (Patch 29): cached so the database is not woken on every visit.
+//
+// Neon's free plan allows 100 compute-hours a month and suspends the database
+// when they run out (that is what took the blog down on 31 Oct 2026). Every
+// public page used to query Neon on every request, and each query keeps the
+// database awake for ~5 minutes, so search-engine bots alone could use up the
+// allowance. Now:
+//   * one cached query holds the list of published posts (without the article
+//     bodies, so the cache entry stays small);
+//   * each article body is cached separately, per slug;
+//   * both refresh at most every PUBLIC_CACHE_SECONDS, and immediately when a
+//     post is saved or deleted in the admin panel (revalidateTag(BLOG_CACHE_TAG));
+//   * a failed refresh is never cached - visitors keep getting the last good
+//     copy, and a database outage no longer empties the blog.
+// ---------------------------------------------------------------------------
+
+/** Cache tag for every public blog read. The admin routes revalidate it on save/delete. */
+export const BLOG_CACHE_TAG = 'blog-posts';
+/** How long public blog data may be served before a background refresh (6 hours). */
+const PUBLIC_CACHE_SECONDS = 60 * 60 * 6;
+
+/** Runs a cached read; returns `fallback` (uncached) when the database is unavailable. */
+async function publicRead<T>(label: string, read: () => Promise<T>, fallback: T): Promise<T> {
+  if (!getSql()) {
+    console.warn(`[blogDb] ${label} skipped - DATABASE_URL is not set.`);
+    return fallback;
+  }
+  try {
+    return await read();
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    console.warn(`[blogDb] ${label} failed (${reason}) - continuing without blog data.`);
+    return fallback;
+  }
+}
+
+/** Every published post, newest first, WITHOUT contentHtml/contentMarkdown/faqs. Throws on DB error. */
+const loadPublishedSummaries = unstable_cache(
+  async (): Promise<BlogPost[]> => {
+    const sql = getSql();
+    if (!sql) throw new Error('DATABASE_URL is not set');
+    const rows = (await sql`
+      SELECT * FROM blog_posts WHERE published = true AND published_at <= now() ORDER BY published_at DESC
+    `) as unknown as Row[];
+    return rows.map(rowToPost).map((p) => ({ ...p, contentHtml: '', contentMarkdown: '', faqs: [] }));
+  },
+  ['blogDb', 'published-summaries', 'v1'],
+  { revalidate: PUBLIC_CACHE_SECONDS, tags: [BLOG_CACHE_TAG] },
+);
+
+/** One published post with its full body, or null. Throws on DB error. */
+const loadPublishedPost = unstable_cache(
+  async (slug: string): Promise<BlogPost | null> => {
+    const sql = getSql();
+    if (!sql) throw new Error('DATABASE_URL is not set');
+    const rows = (await sql`
+      SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true AND published_at <= now() LIMIT 1
+    `) as unknown as Row[];
+    return rows[0] ? rowToPost(rows[0]) : null;
+  },
+  ['blogDb', 'published-post', 'v1'],
+  { revalidate: PUBLIC_CACHE_SECONDS, tags: [BLOG_CACHE_TAG] },
+);
+
+async function publicSummaries(label: string): Promise<BlogPost[] | null> {
+  return publicRead(label, async () => (await loadPublishedSummaries()).filter(isPublic), null);
+}
+
 export async function listPublishedPosts(page = 1, perPage = 9): Promise<PostsPage> {
-  return safeDb(
-    'listPublishedPosts',
-    async () => {
-      const sql = getSql()!;
-      // The blog is small, so fetch every published post and filter/paginate
-      // here - that keeps HIDDEN_PUBLIC_SLUGS exact for both the list and the
-      // total count without relying on array-parameter SQL.
-      const rows = (await sql`
-        SELECT * FROM blog_posts WHERE published = true AND published_at <= now() ORDER BY published_at DESC
-      `) as unknown as Row[];
-      const visible = rows.map(rowToPost).filter(isPublic);
-      const total = visible.length;
-      const offset = (page - 1) * perPage;
-      return {
-        posts: visible.slice(offset, offset + perPage),
-        total,
-        totalPages: Math.max(1, Math.ceil(total / perPage)),
-        currentPage: page,
-      };
-    },
-    { posts: [], total: 0, totalPages: 0, currentPage: page },
-  );
+  const visible = (await publicSummaries('listPublishedPosts')) ?? [];
+  const total = visible.length;
+  const offset = (page - 1) * perPage;
+  return {
+    posts: visible.slice(offset, offset + perPage),
+    total,
+    totalPages: Math.max(1, Math.ceil(total / perPage)),
+    currentPage: page,
+  };
 }
 
 export async function getPublishedPostBySlug(slug: string): Promise<BlogPost | null> {
-  return safeDb(
-    `getPublishedPostBySlug(${slug})`,
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true AND published_at <= now() LIMIT 1
-      `) as unknown as Row[];
-      const post = rows[0] ? rowToPost(rows[0]) : null;
-      return post && isPublic(post) ? post : null;
-    },
-    null,
-  );
+  if (HIDDEN_PUBLIC_SLUGS.has(slug)) return null;
+  return publicRead(`getPublishedPostBySlug(${slug})`, () => loadPublishedPost(slug), null);
+}
+
+/**
+ * For the post page: tells "this post does not exist" (-> 404) apart from "the
+ * database is unavailable right now" (-> the page throws, so the response is a
+ * 5xx that search engines retry later instead of a 404 that drops the post).
+ */
+export async function getPublishedPostForPage(slug: string): Promise<{ post: BlogPost | null; unavailable: boolean }> {
+  if (HIDDEN_PUBLIC_SLUGS.has(slug)) return { post: null, unavailable: false };
+  if (!getSql()) return { post: null, unavailable: false };
+  try {
+    return { post: await loadPublishedPost(slug), unavailable: false };
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    console.warn(`[blogDb] getPublishedPostForPage(${slug}) failed (${reason})`);
+    return { post: null, unavailable: true };
+  }
 }
 
 export async function listAllSlugs(): Promise<string[]> {
-  return safeDb(
-    'listAllSlugs',
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT slug FROM blog_posts WHERE published = true AND published_at <= now()
-      `) as unknown as { slug: string }[];
-      return rows.map((r) => r.slug).filter((slug) => !HIDDEN_PUBLIC_SLUGS.has(slug));
-    },
-    [],
-  );
+  return ((await publicSummaries('listAllSlugs')) ?? []).map((p) => p.slug);
 }
 
 export async function listCategoriesWithCounts(): Promise<{ slug: string; count: number }[]> {
-  return safeDb(
-    'listCategoriesWithCounts',
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT slug, category FROM blog_posts WHERE published = true AND published_at <= now()
-      `) as unknown as { slug: string; category: string }[];
-      const counts = new Map<string, number>();
-      for (const r of rows) {
-        if (HIDDEN_PUBLIC_SLUGS.has(r.slug)) continue;
-        counts.set(r.category, (counts.get(r.category) || 0) + 1);
-      }
-      return Array.from(counts.entries())
-        .map(([slug, count]) => ({ slug, count }))
-        .sort((x, y) => y.count - x.count);
-    },
-    [],
-  );
+  const counts = new Map<string, number>();
+  for (const p of (await publicSummaries('listCategoriesWithCounts')) ?? []) {
+    counts.set(p.category, (counts.get(p.category) || 0) + 1);
+  }
+  return Array.from(counts.entries())
+    .map(([slug, count]) => ({ slug, count }))
+    .sort((x, y) => y.count - x.count);
 }
 
-export async function listPostsByCategory(
-  categorySlug: string,
-  page = 1,
-  perPage = 9,
-): Promise<PostsPage> {
-  return safeDb(
-    `listPostsByCategory(${categorySlug})`,
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts
-        WHERE published = true AND published_at <= now() AND category = ${categorySlug}
-        ORDER BY published_at DESC
-      `) as unknown as Row[];
-      const visible = rows.map(rowToPost).filter(isPublic);
-      const total = visible.length;
-      const offset = (page - 1) * perPage;
-      return {
-        posts: visible.slice(offset, offset + perPage),
-        total,
-        totalPages: Math.max(1, Math.ceil(total / perPage)),
-        currentPage: page,
-      };
-    },
-    { posts: [], total: 0, totalPages: 0, currentPage: page },
+export async function listPostsByCategory(categorySlug: string, page = 1, perPage = 9): Promise<PostsPage> {
+  const visible = ((await publicSummaries(`listPostsByCategory(${categorySlug})`)) ?? []).filter(
+    (p) => p.category === categorySlug,
   );
+  const total = visible.length;
+  const offset = (page - 1) * perPage;
+  return {
+    posts: visible.slice(offset, offset + perPage),
+    total,
+    totalPages: Math.max(1, Math.ceil(total / perPage)),
+    currentPage: page,
+  };
 }
 
-export async function getRelatedPosts(
-  category: string,
-  excludeSlug: string,
-  limit = 3,
-): Promise<BlogPost[]> {
-  return safeDb(
-    `getRelatedPosts(${category})`,
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts
-        WHERE published = true AND published_at <= now() AND category = ${category} AND slug != ${excludeSlug}
-        ORDER BY published_at DESC
-        LIMIT ${limit + HIDDEN_PUBLIC_SLUGS.size}
-      `) as unknown as Row[];
-      return rows.map(rowToPost).filter(isPublic).slice(0, limit);
-    },
-    [],
-  );
+export async function getRelatedPosts(category: string, excludeSlug: string, limit = 3): Promise<BlogPost[]> {
+  return ((await publicSummaries(`getRelatedPosts(${category})`)) ?? [])
+    .filter((p) => p.category === category && p.slug !== excludeSlug)
+    .slice(0, limit);
 }
 
 export async function listPostsByTag(tag: string): Promise<BlogPost[]> {
-  return safeDb(
-    `listPostsByTag(${tag})`,
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts WHERE published = true AND published_at <= now() ORDER BY published_at DESC
-      `) as unknown as Row[];
-      const wanted = tag.toLowerCase();
-      return rows
-        .map(rowToPost)
-        .filter(isPublic)
-        .filter((p) => p.tags.some((t) => tagSlug(t) === wanted));
-    },
-    [],
+  const wanted = tag.toLowerCase();
+  return ((await publicSummaries(`listPostsByTag(${tag})`)) ?? []).filter((p) =>
+    p.tags.some((t) => tagSlug(t) === wanted),
   );
 }
 
 export async function listAllTags(): Promise<{ tag: string; slug: string; count: number }[]> {
-  return safeDb(
-    'listAllTags',
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts WHERE published = true AND published_at <= now()
-      `) as unknown as Row[];
-      const counts = new Map<string, { tag: string; count: number }>();
-      for (const post of rows.map(rowToPost).filter(isPublic)) {
-        for (const t of post.tags) {
-          const key = tagSlug(t);
-          if (!key) continue;
-          const entry = counts.get(key);
-          if (entry) entry.count += 1;
-          else counts.set(key, { tag: t, count: 1 });
-        }
-      }
-      return Array.from(counts.entries())
-        .map(([slug, v]) => ({ slug, tag: v.tag, count: v.count }))
-        .sort((a, b) => b.count - a.count);
-    },
-    [],
-  );
+  const counts = new Map<string, { tag: string; count: number }>();
+  for (const post of (await publicSummaries('listAllTags')) ?? []) {
+    for (const t of post.tags) {
+      const key = tagSlug(t);
+      if (!key) continue;
+      const entry = counts.get(key);
+      if (entry) entry.count += 1;
+      else counts.set(key, { tag: t, count: 1 });
+    }
+  }
+  return Array.from(counts.entries())
+    .map(([slug, v]) => ({ slug, tag: v.tag, count: v.count }))
+    .sort((a, b) => b.count - a.count);
 }
 
 export async function getPostsBySlugs(slugs: string[]): Promise<BlogPost[]> {
   if (slugs.length === 0) return [];
-  return safeDb(
-    'getPostsBySlugs',
-    async () => {
-      const sql = getSql()!;
-      const rows = (await sql`
-        SELECT * FROM blog_posts WHERE published = true AND published_at <= now()
-      `) as unknown as Row[];
-      const bySlug = new Map(rows.map(rowToPost).filter(isPublic).map((p) => [p.slug, p] as const));
-      return slugs.map((s) => bySlug.get(s)).filter((p): p is BlogPost => Boolean(p));
-    },
-    [],
-  );
+  const bySlug = new Map(((await publicSummaries('getPostsBySlugs')) ?? []).map((p) => [p.slug, p] as const));
+  return slugs.map((s) => bySlug.get(s)).filter((p): p is BlogPost => Boolean(p));
 }
 
 // ---------------------------------------------------------------------------

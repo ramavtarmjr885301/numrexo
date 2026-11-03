@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import ResultBox from "@/components/common/ResultBox";
 
 // ─── Static SEO Data ──────────────────────────────────────────────────────────
@@ -343,6 +344,18 @@ export default function CookingTimeCalculator() {
                     ] : []}
                 />
             </div>
+
+            {/* Thanksgiving: link the dedicated turkey tools (Patch 30). */}
+            <aside className="mb-8 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:p-5">
+                <p className="text-sm font-semibold text-ink mb-1">🦃 Cooking a whole turkey?</p>
+                <p className="text-sm text-ink-soft">
+                    Use the{" "}
+                    <Link href="/cooking/turkey-cooking-time-calculator" className="text-blue-700 underline">turkey cooking time calculator</Link>{" "}
+                    for USDA roasting times by weight and the time to put it in the oven, and the{" "}
+                    <Link href="/cooking/turkey-thawing-time-calculator" className="text-blue-700 underline">turkey thawing time calculator</Link>{" "}
+                    to know when to move it from the freezer to the fridge.
+                </p>
+            </aside>
 
             {/* ─── EXPANDED SEO CONTENT (~1650 WORDS) ─── */}
 

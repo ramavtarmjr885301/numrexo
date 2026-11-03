@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
-import { getPostById, updatePost, deletePost, slugExists } from '@/lib/blogDb';
+import { getPostById, updatePost, deletePost, slugExists, BLOG_CACHE_TAG } from '@/lib/blogDb';
 import { parsePostBody } from '@/lib/postInput';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { pingIndexNow } from '@/lib/indexNow';
 
 interface Params {
@@ -38,6 +38,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
     return NextResponse.json({ error: 'Could not save the post - check the server logs' }, { status: 500 });
   }
 
+  revalidateTag(BLOG_CACHE_TAG); // refresh the cached public blog data (lib/blogDb.ts)
   revalidatePath('/blog');
   revalidatePath('/sitemap.xml');
   revalidatePath(`/blog/${post.slug}`);
@@ -60,6 +61,7 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
   if (!ok) {
     return NextResponse.json({ error: 'Could not delete the post' }, { status: 500 });
   }
+  revalidateTag(BLOG_CACHE_TAG); // refresh the cached public blog data (lib/blogDb.ts)
   revalidatePath('/blog');
   revalidatePath('/sitemap.xml');
   if (existing) {

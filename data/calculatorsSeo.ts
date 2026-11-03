@@ -822,10 +822,33 @@ export const CALCULATOR_SEO: Record<string, CalculatorSeo> = {
     keywords: ["recipe converter", "recipe scaler", "adjust recipe servings"],
   },
   "cooking/cooking-time-calculator": {
-    title: "Cooking Time Calculator: Roasting Time by Weight",
+    // GSC (Nov 2026): ranks ~#10 for "cooking time adjustment calculator" and "adjust cooking time
+    // calculator"; the old title promised roasting-by-weight, which this page does not do.
+    title: "Cooking Time Adjustment Calculator: Temp & Size",
     description:
-      "Calculate roasting time and oven temperature by meat type, weight and how well done you want it, with resting time and target internal temperature.",
-    keywords: ["cooking time calculator", "roasting time calculator", "meat cooking time"],
+      "Adjust a recipe's cooking time for a new oven temperature, a double or half batch, a bigger or smaller pan, or high altitude. Enter the time, get the new one.",
+    keywords: ["cooking time adjustment calculator", "adjust cooking time calculator", "cooking time for different temperatures", "cooking time calculator"],
+    updatedAt: "2026-11-04",
+  },
+  "cooking/turkey-cooking-time-calculator": {
+    title: "Turkey Cooking Time Calculator: Time by Pound",
+    description:
+      "How long to cook a turkey at 325°F by weight, stuffed or unstuffed, using USDA times, plus the exact time to put it in the oven so dinner is on time.",
+    keywords: ["turkey cooking time calculator", "how long to cook a turkey", "turkey cooking time per pound", "turkey roasting time chart"],
+    updatedAt: "2026-11-04",
+    sources: [
+      { label: "USDA FSIS Let's Talk Turkey roasting timetable (via Minnesota Department of Health)", url: "https://health.state.mn.us/people/foodsafety/foods/turkey.pdf" },
+    ],
+  },
+  "cooking/turkey-thawing-time-calculator": {
+    title: "Turkey Thawing Time Calculator: Fridge & Water",
+    description:
+      "How long to thaw a frozen turkey in the refrigerator (a day per 4 to 5 lb) or cold water (30 minutes per lb), and the date to start for Thanksgiving.",
+    keywords: ["turkey thawing time calculator", "how long to thaw a turkey", "when to take turkey out of freezer", "thaw turkey in cold water"],
+    updatedAt: "2026-11-04",
+    sources: [
+      { label: "USDA FSIS Let's Talk Turkey thawing guidance (via Minnesota Department of Health)", url: "https://health.state.mn.us/people/foodsafety/foods/turkey.pdf" },
+    ],
   },
   "cooking/oven-temperature-converter": {
     title: "Oven Temperature Converter: F, C & Gas Mark",

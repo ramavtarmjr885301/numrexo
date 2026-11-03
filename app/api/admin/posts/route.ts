@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminRequestAuthed } from '@/lib/adminAuthServer';
-import { createPost, slugExists } from '@/lib/blogDb';
+import { createPost, slugExists, BLOG_CACHE_TAG } from '@/lib/blogDb';
 import { parsePostBody } from '@/lib/postInput';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { pingIndexNow } from '@/lib/indexNow';
 
 export async function POST(request: NextRequest) {
@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Make the new post visible right away and tell Bing about it (IndexNow).
+  revalidateTag(BLOG_CACHE_TAG); // refresh the cached public blog data (lib/blogDb.ts)
   revalidatePath('/blog');
   revalidatePath('/sitemap.xml');
   revalidatePath(`/blog/${post.slug}`);

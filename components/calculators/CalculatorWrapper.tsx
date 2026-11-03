@@ -99,6 +99,8 @@ import RoofingCalculator from "./RoofingCalculator";
 import LandAreaCalculator from "./LandAreaCalculator";
 import RecipeConverter from "./RecipeConverter";
 import CookingTimeCalculator from "./CookingTimeCalculator";
+import TurkeyCookingTimeCalculator from "./TurkeyCookingTimeCalculator";
+import TurkeyThawingTimeCalculator from "./TurkeyThawingTimeCalculator";
 import OvenTemperatureConverter from "./OvenTemperatureConverter";
 import BakingConverter from "./BakingConverter";
 import FoodExpiryCalculator from "./FoodExpiryCalculator";
@@ -335,6 +337,10 @@ export default function CalculatorWrapper({
         return <RecipeConverter />;
       case "cooking-time":
         return <CookingTimeCalculator />;
+      case "turkey-cooking-time":
+        return <TurkeyCookingTimeCalculator />;
+      case "turkey-thawing-time":
+        return <TurkeyThawingTimeCalculator />;
       case "oven-temperature":
         return <OvenTemperatureConverter />;
       case "baking-converter":
